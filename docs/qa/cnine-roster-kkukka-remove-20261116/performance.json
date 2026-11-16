@@ -1,0 +1,1119 @@
+{
+  "status": "VERIFIED_CANDIDATE",
+  "at": "2026-11-16T08:25:33.383Z",
+  "base": "fb205dbed4e856b29e7d979fae58d029fb38a62a",
+  "changes": {
+    "female": {
+      "remove": {
+        "id": "wkao85guo",
+        "name": "꾸까"
+      },
+      "before": 11,
+      "count": 10
+    },
+    "star": {
+      "count": 9
+    },
+    "total": 19
+  },
+  "conditions": "Windows 호스트·동일 소스 진입·새 브라우저 세션. PC Chrome 1440x900, Android Chrome/iPhone WebKit 390x844 에뮬레이션, Windows Electron 렌더러, H5 SDK iframe. 계정 API는 격리 응답, SOOP 프로필은 실제 CDN. 실휴대기기 측정 아님. 로비 최초 탐색부터 현황판 버튼까지, 버튼 pointerdown부터 다음 준비 프레임까지, 닫은 뒤 같은 버튼 재진입을 각각 측정. 각 1회 표본, 준비 후 400ms까지 프레임 기록, 퇴장 후 650ms 관측.",
+  "performanceAssessment": "기존 최초 부서 선택 프로필 6개와 비표시 부서 지연 로딩을 유지했다. 꾸까 카드와 프로필 네트워크 요청을 제거했다. 퇴장 후 DOM 변경·실행 애니메이션·추가 프로필 요청은 모두 0건. 단회 표본으로 전체 속도 향상은 주장하지 않는다. 원격 프로필 네트워크와 최초 로비 메인 스레드 긴 프레임은 변경 전후 존재하며 WebKit ResizeObserver 경고도 공통이다.",
+  "h5EntryRefresh": {
+    "method": "Exact replacement of the two roster cache tags in the existing approved H5 entry; current H5 SDK and all other variant modules preserved.",
+    "fullGeneratorBlockedByExistingIssue": "web-overrides support navigation expects 20261115-package-refresh-v3 while the current source uses 20261116-package-cubes-v1. No unrelated build-tool or module changes included.",
+    "replacements": 2,
+    "outputSha256": "83a64ea0978a3cad21493de4bdd778b1c1f0c5e98dea025e42f5ffc9272c0e0a",
+    "sourceIndexSha256": "c2300473d466ace782256827a14690abcf10a5067fe402f03baa50da0acafc9f"
+  },
+  "comparisons": {
+    "desktop": {
+      "before": {
+        "phase": "before",
+        "platform": "desktop",
+        "iteration": "1",
+        "width": 1440,
+        "height": 900,
+        "diagnostics": [],
+        "coldLaunchMs": 1122,
+        "first": {
+          "inputToReadyMs": 52,
+          "frames": 25,
+          "p95Ms": 65,
+          "maxMs": 191.5,
+          "over50": 3
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 24,
+          "frames": 64,
+          "p95Ms": 17.6,
+          "maxMs": 89,
+          "over50": 1,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 16,
+          "frames": 32,
+          "p95Ms": 20.8,
+          "maxMs": 69.8,
+          "over50": 1,
+          "count": 11
+        },
+        "reentry": {
+          "inputToReadyMs": 11,
+          "frames": 97,
+          "p95Ms": 4.5,
+          "maxMs": 11.4,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [],
+        "removedProfileRequests": 1,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:10382/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261115-v13-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 370,
+            "transferSize": 832700,
+            "startTimeMs": 40
+          },
+          {
+            "url": "http://127.0.0.1:10382/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 299,
+            "transferSize": 14234,
+            "startTimeMs": 43
+          },
+          {
+            "url": "http://127.0.0.1:10382/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 298,
+            "transferSize": 12968,
+            "startTimeMs": 43
+          },
+          {
+            "url": "http://127.0.0.1:10382/js/streamer-lounge-v2036.js?v=20261115-cnine-roster-v13",
+            "durationMs": 204,
+            "transferSize": 17810,
+            "startTimeMs": 43
+          },
+          {
+            "url": "http://127.0.0.1:10382/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 17,
+            "transferSize": 4574,
+            "startTimeMs": 810
+          },
+          {
+            "url": "http://127.0.0.1:10382/js/cnine-roster-v1.js?v=20261115-v13",
+            "durationMs": 16,
+            "transferSize": 9896,
+            "startTimeMs": 810
+          },
+          {
+            "url": "http://127.0.0.1:10382/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 18,
+            "transferSize": 1063,
+            "startTimeMs": 810
+          }
+        ]
+      },
+      "after": {
+        "phase": "candidate",
+        "platform": "desktop",
+        "iteration": "1",
+        "width": 1440,
+        "height": 900,
+        "diagnostics": [],
+        "coldLaunchMs": 954,
+        "first": {
+          "inputToReadyMs": 53,
+          "frames": 24,
+          "p95Ms": 100.3,
+          "maxMs": 191.5,
+          "over50": 3
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 19,
+          "frames": 56,
+          "p95Ms": 22.7,
+          "maxMs": 76.7,
+          "over50": 1,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 11,
+          "frames": 70,
+          "p95Ms": 12.2,
+          "maxMs": 43,
+          "over50": 0,
+          "count": 10
+        },
+        "reentry": {
+          "inputToReadyMs": 12,
+          "frames": 99,
+          "p95Ms": 4.5,
+          "maxMs": 11.7,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [
+          {
+            "station": "nerve89",
+            "name": "깨림이",
+            "image": {
+              "width": 420,
+              "height": 420,
+              "src": "https://stimg.sooplive.com/LOGO/ne/nerve89/nerve89.webp"
+            }
+          },
+          {
+            "station": "0929kelly",
+            "name": "이다니",
+            "image": {
+              "width": 180,
+              "height": 175,
+              "src": "https://stimg.sooplive.com/LOGO/09/0929kelly/0929kelly.webp"
+            }
+          }
+        ],
+        "removedProfileRequests": 0,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:5470/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261116-v14-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 308,
+            "transferSize": 832700,
+            "startTimeMs": 24
+          },
+          {
+            "url": "http://127.0.0.1:5470/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 245,
+            "transferSize": 14234,
+            "startTimeMs": 27
+          },
+          {
+            "url": "http://127.0.0.1:5470/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 246,
+            "transferSize": 12968,
+            "startTimeMs": 27
+          },
+          {
+            "url": "http://127.0.0.1:5470/js/streamer-lounge-v2036.js?v=20261116-cnine-roster-v14",
+            "durationMs": 193,
+            "transferSize": 18032,
+            "startTimeMs": 27
+          },
+          {
+            "url": "http://127.0.0.1:5470/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 12,
+            "transferSize": 4574,
+            "startTimeMs": 709
+          },
+          {
+            "url": "http://127.0.0.1:5470/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 10,
+            "transferSize": 1063,
+            "startTimeMs": 710
+          },
+          {
+            "url": "http://127.0.0.1:5470/js/cnine-roster-v1.js?v=20261116-v14",
+            "durationMs": 12,
+            "transferSize": 9981,
+            "startTimeMs": 710
+          }
+        ]
+      }
+    },
+    "android": {
+      "before": {
+        "phase": "before",
+        "platform": "android",
+        "iteration": "1",
+        "width": 390,
+        "height": 844,
+        "diagnostics": [],
+        "coldLaunchMs": 1181,
+        "first": {
+          "inputToReadyMs": 67,
+          "frames": 15,
+          "p95Ms": 272.2,
+          "maxMs": 272.2,
+          "over50": 2
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 28,
+          "frames": 40,
+          "p95Ms": 41.6,
+          "maxMs": 113.4,
+          "over50": 1,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 17,
+          "frames": 40,
+          "p95Ms": 19.5,
+          "maxMs": 29,
+          "over50": 0,
+          "count": 11
+        },
+        "reentry": {
+          "inputToReadyMs": 13,
+          "frames": 97,
+          "p95Ms": 4.7,
+          "maxMs": 14.9,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [],
+        "removedProfileRequests": 1,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:13127/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261115-v13-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 343,
+            "transferSize": 832700,
+            "startTimeMs": 54
+          },
+          {
+            "url": "http://127.0.0.1:13127/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 274,
+            "transferSize": 14234,
+            "startTimeMs": 57
+          },
+          {
+            "url": "http://127.0.0.1:13127/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 275,
+            "transferSize": 12968,
+            "startTimeMs": 57
+          },
+          {
+            "url": "http://127.0.0.1:13127/js/streamer-lounge-v2036.js?v=20261115-cnine-roster-v13",
+            "durationMs": 204,
+            "transferSize": 17810,
+            "startTimeMs": 57
+          },
+          {
+            "url": "http://127.0.0.1:13127/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 21,
+            "transferSize": 4574,
+            "startTimeMs": 837
+          },
+          {
+            "url": "http://127.0.0.1:13127/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 19,
+            "transferSize": 1063,
+            "startTimeMs": 837
+          },
+          {
+            "url": "http://127.0.0.1:13127/js/cnine-roster-v1.js?v=20261115-v13",
+            "durationMs": 18,
+            "transferSize": 9896,
+            "startTimeMs": 837
+          }
+        ]
+      },
+      "after": {
+        "phase": "candidate",
+        "platform": "android",
+        "iteration": "1",
+        "width": 390,
+        "height": 844,
+        "diagnostics": [],
+        "coldLaunchMs": 976,
+        "first": {
+          "inputToReadyMs": 41,
+          "frames": 34,
+          "p95Ms": 50.6,
+          "maxMs": 211.6,
+          "over50": 2
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 19,
+          "frames": 65,
+          "p95Ms": 18.9,
+          "maxMs": 90.1,
+          "over50": 1,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 11,
+          "frames": 89,
+          "p95Ms": 7.6,
+          "maxMs": 33.2,
+          "over50": 0,
+          "count": 10
+        },
+        "reentry": {
+          "inputToReadyMs": 8,
+          "frames": 97,
+          "p95Ms": 4.6,
+          "maxMs": 12.6,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [
+          {
+            "station": "nerve89",
+            "name": "깨림이",
+            "image": {
+              "width": 420,
+              "height": 420,
+              "src": "https://stimg.sooplive.com/LOGO/ne/nerve89/nerve89.webp"
+            }
+          },
+          {
+            "station": "0929kelly",
+            "name": "이다니",
+            "image": {
+              "width": 180,
+              "height": 175,
+              "src": "https://stimg.sooplive.com/LOGO/09/0929kelly/0929kelly.webp"
+            }
+          }
+        ],
+        "removedProfileRequests": 0,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:13202/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261116-v14-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 274,
+            "transferSize": 832700,
+            "startTimeMs": 27
+          },
+          {
+            "url": "http://127.0.0.1:13202/js/streamer-lounge-v2036.js?v=20261116-cnine-roster-v14",
+            "durationMs": 119,
+            "transferSize": 18032,
+            "startTimeMs": 29
+          },
+          {
+            "url": "http://127.0.0.1:13202/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 199,
+            "transferSize": 14234,
+            "startTimeMs": 29
+          },
+          {
+            "url": "http://127.0.0.1:13202/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 202,
+            "transferSize": 12968,
+            "startTimeMs": 29
+          },
+          {
+            "url": "http://127.0.0.1:13202/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 9,
+            "transferSize": 4574,
+            "startTimeMs": 688
+          },
+          {
+            "url": "http://127.0.0.1:13202/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 17,
+            "transferSize": 1063,
+            "startTimeMs": 688
+          },
+          {
+            "url": "http://127.0.0.1:13202/js/cnine-roster-v1.js?v=20261116-v14",
+            "durationMs": 18,
+            "transferSize": 9981,
+            "startTimeMs": 688
+          }
+        ]
+      }
+    },
+    "ios": {
+      "before": {
+        "phase": "before",
+        "platform": "ios",
+        "iteration": "1",
+        "width": 390,
+        "height": 844,
+        "diagnostics": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "coldLaunchMs": 2522,
+        "first": {
+          "inputToReadyMs": 73,
+          "frames": 5,
+          "p95Ms": 176,
+          "maxMs": 176,
+          "over50": 5
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 105,
+          "frames": 6,
+          "p95Ms": 184,
+          "maxMs": 184,
+          "over50": 5,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 24,
+          "frames": 5,
+          "p95Ms": 137,
+          "maxMs": 137,
+          "over50": 4,
+          "count": 11
+        },
+        "reentry": {
+          "inputToReadyMs": 20,
+          "frames": 15,
+          "p95Ms": 115,
+          "maxMs": 115,
+          "over50": 2
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [],
+        "removedProfileRequests": 1,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:3943/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261115-v13-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 105,
+            "transferSize": 832700,
+            "startTimeMs": 152
+          },
+          {
+            "url": "http://127.0.0.1:3943/js/streamer-lounge-v2036.js?v=20261115-cnine-roster-v13",
+            "durationMs": 148,
+            "transferSize": 17810,
+            "startTimeMs": 153
+          },
+          {
+            "url": "http://127.0.0.1:3943/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 148,
+            "transferSize": 14234,
+            "startTimeMs": 153
+          },
+          {
+            "url": "http://127.0.0.1:3943/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 149,
+            "transferSize": 12968,
+            "startTimeMs": 153
+          },
+          {
+            "url": "http://127.0.0.1:3943/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 7,
+            "transferSize": 4574,
+            "startTimeMs": 866
+          },
+          {
+            "url": "http://127.0.0.1:3943/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 7,
+            "transferSize": 1063,
+            "startTimeMs": 866
+          },
+          {
+            "url": "http://127.0.0.1:3943/js/cnine-roster-v1.js?v=20261115-v13",
+            "durationMs": 7,
+            "transferSize": 9896,
+            "startTimeMs": 866
+          }
+        ]
+      },
+      "after": {
+        "phase": "candidate",
+        "platform": "ios",
+        "iteration": "1",
+        "width": 390,
+        "height": 844,
+        "diagnostics": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "coldLaunchMs": 1100,
+        "first": {
+          "inputToReadyMs": 45,
+          "frames": 12,
+          "p95Ms": 109,
+          "maxMs": 109,
+          "over50": 2
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 15,
+          "frames": 8,
+          "p95Ms": 83,
+          "maxMs": 83,
+          "over50": 3,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 13,
+          "frames": 12,
+          "p95Ms": 86,
+          "maxMs": 86,
+          "over50": 4,
+          "count": 10
+        },
+        "reentry": {
+          "inputToReadyMs": 16,
+          "frames": 18,
+          "p95Ms": 82,
+          "maxMs": 82,
+          "over50": 1
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [
+          {
+            "station": "nerve89",
+            "name": "깨림이",
+            "image": {
+              "width": 420,
+              "height": 420,
+              "src": "https://stimg.sooplive.com/LOGO/ne/nerve89/nerve89.webp"
+            }
+          },
+          {
+            "station": "0929kelly",
+            "name": "이다니",
+            "image": {
+              "width": 180,
+              "height": 175,
+              "src": "https://stimg.sooplive.com/LOGO/09/0929kelly/0929kelly.webp"
+            }
+          }
+        ],
+        "removedProfileRequests": 0,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:1411/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261116-v14-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 107,
+            "transferSize": 832700,
+            "startTimeMs": 64
+          },
+          {
+            "url": "http://127.0.0.1:1411/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 134,
+            "transferSize": 14234,
+            "startTimeMs": 69
+          },
+          {
+            "url": "http://127.0.0.1:1411/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 134,
+            "transferSize": 12968,
+            "startTimeMs": 69
+          },
+          {
+            "url": "http://127.0.0.1:1411/js/streamer-lounge-v2036.js?v=20261116-cnine-roster-v14",
+            "durationMs": 134,
+            "transferSize": 18032,
+            "startTimeMs": 70
+          },
+          {
+            "url": "http://127.0.0.1:1411/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 17,
+            "transferSize": 4574,
+            "startTimeMs": 406
+          },
+          {
+            "url": "http://127.0.0.1:1411/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 18,
+            "transferSize": 1063,
+            "startTimeMs": 407
+          },
+          {
+            "url": "http://127.0.0.1:1411/js/cnine-roster-v1.js?v=20261116-v14",
+            "durationMs": 19,
+            "transferSize": 9981,
+            "startTimeMs": 407
+          }
+        ]
+      }
+    },
+    "windows": {
+      "before": {
+        "phase": "before",
+        "platform": "windows",
+        "iteration": "1",
+        "width": 1440,
+        "height": 900,
+        "diagnostics": [],
+        "coldLaunchMs": 1037,
+        "first": {
+          "inputToReadyMs": 45,
+          "frames": 12,
+          "p95Ms": 170.1,
+          "maxMs": 170.1,
+          "over50": 2
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 21,
+          "frames": 22,
+          "p95Ms": 39.9,
+          "maxMs": 83.7,
+          "over50": 1,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 16,
+          "frames": 26,
+          "p95Ms": 19.3,
+          "maxMs": 22,
+          "over50": 0,
+          "count": 11
+        },
+        "reentry": {
+          "inputToReadyMs": 12,
+          "frames": 25,
+          "p95Ms": 17.7,
+          "maxMs": 17.8,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [],
+        "removedProfileRequests": 1,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:3975/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261115-v13-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 369,
+            "transferSize": 832700,
+            "startTimeMs": 32
+          },
+          {
+            "url": "http://127.0.0.1:3975/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 279,
+            "transferSize": 14234,
+            "startTimeMs": 34
+          },
+          {
+            "url": "http://127.0.0.1:3975/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 284,
+            "transferSize": 12968,
+            "startTimeMs": 34
+          },
+          {
+            "url": "http://127.0.0.1:3975/js/streamer-lounge-v2036.js?v=20261115-cnine-roster-v13",
+            "durationMs": 202,
+            "transferSize": 17810,
+            "startTimeMs": 34
+          },
+          {
+            "url": "http://127.0.0.1:3975/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 115,
+            "transferSize": 4574,
+            "startTimeMs": 617
+          },
+          {
+            "url": "http://127.0.0.1:3975/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 115,
+            "transferSize": 1063,
+            "startTimeMs": 617
+          },
+          {
+            "url": "http://127.0.0.1:3975/js/cnine-roster-v1.js?v=20261115-v13",
+            "durationMs": 125,
+            "transferSize": 9896,
+            "startTimeMs": 617
+          }
+        ]
+      },
+      "after": {
+        "phase": "candidate",
+        "platform": "windows",
+        "iteration": "1",
+        "width": 1440,
+        "height": 900,
+        "diagnostics": [],
+        "coldLaunchMs": 791,
+        "first": {
+          "inputToReadyMs": 29,
+          "frames": 12,
+          "p95Ms": 202.8,
+          "maxMs": 202.8,
+          "over50": 2
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 14,
+          "frames": 23,
+          "p95Ms": 39.6,
+          "maxMs": 49.5,
+          "over50": 0,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 13,
+          "frames": 25,
+          "p95Ms": 20.5,
+          "maxMs": 39.5,
+          "over50": 0,
+          "count": 10
+        },
+        "reentry": {
+          "inputToReadyMs": 9,
+          "frames": 26,
+          "p95Ms": 17.4,
+          "maxMs": 17.6,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [
+          {
+            "station": "nerve89",
+            "name": "깨림이",
+            "image": {
+              "width": 420,
+              "height": 420,
+              "src": "https://stimg.sooplive.com/LOGO/ne/nerve89/nerve89.webp"
+            }
+          },
+          {
+            "station": "0929kelly",
+            "name": "이다니",
+            "image": {
+              "width": 180,
+              "height": 175,
+              "src": "https://stimg.sooplive.com/LOGO/09/0929kelly/0929kelly.webp"
+            }
+          }
+        ],
+        "removedProfileRequests": 0,
+        "resources": [
+          {
+            "url": "http://127.0.0.1:12296/js/app.js?v=package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261116-v14-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 312,
+            "transferSize": 832700,
+            "startTimeMs": 23
+          },
+          {
+            "url": "http://127.0.0.1:12296/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 242,
+            "transferSize": 14234,
+            "startTimeMs": 25
+          },
+          {
+            "url": "http://127.0.0.1:12296/js/streamer-lounge-v2036.js?v=20261116-cnine-roster-v14",
+            "durationMs": 162,
+            "transferSize": 18032,
+            "startTimeMs": 25
+          },
+          {
+            "url": "http://127.0.0.1:12296/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 245,
+            "transferSize": 12968,
+            "startTimeMs": 25
+          },
+          {
+            "url": "http://127.0.0.1:12296/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 25,
+            "transferSize": 4574,
+            "startTimeMs": 500
+          },
+          {
+            "url": "http://127.0.0.1:12296/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 25,
+            "transferSize": 1063,
+            "startTimeMs": 500
+          },
+          {
+            "url": "http://127.0.0.1:12296/js/cnine-roster-v1.js?v=20261116-v14",
+            "durationMs": 26,
+            "transferSize": 9981,
+            "startTimeMs": 500
+          }
+        ]
+      }
+    },
+    "h5": {
+      "before": {
+        "phase": "before",
+        "platform": "h5",
+        "iteration": "1",
+        "width": 390,
+        "height": 844,
+        "diagnostics": [],
+        "coldLaunchMs": 1093,
+        "first": {
+          "inputToReadyMs": 61,
+          "frames": 9,
+          "p95Ms": 273.2,
+          "maxMs": 273.2,
+          "over50": 3
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 28,
+          "frames": 53,
+          "p95Ms": 28.8,
+          "maxMs": 106.3,
+          "over50": 2,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 16,
+          "frames": 70,
+          "p95Ms": 13.3,
+          "maxMs": 42.8,
+          "over50": 0,
+          "count": 11
+        },
+        "reentry": {
+          "inputToReadyMs": 13,
+          "frames": 97,
+          "p95Ms": 4.5,
+          "maxMs": 13.4,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [],
+        "removedProfileRequests": 1,
+        "resources": [
+          {
+            "url": "https://cnine-card.pages.dev/onestore/js/app.js?v=pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261115-v13-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 387,
+            "transferSize": 833624,
+            "startTimeMs": 60
+          },
+          {
+            "url": "https://cnine-card.pages.dev/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 344,
+            "transferSize": 14234,
+            "startTimeMs": 63
+          },
+          {
+            "url": "https://cnine-card.pages.dev/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 343,
+            "transferSize": 12968,
+            "startTimeMs": 63
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/streamer-lounge-v2036.js?v=20261115-cnine-roster-v13",
+            "durationMs": 401,
+            "transferSize": 17810,
+            "startTimeMs": 63
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 13,
+            "transferSize": 4574,
+            "startTimeMs": 794
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 14,
+            "transferSize": 1063,
+            "startTimeMs": 795
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/cnine-roster-v1.js?v=20261115-v13",
+            "durationMs": 10,
+            "transferSize": 9896,
+            "startTimeMs": 795
+          }
+        ]
+      },
+      "after": {
+        "phase": "candidate",
+        "platform": "h5",
+        "iteration": "1",
+        "width": 390,
+        "height": 844,
+        "diagnostics": [],
+        "coldLaunchMs": 1184,
+        "first": {
+          "inputToReadyMs": 56,
+          "frames": 10,
+          "p95Ms": 265.9,
+          "maxMs": 265.9,
+          "over50": 3
+        },
+        "departmentsHomePortraits": [
+          "jkmjkm1236",
+          "kaja0011",
+          "chocho12",
+          "mew030709",
+          "zalalz",
+          "qpqpro"
+        ],
+        "star": {
+          "inputToReadyMs": 31,
+          "frames": 56,
+          "p95Ms": 31.2,
+          "maxMs": 97,
+          "over50": 2,
+          "count": 9
+        },
+        "female": {
+          "inputToReadyMs": 15,
+          "frames": 61,
+          "p95Ms": 15.3,
+          "maxMs": 40.7,
+          "over50": 0,
+          "count": 10
+        },
+        "reentry": {
+          "inputToReadyMs": 11,
+          "frames": 97,
+          "p95Ms": 4.4,
+          "maxMs": 12.2,
+          "over50": 0
+        },
+        "afterExit": {
+          "mutations": 0,
+          "runningAnimations": 0,
+          "portraitRequests": 0
+        },
+        "newProfiles": [
+          {
+            "station": "nerve89",
+            "name": "깨림이",
+            "image": {
+              "width": 420,
+              "height": 420,
+              "src": "https://stimg.sooplive.com/LOGO/ne/nerve89/nerve89.webp"
+            }
+          },
+          {
+            "station": "0929kelly",
+            "name": "이다니",
+            "image": {
+              "width": 180,
+              "height": 175,
+              "src": "https://stimg.sooplive.com/LOGO/09/0929kelly/0929kelly.webp"
+            }
+          }
+        ],
+        "removedProfileRequests": 0,
+        "resources": [
+          {
+            "url": "https://cnine-card.pages.dev/onestore/js/app.js?v=pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261115-v13-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-gbody-20261022-v4-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1&santaAvatars=20261114&bloodPack=20261023-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&halloweenRecovery=20261021-mobile-v1&harlequin=20261017-v980&groundRunes=20261017-v1&shiranui=20261015-shiranui-live-v1&accountMedia=20261015-sync-media-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261029-daily-cap10-coins&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261023-pumpkin-choice&rankPotions=20261020-v1&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261020-fivefold&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20261019-original-rollback&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261103-v1&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20261021-entry-recovery&materialBatch=20260928&icon=20260930&duo=20261020-start2&auction=20261103-live-v1&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&sssMiracleCube=20261021-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013&originalIp=20261013-original-ip-v1&accountSync=20261015-v1&cheolguBalance=20261017-v1&hudB=20261017-v1&kaironStock=20261018&retired=20261019&ssBalance=20261019-v2&packageNotice=20261020-v1-land-coupon8h-20261020&jokroCraft=20261021&towerAbyss=20261021-v1&sigHunter=20261022&towerClock=20261022-v1&towerStatus=20261022-v1&lootShopRecovery=20261023-v1&clanIdentity=20261023-v1&iconEnhancement=20261024-v1&namsudaeng=20261024-v1&octaFlight=20261024-v1&awakenedOmega=20261024-v1&razak=20261026-priority-v5&threeSkills=20261026-v1&primeZeroPriority=20261102-top-v2&mercenaryReveal=20261025-v6&primeMaterial=20261025-v1&deployment=20261025-eunseol-bloodmoon&limitedShardCraft=20261025-v1&ardenCraft=20261029-v1&chatSquad=20261029&blackcrownOpening=20261031-unique-v1&rankedShop=20261101-v2&petPepegu=20261101-v1&tacticalHud=20261102-v1&apocalypseTrio=20261106&seasonS1=20261107-v2&s1=shared-five-v1&heir=20261107-paced-v3&comeback=20261108-veteran-v3&safariMemory=20261108-v1&pveLobby=20261109-v1&attendance=20261111-v1&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&extreme=20261113-eclipse1&iphone=iphone-combat-20261114-v1",
+            "durationMs": 407,
+            "transferSize": 833624,
+            "startTimeMs": 77
+          },
+          {
+            "url": "https://cnine-card.pages.dev/css/streamer-lounge-v2036.css?v=2038-station-only",
+            "durationMs": 362,
+            "transferSize": 14234,
+            "startTimeMs": 81
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/streamer-lounge-v2036.js?v=20261115-cnine-roster-v13",
+            "durationMs": 302,
+            "transferSize": 18032,
+            "startTimeMs": 81
+          },
+          {
+            "url": "https://cnine-card.pages.dev/css/cnine-roster-v1.css?v=20261026-v4-portrait-spacing",
+            "durationMs": 351,
+            "transferSize": 12968,
+            "startTimeMs": 81
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/streamer-lounge-model-v2036.js?v=2036",
+            "durationMs": 10,
+            "transferSize": 4574,
+            "startTimeMs": 870
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/streamer-lounge-portraits-v1.js?v=20261013-original",
+            "durationMs": 11,
+            "transferSize": 1063,
+            "startTimeMs": 870
+          },
+          {
+            "url": "https://cnine-card.pages.dev/js/cnine-roster-v1.js?v=20261116-v14",
+            "durationMs": 12,
+            "transferSize": 9981,
+            "startTimeMs": 870
+          }
+        ]
+      }
+    }
+  }
+}

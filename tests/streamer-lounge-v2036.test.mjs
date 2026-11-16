@@ -8,11 +8,11 @@ import { handleStreamerLounge } from '../functions/_streamer_lounge.js';
 import { portraitSourceUrl, portraitSize } from '../js/streamer-lounge-portraits-v1.js';
 import { CNINE_GROUPS } from '../js/cnine-roster-v1.js';
 
-test('the CNINE board adds Kkaerim and Dani to their departments and removes Rini', () => {
+test('the CNINE board removes Kkukka and preserves the remaining department members', () => {
   const star = CNINE_GROUPS.find(group => group.id === 'star').members;
   const female = CNINE_GROUPS.find(group => group.id === 'female').members;
   assert.equal(star.length, 9);
-  assert.equal(female.length, 11);
+  assert.equal(female.length, 10);
   assert.deepEqual(star.slice(-2), [
     { id: 'ouo20411', name: '히댕' },
     { id: 'nerve89', name: '깨림이' }
@@ -21,6 +21,7 @@ test('the CNINE board adds Kkaerim and Dani to their departments and removes Rin
   assert.equal(new Set(ids).size, ids.length);
   assert.ok(!ids.includes('dbstmf3497'));
   assert.ok(!ids.includes('wooooo123'));
+  assert.ok(!ids.includes('wkao85guo'));
   assert.deepEqual(female.at(-1), { id: '0929kelly', name: '이다니' });
 });
 
@@ -107,7 +108,7 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
-  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261115-cnine-roster-v13"/);
+  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261116-cnine-roster-v14"/);
   assert.match(read('admin/index.html'),/streamer-lounge-admin-v2036\.js\?v=2036/);
   assert.match(api,/handleStreamerLounge\(\{path,request,env,deps:\{json,requirePermission,writeAdminLog\}\}\)/);
   assert.ok(api.indexOf('if(path.startsWith(\'admin/\'))') < api.indexOf('const streamerResponse='));
