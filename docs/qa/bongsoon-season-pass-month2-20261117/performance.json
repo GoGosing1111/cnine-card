@@ -1,0 +1,103 @@
+{
+  "readOnly": true,
+  "measurements": [
+    {
+      "state": "prior-state-reconstruction",
+      "phase": "first",
+      "elapsedMs": 86,
+      "purchased": false,
+      "active": false,
+      "queryCount": 1,
+      "queries": [
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "elapsedMs": 79,
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "state": "prior-state-reconstruction",
+      "phase": "repeat",
+      "elapsedMs": 82,
+      "purchased": false,
+      "active": false,
+      "queryCount": 1,
+      "queries": [
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "elapsedMs": 81,
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "state": "current-active",
+      "phase": "first",
+      "elapsedMs": 155,
+      "purchased": true,
+      "active": true,
+      "queryCount": 2,
+      "queries": [
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "elapsedMs": 77,
+          "rows": 1
+        },
+        {
+          "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+          "elapsedMs": 77,
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "state": "current-active",
+      "phase": "repeat",
+      "elapsedMs": 156,
+      "purchased": true,
+      "active": true,
+      "queryCount": 2,
+      "queries": [
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "elapsedMs": 77,
+          "rows": 1
+        },
+        {
+          "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+          "elapsedMs": 77,
+          "rows": 0
+        }
+      ]
+    }
+  ],
+  "claimLedgerQueryPlan": [
+    {
+      "Plan": {
+        "Node Type": "Index Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "app_meta_pkey",
+        "Relation Name": "app_meta",
+        "Alias": "app_meta",
+        "Startup Cost": 0.42,
+        "Total Cost": 8.44,
+        "Plan Rows": 1,
+        "Plan Width": 226,
+        "Actual Startup Time": 0.008,
+        "Actual Total Time": 0.008,
+        "Actual Rows": 0,
+        "Actual Loops": 1,
+        "Index Cond": "((key >= 'supporter_pass_claim_month2_v1:5426:'::text) AND (key < 'supporter_pass_claim_month2_v1:5426:~'::text))",
+        "Rows Removed by Index Recheck": 0
+      },
+      "Planning Time": 0.059,
+      "Triggers": [],
+      "Execution Time": 0.018
+    }
+  ],
+  "finding": "Activation adds one required claim-ledger lookup (1 to 2 SQL round trips). Prefix-range query uses the existing primary-key index. Most measured latency is database/network waiting. No runtime code changes for this single-account entitlement operation.",
+  "condition": "Windows CLI calling deployed source with production PostgreSQL; previous state reconstructed only for paired timing; original before/after observations are separately retained; no browser or device FPS measurement."
+}

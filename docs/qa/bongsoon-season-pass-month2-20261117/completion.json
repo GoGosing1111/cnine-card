@@ -1,0 +1,195 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:bongsoon:season-pass-month2:20261117:v1",
+  "authorization": "나무늘봉순 2개월차 패스 적용해",
+  "userId": "5426",
+  "nickname": "나무늘봉순",
+  "month": 2,
+  "durationDays": 30,
+  "completedAt": "2026-11-17T04:30:07.109Z",
+  "startsAtKst": "2026-11-17 13:30:07 KST",
+  "expiresAtKst": "2026-12-17 13:30:07 KST",
+  "auditId": "62858",
+  "requestId": "ops_bongsoon_month2_20261117_v1",
+  "actualChargeWon": 0,
+  "active": true,
+  "claimedCount": 0,
+  "claimableCount": 10,
+  "claimableFrom": "2026-11-08",
+  "claimableTo": "2026-11-17",
+  "calendarStart": "2026-11-08",
+  "calendarEnd": "2026-12-07",
+  "firstMonthPreserved": true,
+  "existingClaimRecordsPreserved": 75,
+  "firstMonthActive": false,
+  "firstMonthExpiryPreserved": true,
+  "otherCurrencyInventoryAndPetsPreserved": true,
+  "protectedBeforeHash": "8e2981c2f6e05a6a1149abe2d95749f854da73964ea76bd59ca09b4fe768b58c",
+  "protectedAfterHash": "8e2981c2f6e05a6a1149abe2d95749f854da73964ea76bd59ca09b4fe768b58c",
+  "normalApplicationSalesRemainClosed": true,
+  "activationPetsGranted": 0,
+  "messagesSent": 0,
+  "automaticallyClaimedRewards": 0,
+  "partialFailureRollback": true,
+  "fullRehearsalRollback": true,
+  "independentReadOnlyVerification": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "locksReleased": true,
+  "operationLocksRemaining": 0,
+  "verification": {
+    "audits": 1,
+    "standardReceipts": 1,
+    "operationReceipts": 1,
+    "duplicates": 0,
+    "firstMonthPreserved": true
+  },
+  "tests": {
+    "command": "node --test tests/supporter-pass-months-20261107.test.mjs",
+    "passed": 8,
+    "failed": 0,
+    "sourceCommit": "c5ac89c528ca5b9354dba9080cc5988c65859d91"
+  },
+  "runtimeCodeChanged": false,
+  "gameDeployment": false,
+  "sourceSha256": {
+    "state.mjs": "9f29fcb070c6994c2eabee433b66ddf0ae56a8a3c48bead0c234bcfddd033030",
+    "inspect.mjs": "6931d5c055cb2d58de80a3a7699a32918ddbc6dca18ed26e54d55dd1921d13e6",
+    "plan.mjs": "4bf4df63d863a92936ceecb1570e01e2569b0ace396f1258072bef9e687b4518",
+    "plan.json": "84cbadcc94e9251032df94efb9831374112b0d910c2c82eba9ebe8723734f9b9",
+    "run.mjs": "998a81f042b1003e81b4ad26bc314c37b88e214c55f8ade9f30492a4f789b132",
+    "performance.mjs": "f045bfa539b68ecab9c1dbebeb16eff8d3a2d1e371c5c84f4e27246c91b3051a"
+  },
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "elapsedMs": 83,
+        "purchased": false,
+        "active": false,
+        "claimableCount": 0
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 72,
+        "purchased": false,
+        "active": false,
+        "claimableCount": 0
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "elapsedMs": 155
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 155
+      }
+    ],
+    "grantMs": 1607,
+    "rehearsalMs": 2291,
+    "readOnly": true,
+    "measurements": [
+      {
+        "state": "prior-state-reconstruction",
+        "phase": "first",
+        "elapsedMs": 86,
+        "purchased": false,
+        "active": false,
+        "queryCount": 1,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 79,
+            "rows": 1
+          }
+        ]
+      },
+      {
+        "state": "prior-state-reconstruction",
+        "phase": "repeat",
+        "elapsedMs": 82,
+        "purchased": false,
+        "active": false,
+        "queryCount": 1,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 81,
+            "rows": 1
+          }
+        ]
+      },
+      {
+        "state": "current-active",
+        "phase": "first",
+        "elapsedMs": 155,
+        "purchased": true,
+        "active": true,
+        "queryCount": 2,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 77,
+            "rows": 1
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+            "elapsedMs": 77,
+            "rows": 0
+          }
+        ]
+      },
+      {
+        "state": "current-active",
+        "phase": "repeat",
+        "elapsedMs": 156,
+        "purchased": true,
+        "active": true,
+        "queryCount": 2,
+        "queries": [
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "elapsedMs": 77,
+            "rows": 1
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+            "elapsedMs": 77,
+            "rows": 0
+          }
+        ]
+      }
+    ],
+    "claimLedgerQueryPlan": [
+      {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "app_meta_pkey",
+          "Relation Name": "app_meta",
+          "Alias": "app_meta",
+          "Startup Cost": 0.42,
+          "Total Cost": 8.44,
+          "Plan Rows": 1,
+          "Plan Width": 226,
+          "Actual Startup Time": 0.008,
+          "Actual Total Time": 0.008,
+          "Actual Rows": 0,
+          "Actual Loops": 1,
+          "Index Cond": "((key >= 'supporter_pass_claim_month2_v1:5426:'::text) AND (key < 'supporter_pass_claim_month2_v1:5426:~'::text))",
+          "Rows Removed by Index Recheck": 0
+        },
+        "Planning Time": 0.059,
+        "Triggers": [],
+        "Execution Time": 0.018
+      }
+    ],
+    "finding": "Activation adds one required claim-ledger lookup (1 to 2 SQL round trips). Prefix-range query uses the existing primary-key index. Most measured latency is database/network waiting. No runtime code changes for this single-account entitlement operation.",
+    "condition": "Windows CLI calling deployed source with production PostgreSQL; previous state reconstructed only for paired timing; original before/after observations are separately retained; no browser or device FPS measurement."
+  },
+  "evidenceDirectory": "operations/bongsoon-season-pass-month2-20261117"
+}

@@ -1,0 +1,92 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:bongsoon:season-pass-month2:20261117:v1",
+  "authorization": "나무늘봉순계정에 2개월차 패스 연결해줘",
+  "planHash": "04beb87f58b37d5649406486203d6f0e0e0562289614c3d6f6e723620dac82aa",
+  "userId": "5426",
+  "nickname": "나무늘봉순",
+  "month": 2,
+  "durationDays": 30,
+  "actualChargeWon": 0,
+  "messagesSent": 0,
+  "activationPetsGranted": 0,
+  "completedAt": "2026-11-17T04:30:07.109Z",
+  "auditId": "62858",
+  "payload": "[1,5426,\"GRANT\",3,\"사용자 요청: 나무늘봉순 계정 2개월차 시즌패스 30일 직접 연결 (실결제 차감 없음)\",2]",
+  "result": {
+    "ok": true,
+    "requestId": "ops_bongsoon_month2_20261117_v1",
+    "action": "GRANT",
+    "month": 2,
+    "target": {
+      "id": 5426,
+      "nickname": "나무늘봉순"
+    },
+    "amountWon": 0,
+    "actualChargeWon": 0,
+    "note": "사용자 요청: 나무늘봉순 계정 2개월차 시즌패스 30일 직접 연결 (실결제 차감 없음)",
+    "processedAt": 1794889807109,
+    "subscription": {
+      "version": 1,
+      "revision": 4,
+      "startsAt": 1794889807109,
+      "endsAt": 1797481807109,
+      "magnetPetCode": null,
+      "revokedAt": null,
+      "passTerms": {
+        "1": {
+          "startsAt": 1791650259179,
+          "endsAt": 1794242259179,
+          "revokedAt": null
+        },
+        "2": {
+          "calendarStartsAt": 1794889807109,
+          "startsAt": 1794889807109,
+          "endsAt": 1797481807109,
+          "revokedAt": null
+        }
+      },
+      "active": true,
+      "extraLegionEntries": 3
+    },
+    "replayed": false,
+    "petReward": {
+      "petCode": "PET-HEADSET-SHIBA",
+      "quantity": 0,
+      "alreadyOwned": true
+    },
+    "operationKey": "ops:bongsoon:season-pass-month2:20261117:v1",
+    "source": "OPERATOR_DIRECT_LINK",
+    "normalApplicationSalesUnchanged": true
+  },
+  "protectedBeforeHash": "8e2981c2f6e05a6a1149abe2d95749f854da73964ea76bd59ca09b4fe768b58c",
+  "protectedAfterHash": "8e2981c2f6e05a6a1149abe2d95749f854da73964ea76bd59ca09b4fe768b58c",
+  "firstMonthClaimRecords": 75,
+  "secondMonthClaimRecords": 0,
+  "syncBefore": [
+    {
+      "domains": {
+        "pvp": "139908",
+        "wallet": "147712",
+        "loadout": "143642",
+        "messages": "146798",
+        "inventory": "147717",
+        "collection": "147716"
+      },
+      "revision": "147717"
+    }
+  ],
+  "syncAfter": [
+    {
+      "domains": {
+        "pvp": "139908",
+        "wallet": "147712",
+        "loadout": "143642",
+        "messages": "146798",
+        "inventory": "147717",
+        "collection": "147716"
+      },
+      "revision": "147717"
+    }
+  ]
+}
