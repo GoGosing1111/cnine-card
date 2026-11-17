@@ -1,0 +1,134 @@
+{
+  "at": "2026-11-17T02:57:03.505Z",
+  "device": "ios",
+  "phase": "before",
+  "condition": "Windows headless Chrome/WebKit; actual lobby -> Citadel menu -> existing active room, actual isolated server handlers; unthrottled localhost. Android/iOS viewport and touch emulation, Windows launcher URL, H5 iframe with mock host SDK; not physical phones or installed Windows app.",
+  "rounds": [
+    {
+      "visit": "first",
+      "readyMs": 4053,
+      "frames": {
+        "count": 239,
+        "p95Ms": 60,
+        "maxMs": 328,
+        "over50": 14
+      },
+      "hitLabels": 3,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    },
+    {
+      "visit": "reentry",
+      "readyMs": 3319,
+      "frames": {
+        "count": 223,
+        "p95Ms": 58,
+        "maxMs": 254,
+        "over50": 17
+      },
+      "hitLabels": 3,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    }
+  ],
+  "errors": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/chief/extension-notice",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/account-rank/status",
+    "/api/auction/user/lobby",
+    "/api/loot-shop/balance",
+    "/api/shell/summary",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/rank-exp-potion/status",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/admin/server-support/package/alerts",
+    "/api/server-support/status",
+    "/api/chief/extension-notice",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/jokgak-city/notifications",
+    "/api/chief/extension-notice",
+    "/api/server-support/status",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/pvp/config",
+    "/api/magic/status",
+    "/api/loot-shop/balance",
+    "/api/equipment/prime-supply-box/config",
+    "/api/suit-core-box/config",
+    "/api/vehicle-draw/prime/config",
+    "/api/clan/faction/alerts",
+    "/api/rank-exp-potion/status",
+    "/api/hall-of-fame",
+    "/api/legion-party/state",
+    "/api/legion-party/state",
+    "/api/clan/faction/alerts"
+  ],
+  "firstLaunchMs": 957,
+  "network": [
+    {
+      "path": "/js/app.js",
+      "ms": 30,
+      "bytes": 824916
+    },
+    {
+      "path": "/js/responsive-battle-sprites-v1815.js",
+      "ms": 29,
+      "bytes": 4793
+    },
+    {
+      "path": "/js/adventure-lobby-v2107.js",
+      "ms": 29,
+      "bytes": 1230778
+    },
+    {
+      "path": "/css/battle-v3-live.css",
+      "ms": 28,
+      "bytes": 35889
+    },
+    {
+      "path": "/js/cooperative-battleground-entry.js",
+      "ms": 28,
+      "bytes": 2605
+    },
+    {
+      "path": "/js/responsive-battle-sprites-v1803.js",
+      "ms": 28,
+      "bytes": 13643
+    },
+    {
+      "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+      "ms": 28,
+      "bytes": 1780
+    },
+    {
+      "path": "/js/territory-battlefield-v5.js",
+      "ms": 27,
+      "bytes": 20580
+    }
+  ]
+}

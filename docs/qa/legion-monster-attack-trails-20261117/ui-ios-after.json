@@ -1,0 +1,166 @@
+{
+  "at": "2026-11-17T02:57:25.538Z",
+  "device": "ios",
+  "phase": "after",
+  "condition": "Windows headless Chrome/WebKit; actual lobby -> Citadel menu -> existing active room, actual isolated server handlers; unthrottled localhost. Android/iOS viewport and touch emulation, Windows launcher URL, H5 iframe with mock host SDK; not physical phones or installed Windows app.",
+  "rounds": [
+    {
+      "visit": "first",
+      "readyMs": 4518,
+      "frames": {
+        "count": 241,
+        "p95Ms": 54,
+        "maxMs": 542,
+        "over50": 14
+      },
+      "hitLabels": 9,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    },
+    {
+      "visit": "reentry",
+      "readyMs": 3195,
+      "frames": {
+        "count": 229,
+        "p95Ms": 52,
+        "maxMs": 232,
+        "over50": 12
+      },
+      "hitLabels": 15,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    }
+  ],
+  "errors": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/chief/extension-notice",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/shell/summary",
+    "/api/rank-exp-potion/status",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/account-rank/status",
+    "/api/auction/user/lobby",
+    "/api/admin/server-support/package/alerts",
+    "/api/server-support/status",
+    "/api/chief/extension-notice",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/jokgak-city/notifications",
+    "/api/legion-party/state",
+    "/api/chief/extension-notice",
+    "/api/legion-party/state",
+    "/api/pvp/config",
+    "/api/magic/status",
+    "/api/loot-shop/balance",
+    "/api/equipment/prime-supply-box/config",
+    "/api/suit-core-box/config",
+    "/api/vehicle-draw/prime/config",
+    "/api/clan/faction/alerts",
+    "/api/rank-exp-potion/status",
+    "/api/hall-of-fame",
+    "/api/server-support/status",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/legion-party/state",
+    "/api/clan/faction/alerts",
+    "/api/admin/server-support/package/alerts",
+    "/api/legion-party/chunk"
+  ],
+  "firstLaunchMs": 1144,
+  "probe": {
+    "attacks": [
+      {
+        "id": "B:0:CITADEL:R2",
+        "kind": "CITADEL_EMBER",
+        "impacts": 1
+      },
+      {
+        "id": "B:1:CITADEL:R2",
+        "kind": "CITADEL_GUARD",
+        "impacts": 1
+      },
+      {
+        "id": "B:2:CITADEL:R2",
+        "kind": "CITADEL_WARDEN",
+        "impacts": 1
+      },
+      {
+        "id": "B:3:CITADEL:R2",
+        "kind": "CITADEL_ASH_HOUND",
+        "impacts": 1
+      }
+    ],
+    "samples": 74,
+    "drift": 0,
+    "filters": 0,
+    "extraEffects": 0,
+    "remainingDamage": 0,
+    "remainingTimelines": 0
+  },
+  "network": [
+    {
+      "path": "/js/app.js",
+      "ms": 38,
+      "bytes": 831693
+    },
+    {
+      "path": "/js/adventure-lobby-v2107.js",
+      "ms": 38,
+      "bytes": 1230778
+    },
+    {
+      "path": "/js/territory-battlefield-v5.js",
+      "ms": 36,
+      "bytes": 20709
+    },
+    {
+      "path": "/js/territory-war-v1811.js",
+      "ms": 36,
+      "bytes": 92885
+    },
+    {
+      "path": "/js/legion-hunt-entry-v1.mjs",
+      "ms": 36,
+      "bytes": 24336
+    },
+    {
+      "path": "/js/soopketmon-v21-exact-shell-adapter.js",
+      "ms": 36,
+      "bytes": 56819
+    },
+    {
+      "path": "/js/soopketmon-v21-runtime-router.js",
+      "ms": 36,
+      "bytes": 17081
+    },
+    {
+      "path": "/js/pve-command-v2-live.js",
+      "ms": 35,
+      "bytes": 39333
+    }
+  ]
+}

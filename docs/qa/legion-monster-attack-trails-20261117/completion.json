@@ -1,0 +1,971 @@
+{
+  "completedAt": "2026-11-17T03:10:42.003Z",
+  "request": "군단토벌 몬스터 공격 시 화면을 가로지르는 잔상이 남지 않게 수정",
+  "sourceCommit": "dd6a08cc38fa282783633b0516f1e13de0b3fb0e",
+  "baselineCommit": "b935cbc52ebfb5bde16867f46a8cb70cab72852d",
+  "deployment": {
+    "at": "2026-11-17T03:08:24.120Z",
+    "sourceCommit": "dd6a08cc38fa282783633b0516f1e13de0b3fb0e",
+    "pages": {
+      "id": "2f56d068-25bf-4638-b1b9-27f556e58adc",
+      "commit": "dd6a08cc38fa282783633b0516f1e13de0b3fb0e",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "e1933a15-436c-4dd0-babc-a023af61f3d0",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "fc58bb38-be31-4256-923a-7c7c570c737f",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "6b11a7588f9ca81eea67871dfe90a093195e7959bf46e505287ef59f753aae54",
+        "bytes": 52961
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "f6e27f7c3d2174be9f6f4e414fbf92dec7d7ee4dde18029e6cf805a07cdf34b8",
+        "bytes": 26485
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "ff93c7bd276029b5ccdec0675f2de13ebb592b6a0225e2317d6318bd038aae8a",
+        "bytes": 831693
+      },
+      {
+        "path": "js/battle-v3-live.js",
+        "sha256": "cd3df17fd4af239386001af8c2c1d56a94a3ad5737177fba73ef140a52aa91dc",
+        "bytes": 78737
+      },
+      {
+        "path": "js/legion-citadel-v1.mjs",
+        "sha256": "6998fe2bdd874ecf6ea1bf306c79f1d3cfff4220d7f02cd5f66f9d5167ac403d",
+        "bytes": 58050
+      },
+      {
+        "path": "js/legion-hunt-entry-v1.mjs",
+        "sha256": "15813487127464d603b6a871ae6e5b9a54ab443237486711d2579f62931aa285",
+        "bytes": 24567
+      },
+      {
+        "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "947062f94024a34fe2358d945f125a3a34d408d2b83d9d4b185462b9f23bc9ea",
+        "bytes": 3767025
+      },
+      {
+        "path": "pve-v3/battle.bundle.js",
+        "sha256": "9f85255ee7587eb2b084e5c9affae3e96952b2df49806970ce9f0e40f077741f",
+        "bytes": 3766999
+      },
+      {
+        "path": "preview/sustained-hunt-v2/battle.bundle.js",
+        "sha256": "097d41da8be7d25a31ac2ca1573de72dfa16695431df8a264b6286651380be20",
+        "bytes": 3790720
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "9e51e6b23fec786eb74d0a19aceffae75440dceb0600880edfbb0f94befc7b8d",
+      "verified": 8,
+      "excluded": [
+        {
+          "path": "service-worker.js",
+          "reason": "Existing launcher policy excludes service worker; desktop resources are managed by the launcher."
+        }
+      ]
+    },
+    "tests": 54
+  },
+  "runtimeSuffix": "citadel-clean-attack-20261117-v1",
+  "implementation": {
+    "scope": "LEGION_BURNING_CITADEL scene + ENEMY team + CITADEL_ monster artwork only",
+    "behavior": "Use the existing short body ATTACK pose at the current grid station. Do not create a cross-field root dash, generic role slash atlas, white hit filter or camera shake for this path. Return to IDLE/DEAD and release the pooled damage label on completion or cancellation.",
+    "impactSeconds": 0.25,
+    "cleanupSeconds": 0.55,
+    "retained": [
+      "Server-authoritative damage, HP, shields and battle outcomes",
+      "Existing impact sound and receipt HUD suppression",
+      "Actor and target identity guards for recycled slots",
+      "Original monster artwork and existing body animations",
+      "Allied, PvP, other PvE, Arke and dockyard attack paths"
+    ],
+    "productionAccountDataWrites": 0,
+    "messagesSent": 0,
+    "serverLogicChanges": 0,
+    "addedProductionFiles": 0,
+    "bundlesRebuilt": 11
+  },
+  "findings": {
+    "screenshot": "User supplied a cropped gray/white diagonal polygon over 흑철 근위병. Finite Chrome/WebKit baseline playback did not reproduce that exact polygon; a specific GPU cause is not proven.",
+    "measuredBefore": "Actual Citadel menu flow and controlled monster attacks showed cross-field root movement up to 1461.15 logical pixels (PC/Windows) and two additional effect-layer objects. This generic hostile movement/effect path is now bypassed for Citadel monsters.",
+    "measuredAfter": "All five platform runs showed zero hostile root drift and zero additional effect-layer objects during the controlled probe. Production-delivered code was then checked with all four normal species plus the castellan boss: one impact each, zero drift/filter/effect additions, zero outstanding pooled labels/timelines.",
+    "limitation": "No physical phone or installed Windows launcher test. The exact user screenshot artifact was not reproduced in baseline, so removal of the implicated rendering path is verified rather than a proven device-specific GPU diagnosis."
+  },
+  "checks": {
+    "passed": 54,
+    "failed": 0,
+    "suites": [
+      "tests/citadel-monster-attack-20261117.test.mjs",
+      "tests/cooperative-animation-ownership-20261005.test.mjs",
+      "tests/v3-common-grid-v1.test.mjs",
+      "tests/legion-citadel-20261108.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "coverage": [
+      "50 repeated attacks with exact hit count and one reusable damage label",
+      "Cancellation before/after impact and death state cleanup",
+      "Recycled actor/target slot identity protection",
+      "Citadel-only selection and generic battle exclusions",
+      "Common grid, 11 runtime consumers, matching loader/cache versions",
+      "Existing Citadel room, battle entry and settlement checks"
+    ],
+    "productionHttp": "Nine public files match local SHA-256; production Pages source and both Worker 100% versions match the release.",
+    "windows": "Eight relevant launcher assets match the production manifest. Existing launcher policy intentionally excludes service-worker.js; its public browser URL was verified separately.",
+    "liveBrowser": {
+      "report": "ui-pc-live.json",
+      "condition": "Actual production-delivered HTML/loaders/bundle served through an isolated localhost host using the real Citadel server handlers with fixture accounts. No production battle or account write. Same real lobby/menu, battle view, close and reentry.",
+      "probe": {
+        "attacks": [
+          {
+            "id": "B:0:CITADEL:R1",
+            "kind": "CITADEL_ASH_HOUND",
+            "impacts": 1
+          },
+          {
+            "id": "B:1:CITADEL:R1",
+            "kind": "CITADEL_EMBER",
+            "impacts": 1
+          },
+          {
+            "id": "B:2:CITADEL:R1",
+            "kind": "CITADEL_GUARD",
+            "impacts": 1
+          },
+          {
+            "id": "B:3:CITADEL:R1",
+            "kind": "CITADEL_WARDEN",
+            "impacts": 1
+          },
+          {
+            "id": "B:4:CITADEL:BOSS",
+            "kind": "CITADEL_CASTELLAN",
+            "impacts": 1
+          }
+        ],
+        "samples": 677,
+        "drift": 0,
+        "filters": 0,
+        "extraEffects": 0,
+        "remainingDamage": 0,
+        "remainingTimelines": 0,
+        "pvpFallback": {
+          "moved": true,
+          "roleAtlas": true
+        }
+      },
+      "rounds": [
+        {
+          "visit": "first",
+          "readyMs": 1526,
+          "frames": {
+            "count": 1238,
+            "p95Ms": 4.300000000000182,
+            "maxMs": 220.70000000000005,
+            "over50": 4
+          },
+          "hitLabels": 2,
+          "exit": {
+            "mounted": false,
+            "canvases": 0,
+            "timelines": 0
+          },
+          "postExitCalls": 0
+        },
+        {
+          "visit": "reentry",
+          "readyMs": 1186,
+          "frames": {
+            "count": 1199,
+            "p95Ms": 4.300000000001091,
+            "maxMs": 137.5,
+            "over50": 2
+          },
+          "hitLabels": 2,
+          "exit": {
+            "mounted": false,
+            "canvases": 0,
+            "timelines": 0
+          },
+          "postExitCalls": 0
+        }
+      ],
+      "errors": []
+    },
+    "genericFallback": "Renderer-only smoke switches the scene discriminator to PVP and confirms the existing movement and role atlas still run; not a full live PvP match.",
+    "visualReview": [
+      "ui-pc-live-0.png: boss and normal monsters remain on stations; no diagonal white band",
+      "ui-android-after-0.png: normal mobile battle display; no persistent slash band"
+    ],
+    "harnessCorrection": "The first release verification expected service-worker.js in the Windows manifest. Corrected this QA assertion to use the existing safePublicPath policy and confirmed its documented exclusion; production code did not change."
+  },
+  "performance": {
+    "conditions": "Windows headless installed Chrome and WebKit, unthrottled localhost. PC 1440x960; mobile 390x844 with touch emulation. Windows launcher URL and H5 iframe with mocked host SDK. Fresh browser for first launch; click to canvas/stage ready for first entry and reentry. Frames sampled from entry click through 4.5 seconds of combat; controlled attack probes excluded. Single before/after samples, not a benchmark of physical device FPS or production network latency.",
+    "sourceNote": "Before uses the prior production commit. The five-platform after sweep uses the same new attack behavior before moving its helper into an existing source module to preserve the Pages 20,000-file cap. The final consolidated bundle passed the 54-test deployment gate and the production-byte PC boss smoke.",
+    "optimization": "Eliminated cross-field root transforms and two extra attack effect objects per measured Citadel monster attack. Pooled hit labels remain bounded and are released. No new server request/query was added.",
+    "loadingAssessment": "No loading-speed gain is claimed. Source/resource loading and browser render/main-thread readiness remain in the entry path; the measurements do not separately attribute all startup time to disk, network or main thread. Local resource timing and complete entry/frame measurements are retained in the raw reports. This fix targets the measured per-attack rendering work.",
+    "caveats": "Existing entry/combat long frames remain. Forced detailed WebKit runs retain the existing ResizeObserver loop warning before and after; WebKit first entry varied 4053 to 4518 ms while reentry varied 3319 to 3195 ms. Do not interpret headless ~4.3 ms frame intervals as real display FPS.",
+    "exit": "All ten before/after entry pairs and the final production-byte smoke: no Citadel canvas, timeline or new Citadel state polls after closing (800 ms observation).",
+    "platforms": [
+      {
+        "device": "pc",
+        "before": {
+          "firstLaunchMs": 1078.300000011921,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1566,
+              "frames": {
+                "count": 1214,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 233.19999999999982,
+                "over50": 5
+              },
+              "hitLabels": 2,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 819,
+              "frames": {
+                "count": 1163,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 95.79999999999927,
+                "over50": 1
+              },
+              "hitLabels": 11,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R1",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R1",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R1",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R1",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              }
+            ],
+            "samples": 430,
+            "drift": 1461.1475395272969,
+            "filters": 0,
+            "extraEffects": 2,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": []
+        },
+        "after": {
+          "firstLaunchMs": 1091.4000000059605,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1442,
+              "frames": {
+                "count": 1197,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 220.80000000000018,
+                "over50": 6
+              },
+              "hitLabels": 2,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 941,
+              "frames": {
+                "count": 1173,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 108.30000000000109,
+                "over50": 2
+              },
+              "hitLabels": 9,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R1",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R1",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R1",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R1",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              }
+            ],
+            "samples": 549,
+            "drift": 0,
+            "filters": 0,
+            "extraEffects": 0,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": []
+        }
+      },
+      {
+        "device": "android",
+        "before": {
+          "firstLaunchMs": 1274.699999988079,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 2116,
+              "frames": {
+                "count": 1251,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 320.8000000000002,
+                "over50": 6
+              },
+              "hitLabels": 13,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 941,
+              "frames": {
+                "count": 1191,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 112.5,
+                "over50": 2
+              },
+              "hitLabels": 2,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "firstLaunchMs": 1051.5,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1507,
+              "frames": {
+                "count": 1239,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 225.0999999999999,
+                "over50": 6
+              },
+              "hitLabels": 2,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 909,
+              "frames": {
+                "count": 1168,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 175.10000000000036,
+                "over50": 2
+              },
+              "hitLabels": 11,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R1",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R1",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R1",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R1",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              }
+            ],
+            "samples": 545,
+            "drift": 0,
+            "filters": 0,
+            "extraEffects": 0,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": []
+        }
+      },
+      {
+        "device": "ios",
+        "before": {
+          "firstLaunchMs": 957,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 4053,
+              "frames": {
+                "count": 239,
+                "p95Ms": 60,
+                "maxMs": 328,
+                "over50": 14
+              },
+              "hitLabels": 3,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 3319,
+              "frames": {
+                "count": 223,
+                "p95Ms": 58,
+                "maxMs": 254,
+                "over50": 17
+              },
+              "hitLabels": 3,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "firstLaunchMs": 1144,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 4518,
+              "frames": {
+                "count": 241,
+                "p95Ms": 54,
+                "maxMs": 542,
+                "over50": 14
+              },
+              "hitLabels": 9,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 3195,
+              "frames": {
+                "count": 229,
+                "p95Ms": 52,
+                "maxMs": 232,
+                "over50": 12
+              },
+              "hitLabels": 15,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R2",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R2",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R2",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R2",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              }
+            ],
+            "samples": 74,
+            "drift": 0,
+            "filters": 0,
+            "extraEffects": 0,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      {
+        "device": "windows",
+        "before": {
+          "firstLaunchMs": 1045.0999999940395,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 2068,
+              "frames": {
+                "count": 1228,
+                "p95Ms": 8.299999999999272,
+                "maxMs": 275,
+                "over50": 10
+              },
+              "hitLabels": 2,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 773,
+              "frames": {
+                "count": 1130,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 124.89999999999964,
+                "over50": 1
+              },
+              "hitLabels": 10,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R1",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R1",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R1",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R1",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              }
+            ],
+            "samples": 435,
+            "drift": 1461.1475395272969,
+            "filters": 0,
+            "extraEffects": 2,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": []
+        },
+        "after": {
+          "firstLaunchMs": 1182.9000000059605,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1656,
+              "frames": {
+                "count": 1222,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 220.9000000000001,
+                "over50": 6
+              },
+              "hitLabels": 2,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 887,
+              "frames": {
+                "count": 1154,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 133.5,
+                "over50": 2
+              },
+              "hitLabels": 10,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R1",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R1",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R1",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R1",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              }
+            ],
+            "samples": 549,
+            "drift": 0,
+            "filters": 0,
+            "extraEffects": 0,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": []
+        }
+      },
+      {
+        "device": "h5",
+        "before": {
+          "firstLaunchMs": 1103.5,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1605,
+              "frames": {
+                "count": 1257,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 233.4000000000001,
+                "over50": 5
+              },
+              "hitLabels": 2,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 898,
+              "frames": {
+                "count": 1176,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 104.20000000000073,
+                "over50": 1
+              },
+              "hitLabels": 11,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R1",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R1",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R1",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R1",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              }
+            ],
+            "samples": 434,
+            "drift": 1167.273202726934,
+            "filters": 0,
+            "extraEffects": 2,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": []
+        },
+        "after": {
+          "firstLaunchMs": 1044.5,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1675,
+              "frames": {
+                "count": 1242,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 237.5,
+                "over50": 6
+              },
+              "hitLabels": 3,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 849,
+              "frames": {
+                "count": 1180,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 91.69999999999891,
+                "over50": 1
+              },
+              "hitLabels": 10,
+              "exit": {
+                "mounted": false,
+                "canvases": 0,
+                "timelines": 0
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "probe": {
+            "attacks": [
+              {
+                "id": "B:0:CITADEL:R1",
+                "kind": "CITADEL_ASH_HOUND",
+                "impacts": 1
+              },
+              {
+                "id": "B:1:CITADEL:R1",
+                "kind": "CITADEL_EMBER",
+                "impacts": 1
+              },
+              {
+                "id": "B:2:CITADEL:R1",
+                "kind": "CITADEL_GUARD",
+                "impacts": 1
+              },
+              {
+                "id": "B:3:CITADEL:R1",
+                "kind": "CITADEL_WARDEN",
+                "impacts": 1
+              }
+            ],
+            "samples": 547,
+            "drift": 0,
+            "filters": 0,
+            "extraEffects": 0,
+            "remainingDamage": 0,
+            "remainingTimelines": 0
+          },
+          "errors": []
+        }
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "ui-pc-before.json",
+      "sha256": "400c601aa591bfe3bd7238b52b43d73844aeef32d809a7c173d8d58aa10fd96c",
+      "bytes": 3889
+    },
+    {
+      "path": "ui-pc-after.json",
+      "sha256": "5f0ed2b16587550a8dbff10fbcb24f979b8e8755f5acfaaeb273853e86e325bf",
+      "bytes": 3934
+    },
+    {
+      "path": "ui-android-before.json",
+      "sha256": "99b40eb03b3b1bd5f1368ab89f8f440f8ebbfb176cdd7a779bf49ab0f948ea54",
+      "bytes": 3279
+    },
+    {
+      "path": "ui-android-after.json",
+      "sha256": "5baea0b2946452e6d097aa91970f17cc31e7eba0e9b444bb363082b66cf5e159",
+      "bytes": 3895
+    },
+    {
+      "path": "ui-ios-before.json",
+      "sha256": "5a8768b7869296cca8c64caa267d112d713df067d93e72784f489f37f1179bcd",
+      "bytes": 3353
+    },
+    {
+      "path": "ui-ios-after.json",
+      "sha256": "cf06cef44239b4b37fb08e215765559c47af431ec59e55d246b074180ac0888c",
+      "bytes": 3998
+    },
+    {
+      "path": "ui-windows-before.json",
+      "sha256": "66078d3aa2971c2aad22015fcd21005f4ae525b3af4874bcd1bac67ddf38ab44",
+      "bytes": 3912
+    },
+    {
+      "path": "ui-windows-after.json",
+      "sha256": "9c968266f71d3bd8c8a95aeb06a4fe5d9bce8adf045327b9971550d83bc3bbec",
+      "bytes": 3894
+    },
+    {
+      "path": "ui-h5-before.json",
+      "sha256": "fbce996ea7fe9400f438026bd1e73d801b8c24135062deed8d136f0f9e207d5c",
+      "bytes": 4020
+    },
+    {
+      "path": "ui-h5-after.json",
+      "sha256": "fffe76f8a05bc3ce3d4000aa6146fbec6fb6e29477a04bf13dae06a6171036a4",
+      "bytes": 3989
+    },
+    {
+      "path": "live-verification.json",
+      "sha256": "1c013f8664a6847a4d302fc7725cfd7ced3590ce0aeb5ef7a298c4d6baeb9562",
+      "bytes": 2474
+    },
+    {
+      "path": "ui-pc-live.json",
+      "sha256": "8626a888e0c359070f157dde02f2b8d9372ac5888c9008c5d266fbed6870c7fd",
+      "bytes": 4134
+    },
+    {
+      "path": "ui-pc-live-0.png",
+      "sha256": "84a2383a2c4607282c462b79613bfffc665091fe80f473a6778cbed01f461305",
+      "bytes": 1775807
+    },
+    {
+      "path": "ui-android-after-0.png",
+      "sha256": "6bc9845d70eee62d0b0d891cd6dc14869878ff7fa6e3c00075d81d31e2b0cdc8",
+      "bytes": 422681
+    },
+    {
+      "path": "ui-ios-after-0.png",
+      "sha256": "759320a32467a7069205f0ce04ac7945f864c57ae53ec433393cfd48eeb35bbb",
+      "bytes": 466065
+    }
+  ]
+}

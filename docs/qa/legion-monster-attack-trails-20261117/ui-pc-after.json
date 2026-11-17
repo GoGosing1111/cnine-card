@@ -1,0 +1,163 @@
+{
+  "at": "2026-11-17T02:58:43.730Z",
+  "device": "pc",
+  "phase": "after",
+  "condition": "Windows headless Chrome/WebKit; actual lobby -> Citadel menu -> existing active room, actual isolated server handlers; unthrottled localhost. Android/iOS viewport and touch emulation, Windows launcher URL, H5 iframe with mock host SDK; not physical phones or installed Windows app.",
+  "rounds": [
+    {
+      "visit": "first",
+      "readyMs": 1442,
+      "frames": {
+        "count": 1197,
+        "p95Ms": 4.300000000000182,
+        "maxMs": 220.80000000000018,
+        "over50": 6
+      },
+      "hitLabels": 2,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    },
+    {
+      "visit": "reentry",
+      "readyMs": 941,
+      "frames": {
+        "count": 1173,
+        "p95Ms": 4.300000000001091,
+        "maxMs": 108.30000000000109,
+        "over50": 2
+      },
+      "hitLabels": 9,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/chief/extension-notice",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/shell/summary",
+    "/api/rank-exp-potion/status",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/account-rank/status",
+    "/api/auction/user/lobby",
+    "/api/admin/server-support/package/alerts",
+    "/api/server-support/status",
+    "/api/chief/status",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/chief/extension-notice",
+    "/api/jokgak-city/notifications",
+    "/api/legion-party/state",
+    "/api/chief/extension-notice",
+    "/api/legion-party/state",
+    "/api/server-support/status",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/pvp/config",
+    "/api/magic/status",
+    "/api/loot-shop/balance",
+    "/api/equipment/prime-supply-box/config",
+    "/api/suit-core-box/config",
+    "/api/vehicle-draw/prime/config",
+    "/api/clan/faction/alerts",
+    "/api/rank-exp-potion/status",
+    "/api/hall-of-fame",
+    "/api/legion-party/state",
+    "/api/legion-party/state"
+  ],
+  "firstLaunchMs": 1091.4000000059605,
+  "probe": {
+    "attacks": [
+      {
+        "id": "B:0:CITADEL:R1",
+        "kind": "CITADEL_ASH_HOUND",
+        "impacts": 1
+      },
+      {
+        "id": "B:1:CITADEL:R1",
+        "kind": "CITADEL_EMBER",
+        "impacts": 1
+      },
+      {
+        "id": "B:2:CITADEL:R1",
+        "kind": "CITADEL_GUARD",
+        "impacts": 1
+      },
+      {
+        "id": "B:3:CITADEL:R1",
+        "kind": "CITADEL_WARDEN",
+        "impacts": 1
+      }
+    ],
+    "samples": 549,
+    "drift": 0,
+    "filters": 0,
+    "extraEffects": 0,
+    "remainingDamage": 0,
+    "remainingTimelines": 0
+  },
+  "network": [
+    {
+      "path": "/js/adventure-lobby-v2107.js",
+      "ms": 84,
+      "bytes": 1230778
+    },
+    {
+      "path": "/js/soopketmon-v21-runtime-router.js",
+      "ms": 82,
+      "bytes": 17081
+    },
+    {
+      "path": "/js/soopketmon-v21-exact-shell-adapter.js",
+      "ms": 82,
+      "bytes": 56819
+    },
+    {
+      "path": "/js/pve-command-v2-live.js",
+      "ms": 81,
+      "bytes": 39333
+    },
+    {
+      "path": "/js/seal-battle.js",
+      "ms": 78,
+      "bytes": 36699
+    },
+    {
+      "path": "/js/territory-war-v1811.js",
+      "ms": 77,
+      "bytes": 92885
+    },
+    {
+      "path": "/js/territory-battlefield-v5.js",
+      "ms": 74,
+      "bytes": 20709
+    },
+    {
+      "path": "/js/app.js",
+      "ms": 71,
+      "bytes": 831693
+    }
+  ]
+}

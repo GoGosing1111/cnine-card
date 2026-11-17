@@ -1,0 +1,87 @@
+{
+  "at": "2026-11-17T03:08:24.120Z",
+  "sourceCommit": "dd6a08cc38fa282783633b0516f1e13de0b3fb0e",
+  "pages": {
+    "id": "2f56d068-25bf-4638-b1b9-27f556e58adc",
+    "commit": "dd6a08cc38fa282783633b0516f1e13de0b3fb0e",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "e1933a15-436c-4dd0-babc-a023af61f3d0",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "fc58bb38-be31-4256-923a-7c7c570c737f",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "6b11a7588f9ca81eea67871dfe90a093195e7959bf46e505287ef59f753aae54",
+      "bytes": 52961
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "f6e27f7c3d2174be9f6f4e414fbf92dec7d7ee4dde18029e6cf805a07cdf34b8",
+      "bytes": 26485
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "ff93c7bd276029b5ccdec0675f2de13ebb592b6a0225e2317d6318bd038aae8a",
+      "bytes": 831693
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "sha256": "cd3df17fd4af239386001af8c2c1d56a94a3ad5737177fba73ef140a52aa91dc",
+      "bytes": 78737
+    },
+    {
+      "path": "js/legion-citadel-v1.mjs",
+      "sha256": "6998fe2bdd874ecf6ea1bf306c79f1d3cfff4220d7f02cd5f66f9d5167ac403d",
+      "bytes": 58050
+    },
+    {
+      "path": "js/legion-hunt-entry-v1.mjs",
+      "sha256": "15813487127464d603b6a871ae6e5b9a54ab443237486711d2579f62931aa285",
+      "bytes": 24567
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "947062f94024a34fe2358d945f125a3a34d408d2b83d9d4b185462b9f23bc9ea",
+      "bytes": 3767025
+    },
+    {
+      "path": "pve-v3/battle.bundle.js",
+      "sha256": "9f85255ee7587eb2b084e5c9affae3e96952b2df49806970ce9f0e40f077741f",
+      "bytes": 3766999
+    },
+    {
+      "path": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "097d41da8be7d25a31ac2ca1573de72dfa16695431df8a264b6286651380be20",
+      "bytes": 3790720
+    }
+  ],
+  "windowsManifest": {
+    "releaseId": "9e51e6b23fec786eb74d0a19aceffae75440dceb0600880edfbb0f94befc7b8d",
+    "verified": 8,
+    "excluded": [
+      {
+        "path": "service-worker.js",
+        "reason": "Existing launcher policy excludes service worker; desktop resources are managed by the launcher."
+      }
+    ]
+  },
+  "tests": 54
+}

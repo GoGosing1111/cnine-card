@@ -1,0 +1,161 @@
+{
+  "at": "2026-11-17T02:58:25.325Z",
+  "device": "pc",
+  "phase": "before",
+  "condition": "Windows headless Chrome/WebKit; actual lobby -> Citadel menu -> existing active room, actual isolated server handlers; unthrottled localhost. Android/iOS viewport and touch emulation, Windows launcher URL, H5 iframe with mock host SDK; not physical phones or installed Windows app.",
+  "rounds": [
+    {
+      "visit": "first",
+      "readyMs": 1566,
+      "frames": {
+        "count": 1214,
+        "p95Ms": 4.300000000000182,
+        "maxMs": 233.19999999999982,
+        "over50": 5
+      },
+      "hitLabels": 2,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    },
+    {
+      "visit": "reentry",
+      "readyMs": 819,
+      "frames": {
+        "count": 1163,
+        "p95Ms": 4.300000000001091,
+        "maxMs": 95.79999999999927,
+        "over50": 1
+      },
+      "hitLabels": 11,
+      "exit": {
+        "mounted": false,
+        "canvases": 0,
+        "timelines": 0
+      },
+      "postExitCalls": 0
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/chief/extension-notice",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/account-rank/status",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/shell/summary",
+    "/api/rank-exp-potion/status",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/auction/user/lobby",
+    "/api/admin/server-support/package/alerts",
+    "/api/server-support/status",
+    "/api/chief/status",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/chief/extension-notice",
+    "/api/jokgak-city/notifications",
+    "/api/legion-party/state",
+    "/api/chief/extension-notice",
+    "/api/server-support/status",
+    "/api/legion-party/lobby",
+    "/api/legion-party/battle",
+    "/api/pvp/config",
+    "/api/magic/status",
+    "/api/loot-shop/balance",
+    "/api/equipment/prime-supply-box/config",
+    "/api/suit-core-box/config",
+    "/api/vehicle-draw/prime/config",
+    "/api/clan/faction/alerts",
+    "/api/rank-exp-potion/status",
+    "/api/hall-of-fame",
+    "/api/legion-party/state"
+  ],
+  "firstLaunchMs": 1078.300000011921,
+  "probe": {
+    "attacks": [
+      {
+        "id": "B:0:CITADEL:R1",
+        "kind": "CITADEL_ASH_HOUND",
+        "impacts": 1
+      },
+      {
+        "id": "B:1:CITADEL:R1",
+        "kind": "CITADEL_EMBER",
+        "impacts": 1
+      },
+      {
+        "id": "B:2:CITADEL:R1",
+        "kind": "CITADEL_GUARD",
+        "impacts": 1
+      },
+      {
+        "id": "B:3:CITADEL:R1",
+        "kind": "CITADEL_WARDEN",
+        "impacts": 1
+      }
+    ],
+    "samples": 430,
+    "drift": 1461.1475395272969,
+    "filters": 0,
+    "extraEffects": 2,
+    "remainingDamage": 0,
+    "remainingTimelines": 0
+  },
+  "network": [
+    {
+      "path": "/js/adventure-lobby-v2107.js",
+      "ms": 84,
+      "bytes": 1230778
+    },
+    {
+      "path": "/js/soopketmon-v21-exact-shell-adapter.js",
+      "ms": 81,
+      "bytes": 56819
+    },
+    {
+      "path": "/js/soopketmon-v21-runtime-router.js",
+      "ms": 81,
+      "bytes": 16693
+    },
+    {
+      "path": "/js/pve-command-v2-live.js",
+      "ms": 79,
+      "bytes": 38799
+    },
+    {
+      "path": "/js/seal-battle.js",
+      "ms": 77,
+      "bytes": 36289
+    },
+    {
+      "path": "/js/territory-war-v1811.js",
+      "ms": 76,
+      "bytes": 92468
+    },
+    {
+      "path": "/js/territory-battlefield-v5.js",
+      "ms": 73,
+      "bytes": 20580
+    },
+    {
+      "path": "/js/app.js",
+      "ms": 69,
+      "bytes": 824916
+    }
+  ]
+}
