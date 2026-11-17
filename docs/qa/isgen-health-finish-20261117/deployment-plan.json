@@ -1,0 +1,42 @@
+{
+  "base": "dd6a08cc38fa282783633b0516f1e13de0b3fb0e",
+  "production": {
+    "pages": {
+      "id": "2f56d068-25bf-4638-b1b9-27f556e58adc",
+      "commit": "dd6a08cc38fa282783633b0516f1e13de0b3fb0e",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "e1933a15-436c-4dd0-babc-a023af61f3d0",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "fc58bb38-be31-4256-923a-7c7c570c737f",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/lich-boss-health-20261117.test.mjs",
+    "tests/lich-raid-coop-20261002.test.mjs",
+    "tests/lich-raid-feedback-20261003.test.mjs",
+    "tests/lich-input-recovery-20261026.test.mjs",
+    "tests/lich-weekly-rewards-20261004.test.mjs",
+    "tests/lich-raid-inline-entry-20260929.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "Isgen-only damage event projection: scale nested skill/combo damage and HP with authoritative raid budget, guard late boss impacts within one raid mount, and load the existing common renderer before direct inline entry. Preserve damage caps, party scaling, mechanics, deadlines, reward rules and historical results. Validate 3–6-player final hits, capped event integrity, retry, transaction rollback, weekly reward concurrency, stale snapshots, inline load/teardown and browser performance. No shared battle engine, schema, auth or production account mutation."
+}

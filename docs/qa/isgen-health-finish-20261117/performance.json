@@ -1,0 +1,897 @@
+{
+  "at": "2026-11-17T04:26:16.499Z",
+  "method": "Single sequential local comparison per surface. Original/current attack adapters, same synthetic strong-mercenary parties. Original cold inline entry failed without the common runtime; before health runs explicitly preload it. Instrumented adapter exposes its engine only in the isolated QA server. First launch: document navigation to usable lobby. Entry/reentry: lobby menu input to ready battle. Component deactivation then lobby return for teardown. No production accounts imported into browser QA.",
+  "rows": [
+    {
+      "device": "pc",
+      "phase": "before",
+      "members": 4,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": true,
+      "firstLaunchMs": 731,
+      "entryMs": [
+        2668,
+        1343
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 71.47111871240509,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 699,
+        "p95": 8.399999999999636,
+        "max": 54.099999999999454,
+        "over50": 1,
+        "falseDeath": 0,
+        "hpRises": 1
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 4.0219999999999345,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-ff7bd67e-57ef-4832-bcff-423af938d96c",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 4.974799999999959,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-ff7bd67e-57ef-4832-bcff-423af938d96c",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 30.200300000000425,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-ff7bd67e-57ef-4832-bcff-423af938d96c",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 19.158400000000256,
+            "sql": 137,
+            "status": 200,
+            "room": "LK-ff7bd67e-57ef-4832-bcff-423af938d96c",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:5209/js/pwa-install.js?v=1727-split-cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:5209/preview/project-v-v3/project-v-firear"
+      ],
+      "missing": []
+    },
+    {
+      "device": "pc",
+      "phase": "after",
+      "members": 4,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": false,
+      "firstLaunchMs": 784.4000000059605,
+      "entryMs": [
+        2962,
+        1451
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 0.9278543351486219,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 702,
+        "p95": 8.300000000000182,
+        "max": 62.600000000000364,
+        "over50": 1,
+        "falseDeath": 0,
+        "hpRises": 0
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 3.4103000000000065,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-f6decff3-de0f-4f2b-97e4-c80dcca12f7d",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 3.5733999999993102,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-f6decff3-de0f-4f2b-97e4-c80dcca12f7d",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 29.757900000000518,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-f6decff3-de0f-4f2b-97e4-c80dcca12f7d",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 16.076700000001438,
+            "sql": 137,
+            "status": 200,
+            "room": "LK-f6decff3-de0f-4f2b-97e4-c80dcca12f7d",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:7627/js/pwa-install.js?v=1727-split-cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:7627/preview/project-v-v3/project-v-firear"
+      ],
+      "missing": []
+    },
+    {
+      "device": "android",
+      "phase": "before",
+      "members": 3,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": true,
+      "firstLaunchMs": 1102.5,
+      "entryMs": [
+        2866,
+        1346
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 73.53913992343745,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 679,
+        "p95": 12.399999999999636,
+        "max": 50,
+        "over50": 0,
+        "falseDeath": 0,
+        "hpRises": 1
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 8.305199999999786,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-2fcb8b50-b1c3-4616-863e-ae441f6daa50",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 4.350999999999658,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-2fcb8b50-b1c3-4616-863e-ae441f6daa50",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 30.84569999999985,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-2fcb8b50-b1c3-4616-863e-ae441f6daa50",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 13.254899999999907,
+            "sql": 106,
+            "status": 200,
+            "room": "LK-2fcb8b50-b1c3-4616-863e-ae441f6daa50",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:8499/js/pwa-install.js?v=1727-split-cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:8499/preview/project-v-v3/project-v-firear"
+      ],
+      "missing": []
+    },
+    {
+      "device": "android",
+      "phase": "after",
+      "members": 3,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": false,
+      "firstLaunchMs": 1208,
+      "entryMs": [
+        3011,
+        1800
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 1.1408085267230075,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 664,
+        "p95": 12.5,
+        "max": 54.100000000000364,
+        "over50": 1,
+        "falseDeath": 0,
+        "hpRises": 0
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 3.770999999999731,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-7f742907-8d52-4d29-9073-c7c17d2f03ca",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 4.427300000000287,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-7f742907-8d52-4d29-9073-c7c17d2f03ca",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 51.04389999999876,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-7f742907-8d52-4d29-9073-c7c17d2f03ca",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 14.914099999999962,
+            "sql": 106,
+            "status": 200,
+            "room": "LK-7f742907-8d52-4d29-9073-c7c17d2f03ca",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:9010/js/pwa-install.js?v=1727-split-cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+      ],
+      "missing": []
+    },
+    {
+      "device": "ios",
+      "phase": "before",
+      "members": 6,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": true,
+      "firstLaunchMs": 1189,
+      "entryMs": [
+        7523,
+        4024
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 71.33670647235147,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 83,
+        "p95": 77,
+        "max": 96,
+        "over50": 16,
+        "falseDeath": 0,
+        "hpRises": 1
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 6.410499999999956,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-5340239f-6bc9-4282-ad04-e912101b0866",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 3.2928999999985535,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-5340239f-6bc9-4282-ad04-e912101b0866",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 23.00590000000011,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-5340239f-6bc9-4282-ad04-e912101b0866",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 19.32839999999851,
+            "sql": 199,
+            "status": 200,
+            "room": "LK-5340239f-6bc9-4282-ad04-e912101b0866",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: undefined is not an object (evaluating 'registration.update')",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:1206/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.a",
+        "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:1206/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.a",
+        "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:1206/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.a",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC"
+      ],
+      "missing": []
+    },
+    {
+      "device": "ios",
+      "phase": "after",
+      "members": 6,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": false,
+      "firstLaunchMs": 1746,
+      "entryMs": [
+        7711,
+        4277
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 0.6619503385583155,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 84,
+        "p95": 68,
+        "max": 95,
+        "over50": 16,
+        "falseDeath": 0,
+        "hpRises": 0
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 2.982299999999668,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-7f4bff48-8667-4861-aff7-0661d1a0ecc8",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 3.5498999999999796,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-7f4bff48-8667-4861-aff7-0661d1a0ecc8",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 30.907899999998335,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-7f4bff48-8667-4861-aff7-0661d1a0ecc8",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 20.47689999999784,
+            "sql": 199,
+            "status": 200,
+            "room": "LK-7f4bff48-8667-4861-aff7-0661d1a0ecc8",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: undefined is not an object (evaluating 'registration.update')",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:1244/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.a",
+        "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:1244/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.a",
+        "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:1244/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.a",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC"
+      ],
+      "missing": []
+    },
+    {
+      "device": "windows",
+      "phase": "before",
+      "members": 5,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": true,
+      "firstLaunchMs": 995.1999999880791,
+      "entryMs": [
+        3141,
+        1403
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 73.78593050260316,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 677,
+        "p95": 12.5,
+        "max": 58.29999999999927,
+        "over50": 2,
+        "falseDeath": 0,
+        "hpRises": 1
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 4.171599999999671,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-bffe1af9-050d-4336-857f-c15a6a57ffee",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 6.330299999999625,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-bffe1af9-050d-4336-857f-c15a6a57ffee",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 37.80200000000059,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-bffe1af9-050d-4336-857f-c15a6a57ffee",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 20.1150000000016,
+            "sql": 168,
+            "status": 200,
+            "room": "LK-bffe1af9-050d-4336-857f-c15a6a57ffee",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:2767/js/pwa-install.js?v=1727-split-cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:2767/preview/project-v-v3/project-v-firear"
+      ],
+      "missing": []
+    },
+    {
+      "device": "windows",
+      "phase": "after",
+      "members": 5,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": false,
+      "firstLaunchMs": 1407.199999988079,
+      "entryMs": [
+        3170,
+        1699
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 0.8888691856711978,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 682,
+        "p95": 10.5,
+        "max": 58.399999999999636,
+        "over50": 1,
+        "falseDeath": 0,
+        "hpRises": 0
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 3.717800000000352,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-137f14e3-bff9-4dc9-ae4f-06de034d889f",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 5.005799999999908,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-137f14e3-bff9-4dc9-ae4f-06de034d889f",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 39.51419999999962,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-137f14e3-bff9-4dc9-ae4f-06de034d889f",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 19.457399999999325,
+            "sql": 168,
+            "status": 200,
+            "room": "LK-137f14e3-bff9-4dc9-ae4f-06de034d889f",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:14404/js/pwa-install.js?v=1727-split-cach",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:14404/preview/project-v-v3/project-v-firea"
+      ],
+      "missing": []
+    },
+    {
+      "device": "h5",
+      "phase": "before",
+      "members": 6,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": true,
+      "firstLaunchMs": 1061.300000011921,
+      "entryMs": [
+        3191,
+        1254
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 71.52085637443165,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 681,
+        "p95": 8.600000000000364,
+        "max": 58.20000000000073,
+        "over50": 1,
+        "falseDeath": 0,
+        "hpRises": 1
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 5.084399999999732,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-920cd85d-b54e-4a8f-94e8-a8bac9477a89",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 3.9861000000000786,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-920cd85d-b54e-4a8f-94e8-a8bac9477a89",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 34.25800000000072,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-920cd85d-b54e-4a8f-94e8-a8bac9477a89",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 20.932300000000396,
+            "sql": 199,
+            "status": 200,
+            "room": "LK-920cd85d-b54e-4a8f-94e8-a8bac9477a89",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:11229/preview/project-v-v3/project-v-firea"
+      ],
+      "missing": []
+    },
+    {
+      "device": "h5",
+      "phase": "after",
+      "members": 6,
+      "condition": "Windows headless Chrome/WebKit, real lobby/raid entry, isolated SQLite fixture and current/original server. Unthrottled localhost. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. No physical mobile or native Windows renderer.",
+      "baselineRuntimePrewarm": false,
+      "firstLaunchMs": 1123.800000011921,
+      "entryMs": [
+        3942,
+        1465
+      ],
+      "nearDeath": {
+        "hp": 57139,
+        "rendered": 0.6874685979968049,
+        "buttonEnabled": true
+      },
+      "frameSummary": {
+        "count": 652,
+        "p95": 12.5,
+        "max": 70.80000000000018,
+        "over50": 2,
+        "falseDeath": 0,
+        "hpRises": 0
+      },
+      "result": {
+        "status": "CLEAR",
+        "hp": 0,
+        "resultCount": 1,
+        "coins": 123
+      },
+      "requestsAfterExit": 0,
+      "exit": {
+        "controller": false,
+        "battle": {
+          "ready": false,
+          "pending": 0,
+          "atlases": [],
+          "prison": false,
+          "canvasCount": 0
+        }
+      },
+      "api": {
+        "firstStatus": {
+          "key": "raid/lich/status",
+          "ms": 5.197900000000118,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-e34aad75-8d82-4095-8ce8-b6dedd125ea6",
+          "roomStatus": "ACTIVE"
+        },
+        "repeatStatus": {
+          "key": "raid/lich/status",
+          "ms": 7.667999999999665,
+          "sql": 3,
+          "status": 200,
+          "room": "LK-e34aad75-8d82-4095-8ce8-b6dedd125ea6",
+          "roomStatus": "ACTIVE"
+        },
+        "attacks": [
+          {
+            "key": "raid/lich/action",
+            "ms": 35.636099999999715,
+            "sql": 8,
+            "status": 200,
+            "room": "LK-e34aad75-8d82-4095-8ce8-b6dedd125ea6",
+            "roomStatus": "ACTIVE"
+          },
+          {
+            "key": "raid/lich/action",
+            "ms": 18.485099999999875,
+            "sql": 199,
+            "status": 200,
+            "room": "LK-e34aad75-8d82-4095-8ce8-b6dedd125ea6",
+            "roomStatus": "CLEAR"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:2804/preview/project-v-v3/project-v-firear"
+      ],
+      "missing": []
+    }
+  ]
+}
