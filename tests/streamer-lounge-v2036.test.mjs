@@ -8,14 +8,15 @@ import { handleStreamerLounge } from '../functions/_streamer_lounge.js';
 import { portraitSourceUrl, portraitSize } from '../js/streamer-lounge-portraits-v1.js';
 import { CNINE_GROUPS } from '../js/cnine-roster-v1.js';
 
-test('the CNINE board removes Kkukka and preserves the remaining department members', () => {
+test('the CNINE board adds Sangeonyeo to StarCraft and preserves the remaining department members', () => {
   const star = CNINE_GROUPS.find(group => group.id === 'star').members;
   const female = CNINE_GROUPS.find(group => group.id === 'female').members;
-  assert.equal(star.length, 9);
+  assert.equal(star.length, 10);
   assert.equal(female.length, 10);
-  assert.deepEqual(star.slice(-2), [
+  assert.deepEqual(star.slice(-3), [
     { id: 'ouo20411', name: '히댕' },
-    { id: 'nerve89', name: '깨림이' }
+    { id: 'nerve89', name: '깨림이' },
+    { id: '595935', name: '상어녀' }
   ]);
   const ids = [...female, ...star].map(member => member.id);
   assert.equal(new Set(ids).size, ids.length);
@@ -108,7 +109,7 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
-  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261116-cnine-roster-v14"/);
+  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261117-cnine-roster-v15"/);
   assert.match(read('admin/index.html'),/streamer-lounge-admin-v2036\.js\?v=2036/);
   assert.match(api,/handleStreamerLounge\(\{path,request,env,deps:\{json,requirePermission,writeAdminLog\}\}\)/);
   assert.ok(api.indexOf('if(path.startsWith(\'admin/\'))') < api.indexOf('const streamerResponse='));

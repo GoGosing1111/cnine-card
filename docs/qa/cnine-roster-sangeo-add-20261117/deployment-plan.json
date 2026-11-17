@@ -1,0 +1,12 @@
+{
+  "base": "7c0585ee2f94ea08bf7df0c1665fdf8d5342f0b7",
+  "headBefore": "d41e7f3da0c649a1fbc3df9ad831a43fb6377c50",
+  "tests": [
+    "tests/streamer-lounge-v2036.test.mjs",
+    "tests/soop-watch-ranking-20261028.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "Add user-supplied Sangeonyeo / SOOP station 595935 at the end of the CNINE StarCraft department. Preserve existing member order, female department, station link behavior, lazy portraits and current shared watch roster derivation. Refresh web/H5/Windows cache delivery. Existing board and shared watch-ranking tests cover affected paths; 5 matched emulated entry/exit measurements verify counts, profile display and no background work. No account, economy, schema, authentication or gameplay changes."
+}
