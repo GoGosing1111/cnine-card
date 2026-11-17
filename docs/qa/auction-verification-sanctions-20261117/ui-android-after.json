@@ -1,0 +1,134 @@
+{
+  "at": "2026-11-17T01:57:07.024Z",
+  "device": "android",
+  "phase": "after",
+  "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+  "rounds": [
+    {
+      "entry": "first",
+      "clickToReadyMs": 139,
+      "frames": {
+        "count": 60,
+        "p95Ms": 37.5,
+        "maxMs": 45.6999999821187,
+        "over50": 0
+      },
+      "postExitAuctionRequests": []
+    },
+    {
+      "entry": "repeat",
+      "clickToReadyMs": 45,
+      "frames": {
+        "count": 93,
+        "p95Ms": 4.300000000000182,
+        "maxMs": 12.5,
+        "over50": 0
+      },
+      "postExitAuctionRequests": []
+    }
+  ],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/account-rank/status",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/shell/summary",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/auction/user/lobby",
+    "/api/loot-shop/balance",
+    "/api/server-support/status",
+    "/api/chief/status",
+    "/api/auction/user/state",
+    "/api/clan/war/ready-alert",
+    "/api/auction/user/bgm-events",
+    "/api/clan/faction/alerts",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state",
+    "/api/jokgak-city/notifications",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/clan/faction/alerts",
+    "/api/pvp/config",
+    "/api/magic/status",
+    "/api/loot-shop/balance",
+    "/api/messages",
+    "/api/secondary-verification/status",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/auction/user/bgm-events"
+  ],
+  "errors": [],
+  "firstLaunchToLobbyMs": 1304.5,
+  "blocked": {
+    "clickToPopupMs": 53,
+    "frames": {
+      "count": 7,
+      "p95Ms": 16.600000000000364,
+      "maxMs": 16.600000000000364,
+      "over50": 0
+    },
+    "duplicatePopups": 0,
+    "pollStopped": true,
+    "verificationLink": true,
+    "reentry": true,
+    "verifiedRecovery": true
+  },
+  "network": [
+    {
+      "path": "/css2",
+      "ms": 568,
+      "bytes": 1074140
+    },
+    {
+      "path": "/css2",
+      "ms": 377,
+      "bytes": 307735
+    },
+    {
+      "path": "/css2",
+      "ms": 168,
+      "bytes": 571738
+    },
+    {
+      "path": "/css2",
+      "ms": 95,
+      "bytes": 60373
+    },
+    {
+      "path": "/js/soopketmon-v21-rewards-presentation.js",
+      "ms": 82,
+      "bytes": 5377
+    },
+    {
+      "path": "/js/madara-raid-entry-v1.js",
+      "ms": 82,
+      "bytes": 4139
+    },
+    {
+      "path": "/js/blackwing-raid-entry-v1.js",
+      "ms": 82,
+      "bytes": 4166
+    }
+  ]
+}

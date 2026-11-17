@@ -1,0 +1,112 @@
+{
+  "receipt": {
+    "operationKey": "ops:auction-diim-cancel-hina-whisky-ban:20261117:v1",
+    "authorization": "현재 진행중인 디임펫 판매 중단 및 배낭위스키 히나 정지처리 (경매장 악용)",
+    "completedAt": "2026-11-17T01:50:29.962Z",
+    "lotId": "ae73844e-8d86-411b-9c5e-150c5393b191",
+    "pet": "PET-DIIM",
+    "sellerId": "4651",
+    "petBefore": 2,
+    "petAfter": 3,
+    "ticketReturned": 1,
+    "refunds": [
+      {
+        "id": "105838134",
+        "user_id": "4699",
+        "change_amount": "100000000000000",
+        "balance_after": "1114591493392694",
+        "reason": "경매 Uae73844e-8d86-411b-9c5e-150c5393b191 운영자 무효 전액 환불"
+      },
+      {
+        "id": "105838136",
+        "user_id": "6211",
+        "change_amount": "416000000000000",
+        "balance_after": "724156764039029",
+        "reason": "경매 Uae73844e-8d86-411b-9c5e-150c5393b191 운영자 무효 전액 환불"
+      }
+    ],
+    "refundTotal": "516000000000000",
+    "inventoryLogs": [
+      {
+        "id": "89923298",
+        "user_id": "4651",
+        "item_code": "AUCTION_HOST_TICKET",
+        "change_amount": "1"
+      }
+    ],
+    "bans": [
+      {
+        "id": "4699",
+        "nickname": "히나",
+        "role": "USER",
+        "status": "BANNED",
+        "banned_until": "9999-12-31 23:59:59",
+        "ban_reason": "경매장 악용",
+        "created_at": "2026-08-22 13:17:02",
+        "coin": "1114591493392694",
+        "card_shards": "270567184",
+        "magic_crystals": "1826"
+      },
+      {
+        "id": "6211",
+        "nickname": "배낭위스키",
+        "role": "USER",
+        "status": "BANNED",
+        "banned_until": "9999-12-31 23:59:59",
+        "ban_reason": "경매장 악용",
+        "created_at": "2026-11-12 10:23:12",
+        "coin": "724156764039029",
+        "card_shards": "2345583336",
+        "magic_crystals": "64686"
+      }
+    ],
+    "revokedSessions": 6,
+    "protectedBefore": "1b4e66d0ff6e7f2d0f41e9f6af7790358ffad776a2bdb2e588d15a2e6ac5679b",
+    "protectedAfter": "1b4e66d0ff6e7f2d0f41e9f6af7790358ffad776a2bdb2e588d15a2e6ac5679b",
+    "sync": [
+      {
+        "user_id": "4651",
+        "revision": "176615",
+        "domains": {
+          "pvp": "176017",
+          "wallet": "176612",
+          "loadout": "166248",
+          "messages": "174125",
+          "inventory": "176615",
+          "collection": "176614"
+        }
+      },
+      {
+        "user_id": "4699",
+        "revision": "68064",
+        "domains": {
+          "pvp": "13976",
+          "wallet": "68064",
+          "loadout": "67873",
+          "messages": "67869",
+          "inventory": "68061",
+          "collection": "68055"
+        }
+      },
+      {
+        "user_id": "6211",
+        "revision": "35584",
+        "domains": {
+          "pvp": "4",
+          "wallet": "35584",
+          "loadout": "35568",
+          "messages": "35559",
+          "inventory": "35576",
+          "collection": "35550"
+        }
+      }
+    ],
+    "messagesSent": 0,
+    "auditId": "62665"
+  },
+  "rollbackVerified": true,
+  "partialFailureVerified": true,
+  "noWriteReplay": true,
+  "applyMs": 3445,
+  "leasesReleased": true
+}

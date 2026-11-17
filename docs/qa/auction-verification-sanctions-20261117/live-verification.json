@@ -1,0 +1,71 @@
+{
+  "at": "2026-11-17T02:12:34.406Z",
+  "sourceCommit": "23d9f495d6e6c25e52508421f253994fafd6d64e",
+  "pages": {
+    "id": "222151ce-e43c-448b-aba4-e0e6421d1d0f",
+    "commit": "23d9f495d6e6c25e52508421f253994fafd6d64e",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "cc9826fd-cbed-48d4-8069-3934226ca456",
+      "percentage": 100,
+      "gate": true,
+      "sha256": "b27a28c218da3170d2787f6f8abc469a63b1f5a7e6cad71f7837f1622462c9b1"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "116a9b9d-0165-4b96-8097-1161c6c90c07",
+      "percentage": 100,
+      "gate": false,
+      "sha256": "fe0af37d36fb35f6be160ea4917b0ec7ca869aced58b57f7148d4c50c649e914"
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "7c4d6e6a048e07cd40bd41ce9d64cdd4b44119a68dd5446ae350eadb626e6f4a"
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "11d509b5e5c39ada3d8bbaae6fea440f7c58e05ff87cc786e27e3cf56db1b071"
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "097ee37212167d4e850608ed52f555b17f5fdc3f1255bfc614fa6862da405581"
+    },
+    {
+      "path": "js/auction-user-entry.js",
+      "sha256": "4376717e9a457c579f1c4fe95a2b75a3840b94bd3518377162cb3fda46868d68"
+    },
+    {
+      "path": "js/auction-user-live.mjs",
+      "sha256": "cd81beefe858e4bda1a2e0d0a6171eef316ca42b80c47cc46034bb91417876dc"
+    },
+    {
+      "path": "js/auction-user-v1.mjs",
+      "sha256": "4037a631ce200ce99becd4acdf6ca81ebffe69cc2ecc9a6c9a24c2bc0138c76e"
+    }
+  ],
+  "paths": [
+    {
+      "path": "auction/user/state",
+      "unauthenticated": 401
+    },
+    {
+      "path": "auction/state",
+      "unauthenticated": 401
+    }
+  ],
+  "tests": 65,
+  "windowsManifest": {
+    "verified": true,
+    "files": [
+      "js/app.js",
+      "js/auction-user-entry.js",
+      "js/auction-user-live.mjs",
+      "js/auction-user-v1.mjs"
+    ]
+  }
+}

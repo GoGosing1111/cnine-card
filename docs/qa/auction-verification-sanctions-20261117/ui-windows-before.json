@@ -1,0 +1,107 @@
+{
+  "at": "2026-11-17T01:59:38.221Z",
+  "device": "windows",
+  "phase": "before",
+  "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+  "rounds": [
+    {
+      "entry": "first",
+      "clickToReadyMs": 134,
+      "frames": {
+        "count": 58,
+        "p95Ms": 20.799999999999955,
+        "maxMs": 37.5,
+        "over50": 0
+      },
+      "postExitAuctionRequests": []
+    },
+    {
+      "entry": "repeat",
+      "clickToReadyMs": 46,
+      "frames": {
+        "count": 88,
+        "p95Ms": 4.300000000000182,
+        "maxMs": 16.59999999999991,
+        "over50": 0
+      },
+      "postExitAuctionRequests": []
+    }
+  ],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/account-rank/status",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/shell/summary",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/auction/user/lobby",
+    "/api/auction/user/notice",
+    "/api/server-support/status",
+    "/api/chief/status",
+    "/api/auction/user/state",
+    "/api/clan/war/ready-alert",
+    "/api/auction/user/bgm-events",
+    "/api/clan/faction/alerts",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state",
+    "/api/jokgak-city/notifications",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state"
+  ],
+  "errors": [],
+  "firstLaunchToLobbyMs": 1130.2000000178814,
+  "network": [
+    {
+      "path": "/css2",
+      "ms": 397,
+      "bytes": 1074140
+    },
+    {
+      "path": "/css2",
+      "ms": 362,
+      "bytes": 289873
+    },
+    {
+      "path": "/css2",
+      "ms": 195,
+      "bytes": 571738
+    },
+    {
+      "path": "/js/soopketmon-v21-login-shop-adapter.js",
+      "ms": 102,
+      "bytes": 22024
+    },
+    {
+      "path": "/js/soopketmon-v21-draw-purchase-controller.js",
+      "ms": 102,
+      "bytes": 55513
+    },
+    {
+      "path": "/js/soopketmon-v21-rewards-presentation.js",
+      "ms": 102,
+      "bytes": 5377
+    },
+    {
+      "path": "/js/blackwing-raid-entry-v1.js",
+      "ms": 102,
+      "bytes": 4166
+    }
+  ]
+}

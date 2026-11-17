@@ -1,0 +1,63 @@
+{
+  "operationKey": "ops:hina-whisky:unban:20261117:v1",
+  "authorization": "배낭위스키 히나 계정 정지 풀어",
+  "completedAt": "2026-11-17T02:01:56.410Z",
+  "before": [
+    {
+      "id": "4699",
+      "nickname": "히나",
+      "role": "USER",
+      "status": "BANNED",
+      "banned_until": "9999-12-31 23:59:59",
+      "ban_reason": "경매장 악용",
+      "coin": "1114591493392694",
+      "card_shards": "270567184",
+      "magic_crystals": "1826"
+    },
+    {
+      "id": "6211",
+      "nickname": "배낭위스키",
+      "role": "USER",
+      "status": "BANNED",
+      "banned_until": "9999-12-31 23:59:59",
+      "ban_reason": "경매장 악용",
+      "coin": "724156764039029",
+      "card_shards": "2345583336",
+      "magic_crystals": "64686"
+    }
+  ],
+  "after": [
+    {
+      "id": "4699",
+      "nickname": "히나",
+      "role": "USER",
+      "status": "ACTIVE",
+      "banned_until": null,
+      "ban_reason": null,
+      "coin": "1114591493392694",
+      "card_shards": "270567184",
+      "magic_crystals": "1826"
+    },
+    {
+      "id": "6211",
+      "nickname": "배낭위스키",
+      "role": "USER",
+      "status": "ACTIVE",
+      "banned_until": null,
+      "ban_reason": null,
+      "coin": "724156764039029",
+      "card_shards": "2345583336",
+      "magic_crystals": "64686"
+    }
+  ],
+  "restoredSessions": 0,
+  "messagesSent": 0,
+  "rollbackVerified": true,
+  "auditIds": [
+    "62672",
+    "62673"
+  ],
+  "independentReadOnlyVerified": true,
+  "noWriteReplay": true,
+  "locksReleased": true
+}

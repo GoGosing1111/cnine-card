@@ -1,0 +1,112 @@
+{
+  "at": "2026-11-17T01:58:03.966Z",
+  "device": "ios",
+  "phase": "before",
+  "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+  "rounds": [
+    {
+      "entry": "first",
+      "clickToReadyMs": 390,
+      "frames": {
+        "count": 32,
+        "p95Ms": 66,
+        "maxMs": 156,
+        "over50": 2
+      },
+      "postExitAuctionRequests": []
+    },
+    {
+      "entry": "repeat",
+      "clickToReadyMs": 265,
+      "frames": {
+        "count": 41,
+        "p95Ms": 40,
+        "maxMs": 46,
+        "over50": 0
+      },
+      "postExitAuctionRequests": []
+    }
+  ],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/shell/summary",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/loot-shop/balance",
+    "/api/auction/user/lobby",
+    "/api/auction/user/notice",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/clan/war/ready-alert",
+    "/api/auction/user/bgm-events",
+    "/api/clan/faction/alerts",
+    "/api/jokgak-city/notifications",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state",
+    "/api/auction/user/lobby",
+    "/api/auction/user/notice",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state",
+    "/api/auction/user/lobby",
+    "/api/auction/user/notice"
+  ],
+  "errors": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
+  "firstLaunchToLobbyMs": 1371,
+  "network": [
+    {
+      "path": "/css2",
+      "ms": 429,
+      "bytes": 0
+    },
+    {
+      "path": "/css2",
+      "ms": 313,
+      "bytes": 0
+    },
+    {
+      "path": "/css2",
+      "ms": 165,
+      "bytes": 0
+    },
+    {
+      "path": "/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+      "ms": 88,
+      "bytes": 0
+    },
+    {
+      "path": "/css/icon-fusion-v1.css",
+      "ms": 55,
+      "bytes": 24188
+    },
+    {
+      "path": "/js/adventure-lobby-v2107.js",
+      "ms": 54,
+      "bytes": 1231185
+    },
+    {
+      "path": "/js/icon-fusion-v1.bundle.js",
+      "ms": 53,
+      "bytes": 58045
+    }
+  ]
+}

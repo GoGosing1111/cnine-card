@@ -1,0 +1,179 @@
+{
+  "at": "2026-11-17T01:55:29.551Z",
+  "condition": "Windows CLI, exact production DB and auction lobby handler using injected identity (no session or browser measurement); first/repeat on same warm connection, network included, single comparison. SQL primary keys avoid scans; one added authorization lookup. No account writes.",
+  "records": [
+    {
+      "phase": "before",
+      "entry": "first",
+      "ms": 85.25,
+      "sql": [
+        {
+          "ms": 82.4,
+          "sql": "SELECT c.version AS clock_version,a.* FROM auction_user_clock_v1 c LEFT JOIN auction_user_lots_v1 a ON a.status='ACTIVE' WHERE c.id=1"
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "entry": "repeat",
+      "ms": 82.03,
+      "sql": [
+        {
+          "ms": 81.26,
+          "sql": "SELECT c.version AS clock_version,a.* FROM auction_user_clock_v1 c LEFT JOIN auction_user_lots_v1 a ON a.status='ACTIVE' WHERE c.id=1"
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "entry": "first",
+      "ms": 166.07,
+      "sql": [
+        {
+          "ms": 81.37,
+          "sql": "SELECT u.status,u.banned_until,\n  EXISTS(SELECT 1 FROM user_second_verifications v WHERE v.user_id=u.id) AS verified\n  FROM users u WHERE u.id=$1"
+        },
+        {
+          "ms": 80.84,
+          "sql": "SELECT c.version AS clock_version,a.* FROM auction_user_clock_v1 c LEFT JOIN auction_user_lots_v1 a ON a.status='ACTIVE' WHERE c.id=1"
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "entry": "repeat",
+      "ms": 162.47,
+      "sql": [
+        {
+          "ms": 80.78,
+          "sql": "SELECT u.status,u.banned_until,\n  EXISTS(SELECT 1 FROM user_second_verifications v WHERE v.user_id=u.id) AS verified\n  FROM users u WHERE u.id=$1"
+        },
+        {
+          "ms": 80.73,
+          "sql": "SELECT c.version AS clock_version,a.* FROM auction_user_clock_v1 c LEFT JOIN auction_user_lots_v1 a ON a.status='ACTIVE' WHERE c.id=1"
+        }
+      ]
+    }
+  ],
+  "denied": [
+    {
+      "userId": 1,
+      "code": "AUCTION_SECOND_VERIFICATION_REQUIRED",
+      "status": 403,
+      "ms": 81.58,
+      "sql": 1
+    },
+    {
+      "userId": 4699,
+      "code": "AUCTION_ACCOUNT",
+      "status": 403,
+      "ms": 81.25,
+      "sql": 1
+    },
+    {
+      "userId": 6211,
+      "code": "AUCTION_ACCOUNT",
+      "status": 403,
+      "ms": 81.19,
+      "sql": 1
+    }
+  ],
+  "plan": [
+    {
+      "Plan": {
+        "Node Type": "Index Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "users_pkey",
+        "Relation Name": "users",
+        "Alias": "u",
+        "Startup Cost": 0.28,
+        "Total Cost": 12.59,
+        "Plan Rows": 1,
+        "Plan Width": 28,
+        "Actual Startup Time": 0.036,
+        "Actual Total Time": 0.037,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "(id = '2'::bigint)",
+        "Rows Removed by Index Recheck": 0,
+        "Shared Hit Blocks": 8,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Index Only Scan",
+            "Parent Relationship": "SubPlan",
+            "Subplan Name": "SubPlan 1",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Scan Direction": "Forward",
+            "Index Name": "user_second_verifications_pkey",
+            "Relation Name": "user_second_verifications",
+            "Alias": "v",
+            "Startup Cost": 0.27,
+            "Total Cost": 4.29,
+            "Plan Rows": 1,
+            "Plan Width": 0,
+            "Actual Startup Time": 0.017,
+            "Actual Total Time": 0.017,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Index Cond": "(user_id = u.id)",
+            "Rows Removed by Index Recheck": 0,
+            "Heap Fetches": 1,
+            "Shared Hit Blocks": 5,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        ]
+      },
+      "Planning": {
+        "Shared Hit Blocks": 0,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.078,
+      "Triggers": [],
+      "Execution Time": 0.055
+    }
+  ],
+  "reconciliation": [
+    {
+      "userId": "4699",
+      "total": "1114591493392694",
+      "subsequentDelta": "0",
+      "reservationReleased": true,
+      "restricted": "0"
+    },
+    {
+      "userId": "6211",
+      "total": "724156764039029",
+      "subsequentDelta": "0",
+      "reservationReleased": true,
+      "restricted": "0"
+    }
+  ]
+}

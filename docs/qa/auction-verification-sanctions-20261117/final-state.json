@@ -1,0 +1,29 @@
+{
+  "at": "2026-11-17T02:13:06.044Z",
+  "independentReadOnly": true,
+  "users": [
+    {
+      "id": "4699",
+      "nickname": "히나",
+      "status": "ACTIVE",
+      "banned_until": null,
+      "ban_reason": null,
+      "verified": true
+    },
+    {
+      "id": "6211",
+      "nickname": "배낭위스키",
+      "status": "ACTIVE",
+      "banned_until": null,
+      "ban_reason": null,
+      "verified": true
+    }
+  ],
+  "auctionAccessAfterUnban": true,
+  "lot": {
+    "id": "ae73844e-8d86-411b-9c5e-150c5393b191",
+    "status": "CANCELLED",
+    "winner_id": null,
+    "winning_bid": "0"
+  }
+}

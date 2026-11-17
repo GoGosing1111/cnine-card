@@ -1,0 +1,41 @@
+{
+  "base": "1efc59976e43e65e1cf3027de64bc19e186572df",
+  "production": {
+    "pages": {
+      "id": "a8e1c944-0ce2-4ec5-a7fe-b7a0e1a949fc",
+      "commit": "1efc59976e43e65e1cf3027de64bc19e186572df",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "0fe570af-8071-4c84-be6a-a4c1a8687176",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "d5380ef6-f2bb-43a1-9cbe-5977f5b6ea04",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/auction-second-verification-20261117.test.mjs",
+    "tests/auction-live-20261103.test.mjs",
+    "tests/auction-user-20261103.test.mjs",
+    "tests/auction-bgm-large-bids-20260926.test.mjs",
+    "tests/auction-duration-limit-20261110.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "Localized existing second-verification entitlement check on user and legacy auction routes, with access-denied popup and teardown. No common authentication, session foundation, database schema, transaction engine, dependencies or game balance changes. Test direct API denial, verified auctions, stale account status, atomic bids/refunds, legacy routing, duration and listing limits; operator cancellation and two requested suspensions are separately audited data operations."
+}

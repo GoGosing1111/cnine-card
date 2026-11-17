@@ -1,0 +1,497 @@
+{
+  "status": "COMPLETE",
+  "at": "2026-11-17T02:13:06.252Z",
+  "sourceCommit": "23d9f495d6e6c25e52508421f253994fafd6d64e",
+  "pages": {
+    "id": "222151ce-e43c-448b-aba4-e0e6421d1d0f",
+    "commit": "23d9f495d6e6c25e52508421f253994fafd6d64e",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "cc9826fd-cbed-48d4-8069-3934226ca456",
+      "percentage": 100,
+      "gate": true,
+      "sha256": "b27a28c218da3170d2787f6f8abc469a63b1f5a7e6cad71f7837f1622462c9b1"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "116a9b9d-0165-4b96-8097-1161c6c90c07",
+      "percentage": 100,
+      "gate": false,
+      "sha256": "fe0af37d36fb35f6be160ea4917b0ec7ca869aced58b57f7148d4c50c649e914"
+    }
+  ],
+  "tests": 65,
+  "currentAccountStatus": [
+    {
+      "id": "4699",
+      "nickname": "히나",
+      "status": "ACTIVE",
+      "banned_until": null,
+      "ban_reason": null,
+      "verified": true
+    },
+    {
+      "id": "6211",
+      "nickname": "배낭위스키",
+      "status": "ACTIVE",
+      "banned_until": null,
+      "ban_reason": null,
+      "verified": true
+    }
+  ],
+  "latestInstruction": "배낭위스키 히나 계정 정지 풀어",
+  "unban": {
+    "operationKey": "ops:hina-whisky:unban:20261117:v1",
+    "at": "2026-11-17T02:01:56.410Z",
+    "auditIds": [
+      "62672",
+      "62673"
+    ],
+    "readOnlyVerified": true,
+    "noWriteReplay": true,
+    "sessionsRestored": 0
+  },
+  "cancellation": {
+    "operationKey": "ops:auction-diim-cancel-hina-whisky-ban:20261117:v1",
+    "at": "2026-11-17T01:50:29.962Z",
+    "auditId": "62665",
+    "lotId": "ae73844e-8d86-411b-9c5e-150c5393b191",
+    "pet": "디임 (PET-DIIM)",
+    "seller": "세라네꼬라지",
+    "petReturned": 1,
+    "ticketReturned": 1,
+    "totalRefund": "516000000000000",
+    "refunds": [
+      {
+        "userId": "4699",
+        "amount": "100000000000000",
+        "logId": "105838134"
+      },
+      {
+        "userId": "6211",
+        "amount": "416000000000000",
+        "logId": "105838136"
+      }
+    ],
+    "settlement": "CANCELLED",
+    "newOwner": null
+  },
+  "access": {
+    "secondVerificationRequired": true,
+    "publicReadsAndMutations": true,
+    "legacyRoutes": true,
+    "serverCheckEveryRequest": true,
+    "clientDialog": true,
+    "verificationLink": "messages / 2차 인증",
+    "blockedViewPollingStopped": true,
+    "afterUnbanBothVerifiedAccountsAllowed": true
+  },
+  "safeguards": {
+    "partialFailureAndFullRehearsalRollback": true,
+    "replayNoExtraWrites": true,
+    "remoteAndDatabaseLocksReleased": true,
+    "otherHoldingsPreserved": true,
+    "packageCoinReservationsReleased": true,
+    "messagesSent": 0,
+    "wholePetCatalogDisabled": false
+  },
+  "performance": {
+    "condition": "Windows CLI, exact production DB and auction lobby handler using injected identity (no session or browser measurement); first/repeat on same warm connection, network included, single comparison. SQL primary keys avoid scans; one added authorization lookup. No account writes.",
+    "server": [
+      {
+        "phase": "before",
+        "entry": "first",
+        "ms": 85.25,
+        "queries": 1
+      },
+      {
+        "phase": "before",
+        "entry": "repeat",
+        "ms": 82.03,
+        "queries": 1
+      },
+      {
+        "phase": "after",
+        "entry": "first",
+        "ms": 166.07,
+        "queries": 2
+      },
+      {
+        "phase": "after",
+        "entry": "repeat",
+        "ms": 162.47,
+        "queries": 2
+      }
+    ],
+    "gateSqlExecutionMs": 0.055,
+    "bottleneck": "Production CLI query time dominated by network round-trip (~80ms); gate uses users and second verification primary keys. Verified lobby adds one fresh authorization query; denied requests stop after that query. No cache that could outlive a ban or verification removal.",
+    "client": [
+      {
+        "device": "pc",
+        "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+        "launchBeforeMs": 1225.4000000059605,
+        "launchAfterMs": 1169.199999988079,
+        "before": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 100,
+            "frames": {
+              "count": 89,
+              "p95Ms": 12.5,
+              "maxMs": 33.40000000000009,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 43,
+            "frames": {
+              "count": 90,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 12.599999999999909,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "after": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 117,
+            "frames": {
+              "count": 64,
+              "p95Ms": 20.100000023841858,
+              "maxMs": 41.59999999999991,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 45,
+            "frames": {
+              "count": 90,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 12.400000000000091,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "blocked": {
+          "clickToPopupMs": 50,
+          "frames": {
+            "count": 10,
+            "p95Ms": 16.5,
+            "maxMs": 16.5,
+            "over50": 0
+          },
+          "duplicatePopups": 0,
+          "pollStopped": true,
+          "verificationLink": true,
+          "reentry": true,
+          "verifiedRecovery": true
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      },
+      {
+        "device": "android",
+        "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+        "launchBeforeMs": 1157.800000011921,
+        "launchAfterMs": 1304.5,
+        "before": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 162,
+            "frames": {
+              "count": 62,
+              "p95Ms": 25,
+              "maxMs": 65.60000000596051,
+              "over50": 1
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 45,
+            "frames": {
+              "count": 89,
+              "p95Ms": 4.299999999999727,
+              "maxMs": 12.5,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "after": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 139,
+            "frames": {
+              "count": 60,
+              "p95Ms": 37.5,
+              "maxMs": 45.6999999821187,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 45,
+            "frames": {
+              "count": 93,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 12.5,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "blocked": {
+          "clickToPopupMs": 53,
+          "frames": {
+            "count": 7,
+            "p95Ms": 16.600000000000364,
+            "maxMs": 16.600000000000364,
+            "over50": 0
+          },
+          "duplicatePopups": 0,
+          "pollStopped": true,
+          "verificationLink": true,
+          "reentry": true,
+          "verifiedRecovery": true
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      },
+      {
+        "device": "ios",
+        "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+        "launchBeforeMs": 1371,
+        "launchAfterMs": 822,
+        "before": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 390,
+            "frames": {
+              "count": 32,
+              "p95Ms": 66,
+              "maxMs": 156,
+              "over50": 2
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 265,
+            "frames": {
+              "count": 41,
+              "p95Ms": 40,
+              "maxMs": 46,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "after": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 342,
+            "frames": {
+              "count": 33,
+              "p95Ms": 62,
+              "maxMs": 122,
+              "over50": 2
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 234,
+            "frames": {
+              "count": 41,
+              "p95Ms": 39,
+              "maxMs": 58,
+              "over50": 1
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "blocked": {
+          "clickToPopupMs": 247,
+          "frames": {
+            "count": 9,
+            "p95Ms": 42,
+            "maxMs": 42,
+            "over50": 0
+          },
+          "duplicatePopups": 0,
+          "pollStopped": true,
+          "verificationLink": true,
+          "reentry": true,
+          "verifiedRecovery": true
+        },
+        "errorsBefore": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "errorsAfter": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "device": "windows",
+        "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+        "launchBeforeMs": 1130.2000000178814,
+        "launchAfterMs": 1165.5,
+        "before": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 134,
+            "frames": {
+              "count": 58,
+              "p95Ms": 20.799999999999955,
+              "maxMs": 37.5,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 46,
+            "frames": {
+              "count": 88,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 16.59999999999991,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "after": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 124,
+            "frames": {
+              "count": 60,
+              "p95Ms": 29.200000000000045,
+              "maxMs": 33.40000001788144,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 50,
+            "frames": {
+              "count": 91,
+              "p95Ms": 8.300000000000182,
+              "maxMs": 16.600000000000364,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "blocked": {
+          "clickToPopupMs": 62,
+          "frames": {
+            "count": 10,
+            "p95Ms": 20.799999999999727,
+            "maxMs": 20.799999999999727,
+            "over50": 0
+          },
+          "duplicatePopups": 0,
+          "pollStopped": true,
+          "verificationLink": true,
+          "reentry": true,
+          "verifiedRecovery": true
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      },
+      {
+        "device": "h5",
+        "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+        "launchBeforeMs": 1352.800000011921,
+        "launchAfterMs": 1164.199999988079,
+        "before": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 254,
+            "frames": {
+              "count": 90,
+              "p95Ms": 16.799999999999727,
+              "maxMs": 96.10000000596051,
+              "over50": 1
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 55,
+            "frames": {
+              "count": 99,
+              "p95Ms": 8.299999999999727,
+              "maxMs": 12.5,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "after": [
+          {
+            "entry": "first",
+            "clickToReadyMs": 171,
+            "frames": {
+              "count": 66,
+              "p95Ms": 25,
+              "maxMs": 52.00000001788135,
+              "over50": 1
+            },
+            "postExitAuctionRequests": []
+          },
+          {
+            "entry": "repeat",
+            "clickToReadyMs": 51,
+            "frames": {
+              "count": 95,
+              "p95Ms": 8.400000000000091,
+              "maxMs": 12.599999999999909,
+              "over50": 0
+            },
+            "postExitAuctionRequests": []
+          }
+        ],
+        "blocked": {
+          "clickToPopupMs": 49,
+          "frames": {
+            "count": 9,
+            "p95Ms": 12.5,
+            "maxMs": 12.5,
+            "over50": 0
+          },
+          "duplicatePopups": 0,
+          "pollStopped": true,
+          "verificationLink": true,
+          "reentry": true,
+          "verifiedRecovery": true
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      }
+    ],
+    "limits": "Single samples, localhost and headless emulation. No physical mobile or installed Windows renderer measurements. Existing WebKit ResizeObserver warning and long frames recorded. H5 host viewport fixture corrected before final paired runs."
+  },
+  "releasePreparation": {
+    "sparseDependenciesRestored": [
+      "preview/zero-awakening-20261115/source/ZeroAwakening.js",
+      "preview/mercenary-cyan-knight-battle-20261020-v1/source/KnightAssetPlan.mjs"
+    ],
+    "shellCacheTagAligned": true,
+    "unbanVerification": "First in-connection stats included lock-release writes after the committed unban. A fresh independent READ ONLY replay confirmed both ACTIVE accounts and zero further writes."
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "at": "2026-11-17T01:58:55.958Z",
+  "device": "ios",
+  "phase": "after",
+  "condition": "Windows headless installed Chrome/WebKit, actual shell routes with isolated fixture API handlers. Mobile viewport/touch emulation, Windows launcher URL and H5 iframe with mock host SDK. Unthrottled localhost. No physical mobile device or installed native renderer.",
+  "rounds": [
+    {
+      "entry": "first",
+      "clickToReadyMs": 342,
+      "frames": {
+        "count": 33,
+        "p95Ms": 62,
+        "maxMs": 122,
+        "over50": 2
+      },
+      "postExitAuctionRequests": []
+    },
+    {
+      "entry": "repeat",
+      "clickToReadyMs": 234,
+      "frames": {
+        "count": 41,
+        "p95Ms": 39,
+        "maxMs": 58,
+        "over50": 1
+      },
+      "postExitAuctionRequests": []
+    }
+  ],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/account-rank/status",
+    "/api/auction/user/lobby",
+    "/api/loot-shop/balance",
+    "/api/shell/summary",
+    "/api/loot-shop/balance",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/chief/status",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/clan/war/ready-alert",
+    "/api/auction/user/bgm-events",
+    "/api/clan/faction/alerts",
+    "/api/jokgak-city/notifications",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/bid",
+    "/api/auction/user/bgm-events",
+    "/api/auction/user/state",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/clan/faction/alerts",
+    "/api/pvp/config",
+    "/api/magic/status",
+    "/api/loot-shop/balance",
+    "/api/messages",
+    "/api/me/menu-favorites",
+    "/api/secondary-verification/status",
+    "/api/auction/user/lobby",
+    "/api/live-operations",
+    "/api/server-support/status",
+    "/api/auction/user/state",
+    "/api/server-support/status",
+    "/api/clan/faction/alerts",
+    "/api/auction/user/state",
+    "/api/auction/user/bgm-events"
+  ],
+  "errors": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
+  "firstLaunchToLobbyMs": 822,
+  "blocked": {
+    "clickToPopupMs": 247,
+    "frames": {
+      "count": 9,
+      "p95Ms": 42,
+      "maxMs": 42,
+      "over50": 0
+    },
+    "duplicatePopups": 0,
+    "pollStopped": true,
+    "verificationLink": true,
+    "reentry": true,
+    "verifiedRecovery": true
+  },
+  "network": [
+    {
+      "path": "/css2",
+      "ms": 420,
+      "bytes": 0
+    },
+    {
+      "path": "/css2",
+      "ms": 410,
+      "bytes": 0
+    },
+    {
+      "path": "/css2",
+      "ms": 241,
+      "bytes": 0
+    },
+    {
+      "path": "/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css",
+      "ms": 54,
+      "bytes": 0
+    },
+    {
+      "path": "/js/adventure-lobby-v2107.js",
+      "ms": 40,
+      "bytes": 1231185
+    },
+    {
+      "path": "/js/soopketmon-v21-runtime-router.js",
+      "ms": 38,
+      "bytes": 17081
+    },
+    {
+      "path": "/js/mercenary-pack-live.mjs",
+      "ms": 38,
+      "bytes": 25993
+    }
+  ]
+}
