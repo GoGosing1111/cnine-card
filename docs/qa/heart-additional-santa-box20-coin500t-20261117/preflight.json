@@ -1,0 +1,45 @@
+{
+  "user": {
+    "id": "4608",
+    "nickname": "하트!",
+    "status": "ACTIVE",
+    "coin": "3485924296299802"
+  },
+  "owned": [
+    {
+      "user_id": "4608",
+      "avatar_code": "SANTA_JOEUN",
+      "source_type": "ADMIN_GRANT",
+      "source_ref": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+      "acquired_at": "2026-11-17T12:20:43.532Z",
+      "expires_at": null
+    }
+  ],
+  "inventory": [
+    {
+      "quantity": "20",
+      "unseen_quantity": "20"
+    }
+  ],
+  "constraint": [
+    {
+      "definition": "PRIMARY KEY (user_id, avatar_code)"
+    }
+  ],
+  "previousGrant": {
+    "userId": "4608",
+    "nickname": "하트!",
+    "requestedNickname": "하트!",
+    "avatarBefore": null,
+    "avatarOutcome": "NEW",
+    "coinBefore": "2365736185795029",
+    "coinAfter": "2865736185795029",
+    "coinAmount": "500000000000000",
+    "boxBefore": "0",
+    "boxAfter": "20",
+    "unseenBefore": "0",
+    "unseenAfter": "20",
+    "coinLogId": "106031507",
+    "boxLogId": "89953351"
+  }
+}

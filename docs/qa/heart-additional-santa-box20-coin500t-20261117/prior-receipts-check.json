@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-17T13:01:51.447Z",
+  "userId": "4608",
+  "nickname": "하트!",
+  "original": {
+    "completedAtKST": "2026-11-17 21:20:43",
+    "auditId": "63113",
+    "avatarPermanent": true,
+    "coinAmount": "500000000000000",
+    "coinLogId": "106031507",
+    "boxesGranted": 20,
+    "boxLogId": "89953351"
+  },
+  "currentBoxes": "20",
+  "funding": {
+    "completedAtKST": "2026-11-17 21:54:36",
+    "amount": "600000000000000",
+    "auditId": "63180"
+  },
+  "additionalApplied": false,
+  "readOnly": true
+}

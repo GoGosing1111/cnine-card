@@ -1,0 +1,75 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:heart:additional-santa-box20-coin500t:20261117:v1",
+    "planHash": "4ff52a4b978e79d2eef50c6c725223ddad66b55ebeba3cc60a68b0ef5e8c2f49",
+    "completedAt": "2026-11-17T13:03:44.030Z",
+    "completedAtKST": "2026-11-17 22:03:44",
+    "recipientCount": 1,
+    "avatar": {
+      "code": "SANTA_JOEUN",
+      "name": "산타걸 오조은",
+      "permanent": true,
+      "definitionHash": "ba1391205dca5589bb142216108bf125376d04e607f66b8e9a4d65dfc551c8ee"
+    },
+    "avatarsGranted": 0,
+    "alreadyOwned": 1,
+    "boxQuantity": 20,
+    "totalBoxes": 20,
+    "coinQuantity": "500000000000000",
+    "totalCoins": "500000000000000",
+    "grants": [
+      {
+        "userId": "4608",
+        "nickname": "하트!",
+        "requestedNickname": "하트!",
+        "avatarBefore": {
+          "user_id": "4608",
+          "expires_at": null,
+          "source_ref": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+          "acquired_at": "2026-11-17T12:20:43.532Z",
+          "avatar_code": "SANTA_JOEUN",
+          "source_type": "ADMIN_GRANT"
+        },
+        "avatarOutcome": "ALREADY_OWNED",
+        "coinBefore": "3485924296299802",
+        "coinAfter": "3985924296299802",
+        "coinAmount": "500000000000000",
+        "boxBefore": "20",
+        "boxAfter": "40",
+        "unseenBefore": "20",
+        "unseenAfter": "40",
+        "coinLogId": "106062135",
+        "boxLogId": "89964101"
+      }
+    ],
+    "protectedBeforeHash": "91f05981bfde90cb50a30c26f2cc22a3edf76fb7e37653084c2848e67f7b9b41",
+    "protectedAfterHash": "91f05981bfde90cb50a30c26f2cc22a3edf76fb7e37653084c2848e67f7b9b41",
+    "messagesSent": 0,
+    "automaticallyEquipped": 0,
+    "boxesOpened": 0,
+    "syncVerified": true,
+    "auditId": "63190"
+  },
+  "check": {
+    "recipients": 1,
+    "permanentAvatars": 1,
+    "avatarGranted": 0,
+    "alreadyOwned": 1,
+    "boxLogs": 1,
+    "coinLogs": 1,
+    "perAccountReceipts": 1,
+    "totalBoxes": 20,
+    "totalCoins": "500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfterGrant": []
+  },
+  "grantVerifyMs": 3107,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "otherTablesWrites": 0,
+  "leasesReleased": true,
+  "queries": 157
+}

@@ -1,0 +1,41 @@
+{
+  "operationKey": "ops:heart:additional-santa-box20-coin500t:20261117:v1",
+  "authorization": "하트! 조은 산타걸 아바타 영구 1개·씨나인 스트리머 박스 20개·코인 500조 추가지급",
+  "preparedAt": "2026-11-17T12:59:55.413Z",
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "userId": "4608",
+      "nickname": "하트!",
+      "requestedNickname": "하트!",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "17aada0a954578a38eb9c5d99dc111f1cb24e0d230896dca7cff119f5b31bdbe"
+    }
+  ],
+  "avatar": {
+    "code": "SANTA_JOEUN",
+    "name": "산타걸 오조은",
+    "permanent": true,
+    "definitionHash": "ba1391205dca5589bb142216108bf125376d04e607f66b8e9a4d65dfc551c8ee"
+  },
+  "avatarOwnershipPolicy": "Canonical permanent entitlement: a previously owned permanent avatar is preserved; no duplicate stack exists.",
+  "box": {
+    "code": "CNINE_STREAMER_BOX",
+    "name": "씨나인 스트리머 박스",
+    "active": 1
+  },
+  "boxQuantity": 20,
+  "coinQuantity": "500000000000000",
+  "totalBoxes": 20,
+  "totalCoins": "500000000000000",
+  "floors": {
+    "coins": "106059748",
+    "inventory": "89963548",
+    "audit": "63184"
+  },
+  "messages": false,
+  "autoEquip": false,
+  "originalOperation": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+  "originalReceiptHash": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a"
+}

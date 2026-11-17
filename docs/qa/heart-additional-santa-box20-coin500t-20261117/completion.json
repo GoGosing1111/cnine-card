@@ -1,0 +1,154 @@
+{
+  "operationKey": "ops:heart:additional-santa-box20-coin500t:20261117:v1",
+  "completedAtKST": "2026-11-17 22:03:44",
+  "auditId": "63190",
+  "userId": "4608",
+  "nickname": "하트!",
+  "priorRewardVerified": {
+    "checkedAt": "2026-11-17T13:01:51.447Z",
+    "userId": "4608",
+    "nickname": "하트!",
+    "original": {
+      "completedAtKST": "2026-11-17 21:20:43",
+      "auditId": "63113",
+      "avatarPermanent": true,
+      "coinAmount": "500000000000000",
+      "coinLogId": "106031507",
+      "boxesGranted": 20,
+      "boxLogId": "89953351"
+    },
+    "currentBoxes": "20",
+    "funding": {
+      "completedAtKST": "2026-11-17 21:54:36",
+      "amount": "600000000000000",
+      "auditId": "63180"
+    },
+    "additionalApplied": false,
+    "readOnly": true
+  },
+  "originalReceiptPreserved": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a",
+  "additional": {
+    "newAvatars": 0,
+    "avatarPermanentEntitlementPreserved": true,
+    "avatarStackingSupported": false,
+    "boxes": 20,
+    "boxesBefore": "20",
+    "boxesAfter": "40",
+    "coins": "500000000000000",
+    "coinBefore": "3485924296299802",
+    "coinAfter": "3985924296299802"
+  },
+  "verification": {
+    "recipients": 1,
+    "permanentAvatars": 1,
+    "avatarGranted": 0,
+    "alreadyOwned": 1,
+    "boxLogs": 1,
+    "coinLogs": 1,
+    "perAccountReceipts": 1,
+    "totalBoxes": 20,
+    "totalCoins": "500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfterGrant": []
+  },
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "messages": 0,
+  "autoEquip": 0,
+  "boxesOpened": 0,
+  "checks": {
+    "partialFailuresRolledBack": 3,
+    "fullRehearsalRolledBack": true,
+    "invalidPlanBlocked": true,
+    "independentReadOnly": true,
+    "relatedChecksReused": "../named-santa-joeun-box20-coin500t-20261117/completion.json"
+  },
+  "performance": {
+    "before": {
+      "phase": "before",
+      "userId": "4608",
+      "nickname": "하트!",
+      "readOnly": true,
+      "samples": [
+        {
+          "visit": "first",
+          "ms": 595.7546000000002,
+          "sql": 5,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "3485924296299802"
+        },
+        {
+          "visit": "repeat",
+          "ms": 235.46560000000045,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "3485924296299802"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat on one connection, network included. Data grant only; no UI/runtime/deployment changes or browser/physical-device frame measurement."
+    },
+    "after": {
+      "phase": "after",
+      "userId": "4608",
+      "nickname": "하트!",
+      "readOnly": true,
+      "samples": [
+        {
+          "visit": "first",
+          "ms": 575.5799999999995,
+          "sql": 5,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "40",
+          "coin": "3985924296299802"
+        },
+        {
+          "visit": "repeat",
+          "ms": 250.41900000000078,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "40",
+          "coin": "3985924296299802"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat on one connection, network included. Data grant only; no UI/runtime/deployment changes or browser/physical-device frame measurement."
+    },
+    "grantVerifyMs": 3107,
+    "independentVerifyMs": 1048
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "physicalDeviceMeasured": false,
+  "evidenceDirectory": "operations/heart-additional-santa-box20-coin500t-20261117",
+  "operationScriptSha256": {
+    "common.mjs": "b5868e84ccc067e3da85c38fc680b0ba4f1bd1ad281d61cef6905c9d156978de",
+    "prepare.mjs": "a17092fde3d1b951d52f61707151b69866f80845a5a95935edd7b0835da020f0",
+    "grant.mjs": "6ceb982d695a651713661a8ddd2e779bd3ba35868d68926482879c9513cacb5f",
+    "run.mjs": "83ea0bba6975ef24bb9fb80a009c29a0a605e6f5b88f067dcc6d5dcc06f67245",
+    "service.mjs": "cae28aa4b6dd8bba5fea413fce3ad640c20444c8d9d23f1837b2adf0e0c56949",
+    "check-prior.mjs": "3186d87cf3a0ae5009cd162510aa09439809b08301180aa0fcb0accd26f0eedd",
+    "record.mjs": "7b6a8f4a1215ba48de229847766f78000b5fce75c249f3c4159b47d51fab2da5"
+  }
+}
