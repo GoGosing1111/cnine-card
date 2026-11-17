@@ -1,0 +1,475 @@
+{
+  "status": "COMPLETE",
+  "operationKey": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1",
+  "request": {
+    "account": "나무늘봉순",
+    "mercenary": "레반 1장",
+    "weapon": "동방무기상 금룡대물저격총 1개",
+    "weaponScrolls": 100,
+    "armorScrolls": 100,
+    "masterStars": "5000000000",
+    "coins": "30000000000000000"
+  },
+  "completedAt": "2026-11-17T04:22:00.938Z",
+  "completedAtKST": "2026-11-17 13:22:00",
+  "auditId": "62839",
+  "plan": {
+    "operationKey": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1",
+    "userId": "5426",
+    "nickname": "나무늘봉순",
+    "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+    "mercenary": {
+      "code": "V-971",
+      "name": "레반",
+      "quantity": 1,
+      "level": "DEFAULT_PRESERVE_EXISTING",
+      "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION"
+    },
+    "equipment": {
+      "id": "40",
+      "code": "EQ_1788486888336",
+      "name": "금룡대물저격총",
+      "quantity": 1,
+      "level": 0
+    },
+    "items": [
+      {
+        "code": "ARMOR_ENHANCEMENT_SCROLL",
+        "name": "방어구 강화주문서",
+        "quantity": "100"
+      },
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "quantity": "5000000000"
+      },
+      {
+        "code": "WEAPON_ENHANCEMENT_SCROLL",
+        "name": "무기 강화주문서",
+        "quantity": "100"
+      }
+    ],
+    "coins": "30000000000000000",
+    "delivery": "DIRECT",
+    "autoEquip": false,
+    "autoUse": false,
+    "messagesSent": 0
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1",
+    "plan": {
+      "operationKey": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1",
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+      "mercenary": {
+        "code": "V-971",
+        "name": "레반",
+        "quantity": 1,
+        "level": "DEFAULT_PRESERVE_EXISTING",
+        "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION"
+      },
+      "equipment": {
+        "id": "40",
+        "code": "EQ_1788486888336",
+        "name": "금룡대물저격총",
+        "quantity": 1,
+        "level": 0
+      },
+      "items": [
+        {
+          "code": "ARMOR_ENHANCEMENT_SCROLL",
+          "name": "방어구 강화주문서",
+          "quantity": "100"
+        },
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": "5000000000"
+        },
+        {
+          "code": "WEAPON_ENHANCEMENT_SCROLL",
+          "name": "무기 강화주문서",
+          "quantity": "100"
+        }
+      ],
+      "coins": "30000000000000000",
+      "delivery": "DIRECT",
+      "autoEquip": false,
+      "autoUse": false,
+      "messagesSent": 0
+    },
+    "planHash": "0a83d5867957eb1c055138695e785bb2140f168ce65abd96128e3c942c45447b",
+    "userId": "5426",
+    "nickname": "나무늘봉순",
+    "completedAt": "2026-11-17T04:22:00.938Z",
+    "completedAtKST": "2026-11-17 13:22:00",
+    "coins": {
+      "amount": "30000000000000000",
+      "before": "4228421145336444",
+      "after": "34228421145336444",
+      "logId": "105874015"
+    },
+    "inventory": [
+      {
+        "code": "ARMOR_ENHANCEMENT_SCROLL",
+        "name": "방어구 강화주문서",
+        "amount": "100",
+        "before": "5",
+        "after": "105",
+        "unseenBefore": "0",
+        "unseenAfter": "100",
+        "logId": "89930410"
+      },
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "amount": "5000000000",
+        "before": "958372342",
+        "after": "5958372342",
+        "unseenBefore": "1846668",
+        "unseenAfter": "5001846668",
+        "logId": "89930411"
+      },
+      {
+        "code": "WEAPON_ENHANCEMENT_SCROLL",
+        "name": "무기 강화주문서",
+        "amount": "100",
+        "before": "10",
+        "after": "110",
+        "unseenBefore": "0",
+        "unseenAfter": "100",
+        "logId": "89930412"
+      }
+    ],
+    "mercenary": {
+      "code": "V-971",
+      "name": "레반",
+      "quantity": 1,
+      "before": 0,
+      "after": 1,
+      "acquisitionId": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1:5426:V-971:1",
+      "defaultLevel": 1,
+      "existingGrowthPreserved": true
+    },
+    "equipment": {
+      "code": "EQ_1788486888336",
+      "equipmentId": "40",
+      "name": "금룡대물저격총",
+      "quantity": 1,
+      "instanceId": "3373762899",
+      "level": 0,
+      "before": 1,
+      "after": 2
+    },
+    "protectedBeforeHash": "fc3a585b82f5fd51394b847fb81b5caf5741ea7fcfab0964387f6206dc2b8e0c",
+    "protectedAfterHash": "fc3a585b82f5fd51394b847fb81b5caf5741ea7fcfab0964387f6206dc2b8e0c",
+    "stockBefore": [
+      {
+        "code": "REVERSECALL_STREAMER:V-971",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      },
+      {
+        "code": "V-971",
+        "issued": 7,
+        "revision": 8,
+        "last_token": "189b6609-9273-4ce9-90af-633058aebd9c",
+        "stock_limit": 8
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "REVERSECALL_STREAMER:V-971",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      },
+      {
+        "code": "V-971",
+        "issued": 7,
+        "revision": 8,
+        "last_token": "189b6609-9273-4ce9-90af-633058aebd9c",
+        "stock_limit": 8
+      }
+    ],
+    "issuesHash": "a3cd7d55af7db331ec35cf6c769de49cd09da4af46fcc60837589e6b6353c224",
+    "syncBefore": {
+      "domains": {
+        "pvp": "139908",
+        "wallet": "147703",
+        "loadout": "143642",
+        "messages": "146798",
+        "inventory": "147711",
+        "collection": "146906"
+      },
+      "user_id": "5426",
+      "revision": "147711"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "139908",
+        "wallet": "147712",
+        "loadout": "143642",
+        "messages": "146798",
+        "inventory": "147717",
+        "collection": "147716"
+      },
+      "user_id": "5426",
+      "revision": "147717"
+    },
+    "messagesSent": 0,
+    "autoEquip": false,
+    "autoUse": false,
+    "auditId": "62839"
+  },
+  "verification": {
+    "independentReadOnly": true,
+    "coinLogs": 1,
+    "inventoryLogs": 3,
+    "mercenaryAcquisitions": 1,
+    "equipmentInstancesAdded": 1,
+    "auditRecords": 1,
+    "operationLocksRemaining": 0,
+    "noWriteReplay": true,
+    "additionalGrantsOnReplay": 0,
+    "onlyExpectedWrites": true,
+    "previousRiflePreserved": true
+  },
+  "rollback": {
+    "partialFailureAfterGrants": true,
+    "fullRehearsal": true,
+    "realServiceTrial": {
+      "samples": [
+        {
+          "phase": "first",
+          "mercenary": {
+            "ms": 1285,
+            "sql": 15
+          },
+          "equipment": {
+            "ms": 1884,
+            "sql": 24
+          },
+          "inventory": {
+            "ms": 77,
+            "sql": 1
+          }
+        }
+      ],
+      "mercenary": [
+        {
+          "code": "V-971",
+          "name": "레반",
+          "totalCopies": 1,
+          "level": 1,
+          "loanUntil": null,
+          "canDeploy": true
+        }
+      ],
+      "gear": [
+        {
+          "instanceId": "3373762898",
+          "code": "EQ_1788486888336",
+          "name": "東方軍火商(동방무기상)",
+          "level": 0,
+          "equipped": false,
+          "quantity": null
+        }
+      ],
+      "quantity": 2,
+      "coin": "34228421145336444",
+      "inventory": [
+        {
+          "item_code": "ARMOR_ENHANCEMENT_SCROLL",
+          "quantity": "105",
+          "unseen_quantity": "100"
+        },
+        {
+          "item_code": "MASTER_STAR",
+          "quantity": "5958372342",
+          "unseen_quantity": "5001846668"
+        },
+        {
+          "item_code": "WEAPON_ENHANCEMENT_SCROLL",
+          "quantity": "110",
+          "unseen_quantity": "100"
+        }
+      ]
+    }
+  },
+  "preserved": {
+    "otherInventory": true,
+    "previousEquipmentAndEnhancement": true,
+    "equippedLoadouts": true,
+    "otherMercenariesAndGrowth": true,
+    "pets": true,
+    "packageProgressAndCoinAccounting": true,
+    "publicRevanStockAndIssuedSerials": true
+  },
+  "autoEquip": false,
+  "autoUse": false,
+  "messagesSent": 0,
+  "performance": {
+    "conditions": "Windows Node.js CLI invoking production mercenary account and character/loadout services against production PostgreSQL in READ ONLY transactions; includes network. First and repeated service reads; not browser input-to-interactive or physical-device FPS. Data-only operation: no UI/runtime changes or redeployment.",
+    "before": [
+      {
+        "phase": "first",
+        "mercenary": {
+          "ms": 1276,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1928,
+          "sql": 24
+        },
+        "inventory": {
+          "ms": 77,
+          "sql": 1
+        }
+      },
+      {
+        "phase": "repeat",
+        "mercenary": {
+          "ms": 1184,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1502,
+          "sql": 19
+        },
+        "inventory": {
+          "ms": 77,
+          "sql": 1
+        }
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "mercenary": {
+          "ms": 1305,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1987,
+          "sql": 24
+        },
+        "inventory": {
+          "ms": 77,
+          "sql": 1
+        }
+      },
+      {
+        "phase": "repeat",
+        "mercenary": {
+          "ms": 1179,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1543,
+          "sql": 19
+        },
+        "inventory": {
+          "ms": 76,
+          "sql": 1
+        }
+      }
+    ],
+    "inventoryQueryExecutionMs": 0.045,
+    "floorOptimization": {
+      "original": "Unqualified ORDER BY id resolved to cast text output alias, leading to 15s timeout before any grant writes. Fully qualified native numeric IDs restore backward primary-key index lookup.",
+      "samples": [
+        {
+          "phase": "first",
+          "ms": 81,
+          "result": {
+            "coin": "105873952",
+            "inventory": "89930381"
+          }
+        },
+        {
+          "phase": "repeat",
+          "ms": 79,
+          "result": {
+            "coin": "105873952",
+            "inventory": "89930381"
+          }
+        }
+      ],
+      "operationLocksRemaining": 0
+    },
+    "grantMs": 3810,
+    "assessment": "Existing per-account indexes and aggregate equipment counts avoid a full instance scan. Same first/repeat SQL counts before and after: mercenary 15/15, equipment 24/19, selected inventory 1/1. Inventory index execution 0.045 ms versus 76–77 ms remote read indicates network round trip dominates. The operation log-floor query had an unqualified ORDER BY id that selected the text alias; qualified numeric IDs reduced a 15 s timeout to 81/79 ms. The timed-out preflight was rolled back before any grant write, and its lease was released. No game loading-speed improvement is claimed."
+  },
+  "tests": {
+    "command": "node --test tests/pingdu-revan-grant-20261027.test.mjs tests/coin-100quadrillion-20261106.test.mjs",
+    "sourceCommit": "822a2406b9f91e2aeb468d368d21815c607a95cd",
+    "total": 19,
+    "passed": 18,
+    "failed": 1,
+    "durationMs": 26619.2212,
+    "passedCoverage": [
+      "Normal Revan first/duplicate grant, preserved state and SELECT-only replay",
+      "Rollback at each mercenary write",
+      "Wrong plan, expired lease and changed recipient refusal",
+      "Exact coin arithmetic and PVE grants beyond Number.MAX_SAFE_INTEGER",
+      "Coin ledger failure rollback and bulk/box grants"
+    ],
+    "existingFailure": {
+      "test": "world raid settlement compares exact BIGINT balance and commits its saved receipt",
+      "error": "ReferenceError: seasonAwardStatements is not defined",
+      "file": "tests/coin-100quadrillion-20261106.test.mjs:58",
+      "explanation": "Existing test constructs an isolated AsyncFunction from a slice of the raid settlement code, but does not inject seasonAwardStatements. Production functions/api/[[path]].js imports the symbol from _season_s1.js. This data-only grant does not invoke raid settlement or change that code. No test repair was included."
+    },
+    "operationValidation": {
+      "syntax": true,
+      "partialFailureAfterAllSixGrantsRolledBack": true,
+      "fullRehearsalRolledBack": true,
+      "realServicesVerified": true,
+      "independentReadOnlyVerified": true,
+      "noWriteReplay": true
+    }
+  },
+  "deployment": {
+    "required": false,
+    "runtimeChanged": false,
+    "reason": "Direct account data grant using existing deployed inventory, equipment and mercenary services."
+  },
+  "sourceForValidation": "822a2406b9f91e2aeb468d368d21815c607a95cd",
+  "operatorScripts": [
+    {
+      "path": "operations/bongsoon-revan-gold-dragon-20261117/common.mjs",
+      "sha256": "3ace5c7a6c644701e1b8248331ef874ccb6379b6b19c0f6f5a013a80425e42b3"
+    },
+    {
+      "path": "operations/bongsoon-revan-gold-dragon-20261117/runtime.mjs",
+      "sha256": "339bc5047b7a58dcda82c7aa0efa0ffb2d07ab87b3b62d15cda4e3ae8b578a37"
+    },
+    {
+      "path": "operations/bongsoon-revan-gold-dragon-20261117/prepare.mjs",
+      "sha256": "c98c9a642a9a816636f787a48a5e3a29807b856124cd64907c69fd234747dc93"
+    },
+    {
+      "path": "operations/bongsoon-revan-gold-dragon-20261117/floor-check.mjs",
+      "sha256": "68825232665b654a006a839602618eba36cab2c5604531208836f396d5e8d944"
+    },
+    {
+      "path": "operations/bongsoon-revan-gold-dragon-20261117/grant.mjs",
+      "sha256": "14a13f398f0fac9d0a79cc2fe93cc75a0b50db9ba47390a1758c5abccc5e2c56"
+    },
+    {
+      "path": "operations/bongsoon-revan-gold-dragon-20261117/run.mjs",
+      "sha256": "35efc5c874d679bcd29ee3636ba7deb466cb2fec21d2c9797a1710277851ed8f"
+    },
+    {
+      "path": "operations/bongsoon-revan-gold-dragon-20261117/verify.mjs",
+      "sha256": "9d0fa113a6b69e2ceb2f03289bd223d24bdddfab247841ef460d68824f50d73b"
+    }
+  ],
+  "idempotency": "Use this exact operation key to inspect the saved receipt; do not create a new key or regrant for this same request."
+}

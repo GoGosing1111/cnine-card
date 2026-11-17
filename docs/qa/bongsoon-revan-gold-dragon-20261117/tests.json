@@ -1,0 +1,29 @@
+{
+  "command": "node --test tests/pingdu-revan-grant-20261027.test.mjs tests/coin-100quadrillion-20261106.test.mjs",
+  "sourceCommit": "822a2406b9f91e2aeb468d368d21815c607a95cd",
+  "total": 19,
+  "passed": 18,
+  "failed": 1,
+  "durationMs": 26619.2212,
+  "passedCoverage": [
+    "Normal Revan first/duplicate grant, preserved state and SELECT-only replay",
+    "Rollback at each mercenary write",
+    "Wrong plan, expired lease and changed recipient refusal",
+    "Exact coin arithmetic and PVE grants beyond Number.MAX_SAFE_INTEGER",
+    "Coin ledger failure rollback and bulk/box grants"
+  ],
+  "existingFailure": {
+    "test": "world raid settlement compares exact BIGINT balance and commits its saved receipt",
+    "error": "ReferenceError: seasonAwardStatements is not defined",
+    "file": "tests/coin-100quadrillion-20261106.test.mjs:58",
+    "explanation": "Existing test constructs an isolated AsyncFunction from a slice of the raid settlement code, but does not inject seasonAwardStatements. Production functions/api/[[path]].js imports the symbol from _season_s1.js. This data-only grant does not invoke raid settlement or change that code. No test repair was included."
+  },
+  "operationValidation": {
+    "syntax": true,
+    "partialFailureAfterAllSixGrantsRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "realServicesVerified": true,
+    "independentReadOnlyVerified": true,
+    "noWriteReplay": true
+  }
+}

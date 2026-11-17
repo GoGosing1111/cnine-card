@@ -1,0 +1,42 @@
+{
+  "operationKey": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1",
+  "userId": "5426",
+  "nickname": "나무늘봉순",
+  "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+  "mercenary": {
+    "code": "V-971",
+    "name": "레반",
+    "quantity": 1,
+    "level": "DEFAULT_PRESERVE_EXISTING",
+    "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION"
+  },
+  "equipment": {
+    "id": "40",
+    "code": "EQ_1788486888336",
+    "name": "금룡대물저격총",
+    "quantity": 1,
+    "level": 0
+  },
+  "items": [
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "quantity": "100"
+    },
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "quantity": "5000000000"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "quantity": "100"
+    }
+  ],
+  "coins": "30000000000000000",
+  "delivery": "DIRECT",
+  "autoEquip": false,
+  "autoUse": false,
+  "messagesSent": 0
+}

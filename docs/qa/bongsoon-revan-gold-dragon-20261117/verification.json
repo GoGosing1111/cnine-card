@@ -1,0 +1,275 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1",
+  "auditId": "62839",
+  "userId": "5426",
+  "nickname": "나무늘봉순",
+  "completedAt": "2026-11-17T04:22:00.938Z",
+  "completedAtKST": "2026-11-17 13:22:00",
+  "verifiedAt": "2026-11-17T04:22:57.370Z",
+  "mercenary": {
+    "code": "V-971",
+    "name": "레반",
+    "totalCopies": 1,
+    "level": 1,
+    "loanUntil": null,
+    "canDeploy": true
+  },
+  "equipment": {
+    "code": "EQ_1788486888336",
+    "equipmentId": "40",
+    "name": "금룡대물저격총",
+    "quantity": 1,
+    "instanceId": "3373762899",
+    "level": 0,
+    "before": 1,
+    "after": 2,
+    "previousInstancesPreserved": true,
+    "currentlyOwned": 2,
+    "newInstance": {
+      "instanceId": "3373762899",
+      "equipmentId": "40",
+      "source_type": "ADMIN",
+      "source_id": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1",
+      "request_id": "ops:bongsoon:revan-gold-dragon-scrolls-stars-coin3g:20261117:v1:EQ_1788486888336:1",
+      "level": 0,
+      "equipped": false
+    }
+  },
+  "inventory": [
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "amount": "100",
+      "atGrantBefore": "5",
+      "atGrantAfter": "105",
+      "current": "105",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0
+    },
+    {
+      "code": "MASTER_STAR",
+      "amount": "5000000000",
+      "atGrantBefore": "958372342",
+      "atGrantAfter": "5958372342",
+      "current": "5958372342",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "amount": "100",
+      "atGrantBefore": "10",
+      "atGrantAfter": "110",
+      "current": "110",
+      "subsequentDelta": "0",
+      "subsequentEntries": 0
+    }
+  ],
+  "coins": {
+    "amount": "30000000000000000",
+    "before": "4228421145336444",
+    "after": "34228421145336444",
+    "logId": "105874015",
+    "current": "34228421145336444",
+    "subsequentDelta": "0",
+    "subsequentEntries": 0
+  },
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "independentReadOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "onlyExpectedWrites": true,
+  "operationLocksRemaining": 0,
+  "coinLogs": 1,
+  "inventoryLogs": 3,
+  "mercenaryAcquisitions": 1,
+  "equipmentInstancesAdded": 1,
+  "auditRecords": 1,
+  "messagesSent": 0,
+  "autoEquip": false,
+  "autoUse": false,
+  "stockAtGrantPreserved": true,
+  "stockCurrent": [
+    {
+      "code": "REVERSECALL_STREAMER:V-971",
+      "issued": 0,
+      "revision": 0,
+      "last_token": null,
+      "stock_limit": 3
+    },
+    {
+      "code": "V-971",
+      "issued": 7,
+      "revision": 8,
+      "last_token": "189b6609-9273-4ce9-90af-633058aebd9c",
+      "stock_limit": 8
+    }
+  ],
+  "stockStillSame": true,
+  "limitedIssueHistoryStillSame": true,
+  "performance": {
+    "conditions": "Windows Node.js CLI invoking production mercenary account and character/loadout services against production PostgreSQL in READ ONLY transactions; includes network. First and repeated service reads; not browser input-to-interactive or physical-device FPS. Data-only operation: no UI/runtime changes or redeployment.",
+    "before": [
+      {
+        "phase": "first",
+        "mercenary": {
+          "ms": 1276,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1928,
+          "sql": 24
+        },
+        "inventory": {
+          "ms": 77,
+          "sql": 1
+        }
+      },
+      {
+        "phase": "repeat",
+        "mercenary": {
+          "ms": 1184,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1502,
+          "sql": 19
+        },
+        "inventory": {
+          "ms": 77,
+          "sql": 1
+        }
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "mercenary": {
+          "ms": 1305,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1987,
+          "sql": 24
+        },
+        "inventory": {
+          "ms": 77,
+          "sql": 1
+        }
+      },
+      {
+        "phase": "repeat",
+        "mercenary": {
+          "ms": 1179,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1543,
+          "sql": 19
+        },
+        "inventory": {
+          "ms": 76,
+          "sql": 1
+        }
+      }
+    ],
+    "inventoryQueryExecutionMs": 0.045,
+    "floorOptimization": {
+      "original": "Unqualified ORDER BY id resolved to cast text output alias, leading to 15s timeout before any grant writes. Fully qualified native numeric IDs restore backward primary-key index lookup.",
+      "samples": [
+        {
+          "phase": "first",
+          "ms": 81,
+          "result": {
+            "coin": "105873952",
+            "inventory": "89930381"
+          }
+        },
+        {
+          "phase": "repeat",
+          "ms": 79,
+          "result": {
+            "coin": "105873952",
+            "inventory": "89930381"
+          }
+        }
+      ],
+      "operationLocksRemaining": 0
+    },
+    "grantMs": 3810
+  },
+  "runtime": {
+    "samples": [
+      {
+        "phase": "first",
+        "mercenary": {
+          "ms": 1305,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1987,
+          "sql": 24
+        },
+        "inventory": {
+          "ms": 77,
+          "sql": 1
+        }
+      },
+      {
+        "phase": "repeat",
+        "mercenary": {
+          "ms": 1179,
+          "sql": 15
+        },
+        "equipment": {
+          "ms": 1543,
+          "sql": 19
+        },
+        "inventory": {
+          "ms": 76,
+          "sql": 1
+        }
+      }
+    ],
+    "mercenary": [
+      {
+        "code": "V-971",
+        "name": "레반",
+        "totalCopies": 1,
+        "level": 1,
+        "loanUntil": null,
+        "canDeploy": true
+      }
+    ],
+    "gear": [
+      {
+        "instanceId": "3373762899",
+        "code": "EQ_1788486888336",
+        "name": "東方軍火商(동방무기상)",
+        "level": 0,
+        "equipped": false,
+        "quantity": null
+      }
+    ],
+    "quantity": 2,
+    "coin": "34228421145336444",
+    "inventory": [
+      {
+        "item_code": "ARMOR_ENHANCEMENT_SCROLL",
+        "quantity": "105",
+        "unseen_quantity": "100"
+      },
+      {
+        "item_code": "MASTER_STAR",
+        "quantity": "5958372342",
+        "unseen_quantity": "5001846668"
+      },
+      {
+        "item_code": "WEAPON_ENHANCEMENT_SCROLL",
+        "quantity": "110",
+        "unseen_quantity": "100"
+      }
+    ]
+  }
+}
