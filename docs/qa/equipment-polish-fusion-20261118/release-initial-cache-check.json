@@ -1,0 +1,18 @@
+{
+  "head": "47316192c9f848bc709235b9c1d12e1048ebcb28",
+  "base": "52a4d5fe049959aa6a7ad28fb764be0755a643a2",
+  "startedAt": "2026-11-17T20:29:05.972Z",
+  "finishedAt": "2026-11-17T20:29:26.818Z",
+  "code": 1,
+  "tests": [
+    "tests/mercenary-fusion-1000-20261118.test.mjs",
+    "tests/mercenary-fusion-bulk-20261019.test.mjs",
+    "tests/mercenary-fusion-transactions.test.mjs",
+    "tests/mercenary-fusion-eight.test.mjs",
+    "tests/mercenary-fusion-client-20260925.test.mjs",
+    "tests/equipment-polish-display-20261118.test.mjs",
+    "tests/equipment-forge-mercenary-filter-20261116.test.mjs",
+    "tests/equipment-forge-inventory-v1.test.mjs",
+    "tests/equipment-forge-release-20260922.test.mjs"
+  ]
+}

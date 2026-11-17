@@ -1,5 +1,5 @@
 {
-  "status": "READY_FOR_PRODUCTION",
+  "status": "DEPLOYED_AND_VERIFIED",
   "createdAt": "2026-11-17T20:28:14.385699+00:00",
   "baselineFrontend": "8eb3b6bc7",
   "features": {
@@ -48,7 +48,14 @@
       "Initial forge generator was stale; restored its HEAD output and applied only intended CSS/module tags. Current protection controls and +15 guide preserved.",
       "WebKit aborted texture fetch messages during an early scripted navigation were resolved in final verification by waiting for the existing pending loads before leaving. No production asset or FX lifecycle code changed.",
       "H5 test server was corrected to match serveStore static variant rules and host SDK callbacks; final H5 has no page error, broken request or SDK startup error."
-    ]
+    ],
+    "productionSmoke": {
+      "files": 17,
+      "condition": "Actual public release files downloaded into isolated actual-handler test server; Windows URL -> lobby -> codex -> equipment -> forge -> fusion, two visits, no production account writes",
+      "errors": 0,
+      "broken": 0,
+      "residualRequests": 0
+    }
   },
   "delivery": {
     "assetCount": 20000,
@@ -64,9 +71,135 @@
     "newAndBulkTestsPassed": 15,
     "compatibilityTestsPassed": 32,
     "additionalTransactionalAndFocusTestsPassed": true,
-    "finalScopedGate": "pending",
+    "finalScopedGate": "PASSED",
     "productionAccountWrites": 0,
-    "messagesSent": 0
+    "messagesSent": 0,
+    "relatedTestsPassed": 81,
+    "finalFailedTests": 0,
+    "featureTests": 64,
+    "loaderAndCacheTests": 17,
+    "workerCompilation": true,
+    "hyperdriveQueryCacheDisabled": true,
+    "productionBrowser": "live-entry-windows-after-windows.json",
+    "releaseCorrections": [
+      "First 64 feature/transaction/display tests passed. Main/store app URL cache tags were then aligned with the new service-worker cache tag after the release guard caught the mismatch.",
+      "The 17 loader tests initially lacked two existing source files in the reused sparse checkout; only their tracked code dependencies were restored. All 17 passed. No unrelated implementation changes or full-suite reruns.",
+      "ONE store HTML is served through htmlForStore; verified its transformed response against the same transformation, while raw browser resources and Windows manifest use byte hashes."
+    ]
   },
-  "localRunners": "operations/equipment-polish-fusion-20261118/{browser,benchmark,align,release}.mjs"
+  "localRunners": "operations/equipment-polish-fusion-20261118/{browser,benchmark,align,release}.mjs",
+  "completedAt": "2026-11-17T20:45:42.647336+00:00",
+  "release": {
+    "source": "cf0bece417ba0193b6f12517e3b0c3e4deb79246",
+    "featureSource": "47316192c9f848bc709235b9c1d12e1048ebcb28",
+    "pages": {
+      "at": "2026-11-17T20:42:42.123Z",
+      "id": "46debf62-3867-4c33-8cdc-9827d5ef54e2",
+      "url": "https://46debf62.cnine-card.pages.dev",
+      "status": "success",
+      "commit": "cf0bece417ba0193b6f12517e3b0c3e4deb79246"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "a32423c9-ac2a-442c-bd31-c18ec751ee2d",
+        "percentage": 100,
+        "batchAndPolishWorker": true,
+        "sha256": "b0db88ee0067310668b67e3b676716fb35efd53d8b2bca09022658eb0883c31e"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "97b62142-df04-4da7-978d-4615f30af56b",
+        "percentage": 100,
+        "batchAndPolishWorker": false,
+        "sha256": "2f777d2393b54fdd7b89764658698babf98403fdcd9b473f92d8e259ad5f9d36"
+      }
+    ],
+    "publicFilesVerified": 18,
+    "windowsManifestVerified": 17,
+    "windowsRelease": "0367f3acce6da5eab064ef2543e55a5b79ee6d41c0de352290913d9dfe19459f",
+    "windowsDelta": {
+      "changed": [
+        {
+          "path": "/css/equipment-polish-display-v1.css",
+          "bytes": 2280
+        },
+        {
+          "path": "/equipment-forge/app.mjs",
+          "bytes": 35043
+        },
+        {
+          "path": "/equipment-forge/index.html",
+          "bytes": 14740
+        },
+        {
+          "path": "/index.html",
+          "bytes": 53104
+        },
+        {
+          "path": "/mercenary-codex/app.mjs",
+          "bytes": 47070
+        },
+        {
+          "path": "/mercenary-codex/equipment/app.mjs",
+          "bytes": 28638
+        },
+        {
+          "path": "/mercenary-codex/equipment/index.html",
+          "bytes": 7894
+        },
+        {
+          "path": "/mercenary-codex/fusion/app.mjs",
+          "bytes": 32409
+        },
+        {
+          "path": "/mercenary-codex/fusion/client.mjs",
+          "bytes": 6746
+        },
+        {
+          "path": "/mercenary-codex/fusion/model.mjs",
+          "bytes": 5320
+        },
+        {
+          "path": "/mercenary-codex/fusion/style.css",
+          "bytes": 24022
+        },
+        {
+          "path": "/mercenary-codex/index.html",
+          "bytes": 11234
+        },
+        {
+          "path": "/mercenary-codex/shell.mjs",
+          "bytes": 11391
+        },
+        {
+          "path": "/shared/equipment-polish-display-v1.mjs",
+          "bytes": 2364
+        },
+        {
+          "path": "/shared/mercenary-fusion-policy-v1.mjs",
+          "bytes": 562
+        }
+      ],
+      "newFiles": 2,
+      "downloadBytes": 282817,
+      "removed": 0
+    },
+    "publicFusionMaxBatch": 1000,
+    "storeDocuments": [
+      {
+        "path": "/onestore/mercenary-codex/equipment/",
+        "polish": true
+      },
+      {
+        "path": "/onestore/equipment-forge/",
+        "polish": true
+      },
+      {
+        "path": "/onestore/",
+        "transformedHtmlMatched": true,
+        "windowsExcluded": true
+      }
+    ]
+  }
 }

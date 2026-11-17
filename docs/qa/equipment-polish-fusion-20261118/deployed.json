@@ -1,0 +1,220 @@
+{
+  "feature": {
+    "enabled": true,
+    "policy": {
+      "version": "mercenary-fusion-eight-20260922",
+      "materialCount": 8,
+      "materialRule": "SAME_RANK",
+      "successChancePpm": 100000,
+      "chanceTotal": 1000000,
+      "coinCost": 0,
+      "resultQuantity": 1,
+      "successOutcome": "NEXT_RANK",
+      "failureOutcome": "SAME_RANK_RANDOM",
+      "preserveOriginal": true,
+      "withinRankSelection": "EXISTING_CMS_CARD_WEIGHTS"
+    },
+    "maxBatch": 1000
+  },
+  "store": [
+    {
+      "path": "/onestore/mercenary-codex/equipment/",
+      "polish": true
+    },
+    {
+      "path": "/onestore/equipment-forge/",
+      "polish": true
+    },
+    {
+      "path": "/onestore/",
+      "transformedHtmlMatched": true,
+      "windowsExcluded": true
+    }
+  ],
+  "checkedAt": "2026-11-17T20:42:50.314Z",
+  "pages": {
+    "at": "2026-11-17T20:42:42.123Z",
+    "id": "46debf62-3867-4c33-8cdc-9827d5ef54e2",
+    "url": "https://46debf62.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "cf0bece417ba0193b6f12517e3b0c3e4deb79246"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "a32423c9-ac2a-442c-bd31-c18ec751ee2d",
+      "percentage": 100,
+      "batchAndPolishWorker": true,
+      "sha256": "b0db88ee0067310668b67e3b676716fb35efd53d8b2bca09022658eb0883c31e"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "97b62142-df04-4da7-978d-4615f30af56b",
+      "percentage": 100,
+      "batchAndPolishWorker": false,
+      "sha256": "2f777d2393b54fdd7b89764658698babf98403fdcd9b473f92d8e259ad5f9d36"
+    }
+  ],
+  "files": [
+    {
+      "file": "index.html",
+      "bytes": 53104,
+      "sha256": "39e1cb93a720f4eb086f6ef8a5168c15a833a242bd2612c4f9ba0de4227b5567"
+    },
+    {
+      "file": "css/equipment-polish-display-v1.css",
+      "bytes": 2280,
+      "sha256": "336513a1fa563bab6526e0e9dd66922eb2226b4543604cc2d0a6012c18863088"
+    },
+    {
+      "file": "shared/equipment-polish-display-v1.mjs",
+      "bytes": 2364,
+      "sha256": "2cb703d4f5872b3844d31371fa6ae2a38cdc1b0db63cc1228ca4c8c95f7756cf"
+    },
+    {
+      "file": "shared/mercenary-fusion-policy-v1.mjs",
+      "bytes": 562,
+      "sha256": "6185dbbe1b8dc81d780a6bbbff0f32e1ad3bb1d5d21e8c6a5678f0589a333183"
+    },
+    {
+      "file": "equipment-forge/index.html",
+      "bytes": 14740,
+      "sha256": "3d636a30cb19e990eb876d37809adfe1a51082eae5519f1c7d4ed0a95bb9a81d"
+    },
+    {
+      "file": "equipment-forge/app.mjs",
+      "bytes": 35043,
+      "sha256": "3c9dca5b5abccbdb4b86c0c6f7adc0fb62b902b30eebc33c165dd4813e0417fa"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "bytes": 11234,
+      "sha256": "087986b76e4542587cba3baf04d4342b1db6ad586ce6ed9f17060a97200705a5"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "bytes": 47070,
+      "sha256": "9e3a41b31b7ee1fa761b433919900d097f5190ecc30acf910fb40a08617e7c51"
+    },
+    {
+      "file": "mercenary-codex/equipment/index.html",
+      "bytes": 7894,
+      "sha256": "79c62293ccec0a8e2bccc45ab356039a0eaf51da187add1fff73a1c163246596"
+    },
+    {
+      "file": "mercenary-codex/equipment/app.mjs",
+      "bytes": 28638,
+      "sha256": "c84cdf6a66f9175e43d261476c65f8e6cb975a18b7a599aa6d7eba992963c714"
+    },
+    {
+      "file": "mercenary-codex/fusion/app.mjs",
+      "bytes": 32409,
+      "sha256": "377f05304b51238fb9eb4b90812f46c95746de172367b64bde45ea26e94cf31e"
+    },
+    {
+      "file": "mercenary-codex/fusion/client.mjs",
+      "bytes": 6746,
+      "sha256": "73d551d1bd9cd971b900b90aec9e6336c836977bef9a80acace98059bdb983fc"
+    },
+    {
+      "file": "mercenary-codex/fusion/model.mjs",
+      "bytes": 5320,
+      "sha256": "7f1aba8ebb0a20646413af299ca1e1b1b0718c34f2f8289ec61003027bbb5f80"
+    },
+    {
+      "file": "mercenary-codex/fusion/style.css",
+      "bytes": 24022,
+      "sha256": "13a4acd566abd7fefab61d75edb6cfe42f8c7d3ffab00121617d82acc43f96cd"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 26603,
+      "sha256": "284f70d5aef863392cd60aa1e4916568e5916b38bcef8101c4f8e0d6ebd682d8"
+    },
+    {
+      "file": "assets/ui/equipment-polish-20261114/icons.webp",
+      "bytes": 337084,
+      "sha256": "40e215b226e8277cc4da6d997b418d243c18715ec68996d8d300d4d434f5cb70"
+    },
+    {
+      "file": "css/equipment-icons-20261114.css",
+      "bytes": 1404,
+      "sha256": "7c536bced8fca7486370698ba147b2b7f9b67f41f07e62c4788f31e295d7710c"
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "bytes": 11391,
+      "sha256": "aa0c6dcbe094186d89c551191abf25b15f158b6b1fb54f2d15c92a4b7fe8af91"
+    }
+  ],
+  "batchAndPolishWorker": true,
+  "iconsVerified": true,
+  "windowsRelease": "0367f3acce6da5eab064ef2543e55a5b79ee6d41c0de352290913d9dfe19459f",
+  "windowsDelta": {
+    "changed": [
+      {
+        "path": "/css/equipment-polish-display-v1.css",
+        "bytes": 2280
+      },
+      {
+        "path": "/equipment-forge/app.mjs",
+        "bytes": 35043
+      },
+      {
+        "path": "/equipment-forge/index.html",
+        "bytes": 14740
+      },
+      {
+        "path": "/index.html",
+        "bytes": 53104
+      },
+      {
+        "path": "/mercenary-codex/app.mjs",
+        "bytes": 47070
+      },
+      {
+        "path": "/mercenary-codex/equipment/app.mjs",
+        "bytes": 28638
+      },
+      {
+        "path": "/mercenary-codex/equipment/index.html",
+        "bytes": 7894
+      },
+      {
+        "path": "/mercenary-codex/fusion/app.mjs",
+        "bytes": 32409
+      },
+      {
+        "path": "/mercenary-codex/fusion/client.mjs",
+        "bytes": 6746
+      },
+      {
+        "path": "/mercenary-codex/fusion/model.mjs",
+        "bytes": 5320
+      },
+      {
+        "path": "/mercenary-codex/fusion/style.css",
+        "bytes": 24022
+      },
+      {
+        "path": "/mercenary-codex/index.html",
+        "bytes": 11234
+      },
+      {
+        "path": "/mercenary-codex/shell.mjs",
+        "bytes": 11391
+      },
+      {
+        "path": "/shared/equipment-polish-display-v1.mjs",
+        "bytes": 2364
+      },
+      {
+        "path": "/shared/mercenary-fusion-policy-v1.mjs",
+        "bytes": 562
+      }
+    ],
+    "newFiles": 2,
+    "downloadBytes": 282817,
+    "removed": 0
+  }
+}

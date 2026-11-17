@@ -1,0 +1,10 @@
+{
+  "head": "cf0bece417ba0193b6f12517e3b0c3e4deb79246",
+  "base": "52a4d5fe049959aa6a7ad28fb764be0755a643a2",
+  "startedAt": "2026-11-17T20:32:20.745Z",
+  "finishedAt": "2026-11-17T20:36:04.545Z",
+  "code": 0,
+  "tests": [
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ]
+}
