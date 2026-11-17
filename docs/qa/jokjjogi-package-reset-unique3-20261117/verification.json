@@ -1,0 +1,316 @@
+{
+  "status": "VERIFIED",
+  "verifiedAt": "2026-11-17T03:27:00.491Z",
+  "operationKey": "ops:jokjjogi:package-reset-unique3-zero:20261117:v1",
+  "user": {
+    "id": "303",
+    "nickname": "[C9]족쪽이"
+  },
+  "auditId": "62755",
+  "completedAt": "2026-11-17T03:26:39.275Z",
+  "completedAtKST": "2026-11-17 12:26:39",
+  "packageReset": {
+    "before": 10,
+    "after": 0,
+    "changed": true,
+    "pendingOrderPreserved": {
+      "id": "303_54aae87f-2440-4bd3-97b3-86b722bd9acb",
+      "status": "PENDING",
+      "quantity": 10,
+      "productCode": "SEASON_PASS_PACKAGE_20261115_PETS"
+    }
+  },
+  "currentBonus": {
+    "version": 1,
+    "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+    "paidPurchases": 0,
+    "totalBonusCoins": "0",
+    "totalBonusCubes": 0,
+    "lastOrderId": "303_190849b2-2982-4edb-9efa-b50c608ef10a",
+    "updatedAt": 1794885999293,
+    "lastResetOperation": "ops:jokjjogi:package-reset-unique3-zero:20261117:v1",
+    "lastResetAt": 1794885999293
+  },
+  "nextPurchaseBonus": {
+    "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+    "paidPurchasesBefore": 0,
+    "paidPurchasesAfter": 1,
+    "milestones": [
+      {
+        "purchases": 1,
+        "coins": "1000000000000000",
+        "cubes": 5
+      }
+    ],
+    "coins": "1000000000000000",
+    "totalEarnedCoins": "1000000000000000",
+    "cubes": 5,
+    "totalEarnedCubes": 5
+  },
+  "equipment": [
+    {
+      "equipmentId": "181",
+      "code": "MERC_UQ_13_WEAPON",
+      "name": "태양서약",
+      "slot": "WEAPON",
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3373762868",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "182",
+      "code": "MERC_UQ_13_TOP",
+      "name": "백금갑주",
+      "slot": "TOP",
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3373762869",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "183",
+      "code": "MERC_UQ_13_BOTTOM",
+      "name": "근위각반",
+      "slot": "BOTTOM",
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3373762870",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "184",
+      "code": "MERC_UQ_13_SHOES",
+      "name": "황실군화",
+      "slot": "SHOES",
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3373762871",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "185",
+      "code": "MERC_UQ_13_ACCESSORY",
+      "name": "일륜왕관",
+      "slot": "ACCESSORY",
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3373762872",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    }
+  ],
+  "runtime": {
+    "measurements": [
+      {
+        "phase": "first",
+        "package": {
+          "elapsedMs": 714,
+          "sql": 9
+        },
+        "equipment": {
+          "elapsedMs": 736,
+          "sql": 10
+        }
+      },
+      {
+        "phase": "repeat",
+        "package": {
+          "elapsedMs": 584,
+          "sql": 8
+        },
+        "equipment": {
+          "elapsedMs": 727,
+          "sql": 10
+        }
+      }
+    ],
+    "bonus": {
+      "version": 1,
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchases": 0,
+      "totalBonusCoins": "0",
+      "totalBonusCubes": 0,
+      "lastOrderId": "303_190849b2-2982-4edb-9efa-b50c608ef10a",
+      "updatedAt": 1794885999293,
+      "lastResetOperation": "ops:jokjjogi:package-reset-unique3-zero:20261117:v1",
+      "lastResetAt": 1794885999293
+    },
+    "pending": {
+      "id": "303_54aae87f-2440-4bd3-97b3-86b722bd9acb",
+      "status": "PENDING",
+      "quantity": 10,
+      "productCode": "SEASON_PASS_PACKAGE_20261115_PETS"
+    },
+    "salesOpen": true,
+    "gear": [
+      {
+        "instanceId": "3373762872",
+        "code": "MERC_UQ_13_ACCESSORY",
+        "name": "일륜왕관",
+        "level": 0,
+        "equipped": false
+      },
+      {
+        "instanceId": "3373762871",
+        "code": "MERC_UQ_13_SHOES",
+        "name": "황실군화",
+        "level": 0,
+        "equipped": false
+      },
+      {
+        "instanceId": "3373762870",
+        "code": "MERC_UQ_13_BOTTOM",
+        "name": "근위각반",
+        "level": 0,
+        "equipped": false
+      },
+      {
+        "instanceId": "3373762869",
+        "code": "MERC_UQ_13_TOP",
+        "name": "백금갑주",
+        "level": 0,
+        "equipped": false
+      },
+      {
+        "instanceId": "3373762868",
+        "code": "MERC_UQ_13_WEAPON",
+        "name": "태양서약",
+        "level": 0,
+        "equipped": false
+      }
+    ],
+    "queryCount": 37
+  },
+  "inventoryCounts": [
+    {
+      "equipment_id": "181",
+      "quantity": 1
+    },
+    {
+      "equipment_id": "182",
+      "quantity": 1
+    },
+    {
+      "equipment_id": "183",
+      "quantity": 1
+    },
+    {
+      "equipment_id": "184",
+      "quantity": 1
+    },
+    {
+      "equipment_id": "185",
+      "quantity": 1
+    }
+  ],
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "operationLocksRemaining": 0,
+  "messagesSent": 0,
+  "preserved": {
+    "packageOrders": true,
+    "pendingApplication": true,
+    "previousRewards": true,
+    "coins": true,
+    "otherItems": true,
+    "existingEquipmentEnhancements": true,
+    "loadouts": true,
+    "petsAndMercenaries": true
+  },
+  "performance": {
+    "conditions": "Windows Node.js CLI against production PostgreSQL using actual package GET and mercenary armory service (태양왕좌 filter) with read-only adapter. Fresh process for first read, second read for repeat; network included, single samples. Data-only grant, no UI or runtime changes, no deployment or device FPS measurement.",
+    "before": [
+      {
+        "phase": "first",
+        "package": {
+          "elapsedMs": 681,
+          "sql": 9
+        },
+        "equipment": {
+          "elapsedMs": 742,
+          "sql": 10
+        }
+      },
+      {
+        "phase": "repeat",
+        "package": {
+          "elapsedMs": 588,
+          "sql": 8
+        },
+        "equipment": {
+          "elapsedMs": 736,
+          "sql": 10
+        }
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "package": {
+          "elapsedMs": 714,
+          "sql": 9
+        },
+        "equipment": {
+          "elapsedMs": 736,
+          "sql": 10
+        }
+      },
+      {
+        "phase": "repeat",
+        "package": {
+          "elapsedMs": 584,
+          "sql": 8
+        },
+        "equipment": {
+          "elapsedMs": 727,
+          "sql": 10
+        }
+      }
+    ],
+    "bottleneck": "Indexed account-order range execution was 0.036 ms compared with 8-10 SQL round trips per service read. The initial operation-only protection snapshot timed out at 15 seconds because it enumerated millions of old equipment copies. Replaced it with batched quantity and forge/loadout records plus insert-only enforcement and transaction update/delete counters; no existing instance scan is needed. Five new instances use one INSERT.",
+    "snapshotBefore": "15000 ms statement timeout; no grant committed",
+    "snapshotAfterMs": 304,
+    "lookupPlan": {
+      "planningMs": 0.05,
+      "executionMs": 0.036,
+      "rootType": "Index Scan",
+      "raw": {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "app_meta_pkey",
+          "Relation Name": "app_meta",
+          "Alias": "app_meta",
+          "Startup Cost": 0.42,
+          "Total Cost": 8.44,
+          "Plan Rows": 1,
+          "Plan Width": 226,
+          "Actual Startup Time": 0.009,
+          "Actual Total Time": 0.027,
+          "Actual Rows": 14,
+          "Actual Loops": 1,
+          "Index Cond": "((key >= 'support_package_order_v1:303_'::text) AND (key < 'support_package_order_v1:303_~'::text))",
+          "Rows Removed by Index Recheck": 0
+        },
+        "Planning Time": 0.05,
+        "Triggers": [],
+        "Execution Time": 0.036
+      }
+    }
+  },
+  "checks": {
+    "relatedTestsPassed": 13,
+    "partialFailureRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "onlyExpectedWrites": true,
+    "grantMs": 2294
+  }
+}
