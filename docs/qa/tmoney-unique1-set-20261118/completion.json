@@ -1,0 +1,148 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:tmoney:unique1-set-zero:20261118:v1",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "completedAtKST": "2026-11-18 02:06:41",
+  "auditId": "63451",
+  "tier": 1,
+  "family": "새벽별",
+  "equipment": [
+    {
+      "equipmentId": "171",
+      "code": "MERC_UQ_11_WEAPON",
+      "name": "별가름",
+      "slot": "WEAPON",
+      "rarity": "MYTHIC",
+      "totalPower": 2400000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3383088741",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "172",
+      "code": "MERC_UQ_11_TOP",
+      "name": "오팔갑주",
+      "slot": "TOP",
+      "rarity": "MYTHIC",
+      "totalPower": 1680000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3383088742",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "173",
+      "code": "MERC_UQ_11_BOTTOM",
+      "name": "성운각반",
+      "slot": "BOTTOM",
+      "rarity": "MYTHIC",
+      "totalPower": 1560000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3383088743",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "174",
+      "code": "MERC_UQ_11_SHOES",
+      "name": "혜성부츠",
+      "slot": "SHOES",
+      "rarity": "MYTHIC",
+      "totalPower": 1200000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3383088744",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    },
+    {
+      "equipmentId": "175",
+      "code": "MERC_UQ_11_ACCESSORY",
+      "name": "성좌반지",
+      "slot": "ACCESSORY",
+      "rarity": "MYTHIC",
+      "totalPower": 1440000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0,
+      "instanceId": "3383088745",
+      "quantityBefore": 0,
+      "quantityAfter": 1
+    }
+  ],
+  "totalGranted": 5,
+  "enhancementLevel": 0,
+  "autoEquip": false,
+  "messagesSent": 0,
+  "packageReset": false,
+  "verification": {
+    "equipmentInstances": 5,
+    "audits": 1,
+    "receipts": 1,
+    "duplicates": 0
+  },
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "existingInstancesUpdated": 0,
+  "existingInstancesDeleted": 0,
+  "otherTablesWrites": 0,
+  "noWriteReplay": true,
+  "replayQueries": 1,
+  "locksRemaining": 0,
+  "protectedBeforeHash": "1088a6db140b18777b34ff751cb3f3ddbbbb56d33f794a2a3f64524485e47663",
+  "protectedAfterHash": "1088a6db140b18777b34ff751cb3f3ddbbbb56d33f794a2a3f64524485e47663",
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "elapsedMs": 807,
+        "sql": 10
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 819,
+        "sql": 10
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "elapsedMs": 775,
+        "sql": 10
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 748,
+        "sql": 10
+      }
+    ],
+    "grantMs": 2035,
+    "conditions": "Windows CLI to production PostgreSQL using actual mercenary armory service with 새벽별 filter. First/repeat, network included, single samples. Account data only; no UI/runtime changes, deployment or browser/physical-device frame measurement.",
+    "finding": "Unchanged 10 SQL armory reads. Network/DB round trips dominate; all five instances are added in one INSERT. Protection checks reuse bounded quantity/forge/loadout records rather than enumerating all equipment copies. No runtime change or speed improvement claim."
+  },
+  "runtimeChanged": false,
+  "gameDeployed": false,
+  "evidenceDirectory": "operations/tmoney-unique1-set-20261118",
+  "operationScriptSha256": {
+    "common.mjs": "30662c388066b468dda78a7d5b932323c94e92dc9dd31a1035bbaccd5785aab8",
+    "prepare.mjs": "8ff929b09bb29645925aad9f30870c3ede39618c1beb21013df5d1753d4b238d",
+    "service.mjs": "a5462912052f40a0588bf9c050a08de7d8168e48b1b68d5bb7b3f607913c4291",
+    "grant.mjs": "636ff76ed03a965dcf971f216145bfa88e322c38de4790cc1b100b89d501ff6e",
+    "run.mjs": "e379859534f129f7af544395b3e59d8fab8236ce614361a7d88f4478a672323d",
+    "record.mjs": "45a39b8b806e7de94cf5978ce013000df0d366c24272829ff08458f386a6771c"
+  }
+}

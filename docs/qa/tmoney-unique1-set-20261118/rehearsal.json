@@ -1,0 +1,60 @@
+{
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "actualArmoryVerified": true,
+  "runtime": {
+    "current": {
+      "items": [
+        {
+          "instanceId": "3383085741",
+          "code": "MERC_UQ_11_ACCESSORY",
+          "name": "성좌반지",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383085740",
+          "code": "MERC_UQ_11_SHOES",
+          "name": "혜성부츠",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383085739",
+          "code": "MERC_UQ_11_BOTTOM",
+          "name": "성운각반",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383085738",
+          "code": "MERC_UQ_11_TOP",
+          "name": "오팔갑주",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383085737",
+          "code": "MERC_UQ_11_WEAPON",
+          "name": "별가름",
+          "level": 0,
+          "equipped": false
+        }
+      ],
+      "nextCursor": null
+    },
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 879,
+        "sql": 10
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 886,
+        "sql": 10
+      }
+    ],
+    "conditions": "Windows CLI to production PostgreSQL using actual mercenary armory service with 새벽별 filter. First/repeat, network included, single samples. Account data only; no UI/runtime changes, deployment or browser/physical-device frame measurement."
+  }
+}

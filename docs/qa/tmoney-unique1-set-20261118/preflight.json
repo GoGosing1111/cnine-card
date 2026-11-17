@@ -1,0 +1,22 @@
+{
+  "owned": [],
+  "runtimeBefore": {
+    "current": {
+      "items": [],
+      "nextCursor": null
+    },
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 807,
+        "sql": 10
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 819,
+        "sql": 10
+      }
+    ],
+    "conditions": "Windows CLI to production PostgreSQL using actual mercenary armory service with 새벽별 filter. First/repeat, network included, single samples. Account data only; no UI/runtime changes, deployment or browser/physical-device frame measurement."
+  }
+}

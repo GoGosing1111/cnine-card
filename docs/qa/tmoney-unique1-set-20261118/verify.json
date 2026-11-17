@@ -1,0 +1,189 @@
+{
+  "status": "VERIFIED",
+  "readOnly": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:tmoney:unique1-set-zero:20261118:v1",
+    "planHash": "6817f9df301d3a4b5681f18c78feab164cc0dff40fe805a6caeecb6832a844f4",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "completedAt": "2026-11-17T17:06:41.299Z",
+    "completedAtKST": "2026-11-18 02:06:41",
+    "tier": 1,
+    "family": "새벽별",
+    "equipment": [
+      {
+        "equipmentId": "171",
+        "code": "MERC_UQ_11_WEAPON",
+        "name": "별가름",
+        "slot": "WEAPON",
+        "rarity": "MYTHIC",
+        "totalPower": 2400000,
+        "is_active": 1,
+        "is_public": 1,
+        "quantity": 1,
+        "level": 0,
+        "instanceId": "3383088741",
+        "quantityBefore": 0,
+        "quantityAfter": 1
+      },
+      {
+        "equipmentId": "172",
+        "code": "MERC_UQ_11_TOP",
+        "name": "오팔갑주",
+        "slot": "TOP",
+        "rarity": "MYTHIC",
+        "totalPower": 1680000,
+        "is_active": 1,
+        "is_public": 1,
+        "quantity": 1,
+        "level": 0,
+        "instanceId": "3383088742",
+        "quantityBefore": 0,
+        "quantityAfter": 1
+      },
+      {
+        "equipmentId": "173",
+        "code": "MERC_UQ_11_BOTTOM",
+        "name": "성운각반",
+        "slot": "BOTTOM",
+        "rarity": "MYTHIC",
+        "totalPower": 1560000,
+        "is_active": 1,
+        "is_public": 1,
+        "quantity": 1,
+        "level": 0,
+        "instanceId": "3383088743",
+        "quantityBefore": 0,
+        "quantityAfter": 1
+      },
+      {
+        "equipmentId": "174",
+        "code": "MERC_UQ_11_SHOES",
+        "name": "혜성부츠",
+        "slot": "SHOES",
+        "rarity": "MYTHIC",
+        "totalPower": 1200000,
+        "is_active": 1,
+        "is_public": 1,
+        "quantity": 1,
+        "level": 0,
+        "instanceId": "3383088744",
+        "quantityBefore": 0,
+        "quantityAfter": 1
+      },
+      {
+        "equipmentId": "175",
+        "code": "MERC_UQ_11_ACCESSORY",
+        "name": "성좌반지",
+        "slot": "ACCESSORY",
+        "rarity": "MYTHIC",
+        "totalPower": 1440000,
+        "is_active": 1,
+        "is_public": 1,
+        "quantity": 1,
+        "level": 0,
+        "instanceId": "3383088745",
+        "quantityBefore": 0,
+        "quantityAfter": 1
+      }
+    ],
+    "totalGranted": 5,
+    "enhancementLevel": 0,
+    "autoEquip": false,
+    "messagesSent": 0,
+    "packageReset": false,
+    "protectedBeforeHash": "1088a6db140b18777b34ff751cb3f3ddbbbb56d33f794a2a3f64524485e47663",
+    "protectedAfterHash": "1088a6db140b18777b34ff751cb3f3ddbbbb56d33f794a2a3f64524485e47663",
+    "packageHistoryHash": "2ae7e4eb6953d58b4e6cdf5e0baa1179177523178af48a791010bbf795109fa3",
+    "syncBefore": {
+      "domains": {
+        "pvp": "299195",
+        "wallet": "299873",
+        "loadout": "298780",
+        "messages": "299151",
+        "inventory": "299881",
+        "collection": "299711"
+      },
+      "user_id": "5147",
+      "revision": "299881"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "299195",
+        "wallet": "299873",
+        "loadout": "298780",
+        "messages": "299151",
+        "inventory": "299882",
+        "collection": "299711"
+      },
+      "user_id": "5147",
+      "revision": "299882"
+    },
+    "auditId": "63451"
+  },
+  "check": {
+    "equipmentInstances": 5,
+    "audits": 1,
+    "receipts": 1,
+    "duplicates": 0
+  },
+  "runtimeAfter": {
+    "current": {
+      "items": [
+        {
+          "instanceId": "3383088745",
+          "code": "MERC_UQ_11_ACCESSORY",
+          "name": "성좌반지",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383088744",
+          "code": "MERC_UQ_11_SHOES",
+          "name": "혜성부츠",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383088743",
+          "code": "MERC_UQ_11_BOTTOM",
+          "name": "성운각반",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383088742",
+          "code": "MERC_UQ_11_TOP",
+          "name": "오팔갑주",
+          "level": 0,
+          "equipped": false
+        },
+        {
+          "instanceId": "3383088741",
+          "code": "MERC_UQ_11_WEAPON",
+          "name": "별가름",
+          "level": 0,
+          "equipped": false
+        }
+      ],
+      "nextCursor": null
+    },
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 775,
+        "sql": 10
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 748,
+        "sql": 10
+      }
+    ],
+    "conditions": "Windows CLI to production PostgreSQL using actual mercenary armory service with 새벽별 filter. First/repeat, network included, single samples. Account data only; no UI/runtime changes, deployment or browser/physical-device frame measurement."
+  },
+  "noWriteReplay": true,
+  "replayQueries": 1,
+  "locksRemaining": 0
+}

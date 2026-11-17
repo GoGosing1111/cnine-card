@@ -1,0 +1,77 @@
+{
+  "operationKey": "ops:tmoney:unique1-set-zero:20261118:v1",
+  "authorization": "T-Money™ 유니크 장비 1단계 1세트 지급",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "identityHash": "ef2437017c5c234e0c069b99c16a0378e40e9185eecd068f533966b84fa50f0a",
+  "tier": 1,
+  "family": "새벽별",
+  "equipment": [
+    {
+      "equipmentId": "171",
+      "code": "MERC_UQ_11_WEAPON",
+      "name": "별가름",
+      "slot": "WEAPON",
+      "rarity": "MYTHIC",
+      "totalPower": 2400000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0
+    },
+    {
+      "equipmentId": "172",
+      "code": "MERC_UQ_11_TOP",
+      "name": "오팔갑주",
+      "slot": "TOP",
+      "rarity": "MYTHIC",
+      "totalPower": 1680000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0
+    },
+    {
+      "equipmentId": "173",
+      "code": "MERC_UQ_11_BOTTOM",
+      "name": "성운각반",
+      "slot": "BOTTOM",
+      "rarity": "MYTHIC",
+      "totalPower": 1560000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0
+    },
+    {
+      "equipmentId": "174",
+      "code": "MERC_UQ_11_SHOES",
+      "name": "혜성부츠",
+      "slot": "SHOES",
+      "rarity": "MYTHIC",
+      "totalPower": 1200000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0
+    },
+    {
+      "equipmentId": "175",
+      "code": "MERC_UQ_11_ACCESSORY",
+      "name": "성좌반지",
+      "slot": "ACCESSORY",
+      "rarity": "MYTHIC",
+      "totalPower": 1440000,
+      "is_active": 1,
+      "is_public": 1,
+      "quantity": 1,
+      "level": 0
+    }
+  ],
+  "total": 5,
+  "messages": 0,
+  "autoEquip": false,
+  "packageReset": false,
+  "preparedAt": "2026-11-17T17:04:58.777Z",
+  "auditFloor": "63449"
+}
