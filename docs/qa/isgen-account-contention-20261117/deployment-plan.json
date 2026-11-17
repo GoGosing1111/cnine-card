@@ -1,0 +1,42 @@
+{
+  "base": "f8882d2012dab348a509eed0e2ea32d3b6dca4ad",
+  "production": {
+    "pages": {
+      "id": "306c460b-1699-41f9-9a5f-f78b03b565f2",
+      "commit": "f8882d2012dab348a509eed0e2ea32d3b6dca4ad",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "ecd45dba-a51a-4a5c-8dea-4a40187bf64d",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "0cfa65b2-dd15-466e-a5f9-dd3aaee6dd2c",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/lich-action-account-contention-20261117.test.mjs",
+    "tests/lich-request-contention-20261013.test.mjs",
+    "tests/lich-raid-coop-20261002.test.mjs",
+    "tests/lich-input-recovery-20261026.test.mjs",
+    "tests/lich-weekly-rewards-20261004.test.mjs",
+    "tests/lich-boss-health-20261117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "Isgen combat action only: use existing room CAS, per-player tokens, unique receipts and atomic reward transaction without the redundant 20s account lock blocking the 12s final window. Other Isgen commands and all other account locks retain behavior. Reproduce same-account refusal and four clicks, verify overlapping personal inputs, concurrent final hits, rollback/replay/weekly limits and 3–6 players. Server-only change; no shared lock, auth, schema, balance or client asset change."
+}

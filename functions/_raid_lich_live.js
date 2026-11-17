@@ -294,8 +294,12 @@ export async function handleLichRaid({path,request,env,deps}){
     const body=await readJointBody(request,{fields});
     const since=Number(url.searchParams.get('since'))||0;
     const operation=()=>kind==='open'?openRoom(env,user,cfg,body,deps,now):roomCommand(env,user,cfg,kind,body,deps,now,Number.isSafeInteger(since)&&since>=0?since:0);
-    // Reuse the existing account mutation lock; room CAS serializes different users.
-    const result=await deps.withUserMutationLock(env,user.id,path,operation);
+    // Time-limited combat inputs are already serialized by the room CAS, with
+    // personal step tokens and receipts committed in the same transaction as
+    // damage/rewards. An unrelated or retained 20s account lock must not consume
+    // their 12s attack window. Status ticks already settle through this same CAS.
+    // Membership/loadout commands still use the account lock.
+    const result=kind==='action'?await operation():await deps.withUserMutationLock(env,user.id,path,operation);
     return json(result);
   }catch(error){
     const known=Number.isInteger(error.status);

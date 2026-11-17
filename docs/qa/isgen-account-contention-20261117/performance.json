@@ -1,0 +1,1168 @@
+{
+  "conditions": "Windows host, headless Chrome/WebKit; unthrottled localhost and isolated real handler/SQLite. Actual lobby > battle > raid > Isgen entry and reentry. Android/iOS are mobile emulation, Windows is launcher URL emulation, H5 is iframe with mock SDK. No physical mobile/native app measurement. One sample per condition. Synthetic 20s account lock held for both versions; same 12s final window, four user clicks. Baseline declines attacks, so its frame workload lacks successful hit animations. Some baseline Android/WebKit samples overlapped scoped unit checks; no frame improvement claim.",
+  "bottleneck": "Server-side redundant account lock and retry backoff. Room CAS and receipts already serialize combat; remove only the extra action lock so a retained lock cannot outlast the final attack window.",
+  "surfaces": [
+    {
+      "device": "pc",
+      "before": {
+        "phase": "before",
+        "partySize": 4,
+        "firstLaunchMs": 1001,
+        "entryMs": [
+          2686,
+          1071
+        ],
+        "clicks": [
+          {
+            "ms": 1543,
+            "hp": 700012
+          },
+          {
+            "ms": 1504,
+            "hp": 700012
+          },
+          {
+            "ms": 1486,
+            "hp": 700012
+          },
+          {
+            "ms": 1486,
+            "hp": 700012
+          }
+        ],
+        "actions": [
+          {
+            "status": 409,
+            "ms": 1.3982000000005428,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.9699000000000524,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6081999999996697,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8068999999995867,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7663000000002285,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 1.3914000000004307,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.675599999998667,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6780999999991764,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5649000000012165,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6137999999991735,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8339999999989232,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 1.009700000000521,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6690999999991618,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6244000000006054,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6054999999996653,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8033999999988737,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6181999999989785,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7250999999996566,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7824999999993452,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6625999999996566,
+            "sql": 2
+          }
+        ],
+        "result": {
+          "status": "FAILED",
+          "hp": 700012,
+          "resultCount": 1,
+          "coins": 0
+        },
+        "frames": {
+          "count": 2951,
+          "p95": 8.299999999999272,
+          "max": 37.600000000000364,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:10125/js/pwa-install.js?v=1727-split-cach",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      },
+      "after": {
+        "phase": "after",
+        "partySize": 4,
+        "firstLaunchMs": 855.2000000178814,
+        "entryMs": [
+          2308,
+          1190
+        ],
+        "clicks": [
+          {
+            "ms": 170,
+            "hp": 485721
+          },
+          {
+            "ms": 122,
+            "hp": 271430
+          },
+          {
+            "ms": 104,
+            "hp": 57139
+          },
+          {
+            "ms": 131,
+            "hp": 0
+          }
+        ],
+        "actions": [
+          {
+            "status": 200,
+            "ms": 49.04160000000047,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 7.278599999999642,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 6.879299999998693,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 11.90650000000096,
+            "sql": 137
+          }
+        ],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 420,
+          "p95": 19.100000000000364,
+          "max": 44.400000000001455,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:5927/js/pwa-install.js?v=1727-split-cache",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:5927/preview/project-v-v3/project-v-firear"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      }
+    },
+    {
+      "device": "android",
+      "before": {
+        "phase": "before",
+        "partySize": 3,
+        "firstLaunchMs": 740.5,
+        "entryMs": [
+          2281,
+          1178
+        ],
+        "clicks": [
+          {
+            "ms": 1568,
+            "hp": 914305
+          },
+          {
+            "ms": 1543,
+            "hp": 914305
+          },
+          {
+            "ms": 1520,
+            "hp": 914305
+          },
+          {
+            "ms": 1502,
+            "hp": 914305
+          }
+        ],
+        "actions": [
+          {
+            "status": 409,
+            "ms": 1.9708000000000538,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.912199999999757,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.664600000000064,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6670999999996639,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6289999999999054,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 3.4201000000011845,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 1.894800000000032,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5976000000009662,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7448999999996886,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5856999999996333,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7622000000010303,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7303000000010798,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6946000000007189,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 1.1013000000002648,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.9677000000010594,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5344000000004598,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5530999999991764,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5120999999999185,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.71389999999883,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5816999999988184,
+            "sql": 2
+          }
+        ],
+        "result": {
+          "status": "FAILED",
+          "hp": 914305,
+          "resultCount": 1,
+          "coins": 0
+        },
+        "frames": {
+          "count": 941,
+          "p95": 20.600000000002183,
+          "max": 569.6999999999971,
+          "over50": 5,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:7255/js/pwa-install.js?v=1727-split-cache",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      },
+      "after": {
+        "phase": "after",
+        "partySize": 3,
+        "firstLaunchMs": 669,
+        "entryMs": [
+          2480,
+          1169
+        ],
+        "clicks": [
+          {
+            "ms": 271,
+            "hp": 628583
+          },
+          {
+            "ms": 100,
+            "hp": 342861
+          },
+          {
+            "ms": 107,
+            "hp": 57139
+          },
+          {
+            "ms": 130,
+            "hp": 0
+          }
+        ],
+        "actions": [
+          {
+            "status": 200,
+            "ms": 42.41310000000067,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 7.931900000000496,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 6.533799999999246,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 12.2507999999998,
+            "sql": 106
+          }
+        ],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 426,
+          "p95": 20.600000000000364,
+          "max": 61.70000000000073,
+          "over50": 2,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:12702/js/pwa-install.js?v=1727-split-cach",
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:12702/preview/project-v-v3/project-v-firea"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      }
+    },
+    {
+      "device": "ios",
+      "before": {
+        "phase": "before",
+        "partySize": 6,
+        "firstLaunchMs": 1086,
+        "entryMs": [
+          5869,
+          3114
+        ],
+        "clicks": [
+          {
+            "ms": 1760,
+            "hp": 485722
+          },
+          {
+            "ms": 1778,
+            "hp": 485722
+          },
+          {
+            "ms": 1717,
+            "hp": 485722
+          },
+          {
+            "ms": 1747,
+            "hp": 485722
+          }
+        ],
+        "actions": [
+          {
+            "status": 409,
+            "ms": 0.9178000000010798,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 1.1584000000002561,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6337000000003172,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8447000000014668,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7127999999993335,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6434000000008382,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6820000000006985,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.609599999999773,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 1.370199999997567,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8294999999998254,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8129000000008091,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6610000000000582,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8218999999990046,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6563999999998487,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6274000000012165,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6876999999985856,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5247000000017579,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.4750999999996566,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.664600000000064,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6107000000010885,
+            "sql": 2
+          }
+        ],
+        "result": {
+          "status": "FAILED",
+          "hp": 485722,
+          "resultCount": 1,
+          "coins": 0
+        },
+        "frames": {
+          "count": 394,
+          "p95": 47,
+          "max": 80,
+          "over50": 5,
+          "falseDeath": 0
+        },
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "warnings": [
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: undefined is not an object (evaluating 'registration.update')",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:9863/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.a",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:9863/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.a",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:9863/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.a",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      },
+      "after": {
+        "phase": "after",
+        "partySize": 6,
+        "firstLaunchMs": 1444,
+        "entryMs": [
+          6682,
+          3457
+        ],
+        "clicks": [
+          {
+            "ms": 505,
+            "hp": 342861
+          },
+          {
+            "ms": 331,
+            "hp": 200000
+          },
+          {
+            "ms": 317,
+            "hp": 57139
+          },
+          {
+            "ms": 457,
+            "hp": 0
+          }
+        ],
+        "actions": [
+          {
+            "status": 200,
+            "ms": 62.856799999999566,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 8.53189999999995,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 7.425800000000891,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 20.080999999998312,
+            "sql": 199
+          }
+        ],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 157,
+          "p95": 62,
+          "max": 143,
+          "over50": 15,
+          "falseDeath": 0
+        },
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "warnings": [
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: undefined is not an object (evaluating 'registration.update')",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:11448/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:11448/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:11448/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      }
+    },
+    {
+      "device": "windows",
+      "before": {
+        "phase": "before",
+        "partySize": 5,
+        "firstLaunchMs": 1248.9000000059605,
+        "entryMs": [
+          2959,
+          1293
+        ],
+        "clicks": [
+          {
+            "ms": 1567,
+            "hp": 571438
+          },
+          {
+            "ms": 1509,
+            "hp": 571438
+          },
+          {
+            "ms": 1527,
+            "hp": 571438
+          },
+          {
+            "ms": 1513,
+            "hp": 571438
+          }
+        ],
+        "actions": [
+          {
+            "status": 409,
+            "ms": 1.2083999999995285,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7741000000005442,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8206000000000131,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7124999999996362,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7742999999991298,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.9630999999990308,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.602100000000064,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.593300000000454,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5763999999999214,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6055999999989581,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8878000000004249,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.9616000000005442,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5133999999998196,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6430999999993219,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5010999999994965,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5516999999999825,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6906999999991967,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5011000000013155,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5015000000021246,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5934999999990396,
+            "sql": 2
+          }
+        ],
+        "result": {
+          "status": "FAILED",
+          "hp": 571438,
+          "resultCount": 1,
+          "coins": 0
+        },
+        "frames": {
+          "count": 997,
+          "p95": 17.5,
+          "max": 41.69999999999891,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:9900/js/pwa-install.js?v=1727-split-cache",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      },
+      "after": {
+        "phase": "after",
+        "partySize": 5,
+        "firstLaunchMs": 691.4000000059605,
+        "entryMs": [
+          2187,
+          1257
+        ],
+        "clicks": [
+          {
+            "ms": 139,
+            "hp": 400005
+          },
+          {
+            "ms": 120,
+            "hp": 228572
+          },
+          {
+            "ms": 93,
+            "hp": 57139
+          },
+          {
+            "ms": 108,
+            "hp": 0
+          }
+        ],
+        "actions": [
+          {
+            "status": 200,
+            "ms": 27.802300000000287,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 8.867500000000291,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 6.587199999999939,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 12.353699999999662,
+            "sql": 168
+          }
+        ],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 418,
+          "p95": 15.900000000000546,
+          "max": 47.70000000000073,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:11496/js/pwa-install.js?v=1727-split-cach",
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:11496/preview/project-v-v3/project-v-firea"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      }
+    },
+    {
+      "device": "h5",
+      "before": {
+        "phase": "before",
+        "partySize": 6,
+        "firstLaunchMs": 834.8000000119209,
+        "entryMs": [
+          2549,
+          1275
+        ],
+        "clicks": [
+          {
+            "ms": 1584,
+            "hp": 485722
+          },
+          {
+            "ms": 1517,
+            "hp": 485722
+          },
+          {
+            "ms": 1518,
+            "hp": 485722
+          },
+          {
+            "ms": 1530,
+            "hp": 485722
+          }
+        ],
+        "actions": [
+          {
+            "status": 409,
+            "ms": 1.1221000000005006,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7848999999996522,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.772899999999936,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.8090000000001965,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7318999999997686,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6509999999998399,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7181999999993423,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5871000000006461,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.623700000000099,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5961999999999534,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.9040999999997439,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.9602999999988242,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.7348999999994703,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.885999999998603,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5511000000005879,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6117000000012922,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5252000000000407,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.48990000000048894,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.6149999999997817,
+            "sql": 2
+          },
+          {
+            "status": 409,
+            "ms": 0.5839999999989232,
+            "sql": 2
+          }
+        ],
+        "result": {
+          "status": "FAILED",
+          "hp": 485722,
+          "resultCount": 1,
+          "coins": 0
+        },
+        "frames": {
+          "count": 997,
+          "p95": 15,
+          "max": 41.099999999998545,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      },
+      "after": {
+        "phase": "after",
+        "partySize": 6,
+        "firstLaunchMs": 660.2999999821186,
+        "entryMs": [
+          3035,
+          1290
+        ],
+        "clicks": [
+          {
+            "ms": 280,
+            "hp": 342861
+          },
+          {
+            "ms": 117,
+            "hp": 200000
+          },
+          {
+            "ms": 98,
+            "hp": 57139
+          },
+          {
+            "ms": 114,
+            "hp": 0
+          }
+        ],
+        "actions": [
+          {
+            "status": 200,
+            "ms": 56.54029999999966,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 6.557699999999386,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 7.241899999999077,
+            "sql": 8
+          },
+          {
+            "status": 200,
+            "ms": 14.580500000000029,
+            "sql": 199
+          }
+        ],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 417,
+          "p95": 19.400000000001455,
+          "max": 55.79999999999927,
+          "over50": 1,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:9780/preview/project-v-v3/project-v-firear"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0,
+        "accountLockStillHeld": true
+      }
+    }
+  ]
+}
