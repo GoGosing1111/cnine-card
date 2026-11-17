@@ -1,0 +1,398 @@
+{
+  "at": "2026-11-17T12:05:03.438Z",
+  "sourceCommit": "89bf2b427075e66fac381e624cc311bcd549aabd",
+  "pages": {
+    "id": "38fc7360-368e-494a-9d52-6b6e200d61b6",
+    "commit": "89bf2b427075e66fac381e624cc311bcd549aabd",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "9be19b72-a060-451b-bb98-bcd67e7184a3",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "3ee2128a-a551-4636-a3af-b1ac0267f3cd",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "file": "js/workshop-assembly-live-v2073.bundle.js",
+      "sha256": "57a6444aef04fcfdaa4046b722d029abbb12a6ef73f88b8f662cbd1414be0ffa",
+      "bytes": 23705,
+      "windows": true
+    },
+    {
+      "file": "js/workshop-assembly-fx-v2073.bundle.js",
+      "sha256": "0c495a839371995ff0f90304d1d3d2408028ab2edb016648f2960f1603742ae2",
+      "bytes": 46579,
+      "windows": true
+    },
+    {
+      "file": "preview/workshop-assembly-v1/assembly.bundle.js",
+      "sha256": "49a36c06c136b229be18e7ac881e310c328abd4594495dbc9b43bca4b5342868",
+      "bytes": 53261,
+      "windows": true
+    },
+    {
+      "file": "preview/battle-suit-sx-v1/assets/sources/sx-standing-approved-20261007.png",
+      "sha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+      "bytes": 1761611,
+      "windows": false
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "867fea5e92b9a6b91b217673295dfcd0ea05cea285aaccaf5e2cfd4bd53335b9",
+      "bytes": 831701,
+      "windows": true
+    },
+    {
+      "file": "onestore/js/app.js",
+      "sha256": "b86025f5e644bb1758bab0a848bb8d01e016c40e15049cbcd3e94948cb777ff0",
+      "bytes": 825876,
+      "windows": false
+    },
+    {
+      "file": "index.html",
+      "sha256": "9c8eaed53c624dc95ac0e3f466b2571de4c498cb4c90625f2264ffc2d4981b7b",
+      "bytes": 53040,
+      "windows": true
+    },
+    {
+      "file": "onestore/index.html",
+      "sha256": "5dc49eb2795cc089798100c9d654b2949217f4618f1db79ce4bad24a24549f88",
+      "bytes": 52881,
+      "windows": false
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "20d58ce8ba4294c4748ad00e29cccd4dbbe02f391386562488c9a779f138a02d",
+      "bytes": 26539,
+      "windows": false
+    },
+    {
+      "file": "shared/onestore-web-assets-v1.mjs",
+      "sha256": "92be8e4b0e207a80f6d603c47bbab96cc0d379828d8b40cde17f22b6ddc07b18",
+      "bytes": 985,
+      "windows": true
+    }
+  ],
+  "windowsRelease": "e81b0aedf97c3f3fe5a76c7a51c3145b368dd490dc3f9bbbf22210790440d44f",
+  "testsPassed": 52,
+  "assetCount": 20000,
+  "operation": "ops:sx-suit-craft:20261117:v1",
+  "recipeId": "580",
+  "auditId": "63088",
+  "coin": 300000000000000,
+  "core8": 10,
+  "successRate": 10,
+  "output": "BATTLE_SUIT_SX",
+  "quantity": 1,
+  "registrationReplayWrites": 0,
+  "productionDirectAccountWrites": 0,
+  "messages": 0,
+  "sourceArtUnchanged": true,
+  "physicalDeviceQA": false,
+  "productionRead": {
+    "at": "2026-11-17T12:07:20.712Z",
+    "readOnly": true,
+    "accountWrites": 0,
+    "conditions": "Windows CLI, actual production workshop service with live PostgreSQL in READ ONLY transaction and ordinary USER visibility. First/repeated on one connection, network included; no browser, native device or actual account crafting.",
+    "samples": [
+      {
+        "entry": "first",
+        "ms": 1382.9708999999998,
+        "sql": 17,
+        "recipe": {
+          "id": 580,
+          "code": "WORKSHOP_BATTLE_SUIT_SX",
+          "outputRef": "52",
+          "quantity": 1,
+          "coin": 300000000000000,
+          "successRate": 10,
+          "materials": [
+            {
+              "code": "SUIT_CORE_8",
+              "quantity": 10
+            }
+          ]
+        }
+      },
+      {
+        "entry": "repeat",
+        "ms": 1236.3319000000001,
+        "sql": 16,
+        "recipe": {
+          "id": 580,
+          "code": "WORKSHOP_BATTLE_SUIT_SX",
+          "outputRef": "52",
+          "quantity": 1,
+          "coin": 300000000000000,
+          "successRate": 10,
+          "materials": [
+            {
+              "code": "SUIT_CORE_8",
+              "quantity": 10
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "publicUi": {
+    "pc": {
+      "phase": "public",
+      "device": "pc",
+      "referenceModel": "sx",
+      "errors": [],
+      "missing": [],
+      "api": [
+        "loot-shop/balance",
+        "sync/ticket",
+        "service/status",
+        "chief/extension-notice",
+        "loot-shop/balance",
+        "cards",
+        "packs",
+        "me/summary",
+        "pve/v3/feature",
+        "mercenary-cards/feature",
+        "loot-shop/balance",
+        "card/unique-advancement/feature",
+        "burning-event/status",
+        "streamer-profiles",
+        "me/menu-favorites",
+        "shell/summary",
+        "rank-exp-potion/status",
+        "live-operations",
+        "chief/status",
+        "account-rank/status",
+        "auction/user/lobby",
+        "me/summary",
+        "loot-shop/balance",
+        "me/collection",
+        "shell/summary",
+        "user/runtime-command",
+        "admin/server-support/package/alerts",
+        "chief/status",
+        "server-support/status",
+        "sync/ticket",
+        "account-rank/status",
+        "workshop",
+        "clan/war/ready-alert",
+        "clan/faction/alerts",
+        "chief/extension-notice",
+        "jokgak-city/notifications",
+        "workshop/craft",
+        "loot-shop/balance",
+        "account-rank/status",
+        "sync/ticket",
+        "jokgak-city/notifications",
+        "sync/ticket",
+        "chief/extension-notice",
+        "clan/faction/alerts",
+        "pvp/config",
+        "magic/status",
+        "loot-shop/balance",
+        "shell/summary",
+        "rank-exp-potion/status",
+        "live-operations",
+        "server-support/status",
+        "auction/user/lobby",
+        "workshop",
+        "workshop/craft",
+        "loot-shop/balance",
+        "sync/ticket",
+        "account-rank/status",
+        "clan/faction/alerts",
+        "admin/server-support/package/alerts",
+        "sync/ticket",
+        "clan/faction/alerts",
+        "loot-shop/balance"
+      ],
+      "entries": [
+        {
+          "sql": 16,
+          "ms": 89.1819000000005
+        },
+        {
+          "sql": 10,
+          "ms": 14.093600000000151
+        }
+      ],
+      "crafts": [
+        {
+          "sql": 41,
+          "ms": 66.01059999999961,
+          "success": true,
+          "coinSpent": 300000000000000,
+          "cores": 20
+        },
+        {
+          "sql": 40,
+          "ms": 41.13140000000203,
+          "success": false,
+          "coinSpent": 300000000000000,
+          "cores": 10
+        }
+      ],
+      "firstLaunchMs": 1236.8498,
+      "workshopEntryMs": 872.1300999999994,
+      "filmEntryMs": [
+        919.8240999999998,
+        232.66949999999997
+      ],
+      "workshopReentryMs": 495.6827000000012,
+      "afterExit": {
+        "timelines": 0,
+        "craftRequests": 0,
+        "canvas": 0
+      },
+      "frames": {
+        "count": 1942,
+        "p95": 12.599999999998545,
+        "max": 299.89999999999964,
+        "over50": 3
+      },
+      "resources": []
+    },
+    "h5": {
+      "phase": "public",
+      "device": "h5",
+      "referenceModel": "sx",
+      "errors": [],
+      "missing": [],
+      "api": [
+        "loot-shop/balance",
+        "sync/ticket",
+        "service/status",
+        "chief/extension-notice",
+        "loot-shop/balance",
+        "cards",
+        "packs",
+        "me/summary",
+        "pve/v3/feature",
+        "mercenary-cards/feature",
+        "loot-shop/balance",
+        "card/unique-advancement/feature",
+        "burning-event/status",
+        "streamer-profiles",
+        "me/menu-favorites",
+        "shell/summary",
+        "rank-exp-potion/status",
+        "live-operations",
+        "chief/status",
+        "messages",
+        "account-rank/status",
+        "me/summary",
+        "auction/user/lobby",
+        "loot-shop/balance",
+        "me/collection",
+        "shell/summary",
+        "user/runtime-command",
+        "loot-shop/balance",
+        "chief/extension-notice",
+        "mercenary-cards/feature",
+        "chief/status",
+        "sync/ticket",
+        "workshop",
+        "account-rank/status",
+        "burning-event/status",
+        "clan/war/ready-alert",
+        "clan/faction/alerts",
+        "chief/extension-notice",
+        "jokgak-city/notifications",
+        "sync/ticket",
+        "sync/ticket",
+        "chief/extension-notice",
+        "clan/faction/alerts",
+        "pvp/config",
+        "magic/status",
+        "loot-shop/balance",
+        "workshop/craft",
+        "chief/extension-notice",
+        "mercenary-cards/feature",
+        "sync/ticket",
+        "loot-shop/balance",
+        "user/runtime-command",
+        "burning-event/status",
+        "account-rank/status",
+        "clan/faction/alerts",
+        "me/menu-favorites",
+        "shell/summary",
+        "rank-exp-potion/status",
+        "live-operations",
+        "messages",
+        "workshop",
+        "sync/ticket",
+        "workshop/craft",
+        "chief/extension-notice",
+        "mercenary-cards/feature",
+        "loot-shop/balance",
+        "user/runtime-command",
+        "burning-event/status",
+        "account-rank/status",
+        "clan/faction/alerts",
+        "clan/war/ready-alert",
+        "clan/faction/alerts"
+      ],
+      "entries": [
+        {
+          "sql": 16,
+          "ms": 60.898700000001554
+        },
+        {
+          "sql": 10,
+          "ms": 16.327399999994668
+        }
+      ],
+      "crafts": [
+        {
+          "sql": 41,
+          "ms": 139.928100000001,
+          "success": true,
+          "coinSpent": 300000000000000,
+          "cores": 20
+        },
+        {
+          "sql": 40,
+          "ms": 57.736299999996845,
+          "success": false,
+          "coinSpent": 300000000000000,
+          "cores": 10
+        }
+      ],
+      "firstLaunchMs": 1284.7597999999998,
+      "workshopEntryMs": 909.8729999999996,
+      "filmEntryMs": [
+        1127.7579000000005,
+        308.5110999999961
+      ],
+      "workshopReentryMs": 625.6237999999939,
+      "afterExit": {
+        "timelines": 0,
+        "craftRequests": 0,
+        "canvas": 0
+      },
+      "frames": {
+        "count": 2130,
+        "p95": 12.5,
+        "max": 245.90000000000146,
+        "over50": 4
+      },
+      "resources": []
+    }
+  },
+  "publicUiCondition": "Production static assets, isolated actual craft handler and database; no live account crafting."
+}

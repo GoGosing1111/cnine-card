@@ -1,0 +1,46 @@
+{
+  "at": "2026-11-17T12:07:20.712Z",
+  "readOnly": true,
+  "accountWrites": 0,
+  "conditions": "Windows CLI, actual production workshop service with live PostgreSQL in READ ONLY transaction and ordinary USER visibility. First/repeated on one connection, network included; no browser, native device or actual account crafting.",
+  "samples": [
+    {
+      "entry": "first",
+      "ms": 1382.9708999999998,
+      "sql": 17,
+      "recipe": {
+        "id": 580,
+        "code": "WORKSHOP_BATTLE_SUIT_SX",
+        "outputRef": "52",
+        "quantity": 1,
+        "coin": 300000000000000,
+        "successRate": 10,
+        "materials": [
+          {
+            "code": "SUIT_CORE_8",
+            "quantity": 10
+          }
+        ]
+      }
+    },
+    {
+      "entry": "repeat",
+      "ms": 1236.3319000000001,
+      "sql": 16,
+      "recipe": {
+        "id": 580,
+        "code": "WORKSHOP_BATTLE_SUIT_SX",
+        "outputRef": "52",
+        "quantity": 1,
+        "coin": 300000000000000,
+        "successRate": 10,
+        "materials": [
+          {
+            "code": "SUIT_CORE_8",
+            "quantity": 10
+          }
+        ]
+      }
+    }
+  ]
+}
