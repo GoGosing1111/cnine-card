@@ -1,0 +1,81 @@
+{
+  "at": "2026-11-17T10:06:46.486Z",
+  "sourceCommit": "a01c26e3c8a67628276e629f5646c3b19d711461",
+  "pages": {
+    "id": "3fbe06ec-9b28-4836-a3d0-e395fe203f35",
+    "commit": "a01c26e3c8a67628276e629f5646c3b19d711461",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "422a73e7-4a31-426d-832e-5b0b9836b4b1",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "7d66bbe9-f12b-422f-b193-990c1500669d",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "35b16d51ac075f9073abe3be6e402b186db2d3f69af93e13714c115dfc790c03",
+      "windows": true
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "b2fd54b873718a291330240682fd77d76745ccc74cfd493546f2882d24d1e5a3",
+      "windows": false
+    },
+    {
+      "path": "js/cnine-roster-v1.js",
+      "sha256": "ca94f4e221da68091698df733f2d7ba619c55734349282f3f0d0fbd07f5abfb4",
+      "windows": true
+    },
+    {
+      "path": "js/streamer-lounge-v2036.js",
+      "sha256": "06394e2f0399ebd1e22f4121dbd9942ccd0ee45743e913886a43de5c9427127a",
+      "windows": true
+    },
+    {
+      "path": "onestore/index.html",
+      "sha256": "8a239acacebde03b554800b017502e524d2c989409ea587158b37aa48071854f",
+      "windows": false
+    }
+  ],
+  "windows": {
+    "releaseId": "bfa5e5548a08e247404adc51e821d7412110c43e3c62d0c2ceaff8c4a3fa0120",
+    "totalFiles": 15173
+  },
+  "runtimeRosterVerified": true,
+  "testsPassed": 31,
+  "assetCount": 20000,
+  "roster": {
+    "star": 10,
+    "female": 10,
+    "total": 20,
+    "added": {
+      "id": "595935",
+      "name": "상어녀",
+      "station": "https://www.sooplive.com/station/595935"
+    }
+  },
+  "productionAccountWrites": 0,
+  "messages": 0,
+  "physicalDevices": false,
+  "publicScreenChecks": [
+    "desktop",
+    "h5"
+  ],
+  "performance": "performance.json"
+}
