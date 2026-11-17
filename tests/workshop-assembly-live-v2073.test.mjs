@@ -185,8 +185,8 @@ test('Z-BODY uses the current sword artwork for both saved outcomes while CMS la
     }
   }
   const app=read('js/app.js'),index=read('index.html');
-  assert.match(app,/workshop-assembly-live-v2073\.bundle\.js\?v=20261106-x-body-assembly-v1/);
-  assert.match(app,/workshop-assembly-fx-v2073\.bundle\.js\?v=20261106-x-body-assembly-v1/);
+  assert.match(app,/workshop-assembly-live-v2073\.bundle\.js\?v=20261117-sx-suit-assembly-v1/);
+  assert.match(app,/workshop-assembly-fx-v2073\.bundle\.js\?v=20261117-sx-suit-assembly-v1/);
   assert.match(index,/zBodyAssembly=20261006/);
 });
 

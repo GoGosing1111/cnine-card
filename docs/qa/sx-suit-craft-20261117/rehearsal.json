@@ -1,0 +1,50 @@
+{
+  "at": "2026-11-17T11:38:50.967Z",
+  "failures": [
+    "recipe",
+    "material"
+  ],
+  "normal": {
+    "committed": false,
+    "rolledBack": true,
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:sx-suit-craft:20261117:v1",
+      "completedAt": "2026-11-17T11:38:49.473Z",
+      "releaseCommit": "ecf46e95f4414a37f2ee4035d986b815aded45fd",
+      "authorization": "SX슈트 제작식 추가해(제작연출 X슈트 참고), 슈트코어 8 10개, 코인 300조, 확률 10%",
+      "recipe": {
+        "code": "WORKSHOP_BATTLE_SUIT_SX",
+        "name": "SX슈트 제작",
+        "category": "BATTLE_SUIT_CRAFT",
+        "description": "슈트 코어 8 10개와 코인 300조로 SX슈트 제작을 시도합니다. 성공 확률 10%. 실패 시 투입 재료와 코인이 소모됩니다.",
+        "output_type": "EQUIPMENT",
+        "output_ref": "52",
+        "output_quantity": 1,
+        "payment_mode": "COIN_ONLY",
+        "coin_cost": 300000000000000,
+        "master_star_cost": 0,
+        "success_rate": 10,
+        "is_featured": 0,
+        "is_active": 1,
+        "is_public": 1,
+        "owner_test_only": 0,
+        "sort_order": 103,
+        "material": {
+          "item_code": "SUIT_CORE_8",
+          "quantity": 10,
+          "sort_order": 10
+        },
+        "referenceRecipeId": "570"
+      },
+      "recipeId": "579",
+      "protectedHash": "ea33fa63ad4152911935638bdb6ef6dcfb5151ba0b311f8ea34edce8b99b3e77",
+      "accountWrites": 0,
+      "messages": 0,
+      "auditId": "63067"
+    }
+  },
+  "expectedHash": "ea33fa63ad4152911935638bdb6ef6dcfb5151ba0b311f8ea34edce8b99b3e77",
+  "protectedHash": "ea33fa63ad4152911935638bdb6ef6dcfb5151ba0b311f8ea34edce8b99b3e77",
+  "allRolledBack": true
+}

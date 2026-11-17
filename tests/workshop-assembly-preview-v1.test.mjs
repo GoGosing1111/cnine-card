@@ -105,7 +105,7 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
   delete globalThis.location;delete globalThis.document;
 });
 test('E/F/G and Ignis-X map to verified CMS identities with model-specific geometry',()=>{
-  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h','s','z','x']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','maybach','astra','ignis','veneno']);
+  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h','s','z','x','sx']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','maybach','astra','ignis','veneno']);
   assert.equal(MODELS.e.code,'BATTLE_SUIT_01');assert.equal(MODELS.f.code,'BATTLE_SUIT_02');assert.equal(MODELS.g.code,'BATTLE_SUIT_03');assert.equal(MODELS.ignis.code,'GARAGE_1787232065012');
   for(const key of ['e','f','g']){const m=modelFor('suit',key),p=suitPlacement(m);assert.equal(p.scale*(m.box[3]-m.box[1]),650);assert.equal(modelPhases('suit',key,MODES.suit.phases)[4][2].includes('INTERFACE'),true);}
   assert.throws(()=>modelFor('suit','ignis'));assert.throws(()=>modelFor('vehicle','e'));assert.equal(resolveModel('suit','unknown'),'h');

@@ -1,0 +1,1165 @@
+{
+  "at": "2026-11-17T11:57:43.243Z",
+  "conditions": "Windows host; headless PC Chrome 1440x1000, Android Chrome and iPhone WebKit 390x844 emulation, Windows launcher URL in Chrome (not installed app), H5 iframe with mock SDK. Actual lobby → all menus → crafting → battle suit → recipe → saved successful/failed craft → assembly → return/reentry. Isolated PGlite runs actual production craft/read SQL; no live account crafting. Reference is existing X model before change and newly added SX after change under the same viewport/input sequence; different artwork, not a speedup A/B claim. First launch, first entry, reentry, cold/warm film, frame times and 650ms exit tracked. Screenshots excluded from frame sampling. No physical devices.",
+  "assessment": "SX downloads the existing 1,761,611-byte approved source once, not 11 separate part files; only selected model resources load. Local Canvas regions are sliced without cache insertion, yielded every three pieces, and destroyed on exit. Final assembly uses the exact original texture; original source SHA remains 0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b. Original 13.4s sequence, mechanical arms, core ignition, recorded sound controls and outcome remain. Cold vendor/texture setup can produce long frames; record samples without claiming physical-device performance. Query counts and timings are isolated, not production DB round trips.",
+  "comparisons": {
+    "pc": {
+      "before": {
+        "phase": "before",
+        "device": "pc",
+        "referenceModel": "x",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "auction/user/lobby",
+          "loot-shop/balance",
+          "me/summary",
+          "admin/server-support/package/alerts",
+          "loot-shop/balance",
+          "me/collection",
+          "shell/summary",
+          "server-support/status",
+          "chief/status",
+          "user/runtime-command",
+          "workshop",
+          "sync/ticket",
+          "account-rank/status",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "chief/extension-notice",
+          "workshop/craft",
+          "loot-shop/balance",
+          "jokgak-city/notifications",
+          "account-rank/status",
+          "sync/ticket",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "server-support/status",
+          "workshop",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "sync/ticket",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 63.897399999999834
+          },
+          {
+            "sql": 10,
+            "ms": 14.988199999999779
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 58.279199999999946,
+            "success": true,
+            "coinSpent": 25000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 41.476300000000265,
+            "success": false,
+            "coinSpent": 25000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1129.2844000000005,
+        "workshopEntryMs": 858.7250000000004,
+        "filmEntryMs": [
+          621.5775000000003,
+          239.99029999999948
+        ],
+        "workshopReentryMs": 470.84599999999955,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 2163,
+          "p95": 12.5,
+          "max": 166.70000000000027,
+          "over50": 5
+        },
+        "resources": []
+      },
+      "after": {
+        "phase": "after",
+        "device": "pc",
+        "referenceModel": "sx",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "auction/user/lobby",
+          "admin/server-support/package/alerts",
+          "me/summary",
+          "loot-shop/balance",
+          "me/collection",
+          "shell/summary",
+          "user/runtime-command",
+          "chief/status",
+          "loot-shop/balance",
+          "server-support/status",
+          "account-rank/status",
+          "workshop",
+          "sync/ticket",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "chief/extension-notice",
+          "workshop/craft",
+          "loot-shop/balance",
+          "jokgak-city/notifications",
+          "account-rank/status",
+          "sync/ticket",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "pvp/config",
+          "magic/status",
+          "sync/ticket",
+          "loot-shop/balance",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "auction/user/lobby",
+          "server-support/status",
+          "workshop",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 50.5575000000008
+          },
+          {
+            "sql": 10,
+            "ms": 12.674300000002404
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 52.58680000000004,
+            "success": true,
+            "coinSpent": 300000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 42.16870000000199,
+            "success": false,
+            "coinSpent": 300000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1118.2769000000003,
+        "workshopEntryMs": 933.3787999999995,
+        "filmEntryMs": [
+          792.5454,
+          228.96600000000035
+        ],
+        "workshopReentryMs": 498.66379999999845,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 1999,
+          "p95": 12.599999999998545,
+          "max": 333.3000000000002,
+          "over50": 5
+        },
+        "resources": []
+      }
+    },
+    "android": {
+      "before": {
+        "phase": "before",
+        "device": "android",
+        "referenceModel": "x",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "auction/user/lobby",
+          "admin/server-support/package/alerts",
+          "me/summary",
+          "chief/status",
+          "loot-shop/balance",
+          "me/collection",
+          "shell/summary",
+          "server-support/status",
+          "user/runtime-command",
+          "workshop",
+          "sync/ticket",
+          "account-rank/status",
+          "chief/extension-notice",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "jokgak-city/notifications",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "sync/ticket",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "auction/user/lobby",
+          "server-support/status",
+          "workshop",
+          "workshop/craft",
+          "loot-shop/balance",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "sync/ticket",
+          "account-rank/status",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 87.96609999999964
+          },
+          {
+            "sql": 10,
+            "ms": 13.607100000001083
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 47.48329999999987,
+            "success": true,
+            "coinSpent": 25000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 48.325700000001234,
+            "success": false,
+            "coinSpent": 25000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 3299.3763,
+        "workshopEntryMs": 1179.6364999999996,
+        "filmEntryMs": [
+          595.7281999999996,
+          244.8781999999992
+        ],
+        "workshopReentryMs": 511.9560999999994,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 2177,
+          "p95": 12.5,
+          "max": 145.79999999999927,
+          "over50": 4
+        },
+        "resources": []
+      },
+      "after": {
+        "phase": "after",
+        "device": "android",
+        "referenceModel": "sx",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "auction/user/lobby",
+          "admin/server-support/package/alerts",
+          "me/summary",
+          "loot-shop/balance",
+          "chief/status",
+          "me/collection",
+          "shell/summary",
+          "server-support/status",
+          "user/runtime-command",
+          "workshop",
+          "sync/ticket",
+          "account-rank/status",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "chief/extension-notice",
+          "jokgak-city/notifications",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "sync/ticket",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "sync/ticket",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "server-support/status",
+          "workshop",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts",
+          "sync/ticket"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 74.5002000000004
+          },
+          {
+            "sql": 10,
+            "ms": 27.376899999999296
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 66.38190000000031,
+            "success": true,
+            "coinSpent": 300000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 80.1260000000002,
+            "success": false,
+            "coinSpent": 300000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1075.2693999999997,
+        "workshopEntryMs": 1112.6179000000002,
+        "filmEntryMs": [
+          766.0020999999997,
+          321.91429999999673
+        ],
+        "workshopReentryMs": 636.2530999999981,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 1843,
+          "p95": 12.600000000000364,
+          "max": 262.5,
+          "over50": 5
+        },
+        "resources": []
+      }
+    },
+    "ios": {
+      "before": {
+        "phase": "before",
+        "device": "ios",
+        "referenceModel": "x",
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "loot-shop/balance",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "me/summary",
+          "account-rank/status",
+          "chief/status",
+          "loot-shop/balance",
+          "me/collection",
+          "auction/user/lobby",
+          "shell/summary",
+          "loot-shop/balance",
+          "user/runtime-command",
+          "sync/ticket",
+          "admin/server-support/package/alerts",
+          "server-support/status",
+          "chief/extension-notice",
+          "account-rank/status",
+          "workshop",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "jokgak-city/notifications",
+          "sync/ticket",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "sync/ticket",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "server-support/status",
+          "workshop",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts",
+          "sync/ticket"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 43.652000000000044
+          },
+          {
+            "sql": 10,
+            "ms": 13.778800000000047
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 51.3099000000002,
+            "success": true,
+            "coinSpent": 25000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 41.75560000000041,
+            "success": false,
+            "coinSpent": 25000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1347.0338000000002,
+        "workshopEntryMs": 1798.2627000000002,
+        "filmEntryMs": [
+          1112.8024999999998,
+          342.12439999999697
+        ],
+        "workshopReentryMs": 1336.2705000000024,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 511,
+          "p95": 45,
+          "max": 442,
+          "over50": 14
+        },
+        "resources": []
+      },
+      "after": {
+        "phase": "after",
+        "device": "ios",
+        "referenceModel": "sx",
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "me/summary",
+          "sync/ticket",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "me/collection",
+          "account-rank/status",
+          "shell/summary",
+          "auction/user/lobby",
+          "user/runtime-command",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "admin/server-support/package/alerts",
+          "server-support/status",
+          "account-rank/status",
+          "workshop",
+          "clan/war/ready-alert",
+          "jokgak-city/notifications",
+          "clan/faction/alerts",
+          "sync/ticket",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "chief/extension-notice",
+          "sync/ticket",
+          "clan/faction/alerts",
+          "sync/ticket",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "auction/user/lobby",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "server-support/status",
+          "me/menu-favorites",
+          "workshop",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts",
+          "sync/ticket",
+          "clan/faction/alerts",
+          "burning-event/status"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 50.670900000000074
+          },
+          {
+            "sql": 10,
+            "ms": 18.38390000000072
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 47.459499999999935,
+            "success": true,
+            "coinSpent": 300000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 53.98939999999857,
+            "success": false,
+            "coinSpent": 300000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1934.8566,
+        "workshopEntryMs": 1886.0921999999991,
+        "filmEntryMs": [
+          1333.0683999999992,
+          646.0069000000003
+        ],
+        "workshopReentryMs": 1803.5632000000005,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 474,
+          "p95": 51,
+          "max": 399,
+          "over50": 25
+        },
+        "resources": []
+      }
+    },
+    "windows": {
+      "before": {
+        "phase": "before",
+        "device": "windows",
+        "referenceModel": "x",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "auction/user/lobby",
+          "admin/server-support/package/alerts",
+          "loot-shop/balance",
+          "me/summary",
+          "loot-shop/balance",
+          "me/collection",
+          "shell/summary",
+          "server-support/status",
+          "chief/status",
+          "user/runtime-command",
+          "workshop",
+          "sync/ticket",
+          "account-rank/status",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "chief/extension-notice",
+          "workshop/craft",
+          "jokgak-city/notifications",
+          "loot-shop/balance",
+          "account-rank/status",
+          "sync/ticket",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "server-support/status",
+          "workshop",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "sync/ticket",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 55.62419999999929
+          },
+          {
+            "sql": 10,
+            "ms": 14.177299999999377
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 64.65359999999964,
+            "success": true,
+            "coinSpent": 25000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 46.41539999999986,
+            "success": false,
+            "coinSpent": 25000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1024.4577000000004,
+        "workshopEntryMs": 987.2735000000002,
+        "filmEntryMs": [
+          621.4297999999999,
+          258.8827999999994
+        ],
+        "workshopReentryMs": 484.92089999999916,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 2159,
+          "p95": 12.5,
+          "max": 179.19999999999982,
+          "over50": 4
+        },
+        "resources": []
+      },
+      "after": {
+        "phase": "after",
+        "device": "windows",
+        "referenceModel": "sx",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "me/summary",
+          "loot-shop/balance",
+          "me/collection",
+          "auction/user/lobby",
+          "chief/status",
+          "shell/summary",
+          "sync/ticket",
+          "user/runtime-command",
+          "admin/server-support/package/alerts",
+          "server-support/status",
+          "account-rank/status",
+          "loot-shop/balance",
+          "workshop",
+          "chief/extension-notice",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "workshop/craft",
+          "loot-shop/balance",
+          "jokgak-city/notifications",
+          "account-rank/status",
+          "sync/ticket",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "sync/ticket",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "server-support/status",
+          "workshop",
+          "workshop/craft",
+          "loot-shop/balance",
+          "account-rank/status",
+          "clan/faction/alerts",
+          "admin/server-support/package/alerts",
+          "sync/ticket"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 61.984699999999975
+          },
+          {
+            "sql": 10,
+            "ms": 16.497800000001007
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 57.052999999999884,
+            "success": true,
+            "coinSpent": 300000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 56.73359999999957,
+            "success": false,
+            "coinSpent": 300000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1488.0842999999995,
+        "workshopEntryMs": 853.9508999999998,
+        "filmEntryMs": [
+          752.5167000000001,
+          334.27579999999944
+        ],
+        "workshopReentryMs": 569.3074000000015,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 1818,
+          "p95": 12.600000000000364,
+          "max": 333.3000000000002,
+          "over50": 3
+        },
+        "resources": []
+      }
+    },
+    "h5": {
+      "before": {
+        "phase": "before",
+        "device": "h5",
+        "referenceModel": "x",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "messages",
+          "auction/user/lobby",
+          "loot-shop/balance",
+          "me/summary",
+          "loot-shop/balance",
+          "me/collection",
+          "shell/summary",
+          "user/runtime-command",
+          "chief/status",
+          "chief/extension-notice",
+          "mercenary-cards/feature",
+          "account-rank/status",
+          "workshop",
+          "burning-event/status",
+          "sync/ticket",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "chief/extension-notice",
+          "jokgak-city/notifications",
+          "workshop/craft",
+          "chief/extension-notice",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "user/runtime-command",
+          "burning-event/status",
+          "account-rank/status",
+          "sync/ticket",
+          "sync/ticket",
+          "chief/extension-notice",
+          "clan/faction/alerts",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "workshop",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "workshop/craft",
+          "chief/extension-notice",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "user/runtime-command",
+          "burning-event/status",
+          "account-rank/status",
+          "sync/ticket",
+          "clan/faction/alerts"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 60.27459999999974
+          },
+          {
+            "sql": 10,
+            "ms": 16.061600000000908
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 68.06959999999981,
+            "success": true,
+            "coinSpent": 25000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 44.684799999999086,
+            "success": false,
+            "coinSpent": 25000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1323.7794999999996,
+        "workshopEntryMs": 1124.5285999999996,
+        "filmEntryMs": [
+          824.9062999999996,
+          241.60540000000037
+        ],
+        "workshopReentryMs": 586.3068999999996,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 2169,
+          "p95": 12.5,
+          "max": 162.5,
+          "over50": 5
+        },
+        "resources": []
+      },
+      "after": {
+        "phase": "after",
+        "device": "h5",
+        "referenceModel": "sx",
+        "errors": [],
+        "missing": [],
+        "api": [
+          "loot-shop/balance",
+          "sync/ticket",
+          "service/status",
+          "chief/extension-notice",
+          "loot-shop/balance",
+          "cards",
+          "packs",
+          "me/summary",
+          "pve/v3/feature",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "card/unique-advancement/feature",
+          "burning-event/status",
+          "streamer-profiles",
+          "me/menu-favorites",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "chief/status",
+          "account-rank/status",
+          "me/summary",
+          "messages",
+          "auction/user/lobby",
+          "chief/status",
+          "loot-shop/balance",
+          "me/collection",
+          "shell/summary",
+          "user/runtime-command",
+          "chief/extension-notice",
+          "mercenary-cards/feature",
+          "sync/ticket",
+          "workshop",
+          "account-rank/status",
+          "burning-event/status",
+          "chief/extension-notice",
+          "clan/war/ready-alert",
+          "clan/faction/alerts",
+          "jokgak-city/notifications",
+          "workshop/craft",
+          "chief/extension-notice",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "user/runtime-command",
+          "burning-event/status",
+          "account-rank/status",
+          "sync/ticket",
+          "chief/extension-notice",
+          "sync/ticket",
+          "clan/faction/alerts",
+          "sync/ticket",
+          "pvp/config",
+          "magic/status",
+          "loot-shop/balance",
+          "shell/summary",
+          "rank-exp-potion/status",
+          "live-operations",
+          "workshop",
+          "workshop/craft",
+          "chief/extension-notice",
+          "mercenary-cards/feature",
+          "loot-shop/balance",
+          "user/runtime-command",
+          "burning-event/status",
+          "account-rank/status",
+          "clan/faction/alerts",
+          "sync/ticket"
+        ],
+        "entries": [
+          {
+            "sql": 16,
+            "ms": 74.01189999999951
+          },
+          {
+            "sql": 10,
+            "ms": 27.570299999999406
+          }
+        ],
+        "crafts": [
+          {
+            "sql": 41,
+            "ms": 71.77250000000004,
+            "success": true,
+            "coinSpent": 300000000000000,
+            "cores": 20
+          },
+          {
+            "sql": 40,
+            "ms": 47.74300000000221,
+            "success": false,
+            "coinSpent": 300000000000000,
+            "cores": 10
+          }
+        ],
+        "firstLaunchMs": 1698.6108999999997,
+        "workshopEntryMs": 973.8275999999996,
+        "filmEntryMs": [
+          831.0091000000002,
+          225.65169999999853
+        ],
+        "workshopReentryMs": 688.8012000000017,
+        "afterExit": {
+          "timelines": 0,
+          "craftRequests": 0,
+          "canvas": 0
+        },
+        "frames": {
+          "count": 1918,
+          "p95": 12.599999999999454,
+          "max": 270.6999999999998,
+          "over50": 5
+        },
+        "resources": []
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "base": "43488de8d466c7175910588bd0e8e3b2afa3411e",
+  "reason": "User authorized SX suit crafting: 10 suit core 8, 300 trillion coins, 10 percent success, following X assembly. Add a one-time CMS registration and bind approved unchanged SX art to saved success/failure receipts. Shared Pixi/GSAP timelines preserve other models; only SX uses temporary Canvas pieces from one existing source, disposed on exit. Verify transaction costs, 10 percent boundary, big integer balance, replay, rollback, shortages, race, model mapping, animation cleanup and all platform entries. No combat stats, core8 box rewards, authentication/schema/dependency/infrastructure change.",
+  "tests": [
+    "tests/sx-suit-craft-20261117.test.mjs",
+    "tests/workshop-assembly-live-v2073.test.mjs",
+    "tests/workshop-assembly-preview-v1.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

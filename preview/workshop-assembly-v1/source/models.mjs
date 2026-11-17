@@ -1,7 +1,24 @@
 // CMS names/IDs verified read-only on 2026-09-08. This is a presentation
 // catalog, not a recipe, grant, combat skin replacement or balance setting.
 const suitRoot='/assets/ui/project-v/account-battle-suits/suits/';
+// SX uses masks over ONE unchanged approved texture. Head, neck and chest
+// remain connected; the completed frame is the original full sprite.
+const sxPartOrder=['core','armL','armR','sword','shoulderL','shoulderR','legL','legR','hips','torso','coat'];
+const sxParts=[
+  ['coat',[[0,0,1024,0,1024,1536,0,1536]]],
+  ['legL',[[415,584,479,623,493,734,445,890,404,1028,367,1134,348,1269,318,1446,261,1485,197,1460,162,1388,206,1289,241,1174,258,1042,309,906,333,758,363,663]]],
+  ['legR',[[553,608,618,641,653,744,672,883,687,1039,706,1169,758,1305,793,1378,735,1396,595,1352,534,1272,499,1155,478,1028,472,923,519,804,528,689]]],
+  ['hips',[[429,480,506,477,565,512,607,558,625,652,578,733,529,680,499,614,455,583,406,612,383,552]]],
+  ['torso',[[394,145,481,182,542,139,588,177,585,256,548,310,603,337,630,402,592,453,573,534,524,535,499,472,440,423,404,372,426,313,397,264]]],
+  ['shoulderL',[[135,128,244,173,292,166,365,207,422,257,445,319,408,375,350,361,306,321,258,310,221,269,181,224]]],
+  ['shoulderR',[[575,301,628,288,675,216,648,322,690,345,726,380,684,397,645,432,614,409,604,359]]],
+  ['armL',[[252,307,304,310,352,343,356,414,337,488,323,570,311,637,320,681,290,715,246,695,218,657,219,604,233,557,221,491,208,432,211,365]]],
+  ['armR',[[607,414,645,415,671,479,707,522,726,588,741,648,761,692,770,750,744,792,705,790,683,765,698,730,695,683,673,628,641,583,622,531,590,481]]],
+  ['sword',[[127,564,160,568,216,607,249,639,287,665,338,654,411,660,396,687,344,702,382,731,537,884,729,1070,901,1245,1008,1360,1022,1411,980,1375,814,1218,612,1024,409,826,298,739,267,742,248,719,260,696,223,672,183,635,128,609]]],
+  ['core',[[533,346,560,356,582,383,573,410,552,418,540,391]]]
+].map(([name,polygons])=>{const xy=polygons.flat(),xs=xy.filter((_,i)=>i%2===0),ys=xy.filter((_,i)=>i%2===1),x=Math.min(...xs),y=Math.min(...ys);return Object.freeze({name,polygons,x,y,width:Math.max(...xs)-x,height:Math.max(...ys)-y});}).sort((a,b)=>sxPartOrder.indexOf(a.name)-sxPartOrder.indexOf(b.name));
 export const MODELS=Object.freeze({
+  sx:{mode:'suit',name:'SX슈트',code:'BATTLE_SUIT_SX',catalogSource:'/preview/battle-suit-sx-v1/assets/sources/sx-standing-approved-20261007.png',source:'/preview/battle-suit-sx-v1/assets/sources/sx-standing-approved-20261007.png',sha256:'0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b',description:'코발트·은백 장갑 · 아이보리 대검 · 고출력 코어',color:0x428bff,css:'#91c5ff',line:'EXOSUIT / ASSEMBLY BAY 08',box:[17,128,1023,1485],core:[556,384],maskedParts:Object.freeze(sxParts),joints:{coat:[287,781],legL:[423,635],legR:[565,677],hips:[521,554],torso:[525,342],shoulderL:[354,300],shoulderR:[635,362],armL:[280,491],armR:[658,556],sword:[318,703],core:[556,384]}},
   x:{mode:'suit',name:'X-BODY',code:'BATTLE_SUIT_X_BODY',catalogSource:'/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png',description:'백금 장갑 · 청광 장검 · 고출력 반응로',source:'/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png',sha256:'91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc',color:0x52d9ff,css:'#8ee7ff',line:'EXOSUIT / ASSEMBLY BAY 07',box:[16,0,1144,1357],core:[613,269],joints:{legL:[507,525],legR:[654,538],hips:[594,470],torso:[609,331],coat:[518,273],shoulderL:[422,267],shoulderR:[701,300],armL:[405,384],armR:[715,425],helmet:[588,215],core:[613,269],sword:[427,658]}},
   maybach:{mode:'vehicle',name:'비전 마이바흐 6',code:'VISION_MAYBACH_6',catalogSource:'/assets/tire/crimson-aura-gullwing-v4.webp',catalogAliases:['assets/tire/crimson-aura-gullwing-v4.png'],description:'크림슨 차체 · 걸윙 도어 순차 체결 · 붉은 아우라',source:'assets/vehicles-20261018/maybach-cutout.webp',color:0xff4d58,css:'#ff9d9f',line:'AUTOMOTIVE / VISION MAYBACH 6',imageUi:true,box:[0,0,1672,941],art:{x:162,y:180,scale:.67},wheels:[{cx:823,cy:607,rx:128,ry:163,dx:-290,dy:80,at:3.7},{cx:1550,cy:542,rx:84,ry:135,dx:235,dy:-60,at:4.25}],modules:[{name:'far-gullwing',polygon:[621,155,730,88,847,100,985,133,1065,190,1091,252,1019,252,949,209,881,200,722,201,646,180],at:7,duration:1.05,joint:[1052,248]},{name:'near-gullwing',polygon:[1108,162,1172,87,1204,49,1261,57,1279,80,1456,116,1510,158,1480,193,1291,199,1270,248,1197,280,1125,263,1105,220],at:7.35,duration:1.1,joint:[1182,266]}],engine:[650,350],lights:[[245,515],[547,517]],weld:[[485,650],[1100,552]],aura:{center:[720,540],radius:[555,170],cores:[]}},
   astra:{mode:'vehicle',name:'아스트라 - 볼트',code:'ASTRA_VOLT',catalogSource:'/assets/tire/silver-cyan-hypercar-aura-v2.png',description:'은빛 장갑 · 트윈 볼트 반응로 · 청색 전력 동기화',source:'assets/vehicles-20261018/astra-cutout.webp',color:0x42cfff,css:'#8edfff',line:'AUTOMOTIVE / ASTRA VOLT REACTOR',imageUi:true,box:[0,0,1672,941],art:{x:162,y:180,scale:.67},wheels:[{cx:379,cy:500,rx:133,ry:78,polygon:[240,550,260,488,297,450,355,432,422,435,475,455,490,482,444,506,341,525],dx:-210,dy:-60,at:3.7},{cx:960,cy:628,rx:133,ry:151,dx:-290,dy:80,at:3.9},{cx:1509,cy:494,rx:85,ry:122,dx:235,dy:-60,at:4.25}],modules:[{name:'roof-reactor',polygon:[1009,265,1069,253,1144,275,1165,310,1120,330,1042,321,1026,297],at:7,duration:1.05,joint:[1092,300]},{name:'side-reactor',polygon:[1233,438,1292,420,1375,436,1403,467,1397,505,1358,544,1296,533,1241,511,1221,481],at:7.35,duration:1.1,joint:[1307,480]}],engine:[740,324],lights:[[360,642],[627,676]],weld:[[537,662],[1075,551]],aura:{center:[740,530],radius:[505,170],cores:[[871,381],[911,384],[1027,503],[1082,493]]}},
@@ -16,7 +33,7 @@ export const MODELS=Object.freeze({
   ignis:{mode:'vehicle',name:'이그니스 - X',code:'GARAGE_1787232065012',catalogId:27,description:'크림슨 차체 · 상부 터빈 · 독립 부스터 점화',catalogSource:'/assets/tire/1321312.jpg',source:'assets/ignis-x-cutout.png',color:0xff7051,css:'#ed9a7c',line:'AUTOMOTIVE / TURBINE LINE X',box:[0,0,1679,937],art:{x:162,y:180,scale:.67},wheels:[{cx:856,cy:626,rx:112,ry:140,dx:-290,dy:75,at:3.7},{cx:1453,cy:550,rx:78,ry:106,dx:250,dy:-55,at:4.25}],turbine:[881,136,403,145],engine:[740,324],lights:[[212,540],[458,570]],nozzle:[1005,330],weld:[[454,644],[1087,536]]}
 });
 export const DEFAULT_MODEL=Object.freeze({suit:'h',vehicle:'veneno'});
-export const MODEL_ORDER=Object.freeze({suit:['e','f','g','h','s','z','x'],vehicle:['solaris','maybach','astra','ignis','veneno']});
+export const MODEL_ORDER=Object.freeze({suit:['e','f','g','h','s','z','x','sx'],vehicle:['solaris','maybach','astra','ignis','veneno']});
 export function modelFor(mode,key=DEFAULT_MODEL[mode]){
   const model=MODELS[key];if(!model||model.mode!==mode)throw new TypeError('제작 라인에 맞는 모델이 필요합니다.');return model;
 }
@@ -31,6 +48,7 @@ export function modelPhases(mode,key,base){
   if(key==='s')phases[2]=[2.3,'흉부 장갑 · 트윈 추진기 장착','CHEST & TWIN THRUSTERS'];
   if(key==='z')phases[4]=[6,'헬멧 잠금 · 대검 체결','HELMET & GREATSWORD LOCK'];
   if(key==='x')phases[4]=[6,'백금 헬멧 잠금 · 청광 장검 체결','PLATINUM HELMET & SWORD LOCK'];
+  if(key==='sx')phases[4]=[6,'은백 장갑 잠금 · 아이보리 대검 체결','SILVER ARMOR & GREATSWORD LOCK'];
   if(key==='e')phases[3]=[3.7,'날개형 견갑 · 팔 결합','WING & ARM MODULES'];
   if(key==='f')phases[4]=[6,'전술 외장 · 인터페이스 연결','TACTICAL INTERFACE'];
   if(key==='ignis'){

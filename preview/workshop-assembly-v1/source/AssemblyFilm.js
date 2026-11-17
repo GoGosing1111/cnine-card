@@ -15,6 +15,8 @@ resources.ignis=new URL(MODELS.ignis.source,assetRoot).href;
 resources.solaris=new URL(MODELS.solaris.source,assetRoot).href;
 resources.maybach=new URL(MODELS.maybach.source,assetRoot).href;
 resources.astra=new URL(MODELS.astra.source,assetRoot).href;
+resources.sx=root+MODELS.sx.source;
+for(const p of MODELS.sx.maskedParts)resources[`sx:${p.name}`]=resources.sx;
 for(const [key,v]of Object.entries(variantParts)){
   resources[key]=root+v.source;
   for(const p of v.parts)resources[`${key}:${p.name}`]=new URL(p.path,assetRoot).href;
@@ -24,6 +26,7 @@ export function resourceKeysFor(item){
   const model=modelFor(MODELS[item]?.mode,item);
   const common=[`${model.mode}Background`,'robot-upper','robot-lower','robot-grip'];
   if(model.mode==='vehicle')return [...common,'frame','engine',model.art?item:'car'];
+  if(model.maskedParts)return [...common,item];
   return [...common,...(item==='h'?['suit',...parts]:[item,...variantParts[item].parts.map(p=>`${item}:${p.name}`)])];
 }
 
@@ -83,16 +86,34 @@ export class AssemblyFilm {
       if(this.disposed)return;
       // Preserve source artwork while filtering detailed new parts cleanly
       // at mobile scale. Configure before the first GPU texture upload.
-      if(MODELS[key]?.art||/^[efgszx](?::|$)/.test(key)){
+      if(MODELS[key]?.maskedParts||MODELS[key]?.art||/^[efgszx](?::|$)/.test(key)){
         texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';
       }
       this.buffers[key]=texture;
     }));
     if(this.disposed)return;
+    for(const [key,model]of Object.entries(MODELS))if(model.maskedParts&&this.buffers[key])await this.prepareMaskedParts(key,model);
+    if(this.disposed)return;
     this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(this.host);
     this.visibility=()=>{if(document.hidden)this.pause();};document.addEventListener('visibilitychange',this.visibility);
   }
   sprite(key,parent,options={}){const s=new Sprite(this.buffers[key]);Object.assign(s,options);parent.addChild(s);return s;}
+  async prepareMaskedParts(key,model){
+    const source=this.buffers[key].source.resource,claimed=[];this.derivedTextures??=[];
+    const trace=(ctx,polygons)=>{ctx.beginPath();for(const points of polygons){ctx.moveTo(points[0],points[1]);for(let i=2;i<points.length;i+=2)ctx.lineTo(points[i],points[i+1]);ctx.closePath();}};
+    for(const p of model.maskedParts){
+      if(this.disposed)return;
+      const canvas=document.createElement('canvas');canvas.width=p.width;canvas.height=p.height;
+      const ctx=canvas.getContext('2d');ctx.translate(-p.x,-p.y);trace(ctx,p.polygons);ctx.clip();ctx.drawImage(source,0,0);
+      // Canvas compositing assigns each source pixel to its first part. It
+      // avoids overlapping blade/leg fragments and needs no extra downloads.
+      if(claimed.length){ctx.globalCompositeOperation='destination-out';trace(ctx,claimed);ctx.fill();}
+      const holder=Sprite.from(canvas,true),texture=holder.texture;holder.destroy({texture:false,textureSource:false});
+      texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';this.buffers[`${key}:${p.name}`]=texture;this.derivedTextures.push(texture);claimed.push(...p.polygons);
+      // Keep the loading panel responsive while preparing the local pieces.
+      if(this.derivedTextures.length%3===0)await new Promise(resolve=>requestAnimationFrame(resolve));
+    }
+  }
   resetScene(){
     this.audio.stop();this.timeline?.kill();this.timeline=null;
     this.app.stage.removeChildren().forEach(c=>c.destroy({children:true,texture:false,textureSource:false}));
@@ -141,7 +162,7 @@ export class AssemblyFilm {
     this.corePoint={x:758,y:287};
   }
   buildVariantSuit(){
-    const model=this.model,v=variantParts[this.modelKey],placement=suitPlacement(model);
+    const model=this.model,v=model.maskedParts?{parts:model.maskedParts}:variantParts[this.modelKey],placement=suitPlacement(model);
     this.suitGroup=new Container();this.suitGroup.position.set(placement.x,placement.y);this.suitGroup.scale.set(placement.scale);this.object.addChild(this.suitGroup);
     const point=([x,y])=>({x:placement.x+x*placement.scale,y:placement.y+y*placement.scale});
     this.corePoint=point(model.core);const lo=point(model.box.slice(0,2)),hi=point(model.box.slice(2));this.suitBounds={left:lo.x-32,right:hi.x+32,top:lo.y,bottom:hi.y};
@@ -154,10 +175,12 @@ export class AssemblyFilm {
     // Z keeps the approved whole blade and guard together while docking
     // into the assembled gauntlets; no stretch or independent blade rotation.
     specs.sword=[130,-160,6.5,1.4,0];
+    if(model.maskedParts)specs.sword=[0,0,6.5,1.4,0];
     this.impacts=[];
     for(const p of v.parts){
       const [dx,dy,at,duration,rotation]=specs[p.name],cx=p.x+p.width/2,cy=p.y+p.height/2;
-      const s=this.sprite(`${this.modelKey}:${p.name}`,this.suitGroup,{alpha:0,rotation});s.pivot.set(p.width/2,p.height/2);s.position.set(cx+dx,cy+dy);
+      const s=this.sprite(`${this.modelKey}:${p.name}`,this.suitGroup,{alpha:0,rotation});s.pivot.set(p.width/2,p.height/2);
+      s.position.set(cx+dx,cy+dy);
       // A human face is never flown into place as a detached robot head. The
       // fixed head/hair layer resolves in place during interface calibration.
       this.timeline.to(s,{alpha:1,duration:p.name==='head'?.9:.22},at).to(s,{x:cx,y:cy,rotation:0,duration,ease:'power3.inOut'},at);
@@ -165,6 +188,12 @@ export class AssemblyFilm {
       if(p.name!=='head')this.impacts.push({at:at+duration,...point(model.joints[p.name])});
     }
     this.impacts.sort((a,b)=>a.at-b.at);this.timeline.to(ghost,{alpha:0,duration:.35},8.2);
+    if(model.maskedParts){
+      // Remove all temporary masks at the final lock. Original alpha, artwork,
+      // weapon and connected head/neck are exact; no texture copy or new asset.
+      const full=this.sprite(this.modelKey,this.suitGroup,{alpha:0});
+      this.timeline.to(full,{alpha:1,duration:.18},8.2).set(this.renderedParts.map(p=>p.sprite),{visible:false},8.38);
+    }
     this.cues=this.impacts.map(p=>({name:'lock',at:p.at,gain:.12,length:.55}));
     this.cues.push({name:'driver',at:8.5,gain:.12,length:.9},{name:this.result.success?'driver':'failure',at:10.3,gain:.1,length:1.2});
   }
@@ -372,5 +401,5 @@ export class AssemblyFilm {
   setReducedMotion(value){this.reducedMotion=Boolean(value);if(this.reducedMotion)this.skip();else this.render();}
   async setSound(value){if(value)await this.audio.enable();else{this.audio.enabled=false;this.audio.stop();}this.render();return this.audio.enabled;}
   diagnostics(){const t=this.timeline?.time()||0;return {mode:this.mode,model:this.modelKey,modelName:this.model?.name,modelCode:this.model?.code||null,authoredPartCount:this.renderedParts?.length||0,time:t,duration:DURATION,phase:phaseAt(this.mode,t,this.result?.success,this.modelKey),success:this.result?.success,playing:!!this.timeline&&!this.timeline.paused()&&t<DURATION,complete:t>=12,finished:t>=DURATION,progress:t/DURATION,rate:this.rate,reducedMotion:this.reducedMotion,activeTimelines:this.timeline?1:0,pixiTickerRunning:this.app?.ticker?.started||false,sceneChildren:this.camera?.children.length||0,generation:this.generation,audioEnabled:this.audio.enabled,audioError:this.audio.error,apiMutations:0,disposed:this.disposed};}
-  destroy(){if(this.disposed)return;this.disposed=true;this.timeline?.kill();this.timeline=null;this.audio.destroy();this.observer?.disconnect();document.removeEventListener('visibilitychange',this.visibility);if(this.appInitialized||this.app?.renderer)this.app?.destroy(true,{children:true,texture:false,textureSource:false});}
+  destroy(){if(this.disposed)return;this.disposed=true;this.timeline?.kill();this.timeline=null;this.audio.destroy();this.observer?.disconnect();document.removeEventListener('visibilitychange',this.visibility);if(this.appInitialized||this.app?.renderer)this.app?.destroy(true,{children:true,texture:false,textureSource:false});for(const texture of this.derivedTextures||[])texture.destroy(true);this.derivedTextures=[];this.buffers=[];}
 }
