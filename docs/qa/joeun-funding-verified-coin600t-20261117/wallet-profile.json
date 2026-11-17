@@ -1,0 +1,111 @@
+{
+  "at": "2026-11-17T12:56:07.072Z",
+  "readOnly": true,
+  "conditions": "Fresh Windows CLI process, same actual wallet service and user 4933, live PostgreSQL. Captures individual DB waits; EXPLAIN follows the first read and may have warmer cache. No app/DB changes.",
+  "queries": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 80.83789999999999
+    },
+    {
+      "statement": "SELECT CAST(coin AS TEXT) AS coin,(SELECT COALESCE(MAX(id),0) FROM coin_logs WHERE user_id=users.id) AS last_log FROM users WHERE id=$1",
+      "ms": 79.77379999999994
+    },
+    {
+      "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+      "ms": 325.99360000000024
+    },
+    {
+      "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+      "ms": 166.4911000000002
+    },
+    {
+      "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+      "ms": 118.38000000000011
+    },
+    {
+      "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+      "ms": 175.50790000000006
+    },
+    {
+      "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+      "ms": 117.91460000000006
+    }
+  ],
+  "slowestStatement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+  "slowestMs": 325.99360000000024,
+  "explain": {
+    "Plan": {
+      "Node Type": "Limit",
+      "Parallel Aware": false,
+      "Async Capable": false,
+      "Startup Cost": 0.57,
+      "Total Cost": 3644.37,
+      "Plan Rows": 516,
+      "Plan Width": 54,
+      "Actual Startup Time": 0.143,
+      "Actual Total Time": 25.369,
+      "Actual Rows": 2000,
+      "Actual Loops": 1,
+      "Shared Hit Blocks": 97375,
+      "Shared Read Blocks": 0,
+      "Shared Dirtied Blocks": 0,
+      "Shared Written Blocks": 0,
+      "Local Hit Blocks": 0,
+      "Local Read Blocks": 0,
+      "Local Dirtied Blocks": 0,
+      "Local Written Blocks": 0,
+      "Temp Read Blocks": 0,
+      "Temp Written Blocks": 0,
+      "Plans": [
+        {
+          "Node Type": "Index Scan",
+          "Parent Relationship": "Outer",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "coin_logs_pkey",
+          "Relation Name": "coin_logs",
+          "Alias": "coin_logs",
+          "Startup Cost": 0.57,
+          "Total Cost": 3644.37,
+          "Plan Rows": 516,
+          "Plan Width": 54,
+          "Actual Startup Time": 0.143,
+          "Actual Total Time": 25.218,
+          "Actual Rows": 2000,
+          "Actual Loops": 1,
+          "Index Cond": "((id > '105268755'::bigint) AND (id <= '106057703'::bigint))",
+          "Rows Removed by Index Recheck": 0,
+          "Filter": "(user_id = '4933'::bigint)",
+          "Rows Removed by Filter": 98745,
+          "Shared Hit Blocks": 97375,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        }
+      ]
+    },
+    "Planning": {
+      "Shared Hit Blocks": 12,
+      "Shared Read Blocks": 0,
+      "Shared Dirtied Blocks": 0,
+      "Shared Written Blocks": 0,
+      "Local Hit Blocks": 0,
+      "Local Read Blocks": 0,
+      "Local Dirtied Blocks": 0,
+      "Local Written Blocks": 0,
+      "Temp Read Blocks": 0,
+      "Temp Written Blocks": 0
+    },
+    "Planning Time": 0.072,
+    "Triggers": [],
+    "Execution Time": 25.464
+  }
+}

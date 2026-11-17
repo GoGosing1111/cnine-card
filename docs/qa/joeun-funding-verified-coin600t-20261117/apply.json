@@ -1,0 +1,3868 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:joeun-funding-thanks:verified-coin600t:20261117:v1",
+    "planHash": "665329f6f03b72eb0941f37fc1ba465f3c227fefd28ad3117adabd430cd37115",
+    "title": "조은방 펀딩 감사기념",
+    "delivery": "DIRECT_WALLET",
+    "amountEach": "600000000000000",
+    "recipientCount": 282,
+    "totalCoins": "169200000000000000",
+    "statusCounts": {
+      "ACTIVE": 280,
+      "BANNED": 2
+    },
+    "roleCounts": {
+      "OWNER": 2,
+      "USER": 278,
+      "ADMIN": 2
+    },
+    "providerCounts": {
+      "PLAYDK": 281,
+      "WAGO": 1
+    },
+    "completedAt": "2026-11-17T12:54:36.444Z",
+    "completedAtKST": "2026-11-17 21:54:36",
+    "grants": [
+      {
+        "userId": "2",
+        "nickname": "Inception",
+        "statusAtGrant": "ACTIVE",
+        "role": "OWNER",
+        "identityHash": "e9508363ca4b1bb1eb2de9c933539a931115093b50ef32b7fccc258503cfc242",
+        "amount": "600000000000000",
+        "before": "87482781728664",
+        "after": "687482781728664",
+        "logId": "106056743",
+        "walletRevision": "56979"
+      },
+      {
+        "userId": "3",
+        "nickname": "ε연두з",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0b5f45da6527c0bb615453a456605ffc90cceb71e8162a2b3d80630b1d6ada6b",
+        "amount": "600000000000000",
+        "before": "20980394261057920",
+        "after": "21580394261057920",
+        "logId": "106056744",
+        "walletRevision": "925650"
+      },
+      {
+        "userId": "5",
+        "nickname": "싸이타마",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "2952854140b95f995d3cb548f33f583a7c6beeee49eb124b14676808057b8c8c",
+        "amount": "600000000000000",
+        "before": "9417525750743",
+        "after": "609417525750743",
+        "logId": "106056745",
+        "walletRevision": "111242"
+      },
+      {
+        "userId": "6",
+        "nickname": "남수단",
+        "statusAtGrant": "ACTIVE",
+        "role": "OWNER",
+        "identityHash": "46a7171556272bc7d2441ded58384081be47615091fc003e2fb316c4f2fd8080",
+        "amount": "600000000000000",
+        "before": "1028504597633881",
+        "after": "1628504597633881",
+        "logId": "106056746",
+        "walletRevision": "80"
+      },
+      {
+        "userId": "7",
+        "nickname": "에비런",
+        "statusAtGrant": "BANNED",
+        "role": "USER",
+        "identityHash": "be299255917ea0f4ea1f1a5a67342888fdec6f755ae587bd1db022eb7f65e1d7",
+        "amount": "600000000000000",
+        "before": "1649628156415723",
+        "after": "2249628156415723",
+        "logId": "106056747",
+        "walletRevision": "16534"
+      },
+      {
+        "userId": "8",
+        "nickname": "최성수",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "77a643e48dc0bfef9386c8004a42ef0c240c73e084633bbee833d8ea352cf058",
+        "amount": "600000000000000",
+        "before": "11281365168574722",
+        "after": "11881365168574722",
+        "logId": "106056748",
+        "walletRevision": "39737"
+      },
+      {
+        "userId": "10",
+        "nickname": "관상은과학",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "ed62d134a896eeadc1d4209f9937afba6a26b1ef9e2742384d4d220ffb4303c7",
+        "amount": "600000000000000",
+        "before": "28991392503588",
+        "after": "628991392503588",
+        "logId": "106056749",
+        "walletRevision": "9328"
+      },
+      {
+        "userId": "13",
+        "nickname": "불법사행산업신고센터",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9d9730751e6573701d64e2097645229a04dd3ce0621cad2e20641cd672af287a",
+        "amount": "600000000000000",
+        "before": "1903627084543767",
+        "after": "2503627084543767",
+        "logId": "106056750",
+        "walletRevision": "123237"
+      },
+      {
+        "userId": "16",
+        "nickname": "오승환이다",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c199997964e49bc1ca82a757d518e4fc926ed9c7ee712d92cc6103ab050dc564",
+        "amount": "600000000000000",
+        "before": "7042447673391369",
+        "after": "7642447673391369",
+        "logId": "106056751",
+        "walletRevision": "426497"
+      },
+      {
+        "userId": "19",
+        "nickname": "토닭토닭",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6972b47b4ada68b416fe23db0a20d81b59c24b5c5a9d42e115a2e276cbefb679",
+        "amount": "600000000000000",
+        "before": "6648113886015106",
+        "after": "7248113886015106",
+        "logId": "106056752",
+        "walletRevision": "313133"
+      },
+      {
+        "userId": "22",
+        "nickname": "커피먹는철구",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c198201dc5db21d9321fa512ea16392d3c60ba6c12975210ae64f71fcbd0744a",
+        "amount": "600000000000000",
+        "before": "3860684559128772",
+        "after": "4460684559128772",
+        "logId": "106056753",
+        "walletRevision": "353325"
+      },
+      {
+        "userId": "24",
+        "nickname": "만봄",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a7e18d903337fbfa84741cedda71c16a9c685b4af38cc95d702c79e579593d12",
+        "amount": "600000000000000",
+        "before": "3272575943533599",
+        "after": "3872575943533599",
+        "logId": "106056754",
+        "walletRevision": "2431"
+      },
+      {
+        "userId": "25",
+        "nickname": "여우",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "beb80840e20593ba54f4ddd822d008170291160dc711ce04c06c5500a9b8b7de",
+        "amount": "600000000000000",
+        "before": "1979446443334277",
+        "after": "2579446443334277",
+        "logId": "106056755",
+        "walletRevision": "194703"
+      },
+      {
+        "userId": "29",
+        "nickname": "엑셀괴물",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9c5bdd1640596ad288f06b70d02e289870b2ecc1b80ebcb3cec5ba087926718d",
+        "amount": "600000000000000",
+        "before": "59500785754435",
+        "after": "659500785754435",
+        "logId": "106056756",
+        "walletRevision": "347610"
+      },
+      {
+        "userId": "32",
+        "nickname": "쑤댕",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6f19640848b1f89b32c7a4fd91d387eb0115345b9814aeebc5b3b968ec437eea",
+        "amount": "600000000000000",
+        "before": "1171271699372414",
+        "after": "1771271699372414",
+        "logId": "106056757",
+        "walletRevision": "163347"
+      },
+      {
+        "userId": "34",
+        "nickname": "씨나인짱",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "779580941085d7c9b341a3d196baab0e7b789e354070ea6cd996051d327074f1",
+        "amount": "600000000000000",
+        "before": "788928922066897",
+        "after": "1388928922066897",
+        "logId": "106056758",
+        "walletRevision": "6945"
+      },
+      {
+        "userId": "45",
+        "nickname": "박세라-ㅂ-",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b411d73e9264e2c1370d106140904da154db242d5ed0f8d071a5f6ca272a5935",
+        "amount": "600000000000000",
+        "before": "43665600524211832",
+        "after": "44265600524211832",
+        "logId": "106056759",
+        "walletRevision": "502557"
+      },
+      {
+        "userId": "52",
+        "nickname": "폭군#",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9736a8d160adf323af8211c01430656ab33d1ae2e860ec7becf8061a42a35004",
+        "amount": "600000000000000",
+        "before": "6142165548185429",
+        "after": "6742165548185429",
+        "logId": "106056760",
+        "walletRevision": "472665"
+      },
+      {
+        "userId": "62",
+        "nickname": "숭구릭",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "3d0f5f8aeafda0c692e2c8feca1b69bee61e3c211b63550c711b4358e767fded",
+        "amount": "600000000000000",
+        "before": "5568325119175887",
+        "after": "6168325119175887",
+        "logId": "106056761",
+        "walletRevision": "378920"
+      },
+      {
+        "userId": "65",
+        "nickname": "음순이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d662730260a11f4f64abb6160f1d8c31cb700a3cedb023e9da28c1a9a5a06147",
+        "amount": "600000000000000",
+        "before": "1689239218763176",
+        "after": "2289239218763176",
+        "logId": "106056762",
+        "walletRevision": "270290"
+      },
+      {
+        "userId": "71",
+        "nickname": "진땅콩_",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "3138121dc0f3b3034aeec6cdbecad455e04842198d85c6cf284105efc9289a51",
+        "amount": "600000000000000",
+        "before": "546539402558313",
+        "after": "1146539402558313",
+        "logId": "106056763",
+        "walletRevision": "10448"
+      },
+      {
+        "userId": "72",
+        "nickname": "일반상식",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "711a998464afc79faa7eb5c688df5b0858d59cb591f09cfabacf25677e0c43e9",
+        "amount": "600000000000000",
+        "before": "1865540988860418",
+        "after": "2465540988860418",
+        "logId": "106056764",
+        "walletRevision": "162"
+      },
+      {
+        "userId": "76",
+        "nickname": "랄네미탱탱",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "80aeaac666c76a51157b68a531d98e14cf443f41eccaca3fee215e2ff9060839",
+        "amount": "600000000000000",
+        "before": "2033750892962186",
+        "after": "2633750892962186",
+        "logId": "106056765",
+        "walletRevision": "15975"
+      },
+      {
+        "userId": "81",
+        "nickname": "비쥬얼깡패",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6050169c2537716e2a3995c7ea229bfe50a0437e9f01c9f58a1f1544e0b587a4",
+        "amount": "600000000000000",
+        "before": "748688212049746",
+        "after": "1348688212049746",
+        "logId": "106056766",
+        "walletRevision": "130192"
+      },
+      {
+        "userId": "83",
+        "nickname": "애장이",
+        "statusAtGrant": "ACTIVE",
+        "role": "ADMIN",
+        "identityHash": "384a5d8c3f19a1575887d399c935cfa3c1f95f099ef722b6e6c6122bb1dfc2f2",
+        "amount": "600000000000000",
+        "before": "81105790873",
+        "after": "600081105790873",
+        "logId": "106056767",
+        "walletRevision": "11726"
+      },
+      {
+        "userId": "85",
+        "nickname": "카르푸",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "dfcc6fb3d3d3c5a0e56df63765514f64c231adea4594b207c57c4c29c8e4c04f",
+        "amount": "600000000000000",
+        "before": "3933950359413916",
+        "after": "4533950359413916",
+        "logId": "106056768",
+        "walletRevision": "23318"
+      },
+      {
+        "userId": "88",
+        "nickname": "0수표",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9e918ae411cf083e3edaf71f1b146099fac6a49ee815783927035a0cfefa466e",
+        "amount": "600000000000000",
+        "before": "10509800714466593",
+        "after": "11109800714466593",
+        "logId": "106056769",
+        "walletRevision": "1027438"
+      },
+      {
+        "userId": "91",
+        "nickname": "정원이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "24405519ec540c049ec94a594b490d358ab51d6b4dc2bd33ecdc480c323e4922",
+        "amount": "600000000000000",
+        "before": "106874304691206",
+        "after": "706874304691206",
+        "logId": "106056770",
+        "walletRevision": "109003"
+      },
+      {
+        "userId": "92",
+        "nickname": "불곰덫",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1ce87124f2114a393d8fe4266430ca5ba51ed6f6e24a4d79d4386a7849e152b2",
+        "amount": "600000000000000",
+        "before": "5514022534845245",
+        "after": "6114022534845245",
+        "logId": "106056771",
+        "walletRevision": "79823"
+      },
+      {
+        "userId": "98",
+        "nickname": "디프스",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a2161e49f2ff8691f44fe1af1f466a1b13c01eea0a7cef412c926e64c6ac7059",
+        "amount": "600000000000000",
+        "before": "46225964470233",
+        "after": "646225964470233",
+        "logId": "106056772",
+        "walletRevision": "27665"
+      },
+      {
+        "userId": "115",
+        "nickname": "쁠리의무사시",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c699e17dde7c2dabf259ef99df0d1a9ace12e3e7b1f9658dbcadc1453ce19460",
+        "amount": "600000000000000",
+        "before": "26902214050791",
+        "after": "626902214050791",
+        "logId": "106056773",
+        "walletRevision": "395932"
+      },
+      {
+        "userId": "130",
+        "nickname": "족구선생",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "4ed1d245c1991dc7bfe9a45ebf2003f335e1fc0f59198014a6884d84666dfd53",
+        "amount": "600000000000000",
+        "before": "32010454691017",
+        "after": "632010454691017",
+        "logId": "106056774",
+        "walletRevision": "163301"
+      },
+      {
+        "userId": "140",
+        "nickname": "&7",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1355ab9272c3024b06239a9e9836df6aa81815073b4edc9aa922df0de482f8a1",
+        "amount": "600000000000000",
+        "before": "656724749244684",
+        "after": "1256724749244684",
+        "logId": "106056775",
+        "walletRevision": "1129"
+      },
+      {
+        "userId": "143",
+        "nickname": "족카다시안",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8dd918bcda28cf9bea10c645587f8fefe2dd782c1ad21e5ef7b90ac6d8b4b83c",
+        "amount": "600000000000000",
+        "before": "4653147953254",
+        "after": "604653147953254",
+        "logId": "106056776",
+        "walletRevision": "3318"
+      },
+      {
+        "userId": "148",
+        "nickname": "꾸까1",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "87148d0f67a7b0a483ae13730f2e4db7117bc74979f9afb73ded2b310c241074",
+        "amount": "600000000000000",
+        "before": "33172218106140417",
+        "after": "33772218106140417",
+        "logId": "106056777",
+        "walletRevision": "63186"
+      },
+      {
+        "userId": "156",
+        "nickname": "좌지구녕",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9ccbda62c284b34b42cb57f440c2da8a18145960ba27fd04ecba0533a6d36d24",
+        "amount": "600000000000000",
+        "before": "163626917025325",
+        "after": "763626917025325",
+        "logId": "106056778",
+        "walletRevision": "279"
+      },
+      {
+        "userId": "162",
+        "nickname": "차단하다",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f5174affaa426f84b5e3c47b6c010966db9c90f5ecd4bb1b21336e151bd018cd",
+        "amount": "600000000000000",
+        "before": "26955001003634886",
+        "after": "27555001003634886",
+        "logId": "106056779",
+        "walletRevision": "137735"
+      },
+      {
+        "userId": "164",
+        "nickname": "박사",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a1fd6d691dc5786cdfa58f28b310952ab89b7ccde4e792f9593c719e78d43ecc",
+        "amount": "600000000000000",
+        "before": "7540879766948437",
+        "after": "8140879766948437",
+        "logId": "106056780",
+        "walletRevision": "384945"
+      },
+      {
+        "userId": "180",
+        "nickname": "에필로그1",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "81460c6a1cafc5d2b8d1b630ac41d11d8c53064c3ec1ca47953c6c5d87683da0",
+        "amount": "600000000000000",
+        "before": "829006355841659",
+        "after": "1429006355841659",
+        "logId": "106056781",
+        "walletRevision": "2629"
+      },
+      {
+        "userId": "183",
+        "nickname": "남수댕",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "bb9087b10d5809ca922f6c3c40f3ef42382b8e045107d00ac756451a07f035a5",
+        "amount": "600000000000000",
+        "before": "2844190395665117",
+        "after": "3444190395665117",
+        "logId": "106056782",
+        "walletRevision": "11795"
+      },
+      {
+        "userId": "185",
+        "nickname": "지유나",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "4d237cba63abf12701de6f14d9fb2d852fa823e76725befbabb29483b5217dfb",
+        "amount": "600000000000000",
+        "before": "1051182147164278",
+        "after": "1651182147164278",
+        "logId": "106056783",
+        "walletRevision": "1991"
+      },
+      {
+        "userId": "187",
+        "nickname": "파르르구",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0a13f4ea998fc1e7ff6a0dfba390d5a671e812d9cd374e157c6f32f04b6060ac",
+        "amount": "600000000000000",
+        "before": "3248624741681934",
+        "after": "3848624741681934",
+        "logId": "106056784",
+        "walletRevision": "77952"
+      },
+      {
+        "userId": "190",
+        "nickname": "557",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c8457ecf93156440b650eeb8a3e2334e847020d74b8f64666b32974e9f0ee584",
+        "amount": "600000000000000",
+        "before": "178801434000527",
+        "after": "778801434000527",
+        "logId": "106056785",
+        "walletRevision": "8364"
+      },
+      {
+        "userId": "197",
+        "nickname": "무버지",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8735a60e520274c3592e68f6b13019d25efc9a99a239954265e15e457d2e9591",
+        "amount": "600000000000000",
+        "before": "1376947073342326",
+        "after": "1976947073342326",
+        "logId": "106056786",
+        "walletRevision": "57311"
+      },
+      {
+        "userId": "201",
+        "nickname": "철쪽이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9cde07fe8219604afb13524f60f08e1030ca8916e0bb1cfd3eff5753a94612aa",
+        "amount": "600000000000000",
+        "before": "1197581745997605",
+        "after": "1797581745997605",
+        "logId": "106056787",
+        "walletRevision": "107"
+      },
+      {
+        "userId": "202",
+        "nickname": "진땅콩간바레",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "58952a8d9c4c91348ba7b65400fda542056f2561c7d8cd379d520d2f6bf2042b",
+        "amount": "600000000000000",
+        "before": "2409138743610188",
+        "after": "3009138743610188",
+        "logId": "106056788",
+        "walletRevision": "100416"
+      },
+      {
+        "userId": "216",
+        "nickname": "x수댕",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6b0b8b06b435f7baac0f0f4268d007b095dea10d1168d309a4b58c4e6dcf811c",
+        "amount": "600000000000000",
+        "before": "6984284919753252",
+        "after": "7584284919753252",
+        "logId": "106056789",
+        "walletRevision": "411055"
+      },
+      {
+        "userId": "218",
+        "nickname": "현하루",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7416a162e1d11e4085ef3d7ce3df1e13e68fa740aa05df7c4ec24dd0a233e285",
+        "amount": "600000000000000",
+        "before": "9378102043794828",
+        "after": "9978102043794828",
+        "logId": "106056790",
+        "walletRevision": "673603"
+      },
+      {
+        "userId": "220",
+        "nickname": "족알못",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "162451ff8b8737085961fd91bbef57daa5be0d0f207100196dc134f1d831bfc6",
+        "amount": "600000000000000",
+        "before": "5264353716704497",
+        "after": "5864353716704497",
+        "logId": "106056791",
+        "walletRevision": "176789"
+      },
+      {
+        "userId": "226",
+        "nickname": "햬카세",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "4202924d63fb44da4b00ff99311e8109a10158045c809971f49a958c6dbbaa24",
+        "amount": "600000000000000",
+        "before": "2556267674546270",
+        "after": "3156267674546270",
+        "logId": "106056792",
+        "walletRevision": "308820"
+      },
+      {
+        "userId": "233",
+        "nickname": "ShowMaker",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c4aaae633299f43a7eb84670344d80e0be5a96f43127601afb34c2ecd1ab605c",
+        "amount": "600000000000000",
+        "before": "3831485060123246",
+        "after": "4431485060123246",
+        "logId": "106056793",
+        "walletRevision": "257471"
+      },
+      {
+        "userId": "236",
+        "nickname": "유나이은",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "bf96b3d658cec57a4a5bf702152e415dbe057a2e59beb230c804d85351c34a18",
+        "amount": "600000000000000",
+        "before": "5560266774295743",
+        "after": "6160266774295743",
+        "logId": "106056794",
+        "walletRevision": "93536"
+      },
+      {
+        "userId": "242",
+        "nickname": "벚꽃엔딩",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "040b8978f4cbd03779dfdaa0ff6bafa594a86d91a8c0de9f4ac61a6fec0d2ecd",
+        "amount": "600000000000000",
+        "before": "627250144160478",
+        "after": "1227250144160478",
+        "logId": "106056795",
+        "walletRevision": "7606"
+      },
+      {
+        "userId": "249",
+        "nickname": "댕졈먕1",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a588e7724e9d643f6e093506d02953d7e51d43c849862ec04b5e4689899fcb84",
+        "amount": "600000000000000",
+        "before": "1366535593483397",
+        "after": "1966535593483397",
+        "logId": "106056796",
+        "walletRevision": "503"
+      },
+      {
+        "userId": "261",
+        "nickname": "둘리소다",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "57e7231ca7db1ce2e5b1564f65742cffcca097271d9124f5bcf2650ed3edb49b",
+        "amount": "600000000000000",
+        "before": "1235585421213097",
+        "after": "1835585421213097",
+        "logId": "106056797",
+        "walletRevision": "63395"
+      },
+      {
+        "userId": "277",
+        "nickname": "스갤가축",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "19528fabfdfeb568d802b9cdb7ab2fdf955cb64af0f006d0ee6638dc82ec5118",
+        "amount": "600000000000000",
+        "before": "554413393456826",
+        "after": "1154413393456826",
+        "logId": "106056798",
+        "walletRevision": "43950"
+      },
+      {
+        "userId": "289",
+        "nickname": "베베킹",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9074df6c3049570e656a16d7fa3d7060130f48210412cd54f94803b593c02b57",
+        "amount": "600000000000000",
+        "before": "21761960379192484",
+        "after": "22361960379192484",
+        "logId": "106056799",
+        "walletRevision": "1014528"
+      },
+      {
+        "userId": "290",
+        "nickname": "Mild7",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b237eda07f0039a7a79ae91d1ecc1e85643c14bd9bf30f71e9ed0a3208c72457",
+        "amount": "600000000000000",
+        "before": "10184018604258182",
+        "after": "10784018604258182",
+        "logId": "106056800",
+        "walletRevision": "1024302"
+      },
+      {
+        "userId": "295",
+        "nickname": "모래",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "e5701537bd361ed4ee52325ab6f5e8864411fe3102881052fadc55c5b7952704",
+        "amount": "600000000000000",
+        "before": "4523034405162948",
+        "after": "5123034405162948",
+        "logId": "106056801",
+        "walletRevision": "298756"
+      },
+      {
+        "userId": "297",
+        "nickname": "점크루지",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9317b7006514a2f2b79a51264ebd5f6e8b1a7aa59514b7325994a9cadbc3067f",
+        "amount": "600000000000000",
+        "before": "1327961327359867",
+        "after": "1927961327359867",
+        "logId": "106056802",
+        "walletRevision": "33351"
+      },
+      {
+        "userId": "303",
+        "nickname": "[C9]족쪽이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6bb1685a26645b978145e7f952dba13812f9977505cadd60b27057559ce1618f",
+        "amount": "600000000000000",
+        "before": "120282224232278585",
+        "after": "120882224232278585",
+        "logId": "106056803",
+        "walletRevision": "802772"
+      },
+      {
+        "userId": "312",
+        "nickname": "밍",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "37b770fad76e442026142d21069800fe271e408b6d6a27332504f1b9edcb466d",
+        "amount": "600000000000000",
+        "before": "1371693630721979",
+        "after": "1971693630721979",
+        "logId": "106056804",
+        "walletRevision": "53864"
+      },
+      {
+        "userId": "313",
+        "nickname": "족구짱구",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0f7ff014ee32475cc48a98473208a28bd6a5c1e86504ec1bb45d4256aa9a8032",
+        "amount": "600000000000000",
+        "before": "5363957820702394",
+        "after": "5963957820702394",
+        "logId": "106056805",
+        "walletRevision": "3383"
+      },
+      {
+        "userId": "314",
+        "nickname": "찌유나귀여염",
+        "statusAtGrant": "BANNED",
+        "role": "USER",
+        "identityHash": "515ec12ea93cf18bdfb8337865003f008103e34b05ce5cef10b566a8e429e9f5",
+        "amount": "600000000000000",
+        "before": "5000",
+        "after": "600000000005000",
+        "logId": "106056806",
+        "walletRevision": "2"
+      },
+      {
+        "userId": "315",
+        "nickname": "에타",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0822ed80b1d73ae7ca150f946c0058433c6a18d95d84be8e0796d56ed1f7d8ac",
+        "amount": "600000000000000",
+        "before": "27416078232521424",
+        "after": "28016078232521424",
+        "logId": "106056807",
+        "walletRevision": "72250"
+      },
+      {
+        "userId": "326",
+        "nickname": "freedom1",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "83ecb32d760f1b29c8ec935d72c5b0c15cb3f470aa35abea9ca86f752b4df77f",
+        "amount": "600000000000000",
+        "before": "121224151158518",
+        "after": "721224151158518",
+        "logId": "106056808",
+        "walletRevision": "16524"
+      },
+      {
+        "userId": "359",
+        "nickname": "갓삼족삼",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "88da21ff325977d8e4550774c25cc596ed53f42c1e15c79ed9bd3135e543bfb6",
+        "amount": "600000000000000",
+        "before": "66572553151678",
+        "after": "666572553151678",
+        "logId": "106056809",
+        "walletRevision": "10041"
+      },
+      {
+        "userId": "360",
+        "nickname": "라피e",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "57fc3c6413bfff808081b3915dd54e2797ba3772572ef07c70c3f714e50017d9",
+        "amount": "600000000000000",
+        "before": "3781834848216289",
+        "after": "4381834848216289",
+        "logId": "106056810",
+        "walletRevision": "803975"
+      },
+      {
+        "userId": "364",
+        "nickname": "풍으로말해요",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a964d13a26255148653654b8a97b16a15a225d7c42b2e7d4841166b1801b31c6",
+        "amount": "600000000000000",
+        "before": "1958487182330182",
+        "after": "2558487182330182",
+        "logId": "106056811",
+        "walletRevision": "186156"
+      },
+      {
+        "userId": "425",
+        "nickname": "유리",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "25d228c33ce96e88f9786ba84a2426206e26b245eef5842a559af6c46be5eda2",
+        "amount": "600000000000000",
+        "before": "697071952874234",
+        "after": "1297071952874234",
+        "logId": "106056812",
+        "walletRevision": "94"
+      },
+      {
+        "userId": "490",
+        "nickname": "경화수월팬",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7587dc0cbd75ca74500d933413e6aa46d8460ceeb56cd902ff6883d030ac2bbd",
+        "amount": "600000000000000",
+        "before": "1973081081410226",
+        "after": "2573081081410226",
+        "logId": "106056813",
+        "walletRevision": "1706"
+      },
+      {
+        "userId": "493",
+        "nickname": "치타구",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "61d949e3b4e6309ef2c55b48bf764c87d4fc58685a614de73ded5b23dccf8c6b",
+        "amount": "600000000000000",
+        "before": "1875600560437811",
+        "after": "2475600560437811",
+        "logId": "106056814",
+        "walletRevision": "324974"
+      },
+      {
+        "userId": "518",
+        "nickname": "moo우에디아",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c6b00be1233629e050da16ae693b0190a9c41285d64f282af36a45850c7ce7bb",
+        "amount": "600000000000000",
+        "before": "216151919867731",
+        "after": "816151919867731",
+        "logId": "106056815",
+        "walletRevision": "97"
+      },
+      {
+        "userId": "521",
+        "nickname": "대저동토마토",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "dcf3846a72135afe418b1759cfb80b3f885e2152f5289201860cd3151af13476",
+        "amount": "600000000000000",
+        "before": "3922093184992946",
+        "after": "4522093184992946",
+        "logId": "106056816",
+        "walletRevision": "129672"
+      },
+      {
+        "userId": "525",
+        "nickname": "족구조아",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0f81ee581e853760ce6013e22a34356e5939726950a6dd08aad7df99d4ffc37e",
+        "amount": "600000000000000",
+        "before": "12027521214500730",
+        "after": "12627521214500730",
+        "logId": "106056817",
+        "walletRevision": "367892"
+      },
+      {
+        "userId": "567",
+        "nickname": "망순이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a407de7389e18cf5cb23c54daac1e173f7f7851a753e3ff9732605355645b951",
+        "amount": "600000000000000",
+        "before": "1160701868182638",
+        "after": "1760701868182638",
+        "logId": "106056818",
+        "walletRevision": "3241"
+      },
+      {
+        "userId": "660",
+        "nickname": "Bazzi3",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "3848a4e62e4f40d1acf3714e10ea31e4f2c9f58531ebf9224aaea390fa0d10d7",
+        "amount": "600000000000000",
+        "before": "4743313524660",
+        "after": "604743313524660",
+        "logId": "106056819",
+        "walletRevision": "301768"
+      },
+      {
+        "userId": "681",
+        "nickname": "페이트런",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b07f212998c0c5ae2213525fc3d044c118b5cf35919e048719c4015bc9cbb857",
+        "amount": "600000000000000",
+        "before": "3604484983094324",
+        "after": "4204484983094324",
+        "logId": "106056820",
+        "walletRevision": "466300"
+      },
+      {
+        "userId": "685",
+        "nickname": "앵무새ㅇ",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "858384d792585a3e8ac9987a092c2e3a424cebbdf696ebe49de362807c2ab254",
+        "amount": "600000000000000",
+        "before": "866828820989972",
+        "after": "1466828820989972",
+        "logId": "106056821",
+        "walletRevision": "105"
+      },
+      {
+        "userId": "689",
+        "nickname": "듯?",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d5c50651f242d7bf7a2319a2f64fcbaf7e6f583ea2270527ba229b1740041abb",
+        "amount": "600000000000000",
+        "before": "695133727542071",
+        "after": "1295133727542071",
+        "logId": "106056822",
+        "walletRevision": "148"
+      },
+      {
+        "userId": "750",
+        "nickname": "라페스타다",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "aa65e3870fe78e498798f5964303c6670319ad970e70faf6a1dc335d9b610e20",
+        "amount": "600000000000000",
+        "before": "756714198703279",
+        "after": "1356714198703279",
+        "logId": "106056823",
+        "walletRevision": "47177"
+      },
+      {
+        "userId": "787",
+        "nickname": "뚱초환",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c954ddbe54280bb78c3762207c1a123446f285103d36287f2a61cb386b49ba4e",
+        "amount": "600000000000000",
+        "before": "9063717064997213",
+        "after": "9663717064997213",
+        "logId": "106056824",
+        "walletRevision": "156963"
+      },
+      {
+        "userId": "792",
+        "nickname": "센텀신사",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6a767ae02ccd8fb9a3fe847352a97ef140b4b86c830085ab3ba9a49113740a3e",
+        "amount": "600000000000000",
+        "before": "2161789142009621",
+        "after": "2761789142009621",
+        "logId": "106056825",
+        "walletRevision": "467355"
+      },
+      {
+        "userId": "850",
+        "nickname": "뽑기고수71",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "925d83caa08520296ecf4f2031e3d26ec5f1352a36364b09ad9d61ffc24e0a98",
+        "amount": "600000000000000",
+        "before": "8922776661540",
+        "after": "608922776661540",
+        "logId": "106056826",
+        "walletRevision": "56084"
+      },
+      {
+        "userId": "886",
+        "nickname": "티켓",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d0ae8b19962d9b074499ce97c19dc0782ca5ed06f946c31c5fc256c51ea0f4df",
+        "amount": "600000000000000",
+        "before": "721010502915822",
+        "after": "1321010502915822",
+        "logId": "106056827",
+        "walletRevision": "1440"
+      },
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05",
+        "amount": "600000000000000",
+        "before": "3567224118036339",
+        "after": "4167224118036339",
+        "logId": "106056828",
+        "walletRevision": "1098539"
+      },
+      {
+        "userId": "1249",
+        "nickname": "Pulse",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "381f5b467177b3d704cc346fdb41afa2e782515450468699d8235051f166ffc1",
+        "amount": "600000000000000",
+        "before": "124424548131751727",
+        "after": "125024548131751727",
+        "logId": "106056829",
+        "walletRevision": "1684077"
+      },
+      {
+        "userId": "1255",
+        "nickname": "전게씹선미아웃",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c52449af0f0027152625945987b3c4e9b9b068f9e805ef804b77966bfaa6665c",
+        "amount": "600000000000000",
+        "before": "4355918290718757",
+        "after": "4955918290718757",
+        "logId": "106056830",
+        "walletRevision": "213623"
+      },
+      {
+        "userId": "1301",
+        "nickname": "팩트만쓴다15",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6925c5751fb3c731ddc48814c46091210bd457f2b0185bd1407e4047c4de53f3",
+        "amount": "600000000000000",
+        "before": "3086796775172194",
+        "after": "3686796775172194",
+        "logId": "106056831",
+        "walletRevision": "303444"
+      },
+      {
+        "userId": "1421",
+        "nickname": "다시생각",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8a416cb66f23e281b5e5af989c170a9408904d82a4781e38b03adbed5773736e",
+        "amount": "600000000000000",
+        "before": "2778107713370223",
+        "after": "3378107713370223",
+        "logId": "106056832",
+        "walletRevision": "94439"
+      },
+      {
+        "userId": "1545",
+        "nickname": "좋은하루",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "eaab7a2da3272aba932998c760df4132f5eddd13e8132c691316b4263f28ba4b",
+        "amount": "600000000000000",
+        "before": "5244904042263728",
+        "after": "5844904042263728",
+        "logId": "106056833",
+        "walletRevision": "864784"
+      },
+      {
+        "userId": "1578",
+        "nickname": "빵빡이4호",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f01ba4330f8bdddb1d369b9cda5bd4a3d05b4894ccf88f86ff88dbadba3369ea",
+        "amount": "600000000000000",
+        "before": "212843704480269",
+        "after": "812843704480269",
+        "logId": "106056834",
+        "walletRevision": "27948"
+      },
+      {
+        "userId": "1768",
+        "nickname": "핫시",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6202cde047aec1dbd6a2e3078f87d138cb0581c3496d16eb35aa897724c7c7e1",
+        "amount": "600000000000000",
+        "before": "5762969258397436",
+        "after": "6362969258397436",
+        "logId": "106056835",
+        "walletRevision": "282927"
+      },
+      {
+        "userId": "1843",
+        "nickname": "흐린눈깔",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "97d4dec69afbd6126d51493f1f609d8240dfad9ef4606f61deaca474d115069e",
+        "amount": "600000000000000",
+        "before": "1434102965374156",
+        "after": "2034102965374156",
+        "logId": "106056836",
+        "walletRevision": "487"
+      },
+      {
+        "userId": "1944",
+        "nickname": "족메시",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8f3ce42ad6290b042b72047310bb5cf3bbfe634f60b9b931b3d5a0a98f29bc24",
+        "amount": "600000000000000",
+        "before": "718777647633435",
+        "after": "1318777647633435",
+        "logId": "106056837",
+        "walletRevision": "217691"
+      },
+      {
+        "userId": "2246",
+        "nickname": "옹가망함1",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f147e96ec813c57699b55fa4e862b482ca6af39a29cc6eb56996f041d6d8021a",
+        "amount": "600000000000000",
+        "before": "1599224545536",
+        "after": "601599224545536",
+        "logId": "106056838",
+        "walletRevision": "57807"
+      },
+      {
+        "userId": "2300",
+        "nickname": "싸우지마애들아",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9316b40bb9046a3c600e2bfef503699dbd3329aadc3a1a65a5cd5bd969977d08",
+        "amount": "600000000000000",
+        "before": "505357649150647",
+        "after": "1105357649150647",
+        "logId": "106056839",
+        "walletRevision": "81813"
+      },
+      {
+        "userId": "2333",
+        "nickname": "구와함",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c802f56c850e7a50f5c29950347219f9b4eaa153e095d0b4851ebf529685f450",
+        "amount": "600000000000000",
+        "before": "1977769821344042",
+        "after": "2577769821344042",
+        "logId": "106056840",
+        "walletRevision": "261420"
+      },
+      {
+        "userId": "2420",
+        "nickname": "블랙캐슬",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "936114f4fbfa955199c1a489b1ad78426cc6f8e59c800275eefa993118de2f82",
+        "amount": "600000000000000",
+        "before": "5804433891132903",
+        "after": "6404433891132903",
+        "logId": "106056841",
+        "walletRevision": "234949"
+      },
+      {
+        "userId": "2429",
+        "nickname": "노사람졈니",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6882148681bd2b59ce8f695ba6f0cb30644b7830076eac6a28b7e70730b1801a",
+        "amount": "600000000000000",
+        "before": "1506381210313885",
+        "after": "2106381210313885",
+        "logId": "106056842",
+        "walletRevision": "10138"
+      },
+      {
+        "userId": "2505",
+        "nickname": "모아가려아가",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "4dafc63eb26eecc44a9b7688589bf6619ef3244f73c2c47a3b5d125c31014967",
+        "amount": "600000000000000",
+        "before": "4093553775257845",
+        "after": "4693553775257845",
+        "logId": "106056843",
+        "walletRevision": "71030"
+      },
+      {
+        "userId": "2545",
+        "nickname": "연",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "67fd1f733d678dff5fd6847d074b8b9dd3eb07a5778a510cc7daf502134a2f8b",
+        "amount": "600000000000000",
+        "before": "213211173790226",
+        "after": "813211173790226",
+        "logId": "106056844",
+        "walletRevision": "1172"
+      },
+      {
+        "userId": "2734",
+        "nickname": "그냥지은닉",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "18a01117be725c64a9a2c7df02f52282b4551b0c7e721e88bb721eabda013a96",
+        "amount": "600000000000000",
+        "before": "3968611264477070",
+        "after": "4568611264477070",
+        "logId": "106056845",
+        "walletRevision": "256004"
+      },
+      {
+        "userId": "3011",
+        "nickname": "오일바른가지",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5b36f5be3b170f9db10df9f14047b7329625a2fc7922ff96c2c373219baf2fd7",
+        "amount": "600000000000000",
+        "before": "3962444239467783",
+        "after": "4562444239467783",
+        "logId": "106056846",
+        "walletRevision": "224287"
+      },
+      {
+        "userId": "3480",
+        "nickname": "족짜미♡",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "272d507e6069553ec897962ca239b81624e9628b62a8a02c4d5cc9345166703f",
+        "amount": "600000000000000",
+        "before": "1418949946125778",
+        "after": "2018949946125778",
+        "logId": "106056847",
+        "walletRevision": "14704"
+      },
+      {
+        "userId": "3674",
+        "nickname": "연보라",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b22c2335cef3c6cd0ddc4082b756544945f747df96de9fa84c91d6c40091994d",
+        "amount": "600000000000000",
+        "before": "1959904353865106",
+        "after": "2559904353865106",
+        "logId": "106056848",
+        "walletRevision": "109305"
+      },
+      {
+        "userId": "3710",
+        "nickname": "꼭지위생크림",
+        "statusAtGrant": "ACTIVE",
+        "role": "ADMIN",
+        "identityHash": "c751bca716a67dc3b0b8ffbac60982a8c7cd712920f9dcc74db0ac0383f365d5",
+        "amount": "600000000000000",
+        "before": "281848881393265",
+        "after": "881848881393265",
+        "logId": "106056849",
+        "walletRevision": "48"
+      },
+      {
+        "userId": "3739",
+        "nickname": "미오탱ㅋㅋ",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "fa699ed058ec8aeac627f472b4c7f34dc3a4d4fdd43ef6ad22aafb59dffdda49",
+        "amount": "600000000000000",
+        "before": "7316827853292",
+        "after": "607316827853292",
+        "logId": "106056850",
+        "walletRevision": "5232"
+      },
+      {
+        "userId": "3867",
+        "nickname": "레드클라우드",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "2f434257900449579b5347108fd62c375febd9d08c614362ff571f44950f9bb0",
+        "amount": "600000000000000",
+        "before": "7733713342311969",
+        "after": "8333713342311969",
+        "logId": "106056851",
+        "walletRevision": "168174"
+      },
+      {
+        "userId": "3877",
+        "nickname": "<#ever_wC>",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "54932d8d69ce84b4e7ae0342c38182060614a62ee10f87b22478f44587387cc0",
+        "amount": "600000000000000",
+        "before": "867050483879782",
+        "after": "1467050483879782",
+        "logId": "106056852",
+        "walletRevision": "104"
+      },
+      {
+        "userId": "3884",
+        "nickname": "zkzk9999",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "deccc6002fd7f3cde7c3cee88e94c021fed9cc97413e32422e3212b336bb3705",
+        "amount": "600000000000000",
+        "before": "2334447280985911",
+        "after": "2934447280985911",
+        "logId": "106056853",
+        "walletRevision": "426519"
+      },
+      {
+        "userId": "3974",
+        "nickname": "우회하세요",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a79a76ff41b325a9a3d538b7ef89613d284ede8e7fb5aed33a3edd62c25e51ae",
+        "amount": "600000000000000",
+        "before": "3554601974704838",
+        "after": "4154601974704838",
+        "logId": "106056854",
+        "walletRevision": "211859"
+      },
+      {
+        "userId": "4010",
+        "nickname": "슈라",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a2ef021043a516851a318f1840b1fac816f06d2b23a98d35231b02cddc5afbc1",
+        "amount": "600000000000000",
+        "before": "2992698303367928",
+        "after": "3592698303367928",
+        "logId": "106056855",
+        "walletRevision": "167895"
+      },
+      {
+        "userId": "4086",
+        "nickname": "수민입니다",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6590a4e0afab5382d2c0cb9d8e73bf4068e5e36296a8517cfa16e97d63b9fc0b",
+        "amount": "600000000000000",
+        "before": "30107025022817",
+        "after": "630107025022817",
+        "logId": "106056856",
+        "walletRevision": "1164"
+      },
+      {
+        "userId": "4111",
+        "nickname": "족게이다",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "3359892e211e4b81aebd2928068ef48b8e543ccafbe022d69fe176e18f29737b",
+        "amount": "600000000000000",
+        "before": "1515603749850894",
+        "after": "2115603749850894",
+        "logId": "106056857",
+        "walletRevision": "257206"
+      },
+      {
+        "userId": "4161",
+        "nickname": "chorong2",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "999a5b52ed376f8e12bca51366ca013cdb6bc5882dcdbf496fd8325a659b4ff5",
+        "amount": "600000000000000",
+        "before": "790530306631513",
+        "after": "1390530306631513",
+        "logId": "106056858",
+        "walletRevision": "2065"
+      },
+      {
+        "userId": "4199",
+        "nickname": "택신",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "de0c3d410b0f45961ea0fa62fe68b99c8d2315f1c8f9b6c3caf7dac912efb347",
+        "amount": "600000000000000",
+        "before": "6093186530652343",
+        "after": "6693186530652343",
+        "logId": "106056859",
+        "walletRevision": "191493"
+      },
+      {
+        "userId": "4209",
+        "nickname": "#유나랜드",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "54233aafa027b1a8cba18fe1edc3258d962386466c3a25cfa3f09d4357e13e98",
+        "amount": "600000000000000",
+        "before": "4263660410634427",
+        "after": "4863660410634427",
+        "logId": "106056860",
+        "walletRevision": "116874"
+      },
+      {
+        "userId": "4212",
+        "nickname": "루루핑",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "de4a70b36ebf023b0be85d0e9c294648a1ccace5c77446b8e033eda0225689d1",
+        "amount": "600000000000000",
+        "before": "3487180893863586",
+        "after": "4087180893863586",
+        "logId": "106056861",
+        "walletRevision": "197046"
+      },
+      {
+        "userId": "4222",
+        "nickname": "#크레파스",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6deac12a8ed1e87650e9610ca1d40c5ebed08943e09fdb0d050c3fada70d9c7d",
+        "amount": "600000000000000",
+        "before": "5667616802034679",
+        "after": "6267616802034679",
+        "logId": "106056862",
+        "walletRevision": "74106"
+      },
+      {
+        "userId": "4235",
+        "nickname": "도댕",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d02f52f25f8a46b8f14a0542e26a1de4ae1ae68ec66dc41766714c17d03e133d",
+        "amount": "600000000000000",
+        "before": "1449850022954566",
+        "after": "2049850022954566",
+        "logId": "106056863",
+        "walletRevision": "106933"
+      },
+      {
+        "userId": "4265",
+        "nickname": "데레레",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9c12c66ccb91309a5bb1e4c8f80031820feb5714c2bc4e17725328730422f0ba",
+        "amount": "600000000000000",
+        "before": "697133301288514",
+        "after": "1297133301288514",
+        "logId": "106056864",
+        "walletRevision": "160"
+      },
+      {
+        "userId": "4340",
+        "nickname": "스타모름",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "786878a2603d6ad616c0b93f8f03d18e7fbdf07966df50a511edb29a57339113",
+        "amount": "600000000000000",
+        "before": "189983419739045",
+        "after": "789983419739045",
+        "logId": "106056865",
+        "walletRevision": "544"
+      },
+      {
+        "userId": "4371",
+        "nickname": "건빵3개",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "4053996ef119162645d3874a40c48b765ebbb01293ec2b60b5f69c226e500110",
+        "amount": "600000000000000",
+        "before": "120484430264547",
+        "after": "720484430264547",
+        "logId": "106056866",
+        "walletRevision": "34242"
+      },
+      {
+        "userId": "4389",
+        "nickname": "다르",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0ae722c664c87e95ad75a7a1c18681cdbca3c00db1b1896508ac2f0a0080b235",
+        "amount": "600000000000000",
+        "before": "3229941064753600",
+        "after": "3829941064753600",
+        "logId": "106056867",
+        "walletRevision": "447107"
+      },
+      {
+        "userId": "4391",
+        "nickname": "더듬이구",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "e3a5106d954725ea57feb9fc2b29e938fe43aed43dedb1843bcc9fa4c1cfbb89",
+        "amount": "600000000000000",
+        "before": "23775116882233947",
+        "after": "24375116882233947",
+        "logId": "106056868",
+        "walletRevision": "1480949"
+      },
+      {
+        "userId": "4400",
+        "nickname": "키위🥝",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5cd46313dd2eada0eaad3c2a516a6765efb014164b15ce533310b857fc8fc158",
+        "amount": "600000000000000",
+        "before": "3511176868705407",
+        "after": "4111176868705407",
+        "logId": "106056869",
+        "walletRevision": "9590"
+      },
+      {
+        "userId": "4408",
+        "nickname": "레가파",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "14c85a341992ae21e1a71c8cc46e50490a9df801f7ec82ce646ca3a68d6ceab9",
+        "amount": "600000000000000",
+        "before": "2258347296627111",
+        "after": "2858347296627111",
+        "logId": "106056870",
+        "walletRevision": "264163"
+      },
+      {
+        "userId": "4415",
+        "nickname": "Moo날두",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "545f7fa624f25bd6a9833e79475419aa0571a0b0a8a085dbba9b14de981f94fe",
+        "amount": "600000000000000",
+        "before": "21781186195373237",
+        "after": "22381186195373237",
+        "logId": "106056871",
+        "walletRevision": "855178"
+      },
+      {
+        "userId": "4479",
+        "nickname": "대지",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "96b9e14f800578874d95a9dd86195a0eae0cb557bfb10f3f0376191dec253d95",
+        "amount": "600000000000000",
+        "before": "4965564940543977",
+        "after": "5565564940543977",
+        "logId": "106056872",
+        "walletRevision": "228926"
+      },
+      {
+        "userId": "4501",
+        "nickname": "장씨아저씨",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "efda11354ecb520d43f59223b0af13b8fd6b5d7e6e5886c2e23222ffe5294ca2",
+        "amount": "600000000000000",
+        "before": "1762498119224933",
+        "after": "2362498119224933",
+        "logId": "106056873",
+        "walletRevision": "57225"
+      },
+      {
+        "userId": "4504",
+        "nickname": "깜찍소녀",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "04f4e76af8553b406006561cbc6f53b1e9bff60e94de3fe79e555d7bb39e4a08",
+        "amount": "600000000000000",
+        "before": "3318740924594408",
+        "after": "3918740924594408",
+        "logId": "106056874",
+        "walletRevision": "26684"
+      },
+      {
+        "userId": "4512",
+        "nickname": "가라가라동",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "01c055a8a9b7368c48befb4e96ecda3313163e3a8afc03f4e3bc240a59e43f7b",
+        "amount": "600000000000000",
+        "before": "3680126222120089",
+        "after": "4280126222120089",
+        "logId": "106056875",
+        "walletRevision": "5341"
+      },
+      {
+        "userId": "4540",
+        "nickname": "지아영",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7062c2b4f710c5daec50adeb69da7b447fdac5d2ae7f4595f71403da7b839d19",
+        "amount": "600000000000000",
+        "before": "4277662557344385",
+        "after": "4877662557344385",
+        "logId": "106056876",
+        "walletRevision": "95177"
+      },
+      {
+        "userId": "4552",
+        "nickname": "치옹스",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a7da6b840d01b5defc6bc2a63b72b856da25c1fb5efde35f0cd4fbd70ec2c8bc",
+        "amount": "600000000000000",
+        "before": "491187657706424",
+        "after": "1091187657706424",
+        "logId": "106056877",
+        "walletRevision": "3837"
+      },
+      {
+        "userId": "4562",
+        "nickname": "찡찡ෆ",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "99ebd809555f07452142b2fca7af8cd214c48afec8445259f9e902d73219c4bf",
+        "amount": "600000000000000",
+        "before": "2998343875949656",
+        "after": "3598343875949656",
+        "logId": "106056878",
+        "walletRevision": "379172"
+      },
+      {
+        "userId": "4565",
+        "nickname": "루피",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "e3feb4acbfd5eddb27376d99e82a8c6acad0dd8ffaa8272bca175869755454ea",
+        "amount": "600000000000000",
+        "before": "1505942373888199",
+        "after": "2105942373888199",
+        "logId": "106056879",
+        "walletRevision": "3135"
+      },
+      {
+        "userId": "4566",
+        "nickname": "나야",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "be8a42b51cda9b6fd2ea2b98a91a071062dd4133ac42ee50d952cf36ad930437",
+        "amount": "600000000000000",
+        "before": "2433225970401419",
+        "after": "3033225970401419",
+        "logId": "106056880",
+        "walletRevision": "557"
+      },
+      {
+        "userId": "4567",
+        "nickname": "힘내보자",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "3bf8222e3be059a5af8773fcc7aa51274a10f7d59c932982fa2f6ec4f4572a9b",
+        "amount": "600000000000000",
+        "before": "3193941212970521",
+        "after": "3793941212970521",
+        "logId": "106056881",
+        "walletRevision": "67541"
+      },
+      {
+        "userId": "4570",
+        "nickname": "혜정",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12",
+        "amount": "600000000000000",
+        "before": "3938492029922835",
+        "after": "4538492029922835",
+        "logId": "106056882",
+        "walletRevision": "857134"
+      },
+      {
+        "userId": "4571",
+        "nickname": "야옹냐옹•◡•",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "17eb91e595cb075f02dd450c0e45ac1e5be16c965df649ea4b878522d43521aa",
+        "amount": "600000000000000",
+        "before": "851282505777222",
+        "after": "1451282505777222",
+        "logId": "106056883",
+        "walletRevision": "11710"
+      },
+      {
+        "userId": "4572",
+        "nickname": "응맨",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "584f791fb942baed0a629312a57d1cb9122df92cd8d26f2cf50096d8bf9274c1",
+        "amount": "600000000000000",
+        "before": "14110341012076203",
+        "after": "14710341012076203",
+        "logId": "106056884",
+        "walletRevision": "672960"
+      },
+      {
+        "userId": "4573",
+        "nickname": "악두우",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7c2e62b602cea66e6e0617ad32b86f4b1cac9fe8558758612070733983666f87",
+        "amount": "600000000000000",
+        "before": "1806973933721966",
+        "after": "2406973933721966",
+        "logId": "106056885",
+        "walletRevision": "13217"
+      },
+      {
+        "userId": "4580",
+        "nickname": "CHO22",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8f9fac600497d1a6b4c336bf71f916c731a1ffde01566ea4f5e7af99794f589f",
+        "amount": "600000000000000",
+        "before": "1819934595372624",
+        "after": "2419934595372624",
+        "logId": "106056886",
+        "walletRevision": "143466"
+      },
+      {
+        "userId": "4581",
+        "nickname": "나도한번",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "16757b9ece050a86db890185270e8a07072f9d180c05a0108bef7ac7c2b9f561",
+        "amount": "600000000000000",
+        "before": "13615858175909",
+        "after": "613615858175909",
+        "logId": "106056887",
+        "walletRevision": "47364"
+      },
+      {
+        "userId": "4582",
+        "nickname": "족단",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8ce5816fdce2324c397db47a1d1e8683f3beeefbbe5790484b645da8ed4e04c6",
+        "amount": "600000000000000",
+        "before": "11616767080902624",
+        "after": "12216767080902624",
+        "logId": "106056888",
+        "walletRevision": "685548"
+      },
+      {
+        "userId": "4583",
+        "nickname": "따깡",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "88bfcb8a3b39777615390799793675f13e7e27f3a72fd9ae25df28a4b0ff62a6",
+        "amount": "600000000000000",
+        "before": "1075417062831954",
+        "after": "1675417062831954",
+        "logId": "106056889",
+        "walletRevision": "98"
+      },
+      {
+        "userId": "4587",
+        "nickname": "녹턴",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a6ec4289b76264f8842a9eb5b8954c765d100f845425dfe467de68c82f20aae1",
+        "amount": "600000000000000",
+        "before": "405712560784407",
+        "after": "1005712560784407",
+        "logId": "106056890",
+        "walletRevision": "35557"
+      },
+      {
+        "userId": "4589",
+        "nickname": "악마족숭이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5bdd38954cc7488cf1bf439681bc04aa34e09b279bcbc4fa93255040bcf42c84",
+        "amount": "600000000000000",
+        "before": "1931889536963294",
+        "after": "2531889536963294",
+        "logId": "106056891",
+        "walletRevision": "974"
+      },
+      {
+        "userId": "4590",
+        "nickname": "무명",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "72485e2ac58fe9e87c3133969c94429cf8b17b5f09abdcfc03abca95dd68d9e2",
+        "amount": "600000000000000",
+        "before": "865986074215791",
+        "after": "1465986074215791",
+        "logId": "106056892",
+        "walletRevision": "133"
+      },
+      {
+        "userId": "4595",
+        "nickname": "비니",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "bf98fb2d8c579087463b82e79a760a614341019cbd4ec72eb0a188d718969ca1",
+        "amount": "600000000000000",
+        "before": "3180434897053454",
+        "after": "3780434897053454",
+        "logId": "106056893",
+        "walletRevision": "483726"
+      },
+      {
+        "userId": "4597",
+        "nickname": "찬호",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7fb3ed96eaff0baf400ec52b93258975ade8ed08316b87c8f4164546afe6f60d",
+        "amount": "600000000000000",
+        "before": "25710796983704402",
+        "after": "26310796983704402",
+        "logId": "106056894",
+        "walletRevision": "399235"
+      },
+      {
+        "userId": "4598",
+        "nickname": "암살자..",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8095a5b5e70bf578671288f7683a2db3689f00525085b0f2af8cf686b99ac557",
+        "amount": "600000000000000",
+        "before": "4741787912544949",
+        "after": "5341787912544949",
+        "logId": "106056895",
+        "walletRevision": "383554"
+      },
+      {
+        "userId": "4602",
+        "nickname": "은지",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7c251609a45d7432315b8d4b7fd83b8b08efd9c1765fec3ee1187121564f9830",
+        "amount": "600000000000000",
+        "before": "1941871315374566",
+        "after": "2541871315374566",
+        "logId": "106056896",
+        "walletRevision": "5571"
+      },
+      {
+        "userId": "4605",
+        "nickname": "희동",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "18f022d60bab51cd1366ada5de408f5c431a8c1012090dda183cd366192f5b7c",
+        "amount": "600000000000000",
+        "before": "1319961936571943",
+        "after": "1919961936571943",
+        "logId": "106056897",
+        "walletRevision": "5369"
+      },
+      {
+        "userId": "4608",
+        "nickname": "하트!",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "777d34447997641015f36553acce68d8dc6bf4af52c957507fc05e749e79814c",
+        "amount": "600000000000000",
+        "before": "2885924296299802",
+        "after": "3485924296299802",
+        "logId": "106056898",
+        "walletRevision": "387765"
+      },
+      {
+        "userId": "4609",
+        "nickname": "오랜만에",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "24cffeee880e6e281d4b70da7560fd1ab31000d25fa4061d509bbf6ac4f86e6e",
+        "amount": "600000000000000",
+        "before": "5393070855720413",
+        "after": "5993070855720413",
+        "logId": "106056899",
+        "walletRevision": "289292"
+      },
+      {
+        "userId": "4610",
+        "nickname": "고라니ㅇ",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "4e5963a28f00a9e059c4d63b920c0e39279838d9273d3daf80b46eb91d9c56aa",
+        "amount": "600000000000000",
+        "before": "12288338564899705",
+        "after": "12888338564899705",
+        "logId": "106056900",
+        "walletRevision": "276449"
+      },
+      {
+        "userId": "4613",
+        "nickname": "#설현",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c392f614de3940d22dc590dd5faf7d53a9464d0b7d4930ef3914c042647d318a",
+        "amount": "600000000000000",
+        "before": "1364889602259643",
+        "after": "1964889602259643",
+        "logId": "106056901",
+        "walletRevision": "25294"
+      },
+      {
+        "userId": "4614",
+        "nickname": "공단",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "448892fb476783fb950a1a4fb30852ba6fc47275f774c234ec97633c628f72f0",
+        "amount": "600000000000000",
+        "before": "8797578868063364",
+        "after": "9397578868063364",
+        "logId": "106056902",
+        "walletRevision": "349100"
+      },
+      {
+        "userId": "4615",
+        "nickname": "랭비!",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1da3174f105eda096867b3ed84d1a6321c1acb0708973ba09df09a95edc20713",
+        "amount": "600000000000000",
+        "before": "1752495369565376",
+        "after": "2352495369565376",
+        "logId": "106056903",
+        "walletRevision": "433519"
+      },
+      {
+        "userId": "4616",
+        "nickname": "청라배달맨",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0da82bf607daf171cdfe0544f032ac312d70923bd5a263a7c89bbd53987efb1e",
+        "amount": "600000000000000",
+        "before": "544352502143913",
+        "after": "1144352502143913",
+        "logId": "106056904",
+        "walletRevision": "99"
+      },
+      {
+        "userId": "4621",
+        "nickname": "리이렐",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a1e7c0826a4f77b058a2aa1d2310df1386b25faea54d7251f4ae7d3b9ef926ea",
+        "amount": "600000000000000",
+        "before": "3691468307181706",
+        "after": "4291468307181706",
+        "logId": "106056905",
+        "walletRevision": "133116"
+      },
+      {
+        "userId": "4625",
+        "nickname": "제롬",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "816c56b8c93e8f3d267dbe55db305e51c22fc12b7608961fed99875f395894dd",
+        "amount": "600000000000000",
+        "before": "1031651355595378",
+        "after": "1631651355595378",
+        "logId": "106056906",
+        "walletRevision": "458502"
+      },
+      {
+        "userId": "4627",
+        "nickname": "학벌",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563",
+        "amount": "600000000000000",
+        "before": "18776179209882216",
+        "after": "19376179209882216",
+        "logId": "106056907",
+        "walletRevision": "552275"
+      },
+      {
+        "userId": "4628",
+        "nickname": "망순이ෆ",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "beb4952f25d842ceed20ff531cf4d51f7c10f9da0f0cbda7b384e25635eafa75",
+        "amount": "600000000000000",
+        "before": "2441873125036002",
+        "after": "3041873125036002",
+        "logId": "106056908",
+        "walletRevision": "560579"
+      },
+      {
+        "userId": "4629",
+        "nickname": "Veil",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "19679ad9e68bbfe6f587d38798baf13ec3231bf370e34369b76b56eb032946c8",
+        "amount": "600000000000000",
+        "before": "6344010001202153",
+        "after": "6944010001202153",
+        "logId": "106056909",
+        "walletRevision": "373456"
+      },
+      {
+        "userId": "4631",
+        "nickname": "깽구",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "ea15678b4a4a473d24e64dea2b11a8e2b148841cc0a2704d62500380fa080b19",
+        "amount": "600000000000000",
+        "before": "2327048805024442",
+        "after": "2927048805024442",
+        "logId": "106056910",
+        "walletRevision": "33478"
+      },
+      {
+        "userId": "4641",
+        "nickname": "의지",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "818c696a35a21ce5a8abfe78d050b0a764dee2951a81e85dacba3b0bc21b6e9a",
+        "amount": "600000000000000",
+        "before": "4147724614359245",
+        "after": "4747724614359245",
+        "logId": "106056911",
+        "walletRevision": "198682"
+      },
+      {
+        "userId": "4643",
+        "nickname": "깡총",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5031203036335978419720f4258ca51cafac3379ded5fa7f5c1978e6c695843c",
+        "amount": "600000000000000",
+        "before": "2149239304028647",
+        "after": "2749239304028647",
+        "logId": "106056912",
+        "walletRevision": "159417"
+      },
+      {
+        "userId": "4644",
+        "nickname": "김폭군",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1c7bddfd396f2d4ac29df7fd883c4a1782c5e93f6b3babc2f6c46aef5eea3dde",
+        "amount": "600000000000000",
+        "before": "11945300217499878",
+        "after": "12545300217499878",
+        "logId": "106056913",
+        "walletRevision": "118252"
+      },
+      {
+        "userId": "4647",
+        "nickname": "피카츄",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "cb580d9654a949764eaeaf4cc3debea864cbe71472a8e14733f594b6c99a1e6e",
+        "amount": "600000000000000",
+        "before": "780783292868361",
+        "after": "1380783292868361",
+        "logId": "106056914",
+        "walletRevision": "212505"
+      },
+      {
+        "userId": "4651",
+        "nickname": "세라네꼬라지",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "bcf5e595208f67049e70bf16cf7ca569fb321569899f85447fd62cd0e5f8c1bc",
+        "amount": "600000000000000",
+        "before": "9839372985293657",
+        "after": "10439372985293657",
+        "logId": "106056915",
+        "walletRevision": "176850"
+      },
+      {
+        "userId": "4652",
+        "nickname": "묘목산다람쥐",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9e9da9a785b1564bd095a6705cbaf256ec995a9ea452423a011431ab8e1bd5fd",
+        "amount": "600000000000000",
+        "before": "2750018413967465",
+        "after": "3350018413967465",
+        "logId": "106056916",
+        "walletRevision": "7054"
+      },
+      {
+        "userId": "4654",
+        "nickname": "채팅좋아해",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8f22e4a1dadf75b23262dbdec67333d8f708159e03268047fc6c82adc0a22e25",
+        "amount": "600000000000000",
+        "before": "503012347216172",
+        "after": "1103012347216172",
+        "logId": "106056917",
+        "walletRevision": "5730"
+      },
+      {
+        "userId": "4655",
+        "nickname": "폰팔이짭호",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "384830fed094f14909595d2115bad1ba12af902d530b8b44b2a1a3da477fea9e",
+        "amount": "600000000000000",
+        "before": "1395897412685366",
+        "after": "1995897412685366",
+        "logId": "106056918",
+        "walletRevision": "6647"
+      },
+      {
+        "userId": "4663",
+        "nickname": "카으니",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "fba1d9846f070ee1993ff3a54930e1634da9e33d3e23546dbd8adfa28101ef90",
+        "amount": "600000000000000",
+        "before": "1643528274242685",
+        "after": "2243528274242685",
+        "logId": "106056919",
+        "walletRevision": "23172"
+      },
+      {
+        "userId": "4668",
+        "nickname": "화성가뿌자",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "481deb32c75a907ec39786c26713420c0fd8488ce6917232d12b8348c99ea693",
+        "amount": "600000000000000",
+        "before": "2645169737907494",
+        "after": "3245169737907494",
+        "logId": "106056920",
+        "walletRevision": "108469"
+      },
+      {
+        "userId": "4675",
+        "nickname": "옴마니반메훔",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c20e6fd09209b7eb614d9dbd2866ce094bd36d0ba7f98d80ac9b285486fe4cb3",
+        "amount": "600000000000000",
+        "before": "2940697229988896",
+        "after": "3540697229988896",
+        "logId": "106056921",
+        "walletRevision": "266856"
+      },
+      {
+        "userId": "4676",
+        "nickname": "고급소주",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "32afc3a89c5180d996b409fd4c429f21f5554587fe3fefea9d8941ab9dadbb0f",
+        "amount": "600000000000000",
+        "before": "129631451577814",
+        "after": "729631451577814",
+        "logId": "106056922",
+        "walletRevision": "98584"
+      },
+      {
+        "userId": "4681",
+        "nickname": "911ay",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "31088c2b2f674edba135aa56116c8e1f7dca3565b7967ed29485bd45860cf45a",
+        "amount": "600000000000000",
+        "before": "293683675641794",
+        "after": "893683675641794",
+        "logId": "106056923",
+        "walletRevision": "131"
+      },
+      {
+        "userId": "4691",
+        "nickname": "짝밤",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d17d31e5123d02998cdfe3feec608c4626235b3ca94bb0cf0e85b879266c3bc8",
+        "amount": "600000000000000",
+        "before": "54159890895624",
+        "after": "654159890895624",
+        "logId": "106056924",
+        "walletRevision": "135597"
+      },
+      {
+        "userId": "4693",
+        "nickname": "시소둥이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9a3de7e01de62e9d8167753ef895531cee978d745b244a555dc89bb5e9f3e748",
+        "amount": "600000000000000",
+        "before": "3007230020542",
+        "after": "603007230020542",
+        "logId": "106056925",
+        "walletRevision": "379217"
+      },
+      {
+        "userId": "4699",
+        "nickname": "히나",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "2aedfb5ccc45060d1552376359e837bea506e3fc519fd19683918553d9e3dc7d",
+        "amount": "600000000000000",
+        "before": "1114591493392694",
+        "after": "1714591493392694",
+        "logId": "106056926",
+        "walletRevision": "68067"
+      },
+      {
+        "userId": "4705",
+        "nickname": "˚쟁이。",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8b76be53545ad3227d7d9caf2ff9b9f0f35b1594671eb2c7da05854c41a7afcb",
+        "amount": "600000000000000",
+        "before": "30821651620824352",
+        "after": "31421651620824352",
+        "logId": "106056927",
+        "walletRevision": "324894"
+      },
+      {
+        "userId": "4712",
+        "nickname": "겨밥디임",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "319043898e3b7dfd172ae865ab09a607d823a172c499104967f4a3cbb54c6fa5",
+        "amount": "600000000000000",
+        "before": "957421297520481",
+        "after": "1557421297520481",
+        "logId": "106056928",
+        "walletRevision": "36605"
+      },
+      {
+        "userId": "4717",
+        "nickname": "소다맛",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f2ff92816f0746048ac03b677ab11d06f9c55c3e88b1b7d17eb40398910b2a57",
+        "amount": "600000000000000",
+        "before": "4191199122932814",
+        "after": "4791199122932814",
+        "logId": "106056929",
+        "walletRevision": "2270"
+      },
+      {
+        "userId": "4718",
+        "nickname": "강구열",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "79766d2424b7c02222ffeada428112e572679fa445a57f66501b32dfce696be8",
+        "amount": "600000000000000",
+        "before": "545298631410819",
+        "after": "1145298631410819",
+        "logId": "106056930",
+        "walletRevision": "307550"
+      },
+      {
+        "userId": "4730",
+        "nickname": "리오넬",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "dd0da888f2a6e478edab8d906e2457c551141dbc15805343ec96982681a6867a",
+        "amount": "600000000000000",
+        "before": "8572420691777559",
+        "after": "9172420691777559",
+        "logId": "106056931",
+        "walletRevision": "171008"
+      },
+      {
+        "userId": "4731",
+        "nickname": "냉이구릿",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "546c1f4c0cdc9e3527b7ab00d22594bace03cdc8f24eedbfad83bfaa26da1c9f",
+        "amount": "600000000000000",
+        "before": "769760391816681",
+        "after": "1369760391816681",
+        "logId": "106056932",
+        "walletRevision": "5055"
+      },
+      {
+        "userId": "4742",
+        "nickname": "해미",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b310ec425a7c47c96748684841ee5568f39a1b0f175adabebeb4df76e22a0f3a",
+        "amount": "600000000000000",
+        "before": "1047309717530740",
+        "after": "1647309717530740",
+        "logId": "106056933",
+        "walletRevision": "97"
+      },
+      {
+        "userId": "4754",
+        "nickname": "조은",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1b9f8c36e8f3681d7f906226ebbb284ada2ffe0dc713e066aac7fe61b21ef1b9",
+        "amount": "600000000000000",
+        "before": "38254129846952581",
+        "after": "38854129846952581",
+        "logId": "106056934",
+        "walletRevision": "129592"
+      },
+      {
+        "userId": "4757",
+        "nickname": "음주플레이어",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5d7a099b4e282877086df5999b2c5ed5d6d12b8a7f20b9489fc943d57952130c",
+        "amount": "600000000000000",
+        "before": "3856737057718782",
+        "after": "4456737057718782",
+        "logId": "106056935",
+        "walletRevision": "115074"
+      },
+      {
+        "userId": "4760",
+        "nickname": "추종",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "08aaf8cbfd746b435c85ee89eda7ac52d9ff3ba542d081a748aea1f10d087bdb",
+        "amount": "600000000000000",
+        "before": "2536919835069768",
+        "after": "3136919835069768",
+        "logId": "106056936",
+        "walletRevision": "388358"
+      },
+      {
+        "userId": "4772",
+        "nickname": "펜타",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5519fca09f8cf9c7ed7c30e98d951c59a0b280c10050ffc974eebf65d428abc5",
+        "amount": "600000000000000",
+        "before": "4059113525114105",
+        "after": "4659113525114105",
+        "logId": "106056937",
+        "walletRevision": "227627"
+      },
+      {
+        "userId": "4773",
+        "nickname": "진짜디임",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "fceb2e1b65b91bd2ad60cbd2751619fb055286fe004a6816a30648889315dafc",
+        "amount": "600000000000000",
+        "before": "9161363522508297",
+        "after": "9761363522508297",
+        "logId": "106056938",
+        "walletRevision": "83595"
+      },
+      {
+        "userId": "4817",
+        "nickname": "음주",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "743100b54ae0fec0bf57f025913fb50cd67ec59c7ada076bd5dd61e5b6dd3aa9",
+        "amount": "600000000000000",
+        "before": "8955700767542396",
+        "after": "9555700767542396",
+        "logId": "106056939",
+        "walletRevision": "81721"
+      },
+      {
+        "userId": "4821",
+        "nickname": "당류제로",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a76cf59e125729eaf0390ef31848a051a30493869c22058c204cb0bb1a4ccecd",
+        "amount": "600000000000000",
+        "before": "195885457382588",
+        "after": "795885457382588",
+        "logId": "106056940",
+        "walletRevision": "64404"
+      },
+      {
+        "userId": "4824",
+        "nickname": "헬로희야",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7f5ac41e1784627b7ea6be2bffe216cf2063acb0868aa115e4a4725050b08ccd",
+        "amount": "600000000000000",
+        "before": "530310954420822",
+        "after": "1130310954420822",
+        "logId": "106056941",
+        "walletRevision": "3237"
+      },
+      {
+        "userId": "4828",
+        "nickname": "조은홧팅",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "2e7c988d7d00dcc47b3eebf5ba5f94f49d9d61fdda0ef00ea56c0a304fcd0b0c",
+        "amount": "600000000000000",
+        "before": "2644186781297593",
+        "after": "3244186781297593",
+        "logId": "106056942",
+        "walletRevision": "485048"
+      },
+      {
+        "userId": "4836",
+        "nickname": "딤키우기",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9e9c6a5ec40362ff130ee350ba39f1d970c42eb1436b40745f6b40bed8a689e8",
+        "amount": "600000000000000",
+        "before": "1171566133064997",
+        "after": "1771566133064997",
+        "logId": "106056943",
+        "walletRevision": "123957"
+      },
+      {
+        "userId": "4866",
+        "nickname": "[C9]가시",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "15442a469503c733a55590ec8f9e295656061780870c4423efa9ff7e953b766b",
+        "amount": "600000000000000",
+        "before": "3557229087088187",
+        "after": "4157229087088187",
+        "logId": "106056944",
+        "walletRevision": "346271"
+      },
+      {
+        "userId": "4870",
+        "nickname": "[C9]진",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "639004c13227da04ac832c04e1101e3da66cdbe00ce29b1aaad056c9f2244b92",
+        "amount": "600000000000000",
+        "before": "196489313783316",
+        "after": "796489313783316",
+        "logId": "106056945",
+        "walletRevision": "68053"
+      },
+      {
+        "userId": "4872",
+        "nickname": "도토린데용",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "c0b7c4bb75e18aa68c03b84ed4dfffff023ad4e24e0467a016a50d1811a26165",
+        "amount": "600000000000000",
+        "before": "4724047734759897",
+        "after": "5324047734759897",
+        "logId": "106056946",
+        "walletRevision": "247077"
+      },
+      {
+        "userId": "4890",
+        "nickname": "떵게",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "289867da4456cb5238a2ae052fe04922117f5662dcebae3cea926d626fe93e0c",
+        "amount": "600000000000000",
+        "before": "196365097253926",
+        "after": "796365097253926",
+        "logId": "106056947",
+        "walletRevision": "95"
+      },
+      {
+        "userId": "4894",
+        "nickname": "앙상국",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a11db51475deb422758b1f7212946a2636aa9ae6f1f4cee463b7f96ec7811beb",
+        "amount": "600000000000000",
+        "before": "2197203905718249",
+        "after": "2797203905718249",
+        "logId": "106056948",
+        "walletRevision": "272"
+      },
+      {
+        "userId": "4902",
+        "nickname": "노노사",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8eebc8e9c54e78d4f8b7d7c768f52ab77ae21fae58b281f28946eb7e9f4680cb",
+        "amount": "600000000000000",
+        "before": "296270801638963",
+        "after": "896270801638963",
+        "logId": "106056949",
+        "walletRevision": "116"
+      },
+      {
+        "userId": "4908",
+        "nickname": "굳건창수",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "611ca1add2371b50424cf43c62aa1f6c9de9705aec188cbed069ef6d2943cd33",
+        "amount": "600000000000000",
+        "before": "4038260393049081",
+        "after": "4638260393049081",
+        "logId": "106056950",
+        "walletRevision": "333000"
+      },
+      {
+        "userId": "4910",
+        "nickname": "스루형2↑",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7803ddcfd46ecbc82ad0f8d697a5141de112ab9a0be092994a9cd34ab7585715",
+        "amount": "600000000000000",
+        "before": "4730956564395900",
+        "after": "5330956564395900",
+        "logId": "106056951",
+        "walletRevision": "286830"
+      },
+      {
+        "userId": "4913",
+        "nickname": "오리꿍",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9d40ba9372b31a03d3d365f012818b515cd0de01bc4fe6fbd377f8f33a2a827a",
+        "amount": "600000000000000",
+        "before": "2008068337707491",
+        "after": "2608068337707491",
+        "logId": "106056952",
+        "walletRevision": "21701"
+      },
+      {
+        "userId": "4917",
+        "nickname": "지엘라",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "369de932e8279fc9ceb4618f1451231d5a355878f78fb7894e04ca62052cd7a7",
+        "amount": "600000000000000",
+        "before": "1722687209134403",
+        "after": "2322687209134403",
+        "logId": "106056953",
+        "walletRevision": "94917"
+      },
+      {
+        "userId": "4933",
+        "nickname": "심심이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15",
+        "amount": "600000000000000",
+        "before": "13938142194701760",
+        "after": "14538142194701760",
+        "logId": "106056954",
+        "walletRevision": "553430"
+      },
+      {
+        "userId": "4936",
+        "nickname": "가드v",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "95ed1e25ec1ad78f070420a70b94433491998652d35fc7622765b94515afa3d1",
+        "amount": "600000000000000",
+        "before": "1556695444588468",
+        "after": "2156695444588468",
+        "logId": "106056955",
+        "walletRevision": "11628"
+      },
+      {
+        "userId": "4954",
+        "nickname": "시로",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d7d72698952b513e544c3df7a6b31fc35bc52ca5c4ea1f257448a4a232d4cd84",
+        "amount": "600000000000000",
+        "before": "828326818857",
+        "after": "600828326818857",
+        "logId": "106056956",
+        "walletRevision": "3579"
+      },
+      {
+        "userId": "4965",
+        "nickname": "쁴로리",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8224a7fe004070bf9fd16c6e447ec8d55331168d0151a3ba38737e61d7eb6c0e",
+        "amount": "600000000000000",
+        "before": "6686358599684317",
+        "after": "7286358599684317",
+        "logId": "106056957",
+        "walletRevision": "174682"
+      },
+      {
+        "userId": "4968",
+        "nickname": "우엉맛김밥♡",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "232a315f546f43a3ba787f23978053ec9b3ac53f89b8f2b2d4995c71abc015ba",
+        "amount": "600000000000000",
+        "before": "54670419243222",
+        "after": "654670419243222",
+        "logId": "106056958",
+        "walletRevision": "1744"
+      },
+      {
+        "userId": "4977",
+        "nickname": "하이희야♡",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "26d28b73b2da936ad9a5a5a2cc689e8631c0922a9e1ce84e126cf54e3f2eef64",
+        "amount": "600000000000000",
+        "before": "1069474640070586",
+        "after": "1669474640070586",
+        "logId": "106056959",
+        "walletRevision": "18698"
+      },
+      {
+        "userId": "4978",
+        "nickname": "하이다미♡",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "665d697d8bed7c2ea5cba80579d5f9d88be20f9a54f297696c5247656a2c1457",
+        "amount": "600000000000000",
+        "before": "1856057654282108",
+        "after": "2456057654282108",
+        "logId": "106056960",
+        "walletRevision": "190510"
+      },
+      {
+        "userId": "4981",
+        "nickname": "간장왕대게찜",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "192c01214a71494434f0966fb4ce0c9ffb8fc494b184ebc804495b6330e9583e",
+        "amount": "600000000000000",
+        "before": "21882786770863515",
+        "after": "22482786770863515",
+        "logId": "106056961",
+        "walletRevision": "268180"
+      },
+      {
+        "userId": "4996",
+        "nickname": "벤플스",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "da13f311011568ea990465ecec082668366e7379d2ea1bf6c161ca36b758ddf3",
+        "amount": "600000000000000",
+        "before": "649800255325021",
+        "after": "1249800255325021",
+        "logId": "106056962",
+        "walletRevision": "93264"
+      },
+      {
+        "userId": "5002",
+        "nickname": "효짱",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "90e5fd4216d55ea131d1ae856cc27fc2a94b3922b87befd5191441dc99e8673d",
+        "amount": "600000000000000",
+        "before": "70858132883492",
+        "after": "670858132883492",
+        "logId": "106056963",
+        "walletRevision": "17498"
+      },
+      {
+        "userId": "5003",
+        "nickname": "한한한",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "14b129bea67c2b57aa05a705d550a3c5dd9b053a7ff8f5e75dd9ddbcc07882cf",
+        "amount": "600000000000000",
+        "before": "301229639996374",
+        "after": "901229639996374",
+        "logId": "106056964",
+        "walletRevision": "31538"
+      },
+      {
+        "userId": "5005",
+        "nickname": "삐로로롱",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1f2076bbafba6145e2942985250d750bed031a1a8d1af5463f7d41a45d99f949",
+        "amount": "600000000000000",
+        "before": "194467890492621",
+        "after": "794467890492621",
+        "logId": "106056965",
+        "walletRevision": "548"
+      },
+      {
+        "userId": "5008",
+        "nickname": "단정한밤",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "18ae9b9bcebd7796f752826f71458a4fbe2cc01ac6edf309cb813bf8118f6e48",
+        "amount": "600000000000000",
+        "before": "2809461075168372",
+        "after": "3409461075168372",
+        "logId": "106056966",
+        "walletRevision": "704552"
+      },
+      {
+        "userId": "5049",
+        "nickname": "김망순.",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "546ba580b80265ef8d739a68ce0fbf30ff214db0549efb0daafdbe3ab41282ba",
+        "amount": "600000000000000",
+        "before": "2799085428854213",
+        "after": "3399085428854213",
+        "logId": "106056967",
+        "walletRevision": "34137"
+      },
+      {
+        "userId": "5066",
+        "nickname": "acm1524",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "41478b1e7969fe463e7680dcd591e2ea7162be96094dfecebf94bd61bc58e127",
+        "amount": "600000000000000",
+        "before": "1693186575943193",
+        "after": "2293186575943193",
+        "logId": "106056968",
+        "walletRevision": "2509"
+      },
+      {
+        "userId": "5092",
+        "nickname": "늑대울프",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f0b87b084d2a7b489081a710ea0d52f058feed7c4ca5c3b88457f77b8ed3c3e0",
+        "amount": "600000000000000",
+        "before": "21242877528629861",
+        "after": "21842877528629861",
+        "logId": "106056969",
+        "walletRevision": "248389"
+      },
+      {
+        "userId": "5095",
+        "nickname": "장나영",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1d26d6c364c0ab228188ac0b212b6db12390000e9728092760aec8431eb6f861",
+        "amount": "600000000000000",
+        "before": "1006870496698314",
+        "after": "1606870496698314",
+        "logId": "106056970",
+        "walletRevision": "51813"
+      },
+      {
+        "userId": "5118",
+        "nickname": "#나라",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "ae209fa440499ef0d4d4c1a468c2455e3ca50641273e6199b1b8cdb6c9c8540a",
+        "amount": "600000000000000",
+        "before": "629679040944204",
+        "after": "1229679040944204",
+        "logId": "106056971",
+        "walletRevision": "578170"
+      },
+      {
+        "userId": "5140",
+        "nickname": "공백",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "de8bd8ba16b15cb473cc94d337d533725aec166d007408aa70631be78dc467b2",
+        "amount": "600000000000000",
+        "before": "1344003404030554",
+        "after": "1944003404030554",
+        "logId": "106056972",
+        "walletRevision": "7590"
+      },
+      {
+        "userId": "5147",
+        "nickname": "T-Money™",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed",
+        "amount": "600000000000000",
+        "before": "49425744022323878",
+        "after": "50025744022323878",
+        "logId": "106056973",
+        "walletRevision": "298779"
+      },
+      {
+        "userId": "5148",
+        "nickname": "타몽",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "67f0fa8eff9a075f52582bd320d5b7448c493f710c17a7d0bbeabfdb4ad1ddec",
+        "amount": "600000000000000",
+        "before": "3372530059292238",
+        "after": "3972530059292238",
+        "logId": "106056974",
+        "walletRevision": "148010"
+      },
+      {
+        "userId": "5209",
+        "nickname": "김아윤",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f19cc14807df967009c7ba6171d5ce71c2021ca3631cc4898705bf745f67229c",
+        "amount": "600000000000000",
+        "before": "84130789420744",
+        "after": "684130789420744",
+        "logId": "106056975",
+        "walletRevision": "12230"
+      },
+      {
+        "userId": "5238",
+        "nickname": "망순이네봉빡이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "75666e15128b11b5dd7bff12bbdf4b44236eba7ae43456d7d612a7dec94e915d",
+        "amount": "600000000000000",
+        "before": "968762242581354",
+        "after": "1568762242581354",
+        "logId": "106056976",
+        "walletRevision": "6537"
+      },
+      {
+        "userId": "5362",
+        "nickname": "점빡이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5a75bcc6b5fe28292d2fab725f2c838542cc907fa9ea6cf570bbbf5a2fc14cf3",
+        "amount": "600000000000000",
+        "before": "17332520730247342",
+        "after": "17932520730247342",
+        "logId": "106056977",
+        "walletRevision": "262984"
+      },
+      {
+        "userId": "5393",
+        "nickname": "주성",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9c8a8d87391a7ffc503d82f2e0d52ad09a948f8550330ccca6e998bd38c7d5e3",
+        "amount": "600000000000000",
+        "before": "10011389203562",
+        "after": "610011389203562",
+        "logId": "106056978",
+        "walletRevision": "25873"
+      },
+      {
+        "userId": "5404",
+        "nickname": "hokc1",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5e346554381b28687168dab42f51a930959faa7bbb0037d18ca522744d1970b8",
+        "amount": "600000000000000",
+        "before": "110138121483349",
+        "after": "710138121483349",
+        "logId": "106056979",
+        "walletRevision": "30365"
+      },
+      {
+        "userId": "5421",
+        "nickname": "1",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "adc6523037c8c8f4e1f6e205f5e6e10cf41f2bb252eee57f05100c017748535a",
+        "amount": "600000000000000",
+        "before": "1090883493394",
+        "after": "601090883493394",
+        "logId": "106056980",
+        "walletRevision": "3972"
+      },
+      {
+        "userId": "5426",
+        "nickname": "나무늘봉순",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+        "amount": "600000000000000",
+        "before": "68305409376586444",
+        "after": "68905409376586444",
+        "logId": "106056981",
+        "walletRevision": "148158"
+      },
+      {
+        "userId": "5429",
+        "nickname": "꼰머냥",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a7c6d89c3d682d38e63a8b39c23ba056ab7acd49401f706b94449a81f1af3595",
+        "amount": "600000000000000",
+        "before": "5106883556670977",
+        "after": "5706883556670977",
+        "logId": "106056982",
+        "walletRevision": "232284"
+      },
+      {
+        "userId": "5504",
+        "nickname": "비_니",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "4448d806814d172c18ae7ec08057b5813cd6e749bbafa651b821a658152d6fd8",
+        "amount": "600000000000000",
+        "before": "5106813918366260",
+        "after": "5706813918366260",
+        "logId": "106056983",
+        "walletRevision": "104698"
+      },
+      {
+        "userId": "5514",
+        "nickname": "아프저리가라",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f18937df365dc97b2cd37c9532277eaf9379d452d28158edace395781c9eb540",
+        "amount": "600000000000000",
+        "before": "2490797117424791",
+        "after": "3090797117424791",
+        "logId": "106056984",
+        "walletRevision": "136568"
+      },
+      {
+        "userId": "5529",
+        "nickname": "제우스",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1a62f57378743bf89e48d172ba5b0f72cc61dc3ca7f3ce281a2da47d058f3830",
+        "amount": "600000000000000",
+        "before": "3208663305714779",
+        "after": "3808663305714779",
+        "logId": "106056985",
+        "walletRevision": "321866"
+      },
+      {
+        "userId": "5545",
+        "nickname": "아르디온",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "37ffd43b233615c39455b9a1dc08bba174c03e7d6cdef6b614b535e4955d9f8b",
+        "amount": "600000000000000",
+        "before": "1506994179118301",
+        "after": "2106994179118301",
+        "logId": "106056986",
+        "walletRevision": "16276"
+      },
+      {
+        "userId": "5598",
+        "nickname": "여봉상",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "41182b2917fa8e70705e903005be3cf8724c5c3a7705af6d2a7d20708143bfbd",
+        "amount": "600000000000000",
+        "before": "1604854676650",
+        "after": "601604854676650",
+        "logId": "106056987",
+        "walletRevision": "23270"
+      },
+      {
+        "userId": "5650",
+        "nickname": "예지앙",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8c2ac96c4d1d2eac455afad19a9dd27133516c1499610bb807c8d3fc4db2e541",
+        "amount": "600000000000000",
+        "before": "2022519422590011",
+        "after": "2622519422590011",
+        "logId": "106056988",
+        "walletRevision": "21158"
+      },
+      {
+        "userId": "5665",
+        "nickname": "[댕]해빗이오",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "7397acb26ffd813e17f7465004d66ef1a1d6ee8334ebb546d376caddde1dcd48",
+        "amount": "600000000000000",
+        "before": "512668739556819",
+        "after": "1112668739556819",
+        "logId": "106056989",
+        "walletRevision": "1203"
+      },
+      {
+        "userId": "5681",
+        "nickname": "asd123qwd",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b03e84b287c576014ebe6687f78cf5ff569f1db34d838cd3148493df102ac53d",
+        "amount": "600000000000000",
+        "before": "83264835793086",
+        "after": "683264835793086",
+        "logId": "106056990",
+        "walletRevision": "2724"
+      },
+      {
+        "userId": "5690",
+        "nickname": "하두링",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d17df2bc46848552fa4108dfb4a7fccfaa2fb177bec030e025e2e46965216793",
+        "amount": "600000000000000",
+        "before": "1392521030460401",
+        "after": "1992521030460401",
+        "logId": "106056991",
+        "walletRevision": "83122"
+      },
+      {
+        "userId": "5696",
+        "nickname": "여행",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b5317460ebda79c1278cb96ac88d22fa8ef3749c2d771f4cc545fcca3e0cf073",
+        "amount": "600000000000000",
+        "before": "1222714090077",
+        "after": "601222714090077",
+        "logId": "106056992",
+        "walletRevision": "7024"
+      },
+      {
+        "userId": "5764",
+        "nickname": "레이크",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "40d2332191df19a8250c440beb5698c62650ff5f08c224ec6ceada48eb71eb00",
+        "amount": "600000000000000",
+        "before": "269326650756181",
+        "after": "869326650756181",
+        "logId": "106056993",
+        "walletRevision": "2086"
+      },
+      {
+        "userId": "5766",
+        "nickname": "졈니_",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b95304926fcede2462cb0a57210fc9d65b04904e5c851f9378d24ab7c36cdeb6",
+        "amount": "600000000000000",
+        "before": "15878952807662",
+        "after": "615878952807662",
+        "logId": "106056994",
+        "walletRevision": "45290"
+      },
+      {
+        "userId": "5773",
+        "nickname": "빛빛",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "aa94df6406a9961554e48f143bc88f59ebd9e06f5980e8f1a5de6487f1c61c2d",
+        "amount": "600000000000000",
+        "before": "1901341248634411",
+        "after": "2501341248634411",
+        "logId": "106056995",
+        "walletRevision": "178119"
+      },
+      {
+        "userId": "5877",
+        "nickname": "깅더듬",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "f225e6a6fe6f56bd9089760a81bec91803f4ef0c20ef2dc34ca660cfb04c22fb",
+        "amount": "600000000000000",
+        "before": "51522400390508925",
+        "after": "52122400390508925",
+        "logId": "106056996",
+        "walletRevision": "295753"
+      },
+      {
+        "userId": "5889",
+        "nickname": "jaeun9128",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a88ac61ae7843b1c38bf0a4fa7e8202dcfdca9b6d770021203cc8d55ccd0a151",
+        "amount": "600000000000000",
+        "before": "179717946708812",
+        "after": "779717946708812",
+        "logId": "106056997",
+        "walletRevision": "1062"
+      },
+      {
+        "userId": "5915",
+        "nickname": "Brilliant",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9bb7a9e41ad5bb53bc45ab0753ad73219e5768f1c961626e47d32e0373e96871",
+        "amount": "600000000000000",
+        "before": "1214909102220036",
+        "after": "1814909102220036",
+        "logId": "106056998",
+        "walletRevision": "1591"
+      },
+      {
+        "userId": "5950",
+        "nickname": "남수댕ㅗ",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "65b5942dbd1b33aa4cdda875226f263981cef06afc1829cd9c9e102868337a36",
+        "amount": "600000000000000",
+        "before": "2580702805363981",
+        "after": "3180702805363981",
+        "logId": "106056999",
+        "walletRevision": "139968"
+      },
+      {
+        "userId": "5951",
+        "nickname": "댕댕댕",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6058899e502d898d63fda16f6af0954fcacce297abfa8416498aa4217d9ec912",
+        "amount": "600000000000000",
+        "before": "23271836155",
+        "after": "600023271836155",
+        "logId": "106057000",
+        "walletRevision": "3525"
+      },
+      {
+        "userId": "5958",
+        "nickname": "꺽꿀",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d7dbdd18a60767ce4ea005c066be2413e1f51196a9af01498608d1eb2dc56dbc",
+        "amount": "600000000000000",
+        "before": "6216581708399511",
+        "after": "6816581708399511",
+        "logId": "106057001",
+        "walletRevision": "483903"
+      },
+      {
+        "userId": "5972",
+        "nickname": "아까르씨",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9a3cae6e59ca1c191a02fdfd9be85df35d384614e687c2123d1f2833aa9ac509",
+        "amount": "600000000000000",
+        "before": "1574710799242902",
+        "after": "2174710799242902",
+        "logId": "106057002",
+        "walletRevision": "24996"
+      },
+      {
+        "userId": "5986",
+        "nickname": "거북이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "1bfcf7242fbdfa2f3cc4205fe350452b5ff5ea6c82017e574d9199f8a0fef4f1",
+        "amount": "600000000000000",
+        "before": "3639838066099126",
+        "after": "4239838066099126",
+        "logId": "106057003",
+        "walletRevision": "373252"
+      },
+      {
+        "userId": "5996",
+        "nickname": "관종이얌",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "20359466a50b84bb3a78deede8d76157ae41ca157a40aa5b33c17afc9fc0183e",
+        "amount": "600000000000000",
+        "before": "6990019882283770",
+        "after": "7590019882283770",
+        "logId": "106057004",
+        "walletRevision": "595417"
+      },
+      {
+        "userId": "6013",
+        "nickname": "우헤헤헤헷T",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "6fe31fd8b56ebd5c6f32ab1764025c6e4549579d28b00eaa0ab5ab9a904b6eca",
+        "amount": "600000000000000",
+        "before": "12732469261027",
+        "after": "612732469261027",
+        "logId": "106057005",
+        "walletRevision": "1891"
+      },
+      {
+        "userId": "6029",
+        "nickname": "낭만풍폭",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "9751b16d99c7301f1e30432fb1b65635999d3c6e0516bc907278222247f8f853",
+        "amount": "600000000000000",
+        "before": "2254738757018859",
+        "after": "2854738757018859",
+        "logId": "106057006",
+        "walletRevision": "153834"
+      },
+      {
+        "userId": "6038",
+        "nickname": "진에어",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "09032ff00476a61ec042e5e06263736e30568dbe83da775fbf2426cf237b37f5",
+        "amount": "600000000000000",
+        "before": "299255792674479",
+        "after": "899255792674479",
+        "logId": "106057007",
+        "walletRevision": "13331"
+      },
+      {
+        "userId": "6044",
+        "nickname": "남수생",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "0859b7fc9163e1f164cd5e37c44e9540860cd5f026dba802f075f8ac6346a774",
+        "amount": "600000000000000",
+        "before": "52213505203746",
+        "after": "652213505203746",
+        "logId": "106057008",
+        "walletRevision": "4243"
+      },
+      {
+        "userId": "6050",
+        "nickname": "당근ㅋ",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "5ae293b32cd30735725dd46faeff026e9c8890d3bd1a38d69d90386594bc6024",
+        "amount": "600000000000000",
+        "before": "6852449404723",
+        "after": "606852449404723",
+        "logId": "106057009",
+        "walletRevision": "42568"
+      },
+      {
+        "userId": "6065",
+        "nickname": "minalove77",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "03adab945cf2890d9feb0cfd39ba0f779529a9a56a857a030d27fcd016a4c32e",
+        "amount": "600000000000000",
+        "before": "271204934815411",
+        "after": "871204934815411",
+        "logId": "106057010",
+        "walletRevision": "17256"
+      },
+      {
+        "userId": "6066",
+        "nickname": "빵식",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "50ac22b3b0ef190ea15762d73e0498112453c0dd416f0c60df5c91d1cec92d60",
+        "amount": "600000000000000",
+        "before": "671192642601992",
+        "after": "1271192642601992",
+        "logId": "106057011",
+        "walletRevision": "20387"
+      },
+      {
+        "userId": "6086",
+        "nickname": "야요이",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "20195fc58d96cdbc5bb2c1e89142eab9d89bcfabb83c4cff25136fd71e7373f8",
+        "amount": "600000000000000",
+        "before": "29987388795514",
+        "after": "629987388795514",
+        "logId": "106057012",
+        "walletRevision": "133919"
+      },
+      {
+        "userId": "6119",
+        "nickname": "김댕쥬",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "d7389341e9172802886a92cab7985e63d64bfd91a9b102c7b88f9c107bb67e27",
+        "amount": "600000000000000",
+        "before": "916978908015009",
+        "after": "1516978908015009",
+        "logId": "106057013",
+        "walletRevision": "541"
+      },
+      {
+        "userId": "6132",
+        "nickname": "주르르",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "ce91a8b4483562a96e572eea91746b117ce49ab9ffea5649293224719f574d43",
+        "amount": "600000000000000",
+        "before": "7211840906455021",
+        "after": "7811840906455021",
+        "logId": "106057014",
+        "walletRevision": "715747"
+      },
+      {
+        "userId": "6138",
+        "nickname": "보여드릴게요",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "2e983e74957a12193e57e52bff973bf1e870a7dbc59b2175c287d9c74a489e92",
+        "amount": "600000000000000",
+        "before": "1732858859598032",
+        "after": "2332858859598032",
+        "logId": "106057015",
+        "walletRevision": "20447"
+      },
+      {
+        "userId": "6162",
+        "nickname": "blue2636",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "84df921f9e946a5298fc73867983ac17bcb77e405687dc1ae411ccf63a58c4d5",
+        "amount": "600000000000000",
+        "before": "1202139437862494",
+        "after": "1802139437862494",
+        "logId": "106057016",
+        "walletRevision": "22175"
+      },
+      {
+        "userId": "6182",
+        "nickname": "amonhybrid",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "abf93d1a3e00a488fbd301c57e274b7481fabb0dd646d3d74e7267cda3210bef",
+        "amount": "600000000000000",
+        "before": "260970153500",
+        "after": "600260970153500",
+        "logId": "106057017",
+        "walletRevision": "57515"
+      },
+      {
+        "userId": "6183",
+        "nickname": "펭도리",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "8593806c05b13f1cda547cc016e0f682503dea8dcaf8dc05442ad1be31071b42",
+        "amount": "600000000000000",
+        "before": "1000000004579180",
+        "after": "1600000004579180",
+        "logId": "106057018",
+        "walletRevision": "228"
+      },
+      {
+        "userId": "6186",
+        "nickname": "멋쨍이이째리",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "b89fc93958749fc071e36a20b26961cbb35ca188a87437460ea836b53d51c1ae",
+        "amount": "600000000000000",
+        "before": "1000000005000000",
+        "after": "1600000005000000",
+        "logId": "106057019",
+        "walletRevision": "37"
+      },
+      {
+        "userId": "6197",
+        "nickname": "족족족족족",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "729d9b270659b27136635761923ce53b69806136df837221ff3b24377f2f419e",
+        "amount": "600000000000000",
+        "before": "1000000005000000",
+        "after": "1600000005000000",
+        "logId": "106057020",
+        "walletRevision": "23"
+      },
+      {
+        "userId": "6198",
+        "nickname": "중꼬철구",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "03065c8490a8088adf87e82770aa96157491a1bbfcc0ff56023f3419c0df7d64",
+        "amount": "600000000000000",
+        "before": "2351661538754523",
+        "after": "2951661538754523",
+        "logId": "106057021",
+        "walletRevision": "36336"
+      },
+      {
+        "userId": "6203",
+        "nickname": "하루몽",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a81d1b4255c539f56d093086756e40bc5711ecf676762da833b70026606f3de2",
+        "amount": "600000000000000",
+        "before": "1201069667000000",
+        "after": "1801069667000000",
+        "logId": "106057022",
+        "walletRevision": "264"
+      },
+      {
+        "userId": "6204",
+        "nickname": "귀찮아서눕기장인",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "90843c16c0e6a8210697a6c1f72e17c6bb268963f3aa114a13d63457e003b987",
+        "amount": "600000000000000",
+        "before": "326341000000",
+        "after": "600326341000000",
+        "logId": "106057023",
+        "walletRevision": "14396"
+      },
+      {
+        "userId": "6211",
+        "nickname": "배낭위스키",
+        "statusAtGrant": "ACTIVE",
+        "role": "USER",
+        "identityHash": "a86e6ec45d40001fa41abdaf7022edfe38bebcb76026add8bf348a5fc8290779",
+        "amount": "600000000000000",
+        "before": "1557530042893029",
+        "after": "2157530042893029",
+        "logId": "106057024",
+        "walletRevision": "41291"
+      }
+    ],
+    "protectedBeforeHash": "8e695bc84e39b751e289d0db1977c0fddcf4d5141d42c0ef24060c22df268086",
+    "protectedAfterHash": "8e695bc84e39b751e289d0db1977c0fddcf4d5141d42c0ef24060c22df268086",
+    "messagesSent": 0,
+    "accountStatusChanged": false,
+    "previousCampaigns": [
+      {
+        "key": "ops:funding-thanks:verified-coin1000t:20261117:v1",
+        "receiptHash": "c890d89216d8a265fc67274b5b6d2deef8ceecfe631eacfe2380e534dcd89052"
+      },
+      {
+        "key": "ops:named-santa-joeun-box20-coin500t:20261117:reported-two:v1",
+        "receiptHash": "b0f69aaf875b718beda42090bad15310cf7ba985267a17bc0e2afc719b991a6e"
+      },
+      {
+        "key": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+        "receiptHash": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a"
+      }
+    ],
+    "auditId": "63180"
+  },
+  "check": {
+    "recipients": 282,
+    "coinLogs": 282,
+    "perAccountReceipts": 282,
+    "amountEach": "600000000000000",
+    "totalCoins": "169200000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "allCurrentBalancesReconciled": true,
+    "changesAfterGrant": []
+  },
+  "grantVerifyMs": 2937,
+  "grantVerifyQueries": 20,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "otherTablesWrites": 0,
+  "leasesReleased": true,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 80.89419999999973
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 395.2561999999998
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.35019999999895
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 79.1301999999996
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 78.69820000000072
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 78.40029999999933
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.89289999999892
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 78.34140000000116
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.70479999999952
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 78.25169999999889
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.54619999999886
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.85369999999966
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,UPPER(TRIM(COALESCE(u.status,'ACTIVE'))) status,UPPER(TRIM(COALESCE",
+      "ms": 80.40840000000026
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 77.40490000000136
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 88.35329999999885
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 78.37159999999858
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 93.1807000000008
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 92.30920000000333
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.92929999999978
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 78.82339999999749
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 78.23819999999978
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.92899999999645
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.96010000000024
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.92020000000048
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.40599999999904
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 79.05370000000039
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.78049999999712
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 77.0502000000015
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,UPPER(TRIM(COALESCE(u.status,'ACTIVE'))) status,UPPER(TRIM(COALESCE",
+      "ms": 80.64150000000154
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 91.36360000000059
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 92.65209999999934
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 78.23869999999806
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 93.35200000000259
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 79.95019999999931
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 88.119200000001
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 78.59679999999935
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 79.10129999999845
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 78.0036
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 78.23809999999867
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.08289999999761
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 77.45019999999931
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.9423999999999
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 79.00089999999909
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 78.41559999999663
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.98430000000008
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,UPPER(TRIM(COALESCE(u.status,'ACTIVE'))) status,UPPER(TRIM(COALESCE",
+      "ms": 79.73779999999897
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 76.93279999999868
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 89.41180000000168
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 77.01680000000124
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 89.60919999999896
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 80.10510000000068
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 90.96719999999914
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALU",
+      "ms": 90.46489999999903
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) SELECT k,v,$3 FROM unnest($1::text[],$2::text[]) entry(k,v) RE",
+      "ms": 117.8721000000005
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 87.62129999999888
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.04139999999825
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 78.8765999999996
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.72369999999864
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.99719999999797
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.00009999999747
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.84189999999944
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.52939999999944
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 80.68209999999817
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.77030000000013
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 77.28909999999814
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,UPPER(TRIM(COALESCE(u.status,'ACTIVE'))) status,UPPER(TRIM(COALESCE",
+      "ms": 78.85080000000016
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 77.55340000000069
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 87.39359999999942
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 77.35550000000148
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 95.4455999999991
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 80.11089999999967
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 92.69480000000112
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALU",
+      "ms": 84.20300000000134
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) SELECT k,v,$3 FROM unnest($1::text[],$2::text[]) entry(k,v) RE",
+      "ms": 104.18480000000272
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 78.85150000000067
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,change_amount::text,balance_after::text,reason,admin_id::text,created_at FR",
+      "ms": 78.9955000000009
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,action_type,after_data FROM admin_logs WHERE id>$1::bigint AND target_id=$",
+      "ms": 83.57050000000163
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 81.94629999999961
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 88.44740000000093
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 87.69510000000082
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.3006000000023
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 79.08849999999802
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.60280000000057
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.92939999999726
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.65420000000086
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.9330000000009
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.48979999999938
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 78.634399999999
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.84230000000025
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.96719999999914
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,UPPER(TRIM(COALESCE(u.status,'ACTIVE'))) status,UPPER(TRIM(COALESCE",
+      "ms": 78.38760000000184
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 76.87800000000061
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 87.09019999999873
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 76.82600000000093
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 89.25460000000021
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 80.03030000000217
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 87.08090000000084
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALU",
+      "ms": 84.0538000000015
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) SELECT k,v,$3 FROM unnest($1::text[],$2::text[]) entry(k,v) RE",
+      "ms": 123.24209999999948
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 79.52370000000155
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,change_amount::text,balance_after::text,reason,admin_id::text,created_at FR",
+      "ms": 79.41219999999885
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,action_type,after_data FROM admin_logs WHERE id>$1::bigint AND target_id=$",
+      "ms": 79.07170000000042
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 82.03189999999813
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 96.53620000000228
+    }
+  ]
+}

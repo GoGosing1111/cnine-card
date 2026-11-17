@@ -1,0 +1,40 @@
+{
+  "phase": "before",
+  "at": "2026-11-17T12:51:25.471Z",
+  "userId": "4933",
+  "readOnly": true,
+  "wallet": {
+    "total": "13938116694701760",
+    "restricted": "9041999998750000",
+    "available": "4896116695951760"
+  },
+  "samples": [
+    {
+      "kind": "wallet",
+      "visit": "first",
+      "ms": 6213.1489,
+      "sql": 7
+    },
+    {
+      "kind": "wallet",
+      "visit": "repeat",
+      "ms": 937.635400000001,
+      "sql": 7
+    },
+    {
+      "kind": "roster",
+      "visit": "first",
+      "ms": 77.84079999999994,
+      "sql": 1,
+      "recipients": 282
+    },
+    {
+      "kind": "roster",
+      "visit": "repeat",
+      "ms": 77.61290000000008,
+      "sql": 1,
+      "recipients": 282
+    }
+  ],
+  "conditions": "Windows CLI, actual wallet accounting service and complete verified roster on live PostgreSQL. First/repeated calls on one connection; network included. Direct data grant, no runtime/UI change, deployment or browser/physical-device frame measurement."
+}

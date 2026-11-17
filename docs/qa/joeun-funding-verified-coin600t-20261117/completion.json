@@ -1,0 +1,372 @@
+{
+  "operationKey": "ops:joeun-funding-thanks:verified-coin600t:20261117:v1",
+  "title": "조은방 펀딩 감사기념",
+  "completedAtKST": "2026-11-17 21:54:36",
+  "auditId": "63180",
+  "delivery": "DIRECT_WALLET",
+  "recipients": 282,
+  "amountEach": "600000000000000",
+  "totalCoins": "169200000000000000",
+  "statusCounts": {
+    "ACTIVE": 280,
+    "BANNED": 2
+  },
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 278,
+    "ADMIN": 2
+  },
+  "providerCounts": {
+    "PLAYDK": 281,
+    "WAGO": 1
+  },
+  "allSecondVerifiedAccountsIncluded": true,
+  "accountStatusChanged": false,
+  "verification": {
+    "recipients": 282,
+    "coinLogs": 282,
+    "perAccountReceipts": 282,
+    "amountEach": "600000000000000",
+    "totalCoins": "169200000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "allCurrentBalancesReconciled": true,
+    "changesAfterGrant": [
+      {
+        "userId": "16",
+        "delta": "13893000000000"
+      },
+      {
+        "userId": "45",
+        "delta": "152500000"
+      },
+      {
+        "userId": "62",
+        "delta": "745300000"
+      },
+      {
+        "userId": "148",
+        "delta": "31104000000"
+      },
+      {
+        "userId": "202",
+        "delta": "1500390626000000"
+      },
+      {
+        "userId": "233",
+        "delta": "3792700000"
+      },
+      {
+        "userId": "290",
+        "delta": "-300000000000000"
+      },
+      {
+        "userId": "295",
+        "delta": "-10000000000000"
+      },
+      {
+        "userId": "315",
+        "delta": "-40100000000000"
+      },
+      {
+        "userId": "364",
+        "delta": "2537517054"
+      },
+      {
+        "userId": "525",
+        "delta": "10865000000"
+      },
+      {
+        "userId": "1255",
+        "delta": "1200400000"
+      },
+      {
+        "userId": "1545",
+        "delta": "1024600000"
+      },
+      {
+        "userId": "3011",
+        "delta": "3000000000000"
+      },
+      {
+        "userId": "3867",
+        "delta": "1201700000"
+      },
+      {
+        "userId": "3974",
+        "delta": "1771889130000"
+      },
+      {
+        "userId": "4199",
+        "delta": "6600000000000"
+      },
+      {
+        "userId": "4391",
+        "delta": "245022442000"
+      },
+      {
+        "userId": "4415",
+        "delta": "-20000000000000"
+      },
+      {
+        "userId": "4570",
+        "delta": "8982270000"
+      },
+      {
+        "userId": "4627",
+        "delta": "2728000000"
+      },
+      {
+        "userId": "4628",
+        "delta": "230021068000"
+      },
+      {
+        "userId": "4629",
+        "delta": "215019694000"
+      },
+      {
+        "userId": "4705",
+        "delta": "728000000"
+      },
+      {
+        "userId": "4730",
+        "delta": "996800000"
+      },
+      {
+        "userId": "5148",
+        "delta": "1201900000"
+      },
+      {
+        "userId": "5429",
+        "delta": "22100500000"
+      },
+      {
+        "userId": "5514",
+        "delta": "-12000000000"
+      }
+    ]
+  },
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "messagesSent": 0,
+  "previousCampaignsPreserved": true,
+  "otherCurrenciesPreserved": true,
+  "checks": {
+    "partialFailuresRolledBack": 3,
+    "fullRehearsalRolledBack": true,
+    "invalidPlanBlocked": true,
+    "relatedIntegerTestReused": "../named-santa-joeun-box20-coin500t-20261117/completion.json",
+    "independentReadOnly": true
+  },
+  "performance": {
+    "grantVerifyMs": 2937,
+    "grantVerifyQueries": 20,
+    "independentVerifyMs": 922,
+    "before": {
+      "phase": "before",
+      "at": "2026-11-17T12:51:25.471Z",
+      "userId": "4933",
+      "readOnly": true,
+      "wallet": {
+        "total": "13938116694701760",
+        "restricted": "9041999998750000",
+        "available": "4896116695951760"
+      },
+      "samples": [
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "ms": 6213.1489,
+          "sql": 7
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "ms": 937.635400000001,
+          "sql": 7
+        },
+        {
+          "kind": "roster",
+          "visit": "first",
+          "ms": 77.84079999999994,
+          "sql": 1,
+          "recipients": 282
+        },
+        {
+          "kind": "roster",
+          "visit": "repeat",
+          "ms": 77.61290000000008,
+          "sql": 1,
+          "recipients": 282
+        }
+      ],
+      "conditions": "Windows CLI, actual wallet accounting service and complete verified roster on live PostgreSQL. First/repeated calls on one connection; network included. Direct data grant, no runtime/UI change, deployment or browser/physical-device frame measurement."
+    },
+    "after": {
+      "phase": "after",
+      "at": "2026-11-17T12:55:04.004Z",
+      "userId": "4933",
+      "readOnly": true,
+      "wallet": {
+        "total": "14538142194701760",
+        "restricted": "9041999998750000",
+        "available": "5496142195951760"
+      },
+      "samples": [
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "ms": 4981.5692,
+          "sql": 7
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "ms": 965.0274999999992,
+          "sql": 7
+        },
+        {
+          "kind": "roster",
+          "visit": "first",
+          "ms": 80.41289999999935,
+          "sql": 1,
+          "recipients": 282
+        },
+        {
+          "kind": "roster",
+          "visit": "repeat",
+          "ms": 77.33639999999832,
+          "sql": 1,
+          "recipients": 282
+        }
+      ],
+      "conditions": "Windows CLI, actual wallet accounting service and complete verified roster on live PostgreSQL. First/repeated calls on one connection; network included. Direct data grant, no runtime/UI change, deployment or browser/physical-device frame measurement."
+    },
+    "profile": {
+      "at": "2026-11-17T12:56:07.072Z",
+      "readOnly": true,
+      "conditions": "Fresh Windows CLI process, same actual wallet service and user 4933, live PostgreSQL. Captures individual DB waits; EXPLAIN follows the first read and may have warmer cache. No app/DB changes.",
+      "queries": [
+        {
+          "statement": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 80.83789999999999
+        },
+        {
+          "statement": "SELECT CAST(coin AS TEXT) AS coin,(SELECT COALESCE(MAX(id),0) FROM coin_logs WHERE user_id=users.id) AS last_log FROM users WHERE id=$1",
+          "ms": 79.77379999999994
+        },
+        {
+          "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+          "ms": 325.99360000000024
+        },
+        {
+          "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+          "ms": 166.4911000000002
+        },
+        {
+          "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+          "ms": 118.38000000000011
+        },
+        {
+          "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+          "ms": 175.50790000000006
+        },
+        {
+          "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+          "ms": 117.91460000000006
+        }
+      ],
+      "slowestStatement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+      "slowestMs": 325.99360000000024,
+      "explain": {
+        "Plan": {
+          "Node Type": "Limit",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 0.57,
+          "Total Cost": 3644.37,
+          "Plan Rows": 516,
+          "Plan Width": 54,
+          "Actual Startup Time": 0.143,
+          "Actual Total Time": 25.369,
+          "Actual Rows": 2000,
+          "Actual Loops": 1,
+          "Shared Hit Blocks": 97375,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Index Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Scan Direction": "Forward",
+              "Index Name": "coin_logs_pkey",
+              "Relation Name": "coin_logs",
+              "Alias": "coin_logs",
+              "Startup Cost": 0.57,
+              "Total Cost": 3644.37,
+              "Plan Rows": 516,
+              "Plan Width": 54,
+              "Actual Startup Time": 0.143,
+              "Actual Total Time": 25.218,
+              "Actual Rows": 2000,
+              "Actual Loops": 1,
+              "Index Cond": "((id > '105268755'::bigint) AND (id <= '106057703'::bigint))",
+              "Rows Removed by Index Recheck": 0,
+              "Filter": "(user_id = '4933'::bigint)",
+              "Rows Removed by Filter": 98745,
+              "Shared Hit Blocks": 97375,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 12,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.072,
+        "Triggers": [],
+        "Execution Time": 25.464
+      }
+    },
+    "assessment": "282 wallet updates and coin logs are each performed in one bulk statement. Representative existing package-wallet reads replay historical logs in five pages, seven SQL calls total; measured waiting is DB/network. Fresh-process first calls vary with caches; no improvement claim or unrelated accounting/runtime change. No UI change or frame measurement."
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "physicalDeviceMeasured": false,
+  "evidenceDirectory": "operations/joeun-funding-verified-coin600t-20261117",
+  "operationScriptSha256": {
+    "common.mjs": "35e2b3bd00b271c1cdc0fada8473e1d511ba88578bf6d28d30a636317cf73a02",
+    "inspect.mjs": "cfdaa537c03cba2b0b27b45f8d2851a8a0f2f83be0446cd99337821cb2c44906",
+    "prepare.mjs": "d96b24dc97f115c9cc310124ec9353fc5da10e890956ab3da75bea4ea5384d04",
+    "grant.mjs": "a1c20fecdb6d20bb1743d964562b5f9ad9d19bce253f203bef1711b919a68f7b",
+    "run.mjs": "a168319002c5d0329e4bab6ef6ea95f688cfe05733fe446b38e7344725522f67",
+    "service.mjs": "cb00fe26a370997a7977af54fd00ac238bd7b44d4a62e26a8c3f53c451fd8029",
+    "profile.mjs": "99785299299c2a379e314dd4a65b872d8576c0f2ba41df59d6be5d7b7405a17b",
+    "record.mjs": "456c50040396d6aa8389febbf46b910b49f9ceb5b106ec43473c94a59ab15eeb"
+  }
+}
