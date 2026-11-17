@@ -1,0 +1,140 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:tmoney:package-purchase-reset:20261118:v1",
+    "planHash": "14ba4b25d13fa67261d2652fac74f7682d69a23ce3cb9dc8276e3dc7bb630fd2",
+    "authorization": "T-Money™ 계정 49800원 패키지 누적구매 리셋",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "completedAt": "2026-11-17T16:00:28.370Z",
+    "completedAtKST": "2026-11-18 01:00:28",
+    "bonusBefore": {
+      "version": 1,
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchases": 20,
+      "totalBonusCoins": "28000000000000000",
+      "totalBonusCubes": 190,
+      "lastOrderId": "5147_6fb654b5-f5c9-45c4-a3a7-1600b28d38b0",
+      "updatedAt": 1794832062685
+    },
+    "bonusAfter": {
+      "version": 1,
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchases": 0,
+      "totalBonusCoins": "0",
+      "totalBonusCubes": 0,
+      "lastOrderId": "5147_6fb654b5-f5c9-45c4-a3a7-1600b28d38b0",
+      "updatedAt": 1794931228370,
+      "lastResetOperation": "ops:tmoney:package-purchase-reset:20261118:v1",
+      "lastResetAt": 1794931228370
+    },
+    "nextPurchaseBonus": {
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchasesBefore": 0,
+      "paidPurchasesAfter": 1,
+      "milestones": [
+        {
+          "purchases": 1,
+          "coins": "1000000000000000",
+          "cubes": 5
+        }
+      ],
+      "coins": "1000000000000000",
+      "totalEarnedCoins": "1000000000000000",
+      "cubes": 5,
+      "totalEarnedCubes": 5
+    },
+    "pendingOrderReferencePreserved": null,
+    "orderCountPreserved": 18,
+    "orderHashes": [
+      {
+        "key": "support_package_order_v1:5147_0c720f6b-1ac8-4f4b-9c97-d38dc7692e03",
+        "hash": "071db4d2612e721b7d618898fe016910a0755284c2efb5f9896cdef47aa6a8c9"
+      },
+      {
+        "key": "support_package_order_v1:5147_131eb2d0-6225-47a8-8727-88b5b3234c3b",
+        "hash": "fc4e57c7bd5ebdc03db143d6ccdc3fbde063968c8e067036b9f0cde7e18c7ad9"
+      },
+      {
+        "key": "support_package_order_v1:5147_1ae15213-c8d7-47fc-8e49-a5f3c1c7e10d",
+        "hash": "6deef9d3de51035b160a0ba0654260af05d884e02320c7c9b3aebfaf1c6f706e"
+      },
+      {
+        "key": "support_package_order_v1:5147_23616e5f-e212-41a9-b3b3-7dae2a3c3350",
+        "hash": "24c0dc676c0f0b8ee20a7735ccb530416e894b480bb36646bbaf05db4238f0a2"
+      },
+      {
+        "key": "support_package_order_v1:5147_54a70286-f052-48f0-8abf-e1517077946d",
+        "hash": "80220371e3c8b4ece2c6e780b85124358aa9a2addc3499b291395a2669c909cd"
+      },
+      {
+        "key": "support_package_order_v1:5147_54ced3a6-30c6-4d45-abf0-5fb0f848a44a",
+        "hash": "08b31589e39e4aaea5e376ebdab61afec1387d0e9481c7e2ebd516cdbb4644cd"
+      },
+      {
+        "key": "support_package_order_v1:5147_6d9a878e-e1bb-49e5-9226-83f8e513bf78",
+        "hash": "8451f091a1817d71ed727d9a9b7307c18ba6b737e6bb750e8cc616e63219c0c7"
+      },
+      {
+        "key": "support_package_order_v1:5147_6fb654b5-f5c9-45c4-a3a7-1600b28d38b0",
+        "hash": "8cd53819391521c88efcff0e6d88e1f9ca2950a7a717a3f3d24d462170562501"
+      },
+      {
+        "key": "support_package_order_v1:5147_721c415f-78b8-4bbd-b564-b052fc51d44d",
+        "hash": "cacbe4cecec2012f1d05bba70beb0d5d507c640f647e94bb5bfea8a6b9864d08"
+      },
+      {
+        "key": "support_package_order_v1:5147_72d83d0c-6286-4fae-b57c-02ae83101a04",
+        "hash": "9c9dd5acabcab385ce69c827d3c32bd792313a1f9a72bad3fb28c43cbd618c72"
+      },
+      {
+        "key": "support_package_order_v1:5147_90693fb4-f70d-467e-9d00-1d9a2e3e98f3",
+        "hash": "f92d5c5418082980771f27ac288df38c59e5af88c5e8a61347022f655c111857"
+      },
+      {
+        "key": "support_package_order_v1:5147_9aafdcd4-edea-495d-8f57-ec83c020d87f",
+        "hash": "9862a637f8eee96da2042d7ff76bd86e9793085ed862e3c3b91fd00ec0cd3511"
+      },
+      {
+        "key": "support_package_order_v1:5147_a684d84b-491b-4e1c-85da-44b47917b1b4",
+        "hash": "69a4071505d64003422f7adbadfab209a707329233c7b60e1e60ac97a382680b"
+      },
+      {
+        "key": "support_package_order_v1:5147_aabe24f4-1297-4a99-8a90-0f4a142fa837",
+        "hash": "33f30b880d02ba3c88e1a0ad06b16efb4fec07ca4177e7c61bb51e7ef7cf152d"
+      },
+      {
+        "key": "support_package_order_v1:5147_bc907132-dbf2-461e-8e5c-77eade6276af",
+        "hash": "94871326e1679e2f94c71f369bd0dfe8426c4a513cf0a787c3f02ecb4b21f8d8"
+      },
+      {
+        "key": "support_package_order_v1:5147_bf5d98cc-785a-4433-b331-f959f7c59f0b",
+        "hash": "febbb5764a9e48ea1ed090de65d7dbd6a6c778a07d210571c67cd9f27b4be871"
+      },
+      {
+        "key": "support_package_order_v1:5147_d4a05a09-d8df-4f2f-829a-a91593c7a16e",
+        "hash": "211f5f2f8eecc61de663f81328ee9d96a66e8e2554d63b9cc06dd21841923e74"
+      },
+      {
+        "key": "support_package_order_v1:5147_e7d57dd9-4f55-4d7f-9033-d1811d6885b8",
+        "hash": "c290aa062f3f335f0bdb00a915e4e3bfb5a8e48fbf40901cb290564cfc528132"
+      }
+    ],
+    "protectedBeforeHash": "23c014b106d639453c5c3c002619e7c06f57237e6e5142de15e5455900536183",
+    "protectedAfterHash": "23c014b106d639453c5c3c002619e7c06f57237e6e5142de15e5455900536183",
+    "walletChanged": false,
+    "rewardsRevoked": false,
+    "itemsGranted": 0,
+    "ordersChanged": 0,
+    "actualChargeWon": 0,
+    "messagesSent": 0,
+    "syncPreserved": true,
+    "auditId": "63380"
+  },
+  "resetMs": 1480,
+  "partialFailuresRolledBack": 2,
+  "fullRehearsalRolledBack": true,
+  "onlyExpectedTablesWritten": true,
+  "leasesReleased": true
+}

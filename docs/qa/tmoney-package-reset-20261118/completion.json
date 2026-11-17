@@ -1,0 +1,86 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:tmoney:package-purchase-reset:20261118:v1",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "completedAtKST": "2026-11-18 01:00:28",
+  "auditId": "63380",
+  "packagePriceWon": 49800,
+  "paidPurchasesBefore": 20,
+  "paidPurchasesAfter": 0,
+  "nextPurchaseNumber": 1,
+  "cycleTotalsReset": {
+    "coinsBefore": "28000000000000000",
+    "coinsAfter": "0",
+    "cubesBefore": 190,
+    "cubesAfter": 0,
+    "meaning": "Current bonus-cycle counters only. Previously delivered wallet coins and inventory cubes are unchanged."
+  },
+  "ordersPreserved": 18,
+  "pendingPreserved": true,
+  "rewardsRevoked": false,
+  "walletChanged": false,
+  "itemsGranted": 0,
+  "messages": 0,
+  "actualChargeWon": 0,
+  "verification": {
+    "audits": 1,
+    "receipts": 1,
+    "duplicates": 0,
+    "currentPaidPurchases": 0,
+    "nextPaidPurchase": 1,
+    "orderRecordsPreserved": 18,
+    "pendingPreserved": true,
+    "recentHistoryPreserved": true
+  },
+  "partialFailuresRolledBack": 2,
+  "fullRehearsalRolledBack": true,
+  "noWriteReplay": true,
+  "replayQueries": 1,
+  "locksRemaining": 0,
+  "onlyExpectedTablesWritten": true,
+  "protectedBeforeHash": "23c014b106d639453c5c3c002619e7c06f57237e6e5142de15e5455900536183",
+  "protectedAfterHash": "23c014b106d639453c5c3c002619e7c06f57237e6e5142de15e5455900536183",
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "elapsedMs": 647,
+        "sql": 8
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 512,
+        "sql": 7
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "elapsedMs": 626,
+        "sql": 8
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 542,
+        "sql": 7
+      }
+    ],
+    "indexExecutionMs": 0.042,
+    "resetMs": 1480,
+    "independentVerifyMs": 1861,
+    "conditions": "Windows CLI calling actual package GET service against production PostgreSQL in READ ONLY. Fresh process first read and repeat; network included, single samples. Account-data reset only: no UI/runtime changes, deployment or browser/physical-device FPS measurement.",
+    "bottleneck": "Unchanged 8/7 SQL reads; indexed order range execution is much shorter than network-inclusive package service time. Reset updates one bonus-state row in one transaction. No speed improvement claimed."
+  },
+  "runtimeChanged": false,
+  "gameDeployed": false,
+  "evidenceDirectory": "operations/tmoney-package-reset-20261118",
+  "operationScriptSha256": {
+    "common.mjs": "88b92eb36a8d839a85ffc21f639f16ddebd92776d3f381e89f638aea92892555",
+    "runtime.mjs": "1fae5bb61d2d3ab051389adb39af12e86b275fdcab75367ec3bf0a26a0ef35b3",
+    "prepare.mjs": "b281d527f61aa76a612b6b906f08299db424356a9a2d54dcfb5e3c818b2e694d",
+    "reset.mjs": "bc4a1de0f8e6296fad2c68b7d76e26ed24a3b0687f750f72b78f84a1bf810c9a",
+    "run.mjs": "ed749604818b27b9ad7cec80db6a6f55033a5fb9b2766998d67fe842d683589c",
+    "record.mjs": "aacc4eeaaa1010540a1f2a5c10e36b609fd739d77d67f2a52352dfb43bda4727"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "operationKey": "ops:tmoney:package-purchase-reset:20261118:v1",
+  "action": "OPS_PACKAGE_PURCHASE_RESET",
+  "authorization": "T-Money™ 계정 49800원 패키지 누적구매 리셋",
+  "preparedAt": "2026-11-17T15:58:26.426Z",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "identityHash": "ef2437017c5c234e0c069b99c16a0378e40e9185eecd068f533966b84fa50f0a",
+  "priceWon": 49800,
+  "productCode": "SEASON_PASS_PACKAGE_20261115_PETS",
+  "productHash": "cfe6e98d989cff2c191a7477f064b2242cfce60b1e7e1dede24d1d4be0c7ad27",
+  "bonusKey": "support_package_bonus_20261115_v1:5147",
+  "expectedBonusRaw": "{\"version\":1,\"policyCode\":\"SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1\",\"paidPurchases\":20,\"totalBonusCoins\":\"28000000000000000\",\"totalBonusCubes\":190,\"lastOrderId\":\"5147_6fb654b5-f5c9-45c4-a3a7-1600b28d38b0\",\"updatedAt\":1794832062685}",
+  "bonusBefore": {
+    "version": 1,
+    "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+    "paidPurchases": 20,
+    "totalBonusCoins": "28000000000000000",
+    "totalBonusCubes": 190,
+    "lastOrderId": "5147_6fb654b5-f5c9-45c4-a3a7-1600b28d38b0",
+    "updatedAt": 1794832062685
+  },
+  "targetPaidPurchases": 0,
+  "resetCycleBonusTotals": true,
+  "pending": null,
+  "packageOrderCount": 18,
+  "auditFloor": "63376",
+  "messages": 0,
+  "packageGrant": false,
+  "preserveDeliveredRewards": true,
+  "preserveOrders": true
+}

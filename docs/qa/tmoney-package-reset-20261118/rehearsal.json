@@ -1,0 +1,683 @@
+{
+  "partialFailuresRolledBack": 2,
+  "fullRehearsalRolledBack": true,
+  "invalidPlanBlocked": true,
+  "realPackageServiceVerified": true,
+  "runtime": {
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 690,
+        "sql": 8
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 553,
+        "sql": 7
+      }
+    ],
+    "bonus": {
+      "version": 1,
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchases": 0,
+      "totalBonusCoins": "0",
+      "totalBonusCubes": 0,
+      "lastOrderId": "5147_6fb654b5-f5c9-45c4-a3a7-1600b28d38b0",
+      "updatedAt": 1794931225429,
+      "lastResetOperation": "ops:tmoney:package-purchase-reset:20261118:v1",
+      "lastResetAt": 1794931225429
+    },
+    "pending": null,
+    "recent": [
+      {
+        "version": 1,
+        "quantity": 20,
+        "id": "5147_6fb654b5-f5c9-45c4-a3a7-1600b28d38b0",
+        "userId": 5147,
+        "nickname": "T-Money™",
+        "product": {
+          "code": "SEASON_PASS_PACKAGE_20261115_PETS",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 49800,
+          "coins": 500000000000000,
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "name": "마스터의 별",
+              "quantity": 1000000000,
+              "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "name": "아르덴 에너지",
+              "quantity": 50,
+              "image": "assets/items/arden-energy-v1.webp"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 10,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 10,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 25,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "quantity": 50,
+              "image": "assets/items/pet-opening-v1/pet-seal-orb.webp"
+            },
+            {
+              "code": "PET_ESSENCE",
+              "name": "펫 정수",
+              "quantity": 500,
+              "image": "assets/items/pet-opening-v1/pet-essence.webp"
+            }
+          ],
+          "packageQuantity": 2,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261115",
+          "eventLabel": "1+1 이벤트",
+          "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+        },
+        "status": "FULFILLED",
+        "revision": 1,
+        "createdAt": 1794831812818,
+        "eligibleUntil": 1797092060643,
+        "fulfillment": {
+          "code": "SEASON_PASS_PACKAGE_20261115_PETS",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 996000,
+          "coins": "38000000000000000",
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "name": "마스터의 별",
+              "quantity": 20000000000,
+              "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "name": "아르덴 에너지",
+              "quantity": 1000,
+              "image": "assets/items/arden-energy-v1.webp"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 200,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 200,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 500,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "quantity": 1000,
+              "image": "assets/items/pet-opening-v1/pet-seal-orb.webp"
+            },
+            {
+              "code": "PET_ESSENCE",
+              "name": "펫 정수",
+              "quantity": 10000,
+              "image": "assets/items/pet-opening-v1/pet-essence.webp"
+            },
+            {
+              "code": "SSS_MIRACLE_CUBE",
+              "name": "SSS 미라클큐브",
+              "image": "assets/ui/sss-miracle-cube-20261021/cube-768.webp",
+              "quantity": 190
+            }
+          ],
+          "packageQuantity": 40,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261115",
+          "eventLabel": "1+1 이벤트",
+          "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+          "purchaseQuantity": 20,
+          "baseCoins": "10000000000000000",
+          "purchaseBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 0,
+            "paidPurchasesAfter": 20,
+            "milestones": [
+              {
+                "purchases": 1,
+                "coins": "1000000000000000",
+                "cubes": 5
+              },
+              {
+                "purchases": 2,
+                "coins": "2000000000000000",
+                "cubes": 10
+              },
+              {
+                "purchases": 3,
+                "coins": "3000000000000000",
+                "cubes": 15
+              },
+              {
+                "purchases": 4,
+                "coins": "6000000000000000",
+                "cubes": 20
+              },
+              {
+                "purchases": 5,
+                "coins": "8000000000000000",
+                "cubes": 40
+              },
+              {
+                "purchases": 10,
+                "coins": "8000000000000000",
+                "cubes": 100
+              }
+            ],
+            "coins": "28000000000000000",
+            "totalEarnedCoins": "28000000000000000",
+            "cubes": 190,
+            "totalEarnedCubes": 190
+          }
+        },
+        "processedAt": 1794832062685,
+        "processedBy": 1,
+        "note": "123"
+      },
+      {
+        "version": 1,
+        "quantity": 10,
+        "id": "5147_e7d57dd9-4f55-4d7f-9033-d1811d6885b8",
+        "userId": 5147,
+        "nickname": "T-Money™",
+        "product": {
+          "code": "SEASON_PASS_PACKAGE_20261106",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 49800,
+          "coins": 500000000000000,
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "name": "마스터의 별",
+              "quantity": 1000000000,
+              "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+            },
+            {
+              "code": "SUIT_CORE_7",
+              "name": "슈트 코어 7",
+              "quantity": 10,
+              "image": "assets/items/suit-core-7-20261006.png"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 5,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 5,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 10,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            }
+          ],
+          "packageQuantity": 2,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261106",
+          "eventLabel": "1+1 이벤트",
+          "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1"
+        },
+        "status": "FULFILLED",
+        "revision": 1,
+        "createdAt": 1793974605609,
+        "eligibleUntil": 1794500060643,
+        "fulfillment": {
+          "code": "SEASON_PASS_PACKAGE_20261106",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 498000,
+          "coins": 5000000000000000,
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "name": "마스터의 별",
+              "quantity": 10000000000,
+              "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+            },
+            {
+              "code": "SUIT_CORE_7",
+              "name": "슈트 코어 7",
+              "quantity": 100,
+              "image": "assets/items/suit-core-7-20261006.png"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 50,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 50,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 100,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            }
+          ],
+          "packageQuantity": 20,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261106",
+          "eventLabel": "1+1 이벤트",
+          "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1",
+          "purchaseQuantity": 10,
+          "baseCoins": 5000000000000000,
+          "purchaseBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1",
+            "paidPurchasesBefore": 10,
+            "paidPurchasesAfter": 20,
+            "milestones": [],
+            "coins": "0",
+            "totalEarnedCoins": "12100000000000000"
+          }
+        },
+        "processedAt": 1793974628336,
+        "processedBy": 1,
+        "note": "1234"
+      },
+      {
+        "version": 1,
+        "quantity": 10,
+        "id": "5147_9aafdcd4-edea-495d-8f57-ec83c020d87f",
+        "userId": 5147,
+        "nickname": "T-Money™",
+        "product": {
+          "code": "SEASON_PASS_PACKAGE_20261106",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 49800,
+          "coins": 500000000000000,
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "name": "마스터의 별",
+              "quantity": 1000000000,
+              "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+            },
+            {
+              "code": "SUIT_CORE_7",
+              "name": "슈트 코어 7",
+              "quantity": 10,
+              "image": "assets/items/suit-core-7-20261006.png"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 5,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 5,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 10,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            }
+          ],
+          "packageQuantity": 2,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261106",
+          "eventLabel": "1+1 이벤트",
+          "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1"
+        },
+        "status": "FULFILLED",
+        "revision": 1,
+        "createdAt": 1793973617499,
+        "eligibleUntil": 1794500060643,
+        "fulfillment": {
+          "code": "SEASON_PASS_PACKAGE_20261106",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 498000,
+          "coins": "17100000000000000",
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "name": "마스터의 별",
+              "quantity": 10000000000,
+              "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+            },
+            {
+              "code": "SUIT_CORE_7",
+              "name": "슈트 코어 7",
+              "quantity": 100,
+              "image": "assets/items/suit-core-7-20261006.png"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 50,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 50,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 100,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            }
+          ],
+          "packageQuantity": 20,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261106",
+          "eventLabel": "1+1 이벤트",
+          "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1",
+          "purchaseQuantity": 10,
+          "baseCoins": 5000000000000000,
+          "purchaseBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261106_V1",
+            "paidPurchasesBefore": 0,
+            "paidPurchasesAfter": 10,
+            "milestones": [
+              {
+                "purchases": 1,
+                "coins": "200000000000000"
+              },
+              {
+                "purchases": 2,
+                "coins": "400000000000000"
+              },
+              {
+                "purchases": 3,
+                "coins": "500000000000000"
+              },
+              {
+                "purchases": 4,
+                "coins": "1000000000000000"
+              },
+              {
+                "purchases": 5,
+                "coins": "2000000000000000"
+              },
+              {
+                "purchases": 10,
+                "coins": "8000000000000000"
+              }
+            ],
+            "coins": "12100000000000000",
+            "totalEarnedCoins": "12100000000000000"
+          }
+        },
+        "processedAt": 1793973793103,
+        "processedBy": 1,
+        "note": "1234"
+      },
+      {
+        "version": 1,
+        "quantity": 20,
+        "id": "5147_23616e5f-e212-41a9-b3b3-7dae2a3c3350",
+        "userId": 5147,
+        "nickname": "T-Money™",
+        "product": {
+          "code": "SEASON_PASS_PACKAGE_20261101_500T",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 49800,
+          "coins": 500000000000000,
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "EMPEROR_ENERGY",
+              "name": "엠퍼러 에너지",
+              "quantity": 400,
+              "image": "assets/items/emperor-energy-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 10,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 10,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 10,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            }
+          ],
+          "packageQuantity": 2,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261101",
+          "eventLabel": "1+1 이벤트"
+        },
+        "status": "FULFILLED",
+        "revision": 1,
+        "createdAt": 1793717802470,
+        "eligibleUntil": 1794500060643,
+        "fulfillment": {
+          "code": "SEASON_PASS_PACKAGE_20261101_500T",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 996000,
+          "coins": "10000000000000000",
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "EMPEROR_ENERGY",
+              "name": "엠퍼러 에너지",
+              "quantity": 8000,
+              "image": "assets/items/emperor-energy-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 200,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 200,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 200,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            }
+          ],
+          "packageQuantity": 40,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261101",
+          "eventLabel": "1+1 이벤트",
+          "purchaseQuantity": 20
+        },
+        "processedAt": 1793719674084,
+        "processedBy": 1,
+        "note": "123"
+      },
+      {
+        "version": 1,
+        "quantity": 20,
+        "id": "5147_72d83d0c-6286-4fae-b57c-02ae83101a04",
+        "userId": 5147,
+        "nickname": "T-Money™",
+        "product": {
+          "code": "SEASON_PASS_PACKAGE_20261101_500T",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 49800,
+          "coins": 500000000000000,
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "EMPEROR_ENERGY",
+              "name": "엠퍼러 에너지",
+              "quantity": 400,
+              "image": "assets/items/emperor-energy-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 10,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 10,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 10,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            }
+          ],
+          "packageQuantity": 2,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261101",
+          "eventLabel": "1+1 이벤트"
+        },
+        "status": "FULFILLED",
+        "revision": 1,
+        "createdAt": 1793632388503,
+        "eligibleUntil": 1794500060643,
+        "fulfillment": {
+          "code": "SEASON_PASS_PACKAGE_20261101_500T",
+          "name": "리버스콜 코인 패키지",
+          "priceWon": 996000,
+          "coins": "10000000000000000",
+          "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+          "items": [
+            {
+              "code": "EMPEROR_ENERGY",
+              "name": "엠퍼러 에너지",
+              "quantity": 8000,
+              "image": "assets/items/emperor-energy-v1.webp"
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "name": "SSS 리미티드 조각",
+              "quantity": 200,
+              "image": "assets/items/sss-limited-shard-20261020/item.webp"
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "name": "무기 강화주문서",
+              "quantity": 200,
+              "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "name": "방어구 강화주문서",
+              "quantity": 200,
+              "image": "assets/items/armor-enhancement-scroll-v1.webp"
+            }
+          ],
+          "packageQuantity": 40,
+          "eventCode": "SUPPORT_PACKAGE_BOGO_20261101",
+          "eventLabel": "1+1 이벤트",
+          "purchaseQuantity": 20
+        },
+        "processedAt": 1793632409192,
+        "processedBy": 1,
+        "note": "1234"
+      }
+    ],
+    "salesOpen": true,
+    "product": {
+      "code": "SEASON_PASS_PACKAGE_20261115_PETS",
+      "name": "리버스콜 코인 패키지",
+      "priceWon": 49800,
+      "coins": 500000000000000,
+      "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 1000000000,
+          "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+        },
+        {
+          "code": "ARDEN_ENERGY",
+          "name": "아르덴 에너지",
+          "quantity": 50,
+          "image": "assets/items/arden-energy-v1.webp"
+        },
+        {
+          "code": "WEAPON_ENHANCEMENT_SCROLL",
+          "name": "무기 강화주문서",
+          "quantity": 10,
+          "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+        },
+        {
+          "code": "ARMOR_ENHANCEMENT_SCROLL",
+          "name": "방어구 강화주문서",
+          "quantity": 10,
+          "image": "assets/items/armor-enhancement-scroll-v1.webp"
+        },
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "name": "SSS 리미티드 조각",
+          "quantity": 25,
+          "image": "assets/items/sss-limited-shard-20261020/item.webp"
+        },
+        {
+          "code": "PET_SEAL_ORB",
+          "name": "펫 봉인구",
+          "quantity": 50,
+          "image": "assets/items/pet-opening-v1/pet-seal-orb.webp"
+        },
+        {
+          "code": "PET_ESSENCE",
+          "name": "펫 정수",
+          "quantity": 500,
+          "image": "assets/items/pet-opening-v1/pet-essence.webp"
+        }
+      ],
+      "packageQuantity": 2,
+      "eventCode": "SUPPORT_PACKAGE_BOGO_20261115",
+      "eventLabel": "1+1 이벤트",
+      "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+    },
+    "conditions": "Windows CLI calling actual package GET service against production PostgreSQL in READ ONLY. Fresh process first read and repeat; network included, single samples. Account-data reset only: no UI/runtime changes, deployment or browser/physical-device FPS measurement."
+  }
+}
