@@ -1,0 +1,79 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:tmoney:sudal-one:20261118:v1",
+    "planHash": "cc41f88b3d2c59619e3e1ffd1541498f3d8fff9154f71d3565cdb73f14264ff8",
+    "userId": "5147",
+    "nickname": "T-Money™",
+    "completedAt": "2026-11-17T16:53:01.924Z",
+    "completedAtKST": "2026-11-18 01:53:01",
+    "auditId": "63432",
+    "body": {
+      "userId": 5147,
+      "petCode": "PET-SUDAL",
+      "quantity": 1,
+      "reason": "사용자 요청 T-Money™ 수달 펫 1마리 추가 지급",
+      "expectedRevision": 24,
+      "petCmsRevision": 51,
+      "requestId": "ops_tmoney_sudal_one_20261118_v1"
+    },
+    "petResult": {
+      "ok": true,
+      "requestId": "ops_tmoney_sudal_one_20261118_v1",
+      "adminId": 1,
+      "target": {
+        "id": 5147,
+        "nickname": "T-Money™"
+      },
+      "pet": {
+        "code": "PET-SUDAL",
+        "name": "수달",
+        "sourceArt": "assets/ui/pets/sudal-20261115/pet-sudal-approved.png"
+      },
+      "quantity": 1,
+      "reason": "사용자 요청 T-Money™ 수달 펫 1마리 추가 지급",
+      "before": 0,
+      "after": 1,
+      "collectionRevision": 25,
+      "grantedAt": "2026-11-17T16:53:01.924Z",
+      "replayed": false
+    },
+    "permanent": true,
+    "autoEquip": false,
+    "growthChanged": false,
+    "inventoryItemsGranted": 0,
+    "messagesSent": 0,
+    "protectedBeforeHash": "03460362680a26e58ad39e1e461db5ed8eceb2da65135056e0a0ac0e55235da7",
+    "protectedAfterHash": "03460362680a26e58ad39e1e461db5ed8eceb2da65135056e0a0ac0e55235da7",
+    "syncBefore": {
+      "domains": {
+        "pvp": "299195",
+        "wallet": "299702",
+        "loadout": "298780",
+        "messages": "299151",
+        "inventory": "299710",
+        "collection": "299058"
+      },
+      "revision": "299710"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "299195",
+        "wallet": "299702",
+        "loadout": "298780",
+        "messages": "299151",
+        "inventory": "299710",
+        "collection": "299711"
+      },
+      "revision": "299711"
+    }
+  },
+  "grantMs": 2732,
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "canonicalGrantService": true,
+  "otherTablesWritten": 0,
+  "guardsRemaining": 0,
+  "leasesReleased": true
+}

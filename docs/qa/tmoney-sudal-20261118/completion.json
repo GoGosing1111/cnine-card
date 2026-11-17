@@ -1,0 +1,80 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:tmoney:sudal-one:20261118:v1",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "completedAtKST": "2026-11-18 01:53:01",
+  "auditId": "63432",
+  "petCode": "PET-SUDAL",
+  "petName": "수달",
+  "quantity": 1,
+  "permanent": true,
+  "before": 0,
+  "after": 1,
+  "pvePvpSelectable": true,
+  "autoEquip": false,
+  "growthChanged": false,
+  "inventoryItemsGranted": 0,
+  "messagesSent": 0,
+  "verification": {
+    "petAudits": 1,
+    "standardReceipts": 1,
+    "operationReceipts": 1,
+    "duplicates": 0,
+    "permanentQuantity": 1,
+    "selectableModes": [
+      "PVE",
+      "PVP"
+    ]
+  },
+  "standardGrantReplayWrites": 0,
+  "operationReplayWrites": 0,
+  "locksRemaining": 0,
+  "guardsRemaining": 0,
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "canonicalGrantService": true,
+  "otherTablesWritten": 0,
+  "protectedBeforeHash": "03460362680a26e58ad39e1e461db5ed8eceb2da65135056e0a0ac0e55235da7",
+  "protectedAfterHash": "03460362680a26e58ad39e1e461db5ed8eceb2da65135056e0a0ac0e55235da7",
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "elapsedMs": 243,
+        "sql": 3
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 234,
+        "sql": 3
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "elapsedMs": 222,
+        "sql": 3
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 219,
+        "sql": 3
+      }
+    ],
+    "grantMs": 2732,
+    "conditions": "Windows CLI to production PostgreSQL using actual ownership/CMS/catalog services, first and repeat on one connection, network included. Data grant only, no UI/runtime changes, deployment or browser/physical-device FPS measurement.",
+    "finding": "Three SQL reads unchanged; network/DB round trips dominate the service read. Canonical pet grant runs in the existing account transaction. No runtime change or speed improvement claimed."
+  },
+  "runtimeChanged": false,
+  "gameDeployed": false,
+  "evidenceDirectory": "operations/tmoney-sudal-20261118",
+  "operationScriptSha256": {
+    "common.mjs": "57747a619ef653257f368d5ebe3c836616aa87ac22d81cf3eaa3d16cce53eaae",
+    "prepare.mjs": "2e24dc93b6d0a84656f2f743f0763ef475bd3efa51e21d2572a7e3bd53611124",
+    "service.mjs": "79c9366c6c605ba2ebfebf7ea35a8dfdbf84d3adb5b55bfbcdd8be42aaa42ba1",
+    "grant.mjs": "7f69c1fb47182fc1490d45244c440e3d3b1f1b9303f299e19e34970fdc2b9e08",
+    "run.mjs": "e7315fc0da54830081c04bf317bd8a170d9f4987c760d5d391470b319effeb90",
+    "record.mjs": "67fa5873f30eef75435a3b3b816fc2fb0247768a03eb8a18ab15a9ea7d8fe776"
+  }
+}

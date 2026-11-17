@@ -1,0 +1,32 @@
+{
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "canonicalGrantService": true,
+  "displayed": {
+    "current": {
+      "code": "PET-SUDAL",
+      "name": "수달",
+      "owned": true,
+      "permanentQuantity": 1,
+      "quantity": 1,
+      "ready": [
+        "PVE",
+        "PVP"
+      ],
+      "rentalExpiresAt": null
+    },
+    "measurements": [
+      {
+        "phase": "first",
+        "elapsedMs": 232,
+        "sql": 3
+      },
+      {
+        "phase": "repeat",
+        "elapsedMs": 228,
+        "sql": 3
+      }
+    ],
+    "conditions": "Windows CLI to production PostgreSQL using actual ownership/CMS/catalog services, first and repeat on one connection, network included. Data grant only, no UI/runtime changes, deployment or browser/physical-device FPS measurement."
+  }
+}

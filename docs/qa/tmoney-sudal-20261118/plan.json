@@ -1,0 +1,22 @@
+{
+  "operationKey": "ops:tmoney:sudal-one:20261118:v1",
+  "authorization": "수달펫 T-Money™ 계정에 지급",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "identityHash": "ef2437017c5c234e0c069b99c16a0378e40e9185eecd068f533966b84fa50f0a",
+  "petCode": "PET-SUDAL",
+  "petName": "수달",
+  "quantity": 1,
+  "permanent": true,
+  "petDefinitionHash": "30b02fe5ef4626dae56e9ba3444df3e177bac67f936324de35c7e60c097c4613",
+  "petCmsRevision": 51,
+  "requestId": "ops_tmoney_sudal_one_20261118_v1",
+  "reason": "사용자 요청 T-Money™ 수달 펫 1마리 추가 지급",
+  "petBefore": 0,
+  "messages": 0,
+  "autoEquip": false,
+  "growthChanges": false,
+  "inventoryItemGrants": 0,
+  "preparedAt": "2026-11-17T16:50:19.455Z",
+  "auditFloor": "63429"
+}
