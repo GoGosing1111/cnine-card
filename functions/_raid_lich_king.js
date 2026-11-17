@@ -5,6 +5,7 @@ import { buildFighter, buildMonsterFighter, buildPvePlayerTeam, simulateBattleV2
 import {applyPetOpeningBuff} from '../shared/companion-opening-v1.mjs';
 import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
 import {openCoopRound,tickCoopRoom,actCoopRoom,coopControls,reconcileCoopDuties} from './_raid_lich_coop.js';
+import {lichBossDamageEvent} from '../shared/lich-boss-health-v1.mjs';
 
 export const LICH_RELEASE = Object.freeze({ mode:'OFF', rewardLocked:true, scope:'LOCAL_REVIEW_ONLY' });
 export const ROLES = Object.freeze({ ASSAULT:'정벌대', WARDEN:'봉인대', RESCUE:'구출대' });
@@ -216,7 +217,7 @@ function applyCombat(room,burst,memberId=null) {
     const next=total?Math.round(accumulated*budget/total):0,damage=next-applied;applied=next;
     if(!damage)continue;
     room.boss.hp-=damage;
-    const event={...ev,damage,absorbed:0,targetHpAfter:room.boss.hp,targetMaxHp:room.boss.maxHp,targetShieldAfter:0};
+    const event=lichBossDamageEvent(ev,{damage,hp:room.boss.hp,maxHp:room.boss.maxHp});
     record(room,event.type,event.label||'왕좌 공략',event);
   }
   room.statistics.damage+=Math.max(0,before-room.boss.hp);

@@ -8,6 +8,7 @@
     "preview/lich-king-raid-v1/clock.mjs",
     "preview/lich-king-raid-v1/CoopOverlay.js",
     "preview/lich-king-raid-v1/MechanicOverlay.js",
+    "shared/lich-boss-health-v1.mjs",
     "preview/lich-king-raid-v1/battle.src.js"
   ]
 }

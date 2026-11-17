@@ -1,4 +1,5 @@
 import { MechanicOverlay } from './MechanicOverlay.js';
+import {lichBossDamageEvent,bindLichBossHealth} from '../../shared/lich-boss-health-v1.mjs';
 
 // The encounter extends the already loaded live V3 runtime. It does not bundle
 // or create another Application, formation, card dock, GSAP clock or renderer.
@@ -7,6 +8,7 @@ let engine=null,renderer=null,prison=null,mechanics=null,epoch=0,queue=Promise.r
 const textures={};
 const frameLoads=new Map();let releasingFrames=null;
 let visibleActors=new Set();
+let releaseBossHealth=null;
 async function loadFrames(key){
   if(releasingFrames)await releasingFrames;
   const {Assets,Texture,Rectangle}=window.ProjectVPixiBattle.fxRuntime;
@@ -63,6 +65,7 @@ async function mount(payload,modal=document.getElementById('battleMount')){
     const candidate=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});
     if(version!==epoch){candidate.destroy();return;}
     renderer=candidate;
+    releaseBossHealth=bindLichBossHealth(engine,bossId,()=>snapshot);
     modal.querySelector('.battle-v3-header strong').textContent='리치왕 정벌';
     modal.querySelector('.battle-v3-header small').textContent='THE FROZEN THRONE';
     await engine.deployCards({instant:true,force:true});
@@ -85,7 +88,8 @@ function enqueue(events,state){
   // Remote squads contribute to the shared boss, never as a missing/local
   // actor. Each account retains the canonical five-card V3 formation.
   events=events.filter(e=>!e.actorId||visibleActors.has(e.actorId))
-    .map(e=>({...e,...(e.hits?{hits:e.hits.filter(h=>visibleActors.has(h.targetId))}:{}),...(e.targets?{targets:e.targets.filter(t=>visibleActors.has(t.targetId))}:{})}));
+    .map(e=>e.targetId===bossId&&e.damage>0&&Number.isFinite(e.targetHpAfter)?lichBossDamageEvent(e,{maxHp:state.bossMaxHp}):e)
+    .map(e=>({...e,...(e.hits?{hits:e.hits.filter(h=>!h.targetId||visibleActors.has(h.targetId))}:{}),...(e.targets?{targets:e.targets.filter(t=>!t.targetId||visibleActors.has(t.targetId))}:{})}));
   const version=epoch;
   const interesting=events.filter(e=>!e.type.startsWith('RAID_')||['RAID_LICH_PRISON','RAID_LICH_SHATTER','RAID_LICH_BREATH','RAID_LICH_WIPE','RAID_LICH_INTERRUPT'].includes(e.type));
   // Catch up through the canonical server snapshot if a hidden/slow tab falls behind.
@@ -123,6 +127,7 @@ function restore(state,restorePrison=true){
 }
 function teardown(){
   epoch++;engine?.cancelTimelines();mechanics?.destroy();mechanics=null;releasePrison();renderer?.destroy();renderer=null;
+  releaseBossHealth?.();releaseBossHealth=null;
   void releaseFrames().catch(error=>console.warn('[Isgen assets]',error));
   // Keep the live Application/canvas cache; the next mount uses canonical
   // resetSession just like production V3, without dangling character tweens.
