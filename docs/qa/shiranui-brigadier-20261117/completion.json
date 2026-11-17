@@ -1,0 +1,2303 @@
+{
+  "status": "COMPLETE",
+  "at": "2026-11-17T02:38:22.846Z",
+  "operationKey": "ops:shiranui-brigadier:existing-achievers:20261117:v1",
+  "sourceCommit": "b935cbc52ebfb5bde16867f46a8cb70cab72852d",
+  "pages": {
+    "id": "97b423ad-04e5-4165-8110-1f486bdcfe7b",
+    "commit": "b935cbc52ebfb5bde16867f46a8cb70cab72852d",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "81d9dc21-1150-4809-bcaa-b5469e3096a5",
+      "percentage": 100,
+      "brigadierVerified": true,
+      "rewardHandlerIncluded": true,
+      "lifetimeCampaignVerified": true,
+      "sha256": "5e0884206c199e08be86dccf83802b496ee27491b3f20faab7080f44c74f8f51"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "d5aa82fc-49d5-4c3a-8bed-7b7eed223f6f",
+      "percentage": 100,
+      "brigadierVerified": true,
+      "rewardHandlerIncluded": false,
+      "lifetimeCampaignVerified": null,
+      "sha256": "58dc6043aa65a233010c37d0ff135d337211abc4ef49da6959506da2819a2155"
+    }
+  ],
+  "tests": 53,
+  "policy": {
+    "before": {
+      "rank": "중장",
+      "level": 235
+    },
+    "after": {
+      "rank": "준장",
+      "level": 215
+    },
+    "minimumTicks": 601245600,
+    "busDriverExceptionPreserved": true,
+    "futureDelivery": "Existing once-per-account automatic rank reward message; current owners excluded",
+    "lifetimeCampaignPreserved": "account-rank:shiranui:235:v1",
+    "legacyUnclaimedRewardsPreserved": true
+  },
+  "grant": {
+    "operationKey": "ops:shiranui-brigadier:existing-achievers:20261117:v1",
+    "status": "COMPLETED",
+    "code": "V-987",
+    "minimumRank": "준장",
+    "minimumLevel": 215,
+    "completedAt": "2026-11-17T02:24:22.623Z",
+    "granted": [
+      {
+        "id": "1195",
+        "nickname": "씨나인택갓",
+        "level": 215,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "acquisition": "ops:shiranui-brigadier:existing-achievers:20261117:v1:1195:V-987"
+      },
+      {
+        "id": "4582",
+        "nickname": "족단",
+        "level": 219,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "acquisition": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4582:V-987"
+      },
+      {
+        "id": "4629",
+        "nickname": "Veil",
+        "level": 216,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "acquisition": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4629:V-987"
+      }
+    ],
+    "excluded": [
+      {
+        "id": "1",
+        "nickname": "핑크빛유두",
+        "copies": 1,
+        "reason": "ALREADY_OWNED"
+      },
+      {
+        "id": "4391",
+        "nickname": "더듬이구",
+        "copies": 1,
+        "reason": "ALREADY_OWNED"
+      }
+    ],
+    "messagesSent": 0,
+    "automaticLoadout": false,
+    "growthChanged": false,
+    "cost": 0,
+    "synced": [
+      {
+        "user_id": "1195",
+        "revision": "1093021",
+        "domains": {
+          "pvp": "1093018",
+          "wallet": "1093019",
+          "loadout": "1093021",
+          "messages": "1087146",
+          "inventory": "1093004",
+          "collection": "1093021"
+        }
+      },
+      {
+        "user_id": "4629",
+        "revision": "368452",
+        "domains": {
+          "pvp": "366917",
+          "wallet": "368450",
+          "loadout": "368452",
+          "messages": "358146",
+          "inventory": "368449",
+          "collection": "368452"
+        }
+      },
+      {
+        "user_id": "4582",
+        "revision": "680198",
+        "domains": {
+          "pvp": "678793",
+          "wallet": "680196",
+          "loadout": "680198",
+          "messages": "673583",
+          "inventory": "680181",
+          "collection": "680198"
+        }
+      }
+    ],
+    "planHash": "b2c9aa2e13d9a6de18e538659162aeafee473705aa45a1930b8c56e6145ce9de",
+    "auditId": "62675"
+  },
+  "verification": {
+    "partialFailureRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "leasesReleased": true,
+    "protectedBefore": "9979438e221fdb4d0fa8d34845b1bd49d3a5303f41d2332eef7f72586009ce31",
+    "protectedAfter": "9979438e221fdb4d0fa8d34845b1bd49d3a5303f41d2332eef7f72586009ce31",
+    "checks": {
+      "holdings": [
+        {
+          "user_id": "1",
+          "total_copies": 1,
+          "duplicate_count": 0
+        },
+        {
+          "user_id": "1195",
+          "total_copies": 1,
+          "duplicate_count": 0
+        },
+        {
+          "user_id": "4391",
+          "total_copies": 1,
+          "duplicate_count": 0
+        },
+        {
+          "user_id": "4582",
+          "total_copies": 1,
+          "duplicate_count": 0
+        },
+        {
+          "user_id": "4629",
+          "total_copies": 1,
+          "duplicate_count": 0
+        }
+      ],
+      "ledger": [
+        {
+          "acquisition_id": "ops:shiranui-brigadier:existing-achievers:20261117:v1:1195:V-987",
+          "user_id": "1195",
+          "total_copies_after": 1,
+          "is_duplicate": 0
+        },
+        {
+          "acquisition_id": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4582:V-987",
+          "user_id": "4582",
+          "total_copies_after": 1,
+          "is_duplicate": 0
+        },
+        {
+          "acquisition_id": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4629:V-987",
+          "user_id": "4629",
+          "total_copies_after": 1,
+          "is_duplicate": 0
+        }
+      ],
+      "markers": [
+        {
+          "key": "account-rank:shiranui:235:v1:1",
+          "value": "PREVIOUSLY_OWNED"
+        },
+        {
+          "key": "account-rank:shiranui:235:v1:1195",
+          "value": "PREVIOUSLY_OWNED"
+        },
+        {
+          "key": "account-rank:shiranui:235:v1:4391",
+          "value": "PREVIOUSLY_OWNED"
+        },
+        {
+          "key": "account-rank:shiranui:235:v1:4582",
+          "value": "PREVIOUSLY_OWNED"
+        },
+        {
+          "key": "account-rank:shiranui:235:v1:4629",
+          "value": "PREVIOUSLY_OWNED"
+        }
+      ],
+      "missingQualified": []
+    },
+    "liveFiles": [
+      {
+        "path": "index.html",
+        "sha256": "a0639a32248433b6351910f7cccae199d238f455299728fde2cf689f35c59e4c"
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "75fe0cc63b2d80ce689a22000703e9ce93290bc706f1b0f4cad47d14a794e64d"
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "911128ba0d7b1d9d09b66fa613d7cdfce025771de0bf02f556ef193b8ea5dfab"
+      },
+      {
+        "path": "js/workshop-v1881.js",
+        "sha256": "48ecb67035fbdaa8504bcdd9c5e3746075621f8962c7105209db932f67b104ef"
+      },
+      {
+        "path": "shared/mercenary-shiranui-v1.mjs",
+        "sha256": "21e65ca4896d859764e270bdaea4823fc537db080504fb7bbe70638b0aca4b65"
+      },
+      {
+        "path": "mercenary-codex/app.mjs",
+        "sha256": "37cd0d35801cb1583ac3825d9aca586eda0c4d99a16153614e9685248782dd0c"
+      },
+      {
+        "path": "mercenary-codex/model.mjs",
+        "sha256": "30b328e1fab48e802fc5a0c724052f5e1f3e5b53d6bbb13fcdc80cf3b0efde22"
+      },
+      {
+        "path": "onestore/js/app.js",
+        "sha256": "9e9d30c54a7e01684fb10380dd1dcf3f08696759dcf626865dd05896ef933a2e"
+      }
+    ],
+    "liveCatalog": {
+      "code": "V-987",
+      "minimumAccountLevel": 215,
+      "acquisitionDescription": "준장(Lv.215) 달성 시 계정당 1회 메시지로 시라누이 1장 지급 · 이미 보유한 계정 제외",
+      "deploymentRequirement": "준장(Lv.215) 이상 또는 버스기사 칭호 보유",
+      "basePower": 2600000
+    },
+    "h5": {
+      "status": 200,
+      "csp": "frame-ancestors 'self' https://onestore.co.kr https://*.onestore.co.kr https://onestore.net https://*.onestore.net"
+    }
+  },
+  "performance": {
+    "server": {
+      "at": "2026-11-17T02:25:18.044Z",
+      "condition": "Windows CLI to production PostgreSQL over network, same account and connection; original/current bundled mercenaryAccountState handlers. Existing schemas trusted and no DDL executed; READ ONLY transaction. First/repeat per handler, one sample each; no browser or physical-device frame claim.",
+      "records": [
+        {
+          "phase": "before",
+          "entry": "first",
+          "ms": 1923.59,
+          "canDeploy": false,
+          "totalCopies": 1,
+          "queries": [
+            {
+              "ms": 75.91,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 73.03,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 75.49,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 72.4,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 79.15,
+              "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+            },
+            {
+              "ms": 72.59,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 79.81,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 76.58,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 71.98,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 71.82,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 76.58,
+              "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+            },
+            {
+              "ms": 72.09,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 215.14,
+              "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+            },
+            {
+              "ms": 72.55,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 80.4,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 79.32,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 81.43,
+              "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+            },
+            {
+              "ms": 74.01,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 74.6,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+            },
+            {
+              "ms": 84.13,
+              "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+            },
+            {
+              "ms": 72.54,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 80.41,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 77.96,
+              "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+            }
+          ]
+        },
+        {
+          "phase": "before",
+          "entry": "repeat",
+          "ms": 1825.78,
+          "canDeploy": false,
+          "totalCopies": 1,
+          "queries": [
+            {
+              "ms": 88.2,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 78.1,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 75.85,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 72.34,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 73.53,
+              "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+            },
+            {
+              "ms": 72.58,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 82.63,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 83.26,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 72.23,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 71.89,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 73.18,
+              "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+            },
+            {
+              "ms": 71.67,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 145.71,
+              "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+            },
+            {
+              "ms": 72,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.77,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 73.43,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 82.41,
+              "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+            },
+            {
+              "ms": 79.89,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 78.17,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+            },
+            {
+              "ms": 74.81,
+              "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+            },
+            {
+              "ms": 71.98,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 71.71,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.51,
+              "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+            }
+          ]
+        },
+        {
+          "phase": "after",
+          "entry": "first",
+          "ms": 1709.82,
+          "canDeploy": true,
+          "totalCopies": 1,
+          "queries": [
+            {
+              "ms": 72.08,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 71.91,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 71.62,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 71.65,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 73.18,
+              "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+            },
+            {
+              "ms": 71.63,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 74.07,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 76.39,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 72.84,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.09,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 73.33,
+              "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+            },
+            {
+              "ms": 71.56,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 73.16,
+              "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+            },
+            {
+              "ms": 82.23,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.77,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 78.2,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 72,
+              "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+            },
+            {
+              "ms": 71.78,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 71.82,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+            },
+            {
+              "ms": 76.14,
+              "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+            },
+            {
+              "ms": 73.09,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 71.75,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 73.03,
+              "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+            }
+          ]
+        },
+        {
+          "phase": "after",
+          "entry": "repeat",
+          "ms": 1688.29,
+          "canDeploy": true,
+          "totalCopies": 1,
+          "queries": [
+            {
+              "ms": 71.74,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 71.79,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+            },
+            {
+              "ms": 71.65,
+              "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+            },
+            {
+              "ms": 72.6,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 72.62,
+              "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+            },
+            {
+              "ms": 72.07,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+            },
+            {
+              "ms": 75.01,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 77.4,
+              "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+            },
+            {
+              "ms": 74.25,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 71.82,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 74.12,
+              "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+            },
+            {
+              "ms": 71.52,
+              "sql": "SELECT coin FROM users WHERE id=$1"
+            },
+            {
+              "ms": 73.48,
+              "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+            },
+            {
+              "ms": 71.66,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.98,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 72.82,
+              "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+            },
+            {
+              "ms": 73.13,
+              "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+            },
+            {
+              "ms": 71.94,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 72.17,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+            },
+            {
+              "ms": 72.72,
+              "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+            },
+            {
+              "ms": 72.7,
+              "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+            },
+            {
+              "ms": 72.9,
+              "sql": "SELECT value FROM app_meta WHERE key=$1"
+            },
+            {
+              "ms": 72.4,
+              "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+            }
+          ]
+        }
+      ],
+      "roster": [
+        {
+          "id": "1195",
+          "nickname": "씨나인택갓",
+          "copies": 1,
+          "canDeploy": true,
+          "level": 1,
+          "basePower": 2600000
+        },
+        {
+          "id": "4582",
+          "nickname": "족단",
+          "copies": 1,
+          "canDeploy": true,
+          "level": 1,
+          "basePower": 2600000
+        },
+        {
+          "id": "4629",
+          "nickname": "Veil",
+          "copies": 1,
+          "canDeploy": true,
+          "level": 1,
+          "basePower": 2600000
+        }
+      ]
+    },
+    "client": [
+      {
+        "device": "pc",
+        "before": {
+          "device": "pc",
+          "phase": "before",
+          "at": "2026-11-17T02:27:31.576Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 788,
+              "frames": {
+                "count": 193,
+                "p95Ms": 16.700000000000045,
+                "maxMs": 166.5,
+                "over50": 2
+              },
+              "postExitRequests": [],
+              "rank": 235
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 690,
+              "frames": {
+                "count": 200,
+                "p95Ms": 20.899999999999977,
+                "maxMs": 100.10000000000002,
+                "over50": 3
+              },
+              "postExitRequests": [],
+              "rank": 235
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/account-rank/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/jokgak-city/notifications",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/account-rank/status",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby"
+          ],
+          "firstLaunchMs": 1700.0999999940395,
+          "boundary": {
+            "level": 215,
+            "blocked": true
+          }
+        },
+        "after": {
+          "device": "pc",
+          "phase": "after",
+          "at": "2026-11-17T02:27:31.668Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 846,
+              "frames": {
+                "count": 218,
+                "p95Ms": 12.5,
+                "maxMs": 216.7,
+                "over50": 4
+              },
+              "postExitRequests": [],
+              "rank": 215
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 853,
+              "frames": {
+                "count": 234,
+                "p95Ms": 16.800000000000182,
+                "maxMs": 137.4,
+                "over50": 3
+              },
+              "postExitRequests": [],
+              "rank": 215
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/account-rank/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance"
+          ],
+          "firstLaunchMs": 1172.2999999821186,
+          "boundary": {
+            "level": 214,
+            "blocked": true
+          }
+        }
+      },
+      {
+        "device": "android",
+        "before": {
+          "device": "android",
+          "phase": "before",
+          "at": "2026-11-17T02:29:13.396Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 847,
+              "frames": {
+                "count": 181,
+                "p95Ms": 12.5,
+                "maxMs": 166.70000000000002,
+                "over50": 3
+              },
+              "postExitRequests": [],
+              "rank": 235
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 704,
+              "frames": {
+                "count": 276,
+                "p95Ms": 12.600000000000023,
+                "maxMs": 137.7,
+                "over50": 2
+              },
+              "postExitRequests": [],
+              "rank": 235
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/auction/user/lobby"
+          ],
+          "firstLaunchMs": 1544.9000000059605,
+          "boundary": {
+            "level": 215,
+            "blocked": true
+          }
+        },
+        "after": {
+          "device": "android",
+          "phase": "after",
+          "at": "2026-11-17T02:29:13.474Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 855,
+              "frames": {
+                "count": 185,
+                "p95Ms": 16.600000000000023,
+                "maxMs": 150.90000000000003,
+                "over50": 2
+              },
+              "postExitRequests": [],
+              "rank": 215
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 817,
+              "frames": {
+                "count": 274,
+                "p95Ms": 16.799999999999955,
+                "maxMs": 100.10000000000001,
+                "over50": 3
+              },
+              "postExitRequests": [],
+              "rank": 215
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/jokgak-city/notifications",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/jokgak-city/notifications",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance"
+          ],
+          "firstLaunchMs": 1382.5,
+          "boundary": {
+            "level": 214,
+            "blocked": true
+          }
+        }
+      },
+      {
+        "device": "ios",
+        "before": {
+          "device": "ios",
+          "phase": "before",
+          "at": "2026-11-17T02:29:26.601Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 1909,
+              "frames": {
+                "count": 118,
+                "p95Ms": 70,
+                "maxMs": 183,
+                "over50": 11
+              },
+              "postExitRequests": [],
+              "rank": 235
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 1568,
+              "frames": {
+                "count": 104,
+                "p95Ms": 90,
+                "maxMs": 266,
+                "over50": 10
+              },
+              "postExitRequests": [],
+              "rank": 235
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications.",
+            "ResizeObserver loop completed with undelivered notifications.",
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/account-rank/status",
+            "/api/loot-shop/balance",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/jokgak-city/notifications",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/account-rank/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/auction/user/lobby",
+            "/api/server-support/status",
+            "/api/jokgak-city/notifications",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/shell/summary",
+            "/api/account-rank/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications"
+          ],
+          "firstLaunchMs": 2282,
+          "boundary": {
+            "level": 215,
+            "blocked": true
+          }
+        },
+        "after": {
+          "device": "ios",
+          "phase": "after",
+          "at": "2026-11-17T02:29:26.601Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 1646,
+              "frames": {
+                "count": 108,
+                "p95Ms": 77,
+                "maxMs": 251,
+                "over50": 12
+              },
+              "postExitRequests": [],
+              "rank": 215
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 1465,
+              "frames": {
+                "count": 101,
+                "p95Ms": 85,
+                "maxMs": 232,
+                "over50": 9
+              },
+              "postExitRequests": [],
+              "rank": 215
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications.",
+            "ResizeObserver loop completed with undelivered notifications.",
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/account-rank/status",
+            "/api/loot-shop/balance",
+            "/api/shell/summary",
+            "/api/auction/user/lobby",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/jokgak-city/notifications",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/account-rank/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/auction/user/lobby",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications"
+          ],
+          "firstLaunchMs": 2192,
+          "boundary": {
+            "level": 214,
+            "blocked": true
+          }
+        }
+      },
+      {
+        "device": "windows",
+        "before": {
+          "device": "windows",
+          "phase": "before",
+          "at": "2026-11-17T02:29:44.393Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 979,
+              "frames": {
+                "count": 202,
+                "p95Ms": 16.600000000000023,
+                "maxMs": 208.29999999999998,
+                "over50": 3
+              },
+              "postExitRequests": [],
+              "rank": 235
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 737,
+              "frames": {
+                "count": 234,
+                "p95Ms": 20.700000000000045,
+                "maxMs": 116.7,
+                "over50": 3
+              },
+              "postExitRequests": [],
+              "rank": 235
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/account-rank/status",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/jokgak-city/notifications",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/auction/user/lobby"
+          ],
+          "firstLaunchMs": 1524.199999988079,
+          "boundary": {
+            "level": 215,
+            "blocked": true
+          }
+        },
+        "after": {
+          "device": "windows",
+          "phase": "after",
+          "at": "2026-11-17T02:29:44.442Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 1044,
+              "frames": {
+                "count": 207,
+                "p95Ms": 25,
+                "maxMs": 199.99999999999997,
+                "over50": 6
+              },
+              "postExitRequests": [],
+              "rank": 215
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 717,
+              "frames": {
+                "count": 218,
+                "p95Ms": 16.700000000000045,
+                "maxMs": 145.89999999999998,
+                "over50": 2
+              },
+              "postExitRequests": [],
+              "rank": 215
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/account-rank/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/server-support/status",
+            "/api/jokgak-city/notifications",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/account-rank/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/jokgak-city/notifications",
+            "/api/server-support/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/loot-shop/balance"
+          ],
+          "firstLaunchMs": 1288,
+          "boundary": {
+            "level": 214,
+            "blocked": true
+          }
+        }
+      },
+      {
+        "device": "h5",
+        "before": {
+          "device": "h5",
+          "phase": "before",
+          "at": "2026-11-17T02:29:56.959Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 854,
+              "frames": {
+                "count": 254,
+                "p95Ms": 12.600000000000023,
+                "maxMs": 129.09999999999997,
+                "over50": 2
+              },
+              "postExitRequests": [],
+              "rank": 235
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 550,
+              "frames": {
+                "count": 262,
+                "p95Ms": 12.5,
+                "maxMs": 66.69999999999999,
+                "over50": 1
+              },
+              "postExitRequests": [],
+              "rank": 235
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/messages",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/mercenary-cards/feature",
+            "/api/user/runtime-command",
+            "/api/burning-event/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/messages",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/loot-shop/balance",
+            "/api/account-rank/status",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/auction/user/lobby",
+            "/api/messages",
+            "/api/chief/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/messages",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/messages",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/messages",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status"
+          ],
+          "firstLaunchMs": 1146.699999988079,
+          "boundary": {
+            "level": 215,
+            "blocked": true
+          }
+        },
+        "after": {
+          "device": "h5",
+          "phase": "after",
+          "at": "2026-11-17T02:29:57.718Z",
+          "condition": "Windows headless installed Chrome/WebKit, actual lobby-to-codex navigation and isolated SQLite fixture running bundled original/current production handlers. Mobile viewport/touch emulation; Windows launcher URL; H5 iframe with mock host SDK. Unthrottled localhost, single comparison. No physical mobile or installed native renderer.",
+          "rounds": [
+            {
+              "entry": "first",
+              "clickToReadyMs": 773,
+              "frames": {
+                "count": 203,
+                "p95Ms": 12.5,
+                "maxMs": 191.8,
+                "over50": 2
+              },
+              "postExitRequests": [],
+              "rank": 215
+            },
+            {
+              "entry": "repeat",
+              "clickToReadyMs": 636,
+              "frames": {
+                "count": 263,
+                "p95Ms": 8.300000000000068,
+                "maxMs": 125.1,
+                "over50": 1
+              },
+              "postExitRequests": [],
+              "rank": 215
+            }
+          ],
+          "errors": [],
+          "requests": [
+            "/api/loot-shop/balance",
+            "/api/sync/ticket",
+            "/api/service/status",
+            "/api/loot-shop/balance",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/messages",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/mercenary-cards/feature",
+            "/api/user/runtime-command",
+            "/api/burning-event/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/messages",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/loot-shop/balance",
+            "/api/auction/user/lobby",
+            "/api/messages",
+            "/api/chief/status",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/messages",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/mercenaries/v3/loadout",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/jokgak-city/notifications",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/account-rank/status",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status",
+            "/api/messages",
+            "/api/auction/user/lobby",
+            "/api/chief/status",
+            "/api/jokgak-city/notifications",
+            "/api/shell/summary",
+            "/api/me/menu-favorites",
+            "/api/messages",
+            "/api/sync/ticket",
+            "/api/mercenary-codex",
+            "/api/mercenaries/v3/state",
+            "/api/sync/ticket",
+            "/api/loot-shop/balance",
+            "/api/service/status",
+            "/api/cards",
+            "/api/packs",
+            "/api/me/summary",
+            "/api/pve/v3/feature",
+            "/api/mercenary-cards/feature",
+            "/api/loot-shop/balance",
+            "/api/card/unique-advancement/feature",
+            "/api/burning-event/status",
+            "/api/streamer-profiles",
+            "/api/me/menu-favorites",
+            "/api/shell/summary",
+            "/api/live-operations",
+            "/api/chief/status"
+          ],
+          "firstLaunchMs": 1228.300000011921,
+          "boundary": {
+            "level": 214,
+            "blocked": true
+          }
+        }
+      }
+    ],
+    "conditions": "Windows CLI live PostgreSQL comparison plus Windows headless browser fixtures. Original/current browser processes paired on the same host, unthrottled localhost. Mobile and H5 host are emulated; Windows is launcher URL in browser, not installed native renderer. No physical handheld measurements.",
+    "analysis": "The existing mercenary state query remains 23 SQL statements. 98-99% of measured handler elapsed time is database/network waiting; this threshold/text change adds no query or polling. Same-data first/repeat 1924/1826 ms before vs 1710/1688 ms after is a single comparison, not a statistically established speedup. Existing long frames occur during document/media/layout work in both versions; WebKit emits the same ResizeObserver warning before and after. No post-exit mercenary requests. No new visual effects or combat loops introduced."
+  },
+  "preserved": [
+    "existing holdings and growth",
+    "PVE/PVP/ranked loadouts",
+    "currency and inventory",
+    "pack/crafting acquisition restrictions",
+    "combat power 2,600,000 and skills"
+  ],
+  "messagesSent": 0
+}

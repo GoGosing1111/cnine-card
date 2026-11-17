@@ -1,0 +1,75 @@
+{
+  "at": "2026-11-17T02:37:58.171Z",
+  "sourceCommit": "b935cbc52ebfb5bde16867f46a8cb70cab72852d",
+  "pages": {
+    "id": "97b423ad-04e5-4165-8110-1f486bdcfe7b",
+    "commit": "b935cbc52ebfb5bde16867f46a8cb70cab72852d",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "81d9dc21-1150-4809-bcaa-b5469e3096a5",
+      "percentage": 100,
+      "brigadierVerified": true,
+      "rewardHandlerIncluded": true,
+      "lifetimeCampaignVerified": true,
+      "sha256": "5e0884206c199e08be86dccf83802b496ee27491b3f20faab7080f44c74f8f51"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "d5aa82fc-49d5-4c3a-8bed-7b7eed223f6f",
+      "percentage": 100,
+      "brigadierVerified": true,
+      "rewardHandlerIncluded": false,
+      "lifetimeCampaignVerified": null,
+      "sha256": "58dc6043aa65a233010c37d0ff135d337211abc4ef49da6959506da2819a2155"
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "a0639a32248433b6351910f7cccae199d238f455299728fde2cf689f35c59e4c"
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "75fe0cc63b2d80ce689a22000703e9ce93290bc706f1b0f4cad47d14a794e64d"
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "911128ba0d7b1d9d09b66fa613d7cdfce025771de0bf02f556ef193b8ea5dfab"
+    },
+    {
+      "path": "js/workshop-v1881.js",
+      "sha256": "48ecb67035fbdaa8504bcdd9c5e3746075621f8962c7105209db932f67b104ef"
+    },
+    {
+      "path": "shared/mercenary-shiranui-v1.mjs",
+      "sha256": "21e65ca4896d859764e270bdaea4823fc537db080504fb7bbe70638b0aca4b65"
+    },
+    {
+      "path": "mercenary-codex/app.mjs",
+      "sha256": "37cd0d35801cb1583ac3825d9aca586eda0c4d99a16153614e9685248782dd0c"
+    },
+    {
+      "path": "mercenary-codex/model.mjs",
+      "sha256": "30b328e1fab48e802fc5a0c724052f5e1f3e5b53d6bbb13fcdc80cf3b0efde22"
+    },
+    {
+      "path": "onestore/js/app.js",
+      "sha256": "9e9d30c54a7e01684fb10380dd1dcf3f08696759dcf626865dd05896ef933a2e"
+    }
+  ],
+  "card": {
+    "code": "V-987",
+    "minimumAccountLevel": 215,
+    "acquisitionDescription": "준장(Lv.215) 달성 시 계정당 1회 메시지로 시라누이 1장 지급 · 이미 보유한 계정 제외",
+    "deploymentRequirement": "준장(Lv.215) 이상 또는 버스기사 칭호 보유",
+    "basePower": 2600000
+  },
+  "h5": {
+    "status": 200,
+    "csp": "frame-ancestors 'self' https://onestore.co.kr https://*.onestore.co.kr https://onestore.net https://*.onestore.net"
+  },
+  "tests": 53
+}
