@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE} from '../functions/_hyper_ticket_retirement.js';
+import {EMPEROR_BOX,LEVEL_TICKET} from '../functions/_inventory_choice.js';
 import {reversecallStreamerGiftFixture as fixture} from './helpers/reversecall-streamer-gift-fixture.mjs';
 import {REVERSECALL_STREAMER_GIFT as gift,ensureReversecallStreamerGiftCatalog,openReversecallStreamerGift,grantReversecallStreamerGift} from '../functions/_reversecall_streamer_gift.js';
 const rewards={coin:35_000_000_000_000,repairCoupon:3,suitCore6:10};
@@ -71,8 +72,8 @@ test('real user-management and use route require permission/authentication and u
  const call=admin=>route({...deps,request:new Request('https://qa/api/admin/users/action',{method:'POST',body:JSON.stringify(payload)}),requirePermission:async()=>admin});
  assert.equal((await call(null)).status,403);assert.equal((await call({id:9,role:'OWNER'})).status,200);
  assert.equal(locks[0].id,1);assert.match(locks[0].key,/reversecall-streamer/);assert.equal(await f.quantity(),1);
- const use=new AsyncFunction('deps','const {env,request,authenticate,readBody,json,openReversecallStreamerGift,RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE}=deps;const path="inventory/use";'+api.slice(api.indexOf("    if(path==='inventory/use'"),api.indexOf("      if(itemCode==='WORM_CONTEST_GIFT_BOX')"))+'}');
- Object.assign(deps,{RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE});
+ const use=new AsyncFunction('deps','const {env,request,authenticate,readBody,json,openReversecallStreamerGift,RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE,EMPEROR_BOX,LEVEL_TICKET}=deps;const path="inventory/use";'+api.slice(api.indexOf("    if(path==='inventory/use'"),api.indexOf("      if(itemCode==='WORM_CONTEST_GIFT_BOX')"))+'}');
+ Object.assign(deps,{RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE,EMPEROR_BOX,LEVEL_TICKET});
  const request=new Request('https://qa/api/inventory/use',{method:'POST',body:JSON.stringify({itemCode:gift.code,count:1,requestId:crypto.randomUUID()})});
  assert.equal((await use({...deps,request:request.clone(),authenticate:async()=>null,openReversecallStreamerGift})).status,401);
  assert.equal((await use({...deps,request:request.clone(),authenticate:async()=>({id:1}),openReversecallStreamerGift})).status,200);await paid(f);
