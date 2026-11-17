@@ -5,6 +5,7 @@ import {auctionSettlementAccounting} from './_auction_user_accounting.js';
 import {readAuctionAdminBgm,saveAuctionAdminBgm} from './_auction_user_admin.js';
 import {publishAccountSync} from './_account_sync.js';
 import {readJointBody,jointError} from './_joint_request.js';
+import {requireAuctionSecondVerification} from './_auction_user_access.js';
 
 export function createLiveAuctionService(env,{withUserMutationLock,catalog,operatorCatalog,hostGuards,settlementAccounting,now}={}){
  const withUserLocks=async(ids,work)=>{
@@ -25,6 +26,7 @@ export async function handleUserAuction({path,request,env,deps}){
   const user=await deps.authenticate(request,env);if(!user)throw jointError('AUCTION_LOGIN','로그인이 필요합니다.',401);
   if(user.status!=='ACTIVE')throw jointError('AUCTION_ACCOUNT','계정 상태를 확인하세요.',403);
   const action=path.slice('auction/user/'.length),admin=action.startsWith('admin/');if(admin&&user.role!=='OWNER')throw jointError('AUCTION_PERMISSION','운영자만 경매 CMS를 사용할 수 있습니다.',403);
+  await requireAuctionSecondVerification(env,user);
   const service=createLiveAuctionService(env,deps),url=new URL(request.url);
   if(request.method==='GET'){
    if(action==='state')return reply(await service.state(user));

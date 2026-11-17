@@ -1,3 +1,4 @@
+import {requireAuctionSecondVerification} from './_auction_user_access.js';
 const POLL_SECONDS=4;
 const MAX_BID_AMOUNT=100_000_000_000; // 1회 최대 1,000억 코인
 let foundationPromise=null,publicCache=null,bgmGuideCache=null;
@@ -77,7 +78,9 @@ async function state(env,userId,admin=false){
 }
 
 export async function handleAuction({path,request,env,deps}){
-  if(!path.startsWith('auction'))return null;const {authenticate,readBody,json,isAdminRole,writeAdminLog}=deps;await ensureFoundation(env);const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+  if(!path.startsWith('auction'))return null;const {authenticate,readBody,json,isAdminRole,writeAdminLog}=deps;const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+  try{await requireAuctionSecondVerification(env,user);}catch(error){return json({error:error.status?error.message:'경매 이용 자격을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.',code:error.code||'AUCTION_RETRY'},error.status||503,{'cache-control':'private, no-store'});}
+  await ensureFoundation(env);
   if(request.method==='POST'&&['auction/admin/create','auction/admin/create-vehicle','auction/admin/bgm-rules','auction/admin/settings'].includes(path)&&await env.DB.prepare("SELECT 1 FROM app_meta WHERE key='auction_user_policy_v1'").first())return json({error:'경매 관리 화면을 새로고침해 새 경매 CMS를 사용하세요.',code:'AUCTION_CMS_UPDATED'},409);
   const enabledRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='auction_house_enabled_v1554'").first(),enabled=enabledRow?.value!=='0';
   if(path==='auction/state'&&request.method==='GET'&&!enabled)return json({enabled:false,auction:null,bidders:[],mine:{totalBid:0},serverNow:nowIso(),pollSeconds:15,version:0});

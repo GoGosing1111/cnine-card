@@ -1,4 +1,4 @@
-import {mountUserAuction,createAuctionOpeningNotice} from './auction-user-v1.mjs?v=20261110-auction-duration-v1';
+import {mountUserAuction,createAuctionOpeningNotice} from './auction-user-v1.mjs?v=20261117-second-verification-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 const STYLE='/css/auction-user-v1.css?v=20261110-auction-duration-v1';
 export const auctionLiveApi=(action,body)=>{
@@ -13,7 +13,7 @@ export function installAuctionLive(){
  const context=()=>{let user=null;try{user=window.loadUser?.();}catch{}const route=window.SoopketmonV21ExactShell?.currentRoute;return {userId:Number(user?.serverUserId||user?.id||0),inLobby:route?route==='home':!!document.querySelector('.pc-lobby-scene,.mobile-command-lobby')};};
  const notice=createAuctionOpeningNotice({api:auctionLiveApi,getContext:context,onEnter:()=>window.renderShell?.('auction')});
  window.auctionHouseView=()=>'<div data-user-auction-mount><p role="status">경매장을 불러오는 중입니다.</p></div>';
- window.bindAuctionHouseView=()=>{const next=document.querySelector('[data-user-auction-mount]');if(!next||next===root)return;view?.destroy();root=next;ensureStyle();view=mountUserAuction({root,api:auctionLiveApi,onLobby:()=>window.renderShell?.('home')});};
+ window.bindAuctionHouseView=()=>{const next=document.querySelector('[data-user-auction-mount]');if(!next||next===root)return;view?.destroy();root=next;ensureStyle();view=mountUserAuction({root,api:auctionLiveApi,onLobby:()=>window.renderShell?.('home'),onVerify:()=>window.renderShell?.('messages')});};
  window.stopAuctionHouseView=()=>{view?.destroy();view=null;root=null;};
  async function sync(){
   if(disposed)return;

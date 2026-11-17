@@ -1,3 +1,16 @@
+// Check the authoritative account and verification on every auction request,
+// before catalog reads, settlement ticks or writes. Never trust client flags or
+// a cached session's account status for this entitlement.
+export async function requireAuctionSecondVerification(env,user){
+ const row=await env.DB.prepare(`SELECT u.status,u.banned_until,
+  EXISTS(SELECT 1 FROM user_second_verifications v WHERE v.user_id=u.id) AS verified
+  FROM users u WHERE u.id=?`).bind(user.id).first();
+ if(!row||row.status!=='ACTIVE'||(row.banned_until&&Date.parse(String(row.banned_until).replace(' ','T').replace(/Z?$/,'Z'))>Date.now())){
+  throw Object.assign(new Error('이용이 정지된 계정입니다.'),{code:'AUCTION_ACCOUNT',status:403});
+ }
+ if(!Number(row.verified))throw Object.assign(new Error('2차 인증을 완료해야 경매장을 이용할 수 있습니다. 메시지함에서 2차 인증을 진행해 주세요.'),{code:'AUCTION_SECOND_VERIFICATION_REQUIRED',status:403});
+}
+
 // A transfer is an additional entitlement, never a replacement mint receipt.
 // Current holdings, the immutable paid settlement and the server-frozen source
 // proof must agree. Switching off new hosting does not revoke prior purchases.

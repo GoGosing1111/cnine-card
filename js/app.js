@@ -1021,7 +1021,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   auction:{
     styles:['css/auction-user-v1.css?v=20261110-auction-duration-v1'],
-    scripts:['js/auction-user-entry.js?v=20261110-auction-duration-v1'],
+    scripts:['js/auction-user-entry.js?v=20261117-second-verification-v1'],
     initialize:()=>window.auctionUserReady,
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },

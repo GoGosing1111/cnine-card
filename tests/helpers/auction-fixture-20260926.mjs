@@ -10,6 +10,7 @@ export async function auctionFixture(t) {
     CREATE TABLE coin_logs(user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT);
     INSERT INTO users VALUES(1,'입찰자',1000000000000);
   `);
+  sql.exec(`ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'ACTIVE';ALTER TABLE users ADD COLUMN banned_until TEXT;CREATE TABLE user_second_verifications(user_id INTEGER PRIMARY KEY,provider TEXT);INSERT INTO user_second_verifications SELECT id,'PLAYDK' FROM users;`);
   const faults = {sql: ''};
   const execute = (statement, method) => {
     if (faults.sql && statement.sql.includes(faults.sql)) throw Error('injected transaction failure');

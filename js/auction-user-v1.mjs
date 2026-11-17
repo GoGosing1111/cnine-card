@@ -60,10 +60,22 @@ export function createAuctionOpeningNotice({api,getContext,onEnter}){
  return {update,destroy(){destroyed=true;close();}};
 }
 
-export function mountUserAuction({root,api,onLobby=()=>{},pollMs=10000}){
+export function mountUserAuction({root,api,onLobby=()=>{},onVerify=()=>{},pollMs=10000}){
  let data=null,destroyed=false,timer=null,clock=null,dialog=null,draft='',messageDraft='',bidPending=null,hostPending=null,busy=false,offset=0,tab='LIVE',bgm=null;
+ let accessBlocked=false;
  const error=message=>{const node=root.querySelector('[data-error]');if(node){node.textContent=message;node.hidden=!message;}};
  const closeDialog=()=>{dialog?.close();dialog?.remove();dialog=null;};
+ function blockAccess(){
+  if(destroyed||accessBlocked)return;accessBlocked=true;data=null;
+  clearInterval(timer);clearInterval(clock);bgm?.destroy();closeDialog();
+  root.innerHTML='<header class="auc-header"><div><p class="auc-eyebrow">REVERSE CALL / MARKET</p><h1>유저 경매장</h1><p class="auc-muted">2차 인증을 완료해야 이용할 수 있습니다.</p></div><button class="auc-back" data-lobby>로비로 돌아가기 ↗</button></header>';
+  root.querySelector('[data-lobby]').onclick=onLobby;
+  const node=document.createElement('dialog');node.className='auc-dialog auc-skin';node.dataset.auctionVerification='required';node.setAttribute('aria-labelledby','auc-verification-title');node.setAttribute('aria-describedby','auc-verification-message');
+  node.innerHTML='<h2 id="auc-verification-title">2차 인증이 필요합니다</h2><p id="auc-verification-message" class="auc-muted">2차 인증을 완료해야 경매장을 이용할 수 있습니다.<br>메시지함에서 2차 인증을 진행해 주세요.</p><div class="auc-dialog-actions"><button class="auc-button" data-close>로비로 돌아가기</button><button class="auc-button auc-primary" data-verify autofocus>2차 인증하러 가기</button></div>';
+  const leave=()=>{closeDialog();onLobby();};node.querySelector('[data-close]').onclick=leave;node.querySelector('[data-verify]').onclick=()=>{closeDialog();onVerify();};node.addEventListener('cancel',e=>{e.preventDefault();leave();});
+  document.body.append(node);dialog=node;node.showModal();
+ }
+ const send=api;api=async(...args)=>{try{return await send(...args);}catch(e){if(e.code==='AUCTION_SECOND_VERIFICATION_REQUIRED')blockAccess();throw e;}};
  function shell(){
   root.className='auction-user';root.innerHTML=`<header class="auc-header"><div><p class="auc-eyebrow">REVERSE CALL / MARKET</p><h1>유저 경매장</h1><p class="auc-muted">보유한 물품을 내놓고, 다음 주인을 만나세요.</p></div><button class="auc-back" data-lobby>로비로 돌아가기 ↗</button></header>
   <section class="auc-ticket-strip auc-skin"><img src="${AUCTION_TICKET_IMAGE}" alt="경매 개최 티켓"><div><strong>나의 경매를 열어 보세요</strong><p>개최 티켓 1장 · 30분 / 1시간 / 2시간 · 판매 수수료 20%</p></div><span data-tickets>보유 확인 중</span><button class="auc-button auc-primary" data-host>경매 개최 <span>＋</span></button></section>
@@ -142,7 +154,7 @@ export function mountUserAuction({root,api,onLobby=()=>{},pollMs=10000}){
   }catch(e){dialogError(node,e.message);}
  }
  function tickClock(){const node=root.querySelector('[data-clock]');if(node&&data?.active)node.textContent=countdown(data.active.endsMs-Date.now()-offset);}
- async function refresh(){if(destroyed)return;try{const value=await api('state');if(destroyed)return;data=value;offset=value.serverNow-Date.now();const focused=['auc-amount','auc-bid-message'].includes(document.activeElement?.id)?document.activeElement.id:null;render();bgm?.update(value);if(focused)root.querySelector('#'+focused)?.focus({preventScroll:true});}catch(e){error(e.message);}}
+ async function refresh(){if(destroyed||accessBlocked)return;try{const value=await api('state');if(destroyed||accessBlocked)return;data=value;offset=value.serverNow-Date.now();const focused=['auc-amount','auc-bid-message'].includes(document.activeElement?.id)?document.activeElement.id:null;render();bgm?.update(value);if(focused)root.querySelector('#'+focused)?.focus({preventScroll:true});}catch(e){if(!destroyed)error(e.message);}}
  shell();bgm=createAuctionBgmPlayer({root,api});void refresh();timer=setInterval(()=>{if(!document.hidden&&!dialog&&!busy)void refresh();},pollMs);clock=setInterval(tickClock,1000);
  return {refresh,destroy(){destroyed=true;bgm?.destroy();clearInterval(timer);clearInterval(clock);closeDialog();}};
 }
