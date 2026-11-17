@@ -1,0 +1,15 @@
+{
+  "base": "a01c26e3c8a67628276e629f5646c3b19d711461",
+  "reason": "Add one SX suit core 8 per CNINE streamer box with the approved task quantity, new transparent generated material icon and catalog registration. Preserve previous four rewards, Reversecall gift, captured historical pending/completed receipts and account balances outside actual opening. Verify atomic rollback, concurrent/lost-response replay, 30-box totals, inactive/overflow guards, legacy core catalog preservation, CMS and web/H5/Windows entry delivery. Public asset budget stays at 20,000 by retaining the old core-7 audit in Git only. No recipe creation, retroactive grant, authentication/schema/infrastructure/dependency change.",
+  "tests": [
+    "tests/cnine-streamer-box-20261103.test.mjs",
+    "tests/sx-core8-cnine-box-20261117.test.mjs",
+    "tests/battle-suit-core-7-20261006.test.mjs",
+    "tests/reversecall-streamer-gift-20261021.test.mjs",
+    "tests/onestore-web-20261026.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

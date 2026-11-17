@@ -92,6 +92,8 @@ for(const file of ['docs/organization-faction-20261015.md','docs/organization-fa
 for(const file of ['docs/prime-requiem-blood-skills-20261021.md','docs/superstar-pack-contention-20261006.json'])operationAuditOnly.add(file);
 // Preserve the historical contention notes in Git; the live exact-coin helper uses this asset slot.
 operationAuditOnly.add('docs/superstar-pack-contention-20261006.md');
+// The prior core catalog audit stays in Git; its Pages slot ships the new SX core icon.
+operationAuditOnly.add('docs/battle-suit-core-7-20261006.json');
 // Helpers are Node-only database/simulation fixtures. Browser previews consume
 // their generated JSON payloads, never the test helper modules themselves.
 // Dragon Slayer uses the 512px WebP. Keep the exact PNG and prompt/hash record in Git.

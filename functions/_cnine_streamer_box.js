@@ -7,7 +7,7 @@ import {ensureBattleSuitCoreCatalog} from './_battle_suit_materials.js';
 import {CNINE_STREAMER_BOX,CNINE_STREAMER_BOX_REWARDS} from '../shared/cnine-streamer-box-v1.mjs';
 export {CNINE_STREAMER_BOX};
 
-export const CNINE_STREAMER_BOX_CATALOG_KEY='cnine_streamer_box_catalog_20261103_v1';
+export const CNINE_STREAMER_BOX_CATALOG_KEY='cnine_streamer_box_catalog_20261117_core8_v2';
 const MAX=Number.MAX_SAFE_INTEGER;
 const fail=(message,status=409)=>{throw Object.assign(new Error(message),{status});};
 
@@ -20,7 +20,7 @@ export async function ensureCnineStreamerBoxCatalog(env){
     const gift=CNINE_STREAMER_BOX;
     await env.DB.batch([
       env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
-        VALUES(?,?,'CNINE STREAMER BOX',?,'GIFT_BOX','SPECIAL',?,45,1) ON CONFLICT(code) DO NOTHING`)
+        VALUES(?,?,'CNINE STREAMER BOX',?,'GIFT_BOX','SPECIAL',?,45,1) ON CONFLICT(code) DO UPDATE SET description=excluded.description,updated_at=CURRENT_TIMESTAMP`)
         .bind(gift.code,gift.name,gift.description,gift.image),
       env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)
         ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(CNINE_STREAMER_BOX_CATALOG_KEY)
@@ -41,16 +41,20 @@ export async function openCnineStreamerBox(env,user,{requestId,count=1}){
     },
     statements:async plan=>{
       const token=crypto.randomUUID();
+      // Old pending/completed receipts retain their captured four-item rewards.
+      const suitCore8=Number(plan.suitCore8||0);
       return [
         jointGuard(DB,token,`EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=0 AND coin<=?)
           AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND
             ((item_code=? AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))
             OR (item_code='MASTER_STAR' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))
-            OR (item_code='SUIT_CORE_6' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))))`,
-          [user.id,coinCreditLimit(plan.coin),user.id,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon,MAX-plan.masterStar,MAX-plan.masterStar,MAX-plan.suitCore6,MAX-plan.suitCore6]),
+            OR (item_code='SUIT_CORE_6' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))
+            OR (? > 0 AND item_code='SUIT_CORE_8' AND (quantity<0 OR unseen_quantity<0 OR quantity>? OR unseen_quantity>?))))`,
+          [user.id,coinCreditLimit(plan.coin),user.id,FORGE_REPAIR_ITEM.code,MAX-plan.repairCoupon,MAX-plan.repairCoupon,MAX-plan.masterStar,MAX-plan.masterStar,MAX-plan.suitCore6,MAX-plan.suitCore6,suitCore8,MAX-suitCore8,MAX-suitCore8]),
         ...jointInventoryChange(DB,user.id,gift.code,-1,'CNINE_STREAMER_BOX_OPEN',requestId),
         ...jointInventoryChange(DB,user.id,FORGE_REPAIR_ITEM.code,plan.repairCoupon,'CNINE_STREAMER_BOX_REWARD',requestId),
         ...jointInventoryChange(DB,user.id,'SUIT_CORE_6',plan.suitCore6,'CNINE_STREAMER_BOX_REWARD',requestId),
+        ...(suitCore8>0?jointInventoryChange(DB,user.id,'SUIT_CORE_8',suitCore8,'CNINE_STREAMER_BOX_REWARD',requestId):[]),
         ...jointInventoryChange(DB,user.id,'MASTER_STAR',plan.masterStar,'CNINE_STREAMER_BOX_REWARD',requestId),
         p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',plan.coin,user.id),
         p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
@@ -60,7 +64,7 @@ export async function openCnineStreamerBox(env,user,{requestId,count=1}){
     }
   });
   return {ok:true,requestId,replayed:result.replayed,itemCode:gift.code,count:1,
-    rewards:{coin:result.plan.coin,masterStar:result.plan.masterStar,repairCoupon:result.plan.repairCoupon,suitCore6:result.plan.suitCore6}};
+    rewards:{coin:result.plan.coin,masterStar:result.plan.masterStar,repairCoupon:result.plan.repairCoupon,suitCore6:result.plan.suitCore6,suitCore8:Number(result.plan.suitCore8||0)}};
 }
 
 // The existing OWNER user-management route performs permission checks and holds

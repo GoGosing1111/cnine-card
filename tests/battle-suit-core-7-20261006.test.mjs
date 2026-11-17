@@ -30,7 +30,7 @@ async function fixture(t,postgres){
  return {DB,rows};
 }
 
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: completed old catalog gates still add core 7 atomically; preserve CMS, inventory and recipes on retry`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: completed old catalog gates still add core 7 and 8 atomically; preserve CMS, inventory and recipes on retry`,async t=>{
  const {DB,rows}=await fixture(t,postgres),env={DB};
  const before=await rows('inventory_items'),recipes=await rows('workshop_recipes_v1668'),owned=await rows('cnine_user_inventory');
  const batch=DB.batch.bind(DB);let fail=true;
@@ -39,8 +39,8 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: comp
  assert.deepEqual(await rows('inventory_items'),before);
  assert.equal(await DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(X_BODY_CORE_UPGRADE_KEY).first(),null);
  fail=false;await ensureBattleSuitCoreCatalog(env);
- const after=await rows('inventory_items');assert.equal(after.length,7);
- assert.deepEqual(after.filter(item=>item.code!=='SUIT_CORE_7'),before);
+ const after=await rows('inventory_items');assert.equal(after.length,8);
+ assert.deepEqual(after.filter(item=>!['SUIT_CORE_7','SUIT_CORE_8'].includes(item.code)),before);
  const core=after.find(item=>item.code==='SUIT_CORE_7');
  assert.deepEqual([core.name,core.category,core.rarity,core.is_active,core.sort_order],['슈트 코어 7','MATERIAL','MYTHIC',1,200407]);
  assert.equal(core.image_url,'assets/items/suit-core-7-20261006.png');assert.match(core.description,/X-BODY/);

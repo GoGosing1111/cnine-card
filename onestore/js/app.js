@@ -984,7 +984,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   cnineStreamerBox:{
     styles:['css/reversecall-streamer-gift-v1.css?v=20261021-v1'],
-    scripts:['js/cnine-streamer-box-v1.js?v=20261103-v1'],
+    scripts:['js/cnine-streamer-box-v1.js?v=20261117-core8-v2'],
     ready:()=>typeof window.CnineStreamerBoxV1?.open==='function'
   },
   pingduThanksGift:{

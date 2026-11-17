@@ -1,0 +1,30 @@
+{
+  "mode": "inspect",
+  "key": "ops:sx-core8-cnine-box:20261117:v1",
+  "rehearsals": [],
+  "accountWrites": 0,
+  "messages": 0,
+  "at": "2026-11-17T11:09:22.878Z",
+  "writes": 0,
+  "state": {
+    "core": null,
+    "box": {
+      "code": "CNINE_STREAMER_BOX",
+      "name": "씨나인 스트리머 박스",
+      "subtitle": "CNINE STREAMER BOX",
+      "description": "개봉 시 코인 25조, 마스터의 별 2억 개, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+      "category": "GIFT_BOX",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/cnine-streamer-box-20261103/gift-768.webp",
+      "sort_order": "45",
+      "is_active": "1",
+      "created_at": "2026-11-03 10:25:46",
+      "updated_at": "2026-11-03 10:25:46"
+    },
+    "otherCatalogHash": "d97285e873fdb63f6915a16331be28bc9994942a5d0235f315b7dbed44d567be",
+    "holdingsHash": "9994d880d65fc34238bff01c1453fa838e89599acc1aa54ba9251c57ce9b53ea",
+    "holdingsRows": 73,
+    "recipesHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "receipt": null
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "intent": "new transparent inventory material",
+  "prompt": "Use case: stylized-concept. Asset type: premium Korean fantasy RPG inventory material icon, SUIT CORE 8 for an advanced cobalt armored swordsman battle suit (SX). Create ONE isolated magical-mechanical reactor core, centered in a square image, front-facing with subtle three-dimensional thickness, completely inside frame with about 8% transparent margin. Compact circular/octagonal blue reactor with a brilliant deep sapphire/cobalt energy heart, four elegant silver-white blade-shaped armor flanges and restrained polished gold edging, black graphite mechanical recesses. Its silhouette evokes a regal blue swordsman chest reactor, not a character, not a weapon. A tiny abstract four-point energy glint within the heart, absolutely no readable glyphs or text. High-end detailed 2D game item illustration, clean painterly rendering and polished hard surfaces, sharp silhouette, broad coherent shapes that remain readable at 64 pixels. The color identity is predominantly cobalt blue, silver-white and gold, distinct from turquoise and yellow earlier-tier cores. Controlled pale blue luminescence inside the object, no large exterior bloom, no floating particles, no ground shadow. Genuine transparent background with clean alpha. No frame, no UI, no letters, no numerals, no watermark, no scenery, no multiple objects, no human figure. Square 1024 by 1024 composition.",
+  "generatedSource": "C:/Users/User/.codex/generated_images/01a1e741-682a-71e0-8f36-08e5c8563aa7/exec-1e35e72e-0880-46f1-b003-9ba7f16ed877.png",
+  "referenceDesigns": [
+    "assets/items/suit-core-7-20261006.png",
+    "assets/items/suit-core-6-v2124.png",
+    "preview/battle-suit-sx-v1/assets/sources/sx-standing-approved-20261007.png"
+  ],
+  "userVisualApproval": "not claimed"
+}

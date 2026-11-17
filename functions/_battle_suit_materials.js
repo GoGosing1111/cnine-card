@@ -3,6 +3,7 @@ import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 export const BATTLE_SUIT_CORE_UPGRADE_KEY='safe_runtime_upgrade_v2066_battle_suit_core_catalog';
 export const SZ_BODY_CORE_UPGRADE_KEY='safe_runtime_upgrade_v2124_battle_suit_core_5_6';
 export const X_BODY_CORE_UPGRADE_KEY='safe_runtime_upgrade_x_body_core_7_20261006';
+export const SX_BODY_CORE_UPGRADE_KEY='safe_runtime_upgrade_sx_body_core_8_20261117';
 
 export const BATTLE_SUIT_CORE_CATALOG=Object.freeze([
   Object.freeze({code:'SUIT_CORE_1',name:'슈트 코어 1',subtitle:'BATTLE SUIT CORE I',description:'배틀슈트 01 제작에 사용하는 백금 동력 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-1-v2004.png',sortOrder:200401}),
@@ -11,7 +12,8 @@ export const BATTLE_SUIT_CORE_CATALOG=Object.freeze([
   Object.freeze({code:'SUIT_CORE_4',name:'슈트 코어 4',subtitle:'BATTLE SUIT CORE IV',description:'H-BODY 제작용으로 준비된 백색·엠버 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-4-v2066.png',sortOrder:200404}),
   Object.freeze({code:'SUIT_CORE_5',name:'슈트 코어 5',subtitle:'BATTLE SUIT CORE V',description:'S-BODY 제작용으로 준비된 화이트·블루·레드의 청색 동력 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-5-v2124.png',sortOrder:200405}),
   Object.freeze({code:'SUIT_CORE_6',name:'슈트 코어 6',subtitle:'BATTLE SUIT CORE VI',description:'Z-BODY 제작용으로 준비된 흑백·골드 성기사 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-6-v2124.png',sortOrder:200406}),
-  Object.freeze({code:'SUIT_CORE_7',name:'슈트 코어 7',subtitle:'BATTLE SUIT CORE VII',description:'Z-BODY의 상위 기체인 X-BODY 제작용 백금·청록 고출력 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-7-20261006.png',sortOrder:200407})
+  Object.freeze({code:'SUIT_CORE_7',name:'슈트 코어 7',subtitle:'BATTLE SUIT CORE VII',description:'Z-BODY의 상위 기체인 X-BODY 제작용 백금·청록 고출력 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-7-20261006.png',sortOrder:200407}),
+  Object.freeze({code:'SUIT_CORE_8',name:'슈트 코어 8',subtitle:'BATTLE SUIT CORE VIII',description:'SX슈트 제작용으로 준비된 코발트·은백색 고출력 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.',rarity:'MYTHIC',image:'assets/items/suit-core-8-20261117.webp',sortOrder:200408})
 ]);
 
 export const BATTLE_SUIT_CORE_CODES=Object.freeze(BATTLE_SUIT_CORE_CATALOG.map(item=>item.code));
@@ -54,7 +56,23 @@ export async function ensureSzBodyCoreCatalog(env){
 export async function ensureBattleSuitCoreCatalog(env){
   await ensureLegacyBattleSuitCoreCatalog(env);
   await ensureSzBodyCoreCatalog(env);
-  return ensureXBodyCoreCatalog(env);
+  await ensureXBodyCoreCatalog(env);
+  return ensureSxBodyCoreCatalog(env);
+}
+
+// A separate gate adds the SX material without replaying previous core defaults.
+export async function ensureSxBodyCoreCatalog(env){
+  if(readRuntimeData(env,SX_BODY_CORE_UPGRADE_KEY))return true;
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SX_BODY_CORE_UPGRADE_KEY).first();
+  if(marker?.value==='1')return cacheRuntimeData(env,SX_BODY_CORE_UPGRADE_KEY,true,1800000);
+  const item=BATTLE_SUIT_CORE_CATALOG.find(item=>item.code==='SUIT_CORE_8');
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+      VALUES(?,?,?,?,'MATERIAL',?,?,?,1) ON CONFLICT(code) DO NOTHING`)
+      .bind(item.code,item.name,item.subtitle,item.description,item.rarity,item.image,item.sortOrder),
+    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(SX_BODY_CORE_UPGRADE_KEY)
+  ]);
+  return cacheRuntimeData(env,SX_BODY_CORE_UPGRADE_KEY,true,1800000);
 }
 
 // Independent catalog gate: completed core 1–6 markers must not hide core 7.

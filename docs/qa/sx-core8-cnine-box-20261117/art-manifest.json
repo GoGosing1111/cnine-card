@@ -1,0 +1,27 @@
+{
+  "files": [
+    {
+      "path": "docs/qa/sx-core8-cnine-box-20261117/suit-core-8-source.png",
+      "sha256": "5416c8933bd7cc00430480428b8181f04928c920a1183888640aa2dbe7e337b5",
+      "bytes": 1802334,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparent": 677076,
+      "opaque": 196
+    },
+    {
+      "path": "assets/items/suit-core-8-20261117.webp",
+      "sha256": "c78b3253be201be0ab209c6eb3ad8a4f697dbbd70fc0ba33dae46a327a9723bf",
+      "bytes": 79234,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true,
+      "transparent": 112584,
+      "opaque": 790
+    }
+  ],
+  "transforms": "Original PNG preserved byte-for-byte; proportional 512px WebP delivery derivative; alpha retained.",
+  "generation": "built-in image_gen.imagegen",
+  "prompt": "art-prompt.json"
+}

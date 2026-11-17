@@ -8,7 +8,7 @@ import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
 import {REVERSECALL_STREAMER_GIFT as original} from '../shared/reversecall-streamer-gift-v1.mjs';
 import {cnineStreamerBoxFixture as fixture} from './helpers/cnine-streamer-box-fixture.mjs';
 import {CNINE_STREAMER_BOX as gift,ensureCnineStreamerBoxCatalog,openCnineStreamerBox,grantCnineStreamerBox} from '../functions/_cnine_streamer_box.js';
-const rewards={coin:25_000_000_000_000,masterStar:200_000_000,repairCoupon:3,suitCore6:10};
+const rewards={coin:25_000_000_000_000,masterStar:200_000_000,repairCoupon:3,suitCore6:10,suitCore8:1};
 async function paid(f){
  assert.equal(await f.quantity(),0);
  assert.equal(await f.quantity('MASTER_STAR'),200_000_017);
@@ -16,16 +16,17 @@ async function paid(f){
  assert.equal(await f.quantity('MERCENARY_SSS_LIMITED_SHARD'),0);
  assert.equal(await f.quantity('PINGDU_REPAIR_COUPON'),3);
  assert.equal(await f.quantity('SUIT_CORE_6'),10);
+ assert.equal(await f.quantity('SUIT_CORE_8'),1);
  assert.equal((await f.one('SELECT coin FROM users WHERE id=1')).coin,25_000_000_000_123);
 }
-test('catalog grants nothing; each gift pays exactly 25 trillion coins, 200 million stars, 3 repairs, 10 core 6',async t=>{
+test('catalog grants nothing; each gift pays exactly 25 trillion coins, 200 million stars, 3 repairs, 10 core 6 and 1 core 8',async t=>{
  const f=await fixture(t);await ensureCnineStreamerBoxCatalog(f.env);
  assert.equal(await f.quantity(),0);assert.equal((await f.one('SELECT coin FROM users WHERE id=1')).coin,123);
  assert.equal((await f.one('SELECT name FROM inventory_items WHERE code=$1',[gift.code])).name,'씨나인 스트리머 박스');
  await f.stock(1);const id=crypto.randomUUID();assert.deepEqual((await f.open(id)).rewards,rewards);await paid(f);
  assert.equal((await f.open(id)).replayed,true);await paid(f);
  assert.equal((await f.one('SELECT COUNT(*) n FROM coin_logs')).n,1);
- assert.equal((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n,4);
+ assert.equal((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n,5);
 });
 test('same and distinct concurrent requests cannot double-spend the last box',async t=>{
  for(const same of [true,false]){
@@ -35,9 +36,9 @@ test('same and distinct concurrent requests cannot double-spend the last box',as
  }
 });
 test('late inventory, coin-log and completion failures roll back every reward and box, then retry',async t=>{
- for(const fault of [{pattern:'INSERT INTO cnine_user_inventory',itemCode:'MASTER_STAR'},{pattern:'INSERT INTO cnine_user_inventory',itemCode:'SUIT_CORE_6'},{pattern:'INSERT INTO coin_logs'},{pattern:"UPDATE joint_operations_v1 SET status='COMPLETED'"}]){
+ for(const fault of [{pattern:'INSERT INTO cnine_user_inventory',itemCode:'MASTER_STAR'},{pattern:'INSERT INTO cnine_user_inventory',itemCode:'SUIT_CORE_6'},{pattern:'INSERT INTO cnine_user_inventory',itemCode:'SUIT_CORE_8'},{pattern:'INSERT INTO coin_logs'},{pattern:"UPDATE joint_operations_v1 SET status='COMPLETED'"}]){
   const f=await fixture(t);await ensureCnineStreamerBoxCatalog(f.env);await f.stock(1);const id=crypto.randomUUID();f.fault(fault);
-  await assert.rejects(f.open(id));assert.equal(await f.quantity(),1);assert.equal(await f.quantity('PINGDU_REPAIR_COUPON'),0);assert.equal(await f.quantity('SUIT_CORE_6'),0);
+  await assert.rejects(f.open(id));assert.equal(await f.quantity(),1);assert.equal(await f.quantity('PINGDU_REPAIR_COUPON'),0);assert.equal(await f.quantity('SUIT_CORE_6'),0);assert.equal(await f.quantity('SUIT_CORE_8'),0);
   assert.equal((await f.one('SELECT coin FROM users WHERE id=1')).coin,123);
   assert.equal(await f.quantity('MASTER_STAR'),17);
   assert.equal((await f.one('SELECT COUNT(*) n FROM inventory_logs')).n,0);
@@ -67,15 +68,15 @@ test('CNINE contents preserve the Reversecall remainder and deliver the exact ge
 });
 test('inactive contents, insufficient stock and balances exceeding safe integers reject without losing box',async t=>{
  const f=await fixture(t);await ensureCnineStreamerBoxCatalog(f.env);await assert.rejects(f.open(),/보유한/);await f.stock(1);
- for(const code of [gift.code,'PINGDU_REPAIR_COUPON','SUIT_CORE_6','MASTER_STAR']){
+ for(const code of [gift.code,'PINGDU_REPAIR_COUPON','SUIT_CORE_6','SUIT_CORE_8','MASTER_STAR']){
   await f.pg.query('UPDATE inventory_items SET is_active=0 WHERE code=$1',[code]);await assert.rejects(f.open());await f.pg.query('UPDATE inventory_items SET is_active=1 WHERE code=$1',[code]);
  }
- for(const code of ['PINGDU_REPAIR_COUPON','SUIT_CORE_6','MASTER_STAR']){
+ for(const code of ['PINGDU_REPAIR_COUPON','SUIT_CORE_6','SUIT_CORE_8','MASTER_STAR']){
   await f.pg.query('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,$1,$2,$2) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=excluded.quantity,unseen_quantity=excluded.unseen_quantity',[code,Number.MAX_SAFE_INTEGER]);
   await assert.rejects(f.open());await f.pg.query('DELETE FROM cnine_user_inventory WHERE user_id=1 AND item_code=$1',[code]);
  }
  await f.pg.query('UPDATE users SET coin=$1 WHERE id=1',[(9223372036854775807n-BigInt(rewards.coin)+1n).toString()]);await assert.rejects(f.open());
- assert.equal(await f.quantity(),1);assert.equal(await f.quantity('SUIT_CORE_6'),0);
+ assert.equal(await f.quantity(),1);assert.equal(await f.quantity('SUIT_CORE_6'),0);assert.equal(await f.quantity('SUIT_CORE_8'),0);
 });
 test('admin grant receipts survive retries and lost acknowledgements, isolate users, and reject payload reuse',async t=>{
  const f=await fixture(t),id=crypto.randomUUID();await f.grant(id,1);await f.grant(id,1);
