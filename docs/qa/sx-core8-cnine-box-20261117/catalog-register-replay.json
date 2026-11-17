@@ -1,0 +1,66 @@
+{
+  "mode": "register",
+  "key": "ops:sx-core8-cnine-box:20261117:v1",
+  "rehearsals": [],
+  "accountWrites": 0,
+  "messages": 0,
+  "replayed": true,
+  "receipt": {
+    "operation": "ops:sx-core8-cnine-box:20261117:v1",
+    "at": "2026-11-17T11:28:27.471Z",
+    "core": "SUIT_CORE_8",
+    "box": "CNINE_STREAMER_BOX",
+    "core8PerBox": 1,
+    "accountWrites": 0,
+    "messages": 0,
+    "priorReceiptsChanged": 0,
+    "recipesChanged": 0,
+    "auditId": "63065"
+  },
+  "at": "2026-11-17T11:28:43.241Z",
+  "writes": 0,
+  "state": {
+    "core": {
+      "code": "SUIT_CORE_8",
+      "name": "슈트 코어 8",
+      "subtitle": "BATTLE SUIT CORE VIII",
+      "description": "SX슈트 제작용으로 준비된 코발트·은백색 고출력 반응로 코어입니다. 직접 사용할 수 없는 제작 재료입니다.",
+      "category": "MATERIAL",
+      "rarity": "MYTHIC",
+      "image_url": "assets/items/suit-core-8-20261117.webp",
+      "sort_order": "200408",
+      "is_active": "1",
+      "created_at": "2026-11-17 11:26:26",
+      "updated_at": "2026-11-17 11:26:26"
+    },
+    "box": {
+      "code": "CNINE_STREAMER_BOX",
+      "name": "씨나인 스트리머 박스",
+      "subtitle": "CNINE STREAMER BOX",
+      "description": "개봉 시 코인 25조, 마스터의 별 2억 개, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개, 슈트 코어 8 1개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+      "category": "GIFT_BOX",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/cnine-streamer-box-20261103/gift-768.webp",
+      "sort_order": "45",
+      "is_active": "1",
+      "created_at": "2026-11-03 10:25:46",
+      "updated_at": "2026-11-17 11:26:26"
+    },
+    "otherCatalogHash": "1862e69df0bdbacff1fd4c072dd785e3856f0f880b2038182c27bc09edc8276a",
+    "holdingsHash": "9994d880d65fc34238bff01c1453fa838e89599acc1aa54ba9251c57ce9b53ea",
+    "holdingsRows": 73,
+    "recipesHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "receipt": {
+      "operation": "ops:sx-core8-cnine-box:20261117:v1",
+      "at": "2026-11-17T11:28:27.471Z",
+      "core": "SUIT_CORE_8",
+      "box": "CNINE_STREAMER_BOX",
+      "core8PerBox": 1,
+      "accountWrites": 0,
+      "messages": 0,
+      "priorReceiptsChanged": 0,
+      "recipesChanged": 0,
+      "auditId": "63065"
+    }
+  }
+}
