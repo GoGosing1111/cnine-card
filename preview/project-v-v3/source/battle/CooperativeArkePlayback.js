@@ -1,5 +1,6 @@
 import {Assets,Graphics,Rectangle,Sprite,Texture} from 'pixi.js';
 import {configureDamageText} from './ObjectPool.js';
+import {CHARACTER_STATE} from './BattleCharacter.js';
 import {projectilePixelScale,projectileTrailGeometry,drawProjectileTrail} from './ProjectileTrail.mjs';
 const BASE='/assets/ui/cooperative-arke-v1/';
 const atlases={slam:'arke-slam-atlas-v1.png',rupture:'core-rupture-atlas-v1.png',focus:'focus-beam-atlas-v1.png'};
@@ -95,4 +96,50 @@ export async function playCooperativeArkeMechanic(engine,event){
   t.to(clock,{time:duration,duration,ease:'none',onUpdate:()=>{for(const {effect} of entries){effect.texture=frames[Math.min(7,Math.floor(clock.time/duration*8))];effect.alpha=Math.min(1,(duration-clock.time)/.18);}}},0);
   for(const {label}of entries)t.to(label,{alpha:0,y:label.y-55,duration:.6},.15);
  },()=>{for(const {effect,label}of entries){effect.destroy();engine.pools.damage.release(label);}},1);
+}
+
+
+export function usesCitadelMonsterAttack(engine, actor) {
+  return engine.battleData?.sceneAssetKey === 'LEGION_BURNING_CITADEL' &&
+    actor?.team === 'ENEMY' && String(actor.root?.projectVMonsterArt?.kind || '').startsWith('CITADEL_');
+}
+
+// Crowded Citadel monsters attack from their occupied tile. Do not attach the
+// generic cross-field dash, role slash atlas or white filter to these attacks.
+// The body's existing attack pose supplies the motion; the HUD never travels.
+export function playCitadelMonsterAttack(engine, actor, target, {
+  damage, critical, targetHp, targetShield, onImpact = () => {}
+}) {
+  engine.settlePendingTails([actor]);
+  const actorId = actor.id, targetId = target.id;
+  const current = (unit, id) => !unit.root.destroyed && unit.id === id;
+  const label = engine.pools.damage.acquire();
+  configureDamageText(label, {kind:'ATTACK', damage, critical, compact:engine.mobile});
+  const margin = Math.max(120, label.getLocalBounds().width * .6 + 24);
+  label.position.set(Math.max(margin, Math.min(engine.scene.width - margin, target.root.x)),
+    Math.max(100, target.root.y - (target.fullBodyHeight || 175) * target.restScale - 50));
+  label.alpha = 0; label.visible = true;
+  engine.uiLayer.addChild(label);
+  const startY = label.y;
+  const cleanup = () => {
+    engine.pools.damage.release(label);
+    if(current(actor, actorId)) actor.setState(actor.hp > 0 ? CHARACTER_STATE.IDLE : CHARACTER_STATE.DEAD);
+    if(current(target, targetId) && target.state === CHARACTER_STATE.HIT) target.setState(target.hp > 0 ? CHARACTER_STATE.IDLE : CHARACTER_STATE.DEAD);
+  };
+  engine.lastCoopPlayback = {kind:'CITADEL_MONSTER_STATION_ATTACK_V1', impactAt:.25};
+  return engine.timeline(timeline => {
+    timeline.call(() => {
+      if(current(actor, actorId)) actor.setState(CHARACTER_STATE.ATTACK);
+      engine.audio?.scheduleImpact('ATTACK',{impactAt:.25,playbackSpeed:engine.actionPlaybackSpeed(),critical,boss:!!target.isBoss});
+    }, [], 0);
+    timeline.call(() => {
+      if(!current(actor, actorId) || !current(target, targetId)) return;
+      target.setState(target.hp > 0 ? CHARACTER_STATE.HIT : CHARACTER_STATE.DEAD);
+      if(targetHp !== null && targetHp !== undefined && Number.isFinite(Number(targetHp))) engine.syncTargetHp(target, Number(targetHp));
+      if(targetShield !== null && targetShield !== undefined && Number.isFinite(Number(targetShield))) engine.syncTargetShield(target, Number(targetShield));
+      onImpact(target);
+    }, [], .25);
+    timeline.fromTo(label, {alpha:0, y:startY}, {alpha:1, y:startY-18, duration:.1, ease:'power2.out'}, .25);
+    timeline.to(label, {alpha:0, y:startY-36, duration:.2, ease:'power2.in'}, .35);
+  }, cleanup, null, {owners:[actor]});
 }

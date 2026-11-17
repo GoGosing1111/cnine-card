@@ -37,7 +37,7 @@ import {SXSuitAnimation} from './SXSuitAnimation.js';
 import {isSxSuit} from '../../../../shared/sx-suit-v1.mjs';
 import {withOccupiedGrid} from './OccupiedGridLayout.js';
 import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
-import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
+import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherAttack,playCooperativeArkeMechanic,usesCitadelMonsterAttack,playCitadelMonsterAttack} from './CooperativeArkePlayback.js';
 import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
 import {preloadIconPlayback,playIconEvent,playIconBasic,disposeIconPlayback} from './IconRolePlayback.js';
 import {preparePetSupport,playPetOpening,disposePetSupport,restorePetSupport} from './PetSupportPlayback.js';
@@ -2781,6 +2781,7 @@ export class BaseBattleEngine{
     }
     const originalImpact=onImpact;
     onImpact=victim=>{this.equipmentSetFX?.impact(actor,victim,{critical});originalImpact(victim);};
+    if(usesCitadelMonsterAttack(this,actor))return playCitadelMonsterAttack(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(iconDefinition(actor.cardId))return playIconBasic(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(actor.root?.projectVMonsterArt?.kind==='SEAL_DRAGON_SD'&&actor.sealDragon)return playSealDragonBreath(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.coopFinalBoss)return playCooperativeArkeAttack(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
