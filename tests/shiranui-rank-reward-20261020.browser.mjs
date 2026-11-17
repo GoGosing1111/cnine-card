@@ -33,7 +33,7 @@ try{
   for(scenario of ['unowned','below','eligible']){
    await f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(7,?) ON CONFLICT(user_id) DO UPDATE SET total_ticks=excluded.total_ticks',SHIRANUI_MIN_RANK_TICKS-(scenario==='eligible'?0:1)).run();
    await page.goto(base+'/mercenary-codex/?view=limited&q=V-987#V-987');await page.locator('[data-code="V-987"]').click();await page.locator('.deployment-card').waitFor();
-   const text=await page.locator('.combat-panel').innerText();assert.match(text,/중장\(Lv.235\)/);assert.match(text,/메시지/);assert(!text.includes('지정 계정 전용'));
+   const text=await page.locator('.combat-panel').innerText();assert.match(text,/준장\(Lv.215\)/);assert.match(text,/메시지/);assert(!text.includes('지정 계정 전용'));
    if(scenario==='below')assert(await page.locator('[data-equip="V-987"]').isDisabled());
    if(scenario==='eligible')for(const mode of ['PVE','PVP']){await page.locator(`[data-loadout-mode="${mode}"]`).click();if(await page.locator('[data-unequip]').count()){await page.locator('[data-unequip]').click();await page.waitForFunction(()=>!document.querySelector('[data-equip="V-987"]')?.disabled);}await page.locator('[data-equip="V-987"]').click();await page.locator('[data-unequip]').waitFor();}
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.screenshot({path:path.join(out,`${width}-${scenario}.png`),fullPage:true});checks.push({width,scenario,rankRequirement:true,overflow:false});

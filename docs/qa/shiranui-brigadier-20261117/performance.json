@@ -1,0 +1,436 @@
+{
+  "at": "2026-11-17T02:25:18.044Z",
+  "condition": "Windows CLI to production PostgreSQL over network, same account and connection; original/current bundled mercenaryAccountState handlers. Existing schemas trusted and no DDL executed; READ ONLY transaction. First/repeat per handler, one sample each; no browser or physical-device frame claim.",
+  "records": [
+    {
+      "phase": "before",
+      "entry": "first",
+      "ms": 1923.59,
+      "canDeploy": false,
+      "totalCopies": 1,
+      "queries": [
+        {
+          "ms": 75.91,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 73.03,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+        },
+        {
+          "ms": 75.49,
+          "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+        },
+        {
+          "ms": 72.4,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 79.15,
+          "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+        },
+        {
+          "ms": 72.59,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 79.81,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 76.58,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 71.98,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 71.82,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 76.58,
+          "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+        },
+        {
+          "ms": 72.09,
+          "sql": "SELECT coin FROM users WHERE id=$1"
+        },
+        {
+          "ms": 215.14,
+          "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+        },
+        {
+          "ms": 72.55,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 80.4,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 79.32,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 81.43,
+          "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+        },
+        {
+          "ms": 74.01,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 74.6,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+        },
+        {
+          "ms": 84.13,
+          "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+        },
+        {
+          "ms": 72.54,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 80.41,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 77.96,
+          "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "entry": "repeat",
+      "ms": 1825.78,
+      "canDeploy": false,
+      "totalCopies": 1,
+      "queries": [
+        {
+          "ms": 88.2,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 78.1,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+        },
+        {
+          "ms": 75.85,
+          "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+        },
+        {
+          "ms": 72.34,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 73.53,
+          "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+        },
+        {
+          "ms": 72.58,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 82.63,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 83.26,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 72.23,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 71.89,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 73.18,
+          "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+        },
+        {
+          "ms": 71.67,
+          "sql": "SELECT coin FROM users WHERE id=$1"
+        },
+        {
+          "ms": 145.71,
+          "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+        },
+        {
+          "ms": 72,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 72.77,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 73.43,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 82.41,
+          "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+        },
+        {
+          "ms": 79.89,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 78.17,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+        },
+        {
+          "ms": 74.81,
+          "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+        },
+        {
+          "ms": 71.98,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 71.71,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 72.51,
+          "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "entry": "first",
+      "ms": 1709.82,
+      "canDeploy": true,
+      "totalCopies": 1,
+      "queries": [
+        {
+          "ms": 72.08,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 71.91,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+        },
+        {
+          "ms": 71.62,
+          "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+        },
+        {
+          "ms": 71.65,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 73.18,
+          "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+        },
+        {
+          "ms": 71.63,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 74.07,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 76.39,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 72.84,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 72.09,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 73.33,
+          "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+        },
+        {
+          "ms": 71.56,
+          "sql": "SELECT coin FROM users WHERE id=$1"
+        },
+        {
+          "ms": 73.16,
+          "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+        },
+        {
+          "ms": 82.23,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 72.77,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 78.2,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 72,
+          "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+        },
+        {
+          "ms": 71.78,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 71.82,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+        },
+        {
+          "ms": 76.14,
+          "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+        },
+        {
+          "ms": 73.09,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 71.75,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 73.03,
+          "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "entry": "repeat",
+      "ms": 1688.29,
+      "canDeploy": true,
+      "totalCopies": 1,
+      "queries": [
+        {
+          "ms": 71.74,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 71.79,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+        },
+        {
+          "ms": 71.65,
+          "sql": "SELECT * FROM user_mercenary_loadout_v1 WHERE user_id IN ($1)"
+        },
+        {
+          "ms": 72.6,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 72.62,
+          "sql": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until\n  FROM user_mercenary_levels_v1 p WHERE NOT EXISTS (SELECT 1 FROM app_meta a\n    WHERE p.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(p.user_id AS TEXT)) AND a.value>sqlite_now())\n  UNION ALL SELECT b.user_id,b.mercenary_code,20,0,15,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b) WHERE user_id=$1"
+        },
+        {
+          "ms": 72.07,
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)"
+        },
+        {
+          "ms": 75.01,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 77.4,
+          "sql": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),CAST($6 AS TEXT),CAST($7 AS TEXT),CAST($8 AS BIGINT)),(CAST($9 AS BIGINT),CAST($10 AS TEXT),CAST($11 AS TEXT),CAST($12 AS BIGINT)),(CAST($13 AS BIGINT),CAST($14 AS TEXT),CAST($15 AS TEXT),CAST($16 AS BIGINT)),(CAST($17 AS BIGINT),CAST($18 AS TEXT),CAST($19 AS TEXT),CAST($20 AS BIGINT)),(CAST($21 AS BIGINT),CAST($22 AS TEXT),CAST($23 AS TEXT),CAST($24 AS BIGINT)),(CAST($25 AS BIGINT),CAST($26 AS TEXT),CAST($27 AS TEXT),CAST($28 AS BIGINT)),(CAST($29 AS BIGINT),CAST($30 AS TEXT),CAST($31 AS TEXT),CAST($32 AS BIGINT)),(CAST($33 AS BIGINT),CAST($34 AS TEXT),CAST($35 AS TEXT),CAST($36 AS BIGINT)),(CAST($37 AS BIGINT),CAST($38 AS TEXT),CAST($39 AS TEXT),CAST($40 AS BIGINT)),(CAST($41 AS BIGINT),CAST($42 AS TEXT),CAST($43 AS TEXT),CAST($44 AS BIGINT)),(CAST($45 AS BIGINT),CAST($46 AS TEXT),CAST($47 AS TEXT),CAST($48 AS BIGINT)),(CAST($49 AS BIGINT),CAST($50 AS TEXT),CAST($51 AS TEXT),CAST($52 AS BIGINT)),(CAST($53 AS BIGINT),CAST($54 AS TEXT),CAST($55 AS TEXT),CAST($56 AS BIGINT)),(CAST($57 AS BIGINT),CAST($58 AS TEXT),CAST($59 AS TEXT),CAST($60 AS BIGINT)),(CAST($61 AS BIGINT),CAST($62 AS TEXT),CAST($63 AS TEXT),CAST($64 AS BIGINT)),(CAST($65 AS BIGINT),CAST($66 AS TEXT),CAST($67 AS TEXT),CAST($68 AS BIGINT)),(CAST($69 AS BIGINT),CAST($70 AS TEXT),CAST($71 AS TEXT),CAST($72 AS BIGINT)),(CAST($73 AS BIGINT),CAST($74 AS TEXT),CAST($75 AS TEXT),CAST($76 AS BIGINT)),(CAST($77 AS BIGINT),CAST($78 AS TEXT),CAST($79 AS TEXT),CAST($80 AS BIGINT)),(CAST($81 AS BIGINT),CAST($82 AS TEXT),CAST($83 AS TEXT),CAST($84 AS BIGINT))) SELECT l.mercenary_code,x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT)) WHERE i.code IN ('HUNT_COAST_WEAPON','HUNT_COAST_TOP','HUNT_COAST_BOTTOM','HUNT_COAST_SHOES','HUNT_COAST_ACCESSORY','HUNT_COAST_UNIQUE','HUNT_DESERT_WEAPON','HUNT_DESERT_TOP','HUNT_DESERT_BOTTOM','HUNT_DESERT_SHOES','HUNT_DESERT_ACCESSORY','HUNT_DESERT_UNIQUE','HUNT_THEATRE_WEAPON','HUNT_THEATRE_TOP','HUNT_THEATRE_BOTTOM','HUNT_THEATRE_SHOES','HUNT_THEATRE_ACCESSORY','HUNT_THEATRE_UNIQUE','HUNT_VISCERA_WEAPON','HUNT_VISCERA_TOP','HUNT_VISCERA_BOTTOM','HUNT_VISCERA_SHOES','HUNT_VISCERA_ACCESSORY','HUNT_VISCERA_UNIQUE','HUNT_SKY_WEAPON','HUNT_SKY_TOP','HUNT_SKY_BOTTOM','HUNT_SKY_SHOES','HUNT_SKY_ACCESSORY','HUNT_SKY_UNIQUE','MERC_ASC_01_WEAPON','MERC_ASC_01_TOP','MERC_ASC_01_BOTTOM','MERC_ASC_01_SHOES','MERC_ASC_01_ACCESSORY','MERC_ASC_02_WEAPON','MERC_ASC_02_TOP','MERC_ASC_02_BOTTOM','MERC_ASC_02_SHOES','MERC_ASC_02_ACCESSORY','MERC_ASC_03_WEAPON','MERC_ASC_03_TOP','MERC_ASC_03_BOTTOM','MERC_ASC_03_SHOES','MERC_ASC_03_ACCESSORY','MERC_ASC_04_WEAPON','MERC_ASC_04_TOP','MERC_ASC_04_BOTTOM','MERC_ASC_04_SHOES','MERC_ASC_04_ACCESSORY','MERC_ASC_05_WEAPON','MERC_ASC_05_TOP','MERC_ASC_05_BOTTOM','MERC_ASC_05_SHOES','MERC_ASC_05_ACCESSORY','MERC_ASC_06_WEAPON','MERC_ASC_06_TOP','MERC_ASC_06_BOTTOM','MERC_ASC_06_SHOES','MERC_ASC_06_ACCESSORY','MERC_ASC_07_WEAPON','MERC_ASC_07_TOP','MERC_ASC_07_BOTTOM','MERC_ASC_07_SHOES','MERC_ASC_07_ACCESSORY','MERC_ASC_08_WEAPON','MERC_ASC_08_TOP','MERC_ASC_08_BOTTOM','MERC_ASC_08_SHOES','MERC_ASC_08_ACCESSORY','MERC_ASC_09_WEAPON','MERC_ASC_09_TOP','MERC_ASC_09_BOTTOM','MERC_ASC_09_SHOES','MERC_ASC_09_ACCESSORY','MERC_ASC_10_WEAPON','MERC_ASC_10_TOP','MERC_ASC_10_BOTTOM','MERC_ASC_10_SHOES','MERC_ASC_10_ACCESSORY','MERC_UQ_11_WEAPON','MERC_UQ_11_TOP','MERC_UQ_11_BOTTOM','MERC_UQ_11_SHOES','MERC_UQ_11_ACCESSORY','MERC_UQ_12_WEAPON','MERC_UQ_12_TOP','MERC_UQ_12_BOTTOM','MERC_UQ_12_SHOES','MERC_UQ_12_ACCESSORY','MERC_UQ_13_WEAPON','MERC_UQ_13_TOP','MERC_UQ_13_BOTTOM','MERC_UQ_13_SHOES','MERC_UQ_13_ACCESSORY')"
+        },
+        {
+          "ms": 74.25,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 71.82,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 74.12,
+          "sql": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code,c.total_copies,c.duplicate_count,a.value AS loan_until\n    FROM user_mercenary_cards_v1 c LEFT JOIN app_meta a\n      ON c.mercenary_code IN ('V-058','V-977') AND a.key=('comeback26:loan:'||CAST(c.user_id AS TEXT)) AND a.value>sqlite_now()\n    WHERE c.total_copies>0\n    UNION ALL SELECT b.user_id,b.mercenary_code,1,0,b.loan_until FROM (SELECT CAST(SUBSTR(a.key,17) AS BIGINT) AS user_id,\n  k.code AS mercenary_code,a.value AS loan_until FROM app_meta a\n  CROSS JOIN (SELECT 'V-058' AS code UNION ALL SELECT 'V-977') k\n  WHERE a.key>='comeback26:loan:' AND a.key<'comeback26:loan;' AND a.value>sqlite_now()) b\n    WHERE NOT EXISTS (SELECT 1 FROM user_mercenary_cards_v1 p WHERE p.user_id=b.user_id AND p.mercenary_code=b.mercenary_code AND p.total_copies>0)) c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=$1 ORDER BY c.mercenary_code"
+        },
+        {
+          "ms": 71.52,
+          "sql": "SELECT coin FROM users WHERE id=$1"
+        },
+        {
+          "ms": 73.48,
+          "sql": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+        },
+        {
+          "ms": 71.66,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 72.98,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIRACLE_CUBE:V-989') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-989'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 72.82,
+          "sql": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i\n JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRACLE_CUBE:V-979') AND i.serial BETWEEN 1 AND s.issued\n JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=i.acquisition_id AND a.user_id=i.user_id AND a.mercenary_code='V-979'\n JOIN joint_operations_v1 o ON o.request_id=i.request_id AND o.user_id=i.user_id AND o.kind IN ('MERCENARY_HALLOWEEN_OPEN','SSS_MIRACLE_CUBE_OPEN') AND o.status='COMPLETED'\n WHERE (i.code=$1 OR (i.code=$2 AND o.kind='SSS_MIRACLE_CUBE_OPEN')) AND i.serial<=s.stock_limit AND i.user_id IN ($3)"
+        },
+        {
+          "ms": 73.13,
+          "sql": "SELECT u.id AS user_id FROM users u\n  WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2)\n  OR EXISTS (SELECT 1 FROM user_character_titles h JOIN character_titles t ON t.id=h.title_id\n   WHERE h.user_id=u.id AND t.code=$3 AND t.is_active=1 AND (h.expires_at IS NULL OR CAST(h.expires_at AS TIMESTAMPTZ)>statement_timestamp())))"
+        },
+        {
+          "ms": 71.94,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 72.17,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE 'JOKRO:%' AND user_id IN ($2)"
+        },
+        {
+          "ms": 72.72,
+          "sql": "SELECT DISTINCT l.user_id FROM workshop_craft_logs_v1668 l\n  JOIN workshop_recipes_v1668 r ON r.id=l.recipe_id AND r.code=$1 AND r.output_type='MERCENARY' AND r.output_ref=l.output_ref\n  JOIN workshop_craft_receipts_v1668 c ON c.request_id=l.request_id AND c.user_id=l.user_id AND c.recipe_id=l.recipe_id AND c.status='COMPLETED'\n  JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=($2 || ':' || CAST(l.user_id AS TEXT) || ':' || l.request_id) AND a.user_id=l.user_id AND a.mercenary_code=l.output_ref\n  WHERE l.output_type='MERCENARY' AND l.output_ref=$3 AND l.output_quantity=1 AND l.success=1 AND l.user_id IN ($4)"
+        },
+        {
+          "ms": 72.7,
+          "sql": "SELECT DISTINCT user_id FROM mercenary_card_acquisitions_v1 WHERE mercenary_code=$1 AND acquisition_id LIKE $2 AND user_id IN ($3)"
+        },
+        {
+          "ms": 72.9,
+          "sql": "SELECT value FROM app_meta WHERE key=$1"
+        },
+        {
+          "ms": 72.4,
+          "sql": "SELECT t.buyer_id,t.seller_id,t.ref,t.provenance_json,a.asset_json FROM auction_user_transfers_v1 t\n JOIN auction_user_lots_v1 a ON a.id=t.lot_id AND a.status='SOLD' AND a.winner_id=t.buyer_id AND a.seller_id=t.seller_id\n JOIN auction_user_settlements_v1 s ON s.lot_id=t.lot_id AND s.kind='SOLD' AND s.recipient_id=t.buyer_id AND s.asset_json=a.asset_json\n JOIN user_mercenary_cards_v1 h ON h.user_id=t.buyer_id AND h.mercenary_code=t.ref AND h.total_copies>0\n WHERE t.kind='MERCENARY' AND t.ref=$1 AND t.buyer_id IN ($2)"
+        }
+      ]
+    }
+  ],
+  "roster": [
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "copies": 1,
+      "canDeploy": true,
+      "level": 1,
+      "basePower": 2600000
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "copies": 1,
+      "canDeploy": true,
+      "level": 1,
+      "basePower": 2600000
+    },
+    {
+      "id": "4629",
+      "nickname": "Veil",
+      "copies": 1,
+      "canDeploy": true,
+      "level": 1,
+      "basePower": 2600000
+    }
+  ]
+}

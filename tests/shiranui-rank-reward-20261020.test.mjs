@@ -28,9 +28,20 @@ async function fixture(t,postgres){
 }
 for(const postgres of [false,true]){
  const label=postgres?'PostgreSQL':'SQLite';
- test(`${label}: crossing 234 → 235 delivers once; retry, concurrent claims and deleted inbox cannot duplicate`,async t=>{
-  const f=await fixture(t,postgres);await f.rank(SHIRANUI_MIN_RANK_TICKS-4801);await f.award('below');assert.equal((await readAccountRank(f.env,7)).level,234);assert.equal((await f.rewards()).length,0);
-  await Promise.all([f.award('cross'),f.award('cross')]);assert.equal((await readAccountRank(f.env,7)).level,235);const [reward]=await f.rewards();assert(reward);assert.equal((await f.rewards()).length,1);assert.equal(await f.copies(),0);
+ test(`${label}: old lieutenant-general campaign and direct catch-up keep one lifetime reward`,async t=>{
+  const f=await fixture(t,postgres);assert.equal(SHIRANUI_RANK_CAMPAIGN,'account-rank:shiranui:235:v1');
+  await f.rank(SHIRANUI_MIN_RANK_TICKS);await ensureShiranuiRankReward(f.env,7);const [reward]=await f.rewards();
+  await f.p("UPDATE user_messages SET title='중장 달성 보상 · 시라누이' WHERE id=?",reward.message_id).run();
+  await ensureShiranuiRankReward(f.env,7);assert.equal((await f.rewards()).length,1);
+  await f.claim(reward);assert.equal(await f.copies(),1);
+  await f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(8,?)',SHIRANUI_MIN_RANK_TICKS).run();
+  await f.p("INSERT INTO app_meta(key,value) VALUES(?,'PREVIOUSLY_OWNED')",shiranuiRankRewardKey(8)).run();
+  await ensureShiranuiRankReward(f.env,8);await f.DB.batch(await accountRankAward(f.env,8,'HUNT','after-direct-grant'));
+  assert.equal((await f.p('SELECT * FROM user_message_rewards WHERE user_id=8').all()).results.length,0);
+ });
+ test(`${label}: crossing 214 → 215 delivers once; retry, concurrent claims and deleted inbox cannot duplicate`,async t=>{
+  const f=await fixture(t,postgres);await f.rank(SHIRANUI_MIN_RANK_TICKS-4801);await f.award('below');assert.equal((await readAccountRank(f.env,7)).level,214);assert.equal((await f.rewards()).length,0);
+  await Promise.all([f.award('cross'),f.award('cross')]);assert.equal((await readAccountRank(f.env,7)).level,215);const [reward]=await f.rewards();assert(reward);assert.equal((await f.rewards()).length,1);assert.equal(await f.copies(),0);
   assert.equal(reward.reward_type,'MERCENARY_SHIRANUI');assert.equal(Number(reward.reward_amount),1);
   await assert.rejects(()=>claimShiranuiMercenaryMessageReward(f.env,{id:8},reward,reward.message_id),/보상/);
   const results=await Promise.all([f.claim(reward),f.claim(reward)]);assert.equal(results.filter(r=>r.credited).length,1);assert.equal(await f.copies(),1);
@@ -39,7 +50,7 @@ for(const postgres of [false,true]){
  });
  test(`${label}: failed delivery rolls XP and message back; failed claim rolls card, receipt and inbox back`,async t=>{
   const f=await fixture(t,postgres);await f.rank(SHIRANUI_MIN_RANK_TICKS-1);
-  for(const point of ['INSERT INTO user_messages','INSERT INTO user_message_rewards']){f.fail(point);await assert.rejects(()=>f.award('cross'),/INJECTED/);f.fail('');assert.equal((await readAccountRank(f.env,7)).level,234);assert.equal((await f.rewards()).length,0);assert.equal(await f.p('SELECT value FROM app_meta WHERE key=?',shiranuiRankRewardKey(7)).first(),null);}
+  for(const point of ['INSERT INTO user_messages','INSERT INTO user_message_rewards']){f.fail(point);await assert.rejects(()=>f.award('cross'),/INJECTED/);f.fail('');assert.equal((await readAccountRank(f.env,7)).level,214);assert.equal((await f.rewards()).length,0);assert.equal(await f.p('SELECT value FROM app_meta WHERE key=?',shiranuiRankRewardKey(7)).first(),null);}
   await f.award('cross');const [r]=await f.rewards();
   for(const point of ['INSERT INTO user_mercenary_cards_v1','INSERT INTO mercenary_card_acquisitions_v1','UPDATE user_messages']){f.fail(point);await assert.rejects(()=>f.claim(r),/INJECTED/);f.fail('');assert.equal(await f.copies(),0);assert.equal((await f.p('SELECT * FROM user_message_reward_claim_receipts_v1222').all()).results.length,0);assert.equal((await f.rewards())[0].claimed_at,null);}
   assert.equal((await f.claim(r)).credited,true);assert.equal(await f.copies(),1);
@@ -57,7 +68,7 @@ for(const postgres of [false,true]){
   assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user)).code,SHIRANUI_CODE);assert.equal((await rankedOwnedMercenaries(f.env,[7])).get(7)[0].code,SHIRANUI_CODE);
   await f.rank(SHIRANUI_MIN_RANK_TICKS-1);
   for(const mode of ['PVE','PVP']){await assert.rejects(()=>saveMercenaryLoadout(f.env,f.user,{requestId:rid(),mode,mercenaryCodes:[SHIRANUI_CODE],revision:1}),{code:'MERCENARY_ACCOUNT_RANK'});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,mode),null);assert.equal((await releasedMercenarySnapshots(f.env,[7],mode)).size,0);}
-  const state=await mercenaryAccountState(f.env,f.user);assert.equal(state.cards[0].canDeploy,false);assert.match(state.cards[0].deploymentBlockedReason,/중장/);assert.equal(await f.copies(),1);
+  const state=await mercenaryAccountState(f.env,f.user);assert.equal(state.cards[0].canDeploy,false);assert.match(state.cards[0].deploymentBlockedReason,/준장/);assert.equal(await f.copies(),1);
   assert.equal((await rankedOwnedMercenaries(f.env,[7])).get(7).length,0);await assert.rejects(()=>rankedSelectedMercenaries(f.env,new Map([[7,[SHIRANUI_CODE,SHIRANUI_CODE,SHIRANUI_CODE]]])),{code:'PVP_SERIES_ROSTER'});
   for(const code of ['V-001','V-002','V-003','V-004','V-005'])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',code,'now','now').run();
   await assert.rejects(()=>f.DB.batch(rankedOwnershipGuard(f.env,new Map([[7,[SHIRANUI_CODE,'V-001','V-002','V-003','V-004','V-005']]]))));
@@ -116,11 +127,11 @@ test('ranked duo rejects cached Shiranui after a rank decrease',async t=>{
  assert.equal(revoked.attack.mercenary,null);assert.equal(revoked.defense.mercenary,null);
 });
 test('public catalog exposes approved Shiranui art and rank requirement without adding random acquisition',()=>{
- assert.equal(SHIRANUI_MIN_ACCOUNT_LEVEL,235);
+ assert.equal(SHIRANUI_MIN_ACCOUNT_LEVEL,215);
  const card=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1})).cards.find(c=>c.code===SHIRANUI_CODE);
- assert(card);assert.equal(card.exclusiveGrant,false);assert.equal(card.sourceArt,SHIRANUI_ART.sourceArt);assert.equal(card.acquisition,'ACCOUNT_RANK_REWARD');assert.equal(card.minimumAccountLevel,235);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills[0].ready,true);
+ assert(card);assert.equal(card.exclusiveGrant,false);assert.equal(card.sourceArt,SHIRANUI_ART.sourceArt);assert.equal(card.acquisition,'ACCOUNT_RANK_REWARD');assert.equal(card.minimumAccountLevel,215);assert.equal(card.packAcquisitionEnabled,false);assert.equal(card.skills[0].ready,true);
  assert.equal(card.basePower,2600000);
- assert.match(card.deploymentRequirement,/중장\(Lv\.235\) 이상 또는 버스기사 칭호 보유/);
+ assert.match(card.deploymentRequirement,/준장\(Lv\.215\) 이상 또는 버스기사 칭호 보유/);
  assert.deepEqual(card.skills[0].balance,{damageRatio:25.2,cooldownTurns:4,cost:25});
  assert.match(card.skills[0].effect,/2,520%/);
  assert.equal(card.skills[0].trigger,'PVE · 에너지 25 · 재사용 4행동');

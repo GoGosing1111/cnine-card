@@ -1,0 +1,39 @@
+{
+  "base": "23d9f495d6e6c25e52508421f253994fafd6d64e",
+  "production": {
+    "pages": {
+      "id": "222151ce-e43c-448b-aba4-e0e6421d1d0f",
+      "commit": "23d9f495d6e6c25e52508421f253994fafd6d64e",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "cc9826fd-cbed-48d4-8069-3934226ca456",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "116a9b9d-0165-4b96-8097-1161c6c90c07",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/shiranui-rank-reward-20261020.test.mjs",
+    "tests/account-rank-live-v1.test.mjs",
+    "tests/shiranui-combat-20261015.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "Lower the existing Shiranui rank milestone and deployment requirement from Lieutenant General Lv235 to Brigadier Lv215. Preserve the lifetime campaign identity, Bus Driver entitlement, existing holdings, growth and combat balance. Test rank boundary, retry, concurrent claims, transaction failure rollback, old messages, PVE/PVP/ranked/duo access and public catalog validation; direct catch-up is a separate audited operation with existing owners excluded."
+}

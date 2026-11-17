@@ -1,0 +1,169 @@
+{
+  "readOnly": true,
+  "receipt": {
+    "operationKey": "ops:shiranui-brigadier:existing-achievers:20261117:v1",
+    "status": "COMPLETED",
+    "code": "V-987",
+    "minimumRank": "준장",
+    "minimumLevel": 215,
+    "completedAt": "2026-11-17T02:24:22.623Z",
+    "granted": [
+      {
+        "id": "1195",
+        "nickname": "씨나인택갓",
+        "level": 215,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "acquisition": "ops:shiranui-brigadier:existing-achievers:20261117:v1:1195:V-987"
+      },
+      {
+        "id": "4582",
+        "nickname": "족단",
+        "level": 219,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "acquisition": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4582:V-987"
+      },
+      {
+        "id": "4629",
+        "nickname": "Veil",
+        "level": 216,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "acquisition": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4629:V-987"
+      }
+    ],
+    "excluded": [
+      {
+        "id": "1",
+        "nickname": "핑크빛유두",
+        "copies": 1,
+        "reason": "ALREADY_OWNED"
+      },
+      {
+        "id": "4391",
+        "nickname": "더듬이구",
+        "copies": 1,
+        "reason": "ALREADY_OWNED"
+      }
+    ],
+    "messagesSent": 0,
+    "automaticLoadout": false,
+    "growthChanged": false,
+    "cost": 0,
+    "synced": [
+      {
+        "user_id": "1195",
+        "revision": "1093021",
+        "domains": {
+          "pvp": "1093018",
+          "wallet": "1093019",
+          "loadout": "1093021",
+          "messages": "1087146",
+          "inventory": "1093004",
+          "collection": "1093021"
+        }
+      },
+      {
+        "user_id": "4629",
+        "revision": "368452",
+        "domains": {
+          "pvp": "366917",
+          "wallet": "368450",
+          "loadout": "368452",
+          "messages": "358146",
+          "inventory": "368449",
+          "collection": "368452"
+        }
+      },
+      {
+        "user_id": "4582",
+        "revision": "680198",
+        "domains": {
+          "pvp": "678793",
+          "wallet": "680196",
+          "loadout": "680198",
+          "messages": "673583",
+          "inventory": "680181",
+          "collection": "680198"
+        }
+      }
+    ],
+    "planHash": "b2c9aa2e13d9a6de18e538659162aeafee473705aa45a1930b8c56e6145ce9de",
+    "auditId": "62675"
+  },
+  "checks": {
+    "holdings": [
+      {
+        "user_id": "1",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "1195",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "4391",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "4582",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "4629",
+        "total_copies": 1,
+        "duplicate_count": 0
+      }
+    ],
+    "ledger": [
+      {
+        "acquisition_id": "ops:shiranui-brigadier:existing-achievers:20261117:v1:1195:V-987",
+        "user_id": "1195",
+        "total_copies_after": 1,
+        "is_duplicate": 0
+      },
+      {
+        "acquisition_id": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4582:V-987",
+        "user_id": "4582",
+        "total_copies_after": 1,
+        "is_duplicate": 0
+      },
+      {
+        "acquisition_id": "ops:shiranui-brigadier:existing-achievers:20261117:v1:4629:V-987",
+        "user_id": "4629",
+        "total_copies_after": 1,
+        "is_duplicate": 0
+      }
+    ],
+    "markers": [
+      {
+        "key": "account-rank:shiranui:235:v1:1",
+        "value": "PREVIOUSLY_OWNED"
+      },
+      {
+        "key": "account-rank:shiranui:235:v1:1195",
+        "value": "PREVIOUSLY_OWNED"
+      },
+      {
+        "key": "account-rank:shiranui:235:v1:4391",
+        "value": "PREVIOUSLY_OWNED"
+      },
+      {
+        "key": "account-rank:shiranui:235:v1:4582",
+        "value": "PREVIOUSLY_OWNED"
+      },
+      {
+        "key": "account-rank:shiranui:235:v1:4629",
+        "value": "PREVIOUSLY_OWNED"
+      }
+    ],
+    "missingQualified": []
+  },
+  "noWriteReplay": true,
+  "checkedAt": "2026-11-17T02:25:09.574Z"
+}

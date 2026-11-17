@@ -38,7 +38,7 @@ async function claimFixedMercenaryMessageReward(env,user,reward,messageId,{type,
     deliveryArgs=[campaign,campaign,grant.value];
   }else if(campaign){
     const grant=await p('SELECT value FROM app_meta WHERE key=?',shiranuiRankRewardKey(userId)).first();
-    if(stored.campaign_key!==campaign||!grant||grant.value==='PREVIOUSLY_OWNED')throw Error('중장 달성 보상의 지급 기록을 확인하세요.');
+    if(stored.campaign_key!==campaign||!grant||grant.value==='PREVIOUSLY_OWNED')throw Error('준장 달성 보상의 지급 기록을 확인하세요.');
   }
   const receiptFor=()=>p('SELECT * FROM user_message_reward_claim_receipts_v1222 WHERE reward_id=? AND user_id=?',rewardId,userId).first();
   const resultFor=async(receipt,duplicate)=>{
