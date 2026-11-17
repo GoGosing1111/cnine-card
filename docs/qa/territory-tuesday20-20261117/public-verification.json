@@ -1,0 +1,20 @@
+{
+  "at": "2026-11-17T03:40:11.434Z",
+  "probes": [
+    {
+      "at": "2026-11-17T03:40:08.574Z",
+      "ms": 252,
+      "status": 200,
+      "nextTerritoryChangeAt": "2026-11-17T10:30:00.000Z",
+      "territory": []
+    }
+  ],
+  "worker": "cnine-card-api-runtime",
+  "schedules": [
+    {
+      "cron": "* * * * *",
+      "created_on": "2026-11-03T09:16:09.327592Z",
+      "modified_on": "2026-11-03T09:16:09.327592Z"
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "status": "COMPLETE",
+  "operationKey": "ops:territory:weekly-tuesday20:20261117:v1",
+  "request": "영토전 매주 화요일 20시로 변경, 오늘 개방",
+  "completedAt": "2026-11-17T03:39:09.467Z",
+  "completedAtKST": "2026-11-17 12:39:09",
+  "auditId": "62773",
+  "timezone": "Asia/Seoul",
+  "schedule": {
+    "kind": "WEEKLY",
+    "weekday": "TUESDAY",
+    "time": "20:00",
+    "firstDate": "2026-11-17",
+    "nextDate": "2026-11-24",
+    "noticeTime": "19:30",
+    "formationTime": "19:55"
+  },
+  "receipt": {
+    "operationKey": "ops:territory:weekly-tuesday20:20261117:v1",
+    "status": "COMPLETED",
+    "completedAt": "2026-11-17T03:39:09.467Z",
+    "completedAtKST": "2026-11-17 12:39:09",
+    "before": {
+      "mode": "ON",
+      "autoOpen": {
+        "kind": "ONCE",
+        "battleAt": "2026-11-12T11:00:00.000Z"
+      }
+    },
+    "after": {
+      "mode": "ON",
+      "autoOpen": {
+        "kind": "WEEKLY",
+        "battleAt": "2026-11-17T11:00:00.000Z"
+      }
+    },
+    "firstSlot": {
+      "key": "territory_auto_open_v1:2026-11-17T11:00:00.000Z",
+      "battleAt": "2026-11-17T11:00:00.000Z",
+      "noticeAt": "2026-11-17T10:30:00.000Z",
+      "formationAt": "2026-11-17T10:55:00.000Z"
+    },
+    "timezone": "Asia/Seoul",
+    "protectedHash": "830e07f6f5979d048027a15b8a6c2297a941487615d8a16f1d6fb7cdc67f90be",
+    "messagesSent": 0,
+    "accountWrites": 0,
+    "rewardConfigChanged": false,
+    "auditId": "62773"
+  },
+  "checks": {
+    "relatedTests": 22,
+    "partialFailureRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "noWriteReplay": true,
+    "onlySettingsReceiptAuditWritten": true,
+    "independentReadOnly": true,
+    "previousRoundsAndPrizesPreserved": true,
+    "publicFeedVerified": true,
+    "minuteCronVerified": true
+  },
+  "automaticExecution": {
+    "worker": "cnine-card-api-runtime",
+    "productionSchedules": [
+      {
+        "cron": "* * * * *",
+        "created_on": "2026-11-03T09:16:09.327592Z",
+        "modified_on": "2026-11-03T09:16:09.327592Z"
+      }
+    ],
+    "source": "workers/api-runtime/src/index.js calls runTerritoryWarSchedule from the every-minute scheduled handler",
+    "simulation": "Actual PostgreSQL fixture scheduler checked November 17 and November 24: one recruiting round at 19:30, formation at 19:55, ACTIVE at 20:00, no duplicate on retries. Twelve weekly date projections cover December and year rollover.",
+    "futureProjection": [
+      {
+        "date": "2026-11-17",
+        "noticeAt": "2026-11-17T10:30:00.000Z",
+        "formationAt": "2026-11-17T10:55:00.000Z",
+        "battleAt": "2026-11-17T11:00:00.000Z"
+      },
+      {
+        "date": "2026-11-24",
+        "noticeAt": "2026-11-24T10:30:00.000Z",
+        "formationAt": "2026-11-24T10:55:00.000Z",
+        "battleAt": "2026-11-24T11:00:00.000Z"
+      },
+      {
+        "date": "2026-12-01",
+        "noticeAt": "2026-12-01T10:30:00.000Z",
+        "formationAt": "2026-12-01T10:55:00.000Z",
+        "battleAt": "2026-12-01T11:00:00.000Z"
+      }
+    ]
+  },
+  "preserved": {
+    "existingRounds": true,
+    "settlementsAndRewards": true,
+    "prizeConfiguration": true,
+    "teamsAndBattleRules": true,
+    "accountData": true
+  },
+  "messagesSent": 0,
+  "immediateBattleCreated": false,
+  "performance": {
+    "conditions": "Windows Node.js CLI against production PostgreSQL and production public HTTP. First/repeated settings reads, actual live-operation feed first/repeated reads. Single samples include network time. Configuration-only change; no new UI/runtime/deployment, no physical device FPS measurement.",
+    "settingsBefore": [
+      {
+        "phase": "first",
+        "ms": 72
+      },
+      {
+        "phase": "repeat",
+        "ms": 72
+      }
+    ],
+    "settingsAfter": [
+      {
+        "phase": "first",
+        "ms": 72
+      },
+      {
+        "phase": "repeat",
+        "ms": 72
+      }
+    ],
+    "settingsSqlPerRead": 1,
+    "indexExecutionMs": 0.019,
+    "feedAfter": [
+      {
+        "phase": "first",
+        "ms": 460,
+        "sql": 6
+      },
+      {
+        "phase": "repeat",
+        "ms": 0,
+        "sql": 0
+      }
+    ],
+    "httpBefore": {
+      "at": "2026-11-17T03:35:56.717Z",
+      "ms": 241,
+      "status": 200,
+      "nextTerritoryChangeAt": null,
+      "territory": []
+    },
+    "httpAfter": {
+      "at": "2026-11-17T03:40:08.574Z",
+      "ms": 252,
+      "status": 200,
+      "nextTerritoryChangeAt": "2026-11-17T10:30:00.000Z",
+      "territory": []
+    },
+    "applyMs": 1205,
+    "assessment": "Same indexed settings lookup and existing feed cache; no extra query or timer added. Settings server execution 0.019 ms versus approximately 72 ms per remote read indicates network round trip dominates this operation. The existing feed cache reduced the repeated read from 460 ms/6 SQL to 0 ms/0 SQL. No loading-speed improvement is claimed."
+  },
+  "deployment": {
+    "required": false,
+    "reason": "Existing weekly scheduler is already deployed and its minute cron is enabled. Only live settings, receipt and audit changed."
+  },
+  "sourceForValidation": "e40a2222bd45302ba79ebdf7ab88c425b687c927",
+  "tests": [
+    "tests/territory-frontline-20261108.test.mjs",
+    "tests/territory-draft-20261109.test.mjs",
+    "tests/territory-draft-prizes-20261109.test.mjs",
+    "tests/faction-territory-defer-20261105.test.mjs",
+    "operations/territory-tuesday20-20261117/weekly.test.mjs"
+  ],
+  "idempotency": "A repeated request with this operation key returns the existing receipt. Do not manually create an extra round for the same scheduled slot."
+}
