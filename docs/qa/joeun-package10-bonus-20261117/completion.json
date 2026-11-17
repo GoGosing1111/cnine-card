@@ -1,0 +1,297 @@
+{
+  "status": "VERIFIED",
+  "verifiedAt": "2026-11-17T04:35:59.015Z",
+  "completedAt": "2026-11-17T04:35:20.128Z",
+  "operationKey": "ops:joeun:package10-with-bonus:20261117:v1",
+  "userId": "4754",
+  "nickname": "조은",
+  "auditId": "62864",
+  "quantity": 10,
+  "source": "OPERATOR_GRANT",
+  "chargedWon": 0,
+  "coins": {
+    "base": "5000000000000000",
+    "bonus": "28000000000000000",
+    "total": "33000000000000000",
+    "before": "4460312026872581",
+    "after": "37460312026872581",
+    "logId": "105875193"
+  },
+  "currentCoins": "37460312026872581",
+  "subsequentCoins": {
+    "delta": "0",
+    "entries": 0
+  },
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "granted": 10000000000,
+      "before": "1665643057",
+      "immediateAfter": "11665643057",
+      "current": "11665643057",
+      "subsequentDelta": "0",
+      "logId": "89930776"
+    },
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "granted": 500,
+      "before": "3",
+      "immediateAfter": "503",
+      "current": "503",
+      "subsequentDelta": "0",
+      "logId": "89930774"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "granted": 100,
+      "before": "108",
+      "immediateAfter": "208",
+      "current": "208",
+      "subsequentDelta": "0",
+      "logId": "89930781"
+    },
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "granted": 100,
+      "before": "98",
+      "immediateAfter": "198",
+      "current": "198",
+      "subsequentDelta": "0",
+      "logId": "89930775"
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "granted": 250,
+      "before": "100",
+      "immediateAfter": "350",
+      "current": "350",
+      "subsequentDelta": "0",
+      "logId": "89930777"
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "granted": 500,
+      "before": "89",
+      "immediateAfter": "589",
+      "current": "589",
+      "subsequentDelta": "0",
+      "logId": "89930779"
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "granted": 5000,
+      "before": "105",
+      "immediateAfter": "5105",
+      "current": "5105",
+      "subsequentDelta": "0",
+      "logId": "89930778"
+    },
+    {
+      "code": "SSS_MIRACLE_CUBE",
+      "name": "SSS 미라클큐브",
+      "granted": 190,
+      "before": "0",
+      "immediateAfter": "190",
+      "current": "190",
+      "subsequentDelta": "0",
+      "logId": "89930780"
+    }
+  ],
+  "bonus": {
+    "before": 0,
+    "after": 10,
+    "currentPurchases": 10,
+    "coins": "28000000000000000",
+    "cubes": 190,
+    "milestones": [
+      {
+        "purchases": 1,
+        "coins": "1000000000000000",
+        "cubes": 5
+      },
+      {
+        "purchases": 2,
+        "coins": "2000000000000000",
+        "cubes": 10
+      },
+      {
+        "purchases": 3,
+        "coins": "3000000000000000",
+        "cubes": 15
+      },
+      {
+        "purchases": 4,
+        "coins": "6000000000000000",
+        "cubes": 20
+      },
+      {
+        "purchases": 5,
+        "coins": "8000000000000000",
+        "cubes": 40
+      },
+      {
+        "purchases": 10,
+        "coins": "8000000000000000",
+        "cubes": 100
+      }
+    ]
+  },
+  "orderId": "4754_ops_joeun_package10_bonus_20261117_v1",
+  "orderStatus": "FULFILLED",
+  "coinLedgerRecords": 1,
+  "inventoryLedgerRecords": 8,
+  "auditRecords": 1,
+  "balancesReconciled": true,
+  "exactIntegerArithmetic": true,
+  "protectedStatePreserved": true,
+  "packageAccountingCheckpointUpdated": true,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "operationLocksRemaining": 0,
+  "messagesSent": 0,
+  "kst": "2026-11-17 13:35:20",
+  "authorization": "조은 계정에 49800원 패키지 10회 지급해 누적보상까지",
+  "productCode": "SEASON_PASS_PACKAGE_20261115_PETS",
+  "unitPriceWon": 49800,
+  "listValueWon": 498000,
+  "delivery": "DIRECT",
+  "checks": {
+    "testsPassed": 8,
+    "testFiles": [
+      "tests/support-package-cubes-20261116.test.mjs",
+      "tests/support-package-refresh-20261115.test.mjs"
+    ],
+    "injectedPartialFailureRollback": true,
+    "fullRehearsalRollback": true,
+    "onlyExpectedWrites": true,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "operationLocksRemaining": 0
+  },
+  "performance": {
+    "before": {
+      "at": "2026-11-17T04:34:05.602Z",
+      "phase": "before",
+      "userId": "4754",
+      "nickname": "조은",
+      "measurements": [
+        {
+          "kind": "package",
+          "visit": "first",
+          "elapsedMs": 391,
+          "sql": 8
+        },
+        {
+          "kind": "package",
+          "visit": "repeat",
+          "elapsedMs": 253,
+          "sql": 7
+        },
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "elapsedMs": 24266,
+          "sql": 12
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "elapsedMs": 2590,
+          "sql": 12
+        }
+      ],
+      "currentPurchases": 0,
+      "totalBonusCubes": 0,
+      "orderIds": [
+        "4754_a0f3307f-0071-4444-967a-5d78184405c3"
+      ],
+      "coins": {
+        "total": "4460312026872581",
+        "restricted": "0",
+        "available": "4460312026872581"
+      },
+      "readOnly": true,
+      "condition": "Windows CLI, actual package and wallet service against production PostgreSQL, network included, first and repeat reads. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+    },
+    "after": {
+      "at": "2026-11-17T04:35:58.637Z",
+      "phase": "after",
+      "userId": "4754",
+      "nickname": "조은",
+      "measurements": [
+        {
+          "kind": "package",
+          "visit": "first",
+          "elapsedMs": 386,
+          "sql": 8
+        },
+        {
+          "kind": "package",
+          "visit": "repeat",
+          "elapsedMs": 261,
+          "sql": 7
+        },
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "elapsedMs": 83,
+          "sql": 2
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "elapsedMs": 81,
+          "sql": 2
+        }
+      ],
+      "currentPurchases": 10,
+      "totalBonusCubes": 190,
+      "orderIds": [
+        "4754_ops_joeun_package10_bonus_20261117_v1",
+        "4754_a0f3307f-0071-4444-967a-5d78184405c3"
+      ],
+      "coins": {
+        "total": "37460312026872581",
+        "restricted": "33000000000000000",
+        "available": "4460312026872581"
+      },
+      "readOnly": true,
+      "condition": "Windows CLI, actual package and wallet service against production PostgreSQL, network included, first and repeat reads. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+    },
+    "grantMs": 2565,
+    "rehearsalMs": 2616,
+    "inventoryCreditQueries": 1,
+    "inventoryLedgerQueries": 1,
+    "bottleneck": "Stale package-wallet checkpoint required replaying 19,226 historical coin entries. The grant reconciles and advances that checkpoint within its atomic transaction; existing funds and their source accounting remain unchanged.",
+    "checkpoint": {
+      "historicalEntries": 19226,
+      "operationalChunks": 22,
+      "readOnlyPreparationMs": 25212
+    },
+    "comparison": "Same account, real package and wallet services, Windows CLI, production network included, first and repeat samples. Package 391/253→386/261ms (8/7 SQL unchanged), wallet 24266/2590→83/81ms (12→2 SQL). Single samples and cache/network differences apply.",
+    "noUIOrRuntimeChanges": true,
+    "notPhysicalDeviceOrFPS": true
+  },
+  "preserved": [
+    "Prior November 1 package order and campaign history",
+    "Unrestricted wallet balance and existing auction reservations",
+    "Other inventory, equipment, mercenaries, growth, pet state and loadouts",
+    "Season-pass subscription and previously completed rewards"
+  ],
+  "runtimeDeployment": false,
+  "operationArtifacts": {
+    "local": "operations/joeun-package10-bonus-20261117/",
+    "grantSHA256": "4f930177cccba9c951559b25c0a7c0d668ce6afd093452b1a806e65c226e9065",
+    "planSHA256": "9695ea9ac1e7a46278caf8e20fbbc217e89a7a7ccb76c9aafc7d068880df6d0a",
+    "lockedBackup": "locked-before.json",
+    "receipt": "apply.json"
+  }
+}
