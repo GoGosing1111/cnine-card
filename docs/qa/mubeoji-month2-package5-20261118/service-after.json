@@ -1,0 +1,63 @@
+{
+  "at": "2026-11-17T20:11:37.638Z",
+  "phase": "after",
+  "userId": "197",
+  "nickname": "무버지",
+  "measurements": [
+    {
+      "kind": "package",
+      "visit": "first",
+      "elapsedMs": 349,
+      "sql": 8
+    },
+    {
+      "kind": "package",
+      "visit": "repeat",
+      "elapsedMs": 242,
+      "sql": 7
+    },
+    {
+      "kind": "wallet",
+      "visit": "first",
+      "elapsedMs": 78,
+      "sql": 2
+    },
+    {
+      "kind": "wallet",
+      "visit": "repeat",
+      "elapsedMs": 76,
+      "sql": 2
+    },
+    {
+      "kind": "pass",
+      "visit": "first",
+      "elapsedMs": 156,
+      "sql": 2
+    },
+    {
+      "kind": "pass",
+      "visit": "repeat",
+      "elapsedMs": 154,
+      "sql": 2
+    }
+  ],
+  "currentPurchases": 5,
+  "totalBonusCubes": 90,
+  "orderIds": [
+    "197_ops_mubeoji_package5_bonus_20261118_v1"
+  ],
+  "coins": {
+    "total": "24476947073342326",
+    "restricted": "22500000000000000",
+    "available": "1976947073342326"
+  },
+  "pass": {
+    "active": true,
+    "expiresAt": 1797538250354,
+    "claimableCount": 11,
+    "claimableFrom": "2026-11-08",
+    "claimableTo": "2026-11-18"
+  },
+  "readOnly": true,
+  "condition": "Windows CLI, actual package, wallet and season-pass service against production PostgreSQL, network included, first and repeat reads. Package GET before activation is correctly rejected; after activation runs its full normal read, so package latency is not a like-for-like speed comparison. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+}

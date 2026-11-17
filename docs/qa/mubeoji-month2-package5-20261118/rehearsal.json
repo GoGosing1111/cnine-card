@@ -1,0 +1,23 @@
+{
+  "partialFailuresRolledBack": 2,
+  "fullRehearsalRolledBack": true,
+  "passAndPackageAtomic": true,
+  "actualServiceVerified": true,
+  "live": {
+    "pass": {
+      "active": true,
+      "expiresAt": 1797538244160,
+      "claimableCount": 11,
+      "claimableFrom": "2026-11-08",
+      "claimableTo": "2026-11-18",
+      "claimedCount": 0
+    },
+    "package": {
+      "paidPurchases": 5,
+      "totalBonusCubes": 90,
+      "orderIds": [
+        "197_ops_mubeoji_package5_bonus_20261118_v1"
+      ]
+    }
+  }
+}

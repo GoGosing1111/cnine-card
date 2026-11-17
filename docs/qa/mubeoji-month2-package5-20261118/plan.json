@@ -1,0 +1,92 @@
+{
+  "operationKey": "ops:mubeoji:month2-package5:20261118:v1",
+  "authorization": "무버지 2개월 시즌패스 활성화 및 49,800원 패키지 5회분 지급",
+  "userId": "197",
+  "nickname": "무버지",
+  "identityHash": "8735a60e520274c3592e68f6b13019d25efc9a99a239954265e15e457d2e9591",
+  "productCode": "SEASON_PASS_PACKAGE_20261115_PETS",
+  "unitPriceWon": 49800,
+  "quantity": 5,
+  "listValueWon": 249000,
+  "source": "OPERATOR_GRANT",
+  "chargedWon": 0,
+  "messagesSent": 0,
+  "countTowardCurrentCampaign": true,
+  "bonusKey": "support_package_bonus_20261115_v1:197",
+  "paidPurchasesBefore": 0,
+  "paidPurchasesAfter": 5,
+  "baseCoins": "2500000000000000",
+  "bonusCoins": "20000000000000000",
+  "totalCoins": "22500000000000000",
+  "bonusCubes": 90,
+  "milestones": [
+    {
+      "purchases": 1,
+      "coins": "1000000000000000",
+      "cubes": 5
+    },
+    {
+      "purchases": 2,
+      "coins": "2000000000000000",
+      "cubes": 10
+    },
+    {
+      "purchases": 3,
+      "coins": "3000000000000000",
+      "cubes": 15
+    },
+    {
+      "purchases": 4,
+      "coins": "6000000000000000",
+      "cubes": 20
+    },
+    {
+      "purchases": 5,
+      "coins": "8000000000000000",
+      "cubes": 40
+    }
+  ],
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "quantity": 5000000000
+    },
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "quantity": 250
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "quantity": 50
+    },
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "quantity": 50
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "quantity": 125
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "quantity": 250
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "quantity": 2500
+    },
+    {
+      "code": "SSS_MIRACLE_CUBE",
+      "name": "SSS 미라클큐브",
+      "quantity": 90
+    }
+  ],
+  "orderId": "197_ops_mubeoji_package5_bonus_20261118_v1"
+}

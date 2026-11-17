@@ -1,0 +1,608 @@
+{
+  "status": "VERIFIED",
+  "readOnly": true,
+  "bundle": {
+    "status": "COMPLETED",
+    "operationKey": "ops:mubeoji:month2-package5:20261118:v1",
+    "userId": "197",
+    "nickname": "무버지",
+    "completedAt": "2026-11-17T20:10:53.169Z",
+    "passAuditId": "63591",
+    "packageAuditId": "63593",
+    "passMonth": 2,
+    "durationDays": 30,
+    "packageQuantity": 5,
+    "totalCoins": "22500000000000000",
+    "bonusCubes": 90,
+    "messagesSent": 0,
+    "actualChargeWon": 0
+  },
+  "packageReceipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:mubeoji:month2-package5:20261118:v1",
+    "plan": {
+      "operationKey": "ops:mubeoji:month2-package5:20261118:v1",
+      "authorization": "무버지 2개월 시즌패스 활성화 및 49,800원 패키지 5회분 지급",
+      "userId": "197",
+      "nickname": "무버지",
+      "identityHash": "8735a60e520274c3592e68f6b13019d25efc9a99a239954265e15e457d2e9591",
+      "productCode": "SEASON_PASS_PACKAGE_20261115_PETS",
+      "unitPriceWon": 49800,
+      "quantity": 5,
+      "listValueWon": 249000,
+      "source": "OPERATOR_GRANT",
+      "chargedWon": 0,
+      "messagesSent": 0,
+      "countTowardCurrentCampaign": true,
+      "bonusKey": "support_package_bonus_20261115_v1:197",
+      "paidPurchasesBefore": 0,
+      "paidPurchasesAfter": 5,
+      "baseCoins": "2500000000000000",
+      "bonusCoins": "20000000000000000",
+      "totalCoins": "22500000000000000",
+      "bonusCubes": 90,
+      "milestones": [
+        {
+          "purchases": 1,
+          "coins": "1000000000000000",
+          "cubes": 5
+        },
+        {
+          "purchases": 2,
+          "coins": "2000000000000000",
+          "cubes": 10
+        },
+        {
+          "purchases": 3,
+          "coins": "3000000000000000",
+          "cubes": 15
+        },
+        {
+          "purchases": 4,
+          "coins": "6000000000000000",
+          "cubes": 20
+        },
+        {
+          "purchases": 5,
+          "coins": "8000000000000000",
+          "cubes": 40
+        }
+      ],
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 5000000000
+        },
+        {
+          "code": "ARDEN_ENERGY",
+          "name": "아르덴 에너지",
+          "quantity": 250
+        },
+        {
+          "code": "WEAPON_ENHANCEMENT_SCROLL",
+          "name": "무기 강화주문서",
+          "quantity": 50
+        },
+        {
+          "code": "ARMOR_ENHANCEMENT_SCROLL",
+          "name": "방어구 강화주문서",
+          "quantity": 50
+        },
+        {
+          "code": "MERCENARY_SSS_LIMITED_SHARD",
+          "name": "SSS 리미티드 조각",
+          "quantity": 125
+        },
+        {
+          "code": "PET_SEAL_ORB",
+          "name": "펫 봉인구",
+          "quantity": 250
+        },
+        {
+          "code": "PET_ESSENCE",
+          "name": "펫 정수",
+          "quantity": 2500
+        },
+        {
+          "code": "SSS_MIRACLE_CUBE",
+          "name": "SSS 미라클큐브",
+          "quantity": 90
+        }
+      ],
+      "orderId": "197_ops_mubeoji_package5_bonus_20261118_v1"
+    },
+    "planHash": "6de98eb4e6d4c1e4a1ce24c1c3e86675c485bf89f3496480cbca16cbd08475cb",
+    "userId": "197",
+    "nickname": "무버지",
+    "completedAt": "2026-11-17T20:10:53.169Z",
+    "order": {
+      "version": 1,
+      "quantity": 5,
+      "id": "197_ops_mubeoji_package5_bonus_20261118_v1",
+      "userId": 197,
+      "nickname": "무버지",
+      "product": {
+        "code": "SEASON_PASS_PACKAGE_20261115_PETS",
+        "name": "리버스콜 코인 패키지",
+        "priceWon": 49800,
+        "coins": 500000000000000,
+        "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+        "items": [
+          {
+            "code": "MASTER_STAR",
+            "name": "마스터의 별",
+            "quantity": 1000000000,
+            "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+          },
+          {
+            "code": "ARDEN_ENERGY",
+            "name": "아르덴 에너지",
+            "quantity": 50,
+            "image": "assets/items/arden-energy-v1.webp"
+          },
+          {
+            "code": "WEAPON_ENHANCEMENT_SCROLL",
+            "name": "무기 강화주문서",
+            "quantity": 10,
+            "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+          },
+          {
+            "code": "ARMOR_ENHANCEMENT_SCROLL",
+            "name": "방어구 강화주문서",
+            "quantity": 10,
+            "image": "assets/items/armor-enhancement-scroll-v1.webp"
+          },
+          {
+            "code": "MERCENARY_SSS_LIMITED_SHARD",
+            "name": "SSS 리미티드 조각",
+            "quantity": 25,
+            "image": "assets/items/sss-limited-shard-20261020/item.webp"
+          },
+          {
+            "code": "PET_SEAL_ORB",
+            "name": "펫 봉인구",
+            "quantity": 50,
+            "image": "assets/items/pet-opening-v1/pet-seal-orb.webp"
+          },
+          {
+            "code": "PET_ESSENCE",
+            "name": "펫 정수",
+            "quantity": 500,
+            "image": "assets/items/pet-opening-v1/pet-essence.webp"
+          }
+        ],
+        "packageQuantity": 2,
+        "eventCode": "SUPPORT_PACKAGE_BOGO_20261115",
+        "eventLabel": "1+1 이벤트",
+        "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1"
+      },
+      "status": "FULFILLED",
+      "revision": 1,
+      "createdAt": 1794946253169,
+      "processedAt": 1794946253169,
+      "processedBy": 1,
+      "source": "OPERATOR_GRANT",
+      "chargedWon": 0,
+      "paymentConfirmed": false,
+      "countTowardCurrentCampaign": true,
+      "fulfillment": {
+        "code": "SEASON_PASS_PACKAGE_20261115_PETS",
+        "name": "리버스콜 코인 패키지",
+        "priceWon": 249000,
+        "coins": "22500000000000000",
+        "coinImage": "assets/ui/icon-fusion-20261004/coin.webp",
+        "items": [
+          {
+            "code": "MASTER_STAR",
+            "name": "마스터의 별",
+            "quantity": 5000000000,
+            "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+          },
+          {
+            "code": "ARDEN_ENERGY",
+            "name": "아르덴 에너지",
+            "quantity": 250,
+            "image": "assets/items/arden-energy-v1.webp"
+          },
+          {
+            "code": "WEAPON_ENHANCEMENT_SCROLL",
+            "name": "무기 강화주문서",
+            "quantity": 50,
+            "image": "assets/items/weapon-enhancement-scroll-v1.webp"
+          },
+          {
+            "code": "ARMOR_ENHANCEMENT_SCROLL",
+            "name": "방어구 강화주문서",
+            "quantity": 50,
+            "image": "assets/items/armor-enhancement-scroll-v1.webp"
+          },
+          {
+            "code": "MERCENARY_SSS_LIMITED_SHARD",
+            "name": "SSS 리미티드 조각",
+            "quantity": 125,
+            "image": "assets/items/sss-limited-shard-20261020/item.webp"
+          },
+          {
+            "code": "PET_SEAL_ORB",
+            "name": "펫 봉인구",
+            "quantity": 250,
+            "image": "assets/items/pet-opening-v1/pet-seal-orb.webp"
+          },
+          {
+            "code": "PET_ESSENCE",
+            "name": "펫 정수",
+            "quantity": 2500,
+            "image": "assets/items/pet-opening-v1/pet-essence.webp"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE",
+            "name": "SSS 미라클큐브",
+            "image": "assets/ui/sss-miracle-cube-20261021/cube-768.webp",
+            "quantity": 90
+          }
+        ],
+        "packageQuantity": 10,
+        "eventCode": "SUPPORT_PACKAGE_BOGO_20261115",
+        "eventLabel": "1+1 이벤트",
+        "bonusPolicy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+        "purchaseQuantity": 5,
+        "baseCoins": 2500000000000000,
+        "purchaseBonus": {
+          "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+          "paidPurchasesBefore": 0,
+          "paidPurchasesAfter": 5,
+          "milestones": [
+            {
+              "purchases": 1,
+              "coins": "1000000000000000",
+              "cubes": 5
+            },
+            {
+              "purchases": 2,
+              "coins": "2000000000000000",
+              "cubes": 10
+            },
+            {
+              "purchases": 3,
+              "coins": "3000000000000000",
+              "cubes": 15
+            },
+            {
+              "purchases": 4,
+              "coins": "6000000000000000",
+              "cubes": 20
+            },
+            {
+              "purchases": 5,
+              "coins": "8000000000000000",
+              "cubes": 40
+            }
+          ],
+          "coins": "20000000000000000",
+          "totalEarnedCoins": "20000000000000000",
+          "cubes": 90,
+          "totalEarnedCubes": 90
+        }
+      },
+      "note": "사용자 지시: 49,800원 패키지 5회분과 1~5회 누적 보상 직접 지급"
+    },
+    "bonusBefore": {
+      "version": 1,
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchases": 0,
+      "totalBonusCoins": "0"
+    },
+    "bonusAfter": {
+      "version": 1,
+      "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+      "paidPurchases": 5,
+      "totalBonusCoins": "20000000000000000",
+      "totalBonusCubes": 90,
+      "lastOrderId": "197_ops_mubeoji_package5_bonus_20261118_v1",
+      "updatedAt": 1794946253169,
+      "operatorGrantedPurchases": 5
+    },
+    "coins": {
+      "base": "2500000000000000",
+      "bonus": "20000000000000000",
+      "total": "22500000000000000",
+      "before": "1976947073342326",
+      "after": "24476947073342326",
+      "logId": "106232713"
+    },
+    "items": [
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "quantity": 5000000000,
+        "before": "1262488243",
+        "after": "6262488243",
+        "unseenBefore": "126665326",
+        "unseenAfter": "5126665326",
+        "logId": "90039369"
+      },
+      {
+        "code": "ARDEN_ENERGY",
+        "name": "아르덴 에너지",
+        "quantity": 250,
+        "before": "0",
+        "after": "250",
+        "unseenBefore": "0",
+        "unseenAfter": "250",
+        "logId": "90039367"
+      },
+      {
+        "code": "WEAPON_ENHANCEMENT_SCROLL",
+        "name": "무기 강화주문서",
+        "quantity": 50,
+        "before": "0",
+        "after": "50",
+        "unseenBefore": "0",
+        "unseenAfter": "50",
+        "logId": "90039374"
+      },
+      {
+        "code": "ARMOR_ENHANCEMENT_SCROLL",
+        "name": "방어구 강화주문서",
+        "quantity": 50,
+        "before": "0",
+        "after": "50",
+        "unseenBefore": "0",
+        "unseenAfter": "50",
+        "logId": "90039368"
+      },
+      {
+        "code": "MERCENARY_SSS_LIMITED_SHARD",
+        "name": "SSS 리미티드 조각",
+        "quantity": 125,
+        "before": "0",
+        "after": "125",
+        "unseenBefore": "0",
+        "unseenAfter": "125",
+        "logId": "90039370"
+      },
+      {
+        "code": "PET_SEAL_ORB",
+        "name": "펫 봉인구",
+        "quantity": 250,
+        "before": "162",
+        "after": "412",
+        "unseenBefore": "19",
+        "unseenAfter": "269",
+        "logId": "90039372"
+      },
+      {
+        "code": "PET_ESSENCE",
+        "name": "펫 정수",
+        "quantity": 2500,
+        "before": "105",
+        "after": "2605",
+        "unseenBefore": "105",
+        "unseenAfter": "2605",
+        "logId": "90039371"
+      },
+      {
+        "code": "SSS_MIRACLE_CUBE",
+        "name": "SSS 미라클큐브",
+        "quantity": 90,
+        "before": "0",
+        "after": "90",
+        "unseenBefore": "0",
+        "unseenAfter": "90",
+        "logId": "90039373"
+      }
+    ],
+    "accountingBefore": {
+      "version": 1,
+      "revision": 0,
+      "cursor": 106056786,
+      "restricted": 0,
+      "auctionReserved": {},
+      "precredited": null
+    },
+    "accountingAfter": {
+      "version": 1,
+      "revision": 1,
+      "cursor": 106232713,
+      "restricted": "22500000000000000",
+      "auctionReserved": {},
+      "precredited": null
+    },
+    "unrestrictedBefore": "1976947073342326",
+    "unrestrictedAfter": "1976947073342326",
+    "protectedBeforeHash": "a053e2ca6efc3ea158c7bc97061fa4577cd12f4695a6a9d0357e490294afc44d",
+    "protectedAfterHash": "a053e2ca6efc3ea158c7bc97061fa4577cd12f4695a6a9d0357e490294afc44d",
+    "syncBefore": {
+      "domains": {
+        "pvp": "57103",
+        "wallet": "57311",
+        "loadout": "53353",
+        "messages": "57310",
+        "inventory": "57309",
+        "collection": "57227"
+      },
+      "user_id": "197",
+      "revision": "57311"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "57103",
+        "wallet": "57312",
+        "loadout": "53353",
+        "messages": "57310",
+        "inventory": "57314",
+        "collection": "57227"
+      },
+      "user_id": "197",
+      "revision": "57314"
+    },
+    "messagesSent": 0,
+    "auditId": "63593"
+  },
+  "passReceipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:mubeoji:month2-package5:20261118:v1:pass",
+    "parentOperationKey": "ops:mubeoji:month2-package5:20261118:v1",
+    "userId": "197",
+    "nickname": "무버지",
+    "month": 2,
+    "durationDays": 30,
+    "completedAt": "2026-11-17T20:10:50.354Z",
+    "auditId": "63591",
+    "actualChargeWon": 0,
+    "messagesSent": 0,
+    "activationPetsGranted": 0,
+    "automaticallyClaimed": 0,
+    "payload": "[1,197,\"GRANT\",0,\"사용자 요청 무버지 2개월차 시즌패스 30일 활성화 (운영 직접 적용, 실결제 차감 없음)\",2]",
+    "result": {
+      "ok": true,
+      "requestId": "ops_mubeoji_month2_20261118_v1",
+      "action": "GRANT",
+      "month": 2,
+      "target": {
+        "id": 197,
+        "nickname": "무버지"
+      },
+      "amountWon": 0,
+      "actualChargeWon": 0,
+      "note": "사용자 요청 무버지 2개월차 시즌패스 30일 활성화 (운영 직접 적용, 실결제 차감 없음)",
+      "processedAt": 1794946250354,
+      "subscription": {
+        "version": 1,
+        "revision": 1,
+        "startsAt": 1794946250354,
+        "endsAt": 1797538250354,
+        "magnetPetCode": null,
+        "revokedAt": null,
+        "passTerms": {
+          "2": {
+            "calendarStartsAt": 1794946250354,
+            "startsAt": 1794946250354,
+            "endsAt": 1797538250354,
+            "revokedAt": null
+          }
+        },
+        "active": true,
+        "extraLegionEntries": 3
+      },
+      "subscriptionState": {
+        "version": 1,
+        "revision": 1,
+        "startsAt": 1794946250354,
+        "endsAt": 1797538250354,
+        "magnetPetCode": null,
+        "revokedAt": null,
+        "passTerms": {
+          "2": {
+            "calendarStartsAt": 1794946250354,
+            "startsAt": 1794946250354,
+            "endsAt": 1797538250354,
+            "revokedAt": null
+          }
+        }
+      },
+      "replayed": false,
+      "petReward": {
+        "petCode": "PET-HEADSET-SHIBA",
+        "quantity": 0,
+        "alreadyOwned": true
+      },
+      "operationKey": "ops:mubeoji:month2-package5:20261118:v1:pass",
+      "source": "OPERATOR_DIRECT_LINK",
+      "normalApplicationSalesUnchanged": true
+    },
+    "priorClaimRecords": 0,
+    "priorClaimHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "protectedBeforeHash": "5b0ba8f8d3911b593a6dce16adf77c02eb7834587b151faec613324a13927560",
+    "protectedAfterHash": "5b0ba8f8d3911b593a6dce16adf77c02eb7834587b151faec613324a13927560"
+  },
+  "live": {
+    "pass": {
+      "active": true,
+      "expiresAt": 1797538250354,
+      "claimableCount": 11,
+      "claimableFrom": "2026-11-08",
+      "claimableTo": "2026-11-18",
+      "claimedCount": 0
+    },
+    "package": {
+      "paidPurchases": 5,
+      "totalBonusCubes": 90,
+      "orderIds": [
+        "197_ops_mubeoji_package5_bonus_20261118_v1"
+      ]
+    }
+  },
+  "itemsReconciled": [
+    {
+      "code": "MASTER_STAR",
+      "quantity": 5000000000,
+      "before": "1262488243",
+      "immediateAfter": "6262488243",
+      "current": "6262488243",
+      "subsequentDelta": "0"
+    },
+    {
+      "code": "ARDEN_ENERGY",
+      "quantity": 250,
+      "before": "0",
+      "immediateAfter": "250",
+      "current": "250",
+      "subsequentDelta": "0"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "quantity": 50,
+      "before": "0",
+      "immediateAfter": "50",
+      "current": "50",
+      "subsequentDelta": "0"
+    },
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "quantity": 50,
+      "before": "0",
+      "immediateAfter": "50",
+      "current": "50",
+      "subsequentDelta": "0"
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "quantity": 125,
+      "before": "0",
+      "immediateAfter": "125",
+      "current": "125",
+      "subsequentDelta": "0"
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "quantity": 250,
+      "before": "162",
+      "immediateAfter": "412",
+      "current": "412",
+      "subsequentDelta": "0"
+    },
+    {
+      "code": "PET_ESSENCE",
+      "quantity": 2500,
+      "before": "105",
+      "immediateAfter": "2605",
+      "current": "2605",
+      "subsequentDelta": "0"
+    },
+    {
+      "code": "SSS_MIRACLE_CUBE",
+      "quantity": 90,
+      "before": "0",
+      "immediateAfter": "90",
+      "current": "90",
+      "subsequentDelta": "0"
+    }
+  ],
+  "coinAfter": "24476947073342326",
+  "currentCoin": "24476947073342326",
+  "laterCoinDelta": "0",
+  "replayWrites": 0,
+  "locksRemaining": 0
+}

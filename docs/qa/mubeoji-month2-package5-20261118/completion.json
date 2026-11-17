@@ -1,0 +1,276 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:mubeoji:month2-package5:20261118:v1",
+  "userId": "197",
+  "nickname": "무버지",
+  "completedAt": "2026-11-17T20:10:53.169Z",
+  "passAuditId": "63591",
+  "packageAuditId": "63593",
+  "passMonth": 2,
+  "durationDays": 30,
+  "packageQuantity": 5,
+  "totalCoins": "22500000000000000",
+  "bonusCubes": 90,
+  "messagesSent": 0,
+  "actualChargeWon": 0,
+  "completedAtKST": "2026-11-18 05:10:53 KST",
+  "pass": {
+    "month": 2,
+    "durationDays": 30,
+    "startsAtKST": "2026-11-18 05:10:50 KST",
+    "expiresAtKST": "2026-12-18 05:10:50 KST",
+    "active": true,
+    "claimableCount": 11,
+    "claimableFrom": "2026-11-08",
+    "claimableTo": "2026-11-18",
+    "previousClaimRecordsPreserved": 0,
+    "automaticallyClaimed": 0,
+    "additionalPets": 0,
+    "globalSalesUnchanged": true
+  },
+  "package": {
+    "quantity": 5,
+    "source": "OPERATOR_GRANT",
+    "chargedWon": 0,
+    "countBefore": 0,
+    "countAfter": 5,
+    "baseCoins": "2500000000000000",
+    "bonusCoins": "20000000000000000",
+    "totalCoins": "22500000000000000",
+    "bonusCubes": 90,
+    "items": [
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "quantity": 5000000000,
+        "before": "1262488243",
+        "after": "6262488243",
+        "unseenBefore": "126665326",
+        "unseenAfter": "5126665326",
+        "logId": "90039369"
+      },
+      {
+        "code": "ARDEN_ENERGY",
+        "name": "아르덴 에너지",
+        "quantity": 250,
+        "before": "0",
+        "after": "250",
+        "unseenBefore": "0",
+        "unseenAfter": "250",
+        "logId": "90039367"
+      },
+      {
+        "code": "WEAPON_ENHANCEMENT_SCROLL",
+        "name": "무기 강화주문서",
+        "quantity": 50,
+        "before": "0",
+        "after": "50",
+        "unseenBefore": "0",
+        "unseenAfter": "50",
+        "logId": "90039374"
+      },
+      {
+        "code": "ARMOR_ENHANCEMENT_SCROLL",
+        "name": "방어구 강화주문서",
+        "quantity": 50,
+        "before": "0",
+        "after": "50",
+        "unseenBefore": "0",
+        "unseenAfter": "50",
+        "logId": "90039368"
+      },
+      {
+        "code": "MERCENARY_SSS_LIMITED_SHARD",
+        "name": "SSS 리미티드 조각",
+        "quantity": 125,
+        "before": "0",
+        "after": "125",
+        "unseenBefore": "0",
+        "unseenAfter": "125",
+        "logId": "90039370"
+      },
+      {
+        "code": "PET_SEAL_ORB",
+        "name": "펫 봉인구",
+        "quantity": 250,
+        "before": "162",
+        "after": "412",
+        "unseenBefore": "19",
+        "unseenAfter": "269",
+        "logId": "90039372"
+      },
+      {
+        "code": "PET_ESSENCE",
+        "name": "펫 정수",
+        "quantity": 2500,
+        "before": "105",
+        "after": "2605",
+        "unseenBefore": "105",
+        "unseenAfter": "2605",
+        "logId": "90039371"
+      },
+      {
+        "code": "SSS_MIRACLE_CUBE",
+        "name": "SSS 미라클큐브",
+        "quantity": 90,
+        "before": "0",
+        "after": "90",
+        "unseenBefore": "0",
+        "unseenAfter": "90",
+        "logId": "90039373"
+      }
+    ],
+    "orderId": "197_ops_mubeoji_package5_bonus_20261118_v1",
+    "coinLedgerId": "106232713",
+    "restrictedCoinsAdded": "22500000000000000",
+    "previousAvailableCoinsPreserved": "1976947073342326"
+  },
+  "atomic": true,
+  "partialFailuresRolledBack": 2,
+  "fullRehearsalRolledBack": true,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "otherTablesWrites": 0,
+  "verification": {
+    "balancesReconciled": true,
+    "packageAudit": "63593",
+    "passAudit": "63591",
+    "coinLogs": 1,
+    "inventoryLogs": 8,
+    "passActive": true,
+    "packagePurchases": 5
+  },
+  "performance": {
+    "before": {
+      "at": "2026-11-17T20:08:15.012Z",
+      "phase": "before",
+      "userId": "197",
+      "nickname": "무버지",
+      "measurements": [
+        {
+          "kind": "package",
+          "visit": "first",
+          "elapsedMs": 100,
+          "sql": 3
+        },
+        {
+          "kind": "package",
+          "visit": "repeat",
+          "elapsedMs": 74,
+          "sql": 3
+        },
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "elapsedMs": 1302,
+          "sql": 3
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "elapsedMs": 217,
+          "sql": 3
+        }
+      ],
+      "packageBeforeUnavailable": "시즌패스 활성화 유저만 구매 신청할 수 있습니다.",
+      "currentPurchases": null,
+      "totalBonusCubes": null,
+      "orderIds": null,
+      "coins": {
+        "total": "1976947073342326",
+        "restricted": "0",
+        "available": "1976947073342326"
+      },
+      "readOnly": true,
+      "condition": "Windows CLI, actual package and wallet service against production PostgreSQL, network included, first and repeat reads. Package GET before activation is correctly rejected; after activation runs its full normal read, so package latency is not a like-for-like speed comparison. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+    },
+    "passBefore": [
+      {
+        "visit": "first",
+        "elapsedMs": 80
+      },
+      {
+        "visit": "repeat",
+        "elapsedMs": 78
+      }
+    ],
+    "after": {
+      "at": "2026-11-17T20:11:37.638Z",
+      "phase": "after",
+      "userId": "197",
+      "nickname": "무버지",
+      "measurements": [
+        {
+          "kind": "package",
+          "visit": "first",
+          "elapsedMs": 349,
+          "sql": 8
+        },
+        {
+          "kind": "package",
+          "visit": "repeat",
+          "elapsedMs": 242,
+          "sql": 7
+        },
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "elapsedMs": 78,
+          "sql": 2
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "elapsedMs": 76,
+          "sql": 2
+        },
+        {
+          "kind": "pass",
+          "visit": "first",
+          "elapsedMs": 156,
+          "sql": 2
+        },
+        {
+          "kind": "pass",
+          "visit": "repeat",
+          "elapsedMs": 154,
+          "sql": 2
+        }
+      ],
+      "currentPurchases": 5,
+      "totalBonusCubes": 90,
+      "orderIds": [
+        "197_ops_mubeoji_package5_bonus_20261118_v1"
+      ],
+      "coins": {
+        "total": "24476947073342326",
+        "restricted": "22500000000000000",
+        "available": "1976947073342326"
+      },
+      "pass": {
+        "active": true,
+        "expiresAt": 1797538250354,
+        "claimableCount": 11,
+        "claimableFrom": "2026-11-08",
+        "claimableTo": "2026-11-18"
+      },
+      "readOnly": true,
+      "condition": "Windows CLI, actual package, wallet and season-pass service against production PostgreSQL, network included, first and repeat reads. Package GET before activation is correctly rejected; after activation runs its full normal read, so package latency is not a like-for-like speed comparison. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+    },
+    "grantMs": 4828,
+    "limitations": "Windows CLI with production PostgreSQL, network-inclusive single observations. Before activation package GET is correctly blocked, so its elapsed time cannot be compared as a loading speed improvement. Wallet now uses its initialized ledger checkpoint (3 to 2 SQL). Active pass adds the required claim-ledger lookup (1 to 2 SQL). No UI/runtime change, deployment or browser/physical-device FPS measurement."
+  },
+  "runtimeChanged": false,
+  "gameDeployed": false,
+  "evidenceDirectory": "operations/mubeoji-month2-package5-20261118",
+  "operationScriptSha256": {
+    "inspect.mjs": "604812cb14d809d5b355c0377dad53bbe5ff17338ca02e898328dcb7de617948",
+    "build.mjs": "1090b9f5d04d9851a68a1805155a398fbaf222f769826db07438a2ce9e73be64",
+    "wallet.mjs": "551cea467d48809a69729cc05cb625e3170a8dabf2e0a0ef87edf067382415c7",
+    "grant.mjs": "3fe339f071462a479f7597bf900514e43f64ac0dca14c5dab945f2d6fc919961",
+    "pass.mjs": "63565f227c840d09c7a12ee14776f3f6cf15e975cfe69ccd4c83569175ac94b6",
+    "run.mjs": "e6a53ffbc24d3f40f419569ed7a96e6ed453fa3ebeb888f04baaa646ca8eb617",
+    "service.mjs": "87ca1ab7f7c70b190b127ccd70c53d3ffd3cc90cdda7bfb33d5cb5e66a5aa132",
+    "record.mjs": "8a29c137998198eb779adab01583f2af00d47ea1da42f4811d54641294a596db"
+  }
+}

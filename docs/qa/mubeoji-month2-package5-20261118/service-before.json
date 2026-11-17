@@ -1,0 +1,43 @@
+{
+  "at": "2026-11-17T20:08:15.012Z",
+  "phase": "before",
+  "userId": "197",
+  "nickname": "무버지",
+  "measurements": [
+    {
+      "kind": "package",
+      "visit": "first",
+      "elapsedMs": 100,
+      "sql": 3
+    },
+    {
+      "kind": "package",
+      "visit": "repeat",
+      "elapsedMs": 74,
+      "sql": 3
+    },
+    {
+      "kind": "wallet",
+      "visit": "first",
+      "elapsedMs": 1302,
+      "sql": 3
+    },
+    {
+      "kind": "wallet",
+      "visit": "repeat",
+      "elapsedMs": 217,
+      "sql": 3
+    }
+  ],
+  "packageBeforeUnavailable": "시즌패스 활성화 유저만 구매 신청할 수 있습니다.",
+  "currentPurchases": null,
+  "totalBonusCubes": null,
+  "orderIds": null,
+  "coins": {
+    "total": "1976947073342326",
+    "restricted": "0",
+    "available": "1976947073342326"
+  },
+  "readOnly": true,
+  "condition": "Windows CLI, actual package and wallet service against production PostgreSQL, network included, first and repeat reads. Package GET before activation is correctly rejected; after activation runs its full normal read, so package latency is not a like-for-like speed comparison. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+}
