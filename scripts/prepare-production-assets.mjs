@@ -335,7 +335,8 @@ const blueGearBundledOnly=file=>file.startsWith('preview/project-v-v3/source/bat
  file==='preview/project-v-v3/source/battle/BlueGearCombatPlayback.js'||file==='js/mercenary-blue-gear-pack-live.mjs';
 // Avatar authoring READMEs stay in Git; only the actual review/game artwork is delivered.
 // Historical equipment audit stays in Git; its Pages slot serves the live defense policy.
-const repositoryReadmeOnly=file=>/^preview\/avatar-[^/]+\/README\.md$/.test(file)||file==='docs/pve-equipment-upgrade-fix-20261002.md';
+// Isgen's build report stays in Git; the browser loads its generated bundle.
+const repositoryReadmeOnly=file=>/^preview\/avatar-[^/]+\/README\.md$/.test(file)||file==='docs/pve-equipment-upgrade-fix-20261002.md'||file==='preview/lich-king-raid-v1/build-report.json';
 const iphoneBattleAuditOnly=new Set(JSON.parse(readFileSync(new URL('./iphone-battle-audit-only-20261114.json',import.meta.url),'utf8')));
 // Historical notes remain in Git; no game or preview imports these documents.
 // Keep pet authoring originals, prompt sidecars and local QA in Git. Only runtime assets ship.
