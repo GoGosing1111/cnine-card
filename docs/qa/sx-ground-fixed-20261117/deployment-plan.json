@@ -1,0 +1,37 @@
+{
+  "base": "89bf2b427075e66fac381e624cc311bcd549aabd",
+  "production": {
+    "pages": {
+      "id": "38fc7360-368e-494a-9d52-6b6e200d61b6",
+      "commit": "89bf2b427075e66fac381e624cc311bcd549aabd",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "9be19b72-a060-451b-bb98-bcd67e7184a3",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "3ee2128a-a551-4636-a3af-b1ac0267f3cd",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/sx-suit-live-20261007.test.mjs",
+    "tests/v3-common-grid-v1.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [],
+  "reason": "Localized SX suit ground-light presentation fix. Keep the approved calm first light frame and register its authored disc center to the existing actor ground point. Preserve other aura and blade effects, body poses, movement, damage, timings, camera and all source artwork. Focused SX authority/choreography tests, common-grid bundle integrity and actual loader/cache tests; before/after first entry/reentry/frames/exit and all five action modes on PC/Android/WebKit/Windows URL/H5 emulation. No account/database/server/dependency changes."
+}

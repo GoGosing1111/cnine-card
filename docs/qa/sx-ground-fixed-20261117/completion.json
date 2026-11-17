@@ -1,0 +1,1409 @@
+{
+  "completedAt": "2026-11-17T12:57:50.451Z",
+  "request": "SX 슈트의 파란 발판을 캐릭터 발밑에 고정하고 위아래 흔들림 제거",
+  "sourceCommit": "52a4d5fe049959aa6a7ad28fb764be0755a643a2",
+  "baselineCommit": "dd3e34b35483a7f45ecaf2caba158b7246a130e6",
+  "deployment": {
+    "at": "2026-11-17T12:57:05.991Z",
+    "sourceCommit": "52a4d5fe049959aa6a7ad28fb764be0755a643a2",
+    "pages": {
+      "id": "9b2e431c-078b-49b3-9289-2475dc7b62fc",
+      "commit": "52a4d5fe049959aa6a7ad28fb764be0755a643a2",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "6aeb9b69-884c-4dc7-a85f-5a3f1b72cda4",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "f4d7532f-6fec-4ed4-be45-f2c6144385f0",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "1010f58fdd4f1ce2b1a72833f745c21251f608c437d36b60ad5cecf23525e320",
+        "bytes": 53068
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "20b8ca77f644897d78ec1709a1a6b0d1ed6c00280aa855d387b8028e07b5729d",
+        "bytes": 26567
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "d927c85c75082334f414ad6241e2b2ecbf91e77d26b2e095b7c9768360f11185",
+        "bytes": 831738
+      },
+      {
+        "path": "js/battle-v3-live.js",
+        "sha256": "902fb0d54fbe9b1bb7ebd7fa2dd78f79e758c62b461daf3047cae77a55d6f933",
+        "bytes": 78765
+      },
+      {
+        "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "ab4cd33cd94c7610d637e7f0303d85a6afc8d1bf33cf89aab85d64bd99289955",
+        "bytes": 3763345
+      },
+      {
+        "path": "pve-v3/battle.bundle.js",
+        "sha256": "507e273b41cc99c333aa7f6bcfa8db3624e47527d2ff6296b580921977cf1056",
+        "bytes": 3763319
+      },
+      {
+        "path": "preview/sustained-hunt-v2/battle.bundle.js",
+        "sha256": "15342890a9d756400d8fb9bd1d6c18b5f0280a0d44659ea602e4d2ca68cce7dd",
+        "bytes": 3787040
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "b66f2dd013f9bab7ecfa46f15191686114dc638f1c0ab3f7969652da8bef768c",
+      "verified": 6,
+      "excluded": [
+        {
+          "path": "service-worker.js",
+          "reason": "Existing launcher excludes service worker; browser URL was verified separately."
+        }
+      ]
+    },
+    "tests": 30
+  },
+  "runtimeSuffix": "sx-ground-fixed-20261117-v1",
+  "cause": "The light atlas has 512x512 cells, but the calm first frame disc is centered at (256,416). A centered (0.5,0.5) sprite anchor placed the visible disc below the actor ground point. Cycling all 12 authored light frames also changed the visible disc height.",
+  "implementation": {
+    "behavior": "LiveSXFX overrides the ground-light draw hook: reuse approved light frame 0, anchor at (0.5,416/512), retain size and alpha, and follow the existing actor ground point. Preview-only original animation remains available in the base FX class.",
+    "retained": [
+      "Approved SX artwork and all source images",
+      "Blue body aura, attached blade effects, body poses and dash movement",
+      "Original server damage, double attack cadence, impact times and 40-second ultimate rule",
+      "Existing PVP eligibility and shared battle grid",
+      "Existing pooling, cancellation and exit cleanup"
+    ],
+    "artworkSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+    "productionAccountDataWrites": 0,
+    "messagesSent": 0,
+    "serverLogicChanges": 0,
+    "addedProductionAssets": 0,
+    "addedTimers": 0,
+    "bundlesRebuilt": 11
+  },
+  "checks": {
+    "passed": 30,
+    "failed": 0,
+    "suites": [
+      "tests/sx-suit-live-20261007.test.mjs",
+      "tests/v3-common-grid-v1.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "coverage": [
+      "SX server cadence, damage, targets, PVP gate and original-art hash",
+      "Shared grid and rebuilt runtime consumers",
+      "Real main and H5 loaders, stale-version replacement and cache compatibility",
+      "Five action-mode probes (idle, dash, attack, skill, ultimate), 12 sample times per mode per visit; five platforms and two visits = 600 fixed-geometry samples",
+      "Actual lobby -> PVE menu -> hunt start -> renderer -> close -> reentry with isolated synthetic SX response"
+    ],
+    "productionFiles": 7,
+    "windowsManifest": {
+      "releaseId": "b66f2dd013f9bab7ecfa46f15191686114dc638f1c0ab3f7969652da8bef768c",
+      "verified": 6,
+      "excluded": [
+        {
+          "path": "service-worker.js",
+          "reason": "Existing launcher excludes service worker; browser URL was verified separately."
+        }
+      ]
+    },
+    "liveBrowser": {
+      "condition": "Public production HTML, app loader, live wrapper and battle bundle downloaded and served in the isolated local game fixture. Real UI entry and exit; no production account battle or write.",
+      "firstLaunchMs": 2881.7000000178814,
+      "rounds": [
+        {
+          "visit": "first",
+          "readyMs": 1078,
+          "frames": {
+            "count": 694,
+            "p95Ms": 4.300000000000182,
+            "maxMs": 141.70000000000027,
+            "over50": 3
+          },
+          "lightFrames": [
+            0
+          ],
+          "maxGroundOffsetPx": 1.6077746776921858e-13,
+          "probeSamples": 60,
+          "bladeAttached": true,
+          "exit": {
+            "mounted": false,
+            "timelines": 0,
+            "ambient": false,
+            "cast": false
+          },
+          "postExitCalls": 0
+        },
+        {
+          "visit": "reentry",
+          "readyMs": 577,
+          "frames": {
+            "count": 652,
+            "p95Ms": 4.300000000001091,
+            "maxMs": 129.20000000000073,
+            "over50": 1
+          },
+          "lightFrames": [
+            0
+          ],
+          "maxGroundOffsetPx": 1.6077746776921858e-13,
+          "probeSamples": 60,
+          "bladeAttached": true,
+          "exit": {
+            "mounted": false,
+            "timelines": 0,
+            "ambient": false,
+            "cast": false
+          },
+          "postExitCalls": 0
+        }
+      ],
+      "errors": [],
+      "network": [
+        {
+          "path": "/js/seal-battle.js",
+          "ms": 236,
+          "bytes": 36699
+        },
+        {
+          "path": "/js/territory-war-v1811.js",
+          "ms": 233,
+          "bytes": 92885
+        },
+        {
+          "path": "/js/territory-battlefield-v5.js",
+          "ms": 230,
+          "bytes": 20709
+        },
+        {
+          "path": "/js/responsive-battle-sprites-v1815.js",
+          "ms": 202,
+          "bytes": 4825
+        },
+        {
+          "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+          "ms": 200,
+          "bytes": 1798
+        },
+        {
+          "path": "/js/responsive-battle-sprites-v1803.js",
+          "ms": 197,
+          "bytes": 13646
+        },
+        {
+          "path": "/js/cooperative-battleground-entry.js",
+          "ms": 189,
+          "bytes": 2605
+        },
+        {
+          "path": "/js/app.js",
+          "ms": 140,
+          "bytes": 831738
+        }
+      ]
+    },
+    "visualReview": [
+      "sx-before.png / sx-after.png: former disc below the HUD now sits at the feet",
+      "ui-android-after-0.png / ui-ios-after-0.png: blue ground light at the character feet, aura and blade retained"
+    ],
+    "fixtureNote": "The initial local fixture had five FUR cards but default two-card grade limit; its mock battle config was corrected to permit its own fixture. Production rules did not change."
+  },
+  "performance": {
+    "conditions": "Windows headless Chrome and WebKit, unthrottled localhost with isolated API fixtures. PC/Windows 1440x960; Android/iOS/H5 390x844 touch emulation. Windows launcher entry URL and H5 iframe with mocked host SDK. Fresh browser per platform/phase, same frozen baseline files versus final build. First launch measures navigation to lobby ready; entry/reentry measure hunt click to SX renderer visible. Frames include entry loading and 2.4 seconds of idle presentation. Single samples; not physical phone FPS, installed Windows application or production network latency.",
+    "optimization": "Removed repeated ground-light atlas frame changes (12 distinct frames -> one existing frame). No new texture, timer, network request or server query. Other aura frames continue normally.",
+    "loadingAssessment": "No loading-speed improvement is claimed. Local resource loading and browser rendering/main-thread readiness remain in the entry path; this experiment does not separately attribute all startup latency to disk/network/main thread. Resource timings and long frames are recorded. The measured defect is the frame-dependent ground-disc position, eliminated by fixed geometry and texture.",
+    "caveats": "Existing long entry frames remain. WebKit has the same ResizeObserver loop warning before and after and p95 frames 66-93 ms. Headless Chrome intervals near 4.3 ms do not represent physical display FPS. H5 first entry varied 1369 -> 2070 ms; reentry 658 -> 677 ms, without a new load dependency.",
+    "exit": "All ten before/after visit pairs and production-byte smoke: renderer unmounted, zero timelines, no ambient/cast callback, zero new battle/fight requests during 650 ms post-close observation.",
+    "platforms": [
+      {
+        "device": "pc",
+        "before": {
+          "firstLaunchMs": 2074.7999999821186,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1312,
+              "frames": {
+                "count": 732,
+                "p95Ms": 4.399999999999636,
+                "maxMs": 145.90000000000055,
+                "over50": 5
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 52.363571136474775,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 555,
+              "frames": {
+                "count": 655,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 125,
+                "over50": 1
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 52.363571136474775,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 371,
+              "bytes": 92468
+            },
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 370,
+              "bytes": 36289
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 367,
+              "bytes": 20580
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 362,
+              "bytes": 824964
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 300,
+              "bytes": 4793
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 299,
+              "bytes": 1780
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 298,
+              "bytes": 13643
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 285,
+              "bytes": 2605
+            }
+          ]
+        },
+        "after": {
+          "firstLaunchMs": 2061.0999999940395,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1307,
+              "frames": {
+                "count": 732,
+                "p95Ms": 4.399999999999636,
+                "maxMs": 150.09999999999945,
+                "over50": 4
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.6077746776921858e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 674,
+              "frames": {
+                "count": 660,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 133.3000000000011,
+                "over50": 2
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.6077746776921858e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 365,
+              "bytes": 92885
+            },
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 364,
+              "bytes": 36699
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 345,
+              "bytes": 20709
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 335,
+              "bytes": 831738
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 272,
+              "bytes": 4825
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 272,
+              "bytes": 1798
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 266,
+              "bytes": 13646
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 258,
+              "bytes": 2605
+            }
+          ]
+        }
+      },
+      {
+        "device": "android",
+        "before": {
+          "firstLaunchMs": 1580.5,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1098,
+              "frames": {
+                "count": 710,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 133.30000000000018,
+                "over50": 4
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 24.854337972005226,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 575,
+              "frames": {
+                "count": 636,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 133.29999999999927,
+                "over50": 2
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 24.854337972005226,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 248,
+              "bytes": 92468
+            },
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 248,
+              "bytes": 36289
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 242,
+              "bytes": 20580
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 237,
+              "bytes": 824964
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 204,
+              "bytes": 4793
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 203,
+              "bytes": 1780
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 202,
+              "bytes": 13643
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 192,
+              "bytes": 2605
+            }
+          ]
+        },
+        "after": {
+          "firstLaunchMs": 1542.199999988079,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1489,
+              "frames": {
+                "count": 733,
+                "p95Ms": 4.599999999999909,
+                "maxMs": 204.19999999999982,
+                "over50": 4
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.1368683772161603e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 592,
+              "frames": {
+                "count": 638,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 142.29999999999927,
+                "over50": 2
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.1368683772161603e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 233,
+              "bytes": 36699
+            },
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 228,
+              "bytes": 92885
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 227,
+              "bytes": 20709
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 221,
+              "bytes": 831738
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 159,
+              "bytes": 4825
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 157,
+              "bytes": 13646
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 156,
+              "bytes": 1798
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 151,
+              "bytes": 2605
+            }
+          ]
+        }
+      },
+      {
+        "device": "ios",
+        "before": {
+          "firstLaunchMs": 2223,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 3616,
+              "frames": {
+                "count": 144,
+                "p95Ms": 93,
+                "maxMs": 712,
+                "over50": 20
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 24.854337972005226,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 2168,
+              "frames": {
+                "count": 137,
+                "p95Ms": 87,
+                "maxMs": 199,
+                "over50": 12
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 24.854337972005226,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "network": [
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 149,
+              "bytes": 36289
+            },
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 144,
+              "bytes": 92468
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 139,
+              "bytes": 20580
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 109,
+              "bytes": 824964
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 84,
+              "bytes": 13643
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 84,
+              "bytes": 1780
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 68,
+              "bytes": 2605
+            },
+            {
+              "path": "/css/battle-v3-live.css",
+              "ms": 63,
+              "bytes": 35889
+            }
+          ]
+        },
+        "after": {
+          "firstLaunchMs": 1526,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 3707,
+              "frames": {
+                "count": 155,
+                "p95Ms": 91,
+                "maxMs": 662,
+                "over50": 15
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.1718571004216928e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 1925,
+              "frames": {
+                "count": 132,
+                "p95Ms": 66,
+                "maxMs": 200,
+                "over50": 16
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.1718571004216928e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "network": [
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 114,
+              "bytes": 36699
+            },
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 97,
+              "bytes": 92885
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 95,
+              "bytes": 20709
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 90,
+              "bytes": 831738
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 78,
+              "bytes": 1798
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 71,
+              "bytes": 4825
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 69,
+              "bytes": 13646
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 57,
+              "bytes": 2605
+            }
+          ]
+        }
+      },
+      {
+        "device": "windows",
+        "before": {
+          "firstLaunchMs": 2242.5,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1424,
+              "frames": {
+                "count": 726,
+                "p95Ms": 4.5,
+                "maxMs": 220.80000000000018,
+                "over50": 4
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 52.363571136474775,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 555,
+              "frames": {
+                "count": 635,
+                "p95Ms": 4.399999999999636,
+                "maxMs": 129.20000000000073,
+                "over50": 1
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 52.363571136474775,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 318,
+              "bytes": 36289
+            },
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 306,
+              "bytes": 92468
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 304,
+              "bytes": 20580
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 286,
+              "bytes": 824964
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 250,
+              "bytes": 4793
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 247,
+              "bytes": 1780
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 237,
+              "bytes": 13643
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 222,
+              "bytes": 2605
+            }
+          ]
+        },
+        "after": {
+          "firstLaunchMs": 2227.5,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1152,
+              "frames": {
+                "count": 708,
+                "p95Ms": 4.400000000000546,
+                "maxMs": 154.20000000000073,
+                "over50": 3
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.6077746776921858e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 622,
+              "frames": {
+                "count": 645,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 137.39999999999964,
+                "over50": 2
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.6077746776921858e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 233,
+              "bytes": 36699
+            },
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 232,
+              "bytes": 92885
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 226,
+              "bytes": 20709
+            },
+            {
+              "path": "/js/app.js",
+              "ms": 222,
+              "bytes": 831738
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 185,
+              "bytes": 4825
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 184,
+              "bytes": 1798
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 180,
+              "bytes": 13646
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 169,
+              "bytes": 2605
+            }
+          ]
+        }
+      },
+      {
+        "device": "h5",
+        "before": {
+          "firstLaunchMs": 1705.0999999940395,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 1369,
+              "frames": {
+                "count": 736,
+                "p95Ms": 4.5,
+                "maxMs": 166.69999999999982,
+                "over50": 4
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 24.854337972005226,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 658,
+              "frames": {
+                "count": 647,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 138.1999999999989,
+                "over50": 2
+              },
+              "lightFrames": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "maxGroundOffsetPx": 24.854337972005226,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 306,
+              "bytes": 92468
+            },
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 306,
+              "bytes": 36289
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 295,
+              "bytes": 20580
+            },
+            {
+              "path": "/onestore/js/app.js",
+              "ms": 286,
+              "bytes": 824964
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 242,
+              "bytes": 4793
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 241,
+              "bytes": 1780
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 240,
+              "bytes": 13643
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 217,
+              "bytes": 2605
+            }
+          ]
+        },
+        "after": {
+          "firstLaunchMs": 2233,
+          "rounds": [
+            {
+              "visit": "first",
+              "readyMs": 2070,
+              "frames": {
+                "count": 800,
+                "p95Ms": 4.5,
+                "maxMs": 374.9000000000001,
+                "over50": 6
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.1368683772161603e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            },
+            {
+              "visit": "reentry",
+              "readyMs": 677,
+              "frames": {
+                "count": 633,
+                "p95Ms": 4.5,
+                "maxMs": 150.10000000000036,
+                "over50": 2
+              },
+              "lightFrames": [
+                0
+              ],
+              "maxGroundOffsetPx": 1.1368683772161603e-13,
+              "probeSamples": 60,
+              "bladeAttached": true,
+              "exit": {
+                "mounted": false,
+                "timelines": 0,
+                "ambient": false,
+                "cast": false
+              },
+              "postExitCalls": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "/js/seal-battle.js",
+              "ms": 228,
+              "bytes": 36699
+            },
+            {
+              "path": "/js/territory-war-v1811.js",
+              "ms": 225,
+              "bytes": 92885
+            },
+            {
+              "path": "/js/territory-battlefield-v5.js",
+              "ms": 211,
+              "bytes": 20709
+            },
+            {
+              "path": "/onestore/js/app.js",
+              "ms": 206,
+              "bytes": 831738
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1803.js",
+              "ms": 184,
+              "bytes": 13646
+            },
+            {
+              "path": "/js/responsive-battle-sprites-v1815.js",
+              "ms": 184,
+              "bytes": 4825
+            },
+            {
+              "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+              "ms": 183,
+              "bytes": 1798
+            },
+            {
+              "path": "/js/cooperative-battleground-entry.js",
+              "ms": 170,
+              "bytes": 2605
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "ui-pc-before.json",
+      "sha256": "03efb40e5f13fcd552e38ab6f49e95d72cf4d3d4b009d294ca4b05de65ebed8f",
+      "bytes": 73225
+    },
+    {
+      "path": "ui-pc-after.json",
+      "sha256": "78e2d37376f4ed93c5283f38968b8bb596aafbde4d4d335dbc6e08b6ffebdc0a",
+      "bytes": 72744
+    },
+    {
+      "path": "ui-android-before.json",
+      "sha256": "f7be4ac7aec393a61b4d7ae31993d60972001e5209d3a22719346e11ef34699e",
+      "bytes": 74497
+    },
+    {
+      "path": "ui-android-after.json",
+      "sha256": "ecbf6fc37a2b15d79354be2e2d395cfef6ca58edde35b09f544a85ff769234ef",
+      "bytes": 73117
+    },
+    {
+      "path": "ui-ios-before.json",
+      "sha256": "b7693fa6169bb3f89ace7501ca9c9bc58ee513b7c4cedf4a80bfd2f72a0398c2",
+      "bytes": 74623
+    },
+    {
+      "path": "ui-ios-after.json",
+      "sha256": "cbac5ac10d84d16d69b21b0070f47c9460b2eb0c092f804fc50f3da0df86caa4",
+      "bytes": 73058
+    },
+    {
+      "path": "ui-windows-before.json",
+      "sha256": "3c5e39514e958ab1008b2a5688994e1a9253f934cdbc5f88a27a679ec35c82e6",
+      "bytes": 73219
+    },
+    {
+      "path": "ui-windows-after.json",
+      "sha256": "2a5a0b2f48625aa04fcf1bed593563398de2f365450aeada2e5fbbcec4a1635f",
+      "bytes": 72738
+    },
+    {
+      "path": "ui-h5-before.json",
+      "sha256": "37d36625501663ba5e4966b66ba2dc0efd308fec04e0d206da798ae1e009b9f8",
+      "bytes": 74713
+    },
+    {
+      "path": "ui-h5-after.json",
+      "sha256": "0cb683a4a5a42be704d98993f7b1d0484b5544e8a8dd7a00dd59aa219d904ae6",
+      "bytes": 73216
+    },
+    {
+      "path": "deployment-plan.json",
+      "sha256": "bd383e22f19e834389acfdbe92ab2cc5b6d83022a8eb3a3ba2f003b984c9fcf5",
+      "bytes": 1410
+    },
+    {
+      "path": "live-verification.json",
+      "sha256": "6856dcd2dd0c2e339268f1b5d63a0b76f4e875fd4e368ddda8fbd137233b0623",
+      "bytes": 2134
+    },
+    {
+      "path": "ui-pc-live.json",
+      "sha256": "d692aac583b4c6271fbd993e1e075b3d09182232aa2cf3fd7eec0ce44daf5800",
+      "bytes": 72774
+    },
+    {
+      "path": "ui-pc-live-0.png",
+      "sha256": "d00007fbd09d06fdd760f99125e799054d6785303add6bbff3146a12858756c4",
+      "bytes": 1992069
+    },
+    {
+      "path": "repro-before.json",
+      "sha256": "9e4b9d043f94a53b0ce4d3111b987b5ac45116ac3973fb03a4f1d6b7cdb50268",
+      "bytes": 6374
+    },
+    {
+      "path": "repro-after.json",
+      "sha256": "5132c3f906809567b29f341d3d2795cbb0de76d9a5b95ebdbcb6dc82edba82d6",
+      "bytes": 6396
+    },
+    {
+      "path": "sx-before.png",
+      "sha256": "da56f312384296ad38569c56a56a6d2c28171ca87407ff574cade99dd1674fcf",
+      "bytes": 1966253
+    },
+    {
+      "path": "sx-after.png",
+      "sha256": "a3a4f694a9408b22658c310c3c69e47a6dcbd20235f81f86b90187e910ab163b",
+      "bytes": 1965492
+    },
+    {
+      "path": "ui-android-after-0.png",
+      "sha256": "39f7270aa5514931456cd18c5f2b75f5b013179e91b1d173d2f5c9cce3bbef82",
+      "bytes": 504270
+    },
+    {
+      "path": "ui-ios-after-0.png",
+      "sha256": "d92b74f260c3e44d42fc98f1c4372faf327b8ac5cbce217bb076112a8f201373",
+      "bytes": 552971
+    }
+  ]
+}
