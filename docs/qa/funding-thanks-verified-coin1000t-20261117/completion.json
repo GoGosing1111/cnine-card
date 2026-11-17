@@ -1,0 +1,101 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:funding-thanks:verified-coin1000t:20261117:v1",
+  "authorization": "2차인증 유저 전원 1000조 지급 / 항상 씨나인에 펀딩해주시는분들 감사특전 / 감사 문구와 함께 게임 메시지함으로 지급",
+  "delivery": "GAME_INBOX",
+  "recipientCount": 280,
+  "messages": 280,
+  "rewardAttachments": 280,
+  "amountPerRecipient": "1000000000000000",
+  "totalCoin": "280000000000000000",
+  "totalCoinKorean": "28경",
+  "title": "씨나인 펀딩 감사특전",
+  "body": "항상 씨나인에 펀딩해 주시는 여러분께 진심으로 감사드립니다.\n감사의 마음을 담아 2차 인증을 완료한 모든 이용자에게 코인 1,000조를 드립니다.\n아래 수령 버튼을 눌러 감사특전을 받아 주세요.\n계정당 1회 지급됩니다.",
+  "completedAt": "2026-11-17T11:12:02.595Z",
+  "completedAtKST": "2026-11-17 20:12:02 KST",
+  "auditId": "63062",
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 276,
+    "ADMIN": 2
+  },
+  "providerCounts": {
+    "PLAYDK": 279,
+    "WAGO": 1
+  },
+  "eligibility": "Current user_second_verifications joined to ACTIVE users, including ADMIN and OWNER as in previous whole-verified-user rewards",
+  "excludedBanned": 2,
+  "previousCampaign": {
+    "key": "ops:point-loyalty:verified-coin500t:20261116:v1",
+    "receiptHash": "bb5e0b4a78023246d791a8f9d91381c1caaff26f31fa5e9deb21d9f1db748d39",
+    "auditId": "61711"
+  },
+  "verification": {
+    "missing": 0,
+    "duplicates": 0,
+    "claimedAtVerification": 2,
+    "pendingAtVerification": 278,
+    "verifiedAt": "2026-11-17T11:12:13.335Z",
+    "messageSyncChanged": 280,
+    "claimTestsPassed": 3,
+    "operationLockContentionRejected": true,
+    "failedRehearsalRolledBack": true,
+    "successfulRehearsalRolledBack": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "directWalletOrInventoryWrites": 0,
+    "automaticClaims": 0,
+    "previousVerifiedRewardReceiptUnchanged": true,
+    "operationSessionsRemaining": 0
+  },
+  "performance": {
+    "environment": "Windows Node.js CLI and production PostgreSQL over network; no browser or physical-mobile FPS measurements",
+    "rosterFirstMs": 162,
+    "rosterRepeatMs": 79,
+    "rosterAfterFirstMs": 146,
+    "rosterAfterRepeatMs": 73,
+    "databasePlanningMs": 0.173,
+    "databaseExecutionMs": 0.777,
+    "transactionAndVerificationMs": 3528,
+    "independentVerificationMs": 1364,
+    "bulkMessageInsertStatements": 1,
+    "bulkAttachmentInsertStatements": 1,
+    "perRecipientSqlLoop": false,
+    "bottleneck": "Sequential production database network round trips; reused existing bulk inserts for all 280 recipients.",
+    "measurements": "Single-run timings include production network; Each first/repeat pair ran in one read-only snapshot on a new connection, before and after delivery. No application runtime or UI change; no before/after application-speed claim.",
+    "slowestQueries": [
+      {
+        "label": "SELECT * FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id",
+        "ms": 233,
+        "rows": 280
+      },
+      {
+        "label": "SELECT m.id::text mid,m.user_id::text uid,m.campaign_key,m.sender_type,m.title,m.body,m.message_type",
+        "ms": 199,
+        "rows": 280
+      },
+      {
+        "label": "INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) SELECT id,user_id,'CO",
+        "ms": 129,
+        "rows": 280
+      },
+      {
+        "label": "SELECT COUNT(*)::int n FROM user_messages WHERE campaign_key=$1 OR (created_at>='2026-11-16T15:00:00",
+        "ms": 115,
+        "rows": 1
+      },
+      {
+        "label": "SELECT m.id::text mid,m.user_id::text uid,m.campaign_key,m.sender_type,m.title,m.body,m.message_type",
+        "ms": 106,
+        "rows": 280
+      }
+    ]
+  },
+  "sourceCommit": "a01c26e3c8a67628276e629f5646c3b19d711461",
+  "planHash": "299599752b339f7895057322b7ba97652b77b2f28df1b6f42782d616771cd490",
+  "executionSourceSha256": "aad38f29536a9c928d9ece5cb2fa700c078f5c9b6343380f98a40eb70aac4e8f",
+  "localEvidence": "operations/funding-thanks-verified-coin1000t-20261117/",
+  "gameDeployment": false,
+  "storageMaintenance": false,
+  "scheduledAutomations": 0
+}
