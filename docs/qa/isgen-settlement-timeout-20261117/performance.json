@@ -1,0 +1,406 @@
+{
+  "condition": "Windows headless Chrome/WebKit, localhost real lobby/raid entry and isolated handler/SQLite. Mobile/touch and Windows URL emulation; H5 iframe with mock SDK. All audio muted. No real mobile/native Windows app measurements. Same 3.6s injected final commit delay; client disconnect before commit is injected as cancellation. One sample per condition.",
+  "surfaces": [
+    {
+      "device": "pc",
+      "before": {
+        "phase": "before",
+        "partySize": 4,
+        "firstLaunchMs": 727.5,
+        "entryMs": [
+          2596,
+          1199
+        ],
+        "clicks": [
+          {
+            "ms": 157,
+            "hp": 485721
+          },
+          {
+            "ms": 106,
+            "hp": 271430
+          },
+          {
+            "ms": 105,
+            "hp": 57139
+          },
+          {
+            "ms": 2589,
+            "hp": 57139
+          }
+        ],
+        "finalClientClosed": true,
+        "abortedActions": [
+          "net::ERR_ABORTED"
+        ],
+        "result": {
+          "status": "FAILED",
+          "hp": 57139,
+          "resultCount": 1,
+          "coins": 0
+        },
+        "frames": {
+          "count": 962,
+          "p95": 20.599999999999454,
+          "max": 48.80000000000291,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:9165/js/pwa-install.js?v=1727-split-cache",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:9165/preview/project-v-v3/project-v-firear"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0
+      },
+      "after": {
+        "phase": "after",
+        "partySize": 4,
+        "firstLaunchMs": 797.7999999821186,
+        "entryMs": [
+          2207,
+          1136
+        ],
+        "clicks": [
+          {
+            "ms": 153,
+            "hp": 485721
+          },
+          {
+            "ms": 105,
+            "hp": 271430
+          },
+          {
+            "ms": 131,
+            "hp": 57139
+          },
+          {
+            "ms": 3717,
+            "hp": 0
+          }
+        ],
+        "finalClientClosed": false,
+        "abortedActions": [],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 692,
+          "p95": 16.5,
+          "max": 40.400000000000546,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:13538/js/pwa-install.js?v=1727-split-cach",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:13538/preview/project-v-v3/project-v-firea"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0
+      }
+    },
+    {
+      "device": "android",
+      "before": {
+        "phase": "before",
+        "partySize": 3,
+        "firstLaunchMs": 700.7000000178814,
+        "entryMs": [
+          2493,
+          1124
+        ],
+        "clicks": [
+          {
+            "ms": 161,
+            "hp": 628583
+          },
+          {
+            "ms": 98,
+            "hp": 342861
+          },
+          {
+            "ms": 196,
+            "hp": 57139
+          },
+          {
+            "ms": 2595,
+            "hp": 57139
+          }
+        ],
+        "finalClientClosed": true,
+        "abortedActions": [
+          "net::ERR_ABORTED"
+        ],
+        "result": {
+          "status": "FAILED",
+          "hp": 57139,
+          "resultCount": 1,
+          "coins": 0
+        },
+        "frames": {
+          "count": 955,
+          "p95": 20.5,
+          "max": 58.79999999999927,
+          "over50": 1,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:14036/js/pwa-install.js?v=1727-split-cach",
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:14036/preview/project-v-v3/project-v-firea"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0
+      },
+      "after": {
+        "phase": "after",
+        "partySize": 3,
+        "firstLaunchMs": 837.8999999761581,
+        "entryMs": [
+          2375,
+          1230
+        ],
+        "clicks": [
+          {
+            "ms": 155,
+            "hp": 628583
+          },
+          {
+            "ms": 110,
+            "hp": 342861
+          },
+          {
+            "ms": 125,
+            "hp": 57139
+          },
+          {
+            "ms": 3737,
+            "hp": 0
+          }
+        ],
+        "finalClientClosed": false,
+        "abortedActions": [],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 673,
+          "p95": 20.5,
+          "max": 55.70000000000073,
+          "over50": 1,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:6465/js/pwa-install.js?v=1727-split-cache",
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:6465/preview/project-v-v3/project-v-firear"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0
+      }
+    },
+    {
+      "device": "ios",
+      "before": null,
+      "after": {
+        "phase": "after",
+        "partySize": 6,
+        "firstLaunchMs": 1197,
+        "entryMs": [
+          5587,
+          3150
+        ],
+        "clicks": [
+          {
+            "ms": 364,
+            "hp": 342861
+          },
+          {
+            "ms": 349,
+            "hp": 200000
+          },
+          {
+            "ms": 362,
+            "hp": 57139
+          },
+          {
+            "ms": 3919,
+            "hp": 0
+          }
+        ],
+        "finalClientClosed": false,
+        "abortedActions": [],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 288,
+          "p95": 47,
+          "max": 94,
+          "over50": 11,
+          "falseDeath": 0
+        },
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "warnings": [
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: undefined is not an object (evaluating 'registration.update')",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:6647/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.a",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:6647/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.a",
+          "[Project V V3] optimized sprite decode failed; PNG fallback is used. Error: [Loader.load] Failed to load http://127.0.0.1:6647/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.a",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0
+      }
+    },
+    {
+      "device": "windows",
+      "before": null,
+      "after": {
+        "phase": "after",
+        "partySize": 5,
+        "firstLaunchMs": 742,
+        "entryMs": [
+          2451,
+          1165
+        ],
+        "clicks": [
+          {
+            "ms": 165,
+            "hp": 400005
+          },
+          {
+            "ms": 102,
+            "hp": 228572
+          },
+          {
+            "ms": 82,
+            "hp": 57139
+          },
+          {
+            "ms": 3699,
+            "hp": 0
+          }
+        ],
+        "finalClientClosed": false,
+        "abortedActions": [],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 679,
+          "p95": 19.600000000000364,
+          "max": 41,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+          "Service Worker registration blocked by Playwright",
+          "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:8439/js/pwa-install.js?v=1727-split-cache",
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:8439/preview/project-v-v3/project-v-firear"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0
+      }
+    },
+    {
+      "device": "h5",
+      "before": null,
+      "after": {
+        "phase": "after",
+        "partySize": 6,
+        "firstLaunchMs": 983.5,
+        "entryMs": [
+          3333,
+          1519
+        ],
+        "clicks": [
+          {
+            "ms": 234,
+            "hp": 342861
+          },
+          {
+            "ms": 104,
+            "hp": 200000
+          },
+          {
+            "ms": 100,
+            "hp": 57139
+          },
+          {
+            "ms": 3704,
+            "hp": 0
+          }
+        ],
+        "finalClientClosed": false,
+        "abortedActions": [],
+        "result": {
+          "status": "CLEAR",
+          "hp": 0,
+          "resultCount": 1,
+          "coins": 123
+        },
+        "frames": {
+          "count": 2010,
+          "p95": 8.299999999999272,
+          "max": 45.900000000000546,
+          "over50": 0,
+          "falseDeath": 0
+        },
+        "errors": [],
+        "warnings": [
+          "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+          "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+          "[Project V V3] preview sustained-fire audio anticipation failed Error: FIREARM_QC_PROFILE_NOT_FOUND:WEAPON_M4A1_CHROMATIC\n    at profileFor (http://127.0.0.1:12680/preview/project-v-v3/project-v-firea"
+        ],
+        "missing": [],
+        "requestsAfterExit": 0
+      }
+    }
+  ]
+}

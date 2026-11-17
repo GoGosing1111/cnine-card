@@ -1,0 +1,82 @@
+{
+  "at": "2026-11-17T06:59:53.601Z",
+  "sourceCommit": "d72b4d1a0d076164fd742f4988f5449cc4aac730",
+  "pages": {
+    "id": "a2bf0e4b-457c-41ae-bf50-2fc8a3f9de19",
+    "commit": "d72b4d1a0d076164fd742f4988f5449cc4aac730",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "02d7ee7b-074d-4a55-b0e0-e42a7767715c",
+      "percentage": 100,
+      "includesLich": true,
+      "sha256": "5f83b5c980a13419d04ff3dcb12ecc2c65c46eb7f9a8c09b09e06ab11e1b33fc"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "7bd49c15-baff-4e76-b897-9a2a70a8cc57",
+      "percentage": 100,
+      "includesLich": false,
+      "sha256": "88ce6577aebcb1967299b8e4d7b9273278c5313cdfe38047125a1cae58062ebb"
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "356a66e7b93dce271e9f8b7ca31b9cbb7569928a20a79e759c524c63736a480f",
+      "transformed": false
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "9eee6dc46b14b25004b8bbfa5beb5c2adb34280e002171e77ef0e927ab16c8a4",
+      "transformed": false
+    },
+    {
+      "path": "js/lich-king-raid-entry-v1.js",
+      "sha256": "cd7b4e302a9a7e7cf23b5ec63f6299d4827afd5b4cfca36c4fb5d592934b6ec5",
+      "transformed": false
+    },
+    {
+      "path": "raid/lich-king/index.html",
+      "sha256": "520ab3f5423bae8e229d5066f21aba0ab5c82a217e48ffc7d4a55fc7994a2780",
+      "transformed": false
+    },
+    {
+      "path": "raid/lich-king/inline.mjs",
+      "sha256": "b355185a6c3e9a9a75a380f1d4ac9aa6309a80cea250b6b5fa45a76faf366534",
+      "transformed": false
+    },
+    {
+      "path": "shared/lich-boss-health-v1.mjs",
+      "sha256": "b9c239364db59229ae250069ac3e2e0c54bdd167d6bd1fc5c819ae4f82bbafe2",
+      "transformed": false
+    },
+    {
+      "path": "preview/lich-king-raid-v1/battle.bundle.js",
+      "sha256": "ecb8e15641653da1a36e971ef38287bc5f5ef0ff386ec77bf48cfc5bc554e662",
+      "transformed": false
+    },
+    {
+      "path": "onestore/index.html",
+      "sha256": "b03c1f5990b1c95f110a37a263ec10496a3f7693b2c6a83c22b973c179086a77",
+      "transformed": true
+    },
+    {
+      "path": "onestore/js/app.js",
+      "sha256": "6fd7b804665b1383ad7856e1513983562a4a96d30c523844aae07752769092f2",
+      "transformed": false
+    }
+  ],
+  "unauthenticatedFeature": 401,
+  "h5": {
+    "status": 200,
+    "csp": "frame-ancestors 'self' https://onestore.co.kr https://*.onestore.co.kr https://onestore.net https://*.onestore.net"
+  },
+  "tests": 40,
+  "serverActionFixVerified": true,
+  "productionAccountDirectWrites": 0,
+  "messages": 0,
+  "followup": "../isgen-settlement-timeout-20261117/completion.json"
+}

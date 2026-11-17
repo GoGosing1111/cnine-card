@@ -1,0 +1,28 @@
+{
+  "at": "2026-11-17T07:16:36.235Z",
+  "readOnly": true,
+  "schema": "Existing account rank schema assumed initialized; DDL skipped, reward statements never executed.",
+  "conditions": "Windows CLI to production PostgreSQL, network included. Same repeatable-read snapshot, same participants and finish clock. Random reward choice fixed to 0 only in both isolated comparison bundles; UUIDs normalized solely for comparison.",
+  "results": [
+    {
+      "phase": "before",
+      "ms": 11617.679500000002,
+      "queries": 63,
+      "statements": 59,
+      "writesHash": "4c38e1bce64dbf9a427e4d440df5d9beb24e2a88d160227f9fed11e42aa558b9",
+      "rewardHash": "bd1fd37d611b0b3408d642c5b7af0945b925cd8db4b1a81fc78587db6f1c400e",
+      "paid": 2,
+      "limited": 1
+    },
+    {
+      "phase": "after",
+      "ms": 4230.122099999999,
+      "queries": 33,
+      "statements": 59,
+      "writesHash": "4c38e1bce64dbf9a427e4d440df5d9beb24e2a88d160227f9fed11e42aa558b9",
+      "rewardHash": "bd1fd37d611b0b3408d642c5b7af0945b925cd8db4b1a81fc78587db6f1c400e",
+      "paid": 2,
+      "limited": 1
+    }
+  ]
+}

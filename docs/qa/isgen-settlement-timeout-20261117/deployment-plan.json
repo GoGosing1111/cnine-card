@@ -1,0 +1,45 @@
+{
+  "base": "d72b4d1a0d076164fd742f4988f5449cc4aac730",
+  "production": {
+    "pages": {
+      "id": "a2bf0e4b-457c-41ae-bf50-2fc8a3f9de19",
+      "commit": "d72b4d1a0d076164fd742f4988f5449cc4aac730",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "02d7ee7b-074d-4a55-b0e0-e42a7767715c",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "7bd49c15-baff-4e76-b897-9a2a70a8cc57",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/lich-action-account-contention-20261117.test.mjs",
+    "tests/lich-request-contention-20261013.test.mjs",
+    "tests/lich-raid-coop-20261002.test.mjs",
+    "tests/lich-input-recovery-20261026.test.mjs",
+    "tests/lich-weekly-rewards-20261004.test.mjs",
+    "tests/lich-boss-health-20261117.test.mjs",
+    "tests/lich-delivery-20261117.test.mjs",
+    "tests/trophy-renewal-20261101.test.mjs",
+    "tests/collection-bonuses-20261014.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "Isgen final-hit timeout: keep the already-sent combat request alive across the short UI deadline, stop further busy retries, apply late authoritative results only to the same live screen. Group reward reads, reuse one current collection bonus per participant, and parse PostgreSQL Blackwing trophy replay JSON once. Preserve atomic ordered payout, weekly limits, milestone semantics, all reward amounts and 12s combat deadline. Verify existing contention fix, late response/exit, SQL NULL/cutoff trophy parity, collection bonuses and weekly rollback/concurrency; matched real READ ONLY reward/write hashes and 5 emulated entry paths. No schema/auth/global lock change."
+}

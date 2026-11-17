@@ -62,3 +62,21 @@ test('normal success, gameplay rejection and leaving the raid keep their origina
   await assert.rejects(pending,{name:'AbortError'});assert.equal(inputSignal.aborted,true);
   let called=false;await assert.rejects(withLichInputDeadline(()=>{called=true;},{signal:lifecycle.signal}),{name:'AbortError'});assert.equal(called,false);
 });
+
+test('a soft input deadline accepts the still-live request result once and never resumes refused retries',async()=>{
+ const lifecycle=new AbortController();let finish,budgetSignal;const late=[];
+ await assert.rejects(withLichInputDeadline(signal=>{
+  budgetSignal=signal;return retryLichRequest(()=>new Promise(r=>finish=r),{signal});
+ },{signal:lifecycle.signal,timeoutMs:20,onLateResult:r=>late.push(r)}),{code:'LICH_INPUT_TIMEOUT'});
+ assert(budgetSignal.aborted);assert(!lifecycle.signal.aborted,'request lifetime remains attached to the screen');
+ finish({state:{status:'CLEAR'}});await new Promise(r=>setImmediate(r));assert.deepEqual(late,[{state:{status:'CLEAR'}}]);
+ let reject,attempts=0;
+ await assert.rejects(withLichInputDeadline(signal=>retryLichRequest(()=>{attempts++;return new Promise((_,r)=>reject=r);},{signal}),{timeoutMs:20,onLateResult:()=>assert.fail('no late success')}),{code:'LICH_INPUT_TIMEOUT'});
+ reject(Object.assign(Error('busy'),{status:409,code:'JOINT_LOCK_BUSY'}));await new Promise(r=>setTimeout(r,150));assert.equal(attempts,1);
+});
+
+test('leaving after the soft deadline suppresses the late response',async()=>{
+ const lifecycle=new AbortController();let finish,applied=0;
+ await assert.rejects(withLichInputDeadline(()=>new Promise(r=>finish=r),{signal:lifecycle.signal,timeoutMs:20,onLateResult:()=>applied++}),{code:'LICH_INPUT_TIMEOUT'});
+ lifecycle.abort();finish({ok:true});await new Promise(r=>setImmediate(r));assert.equal(applied,0);
+});

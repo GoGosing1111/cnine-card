@@ -1,6 +1,6 @@
 import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';
 import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
-import {retryLichRequest,acceptLichSnapshot,withLichInputDeadline} from './request-retry.mjs?v=20261026-input-recovery';
+import {retryLichRequest,acceptLichSnapshot,withLichInputDeadline} from './request-retry.mjs?v=20261117-isgen-settlement-v2';
 export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
 const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#'+id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
 const roleKeys=['ASSAULT','WARDEN','RESCUE'];
@@ -14,9 +14,9 @@ mountRewardRevealInbox(root,{signal:lifecycle.signal});
 let portal=null,bodyOverflow='';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api=(route,options={})=>{
-  const {canRetry,...input}=options;
+  const {canRetry,requestSignal,...input}=options;
   input.signal||=lifecycle.signal;
-  return retryLichRequest(()=>request('raid/lich/'+route,input),{signal:input.signal,canRetry});
+  return retryLichRequest(()=>request('raid/lich/'+route,{...input,signal:requestSignal||input.signal}),{signal:input.signal,canRetry});
 };
 let state=null,eventSeq=0,roomId=sessionStorage.getItem('lichLiveRoom')||'',mounted=false,mounting=false,polling=false,busy=false,ended=false,view='landing',timer,toastTimer,memberKey='',failures=0,generation=0;
 let preparation=null;
@@ -188,14 +188,20 @@ async function actionCommand(body){
     return Boolean(control)&&(!control.deadline||now<control.deadline);
   };
   try{
-    const result=await withLichInputDeadline(signal=>api('action?since='+eventSeq,{method:'POST',body:{...input,requestId:pending.get(key)},signal,timeoutMs:2500,canRetry}),{signal:lifecycle.signal});
+    // Release the input promptly without cancelling an accepted finishing hit
+    // while its atomic reward transaction is still running. Only this request
+    // can continue; the short signal still stops any queued contention retry.
+    const result=await withLichInputDeadline(signal=>api('action?since='+eventSeq,{method:'POST',body:{...input,requestId:pending.get(key)},signal,requestSignal:lifecycle.signal,timeoutMs:15000,canRetry}),{signal:lifecycle.signal,onLateResult:result=>{
+      pending.delete(key);saveRequests();if(current()&&result.state){render(result);schedule();}
+    }});
     pending.delete(key);if(!current())return;
     if(result.state){render(result);applied=true;}
   }catch(error){
     if(error.status>=400&&error.status<500&&error.status!==429&&!error.retryable)pending.delete(key);
     if(!current())return;
     if(error.code==='LICH_INPUT_SUPERSEDED')return;
-    toast(error.message);
+    if(error.code==='LICH_INPUT_TIMEOUT'&&!canRetry())return;
+    toast(error.code==='LICH_INPUT_TIMEOUT'?'공격 결과를 확인하고 있습니다. 잠시 기다려 주세요.':error.message);
     if(['LICH_OFF','LICH_TEST_ONLY'].includes(error.code))showGate(error);
     if(['LICH_KICKED','LICH_NOT_MEMBER'].includes(error.code)){reset();screen('lobby');}
   }finally{

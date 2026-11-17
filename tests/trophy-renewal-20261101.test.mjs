@@ -58,6 +58,7 @@ for(const postgres of [false,true]){
  test(engine+': Blackwing requires fifteen distinct post-launch official clears; rewards and later departure do not affect proof',async t=>{
   const f=await fixture(t,postgres);await f.activate();for(let i=0;i<14;i++)await f.raid('new'+i,ms+i*1000,{left:true});
   for(const [id,time,opts]of [['old',ms-1,{}],['test',ms,{mode:'TEST'}],['failed',ms,{status:'FAILED'}],['other',ms,{user:8}],['noproof',ms,{proof:false}],['active',ms,{status:'ACTIVE'}]])await f.raid(id,time,opts);
+  await f.run('INSERT INTO raid_blackwing_rooms_v1 VALUES(?,?,?)','null-proof','CLEAR',JSON.stringify({releaseMode:'ON',finishedAt:ms,clearRewards:{7:null}}));
   let r=await f.read();assert.equal(r.BLACKWING_CLEAR_15.progress,14);assert.equal(r.BLACKWING_CLEAR_15.count,0);
   await f.raid('fifteenth',ms+14000);r=await f.read();assert.deepEqual(r.BLACKWING_CLEAR_15,{count:1,progress:15,goal:15,acquiredAt:new Date(ms+14000).toISOString(),availableFrom:at});assert.deepEqual(await f.read(),r);
   await f.raid('sixteenth',ms+15000);r=await f.read();assert.equal(r.BLACKWING_CLEAR_15.progress,16);assert.equal(r.BLACKWING_CLEAR_15.count,1);assert.equal(r.BLACKWING_CLEAR_15.acquiredAt,new Date(ms+14000).toISOString());

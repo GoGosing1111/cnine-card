@@ -10,7 +10,9 @@ test('Isgen keeps its build provenance in Git while delivering the runtime and m
  for(const p of ['preview/lich-king-raid-v1/battle.bundle.js','shared/lich-boss-health-v1.mjs','raid/lich-king/inline.mjs','js/lich-king-raid-entry-v1.js'])assert.equal(isProductionFile(p),true,p);
  const tag=read('service-worker.js').match(/soop-card-shell-v([^']+)/)[1];
  assert.equal(read('index.html').match(/js\/app\.js\?v=([^"'&]+)/)[1],tag);
- assert(read('onestore/index.html').includes('20261117-isgen-health-v1'));
+ const raidTag=read('js/lich-king-raid-entry-v1.js').match(/const VERSION = '([^']+)'/)[1];
+ for(const p of ['index.html','onestore/index.html','raid/lich-king/inline.mjs'])assert(read(p).includes(raidTag),p);
+ assert(read('raid/lich-king/index.html').includes('src="live.mjs?v='+raidTag+'"'),'standalone entry refreshes the same client module');
 });
 test('cold inline entry waits for the common runtime and bundle together, shares one load and retries a failed load',async()=>{
  let resolve,reject,calls=0,scripts=0;

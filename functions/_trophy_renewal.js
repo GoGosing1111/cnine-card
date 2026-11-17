@@ -19,8 +19,19 @@ export const BLACKWING_TROPHY_SQL=`WITH clears AS (
  AND CAST(json_extract(r.state_json,'$.finishedAt') AS BIGINT)>=?
  AND json_extract(json_extract(r.state_json,'$.clearRewards'),?) IS NOT NULL
  ) SELECT COUNT(*) progress,MIN(CASE WHEN ordinal=15 THEN finished_at END) first_at FROM clears`;
+// Parse each large replay once. Repeated SQLite-compat JSON extraction used to
+// reparse the full battle history for every field and again for coin/rank EXP.
+export const BLACKWING_TROPHY_POSTGRES_SQL=`WITH rooms AS MATERIALIZED (
+ SELECT room_id,CAST(state_json AS JSONB) data FROM raid_blackwing_rooms_v1 WHERE status='CLEAR'
+),clears AS (
+ SELECT room_id,CAST(data->>'finishedAt' AS BIGINT) finished_at,
+ ROW_NUMBER() OVER (ORDER BY CAST(data->>'finishedAt' AS BIGINT),room_id) ordinal
+ FROM rooms WHERE data->>'releaseMode'='ON' AND CAST(data->>'finishedAt' AS BIGINT)>=?
+ AND jsonb_extract_path_text(data,'clearRewards',CAST(? AS TEXT)) IS NOT NULL
+) SELECT COUNT(*) progress,MIN(CASE WHEN ordinal=15 THEN finished_at END) first_at FROM clears`;
 export async function readBlackwingTrophy(env,userId,launchedAt){
- const row=await env.DB.prepare(BLACKWING_TROPHY_SQL).bind(Date.parse(launchedAt),'$.'+Number(userId)).first();
+ const pg=env.DB.dialect==='postgres';
+ const row=await env.DB.prepare(pg?BLACKWING_TROPHY_POSTGRES_SQL:BLACKWING_TROPHY_SQL).bind(Date.parse(launchedAt),(pg?'':'$.')+Number(userId)).first();
  const progress=Number(row?.progress||0);
  return {count:progress>=15?1:0,progress,goal:15,acquiredAt:row?.first_at?new Date(Number(row.first_at)).toISOString():null};
 }

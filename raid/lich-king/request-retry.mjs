@@ -10,19 +10,23 @@ export function acceptLichSnapshot(current,next){
   if(next.revision<current.revision||next.eventSeq<current.eventSeq)return false;
   return next.revision>current.revision||next.eventSeq>current.eventSeq||next.serverNow>=current.serverNow;
 }
-// The final attack window is only 12s. Bound the entire input (including lock
-// retries), retain its receipt, and let the player retry the same intent safely.
+// The final attack window is only 12s. Bound the UI wait and contention retries,
+// retain the receipt, and let the player retry the same intent safely.
 // Polls continue independently; a timeout never implies server-side failure.
-export async function withLichInputDeadline(send,{signal,timeoutMs=2500}={}){
+export async function withLichInputDeadline(send,{signal,timeoutMs=2500,onLateResult}={}){
   signal?.throwIfAborted();
-  const controller=new AbortController();let timer,abort;
+  const controller=new AbortController();let timer,abort,timedOut=false;
   const stopped=new Promise((_,reject)=>{
     const stop=reason=>{controller.abort(reason);reject(reason);};
     abort=()=>stop(signal.reason||new DOMException('Aborted','AbortError'));
     signal?.addEventListener('abort',abort,{once:true});
-    timer=setTimeout(()=>stop(Object.assign(new Error('입력 응답이 늦어지고 있습니다. 전황을 확인한 뒤 같은 버튼으로 다시 시도하세요.'),{code:'LICH_INPUT_TIMEOUT',status:408,retryable:true})),timeoutMs);
+    timer=setTimeout(()=>{timedOut=true;stop(Object.assign(new Error('입력 응답이 늦어지고 있습니다. 전황을 확인한 뒤 같은 버튼으로 다시 시도하세요.'),{code:'LICH_INPUT_TIMEOUT',status:408,retryable:true}));},timeoutMs);
   });
-  try{return await Promise.race([Promise.resolve().then(()=>send(controller.signal)),stopped]);}
+  const task=Promise.resolve().then(()=>send(controller.signal));
+  // The caller may keep an already-sent request alive with its screen lifetime.
+  // Its late authoritative result remains useful after the short UI deadline.
+  task.then(result=>{if(timedOut&&!signal?.aborted)onLateResult?.(result);},()=>{}).catch(()=>{});
+  try{return await Promise.race([task,stopped]);}
   finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);}
 }
 const superseded=()=>Object.assign(new Error('현재 전황으로 갱신되었습니다.'),{code:'LICH_INPUT_SUPERSEDED',status:409});
