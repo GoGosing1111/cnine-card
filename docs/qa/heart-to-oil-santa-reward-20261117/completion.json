@@ -1,0 +1,210 @@
+{
+  "operationKey": "ops:heart-to-oil:santa-box20-coin500t:20261117:v1",
+  "completedAtKST": "2026-11-17 22:14:45",
+  "auditId": "63197",
+  "reverses": {
+    "operationKey": "ops:heart:additional-santa-box20-coin500t:20261117:v1",
+    "auditId": "63190",
+    "sourceId": "4608",
+    "recoveredBoxes": 20,
+    "recoveredCoins": "500000000000000",
+    "originalPermanentAvatarAndLoadoutPreserved": true,
+    "originalGrantReceiptPreserved": true
+  },
+  "target": {
+    "userId": "3011",
+    "nickname": "오일바른가지",
+    "newPermanentAvatar": 1,
+    "boxes": 20,
+    "coins": "500000000000000"
+  },
+  "netCoins": "0",
+  "netBoxes": 0,
+  "sourceAccounting": {
+    "tracked": false,
+    "beforeRestricted": "0",
+    "beforeAvailable": "3985924296299802",
+    "afterRestricted": "0",
+    "afterAvailable": "3485924296299802",
+    "checkpoint": null
+  },
+  "verification": {
+    "sourceId": "4608",
+    "targetId": "3011",
+    "sourceRecoveredBoxes": 20,
+    "sourceRecoveredCoins": "500000000000000",
+    "targetBoxesGranted": 20,
+    "targetCoinsGranted": "500000000000000",
+    "targetAvatarPermanent": true,
+    "sourceAvatarPreserved": true,
+    "netCoins": "0",
+    "netBoxes": 0,
+    "coinLogs": 2,
+    "inventoryLogs": 2,
+    "accountReceipts": 2,
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfter": [
+      {
+        "userId": "4608",
+        "coinDelta": "59202000000",
+        "boxDelta": "0"
+      }
+    ]
+  },
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "messages": 0,
+  "autoEquip": 0,
+  "boxesOpened": 0,
+  "checks": {
+    "partialFailuresRolledBack": 3,
+    "fullRehearsalRolledBack": true,
+    "invalidPlanBlocked": true,
+    "independentReadOnly": true,
+    "relatedChecksReused": "../named-santa-joeun-box20-coin500t-20261117/completion.json"
+  },
+  "performance": {
+    "before": {
+      "phase": "before",
+      "readOnly": true,
+      "samples": [
+        {
+          "userId": "4608",
+          "nickname": "하트!",
+          "visit": "first",
+          "ms": 551.6494000000002,
+          "sql": 5,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "40",
+          "coin": "3985924296299802"
+        },
+        {
+          "userId": "4608",
+          "nickname": "하트!",
+          "visit": "repeat",
+          "ms": 222.2840000000001,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "40",
+          "coin": "3985924296299802"
+        },
+        {
+          "userId": "3011",
+          "nickname": "오일바른가지",
+          "visit": "first",
+          "ms": 226.57970000000023,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "4614403141042583"
+        },
+        {
+          "userId": "3011",
+          "nickname": "오일바른가지",
+          "visit": "repeat",
+          "ms": 221.29890000000069,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "4614403141042583"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, network included. Account data only; no UI/runtime/deployment change or browser/physical-device frame measurement."
+    },
+    "after": {
+      "phase": "after",
+      "readOnly": true,
+      "samples": [
+        {
+          "userId": "4608",
+          "nickname": "하트!",
+          "visit": "first",
+          "ms": 548.5407,
+          "sql": 5,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "20",
+          "coin": "3485969836299802"
+        },
+        {
+          "userId": "4608",
+          "nickname": "하트!",
+          "visit": "repeat",
+          "ms": 228.32960000000003,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "20",
+          "coin": "3485969836299802"
+        },
+        {
+          "userId": "3011",
+          "nickname": "오일바른가지",
+          "visit": "first",
+          "ms": 225.88590000000022,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "5114403141042583"
+        },
+        {
+          "userId": "3011",
+          "nickname": "오일바른가지",
+          "visit": "repeat",
+          "ms": 227.6350999999995,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "5114403141042583"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, network included. Account data only; no UI/runtime/deployment change or browser/physical-device frame measurement."
+    },
+    "transferVerifyMs": 3437,
+    "independentVerifyMs": 1102,
+    "limitation": "Network-inclusive single run. DB round trips dominate. Source first/repeat 552/222→549/228ms (5/3 SQL), target warm-cache first/repeat 227/221→226/228ms (3/3 SQL). No browser/physical-device frame measurement; no speed improvement claim."
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "physicalDeviceMeasured": false,
+  "evidenceDirectory": "operations/heart-to-oil-santa-reward-20261117",
+  "operationScriptSha256": {
+    "common.mjs": "fb960ca1a77a6f47d100318aea00c608d5b86b20f16b34622a0e51827ce11400",
+    "prepare.mjs": "7e065d5d9570d78814064201721c1739aab4b44ed93ea89af2ea294b24f6d53e",
+    "transfer.mjs": "be41fbfe34371d86accc6189aa8faf00b0f512162e17020ccc632f777ed28097",
+    "run.mjs": "1158ad848141031cda265ef79ba51713c7b6e1b51b09cd4166f1740f879e3a4e",
+    "service.mjs": "d9c3a09ed74be1fe0f24e9ce1afa5884fddb7bf25bdb4d5935ba73b6065840df",
+    "record.mjs": "d1a6b7426f590e8dc0da23020164dbdb8b0c6a74693699c8f66636eed0f0d044"
+  }
+}

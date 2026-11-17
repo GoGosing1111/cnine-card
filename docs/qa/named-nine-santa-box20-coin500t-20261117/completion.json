@@ -1,0 +1,663 @@
+{
+  "operationKey": "ops:named-nine:santa-box20-coin500t:20261117:v1",
+  "completedAtKST": "2026-11-17 22:22:12",
+  "auditId": "63199",
+  "recipients": [
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "avatarOutcome": "ALREADY_OWNED",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "236",
+      "nickname": "유나이은",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "4615",
+      "nickname": "랭비!",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "148",
+      "nickname": "꾸까1",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "216",
+      "nickname": "x수댕",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "4479",
+      "nickname": "대지",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "226",
+      "nickname": "햬카세",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    },
+    {
+      "userId": "792",
+      "nickname": "센텀신사",
+      "avatarOutcome": "NEW",
+      "boxQuantity": 20,
+      "coinQuantity": "500000000000000"
+    }
+  ],
+  "recipientCount": 9,
+  "perAccount": {
+    "permanentAvatarEntitlement": 1,
+    "boxQuantity": 20,
+    "coins": "500000000000000"
+  },
+  "totals": {
+    "newAvatars": 8,
+    "existingPermanentAvatarPreserved": 1,
+    "boxes": 180,
+    "coins": "4500000000000000"
+  },
+  "nicknameClarification": {
+    "initial": "x수댕",
+    "proposed": "녹차맛좋댕",
+    "proposedExactAccountFound": false,
+    "finalUserConfirmed": "x수댕",
+    "userId": "216"
+  },
+  "verification": {
+    "recipients": 9,
+    "permanentAvatars": 9,
+    "avatarGranted": 8,
+    "alreadyOwned": 1,
+    "boxLogs": 9,
+    "coinLogs": 9,
+    "perAccountReceipts": 9,
+    "totalBoxes": 180,
+    "totalCoins": "4500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfterGrant": [
+      {
+        "userId": "4615",
+        "coinDelta": "44664480000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "216",
+        "coinDelta": "5806040000",
+        "boxDelta": "0"
+      }
+    ]
+  },
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "messages": 0,
+  "autoEquip": 0,
+  "boxesOpened": 0,
+  "checks": {
+    "partialFailuresRolledBack": 3,
+    "fullRehearsalRolledBack": true,
+    "invalidPlanBlocked": true,
+    "independentReadOnly": true,
+    "relatedChecksReused": "../named-santa-joeun-box20-coin500t-20261117/completion.json"
+  },
+  "performance": {
+    "before": {
+      "phase": "before",
+      "readOnly": true,
+      "samples": [
+        {
+          "userId": "5008",
+          "nickname": "단정한밤",
+          "visit": "first",
+          "ms": 570.8380999999999,
+          "sql": 5,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "0",
+          "coin": "3419035534531372"
+        },
+        {
+          "userId": "5008",
+          "nickname": "단정한밤",
+          "visit": "repeat",
+          "ms": 236.64339999999993,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "0",
+          "coin": "3419035534531372"
+        },
+        {
+          "userId": "236",
+          "nickname": "유나이은",
+          "visit": "first",
+          "ms": 239.6898000000001,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "6160266774295743"
+        },
+        {
+          "userId": "236",
+          "nickname": "유나이은",
+          "visit": "repeat",
+          "ms": 232.65409999999974,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "6160266774295743"
+        },
+        {
+          "userId": "22",
+          "nickname": "커피먹는철구",
+          "visit": "first",
+          "ms": 233.34380000000056,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "4478744989128772"
+        },
+        {
+          "userId": "22",
+          "nickname": "커피먹는철구",
+          "visit": "repeat",
+          "ms": 233.5627999999997,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "4478744989128772"
+        },
+        {
+          "userId": "4615",
+          "nickname": "랭비!",
+          "visit": "first",
+          "ms": 236.24039999999968,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "2416949581725376"
+        },
+        {
+          "userId": "4615",
+          "nickname": "랭비!",
+          "visit": "repeat",
+          "ms": 233.4389000000001,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "2416949581725376"
+        },
+        {
+          "userId": "148",
+          "nickname": "꾸까1",
+          "visit": "first",
+          "ms": 233.26749999999993,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "33772321786140417"
+        },
+        {
+          "userId": "148",
+          "nickname": "꾸까1",
+          "visit": "repeat",
+          "ms": 233.3770000000004,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "33772321786140417"
+        },
+        {
+          "userId": "216",
+          "nickname": "x수댕",
+          "visit": "first",
+          "ms": 233.6187,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "7589377205333252"
+        },
+        {
+          "userId": "216",
+          "nickname": "x수댕",
+          "visit": "repeat",
+          "ms": 233.17669999999998,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "7589377205333252"
+        },
+        {
+          "userId": "4479",
+          "nickname": "대지",
+          "visit": "first",
+          "ms": 233.1911,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "5565564940543977"
+        },
+        {
+          "userId": "4479",
+          "nickname": "대지",
+          "visit": "repeat",
+          "ms": 232.39750000000004,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "5565564940543977"
+        },
+        {
+          "userId": "226",
+          "nickname": "햬카세",
+          "visit": "first",
+          "ms": 232.21189999999933,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "2856368954546270"
+        },
+        {
+          "userId": "226",
+          "nickname": "햬카세",
+          "visit": "repeat",
+          "ms": 232.66180000000077,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "2856368954546270"
+        },
+        {
+          "userId": "792",
+          "nickname": "센텀신사",
+          "visit": "first",
+          "ms": 232.3806999999997,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "2761801247009621"
+        },
+        {
+          "userId": "792",
+          "nickname": "센텀신사",
+          "visit": "repeat",
+          "ms": 232.02030000000013,
+          "sql": 3,
+          "avatar": {
+            "owned": false,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "0",
+          "coin": "2761801247009621"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, module/catalog cache warm for subsequent accounts, network included. Account data only; no UI/runtime/deployment change or browser/physical-device frame measurement."
+    },
+    "after": {
+      "phase": "after",
+      "readOnly": true,
+      "samples": [
+        {
+          "userId": "5008",
+          "nickname": "단정한밤",
+          "visit": "first",
+          "ms": 544.6190999999999,
+          "sql": 5,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "20",
+          "coin": "3919035534531372"
+        },
+        {
+          "userId": "5008",
+          "nickname": "단정한밤",
+          "visit": "repeat",
+          "ms": 220.55449999999973,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": true
+          },
+          "boxes": "20",
+          "coin": "3919035534531372"
+        },
+        {
+          "userId": "236",
+          "nickname": "유나이은",
+          "visit": "first",
+          "ms": 217.57930000000033,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "6660266774295743"
+        },
+        {
+          "userId": "236",
+          "nickname": "유나이은",
+          "visit": "repeat",
+          "ms": 221.4514999999992,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "6660266774295743"
+        },
+        {
+          "userId": "22",
+          "nickname": "커피먹는철구",
+          "visit": "first",
+          "ms": 217.1243000000004,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "4978744989128772"
+        },
+        {
+          "userId": "22",
+          "nickname": "커피먹는철구",
+          "visit": "repeat",
+          "ms": 227.66839999999956,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "4978744989128772"
+        },
+        {
+          "userId": "4615",
+          "nickname": "랭비!",
+          "visit": "first",
+          "ms": 222.80029999999988,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "2925869007485376"
+        },
+        {
+          "userId": "4615",
+          "nickname": "랭비!",
+          "visit": "repeat",
+          "ms": 221.14289999999983,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "2925869007485376"
+        },
+        {
+          "userId": "148",
+          "nickname": "꾸까1",
+          "visit": "first",
+          "ms": 215.96929999999975,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "34272321786140417"
+        },
+        {
+          "userId": "148",
+          "nickname": "꾸까1",
+          "visit": "repeat",
+          "ms": 216.4443000000001,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "34272321786140417"
+        },
+        {
+          "userId": "216",
+          "nickname": "x수댕",
+          "visit": "first",
+          "ms": 216.5520000000006,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "8089383011373252"
+        },
+        {
+          "userId": "216",
+          "nickname": "x수댕",
+          "visit": "repeat",
+          "ms": 217.51400000000012,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "8089383011373252"
+        },
+        {
+          "userId": "4479",
+          "nickname": "대지",
+          "visit": "first",
+          "ms": 219.70430000000033,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "6065564940543977"
+        },
+        {
+          "userId": "4479",
+          "nickname": "대지",
+          "visit": "repeat",
+          "ms": 216.83200000000033,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "6065564940543977"
+        },
+        {
+          "userId": "226",
+          "nickname": "햬카세",
+          "visit": "first",
+          "ms": 221.08140000000003,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "3356368954546270"
+        },
+        {
+          "userId": "226",
+          "nickname": "햬카세",
+          "visit": "repeat",
+          "ms": 223.41319999999996,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "3356368954546270"
+        },
+        {
+          "userId": "792",
+          "nickname": "센텀신사",
+          "visit": "first",
+          "ms": 221.42019999999957,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "3261801247009621"
+        },
+        {
+          "userId": "792",
+          "nickname": "센텀신사",
+          "visit": "repeat",
+          "ms": 217.34549999999945,
+          "sql": 3,
+          "avatar": {
+            "owned": true,
+            "expiresAt": null,
+            "equipped": false
+          },
+          "boxes": "20",
+          "coin": "3261801247009621"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, module/catalog cache warm for subsequent accounts, network included. Account data only; no UI/runtime/deployment change or browser/physical-device frame measurement."
+    },
+    "grantVerifyMs": 2927,
+    "independentVerifyMs": 1105,
+    "limitation": "Network-inclusive single run. DB round trips dominate. First account cold/warm; remaining accounts use module/catalog cache. Data only; no runtime/UI changes, no browser/physical-device frame measurements, no speed improvement claim."
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "physicalDeviceMeasured": false,
+  "evidenceDirectory": "operations/named-nine-santa-box20-coin500t-20261117",
+  "operationScriptSha256": {
+    "common.mjs": "6047a79eaf8e4b9db01a47992a96b6009bd8d5660833b6ed7144f8a178bd31a8",
+    "inspect.mjs": "9fb6b594cc5be08f4c05dd6d821b132eb21b7ddbde5b9cc7a9583ce16d4de701",
+    "prepare.mjs": "4aad72ec4cadd0a8609119d1121d7bb2575be35da3f550b40cf20e5518386df2",
+    "build.mjs": "67a6069f11b8719e816862a8be264ee997f1cc03f0e3e6644182b4ea0193217e",
+    "grant.mjs": "47a310cdc668fa8af420026852ce16b4ed2c85d800ba5f9da269e49243e29ed5",
+    "run.mjs": "68723bb34f458f2f1451916b528a97c77411201a91472caac8ead7fdca3c79fd",
+    "service.mjs": "3153163f2ba949eb02b3ea8b82ef63a9bb78e03782b3c49e2953bbc280b20967",
+    "record.mjs": "ae977f91a652e9eddaad6ec028d8fcaeb6ed1adef0d8f60de6fd0e0a4adc868e"
+  }
+}

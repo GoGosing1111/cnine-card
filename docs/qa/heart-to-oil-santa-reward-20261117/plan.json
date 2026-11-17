@@ -1,0 +1,49 @@
+{
+  "operationKey": "ops:heart-to-oil:santa-box20-coin500t:20261117:v1",
+  "authorization": "하트! 추가분 회수하고 조은 산타걸 영구 1개·씨나인 스트리머 박스20개·코인500조를 오일바른가지에게 지급",
+  "preparedAt": "2026-11-17T13:09:48.078Z",
+  "source": {
+    "userId": "4608",
+    "nickname": "하트!",
+    "status": "ACTIVE",
+    "role": "USER",
+    "identityHash": "17aada0a954578a38eb9c5d99dc111f1cb24e0d230896dca7cff119f5b31bdbe"
+  },
+  "target": {
+    "userId": "3011",
+    "nickname": "오일바른가지",
+    "status": "ACTIVE",
+    "role": "USER",
+    "identityHash": "4aa2e32ef6d79d8485c3326f441a0c0991b29c9267b658ce72fe0feb60a02e16"
+  },
+  "amount": "500000000000000",
+  "boxQuantity": 20,
+  "avatar": {
+    "code": "SANTA_JOEUN",
+    "definitionHash": "ba1391205dca5589bb142216108bf125376d04e607f66b8e9a4d65dfc551c8ee"
+  },
+  "box": {
+    "code": "CNINE_STREAMER_BOX",
+    "name": "씨나인 스트리머 박스",
+    "active": 1
+  },
+  "sourceGrantOperation": "ops:heart:additional-santa-box20-coin500t:20261117:v1",
+  "sourceGrantHash": "3663550035a711dd34271d679e2b505726ddab8dfb9e5589c42485b98322a7f2",
+  "sourceGrantAudit": "63190",
+  "sourceOriginalAvatar": {
+    "user_id": "4608",
+    "expires_at": null,
+    "source_ref": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+    "acquired_at": "2026-11-17T12:20:43.532Z",
+    "avatar_code": "SANTA_JOEUN",
+    "source_type": "ADMIN_GRANT"
+  },
+  "sourceAccountingPolicy": "Reverse only the ordinary additional credit. Preserve restricted package coins, auction reservations and other accounting fields; advance cursor to the reversal log atomically.",
+  "floors": {
+    "coins": "106065286",
+    "inventory": "89964876",
+    "audit": "63194"
+  },
+  "messages": false,
+  "autoEquip": false
+}

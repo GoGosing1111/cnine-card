@@ -1,0 +1,167 @@
+{
+  "at": "2026-11-17T13:16:20.079Z",
+  "matches": [
+    {
+      "requested": "단정한밤",
+      "selected": {
+        "id": "5008",
+        "nickname": "단정한밤",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    },
+    {
+      "requested": "유나이은",
+      "selected": {
+        "id": "236",
+        "nickname": "유나이은",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    },
+    {
+      "requested": "커피먹는철구",
+      "selected": {
+        "id": "22",
+        "nickname": "커피먹는철구",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    },
+    {
+      "requested": "랭비!",
+      "selected": {
+        "id": "4615",
+        "nickname": "랭비!",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    },
+    {
+      "requested": "꾸까1",
+      "selected": {
+        "id": "148",
+        "nickname": "꾸까1",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    },
+    {
+      "requested": "녹차맛좋댕",
+      "selected": null,
+      "candidates": [
+        {
+          "id": "183",
+          "nickname": "남수댕",
+          "status": "ACTIVE",
+          "role": "USER"
+        },
+        {
+          "id": "212",
+          "nickname": "수댕수",
+          "status": "ACTIVE",
+          "role": "USER"
+        },
+        {
+          "id": "216",
+          "nickname": "x수댕",
+          "status": "ACTIVE",
+          "role": "USER"
+        },
+        {
+          "id": "2414",
+          "nickname": "노사람수댕1",
+          "status": "ACTIVE",
+          "role": "USER"
+        },
+        {
+          "id": "3242",
+          "nickname": "졈니수댕",
+          "status": "ACTIVE",
+          "role": "USER"
+        },
+        {
+          "id": "4637",
+          "nickname": "수댕",
+          "status": "ACTIVE",
+          "role": "USER"
+        },
+        {
+          "id": "5571",
+          "nickname": "수댕핑핑",
+          "status": "ACTIVE",
+          "role": "USER"
+        },
+        {
+          "id": "5950",
+          "nickname": "남수댕ㅗ",
+          "status": "ACTIVE",
+          "role": "USER"
+        }
+      ]
+    },
+    {
+      "requested": "대지",
+      "selected": {
+        "id": "4479",
+        "nickname": "대지",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    },
+    {
+      "requested": "햬카세",
+      "selected": {
+        "id": "226",
+        "nickname": "햬카세",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    },
+    {
+      "requested": "센텀신사",
+      "selected": {
+        "id": "792",
+        "nickname": "센텀신사",
+        "status": "ACTIVE",
+        "role": "USER"
+      },
+      "candidates": []
+    }
+  ],
+  "owned": [
+    {
+      "user_id": "5008",
+      "expires_at": null
+    }
+  ],
+  "boxes": [
+    {
+      "user_id": "22",
+      "quantity": "0"
+    },
+    {
+      "user_id": "236",
+      "quantity": "0"
+    },
+    {
+      "user_id": "4479",
+      "quantity": "0"
+    },
+    {
+      "user_id": "5008",
+      "quantity": "0"
+    }
+  ],
+  "correctedNickname": {
+    "from": "x수댕",
+    "to": "녹차맛좋댕"
+  }
+}

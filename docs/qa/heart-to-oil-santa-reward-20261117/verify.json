@@ -1,0 +1,104 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:heart-to-oil:santa-box20-coin500t:20261117:v1",
+    "planHash": "6c4f30cc89d52bc1ad5ffdd2c438295874136aa4f79851cdfa3b20aac1884c17",
+    "completedAt": "2026-11-17T13:14:45.694Z",
+    "completedAtKST": "2026-11-17 22:14:45",
+    "sourceGrantOperation": "ops:heart:additional-santa-box20-coin500t:20261117:v1",
+    "sourceGrantAudit": "63190",
+    "sourceId": "4608",
+    "targetId": "3011",
+    "changes": [
+      {
+        "userId": "3011",
+        "nickname": "오일바른가지",
+        "coinBefore": "4614403141042583",
+        "coinAfter": "5114403141042583",
+        "coinDelta": "500000000000000",
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "boxDelta": 20,
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "reason": "오일바른가지 산타걸·씨나인 박스·500조 지급 · ops:heart-to-oil:santa-box20-coin500t:20261117:v1",
+        "coinLogId": "106067290",
+        "boxLogId": "89965308"
+      },
+      {
+        "userId": "4608",
+        "nickname": "하트!",
+        "coinBefore": "3985924296299802",
+        "coinAfter": "3485924296299802",
+        "coinDelta": "-500000000000000",
+        "boxBefore": "40",
+        "boxAfter": "20",
+        "boxDelta": -20,
+        "unseenBefore": "0",
+        "unseenAfter": "0",
+        "reason": "하트! 추가지급 취소 회수 · ops:heart-to-oil:santa-box20-coin500t:20261117:v1",
+        "coinLogId": "106067291",
+        "boxLogId": "89965309"
+      }
+    ],
+    "targetAvatar": {
+      "code": "SANTA_JOEUN",
+      "outcome": "NEW",
+      "previous": null
+    },
+    "sourceOriginalAvatar": {
+      "user_id": "4608",
+      "expires_at": null,
+      "source_ref": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+      "acquired_at": "2026-11-17T12:20:43.532Z",
+      "avatar_code": "SANTA_JOEUN",
+      "source_type": "ADMIN_GRANT"
+    },
+    "sourceAccounting": {
+      "tracked": false,
+      "beforeRestricted": "0",
+      "beforeAvailable": "3985924296299802",
+      "afterRestricted": "0",
+      "afterAvailable": "3485924296299802",
+      "checkpoint": null
+    },
+    "netCoins": "0",
+    "netBoxes": 0,
+    "messagesSent": 0,
+    "autoEquip": 0,
+    "boxesOpened": 0,
+    "protectedBeforeHash": "0ac4317e64ad902db1cf0915c4a64889a39c77dd234bf476649d58adf4b150fd",
+    "protectedAfterHash": "0ac4317e64ad902db1cf0915c4a64889a39c77dd234bf476649d58adf4b150fd",
+    "auditId": "63197"
+  },
+  "check": {
+    "sourceId": "4608",
+    "targetId": "3011",
+    "sourceRecoveredBoxes": 20,
+    "sourceRecoveredCoins": "500000000000000",
+    "targetBoxesGranted": 20,
+    "targetCoinsGranted": "500000000000000",
+    "targetAvatarPermanent": true,
+    "sourceAvatarPreserved": true,
+    "netCoins": "0",
+    "netBoxes": 0,
+    "coinLogs": 2,
+    "inventoryLogs": 2,
+    "accountReceipts": 2,
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfter": [
+      {
+        "userId": "4608",
+        "coinDelta": "59202000000",
+        "boxDelta": "0"
+      }
+    ]
+  },
+  "readOnly": true,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "verifyMs": 1102,
+  "queries": 12
+}

@@ -1,0 +1,63 @@
+{
+  "phase": "before",
+  "readOnly": true,
+  "samples": [
+    {
+      "userId": "4608",
+      "nickname": "하트!",
+      "visit": "first",
+      "ms": 551.6494000000002,
+      "sql": 5,
+      "avatar": {
+        "owned": true,
+        "expiresAt": null,
+        "equipped": true
+      },
+      "boxes": "40",
+      "coin": "3985924296299802"
+    },
+    {
+      "userId": "4608",
+      "nickname": "하트!",
+      "visit": "repeat",
+      "ms": 222.2840000000001,
+      "sql": 3,
+      "avatar": {
+        "owned": true,
+        "expiresAt": null,
+        "equipped": true
+      },
+      "boxes": "40",
+      "coin": "3985924296299802"
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "visit": "first",
+      "ms": 226.57970000000023,
+      "sql": 3,
+      "avatar": {
+        "owned": false,
+        "expiresAt": null,
+        "equipped": false
+      },
+      "boxes": "0",
+      "coin": "4614403141042583"
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "visit": "repeat",
+      "ms": 221.29890000000069,
+      "sql": 3,
+      "avatar": {
+        "owned": false,
+        "expiresAt": null,
+        "equipped": false
+      },
+      "boxes": "0",
+      "coin": "4614403141042583"
+    }
+  ],
+  "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, network included. Account data only; no UI/runtime/deployment change or browser/physical-device frame measurement."
+}

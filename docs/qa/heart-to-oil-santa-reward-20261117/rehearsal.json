@@ -1,0 +1,20 @@
+{
+  "at": "2026-11-17T13:14:44.755Z",
+  "partial": [
+    {
+      "step": "source_box",
+      "rolledBack": true
+    },
+    {
+      "step": "coins",
+      "rolledBack": true
+    },
+    {
+      "step": "avatar",
+      "rolledBack": true
+    }
+  ],
+  "invalidPlanBlocked": true,
+  "fullRollback": true,
+  "preStateHash": "20ad3ef31166c579e867865edb402b2b2cef2f1f925c411aea737e8df85a4176"
+}

@@ -1,0 +1,61 @@
+{
+  "users": [
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "coin": "4614403141042583"
+    },
+    {
+      "id": "4608",
+      "nickname": "하트!",
+      "status": "ACTIVE",
+      "role": "USER",
+      "coin": "3985924296299802"
+    }
+  ],
+  "owned": [
+    {
+      "user_id": "4608",
+      "avatar_code": "SANTA_JOEUN",
+      "source_type": "ADMIN_GRANT",
+      "source_ref": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+      "acquired_at": "2026-11-17T12:20:43.532Z",
+      "expires_at": null
+    }
+  ],
+  "inventory": [
+    {
+      "user_id": "3011",
+      "quantity": "0",
+      "unseen_quantity": "0"
+    },
+    {
+      "user_id": "4608",
+      "quantity": "40",
+      "unseen_quantity": "0"
+    }
+  ],
+  "sourceWallet": {
+    "key": "support_package_coin_v1:4608",
+    "raw": null,
+    "state": {
+      "version": 1,
+      "revision": 0,
+      "cursor": 106062135,
+      "restricted": 0,
+      "auctionReserved": {},
+      "precredited": null
+    },
+    "tracked": false,
+    "total": 3985924296299802,
+    "totalExact": "3985924296299802",
+    "lastLog": 106062135,
+    "restricted": 0,
+    "restrictedExact": "0",
+    "available": 3985924296299802,
+    "availableExact": "3985924296299802"
+  },
+  "walletReadMs": 704
+}

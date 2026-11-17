@@ -1,0 +1,102 @@
+{
+  "operationKey": "ops:named-nine:santa-box20-coin500t:20261117:v1",
+  "authorization": "추가 명단 9명에게 조은 산타걸 영구 보유권·씨나인 스트리머 박스 20개·코인 500조씩 직접 추가 지급. 녹차맛좋댕 미일치 확인 질문에 사용자가 x수댕으로 최종 확정. 기존 영구 아바타는 보존하며 중복 수량은 없음.",
+  "preparedAt": "2026-11-17T13:20:05.301Z",
+  "recipientCount": 9,
+  "recipients": [
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "requestedNickname": "단정한밤",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "8dfe89ae2069695ca4312c1420da41cb79f32947f63ac856d8da5015a0e48f1b"
+    },
+    {
+      "userId": "236",
+      "nickname": "유나이은",
+      "requestedNickname": "유나이은",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "9947b2f0443d4c7552dd6afd93a7be171ffcbabc77eb95a2fc1a96a7ab5d4075"
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "requestedNickname": "커피먹는철구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "40e18c3cf7e778a2a78b28de7ea8e6492219f94e4da241dc69f4e689af2b7279"
+    },
+    {
+      "userId": "4615",
+      "nickname": "랭비!",
+      "requestedNickname": "랭비!",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "4d99a0f1a5768ae5e3045d351d063668b9d3d7c6f7bcc6126e7ff54a48ad0c81"
+    },
+    {
+      "userId": "148",
+      "nickname": "꾸까1",
+      "requestedNickname": "꾸까1",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "7d8d3db222388885e2abf73d76d7ee107ac1d3e988bcd7915798d603a2529b71"
+    },
+    {
+      "userId": "216",
+      "nickname": "x수댕",
+      "requestedNickname": "x수댕",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "c36b65a2bcda9fd6e54f70fcaab3d1d5a01ca52ba972111dc9d54ec87f093c37"
+    },
+    {
+      "userId": "4479",
+      "nickname": "대지",
+      "requestedNickname": "대지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "58c6a830910c6e99ace135f90d39cfde28aa6a2bbf71007db05203a76192d4e2"
+    },
+    {
+      "userId": "226",
+      "nickname": "햬카세",
+      "requestedNickname": "햬카세",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "cac55a8087cecf6f426a67d74d62770450621b9b97cb64f3b774102195d0f4e3"
+    },
+    {
+      "userId": "792",
+      "nickname": "센텀신사",
+      "requestedNickname": "센텀신사",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "d87fed79b4b10e457e469cefbf497d43b90c54a45d84692e72669cba0f493f66"
+    }
+  ],
+  "avatar": {
+    "code": "SANTA_JOEUN",
+    "name": "산타걸 오조은",
+    "permanent": true,
+    "definitionHash": "ba1391205dca5589bb142216108bf125376d04e607f66b8e9a4d65dfc551c8ee"
+  },
+  "box": {
+    "code": "CNINE_STREAMER_BOX",
+    "name": "씨나인 스트리머 박스",
+    "active": 1
+  },
+  "boxQuantity": 20,
+  "coinQuantity": "500000000000000",
+  "totalBoxes": 180,
+  "totalCoins": "4500000000000000",
+  "floors": {
+    "coins": "106069364",
+    "inventory": "89965791",
+    "audit": "63197"
+  },
+  "messages": false,
+  "autoEquip": false
+}
