@@ -28,15 +28,35 @@
     ]
   },
   "tests": [
+    "tests/lich-delivery-20261117.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs",
+    "tests/lich-raid-inline-entry-20260929.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "Isgen-only damage event projection: scale nested skill/combo damage and HP with authoritative raid budget, guard late boss impacts within one raid mount, and load the existing common renderer before direct inline entry. Preserve damage caps, party scaling, mechanics, deadlines, reward rules and historical results. Validate 3–6-player final hits, capped event integrity, retry, transaction rollback, weekly reward concurrency, stale snapshots, inline load/teardown and browser performance. No shared battle engine, schema, auth or production account mutation. Original selected 54 checks and worker syntax passed at 62b6bb248. Retry changes only the app HTML cache tag and generated store index/build metadata. Preserve the passing combat/transaction results and rerun entry/cache/loader checks required by these files. Pages staging reached 20,001 files. Keep the Isgen build report in Git and exclude only this non-runtime metadata from public packaging to remain within the established 20,000 limit; check packaging and cold-loader retry explicitly. No original asset deletion.",
+  "previousValidation": {
+    "head": "62b6bb24858dc19fc1b4bd856dd0689b396bb0ce",
+    "tests": 54,
+    "failed": 0,
+    "workerSyntax": "PASS",
+    "log": "release-62b6bb248-1794889693886.log",
+    "guard": "App HTML and service-worker cache tag mismatch; no deployment happened.",
+    "unchangedExecutionFiles": [
+      "functions/_raid_lich_king.js",
+      "shared/lich-boss-health-v1.mjs",
+      "preview/lich-king-raid-v1/battle.src.js",
+      "preview/lich-king-raid-v1/battle.bundle.js",
+      "raid/lich-king/inline.mjs"
+    ]
+  },
+  "initialTests": [
     "tests/lich-boss-health-20261117.test.mjs",
     "tests/lich-raid-coop-20261002.test.mjs",
     "tests/lich-raid-feedback-20261003.test.mjs",
     "tests/lich-input-recovery-20261026.test.mjs",
     "tests/lich-weekly-rewards-20261004.test.mjs",
     "tests/lich-raid-inline-entry-20260929.test.mjs"
-  ],
-  "checks": [
-    "check:worker"
-  ],
-  "reason": "Isgen-only damage event projection: scale nested skill/combo damage and HP with authoritative raid budget, guard late boss impacts within one raid mount, and load the existing common renderer before direct inline entry. Preserve damage caps, party scaling, mechanics, deadlines, reward rules and historical results. Validate 3–6-player final hits, capped event integrity, retry, transaction rollback, weekly reward concurrency, stale snapshots, inline load/teardown and browser performance. No shared battle engine, schema, auth or production account mutation."
+  ]
 }

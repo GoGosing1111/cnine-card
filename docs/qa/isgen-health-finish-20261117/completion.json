@@ -1,0 +1,145 @@
+{
+  "completedAt": "2026-11-17T04:41:39.848Z",
+  "operation": "fix:isgen-health:20261117:v1",
+  "report": "https://www.playdk.kr/board/skm/1538245",
+  "commentsRead": 13,
+  "codeCommit": "90c820241",
+  "releaseCommit": "f8882d2012dab348a509eed0e2ea32d3b6dca4ad",
+  "production": {
+    "at": "2026-11-17T04:40:53.445Z",
+    "sourceCommit": "f8882d2012dab348a509eed0e2ea32d3b6dca4ad",
+    "pages": {
+      "id": "306c460b-1699-41f9-9a5f-f78b03b565f2",
+      "commit": "f8882d2012dab348a509eed0e2ea32d3b6dca4ad",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "ecd45dba-a51a-4a5c-8dea-4a40187bf64d",
+        "percentage": 100,
+        "includesLich": true,
+        "sha256": "21a2d8d24dc9177cc10b76f564c2fc1f24ff348ec214e7aff2ac5b02feb25171"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "0cfa65b2-dd15-466e-a5f9-dd3aaee6dd2c",
+        "percentage": 100,
+        "includesLich": false,
+        "sha256": "e3e3dc7e51fa8f6adb19309aea56e2c2d32a3f8e7443290629aa35af9a8043f7"
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "356a66e7b93dce271e9f8b7ca31b9cbb7569928a20a79e759c524c63736a480f",
+        "transformed": false
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "9eee6dc46b14b25004b8bbfa5beb5c2adb34280e002171e77ef0e927ab16c8a4",
+        "transformed": false
+      },
+      {
+        "path": "js/lich-king-raid-entry-v1.js",
+        "sha256": "cd7b4e302a9a7e7cf23b5ec63f6299d4827afd5b4cfca36c4fb5d592934b6ec5",
+        "transformed": false
+      },
+      {
+        "path": "raid/lich-king/index.html",
+        "sha256": "520ab3f5423bae8e229d5066f21aba0ab5c82a217e48ffc7d4a55fc7994a2780",
+        "transformed": false
+      },
+      {
+        "path": "raid/lich-king/inline.mjs",
+        "sha256": "b355185a6c3e9a9a75a380f1d4ac9aa6309a80cea250b6b5fa45a76faf366534",
+        "transformed": false
+      },
+      {
+        "path": "shared/lich-boss-health-v1.mjs",
+        "sha256": "b9c239364db59229ae250069ac3e2e0c54bdd167d6bd1fc5c819ae4f82bbafe2",
+        "transformed": false
+      },
+      {
+        "path": "preview/lich-king-raid-v1/battle.bundle.js",
+        "sha256": "ecb8e15641653da1a36e971ef38287bc5f5ef0ff386ec77bf48cfc5bc554e662",
+        "transformed": false
+      },
+      {
+        "path": "onestore/index.html",
+        "sha256": "b03c1f5990b1c95f110a37a263ec10496a3f7693b2c6a83c22b973c179086a77",
+        "transformed": true
+      },
+      {
+        "path": "onestore/js/app.js",
+        "sha256": "6fd7b804665b1383ad7856e1513983562a4a96d30c523844aae07752769092f2",
+        "transformed": false
+      }
+    ],
+    "unauthenticatedFeature": 401,
+    "h5": {
+      "status": 200,
+      "csp": "frame-ancestors 'self' https://onestore.co.kr https://*.onestore.co.kr https://onestore.net https://*.onestore.net"
+    },
+    "tests": 27
+  },
+  "readOnlyVerification": {
+    "at": "2026-11-17T04:40:00.584Z",
+    "readOnly": true,
+    "settingsPreserved": true,
+    "rooms": [
+      {
+        "members": 3,
+        "status": "FAILED",
+        "bossHp": 57139,
+        "maxHp": 25714920,
+        "originalResultPreserved": true
+      },
+      {
+        "members": 4,
+        "status": "FAILED",
+        "bossHp": 85716,
+        "maxHp": 25714920,
+        "originalResultPreserved": true
+      }
+    ],
+    "queryTiming": {
+      "scope": "Original room primary-key query, Windows CLI to production DB, network included; two consecutive samples, one SQL each. Not an authenticated HTTP battle or physical-device frame test.",
+      "firstMs": 544.8161999999998,
+      "repeatMs": 155.89020000000028
+    },
+    "newLiveNestedEvents": {
+      "checked": 0,
+      "issues": 0,
+      "limitation": "No post-release live nested attack occurred in the observed rooms; code delivery and isolated regression provide the fix verification."
+    },
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "tests": {
+    "initial": 54,
+    "delivery": 27,
+    "unique": 60,
+    "failed": 0
+  },
+  "runtimeScope": "Isgen capped damage event projection, bounded boss cosmetic HP, and cold inline runtime loading. No common engine/schema/auth change.",
+  "preserved": [
+    "raid damage caps and 3–6-player scaling",
+    "mechanics and attack deadlines",
+    "weekly rewards and historical CLEAR/FAILED results"
+  ],
+  "productionAccountWrites": 0,
+  "messagesSent": 0,
+  "publication": {
+    "assetCount": 20000,
+    "repositoryOnly": "preview/lich-king-raid-v1/build-report.json",
+    "originalFilesDeleted": 0
+  },
+  "performance": "performance.json",
+  "limits": [
+    "No physical mobile or native Windows renderer measurement.",
+    "No post-release account attack was injected.",
+    "Report records prove display HP mismatch and final timeouts, but not why no further successful input arrived in the last ~6 seconds."
+  ],
+  "releaseNotes": "Initial deployment attempts stopped before any Worker/Pages deployment: cache tag mismatch, a concurrent documentation-only main update, then Pages asset count 20,001. Cache tags were aligned and only this raid build report was excluded from public packing. Existing source files and successful combat/reward checks were preserved."
+}

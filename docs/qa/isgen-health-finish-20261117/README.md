@@ -20,4 +20,6 @@
 
 ## 배포
 
-관련 기능만 수정하는 scoped 배포다. [배포 계획](deployment-plan.json)의 실제 직전 운영 SHA·선정 검사·이유를 사용한다. 완료 뒤 source SHA, Pages/Worker 버전과 공개 파일 해시는 completion.json에 기록한다.
+관련 기능만 수정하는 scoped 배포다. [배포 계획](deployment-plan.json)의 실제 직전 운영 SHA·선정 검사·이유를 사용했다. 13:39:39 KST 배포 완료, 배포 커밋 f8882d201 · Pages 306c460b · 두 Worker 100%다. 관련 60개 고유 검사와 공개 파일 9개(스토어 HTML은 실제 변환 결과) 해시를 확인했다. 상세 버전·원본 결과/설정 보존·한계는 [completion.json](completion.json)에 기록했다.
+
+Pages의 파일 수 제한에 맞춰 이스겐 자체 build-report.json만 공개 포장에서 제외했다. 원본·검수 기록은 Git에 보존했고 런타임 파일은 모두 전달했다. 배포 직후 관찰한 공대에는 새 용병 공격이 없어 실제 사용자 클리어 재발 여부까지 확인한 것은 아니다. 운영 수정본 전달 및 격리된 실제 코드 경로의 전투/보상 검증을 완료했다.
