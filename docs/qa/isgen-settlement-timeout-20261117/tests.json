@@ -1,0 +1,33 @@
+{
+  "runtimeCommit": "296a30f015b36aaf6cab3c9200a76cb93fd37794",
+  "initial": {
+    "tests": 72,
+    "passed": 69,
+    "failed": 3,
+    "failures": [
+      "neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math",
+      "SQLite: enabled new trophies use the same honor projection and only their selected sources",
+      "Postgres: enabled new trophies use the same honor projection and only their selected sources"
+    ],
+    "sha256": "31085edb2fa24eedfe9cf8488137822182e20c6d437b42c3be80fded48b7387a"
+  },
+  "preChangeBaseline": {
+    "runtimeFilesFrom": "d72b4d1a0",
+    "tests": 19,
+    "passed": 16,
+    "failed": 3,
+    "failures": [
+      "neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math",
+      "SQLite: enabled new trophies use the same honor projection and only their selected sources",
+      "Postgres: enabled new trophies use the same honor projection and only their selected sources"
+    ],
+    "sha256": "53102d9546de8704a9cb09e52750700b9f185856af84e244d7cc025ded99b2cd"
+  },
+  "acceptedDirectPasses": 53,
+  "focusedReplacement": {
+    "file": "tests/lich-reward-read-scope-20261117.test.mjs",
+    "passed": 2
+  },
+  "relatedUniquePasses": 55,
+  "runtimeUnchangedSinceInitial": true
+}

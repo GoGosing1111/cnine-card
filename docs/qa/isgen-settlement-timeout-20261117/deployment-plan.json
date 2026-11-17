@@ -28,18 +28,10 @@
     ]
   },
   "tests": [
-    "tests/lich-action-account-contention-20261117.test.mjs",
-    "tests/lich-request-contention-20261013.test.mjs",
-    "tests/lich-raid-coop-20261002.test.mjs",
-    "tests/lich-input-recovery-20261026.test.mjs",
-    "tests/lich-weekly-rewards-20261004.test.mjs",
-    "tests/lich-boss-health-20261117.test.mjs",
-    "tests/lich-delivery-20261117.test.mjs",
-    "tests/trophy-renewal-20261101.test.mjs",
-    "tests/collection-bonuses-20261014.test.mjs"
+    "tests/lich-reward-read-scope-20261117.test.mjs"
   ],
   "checks": [
     "check:worker"
   ],
-  "reason": "Isgen final-hit timeout: keep the already-sent combat request alive across the short UI deadline, stop further busy retries, apply late authoritative results only to the same live screen. Group reward reads, reuse one current collection bonus per participant, and parse PostgreSQL Blackwing trophy replay JSON once. Preserve atomic ordered payout, weekly limits, milestone semantics, all reward amounts and 12s combat deadline. Verify existing contention fix, late response/exit, SQL NULL/cutoff trophy parity, collection bonuses and weekly rollback/concurrency; matched real READ ONLY reward/write hashes and 5 emulated entry paths. No schema/auth/global lock change."
+  "reason": "Isgen final-hit timeout: keep the already-sent combat request alive across the short UI deadline, stop further busy retries, apply late authoritative results only to the same live screen. Group reward reads, reuse one current collection bonus per participant, and parse PostgreSQL Blackwing trophy replay JSON once. Preserve atomic ordered payout, weekly limits, milestone semantics, all reward amounts and 12s combat deadline. Verify existing contention fix, late response/exit, SQL NULL/cutoff trophy parity, collection bonuses and weekly rollback/concurrency; matched real READ ONLY reward/write hashes and 5 emulated entry paths. No schema/auth/global lock change. Resume unchanged runtime 296a30f01 after 53 directly related passes; 3 broad collection failures reproduced with pre-change d72b4d1a0 (16 of 19 passed in both). Keep prior passes and run only focused SQLite/PostgreSQL bonus-scope tests plus compilation, as required by the no-repeat project policy."
 }
