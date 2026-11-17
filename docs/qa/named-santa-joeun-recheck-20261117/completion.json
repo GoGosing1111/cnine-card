@@ -1,0 +1,466 @@
+{
+  "operationKey": "ops:named-santa-joeun-box20-coin500t:20261117:reported-two:v1",
+  "completedAtKST": "2026-11-17 21:34:28",
+  "auditId": "63142",
+  "originalOperation": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+  "originalReceiptHashUnchanged": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a",
+  "original55": {
+    "recipients": 55,
+    "permanentAvatars": 55,
+    "avatarGranted": 55,
+    "alreadyOwned": 0,
+    "boxLogs": 55,
+    "coinLogs": 55,
+    "perAccountReceipts": 55,
+    "totalBoxes": 1100,
+    "totalCoins": "27500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfterGrant": [
+      {
+        "userId": "4933",
+        "coinDelta": "31120528000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "88",
+        "coinDelta": "-628107177320000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "290",
+        "coinDelta": "500035800000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4621",
+        "coinDelta": "11000000000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "525",
+        "coinDelta": "1528871488000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4705",
+        "coinDelta": "74326968000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4981",
+        "coinDelta": "-99470000000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "162",
+        "coinDelta": "8594887914000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4627",
+        "coinDelta": "285406248450000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4730",
+        "coinDelta": "-105001966800000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "5147",
+        "coinDelta": "1000145150833333",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1545",
+        "coinDelta": "54220439694000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4614",
+        "coinDelta": "20253383780000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4415",
+        "coinDelta": "189220600000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "164",
+        "coinDelta": "9631236100000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4572",
+        "coinDelta": "300055074000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4608",
+        "coinDelta": "20054079809004",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4582",
+        "coinDelta": "13364111708000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1195",
+        "coinDelta": "252558777938000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4610",
+        "coinDelta": "11740944884000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1768",
+        "coinDelta": "10527665000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "315",
+        "coinDelta": "-80200000000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "295",
+        "coinDelta": "529538767932000",
+        "boxDelta": "-21"
+      },
+      {
+        "userId": "4597",
+        "coinDelta": "1127250566280000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "303",
+        "coinDelta": "669630600000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "360",
+        "coinDelta": "-99969061000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "289",
+        "coinDelta": "22845473810000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4598",
+        "coinDelta": "2785730577500",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "62",
+        "coinDelta": "33144300000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "5996",
+        "coinDelta": "48161000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "16",
+        "coinDelta": "88706808000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4644",
+        "coinDelta": "-88024460000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4570",
+        "coinDelta": "500484487794000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "2420",
+        "coinDelta": "171233100000000",
+        "boxDelta": "-30"
+      },
+      {
+        "userId": "5008",
+        "coinDelta": "6477385000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4866",
+        "coinDelta": "859320000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "5362",
+        "coinDelta": "7000030000000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4828",
+        "coinDelta": "509314523200000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4629",
+        "coinDelta": "5323028071500",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "52",
+        "coinDelta": "521613700600000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "3974",
+        "coinDelta": "500240620610000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "5877",
+        "coinDelta": "619200000000000",
+        "boxDelta": "-24"
+      },
+      {
+        "userId": "233",
+        "coinDelta": "28603113000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1255",
+        "coinDelta": "369453420640000",
+        "boxDelta": "-13"
+      },
+      {
+        "userId": "4651",
+        "coinDelta": "-234580579390000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4408",
+        "coinDelta": "6060183200000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4391",
+        "coinDelta": "1092070031555000",
+        "boxDelta": "0"
+      }
+    ]
+  },
+  "reportedMissing": [
+    {
+      "nickname": "늑대울프",
+      "userId": "5092",
+      "cause": "Not included in the latest 55-name request; present in the earlier pet/box recipient group."
+    },
+    {
+      "nickname": "망순이ෆ",
+      "userId": "4628",
+      "cause": "Latest request said 망순이, which exactly matched a different active verified account (567). Earlier recipient context was not reconciled before the completion statement."
+    }
+  ],
+  "correction": {
+    "recipients": 2,
+    "perAccount": {
+      "avatar": "SANTA_JOEUN",
+      "avatarQuantity": 1,
+      "permanent": true,
+      "box": "CNINE_STREAMER_BOX",
+      "boxQuantity": 20,
+      "coin": "500000000000000"
+    },
+    "totalNewAvatars": 2,
+    "totalBoxes": 40,
+    "totalCoins": "1000000000000000"
+  },
+  "originalGrantsReplayed": 0,
+  "originalMangsooni567GrantReclaimed": false,
+  "verification": {
+    "recipients": 2,
+    "permanentAvatars": 2,
+    "avatarGranted": 2,
+    "alreadyOwned": 0,
+    "boxLogs": 2,
+    "coinLogs": 2,
+    "perAccountReceipts": 2,
+    "totalBoxes": 40,
+    "totalCoins": "1000000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfterGrant": [
+      {
+        "userId": "4628",
+        "coinDelta": "75000000000000",
+        "boxDelta": "-3"
+      }
+    ]
+  },
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "messages": 0,
+  "autoEquip": 0,
+  "boxAutoOpen": 0,
+  "checks": {
+    "partialFailuresRolledBack": 3,
+    "fullRehearsalRolledBack": true,
+    "invalidPlanBlocked": true,
+    "readOnly": true,
+    "existingRelatedChecksReused": "../named-santa-joeun-box20-coin500t-20261117/completion.json"
+  },
+  "performance": {
+    "before": {
+      "phase": "before",
+      "readOnly": true,
+      "samples": [
+        {
+          "userId": "5092",
+          "nickname": "늑대울프",
+          "entry": "first",
+          "ms": 605.8821000000003,
+          "sql": 5,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": false,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "0",
+          "coin": "21108965396629861"
+        },
+        {
+          "userId": "5092",
+          "nickname": "늑대울프",
+          "entry": "repeat",
+          "ms": 237.83519999999953,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": false,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "0",
+          "coin": "21108965396629861"
+        },
+        {
+          "userId": "4628",
+          "nickname": "망순이ෆ",
+          "entry": "first",
+          "ms": 238.0703999999996,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": false,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "0",
+          "coin": "2015801075388002"
+        },
+        {
+          "userId": "4628",
+          "nickname": "망순이ෆ",
+          "entry": "repeat",
+          "ms": 375.0665000000008,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": false,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "0",
+          "coin": "2015801075388002"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, network included. Data grant only; no UI/runtime change, deployment, browser frames or physical device measurement."
+    },
+    "after": {
+      "phase": "after",
+      "readOnly": true,
+      "samples": [
+        {
+          "userId": "5092",
+          "nickname": "늑대울프",
+          "entry": "first",
+          "ms": 589.4103,
+          "sql": 5,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "20",
+          "coin": "21608965396629861"
+        },
+        {
+          "userId": "5092",
+          "nickname": "늑대울프",
+          "entry": "repeat",
+          "ms": 245.2569999999996,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "20",
+          "coin": "21608965396629861"
+        },
+        {
+          "userId": "4628",
+          "nickname": "망순이ෆ",
+          "entry": "first",
+          "ms": 251.14379999999983,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "17",
+          "coin": "2590801075388002"
+        },
+        {
+          "userId": "4628",
+          "nickname": "망순이ෆ",
+          "entry": "repeat",
+          "ms": 248.79010000000017,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "17",
+          "coin": "2590801075388002"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, network included. Data grant only; no UI/runtime change, deployment, browser frames or physical device measurement."
+    }
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "physicalDeviceMeasured": false,
+  "evidenceDirectory": "operations/named-santa-joeun-recheck-20261117",
+  "operationScriptSha256": {
+    "inspect.mjs": "4ccf363132eb73edd0a6453df081d8f6b236b7a0fdb224c620c81dd99515440f",
+    "common.mjs": "e716b5c1210bc3d006a9966b7e22781f6e0460483a33756d058df9a5cdd4efe3",
+    "prepare.mjs": "a01139c9944db21656c877cab80d48b68c2b78c9c298de198ee9323e70115780",
+    "grant.mjs": "59ddc69e98c5fa167b6f17b2207191ca65bfb489715bd30942554b1aca4b83de",
+    "run.mjs": "64691ca3a776e4f90b63031bb138bcba081e4501fea62fceeb14fa1a7520336f",
+    "service.mjs": "5f6b1d205b2946ac18a43ba06a77e41e59aa46098f076cdf9eda31b8f014f255",
+    "record.mjs": "daa49d9b10a55cef86aa5148b95135498f7b26d5f04da4f185d230fb67e2572c"
+  }
+}

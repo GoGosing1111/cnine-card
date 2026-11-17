@@ -1,0 +1,67 @@
+{
+  "phase": "after",
+  "readOnly": true,
+  "samples": [
+    {
+      "userId": "5092",
+      "nickname": "늑대울프",
+      "entry": "first",
+      "ms": 589.4103,
+      "sql": 5,
+      "avatar": {
+        "code": "SANTA_JOEUN",
+        "owned": true,
+        "equipped": false,
+        "expiresAt": null
+      },
+      "boxQuantity": "20",
+      "coin": "21608965396629861"
+    },
+    {
+      "userId": "5092",
+      "nickname": "늑대울프",
+      "entry": "repeat",
+      "ms": 245.2569999999996,
+      "sql": 3,
+      "avatar": {
+        "code": "SANTA_JOEUN",
+        "owned": true,
+        "equipped": false,
+        "expiresAt": null
+      },
+      "boxQuantity": "20",
+      "coin": "21608965396629861"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "entry": "first",
+      "ms": 251.14379999999983,
+      "sql": 3,
+      "avatar": {
+        "code": "SANTA_JOEUN",
+        "owned": true,
+        "equipped": false,
+        "expiresAt": null
+      },
+      "boxQuantity": "17",
+      "coin": "2590801075388002"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "entry": "repeat",
+      "ms": 248.79010000000017,
+      "sql": 3,
+      "avatar": {
+        "code": "SANTA_JOEUN",
+        "owned": true,
+        "equipped": false,
+        "expiresAt": null
+      },
+      "boxQuantity": "17",
+      "coin": "2590801075388002"
+    }
+  ],
+  "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet on live PostgreSQL. First/repeat per account on one connection, network included. Data grant only; no UI/runtime change, deployment, browser frames or physical device measurement."
+}

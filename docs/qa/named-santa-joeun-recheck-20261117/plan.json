@@ -1,0 +1,48 @@
+{
+  "operationKey": "ops:named-santa-joeun-box20-coin500t:20261117:reported-two:v1",
+  "authorization": "사용자가 미수령자로 늑대울프·망순이ෆ를 확인함. 기존 보상과 같은 산타걸 오조은 영구 1개·씨나인 스트리머 박스 20개·코인 500조씩 두 계정에 보완 지급. 최초 55명 지급은 재실행하지 않음.",
+  "preparedAt": "2026-11-17T12:33:16.593Z",
+  "recipientCount": 2,
+  "recipients": [
+    {
+      "userId": "5092",
+      "nickname": "늑대울프",
+      "requestedNickname": "늑대울프",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "3e86dd2b1f31aa92525612a3bb7dba87fc5f901896d9db7b2fb3c7bc320c4cea"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "requestedNickname": "망순이ෆ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "8d08f25b3722daff83e6397ee0397bace0cbd2394416f97485ca7a0c22d8f468"
+    }
+  ],
+  "avatar": {
+    "code": "SANTA_JOEUN",
+    "name": "산타걸 오조은",
+    "permanent": true,
+    "definitionHash": "ba1391205dca5589bb142216108bf125376d04e607f66b8e9a4d65dfc551c8ee"
+  },
+  "box": {
+    "code": "CNINE_STREAMER_BOX",
+    "name": "씨나인 스트리머 박스",
+    "active": 1
+  },
+  "boxQuantity": 20,
+  "coinQuantity": "500000000000000",
+  "totalBoxes": 40,
+  "totalCoins": "1000000000000000",
+  "floors": {
+    "coins": "106041207",
+    "inventory": "89956991",
+    "audit": "63140"
+  },
+  "messages": false,
+  "autoEquip": false,
+  "originalOperation": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+  "originalReceiptHash": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a"
+}

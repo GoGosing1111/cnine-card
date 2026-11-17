@@ -1,0 +1,318 @@
+{
+  "at": "2026-11-17T12:32:05.367Z",
+  "originalAudit": "63113",
+  "all55": {
+    "recipients": 55,
+    "permanentAvatars": 55,
+    "avatarGranted": 55,
+    "alreadyOwned": 0,
+    "boxLogs": 55,
+    "coinLogs": 55,
+    "perAccountReceipts": 55,
+    "totalBoxes": 1100,
+    "totalCoins": "27500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfterGrant": [
+      {
+        "userId": "4933",
+        "coinDelta": "31120528000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "88",
+        "coinDelta": "-628107177320000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "290",
+        "coinDelta": "500035800000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4621",
+        "coinDelta": "11000000000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "525",
+        "coinDelta": "1528871488000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4705",
+        "coinDelta": "74326968000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4981",
+        "coinDelta": "-99470000000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "162",
+        "coinDelta": "8594887914000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4627",
+        "coinDelta": "285406248450000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4730",
+        "coinDelta": "-105001966800000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "5147",
+        "coinDelta": "1000145150833333",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1545",
+        "coinDelta": "54220439694000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4614",
+        "coinDelta": "20253383780000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4415",
+        "coinDelta": "189220600000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "164",
+        "coinDelta": "9631236100000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4572",
+        "coinDelta": "300055074000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4608",
+        "coinDelta": "20054079809004",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4582",
+        "coinDelta": "13364111708000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1195",
+        "coinDelta": "252558777938000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4610",
+        "coinDelta": "11740944884000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1768",
+        "coinDelta": "10527665000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "315",
+        "coinDelta": "-80200000000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "295",
+        "coinDelta": "529538767932000",
+        "boxDelta": "-21"
+      },
+      {
+        "userId": "4597",
+        "coinDelta": "1127250566280000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "303",
+        "coinDelta": "669630600000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "360",
+        "coinDelta": "-99969061000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "289",
+        "coinDelta": "22845473810000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4598",
+        "coinDelta": "2785730577500",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "62",
+        "coinDelta": "33144300000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "5996",
+        "coinDelta": "48161000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "16",
+        "coinDelta": "88706808000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4644",
+        "coinDelta": "-88024460000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4570",
+        "coinDelta": "500484487794000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "2420",
+        "coinDelta": "171233100000000",
+        "boxDelta": "-30"
+      },
+      {
+        "userId": "5008",
+        "coinDelta": "6477385000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4866",
+        "coinDelta": "859320000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "5362",
+        "coinDelta": "7000030000000000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4828",
+        "coinDelta": "509314523200000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "4629",
+        "coinDelta": "5323028071500",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "52",
+        "coinDelta": "521613700600000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "3974",
+        "coinDelta": "500240620610000",
+        "boxDelta": "-20"
+      },
+      {
+        "userId": "5877",
+        "coinDelta": "619200000000000",
+        "boxDelta": "-24"
+      },
+      {
+        "userId": "233",
+        "coinDelta": "28603113000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1255",
+        "coinDelta": "369453420640000",
+        "boxDelta": "-13"
+      },
+      {
+        "userId": "4651",
+        "coinDelta": "-234580579390000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4408",
+        "coinDelta": "6060183200000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4391",
+        "coinDelta": "1092070031555000",
+        "boxDelta": "0"
+      }
+    ]
+  },
+  "reported": [
+    {
+      "id": "567",
+      "nickname": "망순이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "coin": "1160701868182638",
+      "provider": "PLAYDK",
+      "verified": true,
+      "inRequested55": true,
+      "requestedName": "망순이",
+      "originalGrant": {
+        "userId": "567",
+        "nickname": "망순이",
+        "requestedNickname": "망순이",
+        "avatarBefore": null,
+        "avatarOutcome": "NEW",
+        "coinBefore": "660701868182638",
+        "coinAfter": "1160701868182638",
+        "coinAmount": "500000000000000",
+        "boxBefore": "0",
+        "boxAfter": "20",
+        "unseenBefore": "0",
+        "unseenAfter": "20",
+        "coinLogId": "106031491",
+        "boxLogId": "89953335"
+      },
+      "avatar": {
+        "user_id": "567",
+        "avatar_code": "SANTA_JOEUN",
+        "source_type": "ADMIN_GRANT",
+        "source_ref": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+        "acquired_at": "2026-11-17T12:20:43.532Z",
+        "expires_at": null
+      },
+      "boxes": "20"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "coin": "2015801075388002",
+      "provider": "PLAYDK",
+      "verified": true,
+      "inRequested55": false,
+      "originalGrant": null,
+      "avatar": null,
+      "boxes": "0"
+    },
+    {
+      "id": "5092",
+      "nickname": "늑대울프",
+      "status": "ACTIVE",
+      "role": "USER",
+      "coin": "21108965396629861",
+      "provider": "PLAYDK",
+      "verified": true,
+      "inRequested55": false,
+      "originalGrant": null,
+      "avatar": null,
+      "boxes": "0"
+    }
+  ]
+}
