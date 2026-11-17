@@ -1,0 +1,215 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:jokjjogi:package10-repeat-sudal-sss-haste:20261117:v1",
+    "planHash": "86c004c7bd88d01ed6571d5ebc3f301e12b65939b718a14a563e0bedc0b77c73",
+    "plan": {
+      "operationKey": "ops:jokjjogi:package10-repeat-sudal-sss-haste:20261117:v1",
+      "authorization": [
+        "[C9]족쪽이 계정에 49800원 10회치 누적보상 한번 더 지급해",
+        "그리고 족쪽이 계정에 수달펫 다 회수하고 SSS급 특성 고유특성 질주SSS로 세팅해서 추가지급"
+      ],
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "identityHash": "6bb1685a26645b978145e7f952dba13812f9977505cadd60b27057559ce1618f",
+      "bonus": {
+        "unitPriceWon": 49800,
+        "quantity": 10,
+        "coins": "28000000000000000",
+        "cubes": 190,
+        "milestones": [
+          {
+            "purchases": 1,
+            "coins": "1000000000000000",
+            "cubes": 5
+          },
+          {
+            "purchases": 2,
+            "coins": "2000000000000000",
+            "cubes": 10
+          },
+          {
+            "purchases": 3,
+            "coins": "3000000000000000",
+            "cubes": 15
+          },
+          {
+            "purchases": 4,
+            "coins": "6000000000000000",
+            "cubes": 20
+          },
+          {
+            "purchases": 5,
+            "coins": "8000000000000000",
+            "cubes": 40
+          },
+          {
+            "purchases": 10,
+            "coins": "8000000000000000",
+            "cubes": 100
+          }
+        ],
+        "policy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+        "chargedWon": 0,
+        "purchaseCountChanged": false,
+        "basePackageGranted": false
+      },
+      "pet": {
+        "code": "PET-SUDAL",
+        "name": "수달",
+        "quantity": 1,
+        "replaceAllOwned": true,
+        "instance": {
+          "id": "PET-SUDAL:1",
+          "petCode": "PET-SUDAL",
+          "cap": "SSS",
+          "stats": {
+            "attack": "SSS",
+            "defense": "SSS",
+            "hp": "SSS",
+            "speed": "SSS"
+          },
+          "trait": {
+            "id": "HASTE",
+            "grade": "SSS",
+            "activated": true
+          }
+        },
+        "definitionHash": "30b02fe5ef4626dae56e9ba3444df3e177bac67f936324de35c7e60c097c4613"
+      },
+      "messagesSent": 0
+    },
+    "userId": "303",
+    "nickname": "[C9]족쪽이",
+    "completedAt": "2026-11-17T03:43:39.111Z",
+    "completedAtKST": "2026-11-17 12:43:39",
+    "coins": {
+      "amount": "28000000000000000",
+      "before": "99078056548216085",
+      "after": "127078056548216085",
+      "logId": "105869696"
+    },
+    "cubes": {
+      "code": "SSS_MIRACLE_CUBE",
+      "amount": 190,
+      "before": "380",
+      "after": "570",
+      "unseenBefore": "0",
+      "unseenAfter": "190",
+      "logId": "89929340"
+    },
+    "pet": {
+      "code": "PET-SUDAL",
+      "recalled": 2,
+      "granted": 1,
+      "after": 1,
+      "removedGrowth": {
+        "PET-SUDAL:1": {
+          "id": "PET-SUDAL:1",
+          "petCode": "PET-SUDAL",
+          "cap": "SSS",
+          "stats": {
+            "attack": "C",
+            "defense": "C",
+            "hp": "C",
+            "speed": "C"
+          },
+          "trait": {
+            "id": "ASSAULT",
+            "grade": "C",
+            "activated": false
+          }
+        }
+      },
+      "removedPending": null,
+      "instance": {
+        "id": "PET-SUDAL:1",
+        "petCode": "PET-SUDAL",
+        "cap": "SSS",
+        "stats": {
+          "attack": "SSS",
+          "defense": "SSS",
+          "hp": "SSS",
+          "speed": "SSS"
+        },
+        "trait": {
+          "id": "HASTE",
+          "grade": "SSS",
+          "activated": true
+        }
+      },
+      "recallAuditId": "62778",
+      "grantAuditId": "62779",
+      "collectionRevisionBefore": 18,
+      "collectionRevisionAfter": 20,
+      "growthRevisionBefore": 60,
+      "growthRevisionAfter": 61,
+      "growthLoadoutsBefore": {
+        "PVE": "PET-PEPEGU:1",
+        "PVP": "PET-SUDAL:1"
+      },
+      "growthLoadoutsAfter": {
+        "PVE": "PET-PEPEGU:1",
+        "PVP": "PET-SUDAL:1"
+      }
+    },
+    "accountingBefore": {
+      "version": 1,
+      "revision": 22,
+      "cursor": 105869680,
+      "restricted": "73625995798500000",
+      "auctionReserved": {},
+      "precredited": null
+    },
+    "accountingAfter": {
+      "version": 1,
+      "revision": 23,
+      "cursor": 105869696,
+      "restricted": "101625995798500000",
+      "auctionReserved": {},
+      "precredited": null
+    },
+    "unrestrictedBefore": "25452060749716085",
+    "unrestrictedAfter": "25452060749716085",
+    "purchaseCountChanged": false,
+    "ordersChanged": false,
+    "messagesSent": 0,
+    "chargedWon": 0,
+    "autoEquip": false,
+    "protectedBeforeHash": "bb8915aeab2f3cbd80a478d22f66c33fe8914fc78ec1267c0166097496aa5f14",
+    "protectedAfterHash": "bb8915aeab2f3cbd80a478d22f66c33fe8914fc78ec1267c0166097496aa5f14",
+    "syncBefore": {
+      "domains": {
+        "pvp": "796041",
+        "wallet": "797339",
+        "loadout": "793726",
+        "messages": "797311",
+        "inventory": "797341",
+        "collection": "797276"
+      },
+      "user_id": "303",
+      "revision": "797341"
+    },
+    "syncAfter": {
+      "user_id": "303",
+      "revision": "797346",
+      "domains": {
+        "pvp": "796041",
+        "wallet": "797346",
+        "loadout": "797346",
+        "messages": "797311",
+        "inventory": "797346",
+        "collection": "797346"
+      }
+    },
+    "auditId": "62780"
+  },
+  "partialFailureRolledBack": true,
+  "fullRehearsalRolledBack": true,
+  "noWriteReplay": true,
+  "onlyExpectedWrites": true,
+  "grantMs": 3155,
+  "conditions": "Windows CLI with live account lease and PostgreSQL transaction; database/network included. Data-only grant and pet replacement; no UI/runtime edits.",
+  "leasesReleased": true
+}

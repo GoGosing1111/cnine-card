@@ -1,0 +1,76 @@
+{
+  "operationKey": "ops:jokjjogi:package10-repeat-sudal-sss-haste:20261117:v1",
+  "authorization": [
+    "[C9]족쪽이 계정에 49800원 10회치 누적보상 한번 더 지급해",
+    "그리고 족쪽이 계정에 수달펫 다 회수하고 SSS급 특성 고유특성 질주SSS로 세팅해서 추가지급"
+  ],
+  "userId": "303",
+  "nickname": "[C9]족쪽이",
+  "identityHash": "6bb1685a26645b978145e7f952dba13812f9977505cadd60b27057559ce1618f",
+  "bonus": {
+    "unitPriceWon": 49800,
+    "quantity": 10,
+    "coins": "28000000000000000",
+    "cubes": 190,
+    "milestones": [
+      {
+        "purchases": 1,
+        "coins": "1000000000000000",
+        "cubes": 5
+      },
+      {
+        "purchases": 2,
+        "coins": "2000000000000000",
+        "cubes": 10
+      },
+      {
+        "purchases": 3,
+        "coins": "3000000000000000",
+        "cubes": 15
+      },
+      {
+        "purchases": 4,
+        "coins": "6000000000000000",
+        "cubes": 20
+      },
+      {
+        "purchases": 5,
+        "coins": "8000000000000000",
+        "cubes": 40
+      },
+      {
+        "purchases": 10,
+        "coins": "8000000000000000",
+        "cubes": 100
+      }
+    ],
+    "policy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+    "chargedWon": 0,
+    "purchaseCountChanged": false,
+    "basePackageGranted": false
+  },
+  "pet": {
+    "code": "PET-SUDAL",
+    "name": "수달",
+    "quantity": 1,
+    "replaceAllOwned": true,
+    "instance": {
+      "id": "PET-SUDAL:1",
+      "petCode": "PET-SUDAL",
+      "cap": "SSS",
+      "stats": {
+        "attack": "SSS",
+        "defense": "SSS",
+        "hp": "SSS",
+        "speed": "SSS"
+      },
+      "trait": {
+        "id": "HASTE",
+        "grade": "SSS",
+        "activated": true
+      }
+    },
+    "definitionHash": "30b02fe5ef4626dae56e9ba3444df3e177bac67f936324de35c7e60c097c4613"
+  },
+  "messagesSent": 0
+}

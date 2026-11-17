@@ -1,0 +1,30 @@
+{
+  "relevant": {
+    "passed": 13,
+    "failed": 0,
+    "suites": [
+      {
+        "file": "tests/support-package-cubes-20261116.test.mjs",
+        "passed": 5
+      },
+      {
+        "file": "tests/pet-growth-live-20261114.test.mjs",
+        "passed": 8
+      }
+    ]
+  },
+  "supplementary": {
+    "file": "tests/support-package-prediction-20261020.test.mjs",
+    "passed": 2,
+    "failed": 4,
+    "reason": "Historical prediction scenarios stop at HTTP 410 COIN_PREDICTION_RETIRED because prediction was intentionally retired. Confirmed functions/_retired_content.js:9; these tests do not reach the package ledger path. No retired feature was re-enabled and no unrelated tests were changed.",
+    "environmentRepair": "The initial supplementary run could not import scripts/ops/support-package-notice-core.mjs because of the sparse checkout; that unchanged tracked file was materialized from HEAD before rerunning this suite only."
+  },
+  "operational": {
+    "partialCurrencyCubePetFailureRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "readOnlyRetryAdditionalWrites": 0,
+    "independentLedgerAndHoldingsVerified": true,
+    "livePvpGrowthVerified": true
+  }
+}
