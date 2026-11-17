@@ -1,0 +1,483 @@
+{
+  "operationKey": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+  "completedAtKST": "2026-11-17 21:20:43",
+  "auditId": "63113",
+  "recipients": 55,
+  "perAccount": {
+    "avatar": "SANTA_JOEUN",
+    "avatarName": "산타걸 오조은",
+    "permanent": true,
+    "avatarQuantity": 1,
+    "box": "CNINE_STREAMER_BOX",
+    "boxQuantity": 20,
+    "coin": "500000000000000"
+  },
+  "totals": {
+    "newAvatars": 55,
+    "boxes": 1100,
+    "coin": "27500000000000000"
+  },
+  "correctedNames": {
+    "베배킹": "베베킹",
+    "승구릭": "숭구릭"
+  },
+  "verification": {
+    "recipients": 55,
+    "permanentAvatars": 55,
+    "avatarGranted": 55,
+    "alreadyOwned": 0,
+    "boxLogs": 55,
+    "coinLogs": 55,
+    "perAccountReceipts": 55,
+    "totalBoxes": 1100,
+    "totalCoins": "27500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "changesAfterGrant": [
+      {
+        "userId": "88",
+        "coinDelta": "8507520000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "525",
+        "coinDelta": "2145000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4415",
+        "coinDelta": "1479000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4608",
+        "coinDelta": "20001506139154",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4582",
+        "coinDelta": "4839000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4610",
+        "coinDelta": "1671000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1768",
+        "coinDelta": "13886000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4598",
+        "coinDelta": "3882300000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "62",
+        "coinDelta": "892300000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "5996",
+        "coinDelta": "4443000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "5008",
+        "coinDelta": "512500000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "5362",
+        "coinDelta": "1500000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "52",
+        "coinDelta": "6532560000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "1255",
+        "coinDelta": "12874000000",
+        "boxDelta": "0"
+      },
+      {
+        "userId": "4408",
+        "coinDelta": "8531200000",
+        "boxDelta": "0"
+      }
+    ]
+  },
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "messagesSent": 0,
+  "automaticallyEquipped": 0,
+  "boxesOpened": 0,
+  "otherTablesWrites": 0,
+  "preserved": [
+    "existing avatar loadout and other ownership",
+    "other inventory and currencies",
+    "pet growth and loadouts",
+    "package coin accounting and bonuses"
+  ],
+  "tests": {
+    "passed": 8,
+    "failed": 1,
+    "checks": [
+      {
+        "file": "tests/avatar-admin-grant-v2079.test.mjs",
+        "passed": 7,
+        "failed": 1
+      },
+      {
+        "file": "tests/coin-100quadrillion-20261106.test.mjs",
+        "namePattern": "exact wallet arithmetic",
+        "passed": 1,
+        "failed": 0
+      }
+    ],
+    "existingUnrelatedFailure": {
+      "name": "CMS entry is accessible and cache-busted; nickname whitespace does not split multiword names",
+      "expected": "avatar-admin-v1.js?v=20261018-iyejun",
+      "actual": "avatar-admin-v1.js?v=20261114-santa-options",
+      "reason": "Existing static CMS cache-version expectation predates the Santa avatar release. This operation changes only account data, not CMS/runtime files. No unrelated test/runtime edits or rerun."
+    }
+  },
+  "rehearsal": {
+    "at": "2026-11-17T12:20:42.646Z",
+    "partialFailures": [
+      {
+        "step": "avatar",
+        "rolledBack": true
+      },
+      {
+        "step": "box",
+        "rolledBack": true
+      },
+      {
+        "step": "coin",
+        "rolledBack": true
+      }
+    ],
+    "invalidPlanBlocked": true,
+    "fullRollback": true,
+    "preStateHash": "1c6da2ada1e15ea039f61936bc078105a27680f7e840c903cfdcf3f1c3c6d775"
+  },
+  "performance": {
+    "before": {
+      "phase": "before",
+      "userId": "4933",
+      "readOnly": true,
+      "samples": [
+        {
+          "entry": "first",
+          "ms": 584.7366000000002,
+          "sql": 5,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": false,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "0",
+          "coin": "13188232248701760"
+        },
+        {
+          "entry": "repeat",
+          "ms": 230.0655000000006,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": false,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "0",
+          "coin": "13188232248701760"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet reads on live PostgreSQL; first/repeat in same connection with network included. Data grant only, no UI or runtime code change, no deployment, browser frame or physical-device measurement."
+    },
+    "after": {
+      "phase": "after",
+      "userId": "4933",
+      "readOnly": true,
+      "samples": [
+        {
+          "entry": "first",
+          "ms": 580.4925000000003,
+          "sql": 5,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "20",
+          "coin": "13688260598701760"
+        },
+        {
+          "entry": "repeat",
+          "ms": 231.70910000000003,
+          "sql": 3,
+          "avatar": {
+            "code": "SANTA_JOEUN",
+            "owned": true,
+            "equipped": false,
+            "expiresAt": null
+          },
+          "boxQuantity": "20",
+          "coin": "13688260598701760"
+        }
+      ],
+      "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet reads on live PostgreSQL; first/repeat in same connection with network included. Data grant only, no UI or runtime code change, no deployment, browser frame or physical-device measurement."
+    },
+    "ledger": {
+      "conditions": "Windows CLI, live PostgreSQL, same latest-ledger-ID query and 15s statement timeout, network included. Earlier unqualified ORDER BY id resolved to text output alias and timed out; qualified integer table column uses existing primary-key indexes. No application code/schema change.",
+      "before": {
+        "timedOut": true,
+        "statementTimeoutMs": 15000
+      },
+      "after": [
+        {
+          "entry": "first",
+          "ms": 78.30709999999999,
+          "queries": 1
+        },
+        {
+          "entry": "repeat",
+          "ms": 73.31840000000011,
+          "queries": 1
+        }
+      ],
+      "execution": {
+        "Plan": {
+          "Node Type": "Result",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 1.55,
+          "Total Cost": 1.56,
+          "Plan Rows": 1,
+          "Plan Width": 96,
+          "Actual Startup Time": 0.834,
+          "Actual Total Time": 0.835,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Shared Hit Blocks": 18,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Limit",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 1",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0.57,
+              "Total Cost": 0.6,
+              "Plan Rows": 1,
+              "Plan Width": 40,
+              "Actual Startup Time": 0.374,
+              "Actual Total Time": 0.374,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 6,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Index Only Scan",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Scan Direction": "Backward",
+                  "Index Name": "coin_logs_pkey",
+                  "Relation Name": "coin_logs",
+                  "Alias": "l",
+                  "Startup Cost": 0.57,
+                  "Total Cost": 3087440.45,
+                  "Plan Rows": 96917819,
+                  "Plan Width": 40,
+                  "Actual Startup Time": 0.373,
+                  "Actual Total Time": 0.373,
+                  "Actual Rows": 1,
+                  "Actual Loops": 1,
+                  "Heap Fetches": 1,
+                  "Shared Hit Blocks": 6,
+                  "Shared Read Blocks": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0
+                }
+              ]
+            },
+            {
+              "Node Type": "Limit",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 2",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0.57,
+              "Total Cost": 0.6,
+              "Plan Rows": 1,
+              "Plan Width": 40,
+              "Actual Startup Time": 0.223,
+              "Actual Total Time": 0.223,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 7,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Index Only Scan",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Scan Direction": "Backward",
+                  "Index Name": "inventory_logs_pkey",
+                  "Relation Name": "inventory_logs",
+                  "Alias": "l_1",
+                  "Startup Cost": 0.57,
+                  "Total Cost": 2756746.06,
+                  "Plan Rows": 88642154,
+                  "Plan Width": 40,
+                  "Actual Startup Time": 0.222,
+                  "Actual Total Time": 0.223,
+                  "Actual Rows": 1,
+                  "Actual Loops": 1,
+                  "Heap Fetches": 1,
+                  "Shared Hit Blocks": 7,
+                  "Shared Read Blocks": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0
+                }
+              ]
+            },
+            {
+              "Node Type": "Limit",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 3",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0.29,
+              "Total Cost": 0.35,
+              "Plan Rows": 1,
+              "Plan Width": 40,
+              "Actual Startup Time": 0.235,
+              "Actual Total Time": 0.235,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 5,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Index Only Scan",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Scan Direction": "Backward",
+                  "Index Name": "admin_logs_pkey",
+                  "Relation Name": "admin_logs",
+                  "Alias": "l_2",
+                  "Startup Cost": 0.29,
+                  "Total Cost": 3262.87,
+                  "Plan Rows": 51885,
+                  "Plan Width": 40,
+                  "Actual Startup Time": 0.235,
+                  "Actual Total Time": 0.235,
+                  "Actual Rows": 1,
+                  "Actual Loops": 1,
+                  "Heap Fetches": 1,
+                  "Shared Hit Blocks": 5,
+                  "Shared Read Blocks": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0
+                }
+              ]
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.078,
+        "Triggers": [],
+        "Execution Time": 0.865
+      }
+    }
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "physicalDeviceMeasured": false,
+  "evidenceDirectory": "operations/named-santa-joeun-box20-coin500t-20261117",
+  "operationScriptSha256": {
+    "common.mjs": "258b00bc8fe58d468e7c00902fc99ca295c7fdf4464c5152c2e5f3a03ccefd06",
+    "inspect.mjs": "df315ed9b80634be3dfd0d311890b501db1220599e1218f2bc92ce63eef8bc2b",
+    "prepare.mjs": "663210a2001d2f763ce115ac974ffbbc9faf517a326fbee0f6c12069855fe1ea",
+    "grant.mjs": "0a6aee46ef563205690fb373a458e4c2a449eda13980b9d65efe1c90465331c9",
+    "run.mjs": "d5335e46bfcd5e68e9c74dc17a576e702036a0689b69b003c77c7048141d656c",
+    "service.mjs": "56a8d085ca7effd4b8a3b53fe24648811f79fc25350d5b93d303f68544cd153a",
+    "performance.mjs": "24896cb37f9031da4b8cc38b01f3e1bcf684c5701f04ddc3838901d4f9413381",
+    "record.mjs": "cf1b3a7c5d08e4d6595331c9e8b1add1eb3e29fb1ce3f79b5a11a6561345138c"
+  },
+  "sourceCommit": "dff86081f5b643a67d154d76330afcbe31ec840c"
+}

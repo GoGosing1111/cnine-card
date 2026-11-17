@@ -1,0 +1,34 @@
+{
+  "phase": "before",
+  "userId": "4933",
+  "readOnly": true,
+  "samples": [
+    {
+      "entry": "first",
+      "ms": 584.7366000000002,
+      "sql": 5,
+      "avatar": {
+        "code": "SANTA_JOEUN",
+        "owned": false,
+        "equipped": false,
+        "expiresAt": null
+      },
+      "boxQuantity": "0",
+      "coin": "13188232248701760"
+    },
+    {
+      "entry": "repeat",
+      "ms": 230.0655000000006,
+      "sql": 3,
+      "avatar": {
+        "code": "SANTA_JOEUN",
+        "owned": false,
+        "equipped": false,
+        "expiresAt": null
+      },
+      "boxQuantity": "0",
+      "coin": "13188232248701760"
+    }
+  ],
+  "conditions": "Windows CLI, actual avatar/catalog handler plus inventory/wallet reads on live PostgreSQL; first/repeat in same connection with network included. Data grant only, no UI or runtime code change, no deployment, browser frame or physical-device measurement."
+}

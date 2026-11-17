@@ -1,0 +1,470 @@
+{
+  "operationKey": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+  "authorization": "명단 55명에게 조은 산타걸 아바타 1개·씨나인스트리머 박스 20개·코인 500조 직접 지급. 사용자 확인: 베배킹=베베킹, 승구릭=숭구릭.",
+  "preparedAt": "2026-11-17T12:15:48.744Z",
+  "recipientCount": 55,
+  "recipients": [
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "requestedNickname": "심심이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "fa5ba67adbcc2bd4f13ac139b9f2518f07c8b5efe1f5e87c8092e748883d28d6"
+    },
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "requestedNickname": "0수표",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "832cd22ba8a4d19067cd8b025e9dc153a5289aaad085bf7229d866520c183ea6"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "requestedNickname": "Mild7",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "67573bb1200959acf7bd0fdc83bffe59c2663b3ffc1738dced2e539034ba68bd"
+    },
+    {
+      "userId": "4621",
+      "nickname": "리이렐",
+      "requestedNickname": "리이렐",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "65980f93abaa1fb6a85281b91936b71319d13058c3d3a267e994a873397b1b2b"
+    },
+    {
+      "userId": "525",
+      "nickname": "족구조아",
+      "requestedNickname": "족구조아",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "a15e3c4f2f4b08a6f5a213ae14a6cc64e4ff0ebada918cfdf3b91fc0850d43f8"
+    },
+    {
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "requestedNickname": "˚쟁이。",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "8fe35f26fad1865b0c1477a1f531cf093642a0047433b3cbf17c5f550c9a3353"
+    },
+    {
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "requestedNickname": "간장왕대게찜",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "a48e1a88590802af8551917e588ccb84b7ca79e2a2126501eeba92ad3ba66ee9"
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "requestedNickname": "차단하다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "dcfb0346cbf5822f2a364ce8be9577063b5a0b159e8145c29ad01fef803826cc"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "requestedNickname": "학벌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "908ca6cca84c1ef8f3fa9f60b73888f3330b4ed01a2b145444387f1437b03bf6"
+    },
+    {
+      "userId": "4730",
+      "nickname": "리오넬",
+      "requestedNickname": "리오넬",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "5fb0fe38c3893ec243db08c3d36ee5804c984d505207aa749b8dc8e8c559468a"
+    },
+    {
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "requestedNickname": "T-Money™",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "ef2437017c5c234e0c069b99c16a0378e40e9185eecd068f533966b84fa50f0a"
+    },
+    {
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "requestedNickname": "좋은하루",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "5abc63d9c8b2a50381f05165e36b532b0b27278496cb6e25bbde32955cb1b126"
+    },
+    {
+      "userId": "4614",
+      "nickname": "공단",
+      "requestedNickname": "공단",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "94cd6b42296b32629b6cd07ee5ca4a7dfb7c3144ad4f7a6d636b16ac07ffc676"
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "requestedNickname": "현하루",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "6cb8b196b1d6d709dc1dbabf3c7d7eda905ec325ec4a830b5afa8d50ba66cb61"
+    },
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "requestedNickname": "Moo날두",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "673e86aaa3d8456f43256407ef52d75ae05e787d87c9fe9e6fff7b0e2e0bab0f"
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "requestedNickname": "박사",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "581e9583492fe282138b7bdb030791d071ba46b97208138f128209fff1850eaa"
+    },
+    {
+      "userId": "567",
+      "nickname": "망순이",
+      "requestedNickname": "망순이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "fadbfe5689e4c31eaa64d8e7ee5301c851ca0a34bb2b93444422672b4a47dfe4"
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "requestedNickname": "응맨",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "09196cd6adb28c94203cf9a4dd9f9cff66b47157eec72125710bc3890369a9a4"
+    },
+    {
+      "userId": "4608",
+      "nickname": "하트!",
+      "requestedNickname": "하트!",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "17aada0a954578a38eb9c5d99dc111f1cb24e0d230896dca7cff119f5b31bdbe"
+    },
+    {
+      "userId": "4754",
+      "nickname": "조은",
+      "requestedNickname": "조은",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "6c6a046b595086c406c239f2bd1930b8201dca6d9624cbf18efff668cd4d08e2"
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "requestedNickname": "굳건창수",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "67ff51e3d6be08a46a51a6286e023cf66d619bfc2b06fa27688bfceb31429b90"
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "requestedNickname": "족단",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "3c7294e3d15aa9fb0eb0cd35e0edd4375db186d468e29d6f11037410e105ed53"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "requestedNickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "c2e0bc8a43bbaeb10074fdb62da47336dc26313fa338e7fc43a76beecc9c9fe1"
+    },
+    {
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "requestedNickname": "고라니ㅇ",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "0e6fd5ce7e0addbcb3eeb503e0614f28f61bc96ed61eaf593c2375cfe049e71c"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "requestedNickname": "쁴로리",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "028c34cc7fe068a80223057aea7e886c136aa22ff6a84df01775888dfa01f84d"
+    },
+    {
+      "userId": "4595",
+      "nickname": "비니",
+      "requestedNickname": "비니",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "0eb6a7245bf0d54fdd2c1f9d08de90a5bab9f670ba42559527014ea83d9faafa"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "requestedNickname": "핫시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "14d611ae12d17eaa2cad284b4599d1fed8d504fd5a450080d2373a8febe55ad7"
+    },
+    {
+      "userId": "315",
+      "nickname": "에타",
+      "requestedNickname": "에타",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "6b93dffbce20e1c56b2e904a66ca9b79d18314754673ef31da469c87cd7901d1"
+    },
+    {
+      "userId": "295",
+      "nickname": "모래",
+      "requestedNickname": "모래",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "54b3334e14e7ff7388ad77c396c98407ef564709dc0ead8e242e02121201621b"
+    },
+    {
+      "userId": "4597",
+      "nickname": "찬호",
+      "requestedNickname": "찬호",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "ff46495c22ca14d2573120279f38a5efd541f836a0cc28c8c9b7c5fffdec2e8c"
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "requestedNickname": "[C9]족쪽이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "99089e7a02d7f179c314d4a213db510fb5012a9fbc652f24cdc1afa2c36a361d"
+    },
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "requestedNickname": "라피e",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "325968d9ffc0caf09536e9dfe4bbea41a2c72bbd736cb64a1b2aa4b9dae02851"
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "requestedNickname": "베배킹",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "680d7f1e443713b249e6dab191098a1fea8d93b2341a1df5cc5d68080d6fd92e"
+    },
+    {
+      "userId": "4598",
+      "nickname": "암살자..",
+      "requestedNickname": "암살자..",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "b7e2578b8201da1929092df09aeec98ab92b908d3c0d9768dcfabace24731a63"
+    },
+    {
+      "userId": "23",
+      "nickname": "하이희야",
+      "requestedNickname": "하이희야",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "userId": "62",
+      "nickname": "숭구릭",
+      "requestedNickname": "승구릭",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "b6661d951e1780b8f488896641e8f9b2115711f14187bf3484d60149bc7f8ddc"
+    },
+    {
+      "userId": "5996",
+      "nickname": "관종이얌",
+      "requestedNickname": "관종이얌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "b99c9baee262a9c503d50a9ded99bf4d25e41ff4b628d69458d2c18ddb15547b"
+    },
+    {
+      "userId": "16",
+      "nickname": "오승환이다",
+      "requestedNickname": "오승환이다",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "e1941cdb378955b9713ba559863bea56f04239260e3e3e4e12c5646ae5388fe4"
+    },
+    {
+      "userId": "4644",
+      "nickname": "김폭군",
+      "requestedNickname": "김폭군",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "bebe679dbf740694226299184383acb10ade2395346669264dff2a4eca935913"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "requestedNickname": "혜정",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "e7e8b67c595572bd89aa2cc09eff08fe25eeb8ef743b26edbc0142ee6b64a4a7"
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "requestedNickname": "블랙캐슬",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "b00fb3fb21f4ee3722724f6ff3a68eb1640b42c1982ee6c331d883d8b5e06cd8"
+    },
+    {
+      "userId": "5008",
+      "nickname": "단정한밤",
+      "requestedNickname": "단정한밤",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "8dfe89ae2069695ca4312c1420da41cb79f32947f63ac856d8da5015a0e48f1b"
+    },
+    {
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "requestedNickname": "[C9]가시",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "1113f84df5ff0a53b56c24a8da92c788edc1e433df8cb06aba196e41e04eda83"
+    },
+    {
+      "userId": "5362",
+      "nickname": "점빡이",
+      "requestedNickname": "점빡이",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "27706ca3bc580395b0cd0470dbc2734eb3a89eaa33c1ccf8716a1d02415df453"
+    },
+    {
+      "userId": "4828",
+      "nickname": "조은홧팅",
+      "requestedNickname": "조은홧팅",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "cdde43211a4f74b2efe9df95be41e65d9f27066f2c108768490d85c78eda4b88"
+    },
+    {
+      "userId": "4629",
+      "nickname": "Veil",
+      "requestedNickname": "Veil",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "27470c78b266e687a0a57cc5163d09cded88523d7545d020e62c81bae6358710"
+    },
+    {
+      "userId": "52",
+      "nickname": "폭군#",
+      "requestedNickname": "폭군#",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "a150db07599e69c3e1f86b344f8e7c559699ddf0fc7c98ca4f08a47e4dd1bec9"
+    },
+    {
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "requestedNickname": "우회하세요",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "ae7a1fc0da610921fbb1ec703265459357efe59ed4c3b5fb10b6c847e41472b1"
+    },
+    {
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "requestedNickname": "깅더듬",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "80194ddf45cdeeab39c0021fdec16747320eeaccfb1aa1ca7ce96a06d192c1a3"
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "requestedNickname": "ShowMaker",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "5953eba404ed60a3ee31f5715b6ebfc4b1dafdaa22f3b75ec463a4429b42c23f"
+    },
+    {
+      "userId": "3",
+      "nickname": "ε연두з",
+      "requestedNickname": "ε연두з",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "68248e2b3d9082a979cb8e868f97beaf93833aef286a714f5fa9d4092f0a8500"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "requestedNickname": "전게씹선미아웃",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "fdab7d3294a74e01cda83d58417be9125c6b1a9548182a1fc5c087673712c17d"
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "requestedNickname": "세라네꼬라지",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "1a1bb6976378b94e744c026f750ab685efe45203278fd9d30fe6470e111ce575"
+    },
+    {
+      "userId": "4408",
+      "nickname": "레가파",
+      "requestedNickname": "레가파",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "846a753e3c3f95d5079a64b09e14b4d5c834549616f1f16eda57a537e2fe8e9c"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "requestedNickname": "더듬이구",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "fdc5c1c687f7fa41edb2a67dc3b8764100b402b9bdc21fb406b291a1c8774603"
+    }
+  ],
+  "avatar": {
+    "code": "SANTA_JOEUN",
+    "name": "산타걸 오조은",
+    "permanent": true,
+    "definitionHash": "ba1391205dca5589bb142216108bf125376d04e607f66b8e9a4d65dfc551c8ee"
+  },
+  "box": {
+    "code": "CNINE_STREAMER_BOX",
+    "name": "씨나인 스트리머 박스",
+    "active": 1
+  },
+  "boxQuantity": 20,
+  "coinQuantity": "500000000000000",
+  "totalBoxes": 1100,
+  "totalCoins": "27500000000000000",
+  "floors": {
+    "coins": "106027946",
+    "inventory": "89952704",
+    "audit": "63098"
+  },
+  "messages": false,
+  "autoEquip": false
+}
