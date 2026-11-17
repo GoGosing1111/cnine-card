@@ -18,6 +18,13 @@ const bindTarget=actor=>{
 // by the engine, not by either preview controller's play/seek timeline.
 class LiveSXFX extends SXUltimateFX{
   makeTimeline(){this.zoom=false;}
+  drawGroundLight(_t,ground,size){
+    // The approved light sheet's disc is below the cell centre and changes
+    // height across frames. Keep its calm first frame centred on the feet.
+    const light=this.ambient[1];light.texture=this.assets.effects.light[0];
+    light.anchor.set(.5,416/512);light.width=size*1.65;light.height=size*1.2;
+    light.position.set(ground.x,ground.y);light.alpha=.55;light.blendMode='add';light.visible=true;
+  }
   // Live framing has its own scoped camera; never run the preview's parallax
   // mutations or its unconditional camera reset during normal attacks.
   restoreBackdrop(){}

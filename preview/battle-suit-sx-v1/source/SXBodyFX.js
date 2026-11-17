@@ -76,12 +76,15 @@ export class SXBodyFX{
    const p=this.layerPoint(r,this.back);s.position.set(p.x,p.y);s.tint=i%2?0x2065ff:0x72b5ff;s.alpha=alphas[i]*Math.min(1,distance/(size*.16));s.blendMode='add';s.visible=true;
   });
  }
+ drawGroundLight(t,ground,size){
+  const light=this.ambient[1];light.texture=this.assets.effects.light[Math.floor(t*8)%12];light.anchor.set(.5);light.width=size*1.65;light.height=size*1.2;light.position.set(ground.x,ground.y);light.alpha=.55;light.blendMode='add';light.visible=true;
+ }
  drawAmbient(t,state,r,idle){
   this.ambient.forEach(s=>s.visible=false);this.rims.forEach(s=>s.visible=false);this.particles.clear();
   if(!this.effectsEnabled||this.cancelled||state.done||t<=0)return;
   const size=HEIGHT*this.unit.root.scale.x,p=this.layerPoint(r,this.back),ground=this.layerPoint({x:r.x,y:r.groundY},this.back),frame=Math.floor(t*10)%12;
   const aura=this.ambient[0];aura.texture=this.assets.effects.aura[frame];aura.anchor.set(.5,.53);aura.width=size*1.55;aura.height=size*1.40;aura.position.set(p.x,p.y-size*.49);aura.alpha=1;aura.blendMode='normal';aura.visible=true;
-  const light=this.ambient[1];light.texture=this.assets.effects.light[Math.floor(t*8)%12];light.anchor.set(.5);light.width=size*1.65;light.height=size*1.2;light.position.set(ground.x,ground.y);light.alpha=.55;light.blendMode='add';light.visible=true;
+  this.drawGroundLight(t,ground,size);
   const body=this.unit.bodySprite,dir=idle?1:state.pose.facing;
   this.rims.forEach((s,i)=>{s.texture=body.texture;s.anchor.copyFrom(body.anchor);s.scale.set(body.scale.x*this.unit.root.scale.x*dir,body.scale.y*this.unit.root.scale.y);s.position.set(p.x+(i%2?1:-1)*size*.006,p.y+(i<2?-1:1)*size*.006);s.tint=0x3982ff;s.alpha=.16+.03*Math.sin(t*3);s.blendMode='add';s.visible=true;});
   for(let i=0;i<16;i++){const q=(t*.28+i*.0617)%1,side=i%2?-1:1,x=p.x+side*size*(.2+.22*Math.sin(i*2.1)),y=p.y-size*q;this.particles.circle(x,y,Math.max(.5,size*.009*(1-q))).fill({color:i%3?0x438aff:0xa3dfff,alpha:Math.sin(q*Math.PI)*.42});}
