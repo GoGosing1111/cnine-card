@@ -1,0 +1,105 @@
+{
+  "at": "2026-11-17T07:31:55.721Z",
+  "sourceCommit": "7c0585ee2f94ea08bf7df0c1665fdf8d5342f0b7",
+  "pages": {
+    "id": "d8485ad7-39d1-4bc5-ab16-a5ded09199ad",
+    "commit": "7c0585ee2f94ea08bf7df0c1665fdf8d5342f0b7",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "0ae79fa7-d492-48ae-afd7-faf7a143e139",
+      "percentage": 100,
+      "includesLich": true,
+      "sha256": "af503a54c83d8e05298286de45013f38682b53920b9486e7af1d81483dfc01c3"
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "25a197ef-89b5-485d-aabc-97cfc35aa192",
+      "percentage": 100,
+      "includesLich": false,
+      "sha256": "33107bc67cb0b589542a468f1243283b8bfc7942846ea7ff0e94ee70639b0dbe"
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "69735df786a51c3fe2084d7903f4a53aa2e63c948c9774e93f6211e852b681ba",
+      "transformed": false
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "ee54981858227eadd7c1c3cd2b982c83a2ed11489c997562568ed5538e25c033",
+      "transformed": false
+    },
+    {
+      "path": "js/lich-king-raid-entry-v1.js",
+      "sha256": "9116ef912cc9c60bd11c841566ce9bf166f458d45235dc07593f42d1de98cf44",
+      "transformed": false
+    },
+    {
+      "path": "raid/lich-king/index.html",
+      "sha256": "03361ee568aa88bb29c50925798f49b0e81bc36576415c692f5f7b8d9ed35472",
+      "transformed": false
+    },
+    {
+      "path": "raid/lich-king/inline.mjs",
+      "sha256": "ce4bddba8443577f5b471eebd0aae3b4ec1454b1a1dd5db38502cfdc6ee0f961",
+      "transformed": false
+    },
+    {
+      "path": "raid/lich-king/live.mjs",
+      "sha256": "a8589a168553da50f17874f4dec5b79e42cdc481556f4b7f76e490c71f13281b",
+      "transformed": false
+    },
+    {
+      "path": "raid/lich-king/request-retry.mjs",
+      "sha256": "130075a3bad16f6e6c62813ad26a49fdcbb5e72276dee7e6acad2001e6da6636",
+      "transformed": false
+    },
+    {
+      "path": "shared/lich-boss-health-v1.mjs",
+      "sha256": "b9c239364db59229ae250069ac3e2e0c54bdd167d6bd1fc5c819ae4f82bbafe2",
+      "transformed": false
+    },
+    {
+      "path": "preview/lich-king-raid-v1/battle.bundle.js",
+      "sha256": "ecb8e15641653da1a36e971ef38287bc5f5ef0ff386ec77bf48cfc5bc554e662",
+      "transformed": false
+    },
+    {
+      "path": "onestore/index.html",
+      "sha256": "0b119004231c28bbee5ccd9ef2ee65849a57b025462004132b8b728743ca70a0",
+      "transformed": true
+    },
+    {
+      "path": "onestore/js/app.js",
+      "sha256": "6fd7b804665b1383ad7856e1513983562a4a96d30c523844aae07752769092f2",
+      "transformed": false
+    }
+  ],
+  "unauthenticatedFeature": 401,
+  "h5": {
+    "status": 200,
+    "csp": "frame-ancestors 'self' https://onestore.co.kr https://*.onestore.co.kr https://onestore.net https://*.onestore.net"
+  },
+  "tests": 2,
+  "runtimeCommit": "296a30f015b36aaf6cab3c9200a76cb93fd37794",
+  "finishedAt": "2026-11-17T07:31:06.940Z",
+  "relatedTestsPassed": 55,
+  "retainedEarlierPasses": 53,
+  "testsRunDuringFinalRelease": 2,
+  "preExistingExcludedFailures": [
+    "neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math",
+    "SQLite: enabled new trophies use the same honor projection and only their selected sources",
+    "Postgres: enabled new trophies use the same honor projection and only their selected sources"
+  ],
+  "productionDirectAccountWrites": 0,
+  "messagesOrComments": 0,
+  "physicalDeviceQA": false,
+  "initialAccountContentionFix": "d72b4d1a0",
+  "performance": "performance.json",
+  "realReadOnlyRewardParity": "settlement-comparison.json",
+  "notice": "공지문.txt"
+}
