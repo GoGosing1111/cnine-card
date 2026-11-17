@@ -1,0 +1,92 @@
+{
+  "at": "2026-11-17T20:50:47.928Z",
+  "head": "0f3f183787e9c5855db19e28c74643c0daf1bded",
+  "pages": {
+    "id": "84b02535-4e99-43e2-8b22-00d9e69bdb53",
+    "commit": "0f3f183787e9c5855db19e28c74643c0daf1bded",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "1604a22b-66e4-4ca9-9814-d4c65498afff",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "b537f9a7-59c1-4522-8229-c33e8576aa6c",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "eb6d649c047409c449f198c7520508232abd2b3e2ab2d7d279b7a278661e74e3",
+      "bytes": 53138,
+      "storeTransform": false
+    },
+    {
+      "path": "onestore/index.html",
+      "sha256": "aad23090116df0bb6f8edf8245447437779dc648666a3a5ede466a311587d8ea",
+      "bytes": 53260,
+      "storeTransform": true
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "94cb5ea581eb5acbd8f25319f31835ba411d2a6249c16f2d9f2a7c12a1fc25d9",
+      "bytes": 831741,
+      "storeTransform": false
+    },
+    {
+      "path": "onestore/js/app.js",
+      "sha256": "857888233093647c3fc8e639526c8ed7cff93291908fe8af3e274c62b0684892",
+      "bytes": 825879,
+      "storeTransform": false
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "ae84b3429297a65ed74de1b3225ccded0d1c52bd360fa6fa84d20f4ed3279c82",
+      "bytes": 26637,
+      "storeTransform": false
+    },
+    {
+      "path": "shared/mercenary-blue-gear-pack-v1.mjs",
+      "sha256": "4aa819b438d9486b4ce029d328c1ab66d50350e7db3604ba3a5d8a45d6364d4e",
+      "bytes": 5720,
+      "storeTransform": false
+    },
+    {
+      "path": "shared/mercenary-astra-v1.mjs",
+      "sha256": "90700fd3534509eabf1abc7caa8bcba3289133d3fe902befa7e63e61e82054df",
+      "bytes": 4718,
+      "storeTransform": false
+    },
+    {
+      "path": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "sha256": "f964de83c364334777b31ec89a8a6e4e2b1e3ee8e469b67baa10aa0b15576c05",
+      "bytes": 190302,
+      "storeTransform": false
+    }
+  ],
+  "astraAcquisitionDescription": "11월 20일 20시부터 블루기어팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·일반 추첨·합성·제작·기적의 큐브에서는 획득하지 않습니다.",
+  "sourceOnly": "Unbundled js/mercenary-blue-gear-pack-live.mjs is intentionally excluded by the existing production asset policy; verify the built browser bundle instead.",
+  "windowsManifest": {
+    "releaseId": "1712de66330842f4e92e3b7e0e69a481a7b45da308b646070f916fc13f988406",
+    "checked": [
+      "index.html",
+      "js/app.js",
+      "shared/mercenary-blue-gear-pack-v1.mjs",
+      "shared/mercenary-astra-v1.mjs",
+      "js/mercenary-blue-gear-pack-live.bundle.mjs"
+    ]
+  },
+  "tests": 25
+}

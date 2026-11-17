@@ -1,0 +1,39 @@
+{
+  "base": "cf0bece417ba0193b6f12517e3b0c3e4deb79246",
+  "production": {
+    "pages": {
+      "id": "46debf62-3867-4c33-8cdc-9827d5ef54e2",
+      "commit": "cf0bece417ba0193b6f12517e3b0c3e4deb79246",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "a32423c9-ac2a-442c-bd31-c18ec751ee2d",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "97b62142-df04-4da7-978d-4615f30af56b",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/blue-gear-8000t-opening20-20261118.test.mjs",
+    "tests/blue-gear-pack-20261113.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "User-authorized Blue Gear first new SS expected cost of 8000 trillion at unchanged pack price, with an exact fractional-ppm live setting update and November 20 20:00 KST opening. Align only shop, contract-room, Astra acquisition and early-opening messages plus shell cache. Validate exact draw boundaries, previous-midnight rejection, schedule boundary, stock and ownership exclusions, stale-revision rejection, idempotent debit, existing Blue Gear acquisition and actual loader integrity. No battle rules, account grants or other pack changes."
+}

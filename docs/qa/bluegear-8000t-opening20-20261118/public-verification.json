@@ -1,0 +1,396 @@
+{
+  "at": "2026-11-17T20:48:10.673Z",
+  "probes": [
+    {
+      "kind": "feature",
+      "visit": "first",
+      "elapsedMs": 224,
+      "status": 200,
+      "cacheControl": "no-store"
+    },
+    {
+      "kind": "feature",
+      "visit": "repeat",
+      "elapsedMs": 194,
+      "status": 200,
+      "cacheControl": "no-store"
+    },
+    {
+      "kind": "shop",
+      "visit": "first",
+      "elapsedMs": 179,
+      "status": 200,
+      "cacheControl": "no-store"
+    },
+    {
+      "kind": "shop",
+      "visit": "repeat",
+      "elapsedMs": 189,
+      "status": 200,
+      "cacheControl": "no-store"
+    }
+  ],
+  "feature": {
+    "id": "mercenary-blue-gear",
+    "name": "블루기어팩",
+    "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+    "openPath": "mercenaries/v3/blue-gear-pack/open",
+    "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+    "storageNamespace": "blue-gear-pack",
+    "maxBatch": 10,
+    "theme": "blue-gear",
+    "range": "일반 C~SSS · SS/SSS 리미티드",
+    "description": "블루기어 SS 5종 · 제로 · 하쿠야 신 · 아스트라",
+    "price": 2250000000,
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "drawMode": "MERCENARY_BLUE_GEAR",
+    "imageUrl": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "allowed": [],
+    "maxDrawCount": 10,
+    "drawEnabled": false,
+    "comingSoon": true,
+    "openingScheduled": true,
+    "openingAt": "2026-11-20T11:00:00.000Z",
+    "previewCards": [
+      {
+        "code": "V-701",
+        "name": "하이희야",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/hiheeya-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/bongsoon-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-703",
+        "name": "디임",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/diim-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-704",
+        "name": "수댕",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/sudaeng-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-705",
+        "name": "조은",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/joeun-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-976",
+        "name": "제로",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-976-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "name": "하쿠야 신",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-967-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-059",
+        "name": "아스트라",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+        "stockPolicy": "UNLIMITED",
+        "limit": null,
+        "remaining": null
+      }
+    ],
+    "pack": {
+      "id": "mercenary-blue-gear",
+      "name": "블루기어팩",
+      "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+      "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+      "openPath": "mercenaries/v3/blue-gear-pack/open",
+      "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+      "storageNamespace": "blue-gear-pack",
+      "maxBatch": 10
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 70.3125,
+        "V-702": 70.3125,
+        "V-703": 70.3125,
+        "V-704": 70.3125,
+        "V-705": 70.3125,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 999246.4375,
+      "stockLimits": {
+        "V-701": 10,
+        "V-702": 10,
+        "V-703": 10,
+        "V-704": 10,
+        "V-705": 10,
+        "V-976": 3,
+        "V-967": 3
+      },
+      "mode": "OFF"
+    },
+    "serverNow": "2026-11-17T20:48:09.609Z",
+    "revision": 3,
+    "stock": [
+      {
+        "code": "V-701",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-702",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-703",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-704",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-705",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-976",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      }
+    ],
+    "readiness": {
+      "ready": true,
+      "blockers": []
+    },
+    "userOpeningEnabled": false,
+    "ownershipRule": {
+      "basis": "CURRENT_DISTINCT_BLUE_GEAR_SS",
+      "duplicatesAllowed": false,
+      "threshold": 2,
+      "divisors": [
+        1,
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "fallback": "STANDARD_SSS"
+    },
+    "ownedCodes": [],
+    "ownedDistinctCount": 0,
+    "ssProbabilityDivisor": 1,
+    "currentRates": {
+      "cardRatesPpm": {
+        "V-701": 70.3125,
+        "V-702": 70.3125,
+        "V-703": 70.3125,
+        "V-704": 70.3125,
+        "V-705": 70.3125,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 999246.4375
+    },
+    "effectiveCardPercents": {
+      "V-701": "0.000005625",
+      "V-702": "0.000005625",
+      "V-703": "0.000005625",
+      "V-704": "0.000005625",
+      "V-705": "0.000005625",
+      "V-976": "0.00000008",
+      "V-967": "0.00000008",
+      "V-059": "0.000032"
+    },
+    "effectiveNormalSssPercent": "0.079939715",
+    "normalCmsRevision": 61,
+    "normalDrawRevision": 31,
+    "personalOddsKnown": false
+  },
+  "shop": {
+    "id": "mercenary-blue-gear",
+    "name": "블루기어팩",
+    "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+    "openPath": "mercenaries/v3/blue-gear-pack/open",
+    "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+    "storageNamespace": "blue-gear-pack",
+    "maxBatch": 10,
+    "theme": "blue-gear",
+    "range": "일반 C~SSS · SS/SSS 리미티드",
+    "description": "블루기어 SS 5종 · 제로 · 하쿠야 신 · 아스트라",
+    "price": 2250000000,
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "drawMode": "MERCENARY_BLUE_GEAR",
+    "imageUrl": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+    "allowed": [],
+    "maxDrawCount": 10,
+    "drawEnabled": false,
+    "comingSoon": true,
+    "openingScheduled": true,
+    "openingAt": "2026-11-20T11:00:00.000Z",
+    "previewCards": [
+      {
+        "code": "V-701",
+        "name": "하이희야",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/hiheeya-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/bongsoon-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-703",
+        "name": "디임",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/diim-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-704",
+        "name": "수댕",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/sudaeng-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-705",
+        "name": "조은",
+        "rank": "SS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/joeun-320.webp",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true
+      },
+      {
+        "code": "V-976",
+        "name": "제로",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-976-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "name": "하쿠야 신",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-967-320.webp",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-059",
+        "name": "아스트라",
+        "rank": "SSS",
+        "thumbnailArt": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+        "stockPolicy": "UNLIMITED",
+        "limit": null,
+        "remaining": null
+      }
+    ]
+  },
+  "accountWrites": 0
+}

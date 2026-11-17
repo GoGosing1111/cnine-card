@@ -1,0 +1,199 @@
+{
+  "operationKey": "ops:bluegear:ss-first8000t-opening20:20261118:v1",
+  "authorization": [
+    "평균 8천조 기대값으로 변경해",
+    "그리고 20일 20:00 오픈"
+  ],
+  "basis": "First new SS among all five, zero Blue Gear SS ownership, all five in stock",
+  "beforeRaw": "{\"revision\":2,\"openingAt\":\"2026-11-19T15:00:00.000Z\",\"references\":{\"bloodmoon\":14,\"blackcrown\":11},\"settings\":{\"prices\":{\"single\":2250000000,\"ten\":22500000000},\"missRatePpm\":800000,\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"cardRatesPpm\":{\"V-701\":500,\"V-702\":500,\"V-703\":500,\"V-704\":500,\"V-705\":500,\"V-976\":1,\"V-967\":1,\"V-059\":400},\"normalSssRatePpm\":997098,\"stockLimits\":{\"V-701\":10,\"V-702\":10,\"V-703\":10,\"V-704\":10,\"V-705\":10,\"V-976\":3,\"V-967\":3}}}",
+  "before": {
+    "revision": 2,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "references": {
+      "bloodmoon": 14,
+      "blackcrown": 11
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 500,
+        "V-702": 500,
+        "V-703": 500,
+        "V-704": 500,
+        "V-705": 500,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 997098,
+      "stockLimits": {
+        "V-701": 10,
+        "V-702": 10,
+        "V-703": 10,
+        "V-704": 10,
+        "V-705": 10,
+        "V-976": 3,
+        "V-967": 3
+      }
+    }
+  },
+  "after": {
+    "revision": 3,
+    "openingAt": "2026-11-20T11:00:00.000Z",
+    "references": {
+      "bloodmoon": 14,
+      "blackcrown": 11
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 70.3125,
+        "V-702": 70.3125,
+        "V-703": 70.3125,
+        "V-704": 70.3125,
+        "V-705": 70.3125,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 999246.4375,
+      "stockLimits": {
+        "V-701": 10,
+        "V-702": 10,
+        "V-703": 10,
+        "V-704": 10,
+        "V-705": 10,
+        "V-976": 3,
+        "V-967": 3
+      }
+    }
+  },
+  "odds": {
+    "firstAnySsMeanCoins": "8000000000000000",
+    "anySsPercent": "0.000028125",
+    "eachSsPercent": "0.000005625",
+    "meanDraws": 3555555.555555555,
+    "stages": [
+      {
+        "owned": 0,
+        "percent": 0.000028125000000000003,
+        "meanDraws": 3555555.555555555,
+        "meanCoinsJo": 7999.999999999999
+      },
+      {
+        "owned": 1,
+        "percent": 0.0000225,
+        "meanDraws": 4444444.444444444,
+        "meanCoinsJo": 10000
+      },
+      {
+        "owned": 2,
+        "percent": 0.0000084375,
+        "meanDraws": 11851851.851851853,
+        "meanCoinsJo": 26666.666666666668
+      },
+      {
+        "owned": 3,
+        "percent": 0.0000028125,
+        "meanDraws": 35555555.55555555,
+        "meanCoinsJo": 80000
+      },
+      {
+        "owned": 4,
+        "percent": 7.03125e-7,
+        "meanDraws": 142222222.2222222,
+        "meanCoinsJo": 320000
+      }
+    ],
+    "allFiveMeanCoinsJo": 444666.6666666667,
+    "openingAt": "2026-11-20T11:00:00.000Z",
+    "openingAtKST": "2026-11-20 20:00:00"
+  },
+  "protectedBefore": {
+    "stock": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      }
+    ],
+    "related": [
+      {
+        "key": "mercenary_blackcrown_ss_pack_v1",
+        "value": "{\"revision\":11,\"settings\":{\"mode\":\"OFF\",\"prices\":{\"single\":1500000000,\"ten\":15000000000},\"missRatePpm\":800000,\"format\":\"MERCENARY_BLACKCROWN_SS_PACK_V3\",\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"normalSssRatePpm\":969580,\"cardRatesPpm\":{\"V-951\":5000,\"V-952\":5000,\"V-953\":5000,\"V-950\":5000,\"V-955\":5000,\"V-954\":5000,\"V-058\":400,\"V-970\":10,\"V-971\":10},\"stockLimits\":{\"V-951\":80,\"V-952\":80,\"V-953\":60,\"V-950\":80,\"V-955\":80,\"V-954\":80,\"V-970\":10,\"V-971\":8}},\"updatedAt\":\"2026-11-05T13:00:00.000Z\",\"updatedBy\":1,\"clonedFrom\":{\"key\":\"mercenary_bloodmoon_ss_pack_v1\",\"revision\":11,\"sha256\":\"240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f\"},\"openingSchedule\":{\"status\":\"SCHEDULED\",\"opensAt\":\"2026-10-30T15:00:00.000Z\",\"createdAt\":\"2026-10-30T11:00:46.254Z\",\"operationKey\":\"ops:blackcrown-rates-opening:20261030:v1\"},\"lastStockScheduleId\":\"stock-20261105-2200-blackcrown-soldout-ss20-sss3-v1\",\"lastRequestId\":\"ops:blackcrown-cardgu-limit-plus2:20261101:v1\"}"
+      }
+    ]
+  },
+  "beforeHash": "92aa239da44416d97d24ab9029336a0b27670ae03bdcb509553a2b015e050772",
+  "afterHash": "3a607ef06a4f519675b42d49a55be006b0d80fbc4c2bc7879717603a8c5c4fa6",
+  "accountWrites": 0,
+  "messagesSent": 0
+}
