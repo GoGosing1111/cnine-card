@@ -1,0 +1,60 @@
+{
+  "before": false,
+  "platform": "mobile",
+  "width": 390,
+  "height": 844,
+  "condition": "Windows headless browser; mobile viewport/WebKit emulation; isolated PostgreSQL actual game handlers; no production account writes",
+  "measurements": [
+    {
+      "entry": "h5",
+      "visits": [
+        {
+          "visit": 0,
+          "launchMs": 2608.6798000000003,
+          "codexMs": 415.52250000000004,
+          "equipmentMs": 246.8792999999996,
+          "forgeMs": 694.3797999999997,
+          "fusionMs": 291.8285999999989,
+          "residualRequests": 0,
+          "cleanup": {
+            "destroyed": true,
+            "aborted": true,
+            "soundDestroyed": true,
+            "activeTweens": 0,
+            "canvas": 0
+          }
+        },
+        {
+          "visit": 1,
+          "launchMs": 2386.7343,
+          "codexMs": 289.76550000000134,
+          "equipmentMs": 172.25400000000081,
+          "forgeMs": 452.4274999999998,
+          "fusionMs": 183.96789999999964,
+          "residualRequests": 0,
+          "cleanup": {
+            "destroyed": true,
+            "aborted": true,
+            "soundDestroyed": true,
+            "activeTweens": 0,
+            "canvas": 0
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "broken": [],
+  "posts": [
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket"
+  ]
+}

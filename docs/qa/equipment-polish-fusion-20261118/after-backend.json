@@ -1,0 +1,17 @@
+{
+  "condition": "Windows Node / embedded PostgreSQL PGlite / no network; cold fixture per sample, deterministic random 0, same input rank and result pool as baseline; single sample, no speed extrapolation to production",
+  "measurements": [
+    {
+      "attempts": 100,
+      "ms": 30.2171000000003,
+      "transactionStatements": 14,
+      "receiptBytes": 31116
+    },
+    {
+      "attempts": 1000,
+      "ms": 75.22609999999986,
+      "transactionStatements": 18,
+      "receiptBytes": 305621
+    }
+  ]
+}

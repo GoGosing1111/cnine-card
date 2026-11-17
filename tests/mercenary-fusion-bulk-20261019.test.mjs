@@ -15,16 +15,16 @@ async function fixture(t,postgres,extras=400){
   for(const code of ['V-004','V-009'])await f.p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(7,?,?,?,?,?)',code,extras+1,extras,'2026-10-19','2026-10-19').run();
   return f;
 }
-test('bulk selection uses existing duplicates, one rank, and whole sets capped at 100',()=>{
+test('bulk selection uses existing duplicates, one rank, and whole sets capped at 1000',()=>{
   const rows=materialRows({cards:[{code:'V-004',rank:'SS'},{code:'V-009',rank:'SS'},{code:'V-010',rank:'S'},{code:'V-021',rank:'SSS'}]},
     {cards:[{code:'V-004',totalCopies:46,duplicates:45},{code:'V-009',totalCopies:36,duplicates:35},{code:'V-010',totalCopies:1001,duplicates:1000},{code:'V-021',totalCopies:99,duplicates:98}]});
-  assert.equal(maxFusionAttempts(rows,'SS'),10);assert.equal(maxFusionAttempts(rows,'S'),100);
+  assert.equal(maxFusionAttempts(rows,'SS'),10);assert.equal(maxFusionAttempts(rows,'S'),125);
   const selected=autoMaterials(rows,'SS',10);assert.equal(selected.length,80);assert.equal(selected.filter(c=>c==='V-004').length,45);
   assert.equal(validateMaterials(selected,rows,{attempts:10}).ok,true);
   assert.equal(validateMaterials(selected,rows,{attempts:11}).ok,false);
   assert.equal(validateMaterials([...selected.slice(1),'V-010'],rows,{attempts:10}).ok,false);
   assert.equal(validateMaterials(Array(88).fill('V-004'),rows,{attempts:11}).ok,false);
-  for(const n of [0,7,9,799,801,808])assert.throws(()=>normalizeFusionMaterials(Array(n).fill('V-004')),{code:'MERCENARY_FUSION_MATERIALS'});
+  for(const n of [0,7,9,799,801,8008])assert.throws(()=>normalizeFusionMaterials(Array(n).fill('V-004')),{code:'MERCENARY_FUSION_MATERIALS'});
 });
 
 for(const postgres of [false,true]){
@@ -45,12 +45,12 @@ for(const postgres of [false,true]){
     assert.deepEqual((await fusionReceipt(f.env,f.user,body.requestId)).results,result.results);
     await assert.rejects(runPreparedMercenaryFusion(f.env,f.user,{requestId:crypto.randomUUID(),materials:body.materials}),{code:'MERCENARY_FUSION_DUPLICATES'});
   });
-  test(`${dialect}: failure at result 50 rolls back all 800 materials and grants; retry keeps all rolls`,async t=>{
+  test(`${dialect}: failure inside acquisition transaction rolls back all 800 materials and grants; retry keeps all rolls`,async t=>{
     const f=await fixture(t,postgres),before=await owned(f),body={requestId:crypto.randomUUID(),materials:[...Array(400).fill('V-004'),...Array(400).fill('V-009')]};
     const batch=f.DB.batch.bind(f.DB);let injected=false;
     f.DB.batch=async statements=>{
       let grants=0;
-      const failing=statements.map(s=>{if(!injected&&s.source?.startsWith('INSERT INTO mercenary_card_acquisitions_v1')&&++grants===50){injected=true;return f.p('INSERT INTO bulk_failure_fixture_missing_table VALUES(0)');}return s;});
+      const failing=statements.map(s=>{if(!injected&&(postgres?s.source?.startsWith('DELETE FROM joint_atomic_guards_v1'):s.source?.startsWith('INSERT INTO mercenary_card_acquisitions_v1')&&++grants===50)){injected=true;return f.p('INSERT INTO bulk_failure_fixture_missing_table VALUES(0)');}return s;});
       return batch(failing);
     };
     await assert.rejects(runPreparedMercenaryFusion(f.env,f.user,body,{randomInt:()=>0}));

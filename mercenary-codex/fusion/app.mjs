@@ -1,6 +1,6 @@
 import { escapeHtml as esc, asset, thumb, FRAME } from '../model.mjs?v=2098&art=20260915';
-import { MATERIAL_COUNT, MAX_BATCH, RANKS, TIMING, nextRank, maxFusionAttempts, materialRows, addMaterial, autoMaterials, demoMaterials, demoResult, phaseAt, validateMaterials } from './model.mjs?v=20261019-bulk';
-import {createFusionClient,fusionToken} from './client.mjs?v=20261019-bulk';
+import { MATERIAL_COUNT, MAX_BATCH, RANKS, TIMING, nextRank, maxFusionAttempts, materialRows, addMaterial, autoMaterials, demoMaterials, demoResult, phaseAt, validateMaterials } from './model.mjs?v=20261118-bulk1000';
+import {createFusionClient,fusionToken} from './client.mjs?v=20261118-bulk1000';
 import {jointAccountRequest as api} from '../../js/joint-account-transport.mjs';
 import { FusionFX } from './fx.mjs?v=20260925-loading';
 import { withMercenaryDeadline } from '../../shared/mercenary-loading-v1.mjs?v=20260925';
@@ -21,10 +21,10 @@ function loadVendor() {
 function loadStyles() {
   if (document.getElementById('mercenaryFusionStyles')) return;
   const link = document.createElement('link'); link.id = 'mercenaryFusionStyles'; link.rel = 'stylesheet';
-  link.href = '/mercenary-codex/fusion/style.css?v=20261019-bulk'; document.head.append(link);
+  link.href = '/mercenary-codex/fusion/style.css?v=20261118-bulk1000'; document.head.append(link);
 }
 
-const html = `<header class="fusion-head"><div class="fusion-head-main"><span class="fusion-section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="8" y="5" width="12" height="16" rx="1.5"/><path d="M5 18H4V2h12v1M11 10h6m-6 4h6m-6 4h3"/></svg></span><div><p class="fusion-kicker">용병도감<span>/</span>카드 합성</p><h2 id="fusionTitle">용병 중복 합성</h2></div></div><div class="fusion-head-actions"><span class="fusion-status-tag" data-live-status><i></i>상태 확인 중</span><button type="button" data-action="sound" aria-pressed="false">소리 켜기</button><button type="button" data-action="close" class="fusion-close" aria-label="중복 합성 닫기">×</button></div></header>
+const html = `<header class="fusion-head"><div class="fusion-head-main"><span class="fusion-section-icon" aria-hidden="true"><img src="/mercenary-codex/fusion/assets/sealed-contract-v1.png" alt=""></span><div><p class="fusion-kicker">용병도감<span>/</span>카드 합성</p><h2 id="fusionTitle">용병 중복 합성</h2></div></div><div class="fusion-head-actions"><span class="fusion-status-tag" data-live-status><i></i>상태 확인 중</span><button type="button" data-action="sound" aria-pressed="false">소리 켜기</button><button type="button" data-action="close" class="fusion-close" aria-label="중복 합성 닫기">×</button></div></header>
 <div class="fusion-body"><div class="fusion-main"><section class="fusion-stage" aria-label="용병 합성 연출"><div class="fusion-renderer"></div><div class="fusion-stage-top"><span>계약의 성소</span><small>VIII MEMORIES · ONE COVENANT</small></div><div class="fusion-stage-message"><p data-stage-title>봉인 너머, 새로운 운명이 기다립니다</p><small data-stage-subtitle>중복 카드 8장으로 완성하는 하나의 계약</small></div><div class="fusion-stage-vignette"></div><div class="fusion-result"><div class="fusion-result-rank"></div><h3></h3><p></p><small>연출 시연 결과 · 실제 지급 없음</small></div><div class="fusion-loading" role="status">성소를 불러오고 있습니다…</div><div class="fusion-playback" hidden><button type="button" data-action="pause" aria-label="연출 일시정지">일시정지</button><button type="button" data-action="replay" aria-label="연출 처음부터 다시 재생">처음부터</button><input class="fusion-scrub" type="range" min="0" max="8.4" step="0.05" value="0" aria-label="합성 연출 시간 탐색"></div></section>
 <section class="fusion-tray" aria-label="합성 재료 8개 슬롯"><div class="fusion-tray-head"><div><b>합성 재료</b><em><span data-selected-count>0</span><small> / 8</small></em></div><button type="button" data-action="clear">선택 해제 ↺</button></div><div class="fusion-slots"></div><p class="fusion-tray-note">기본 보유 1장은 보존하며, 중복 카드만 재료로 선택합니다.</p></section></div>
 <aside class="fusion-pool" aria-label="합성 재료 선택"><header class="fusion-pool-heading"><h3>중복 카드 선택</h3><span>같은 등급 8장</span></header><div class="fusion-mode-tabs" role="group" aria-label="합성 재료 목록"><button type="button" data-action="owned" aria-pressed="true">내 중복 카드</button><button type="button" data-action="demo" aria-pressed="false">연출 시연</button></div><div class="fusion-filter"><label><span class="sr-only">재료 등급</span><select data-material-rank aria-label="재료 등급"></select></label><button type="button" data-action="auto">8장 자동 선택</button></div><p class="fusion-pool-note"></p><div class="fusion-materials"></div><section class="fusion-policy" aria-label="합성 정보"><div class="fusion-rate-summary"><span>승급 성공률</span><strong>10<small>%</small></strong></div><div class="fusion-rate-bar" aria-hidden="true"><i></i></div><dl><div><dt>성공 10%</dt><dd>한 단계 상위 등급 랜덤 1장</dd></div><div><dt>실패 90%</dt><dd>재료와 같은 등급 랜덤 1장</dd></div><div><dt>추가 비용</dt><dd><b>없음</b></dd></div></dl></section></aside></div>
@@ -38,7 +38,7 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
   dialog.setAttribute('aria-labelledby', 'fusionTitle'); dialog.innerHTML = html; document.body.append(dialog);
   const $ = selector => dialog.querySelector(selector), controller = new AbortController(), signal = controller.signal;
   const quantity=document.createElement('div');quantity.className='fusion-quantity';
-  quantity.innerHTML='<label>합성 횟수 <input type="number" data-attempts aria-label="합성 횟수" min="1" max="100" step="1" value="1" inputmode="numeric"> 회</label><div><button type="button" data-batch="1">1회</button><button type="button" data-batch="10">10회</button><button type="button" data-batch="max">최대</button></div><small data-batch-available></small>';
+  quantity.innerHTML=`<div class="fusion-batch-heading"><img src="/mercenary-codex/fusion/assets/sealed-contract-v1.png" alt=""><span>일괄 계약 합성<small>최대 ${MAX_BATCH.toLocaleString('ko-KR')}회 · 중복 ${(MAX_BATCH*MATERIAL_COUNT).toLocaleString('ko-KR')}장</small></span></div><label>합성 횟수 <input type="number" data-attempts aria-label="합성 횟수" min="1" max="${MAX_BATCH}" step="1" value="1" inputmode="numeric"> 회</label><div class="fusion-batch-presets">${[1,10,100,1000].map(n=>`<button type="button" data-batch="${n}">${n.toLocaleString('ko-KR')}회</button>`).join('')}<button type="button" data-batch="max">최대</button></div><small data-batch-available></small>`;
   $('.fusion-filter').after(quantity);
   const batchResults=document.createElement('section');batchResults.className='fusion-batch-results';batchResults.hidden=true;batchResults.setAttribute('aria-label','전체 합성 결과');
   $('.fusion-tray').after(batchResults);
@@ -58,7 +58,7 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
   const retry = document.createElement('button'); retry.type = 'button'; retry.dataset.action = 'retry'; retry.textContent = '다시 불러오기'; retry.hidden = true;
   $('.fusion-error').after(retry);
   const error = (message,retryable=false) => { const el = $('.fusion-error'); el.textContent = message || ''; el.hidden = !message; retry.hidden = !message || !retryable; };
-  const chosenCards = () => receipt ? receiptCards : mode === 'demo' ? sampleCards : selection.map(code => rows.find(c => c.code === code)).filter(Boolean);
+  const chosenCards = () => {if(receipt)return receiptCards;if(mode==='demo')return sampleCards;const byCode=new Map(rows.map(c=>[c.code,c]));return selection.map(code=>byCode.get(code)).filter(Boolean);};
   const currentResult = () => receipt ? {...catalog.cards.find(c=>c.code===featured().mercenaryCode),...featured(),code:featured().mercenaryCode,rank:featured().resultRank} : mode==='demo' ? demoResult(catalog, outcome === 'success' ? resultRank : rank) : null;
   let fx = new FusionFX($('.fusion-renderer'), {
     progress(time) {
@@ -85,7 +85,7 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
     $('.fusion-controls-note b').textContent=live?receipt?`합성 완료 · 결과 용병 ${results().length}장 지급`:p?'이전 합성 결과 확인 필요':`선택한 중복 카드 ${required()}장 소모 · 추가 비용 없음`:'연출 시연 · 카드 소모 없음';
     for (const b of dialog.querySelectorAll('[data-action="owned"],[data-action="demo"],[data-action="auto"],[data-action="clear"],[data-material],[data-slot],[data-remove-material]')) b.disabled=locked||Boolean(p&&!receipt);
     quantity.hidden=!live||Boolean(receipt);$('[data-attempts]').value=String(attempts);$('[data-attempts]').max=String(Math.max(1,availableAttempts()));$('[data-attempts]').disabled=locked||Boolean(p)||!accountReady;
-    $('[data-batch-available]').textContent=`현재 재료로 최대 ${availableAttempts()}회 · 한 번에 최대 ${MAX_BATCH}회`;
+    $('[data-batch-available]').textContent=`현재 재료로 최대 ${availableAttempts().toLocaleString('ko-KR')}회 · 한 번에 최대 ${MAX_BATCH.toLocaleString('ko-KR')}회`;
     for(const b of quantity.querySelectorAll('[data-batch]'))b.disabled=locked||Boolean(p)||!accountReady||availableAttempts()<(b.dataset.batch==='max'?1:Number(b.dataset.batch));
     $('[data-action="auto"]').textContent=required()+'장 자동 선택';
     skip.hidden=results().length<2;
@@ -178,7 +178,7 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
   }
   async function showReceipt(animate){
     mode='owned';attempts=results().length;outcome=featured().promoted?'success':'failure';rank=featured().inputRank;resultRank=featured().resultRank;
-    receiptCards=receipt.consumed.flatMap(m=>Array.from({length:m.quantity},()=>({...catalog.cards.find(c=>c.code===m.code),code:m.code,rank})));
+    receiptCards=receipt.consumed.flatMap(m=>Array(m.quantity).fill({...catalog.cards.find(c=>c.code===m.code),code:m.code,rank}));
     selection=[];renderPool();renderTray();renderBatchResults();
     const ready=await syncScene();if(closed)return;
     if(ready&&animate){play();return;}

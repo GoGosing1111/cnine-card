@@ -1,4 +1,4 @@
-import {MERCENARY_FUSION_POLICY, MERCENARY_FUSION_RELEASE_ENABLED, MERCENARY_FUSION_MAX_BATCH} from '../../shared/mercenary-fusion-policy-v1.mjs?v=20261019-bulk';
+import {MERCENARY_FUSION_POLICY, MERCENARY_FUSION_RELEASE_ENABLED, MERCENARY_FUSION_MAX_BATCH} from '../../shared/mercenary-fusion-policy-v1.mjs?v=20261118-bulk1000';
 // Actual outcomes come from the server receipt; samples are only for the explicit demo.
 export const MATERIAL_COUNT = 8;
 export const MAX_BATCH = MERCENARY_FUSION_MAX_BATCH;

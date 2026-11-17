@@ -1,0 +1,7 @@
+{
+  "condition": "Windows Node / embedded PostgreSQL PGlite / no network",
+  "attempts": 100,
+  "ms": 594.2343000000001,
+  "transactionStatements": 609,
+  "receiptBytes": 54146
+}

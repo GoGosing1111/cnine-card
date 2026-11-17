@@ -1,0 +1,62 @@
+{
+  "before": true,
+  "platform": "windows",
+  "width": 1440,
+  "height": 1000,
+  "condition": "Windows headless browser; mobile viewport/WebKit emulation; isolated PostgreSQL actual game handlers; no production account writes",
+  "measurements": [
+    {
+      "entry": "windows",
+      "visits": [
+        {
+          "visit": 0,
+          "launchMs": 2440.0130000000004,
+          "codexMs": 552.1945999999998,
+          "equipmentMs": 234.72639999999956,
+          "forgeMs": 1297.4844999999996,
+          "fusionMs": 495.58710000000065,
+          "residualRequests": 0,
+          "cleanup": {
+            "destroyed": true,
+            "aborted": true,
+            "soundDestroyed": true,
+            "activeTweens": 0,
+            "canvas": 0
+          }
+        },
+        {
+          "visit": 1,
+          "launchMs": 2280.166799999999,
+          "codexMs": 433.90930000000117,
+          "equipmentMs": 191.66110000000117,
+          "forgeMs": 1043,
+          "fusionMs": 288.91549999999916,
+          "residualRequests": 0,
+          "cleanup": {
+            "destroyed": true,
+            "aborted": true,
+            "soundDestroyed": true,
+            "activeTweens": 0,
+            "canvas": 0
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "broken": [],
+  "posts": [
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "character/equipment/forge/quote",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "character/equipment/forge/quote",
+    "sync/ticket"
+  ]
+}

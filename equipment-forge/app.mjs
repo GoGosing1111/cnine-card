@@ -2,6 +2,7 @@ import {ForgeFX} from '/preview/equipment-forge-v1/source/fx.mjs';
 import {forgePower} from '/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls';
 import {forgeQuoteShortages} from '/shared/equipment-forge-resources-v1.mjs?v=20261107-guarantee';
 import {createForgeTransport,createForgeQuoteQueue,readForgePending,terminalForgeErrors} from './requests.mjs?v=20261116-focus';
+import {polishDisplay,polishMarkHtml,polishDetailsHtml} from '/shared/equipment-polish-display-v1.mjs?v=20261118';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const guarantee=$('guarantee-toggle'),guaranteeCode='GUARANTEED_ENHANCEMENT_SCROLL';
 const entryParams=new URLSearchParams(location.search),groupNames={all:'보유 장비',mercenary:'용병 장비',weapon:'무기',armor:'방어구',accessory:'장신구'};
@@ -27,6 +28,7 @@ class EquipmentPresentation extends ForgeFX{
 }
 const api=(path,signal,body,options={})=>request(path,{signal:signal||lifetime.signal,body,token:activeToken,...options});
 const scrollCost=document.createElement('div');scrollCost.className='forge-scroll-cost';scrollCost.hidden=true;document.querySelector('.material-list').after(scrollCost);
+const polishDetail=document.createElement('div');polishDetail.id='forge-polish-detail';document.querySelector('.power-preview').after(polishDetail);
 const connection=document.createElement('section');connection.className='forge-connection';connection.id='forge-connection';connection.hidden=true;connection.setAttribute('role','status');
 connection.innerHTML='<p></p><button type="button" class="text-button" id="forge-retry">다시 시도</button>';document.querySelector('.control-panel').prepend(connection);
 function connectionNotice(text='',retry=null,label='다시 시도'){
@@ -87,7 +89,7 @@ function renderList(){
   list.innerHTML=visibleItems().map(item=>{
     const equipped=mode==='enhance'&&item.equipped===true;
     const power=item.enhancement?.power?.total??(mode==='restore'?forgePower(item.basePower.total,item.level,data?.policy?.advanced).total:item.basePower?.total);
-    return `<button class="equipment-row" data-id="${esc(item.selectionId)}" data-grade="${esc(item.grade)}" data-equipped="${equipped}" aria-pressed="${item.selectionId===selected}" aria-label="${esc(item.name)}, ${slots[item.slot]}, 전투력 ${number(power)}, ${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'}, #${esc(item.instanceId)}" ${loading||executing||recovering?'disabled':''}><span class="equipment-thumb"><img src="${esc(imageUrl(item.image))}" alt="" loading="lazy">${equipped?'<span class="equipment-equipped-badge"><svg aria-hidden="true"><use href="#i-shield"/></svg>장착 중</span>':''}</span><span class="equipment-copy"><small>${esc(item.grade)} · ${slots[item.slot]}</small><b>${esc(item.name)}</b><em>전투력 ${number(power)}</em><em>${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'} · #${esc(item.instanceId)}</em></span><span class="equipment-level">${item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`+${item.level}`:'—'}</span></button>`;
+    return `<button class="equipment-row" data-id="${esc(item.selectionId)}" data-grade="${esc(item.grade)}" data-equipped="${equipped}" aria-pressed="${item.selectionId===selected}" aria-label="${esc(item.name)}, ${slots[item.slot]}, 전투력 ${number(power)}, ${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'}, #${esc(item.instanceId)}${mode==='enhance'?', '+esc(polishDisplay(item).text):''}" ${loading||executing||recovering?'disabled':''}><span class="equipment-thumb"><img src="${esc(imageUrl(item.image))}" alt="" loading="lazy">${equipped?'<span class="equipment-equipped-badge"><svg aria-hidden="true"><use href="#i-shield"/></svg>장착 중</span>':''}</span><span class="equipment-copy"><small>${esc(item.grade)} · ${slots[item.slot]}</small><b>${esc(item.name)}</b>${mode==='enhance'?polishMarkHtml(item):''}<em>전투력 ${number(power)}</em><em>${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'} · #${esc(item.instanceId)}</em></span><span class="equipment-level">${item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`+${item.level}`:'—'}</span></button>`;
   }).join('')||`<div class="empty-inventory">${loading?'장비를 불러오는 중…':loadError?'목록을 불러오지 못했습니다. 다시 불러오기를 눌러 주세요.':!activeToken?'로그인하면 보유한 무기와 방어구를 확인할 수 있습니다.':data?.publicVisible===false?'강화 센터를 준비하고 있습니다.':mode==='restore'?'복구할 파괴 기록이 없습니다.':focusId?'선택한 장비를 찾을 수 없습니다. 분류를 눌러 보유 목록을 확인하세요.':'이 종류의 보유 장비가 없습니다.'}${!activeToken?'<a class="public-login" href="/">게임 로그인 ↗</a>':''}</div>`;
   list.querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;});
   viewport.scrollTop=scrollTop;
@@ -95,6 +97,7 @@ function renderList(){
 }
 async function select(id){
   if(executing||recovering)return;selected=id;quote=null;quoteRetry=null;renderList();void updateQuote();const item=visibleItems().find(r=>r.selectionId===selected),stamp=generation;
+  polishDetail.innerHTML=item&&mode==='enhance'?polishDetailsHtml(item,{mercenary:item.polishModes?.includes('PVP')}):'';
   $('stage-empty').hidden=!!item;$('weapon-fallback').hidden=true;
   if(!item){$('stage-item-sub').dataset.equipped='false';$('stage-item-name').textContent=mode==='restore'?'파괴 기록 보관소':'장비를 선택하세요';$('stage-item-sub').textContent='무기 · 상의 · 하의 · 신발 · 장신구';$('stage-grade').textContent='EQUIPMENT ARCHIVE';$('power-before').textContent='—';$('stage-code').textContent='EQUIPMENT ARCHIVE';$('stage-rule').textContent='무기 · 방어구 · 장신구';if(fx?.weapon){fx.loadGeneration++;fx.weapon.visible=false;fx.texture=null;}return;}
   $('stage-item-sub').dataset.equipped=String(mode==='enhance'&&item.equipped===true);$('stage-item-name').textContent=item.name;$('stage-grade').textContent=item.grade+' EQUIPMENT';$('stage-item-sub').textContent=slots[item.slot]+(mode==='restore'?' · '+recordLabel(item):item.equipped===true?' · 장착 중':' · 보유 장비');$('stage-code').textContent='EQUIPMENT / #'+item.instanceId;

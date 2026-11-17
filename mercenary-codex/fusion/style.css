@@ -142,3 +142,19 @@
 @media(prefers-reduced-motion:reduce){.fusion-dialog *{transition:none!important;animation:none!important}.fusion-dialog::backdrop{backdrop-filter:none}}
 
 .fusion-recover{border:1px solid #657b48;border-radius:5px;background:#24352a;color:#d1f698;padding:12px;font:inherit;font-size:12px;white-space:nowrap}.fusion-recover[hidden]{display:none!important}.fusion-controls:has(.fusion-recover:not([hidden])){flex-wrap:wrap}.fusion-recover:disabled{opacity:.5}@media(max-width:700px){.fusion-controls:has(.fusion-recover:not([hidden])) .fusion-controls-note{display:none}.fusion-recover{padding:10px 9px;font-size:11px;flex:1}.fusion-controls:has(.fusion-recover:not([hidden])) .fusion-play{flex:1}}
+
+/* Existing approved codex metal panels and covenant artwork. No shape badges. */
+.fusion-section-icon img{width:44px;height:44px;object-fit:contain}
+.fusion-quantity{display:grid;grid-template-columns:1fr;gap:9px;padding:10px;border:8px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp') 48 fill / 16px stretch;border-radius:0;background:none}
+.fusion-batch-heading{display:flex;align-items:center;gap:8px;color:#eddbb8;font-size:15px;font-weight:700}
+.fusion-batch-heading img{width:45px;height:48px;object-fit:contain}
+.fusion-batch-heading small{display:block;color:#c1cddd;font-size:11px;font-weight:500;margin-top:4px}
+.fusion-quantity>label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px}
+.fusion-quantity input{width:105px;min-height:44px;font-size:20px;text-align:center;border-radius:0;border:6px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp') 48 fill / 12px stretch;background:none;color:#fff}
+.fusion-quantity>.fusion-batch-presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}
+.fusion-quantity button{min-width:0;min-height:44px;padding:3px 0;font-size:11px;white-space:nowrap;border:6px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp') 48 fill / 12px stretch;border-radius:0;background:none;color:#eff6ff}
+.fusion-quantity button[data-batch=max]{border-image-source:url('/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp');border-image-slice:38;color:#17250b;font-weight:800}
+.fusion-quantity button:disabled{filter:grayscale(.8);opacity:.45}
+.fusion-quantity small[data-batch-available]{grid-column:1/-1;white-space:normal;line-height:1.5;font-size:11px;color:#bcd1db}
+.fusion-batch-results{border:8px solid transparent;border-image:url('/assets/ui/mercenary-codex/command-20261021/panel-v3.webp') 48 fill / 16px stretch;border-radius:0;background:none}
+@media(max-width:700px){.fusion-quantity{grid-template-columns:1fr;margin:10px 0}.fusion-quantity>.fusion-batch-heading{display:flex}.fusion-quantity button{min-width:0}}

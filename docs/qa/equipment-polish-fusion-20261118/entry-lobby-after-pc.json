@@ -1,0 +1,48 @@
+{
+  "before": false,
+  "platform": "pc",
+  "width": 1440,
+  "height": 1000,
+  "condition": "Windows headless browser; mobile viewport/WebKit emulation; isolated PostgreSQL actual game handlers; no production account writes",
+  "measurements": [
+    {
+      "entry": "lobby",
+      "visits": [
+        {
+          "visit": 0,
+          "launchMs": 1146.0483000000004,
+          "codexMs": 556.1397000000002,
+          "equipmentMs": 228.4441999999999,
+          "forgeMs": 1260.3399,
+          "fusionMs": 609.5077000000001,
+          "residualRequests": 0
+        },
+        {
+          "visit": 1,
+          "launchMs": 841.5745999999999,
+          "codexMs": 436.6314000000002,
+          "equipmentMs": 199.8230999999996,
+          "forgeMs": 1043.762499999999,
+          "fusionMs": 293.1265999999996,
+          "residualRequests": 0
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "broken": [],
+  "posts": [
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "character/equipment/forge/quote",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "sync/ticket",
+    "character/equipment/forge/quote",
+    "sync/ticket"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "status": "READY_FOR_PRODUCTION",
+  "createdAt": "2026-11-17T20:28:14.385699+00:00",
+  "baselineFrontend": "8eb3b6bc7",
+  "features": {
+    "polish": "Existing crystal/stat atlas and approved metal frame in owned mercenary gear, worn slots, inspector and forge list/detail. Exact user + instance state. Successful count distinct from total rolls, actual stored values, PvE/PvP scope. No mutation of polish or enhancement.",
+    "fusion": {
+      "oldMaxAttempts": 100,
+      "newMaxAttempts": 1000,
+      "maxConsumedDuplicates": 8000,
+      "quickChoices": [
+        1,
+        10,
+        100,
+        1000,
+        "max"
+      ],
+      "originalCopiesPreserved": 1,
+      "promotionChance": 0.1,
+      "currencyCost": 0,
+      "existingArtAndEffectsRetained": true
+    }
+  },
+  "server": {
+    "postgres": "Chunked 200-result acquisition CTEs in existing locked atomic transaction. Exact per-roll ledger; compact persisted plan; same-request replay and lost-response receipt recovery. CMS OFF checked again in the transaction.",
+    "polishRead": "Indexed app_meta join on exact user/instance key after bounded inventory page; no extra query per equipment instance.",
+    "measurements": [
+      "baseline-backend.json",
+      "after-backend.json"
+    ],
+    "condition": "Windows Node embedded PostgreSQL (PGlite), no production network, cold fixture per sample and deterministic rolls. Same 100 attempts: 594.23ms / 609 transaction SQL -> 30.22ms / 14 SQL. New 1000: 75.23ms / 18 SQL. Single samples, not production latency estimates."
+  },
+  "browser": {
+    "platforms": [
+      "PC Chrome 1440x1000",
+      "Android Chromium viewport/touch emulation 390x844",
+      "iPhone WebKit viewport/touch emulation 390x844",
+      "Windows launcher entry URL source=windows-client",
+      "ONE store H5 iframe, actual store HTML transformation/variants and mocked host SDK"
+    ],
+    "api": "Isolated PostgreSQL with real game handlers. All non-fusion writes blocked except read-only forge quote. No production account mutation.",
+    "entry": "Actual lobby card menu -> mercenary codex -> owned gear -> same-instance forge focus; codex -> fusion. Direct page first/reentry measured separately.",
+    "timing": "Single unthrottled serial samples per platform/phase, fresh browser per phase. Frontend baseline uses prior Git HTML/JS/assets with same isolated candidate API. Direct forge first includes fixed 350ms settling after row selection; entry suite measures selected row/detail. Lobby launch includes network-idle settling. These are local view readiness measurements, not physical-device or production-network latency.",
+    "frames": "requestAnimationFrame sampling around equipment selections and fusion execution; PC keeps full 8.4s effect, mobile uses skip. Headless host refresh rate differs from real phones. Existing long frames retained in individual reports; no blanket 60fps or loading-speed claim.",
+    "cleanup": "Fusion destroyed, controller aborted, audio destroyed, active own GSAP tweens 0, remaining fusion canvases 0, post-exit fusion requests 0 in both entry visits.",
+    "recovery": "PC 1000 committed results recovered on reopening after simulated lost response, GET only with no additional POST.",
+    "notes": [
+      "Initial forge generator was stale; restored its HEAD output and applied only intended CSS/module tags. Current protection controls and +15 guide preserved.",
+      "WebKit aborted texture fetch messages during an early scripted navigation were resolved in final verification by waiting for the existing pending loads before leaving. No production asset or FX lifecycle code changed.",
+      "H5 test server was corrected to match serveStore static variant rules and host SDK callbacks; final H5 has no page error, broken request or SDK startup error."
+    ]
+  },
+  "delivery": {
+    "assetCount": 20000,
+    "newPublicFiles": 2,
+    "qaOnlyExcluded": [
+      "tests/fixtures/mercenary-operating-roster-20260922.json",
+      "tests/fixtures/jokro-craft-three-grant-20261027.json"
+    ],
+    "retention": "Both isolated QA inputs stay unchanged in Git. No runtime imports found; existing browser runtime fixture kept on Pages.",
+    "serviceWorkerCacheBumped": true
+  },
+  "validation": {
+    "newAndBulkTestsPassed": 15,
+    "compatibilityTestsPassed": 32,
+    "additionalTransactionalAndFocusTestsPassed": true,
+    "finalScopedGate": "pending",
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "localRunners": "operations/equipment-polish-fusion-20261118/{browser,benchmark,align,release}.mjs"
+}

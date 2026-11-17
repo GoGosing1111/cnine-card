@@ -3,6 +3,7 @@ import {isMercenaryEquipment,MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/merc
 import {readMercenaryEquipmentRecords} from './_mercenary_equipment.js';
 import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
 import {forgePowerBonuses} from '../shared/equipment-forge-advanced-v1.mjs';
+import {decodePolishState} from './_equipment_growth.js';
 
 async function equipmentWearers(db,userId,items){
   if(!items.some(item=>isMercenaryEquipment(item.code)))return items;
@@ -34,12 +35,13 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
   const currentPowerSql=`CAST(i.total_power AS BIGINT)*(CASE s.level ${forgePowerBonuses(advancedPolicy).map((bonus,level)=>bonus===null?'':`WHEN ${level} THEN ${100+bonus}`).join(' ')} ELSE 100 END)/100`;
   const slots=groups[group],empty={accountId:userId,mode:'PREPARATION_READ_ONLY',canEnhance:false,items:[],nextCursor:null};
   if(focusId){
-    const row=await db.prepare(`SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,i.*,COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,
+    const row=await db.prepare(`SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,i.*,COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,ps.value AS polish_value,
       CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped
       FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id
       LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id
+      LEFT JOIN app_meta ps ON ps.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT))
       WHERE x.id=? AND x.user_id=? AND i.is_active=1 AND i.is_public=1 AND i.slot IN (${slots.map(()=>'?').join(',')}) ${catalogFilter}`).bind(positiveId(focusId),userId,...slots).first();
-    return {...empty,items:await equipmentWearers(db,userId,row?[preparationItem(row,includeEnhancement,advancedPolicy)]:[])};
+    return {...empty,items:await equipmentWearers(db,userId,row?[preparationItem(row,includeEnhancement,advancedPolicy,userId)]:[])};
   }
   let cursorPower=null;
   if (cursor) {
@@ -75,26 +77,29 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
         JOIN catalog i ON i.id=x.equipment_id WHERE s.level>0
         ${cursor?`AND (${currentPowerSql},x.id)<(?,?)`:''}`:''}
     ),page AS MATERIALIZED (SELECT * FROM candidates ORDER BY current_power DESC,instance_id DESC LIMIT ?)
-    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,
+    SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,ps.value AS polish_value,
       i.code,i.name,i.slot,i.subtype,i.rarity,i.image_url,i.total_power,i.pve_power,i.pvp_power,
       ${includeEnhancement?'COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,':''}
       CASE WHEN EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id AND l.user_id=x.user_id AND l.slot=i.slot) THEN 1 ELSE 0 END AS equipped
     FROM page p JOIN user_equipment_instances x ON x.id=p.instance_id JOIN catalog i ON i.id=x.equipment_id
+    LEFT JOIN app_meta ps ON ps.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT))
     ${includeEnhancement?'LEFT JOIN growth s ON s.instance_id=x.id':''}
     ORDER BY p.current_power DESC,p.instance_id DESC`;
   const values=[...slots,...(cursor?[cursorPower]:[]),...(includeEnhancement?[userId]:[]),...baseValues,
     ...(includeEnhancement?[userId,...(cursor?[cursorPower,cursor]:[])]:[]),limit+1];
   const result = await db.prepare(sql).bind(...values).all();
   const rows = result.results || [];
-  const items = await equipmentWearers(db,userId,rows.slice(0, limit).map(row => preparationItem(row,includeEnhancement,advancedPolicy)));
+  const items = await equipmentWearers(db,userId,rows.slice(0, limit).map(row => preparationItem(row,includeEnhancement,advancedPolicy,userId)));
   return { accountId: userId, mode: 'PREPARATION_READ_ONLY', canEnhance: false, items,
     nextCursor: rows.length > limit ? items.at(-1).instanceId : null };
 }
-function preparationItem(row,includeEnhancement,advancedPolicy){return ({
+function preparationItem(row,includeEnhancement,advancedPolicy,userId){return ({
     instanceId: positiveId(row.instance_id), equipmentId: positiveId(row.equipment_id),
     name: String(row.name), code: String(row.code), slot: String(row.slot), subtype: String(row.subtype),
     grade: String(row.rarity), image: String(row.image_url), acquiredAt: row.acquired_at,
     equipped: Number(row.equipped) === 1,
+    polish:decodePolishState(row.polish_value,row.instance_id,userId),
+    polishModes:isMercenaryEquipment(row.code)?['PVE','PVP']:['PVE'],
     basePower: { total: Number(row.total_power), pve: Number(row.pve_power), pvp: Number(row.pvp_power) },
     enhancement: includeEnhancement?{level:Number(row.level),revision:Number(row.revision),power:forgePower(Number(row.total_power),Number(row.level),advancedPolicy)}:null,
   });

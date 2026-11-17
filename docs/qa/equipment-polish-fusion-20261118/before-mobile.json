@@ -1,0 +1,59 @@
+{
+  "before": true,
+  "platform": "mobile",
+  "width": 390,
+  "height": 844,
+  "condition": "Windows headless browser; mobile viewport/WebKit emulation; isolated PostgreSQL actual game handlers; no production account writes",
+  "measurements": [
+    {
+      "screen": "armory",
+      "first": 309.8063000000002,
+      "reentry": 221.38460000000032,
+      "frames": {
+        "samples": 92,
+        "p95": 4.300000000000068,
+        "max": 70.89999999999998,
+        "over50": 1
+      }
+    },
+    {
+      "screen": "forge",
+      "first": 1776.4609,
+      "reentry": 1035.147899999999,
+      "frames": {
+        "samples": 121,
+        "p95": 4.2999999999999545,
+        "max": 12.600000000000136,
+        "over50": 0
+      }
+    },
+    {
+      "screen": "fusion",
+      "first": 589.8033000000014,
+      "reentry": 178.95930000000044,
+      "selectMs": 36.41020000000026,
+      "attempts": 100,
+      "completeMs": 293.45710000000145,
+      "frames": {
+        "samples": 43,
+        "p95": 24.90000000000009,
+        "max": 41.700000000000045,
+        "over50": 0
+      },
+      "residualRequests": 0
+    }
+  ],
+  "errors": [],
+  "broken": [],
+  "posts": [
+    "sync/ticket",
+    "sync/ticket",
+    "character/equipment/forge/quote",
+    "character/equipment/forge/quote",
+    "sync/ticket",
+    "sync/ticket",
+    "character/equipment/forge/quote",
+    "sync/ticket",
+    "mercenaries/v3/fusion"
+  ]
+}

@@ -26,6 +26,9 @@ const martialAuthoringOnly=new Set(['assets/ui/martial-law-20261018/illustration
 // sources for regression tests without spending the last Pages asset slots.
 export const isolatedQaFixtures=new Set(['admin-forge-ticket-fixture','auction-fixture-20260926','funding-gift-fixture','worm-contest-gift-fixture','supporter-pass-fixture','supporter-application-fixture','server-support-fixture','seal-star-fixture','recruitment-gift-fixture','pingdu-thanks-gift-fixture'].map(name=>'tests/helpers/'+name+'.mjs'));
 isolatedQaFixtures.add('tests/fixtures/tower-expansion-20261102.json');
+// Keep local mercenary QA inputs in Git; reserve their Pages slots for polish UI assets.
+isolatedQaFixtures.add('tests/fixtures/mercenary-operating-roster-20260922.json');
+isolatedQaFixtures.add('tests/fixtures/jokro-craft-three-grant-20261027.json');
 // scripts/qa-* are Node/Playwright runners, not browser imports. Keep them in Git
 // alongside the other unshipped runners so new game art fits the Pages file cap.
 // One-off scripts/ops tools and receipts also run only from the repository;

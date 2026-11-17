@@ -1,6 +1,6 @@
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '../../shared/mercenary-loading-v1.mjs?v=20260925';
-import {MATERIAL_COUNT,MAX_BATCH,RANKS,nextRank} from './model.mjs?v=20261019-bulk';
+import {MATERIAL_COUNT,MAX_BATCH,RANKS,nextRank} from './model.mjs?v=20261118-bulk1000';
 
 export const fusionToken=()=>{try{return localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{return '';}};
 const fail=(code,message)=>Object.assign(Error(message),{code});
