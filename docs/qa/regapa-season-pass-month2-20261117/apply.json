@@ -1,0 +1,101 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:regapa:season-pass-month2:20261117:v1",
+    "authorization": "레가파 시즌패스 2달차 적용",
+    "planHash": "b485886b2193aabc6d75f8f5c5528c9fade72f2bf6c83c648a047d8d205ff5ec",
+    "userId": "4408",
+    "nickname": "레가파",
+    "month": 2,
+    "durationDays": 30,
+    "actualChargeWon": 0,
+    "messagesSent": 0,
+    "activationPetsGranted": 0,
+    "completedAt": "2026-11-17T14:22:25.796Z",
+    "auditId": "63271",
+    "payload": "[1,4408,\"GRANT\",5,\"사용자 요청: 레가파 시즌패스 2달차 적용. 이전 해제 이력 보존 후 30일 재적용 (실결제 차감 없음)\",2]",
+    "result": {
+      "ok": true,
+      "requestId": "ops_regapa_month2_20261117_v1",
+      "action": "GRANT",
+      "month": 2,
+      "target": {
+        "id": 4408,
+        "nickname": "레가파"
+      },
+      "amountWon": 0,
+      "actualChargeWon": 0,
+      "note": "사용자 요청: 레가파 시즌패스 2달차 적용. 이전 해제 이력 보존 후 30일 재적용 (실결제 차감 없음)",
+      "processedAt": 1794925345796,
+      "subscription": {
+        "version": 1,
+        "revision": 6,
+        "startsAt": 1794925345796,
+        "endsAt": 1797517345796,
+        "magnetPetCode": null,
+        "revokedAt": null,
+        "passTerms": {
+          "1": {
+            "startsAt": 1791700806564,
+            "endsAt": 1794292806564,
+            "revokedAt": null
+          },
+          "2": {
+            "calendarStartsAt": 1794186155145,
+            "startsAt": 1794925345796,
+            "endsAt": 1797517345796,
+            "revokedAt": null
+          }
+        },
+        "active": true,
+        "extraLegionEntries": 3
+      },
+      "replayed": false,
+      "petReward": {
+        "petCode": "PET-HEADSET-SHIBA",
+        "quantity": 0,
+        "alreadyOwned": true
+      },
+      "operationKey": "ops:regapa:season-pass-month2:20261117:v1",
+      "source": "OPERATOR_DIRECT_LINK",
+      "normalApplicationSalesUnchanged": true
+    },
+    "protectedBeforeHash": "3d0d81e67ba8ff872deb422c6ba53c6673c42157ae1e6eaaf20a48ac9647d330",
+    "protectedAfterHash": "3d0d81e67ba8ff872deb422c6ba53c6673c42157ae1e6eaaf20a48ac9647d330",
+    "firstMonthClaimRecords": 74,
+    "secondMonthClaimRecords": 0,
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "263039",
+          "wallet": "264984",
+          "loadout": "264315",
+          "messages": "262819",
+          "inventory": "264920",
+          "collection": "264844"
+        },
+        "revision": "264984"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "263039",
+          "wallet": "264984",
+          "loadout": "264315",
+          "messages": "262819",
+          "inventory": "264920",
+          "collection": "264844"
+        },
+        "revision": "264984"
+      }
+    ]
+  },
+  "partialFailureRollback": true,
+  "fullRehearsalRollback": true,
+  "noWriteReplay": true,
+  "rehearsalMs": 2381,
+  "grantMs": 1806,
+  "leasesReleased": true
+}
