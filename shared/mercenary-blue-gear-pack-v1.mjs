@@ -7,7 +7,7 @@ import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {blackcrownPersonalOdds} from './mercenary-blackcrown-ownership-v1.mjs';
 
 export const BLUE_GEAR_PACK_KEY='mercenary_blue_gear_pack_v1';
-export const BLUE_GEAR_OPENS_AT='2026-11-19T15:00:00.000Z';
+export const BLUE_GEAR_OPENS_AT='2026-11-20T11:00:00.000Z';
 export const BLUE_GEAR_STOCK_PREFIX='BLUE_GEAR:';
 const route='mercenaries/v3/blue-gear-pack/';
 export const BLUE_GEAR_PACK=Object.freeze({id:'mercenary-blue-gear',name:'블루기어팩',image:BLUE_GEAR_PACK_ART+'pack-768.webp',

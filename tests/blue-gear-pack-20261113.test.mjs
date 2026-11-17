@@ -9,9 +9,9 @@ import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-
 const baseline={revision:14,settings:{prices:{single:1500000000,ten:15000000000},missRatePpm:800000,normalRankRatesPpm:{C:104500,B:30000,A:30000,S:30000,SS:4700,SSS:800},cardRatesPpm:{'V-975':1,'V-058':400}}};
 const black={revision:11,settings:{cardRatesPpm:Object.fromEntries(Array.from({length:6},(_,i)=>['V-'+(950+i),5000]))}};
 const config=()=>blueGearRegistration(baseline,black);
-const before='2026-11-19T14:59:59.999Z',after='2026-11-19T15:00:00.000Z';
+const before='2026-11-20T10:59:59.999Z',after='2026-11-20T11:00:00.000Z';
 const stock=doc=>Object.entries(doc.settings.stockLimits).map(([code,stock_limit])=>({code:BLUE_GEAR_STOCK_PREFIX+code,stock_limit,issued:0}));
-test('KST midnight, original odds, price and distinct ownership',()=>{
+test('KST 20:00, original registration odds, price and distinct ownership',()=>{
  const doc=config(),rows=stock(doc);
  assert.equal(blueGearCatalog(doc,rows,before).drawEnabled,false);assert.equal(blueGearCatalog(doc,rows,after).drawEnabled,true);
  assert.deepEqual(doc.settings.prices,{single:2250000000,ten:22500000000});
