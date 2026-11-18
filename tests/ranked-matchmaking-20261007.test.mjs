@@ -7,6 +7,7 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {rankedPowerDifference,rankedMatchForecast} from '../shared/ranked-reform-v1.mjs';
 import {rankedRosterPrefix} from '../functions/_ranked_series.js';
 import {rankedPromotionKey} from '../functions/_ranked_reform.js';
+import {pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE} from '../shared/pvp-deck-policy-v1.mjs';
 import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
 
 const settings={matchSeasonRange:250,matchCardRange:20};
@@ -38,8 +39,9 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
  for(let i=0;i<recent.length;i++)await db.prepare('INSERT INTO pvp_match_history VALUES(?,?,?)').bind(recent.length-i,1,recent[i]).run();
  const env={DB:{prepare(sql){let values=[];return {bind(...v){values=v;return this;},all:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).all();},first:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).first();},run:async()=>{writes.push(sql);return db.prepare(sql).bind(...values).run();}};}}};
  const ticketPayloads=new Map(),rosterCodes=['V-001','V-002','V-003'];
- let currentTier='silver';
+ let currentTier='silver';const blockedDecks=new Set();
  const deps={rankedMatchForecast,rankedRosterPrefix,rankedPromotionKey,
+  pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE,pvpDeckSnapshot:async(_,id)=>blockedDecks.has(Number(id))?[]:['ZENITH','ZENITH','SUPERSTAR','ICON','ICON'].map((rarity,i)=>({id:String(i),rarity})),
   readRankedCandidateRosters:(_,batch)=>deps.readRankedRosters(_,batch.map(row=>row.id)),
   readRankedRosters:async(_,ids)=>new Map(ids.map(id=>[Number(id),{ready:rows.find(row=>row.id===Number(id))?.rosterReady!==false,codes:rosterCodes}])),
   saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender,scoringTier})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,scoringTier,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
@@ -54,8 +56,18 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
   PVP_RANKED_ROLE_SQL:"UPPER(TRIM(COALESCE(u.role,'USER'))) <> 'OWNER'",pvpSqlUtc:ms=>new Date(ms).toISOString().replace('T',' ').slice(0,19)
  };
  const match=Function('deps',`with(deps){${matching}\nreturn createRankedMatchTicket;}`)(deps);
- return {call:()=>match(env,{id:1},matchSettings),setTier:tier=>{currentTier=tier;},db,raw,queries,writes,batches,powers,mercenaryBatches};
+ return {call:()=>match(env,{id:1},matchSettings),setTier:tier=>{currentTier=tier;},blockedDecks,db,raw,queries,writes,batches,powers,mercenaryBatches};
 }
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: pre-policy tickets cannot admit lower grade attack or defense decks`,async t=>{
+ const mine=await fixture(t,{postgres,rows:[{id:2,power:100}]});await mine.call();mine.blockedDecks.add(1);
+ await assert.rejects(mine.call(),e=>e.code==='PVP_MINIMUM_GRADE'&&e.status===400);
+ assert.equal((await mine.raw('SELECT token FROM pvp_ranked_match_tickets_v1671 WHERE used_at IS NULL')).length,0);
+ const other=await fixture(t,{postgres,rows:[{id:2,power:100},{id:3,power:110}]});const first=await other.call();assert.equal(first.opponent.id,2);
+ other.blockedDecks.add(2);other.powers.get(2).deckReady=false;
+ const next=await other.call();assert.equal(next.opponent.id,3);assert.notEqual(next.token,first.token);
+ assert.ok(other.writes.every(sql=>/^(DELETE FROM|INSERT OR IGNORE INTO) pvp_ranked_match_tickets/.test(sql)));
+});
 
 test('widening keeps symmetric finite power caps and CMS baseline, with no unlimited fallback',()=>{
  assert.deepEqual(rankedMatchBands(settings),[{matchSeasonRange:250,matchCardRange:20},{matchSeasonRange:350,matchCardRange:30},{matchSeasonRange:500,matchCardRange:40}]);

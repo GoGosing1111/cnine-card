@@ -9,6 +9,7 @@ import {avatarBattlePowerPercents} from './_avatar_power.js';
 import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 import {mercenaryEquipmentRuntimes} from './_mercenary_equipment.js';
 import {strongestDuoCards,validateDuoDeck,duoError,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
+import {pvpDeckGradeAllowed} from '../shared/pvp-deck-policy-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
@@ -79,7 +80,9 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
   if(dual)validatePreparedMercenaries(mercenaries);
   const mercenaryPower=best.length===5?duoMercenaryPotential(mercs,best,potentialEquipment,config.mercenaryWeights,dual):0;
   const cardPower=best.reduce((s,c)=>s+c.power,0),power=Math.max(1,Math.round(100*(cardPower+potentialEquipment+mercenaryPower)/Math.max(1,baseline)));
-  const valid=deck=>{try{validateDuoDeck(deck);return true;}catch{return false;}};
+  // Admission uses the current minimum grade. Recorded paid matches keep their
+  // original simulator inputs so a policy change cannot strand their receipt.
+  const valid=deck=>{if(!pvpDeckGradeAllowed(deck))return false;try{validateDuoDeck(deck);return true;}catch{return false;}};
   const equipmentSetVisual=equipmentSetVisualFromRows(byUser(gear,userId),userId);
   profiles.push({userId,user,nickname:version.nickname,sourceVersion:Number(version.source_version),policyRevision:Number(version.policy_revision),power,expiresAt:new Date(expires).toISOString(),breakdown:{baseline,cardPower,equipmentPower:potentialEquipment,mercenaryPower,fur13Count:cards.filter(c=>c.rarity==='FUR'&&Number(c.breakthrough_level)>=13).length,superstarLevel:Math.max(-1,...cards.filter(c=>c.rarity==='SUPERSTAR').map(c=>Number(c.breakthrough_level))),mercenaryRanks:mercs.map(m=>({code:m.code,rank:m.rank}))},attackReady:valid(attack),defenseReady:valid(defense),attack:{ownerId:userId,ownerName:version.nickname,cards:attack,equipmentSetVisual,equipmentBonus:equipment,...formation,presetNo:Number(saved?.preset_no||1)},defense:{ownerId:userId,ownerName:version.nickname,cards:defense,equipmentSetVisual,equipmentBonus:equipment,...formation,presetNo:1}});
  }
@@ -105,7 +108,7 @@ const validateAccounts=(versions,count,now,allowOwner=false)=>{
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0,dual=COMPANION_RELEASE.dualMercenaries}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
- const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',shiranuiDeployment:'20261108-bus-driver',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
+ const hash=await jointHash({pvpDeckPolicy:'zenith-minimum-20261118-v1',weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',shiranuiDeployment:'20261108-bus-driver',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);

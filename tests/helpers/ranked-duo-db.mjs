@@ -48,7 +48,7 @@ export async function duoFixture(t,{postgres=false}={}){
  let now=Date.parse('2026-09-25T00:00:00Z');
  await p('INSERT INTO mercenary_cms_documents_v1 VALUES(?,?,?)','config',JSON.stringify(MERCENARY_CMS_SEED.document),1).run();
  await p('INSERT INTO members VALUES(1,?)','카드 멤버').run();const cardIds=[];
- for(let i=0;i<5;i++){const id=`C-${i}`;cardIds.push(id);await p('INSERT INTO cards VALUES(?,?,?,?,?,?,?,?,?)',id,`카드 ${i}`,['FUR','FUR','ZENITH','ZENITH','SUPERSTAR'][i],['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],10000,'/assets/ui/cninelogo.png',50,50,1).run();}
+ for(let i=0;i<5;i++){const id=`C-${i}`;cardIds.push(id);await p('INSERT INTO cards VALUES(?,?,?,?,?,?,?,?,?)',id,`카드 ${i}`,['ICON','ICON','ZENITH','ZENITH','SUPERSTAR'][i],['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],10000,'/assets/ui/cninelogo.png',50,50,1).run();}
  for(let uid=1;uid<=7;uid++){
   await p('INSERT INTO users(id,nickname,role) VALUES(?,?,?)',uid,uid===1?'운영자':`참가자${uid}`,uid===1?'OWNER':'USER').run();
   await p('INSERT INTO pvp_decks VALUES(?,?)',uid,JSON.stringify(cardIds)).run();await p('INSERT INTO pvp_active_presets VALUES(?,1)',uid).run();await p('INSERT INTO pvp_deck_presets VALUES(?,1,?)',uid,JSON.stringify(cardIds)).run();

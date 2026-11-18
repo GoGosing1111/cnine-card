@@ -4,6 +4,13 @@ import {duoFixture} from './helpers/ranked-duo-db.mjs';
 import {loadDuoProfiles} from '../functions/_ranked_duo_profiles.js';
 
 for(const postgres of [false,'pipeline']){
+ test(`${postgres||'SQLite'} lower grade card invalidates cached admission while preserving saved replay data`,async t=>{
+  const f=await duoFixture(t,{postgres});await f.ready();
+  const before=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert(before[0].attackReady&&before[0].defenseReady);
+  await f.p("UPDATE cards SET rarity='MA' WHERE id='C-0'").run();
+  const after=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert.equal(after[0].attackReady,false);assert.equal(after[0].defenseReady,false);
+  assert.equal(after[0].attack.cards.length,5);assert.equal(after[0].attack.cards[0].rarity,'MA');
+ });
  test(`${postgres||'SQLite'} one changing account cannot discard the other completed duo ratings`,async t=>{
   const f=await duoFixture(t,{postgres});await f.ready();await f.p('DELETE FROM ranked_duo_profiles_v1').run();
   const original=f.deps.cardUniqueDeckStates,batches=[];
