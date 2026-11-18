@@ -1,0 +1,288 @@
+{
+  "operationKey": "ops:hakbeol-cninetakgat-hyejeong:coin500t:20261118:v1",
+  "requestedOnKst": "2026-11-18",
+  "completedAtKST": "2026-11-19 00:02:31",
+  "auditId": "64331",
+  "title": "학벌·씨나인택갓·혜정 각 코인 500조 지급",
+  "delivery": "DIRECT_WALLET",
+  "recipients": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "coins": "500000000000000",
+      "coinLogId": "106482791"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "coins": "500000000000000",
+      "coinLogId": "106482792"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "coins": "500000000000000",
+      "coinLogId": "106482793"
+    }
+  ],
+  "amountEach": "500000000000000",
+  "totalCoins": "1500000000000000",
+  "verification": {
+    "recipients": 3,
+    "coinLogs": 3,
+    "perAccountReceipts": 3,
+    "amountEach": "500000000000000",
+    "totalCoins": "1500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "allCurrentBalancesReconciled": true,
+    "checkpointPreservesRestrictions": true,
+    "changesAfterGrant": [
+      {
+        "userId": "1195",
+        "delta": "5637812500"
+      }
+    ]
+  },
+  "messagesSent": 0,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "otherTablesWrites": 0,
+  "priorCampaignReceiptsPreserved": true,
+  "otherCurrenciesGrowthLoadoutsPreserved": true,
+  "walletCheckpoint": {
+    "userId": "4570",
+    "key": "support_package_coin_v1:4570",
+    "baselineHash": "3327ff37e7fec00f7becc98f0c23ce5f7a81f97970e7bd8e717cad343fc41d15",
+    "verifiedHistoricalEntries": 75894,
+    "entriesSinceBaseline": 0,
+    "beforeState": {
+      "version": 1,
+      "revision": 22,
+      "cursor": 106479596,
+      "restricted": 0,
+      "auctionReserved": {},
+      "precredited": null
+    },
+    "afterState": {
+      "version": 1,
+      "revision": 23,
+      "cursor": 106482792,
+      "restricted": 0,
+      "auctionReserved": {},
+      "precredited": null
+    },
+    "restrictedAmountChanged": false
+  },
+  "checks": {
+    "existing": {
+      "passed": 15,
+      "failed": 2,
+      "failures": [
+        {
+          "test": "world raid settlement compares exact BIGINT balance and commits its saved receipt",
+          "reason": "Existing unrelated fixture omits seasonAwardStatements; same issue already recorded for 2026-11-17 grant."
+        },
+        {
+          "test": "support-package-prediction-20261020.test.mjs",
+          "reason": "Source checkout lacks scripts/ops/support-package-notice-core.mjs; announcement fixture import prevents this suite from loading."
+        }
+      ]
+    },
+    "focusedCheckpoint": {
+      "passed": 2,
+      "failed": 0,
+      "checks": [
+        "ordinary 500 trillion credit preserves package restrictions and auction reserves",
+        "precredited purchase/spending reconciliation and duplicate ledger rejection"
+      ]
+    },
+    "productionTransaction": {
+      "injectedFailuresRolledBack": 3,
+      "fullRehearsalRolledBack": true,
+      "invalidPlanBlocked": true,
+      "independentReadOnly": true,
+      "replayAdditionalWrites": 0,
+      "locksRemaining": 0
+    }
+  },
+  "performance": {
+    "grantVerifyMs": 2209,
+    "grantVerifyQueries": 23,
+    "independentVerifyMs": 951,
+    "before": {
+      "phase": "before",
+      "at": "2026-11-18T14:58:17.226Z",
+      "readOnly": true,
+      "wallets": [
+        {
+          "userId": "1195",
+          "nickname": "씨나인택갓",
+          "total": "3522849580266974",
+          "restricted": "29508000000000",
+          "available": "3493341580266974"
+        },
+        {
+          "userId": "4570",
+          "nickname": "혜정",
+          "total": "4432809040856225",
+          "restricted": "0",
+          "available": "4432809040856225"
+        },
+        {
+          "userId": "4627",
+          "nickname": "학벌",
+          "total": "19333549977871907",
+          "restricted": "5695472675500000",
+          "available": "13638077302371907"
+        }
+      ],
+      "samples": [
+        {
+          "userId": "1195",
+          "nickname": "씨나인택갓",
+          "visit": "first",
+          "ms": 1833.5121,
+          "sql": 5,
+          "queryMs": 1817.0248000000006
+        },
+        {
+          "userId": "1195",
+          "nickname": "씨나인택갓",
+          "visit": "repeat",
+          "ms": 566.5734000000002,
+          "sql": 5,
+          "queryMs": 556.7750000000005
+        },
+        {
+          "userId": "4570",
+          "nickname": "혜정",
+          "visit": "first",
+          "ms": 46178.247,
+          "sql": 40,
+          "queryMs": 46114.96099999999
+        },
+        {
+          "userId": "4570",
+          "nickname": "혜정",
+          "visit": "repeat",
+          "ms": 6683.014199999998,
+          "sql": 40,
+          "queryMs": 6628.655699999996
+        },
+        {
+          "userId": "4627",
+          "nickname": "학벌",
+          "visit": "first",
+          "ms": 219.77500000000146,
+          "sql": 3,
+          "queryMs": 219.1218000000008
+        },
+        {
+          "userId": "4627",
+          "nickname": "학벌",
+          "visit": "repeat",
+          "ms": 218.16849999999977,
+          "sql": 3,
+          "queryMs": 217.56720000000496
+        }
+      ],
+      "conditions": "Windows CLI invoking the existing wallet accounting service against production PostgreSQL. First/repeated invocation per account on one connection; network included; single samples. Data-only grant, no UI/runtime changes. No browser, emulator, installed app, physical-device loading or FPS measurement."
+    },
+    "after": {
+      "phase": "after",
+      "at": "2026-11-18T15:02:46.214Z",
+      "readOnly": true,
+      "wallets": [
+        {
+          "userId": "1195",
+          "nickname": "씨나인택갓",
+          "total": "4022873874154174",
+          "restricted": "29507999250000",
+          "available": "3993365874904174"
+        },
+        {
+          "userId": "4570",
+          "nickname": "혜정",
+          "total": "4932809040856225",
+          "restricted": "0",
+          "available": "4932809040856225"
+        },
+        {
+          "userId": "4627",
+          "nickname": "학벌",
+          "total": "19833549977871907",
+          "restricted": "5695472675500000",
+          "available": "14138077302371907"
+        }
+      ],
+      "samples": [
+        {
+          "userId": "1195",
+          "nickname": "씨나인택갓",
+          "visit": "first",
+          "ms": 691.0436,
+          "sql": 5,
+          "queryMs": 674.7866999999997
+        },
+        {
+          "userId": "1195",
+          "nickname": "씨나인택갓",
+          "visit": "repeat",
+          "ms": 479.8082999999997,
+          "sql": 5,
+          "queryMs": 469.47569999999996
+        },
+        {
+          "userId": "4570",
+          "nickname": "혜정",
+          "visit": "first",
+          "ms": 143.0596000000005,
+          "sql": 2,
+          "queryMs": 142.59730000000036
+        },
+        {
+          "userId": "4570",
+          "nickname": "혜정",
+          "visit": "repeat",
+          "ms": 143.17889999999989,
+          "sql": 2,
+          "queryMs": 142.84609999999975
+        },
+        {
+          "userId": "4627",
+          "nickname": "학벌",
+          "visit": "first",
+          "ms": 217.33579999999984,
+          "sql": 3,
+          "queryMs": 216.63590000000022
+        },
+        {
+          "userId": "4627",
+          "nickname": "학벌",
+          "visit": "repeat",
+          "ms": 216.8692000000001,
+          "sql": 3,
+          "queryMs": 216.33209999999963
+        }
+      ],
+      "conditions": "Windows CLI invoking the existing wallet accounting service against production PostgreSQL. First/repeated invocation per account on one connection; network included; single samples. Data-only grant, no UI/runtime changes. No browser, emulator, installed app, physical-device loading or FPS measurement."
+    },
+    "bottleneck": "Hyejeong wallet replayed 75,894 historical ledger rows in 40 SQL calls. DB/network waiting accounted for almost all elapsed time. An independently reconciled checkpoint, updated atomically with the grant, reduces the immediate wallet path to 2 SQL calls without changing effective restrictions or auction reserves.",
+    "comparison": "Hyejeong first/repeat 46178/6683 -> 143/143 ms. Same Windows CLI service entry and live DB; network and cache variability included; single samples. Other accounts retain their existing SQL paths.",
+    "limitations": "No UI or game runtime change. These are service invocation measurements, not browser input-to-interactive or physical-device/installed-app FPS measurements."
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "evidenceDirectory": "operations/named-three-coin500t-20261118",
+  "operationScriptSha256": {
+    "common.mjs": "3faf7ce3c1e858952e5011fb282aee476ebdedd3ea5baba56ee8a4009acbc84b",
+    "inspect.mjs": "f3537d55239dfbc09513f7dece2874698886a8d7557770a6167626317aa9447c",
+    "grant.mjs": "a8689ecf03eff49537564485ee632b35daabce93c6096d7c1811bf1a4631613d",
+    "run.mjs": "df110e7a8b12ed9d7711116df96b24e5ad19720805c164e2e3c82b89f2a6207f",
+    "service.mjs": "0eb5273187196f78faf261f0dcbb5b2f7f847480eda13c8e2e48eeb6bf8e8e50",
+    "checkpoint.mjs": "a724e5c11d3b083175975ecfd6b811e4052894d9845c0601929ea7625500d63e",
+    "checkpoint.test.mjs": "44e1665f27b62f6c3f96ea58d262f2d7fc6c82a87f2ec48c5820261ec8e8e687",
+    "record.mjs": "202f248b3d22a4b62dec75505fee94d99f71dc70d7ca92de1335cbedf7bf4ad0"
+  }
+}

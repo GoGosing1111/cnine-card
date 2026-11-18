@@ -1,0 +1,79 @@
+{
+  "phase": "before",
+  "at": "2026-11-18T14:58:17.226Z",
+  "readOnly": true,
+  "wallets": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "total": "3522849580266974",
+      "restricted": "29508000000000",
+      "available": "3493341580266974"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "total": "4432809040856225",
+      "restricted": "0",
+      "available": "4432809040856225"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "total": "19333549977871907",
+      "restricted": "5695472675500000",
+      "available": "13638077302371907"
+    }
+  ],
+  "samples": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "visit": "first",
+      "ms": 1833.5121,
+      "sql": 5,
+      "queryMs": 1817.0248000000006
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "visit": "repeat",
+      "ms": 566.5734000000002,
+      "sql": 5,
+      "queryMs": 556.7750000000005
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "visit": "first",
+      "ms": 46178.247,
+      "sql": 40,
+      "queryMs": 46114.96099999999
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "visit": "repeat",
+      "ms": 6683.014199999998,
+      "sql": 40,
+      "queryMs": 6628.655699999996
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "visit": "first",
+      "ms": 219.77500000000146,
+      "sql": 3,
+      "queryMs": 219.1218000000008
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "visit": "repeat",
+      "ms": 218.16849999999977,
+      "sql": 3,
+      "queryMs": 217.56720000000496
+    }
+  ],
+  "conditions": "Windows CLI invoking the existing wallet accounting service against production PostgreSQL. First/repeated invocation per account on one connection; network included; single samples. Data-only grant, no UI/runtime changes. No browser, emulator, installed app, physical-device loading or FPS measurement."
+}

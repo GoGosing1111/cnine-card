@@ -1,0 +1,109 @@
+{
+  "at": "2026-11-18T14:57:05.391Z",
+  "recipients": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563"
+    }
+  ],
+  "balances": [
+    {
+      "userId": "1195",
+      "coin": "3522849580266974",
+      "revision": "1113836",
+      "domains": {
+        "pvp": "1113558",
+        "wallet": "1113836",
+        "loadout": "1112642",
+        "messages": "1113818",
+        "inventory": "1113815",
+        "collection": "1113786"
+      }
+    },
+    {
+      "userId": "4570",
+      "coin": "4432809040856225",
+      "revision": "868088",
+      "domains": {
+        "pvp": "867968",
+        "wallet": "868088",
+        "loadout": "856191",
+        "messages": "859669",
+        "inventory": "868065",
+        "collection": "868025"
+      }
+    },
+    {
+      "userId": "4627",
+      "coin": "19333549977871907",
+      "revision": "568253",
+      "domains": {
+        "pvp": "567842",
+        "wallet": "568253",
+        "loadout": "562286",
+        "messages": "567202",
+        "inventory": "568223",
+        "collection": "568252"
+      }
+    }
+  ],
+  "related": [],
+  "metrics": [
+    {
+      "label": "exact names first",
+      "ms": 81.47910000000047,
+      "rows": 3
+    },
+    {
+      "label": "exact names repeat",
+      "ms": 77.65629999999965,
+      "rows": 3
+    },
+    {
+      "label": "completion lookup",
+      "ms": 80.95529999999962,
+      "rows": 0
+    },
+    {
+      "label": "balances and sync",
+      "ms": 77.0034999999998,
+      "rows": 3
+    },
+    {
+      "label": "indexed log floors",
+      "ms": 106.77109999999993,
+      "rows": 1
+    },
+    {
+      "label": "previous campaign receipts",
+      "ms": 334.03480000000036,
+      "rows": 2
+    },
+    {
+      "label": "recent grants to recipients",
+      "ms": 601.0778,
+      "rows": 0
+    }
+  ],
+  "readOnly": true
+}

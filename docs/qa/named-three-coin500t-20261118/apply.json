@@ -1,0 +1,570 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:hakbeol-cninetakgat-hyejeong:coin500t:20261118:v1",
+    "planHash": "88eb67c702289c5673bd587baa2a399902ad16d39f9fed9d6173f85d4080e888",
+    "title": "학벌·씨나인택갓·혜정 각 코인 500조 지급",
+    "delivery": "DIRECT_WALLET",
+    "amountEach": "500000000000000",
+    "recipientCount": 3,
+    "totalCoins": "1500000000000000",
+    "completedAt": "2026-11-18T15:02:31.647Z",
+    "completedAtKST": "2026-11-19 00:02:31",
+    "grants": [
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "amount": "500000000000000",
+        "before": "3522868261341674",
+        "after": "4022868261341674",
+        "logId": "106482791",
+        "walletRevision": "1113996"
+      },
+      {
+        "userId": "4570",
+        "nickname": "혜정",
+        "amount": "500000000000000",
+        "before": "4432809040856225",
+        "after": "4932809040856225",
+        "logId": "106482792",
+        "walletRevision": "868089"
+      },
+      {
+        "userId": "4627",
+        "nickname": "학벌",
+        "amount": "500000000000000",
+        "before": "19333549977871907",
+        "after": "19833549977871907",
+        "logId": "106482793",
+        "walletRevision": "568255"
+      }
+    ],
+    "walletCheckpoint": {
+      "userId": "4570",
+      "key": "support_package_coin_v1:4570",
+      "baselineHash": "3327ff37e7fec00f7becc98f0c23ce5f7a81f97970e7bd8e717cad343fc41d15",
+      "verifiedHistoricalEntries": 75894,
+      "entriesSinceBaseline": 0,
+      "beforeState": {
+        "version": 1,
+        "revision": 22,
+        "cursor": 106479596,
+        "restricted": 0,
+        "auctionReserved": {},
+        "precredited": null
+      },
+      "afterState": {
+        "version": 1,
+        "revision": 23,
+        "cursor": 106482792,
+        "restricted": 0,
+        "auctionReserved": {},
+        "precredited": null
+      },
+      "restrictedAmountChanged": false
+    },
+    "protectedBeforeHash": "ab6e9ce2e27f184b45fdcf5455f7103b8217b7d6e1666581c3b56f412af8d28d",
+    "protectedAfterHash": "ab6e9ce2e27f184b45fdcf5455f7103b8217b7d6e1666581c3b56f412af8d28d",
+    "messagesSent": 0,
+    "previousCampaigns": [
+      {
+        "key": "ops:joeun-funding-thanks:verified-coin600t:20261117:v1",
+        "receiptHash": "7d0e2908ea45bed6da21914cba3b3408fe6353c5eada08fcdf7428aff0a3df55"
+      },
+      {
+        "key": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+        "receiptHash": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a"
+      }
+    ],
+    "auditId": "64331"
+  },
+  "check": {
+    "recipients": 3,
+    "coinLogs": 3,
+    "perAccountReceipts": 3,
+    "amountEach": "500000000000000",
+    "totalCoins": "1500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "allCurrentBalancesReconciled": true,
+    "checkpointPreservesRestrictions": true,
+    "changesAfterGrant": []
+  },
+  "grantVerifyMs": 2209,
+  "grantVerifyQueries": 23,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "otherTablesWrites": 0,
+  "leasesReleased": true,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 80.65300000000025
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 330.3786999999993
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.72170000000006
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.45900000000074
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.66259999999966
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 80.36260000000038
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.28929999999855
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 78.55220000000008
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.26690000000053
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.48079999999936
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.23970000000008
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.73450000000048
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,u.status,u.role,s.provider,s.provider_user_id \"providerUserId\",s.ve",
+      "ms": 77.07129999999961
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 77.46060000000034
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 85.47010000000046
+    },
+    {
+      "statement": "SELECT id::text,balance_after::text FROM coin_logs WHERE user_id=$1 AND id>=$2::bigint ORDER BY coin_logs",
+      "ms": 77.73309999999947
+    },
+    {
+      "statement": "SELECT id,change_amount::text,reason FROM coin_logs WHERE user_id=$1 AND id>$2::bigint AND id<=$3::bigint",
+      "ms": 76.67119999999886
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 77.39890000000014
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 78.22080000000096
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 84.54130000000077
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.3687000000009
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.32530000000042
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 76.85590000000047
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 78.54709999999977
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.46099999999933
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.50770000000011
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.97570000000087
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.31049999999959
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.21659999999974
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.30400000000009
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,u.status,u.role,s.provider,s.provider_user_id \"providerUserId\",s.ve",
+      "ms": 76.65960000000086
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 76.21479999999974
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 89.46309999999903
+    },
+    {
+      "statement": "SELECT id::text,balance_after::text FROM coin_logs WHERE user_id=$1 AND id>=$2::bigint ORDER BY coin_logs",
+      "ms": 77.3127999999997
+    },
+    {
+      "statement": "SELECT id,change_amount::text,reason FROM coin_logs WHERE user_id=$1 AND id>$2::bigint AND id<=$3::bigint",
+      "ms": 76.47799999999916
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 76.28330000000096
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 76.76740000000063
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 77.51180000000022
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 84.65709999999854
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.63709999999992
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 77.52089999999953
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 76.97610000000168
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.28759999999966
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.34220000000096
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.4367999999995
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.15519999999924
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.48710000000028
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 76.97249999999985
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.2497999999996
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,u.status,u.role,s.provider,s.provider_user_id \"providerUserId\",s.ve",
+      "ms": 77.28379999999925
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 76.29010000000017
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 86.43109999999979
+    },
+    {
+      "statement": "SELECT id::text,balance_after::text FROM coin_logs WHERE user_id=$1 AND id>=$2::bigint ORDER BY coin_logs",
+      "ms": 77.46779999999853
+    },
+    {
+      "statement": "SELECT id,change_amount::text,reason FROM coin_logs WHERE user_id=$1 AND id>$2::bigint AND id<=$3::bigint",
+      "ms": 79.48559999999998
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 76.37389999999868
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 77.05029999999897
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 76.91909999999916
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=$2 WHERE key=$3 AND value=$4 RETURNING key",
+      "ms": 77.14559999999983
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 85.68169999999918
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALU",
+      "ms": 81.2515000000003
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) SELECT k,v,$3 FROM unnest($1::text[],$2::text[]) entry(k,v) RE",
+      "ms": 77.14910000000054
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 85.877199999999
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.42509999999857
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.3203999999987
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 76.72309999999925
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.26430000000073
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.31570000000102
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.38670000000093
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.70330000000104
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.42569999999978
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 80.62940000000162
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.20869999999923
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,u.status,u.role,s.provider,s.provider_user_id \"providerUserId\",s.ve",
+      "ms": 77.97509999999966
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 76.19029999999839
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 85.66599999999744
+    },
+    {
+      "statement": "SELECT id::text,balance_after::text FROM coin_logs WHERE user_id=$1 AND id>=$2::bigint ORDER BY coin_logs",
+      "ms": 77.45820000000094
+    },
+    {
+      "statement": "SELECT id,change_amount::text,reason FROM coin_logs WHERE user_id=$1 AND id>$2::bigint AND id<=$3::bigint",
+      "ms": 76.3090000000011
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 76.34710000000268
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 76.88070000000153
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 76.4968000000008
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=$2 WHERE key=$3 AND value=$4 RETURNING key",
+      "ms": 76.66089999999895
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 84.73569999999745
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALU",
+      "ms": 76.68860000000132
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) SELECT k,v,$3 FROM unnest($1::text[],$2::text[]) entry(k,v) RE",
+      "ms": 79.69379999999728
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.39390000000276
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,change_amount::text,balance_after::text,reason,admin_id::text,created_at FR",
+      "ms": 77.91749999999956
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,action_type,after_data FROM admin_logs WHERE id>$1::bigint AND target_id=$",
+      "ms": 76.65620000000126
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.9494999999988
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 85.1452999999965
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 86.16640000000189
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.49329999999827
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.33650000000125
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 76.74539999999979
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.30349999999817
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.27819999999701
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.26870000000054
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.25749999999971
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.80649999999878
+    },
+    {
+      "statement": "SELECT id FROM coin_logs WHERE id>$1::bigint AND reason=$2",
+      "ms": 77.6182000000008
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE id>$1::bigint AND target_id=$2",
+      "ms": 76.49910000000091
+    },
+    {
+      "statement": "SELECT u.id::text \"userId\",u.nickname,u.status,u.role,s.provider,s.provider_user_id \"providerUserId\",s.ve",
+      "ms": 77.14810000000216
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 76.32840000000215
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 85.95190000000002
+    },
+    {
+      "statement": "SELECT id::text,balance_after::text FROM coin_logs WHERE user_id=$1 AND id>=$2::bigint ORDER BY coin_logs",
+      "ms": 77.73339999999735
+    },
+    {
+      "statement": "SELECT id,change_amount::text,reason FROM coin_logs WHERE user_id=$1 AND id>$2::bigint AND id<=$3::bigint",
+      "ms": 76.27189999999973
+    },
+    {
+      "statement": "SELECT clock_timestamp() at,to_char(clock_timestamp() AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') ",
+      "ms": 77.09439999999813
+    },
+    {
+      "statement": "UPDATE users u SET coin=u.coin+$3::bigint FROM unnest($1::bigint[],$2::bigint[]) target(id,previous) WHER",
+      "ms": 77.1281999999992
+    },
+    {
+      "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id,created_at) SELECT id,$3::bigin",
+      "ms": 76.60039999999935
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=$2 WHERE key=$3 AND value=$4 RETURNING key",
+      "ms": 77.15409999999974
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 84.71949999999924
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALU",
+      "ms": 79.3643000000011
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) SELECT k,v,$3 FROM unnest($1::text[],$2::text[]) entry(k,v) RE",
+      "ms": 84.48229999999967
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 80.18059999999969
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,change_amount::text,balance_after::text,reason,admin_id::text,created_at FR",
+      "ms": 77.25730000000112
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,action_type,after_data FROM admin_logs WHERE id>$1::bigint AND target_id=$",
+      "ms": 76.50690000000031
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 76.43130000000019
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 84.76669999999649
+    }
+  ]
+}

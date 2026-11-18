@@ -1,0 +1,54 @@
+{
+  "operationKey": "ops:hakbeol-cninetakgat-hyejeong:coin500t:20261118:v1",
+  "authorization": "학벌 씨나인택갓 혜정 500조씩 지급",
+  "dateKst": "2026-11-18",
+  "delivery": "DIRECT_WALLET",
+  "title": "학벌·씨나인택갓·혜정 각 코인 500조 지급",
+  "currency": "COIN",
+  "amountEach": "500000000000000",
+  "totalCoins": "1500000000000000",
+  "recipientCount": 3,
+  "recipients": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "status": "ACTIVE",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563"
+    }
+  ],
+  "recipientHash": "be850823121fa5b9260076fbccfa74b546f9755110581ad45980009f49763114",
+  "floors": {
+    "coins": "106481031",
+    "audit": "64328"
+  },
+  "previousCampaigns": [
+    {
+      "key": "ops:joeun-funding-thanks:verified-coin600t:20261117:v1",
+      "receiptHash": "7d0e2908ea45bed6da21914cba3b3408fe6353c5eada08fcdf7428aff0a3df55"
+    },
+    {
+      "key": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+      "receiptHash": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a"
+    }
+  ],
+  "messagesSent": 0,
+  "preparedAt": "2026-11-18T14:57:05.313Z"
+}

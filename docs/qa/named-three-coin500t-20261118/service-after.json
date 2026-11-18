@@ -1,0 +1,79 @@
+{
+  "phase": "after",
+  "at": "2026-11-18T15:02:46.214Z",
+  "readOnly": true,
+  "wallets": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "total": "4022873874154174",
+      "restricted": "29507999250000",
+      "available": "3993365874904174"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "total": "4932809040856225",
+      "restricted": "0",
+      "available": "4932809040856225"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "total": "19833549977871907",
+      "restricted": "5695472675500000",
+      "available": "14138077302371907"
+    }
+  ],
+  "samples": [
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "visit": "first",
+      "ms": 691.0436,
+      "sql": 5,
+      "queryMs": 674.7866999999997
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "visit": "repeat",
+      "ms": 479.8082999999997,
+      "sql": 5,
+      "queryMs": 469.47569999999996
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "visit": "first",
+      "ms": 143.0596000000005,
+      "sql": 2,
+      "queryMs": 142.59730000000036
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "visit": "repeat",
+      "ms": 143.17889999999989,
+      "sql": 2,
+      "queryMs": 142.84609999999975
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "visit": "first",
+      "ms": 217.33579999999984,
+      "sql": 3,
+      "queryMs": 216.63590000000022
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "visit": "repeat",
+      "ms": 216.8692000000001,
+      "sql": 3,
+      "queryMs": 216.33209999999963
+    }
+  ],
+  "conditions": "Windows CLI invoking the existing wallet accounting service against production PostgreSQL. First/repeated invocation per account on one connection; network included; single samples. Data-only grant, no UI/runtime changes. No browser, emulator, installed app, physical-device loading or FPS measurement."
+}

@@ -1,0 +1,141 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:hakbeol-cninetakgat-hyejeong:coin500t:20261118:v1",
+    "planHash": "88eb67c702289c5673bd587baa2a399902ad16d39f9fed9d6173f85d4080e888",
+    "title": "학벌·씨나인택갓·혜정 각 코인 500조 지급",
+    "delivery": "DIRECT_WALLET",
+    "amountEach": "500000000000000",
+    "recipientCount": 3,
+    "totalCoins": "1500000000000000",
+    "completedAt": "2026-11-18T15:02:31.647Z",
+    "completedAtKST": "2026-11-19 00:02:31",
+    "grants": [
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "amount": "500000000000000",
+        "before": "3522868261341674",
+        "after": "4022868261341674",
+        "logId": "106482791",
+        "walletRevision": "1113996"
+      },
+      {
+        "userId": "4570",
+        "nickname": "혜정",
+        "amount": "500000000000000",
+        "before": "4432809040856225",
+        "after": "4932809040856225",
+        "logId": "106482792",
+        "walletRevision": "868089"
+      },
+      {
+        "userId": "4627",
+        "nickname": "학벌",
+        "amount": "500000000000000",
+        "before": "19333549977871907",
+        "after": "19833549977871907",
+        "logId": "106482793",
+        "walletRevision": "568255"
+      }
+    ],
+    "walletCheckpoint": {
+      "userId": "4570",
+      "key": "support_package_coin_v1:4570",
+      "baselineHash": "3327ff37e7fec00f7becc98f0c23ce5f7a81f97970e7bd8e717cad343fc41d15",
+      "verifiedHistoricalEntries": 75894,
+      "entriesSinceBaseline": 0,
+      "beforeState": {
+        "version": 1,
+        "revision": 22,
+        "cursor": 106479596,
+        "restricted": 0,
+        "auctionReserved": {},
+        "precredited": null
+      },
+      "afterState": {
+        "version": 1,
+        "revision": 23,
+        "cursor": 106482792,
+        "restricted": 0,
+        "auctionReserved": {},
+        "precredited": null
+      },
+      "restrictedAmountChanged": false
+    },
+    "protectedBeforeHash": "ab6e9ce2e27f184b45fdcf5455f7103b8217b7d6e1666581c3b56f412af8d28d",
+    "protectedAfterHash": "ab6e9ce2e27f184b45fdcf5455f7103b8217b7d6e1666581c3b56f412af8d28d",
+    "messagesSent": 0,
+    "previousCampaigns": [
+      {
+        "key": "ops:joeun-funding-thanks:verified-coin600t:20261117:v1",
+        "receiptHash": "7d0e2908ea45bed6da21914cba3b3408fe6353c5eada08fcdf7428aff0a3df55"
+      },
+      {
+        "key": "ops:named-santa-joeun-box20-coin500t:20261117:v1",
+        "receiptHash": "4052e4756adbb1daadbac2875535401279bf643c69c7578ff436ec39c93f052a"
+      }
+    ],
+    "auditId": "64331"
+  },
+  "check": {
+    "recipients": 3,
+    "coinLogs": 3,
+    "perAccountReceipts": 3,
+    "amountEach": "500000000000000",
+    "totalCoins": "1500000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "allCurrentBalancesReconciled": true,
+    "checkpointPreservesRestrictions": true,
+    "changesAfterGrant": [
+      {
+        "userId": "1195",
+        "delta": "5637812500"
+      }
+    ]
+  },
+  "readOnly": true,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "verifyMs": 951,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 74.36229999999978
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.70309999999972
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.43960000000061
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,change_amount::text,balance_after::text,reason,admin_id::text,created_at FR",
+      "ms": 73.32470000000012
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,action_type,after_data FROM admin_logs WHERE id>$1::bigint AND target_id=$",
+      "ms": 77.05500000000029
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 72.26890000000003
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT id::text,nickname,status,rol",
+      "ms": 293.4251000000004
+    },
+    {
+      "statement": "SELECT user_id::text,COALESCE(sum(change_amount),0)::text delta,COUNT(*)::int entries FROM coin_logs WHER",
+      "ms": 71.74380000000019
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 70.88920000000053
+    }
+  ]
+}

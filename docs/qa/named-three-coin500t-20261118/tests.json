@@ -1,0 +1,32 @@
+{
+  "existing": {
+    "passed": 15,
+    "failed": 2,
+    "failures": [
+      {
+        "test": "world raid settlement compares exact BIGINT balance and commits its saved receipt",
+        "reason": "Existing unrelated fixture omits seasonAwardStatements; same issue already recorded for 2026-11-17 grant."
+      },
+      {
+        "test": "support-package-prediction-20261020.test.mjs",
+        "reason": "Source checkout lacks scripts/ops/support-package-notice-core.mjs; announcement fixture import prevents this suite from loading."
+      }
+    ]
+  },
+  "focusedCheckpoint": {
+    "passed": 2,
+    "failed": 0,
+    "checks": [
+      "ordinary 500 trillion credit preserves package restrictions and auction reserves",
+      "precredited purchase/spending reconciliation and duplicate ledger rejection"
+    ]
+  },
+  "productionTransaction": {
+    "injectedFailuresRolledBack": 3,
+    "fullRehearsalRolledBack": true,
+    "invalidPlanBlocked": true,
+    "independentReadOnly": true,
+    "replayAdditionalWrites": 0,
+    "locksRemaining": 0
+  }
+}
