@@ -1,0 +1,183 @@
+{
+  "at": "2026-11-18T11:30:44.262Z",
+  "condition": "Production READ ONLY, same connection and snapshot; exact matching results; PostgreSQL plans and network timings",
+  "reports": [
+    {
+      "phase": "before",
+      "rows": 0,
+      "networkMs": 239.4,
+      "plan": {
+        "Plan": {
+          "Node Type": "Gather Merge",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 19930.09,
+          "Total Cost": 20134.27,
+          "Plan Rows": 1750,
+          "Plan Width": 240,
+          "Actual Startup Time": 68.359,
+          "Actual Total Time": 72.504,
+          "Actual Rows": 0,
+          "Actual Loops": 1,
+          "Workers Planned": 2,
+          "Workers Launched": 2,
+          "Shared Hit Blocks": 1923,
+          "Shared Read Blocks": 14417,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Sort",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 18930.07,
+              "Total Cost": 18932.26,
+              "Plan Rows": 875,
+              "Plan Width": 240,
+              "Actual Startup Time": 65.608,
+              "Actual Total Time": 65.609,
+              "Actual Rows": 0,
+              "Actual Loops": 3,
+              "Sort Key": [
+                "key"
+              ],
+              "Sort Method": "quicksort",
+              "Sort Space Used": 25,
+              "Sort Space Type": "Memory",
+              "Shared Hit Blocks": 1923,
+              "Shared Read Blocks": 14417,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Workers": [
+                {
+                  "Worker Number": 0,
+                  "Sort Method": "quicksort",
+                  "Sort Space Used": 25,
+                  "Sort Space Type": "Memory"
+                },
+                {
+                  "Worker Number": 1,
+                  "Sort Method": "quicksort",
+                  "Sort Space Used": 25,
+                  "Sort Space Type": "Memory"
+                }
+              ],
+              "Plans": [
+                {
+                  "Node Type": "Seq Scan",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": true,
+                  "Async Capable": false,
+                  "Relation Name": "app_meta",
+                  "Alias": "app_meta",
+                  "Startup Cost": 0,
+                  "Total Cost": 18887.31,
+                  "Plan Rows": 875,
+                  "Plan Width": 240,
+                  "Actual Startup Time": 65.569,
+                  "Actual Total Time": 65.569,
+                  "Actual Rows": 0,
+                  "Actual Loops": 3,
+                  "Filter": "(\"left\"(key, 55) = 'organization-join:98a29259-a828-4004-92fb-d05f96161b2a:'::text)",
+                  "Rows Removed by Filter": 139957,
+                  "Shared Hit Blocks": 1847,
+                  "Shared Read Blocks": 14417,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Workers": []
+                }
+              ]
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.03,
+        "Triggers": [],
+        "Execution Time": 72.524
+      }
+    },
+    {
+      "phase": "after",
+      "rows": 0,
+      "networkMs": 77.9,
+      "plan": {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "app_meta_pkey",
+          "Relation Name": "app_meta",
+          "Alias": "app_meta",
+          "Startup Cost": 0.42,
+          "Total Cost": 8.45,
+          "Plan Rows": 1,
+          "Plan Width": 240,
+          "Actual Startup Time": 0.009,
+          "Actual Total Time": 0.009,
+          "Actual Rows": 0,
+          "Actual Loops": 1,
+          "Index Cond": "((key >= 'organization-join:98a29259-a828-4004-92fb-d05f96161b2a:'::text) AND (key < 'organization-join:98a29259-a828-4004-92fb-d05f96161b2a:￿'::text))",
+          "Rows Removed by Index Recheck": 0,
+          "Filter": "(\"left\"(key, 55) = 'organization-join:98a29259-a828-4004-92fb-d05f96161b2a:'::text)",
+          "Rows Removed by Filter": 0,
+          "Shared Hit Blocks": 3,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.049,
+        "Triggers": [],
+        "Execution Time": 0.017
+      }
+    }
+  ]
+}

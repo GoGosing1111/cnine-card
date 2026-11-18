@@ -1,0 +1,384 @@
+{
+  "status": "COMPLETED",
+  "at": "2026-11-18T11:39:37.883Z",
+  "request": "씨나인택갓 문의: 아지트 2레벨 이후 클랜 가입 불가",
+  "diagnosis": {
+    "userId": 1195,
+    "nickname": "씨나인택갓",
+    "clan": "FM",
+    "role": "원로",
+    "roundId": "98a29259-a828-4004-92fb-d05f96161b2a",
+    "hideoutLevel": 2,
+    "membersAtInspection": 8,
+    "capacity": 10,
+    "vacanciesAtInspection": 2,
+    "cause": "시즌 calendar 존재만으로 일반 가입 신청과 승인 경로를 차단하여 경기 기간에도 가입 메뉴와 실행 API가 닫혔다."
+  },
+  "fix": {
+    "runtimeFiles": [
+      "functions/_organization_join.js"
+    ],
+    "behavior": "현재 경기 기간의 새 회차에서 가입 신청과 해당 클랜 원로 승인을 허용한다. 모집용 이전 회차와 종료된 시즌은 차단한다.",
+    "retained": [
+      "아지트 정원 8/10/15/25/25",
+      "원로 포함 정원과 마지막 자리 동시 승인 제어",
+      "동일 클랜 원로 권한",
+      "탈퇴 후 7일 재가입 제한",
+      "두 가입 명단의 원자 처리와 재시도 영수증",
+      "원로 추방 OFF"
+    ],
+    "index": "해당 시즌의 app_meta 기본키 범위와 정확한 접두어 조건으로 대기 신청을 조회한다."
+  },
+  "sourceCommit": "cfb6ecdefa56bca373ff04aa0c8a451aa3234aba",
+  "deployment": {
+    "at": "2026-11-18T11:39:37.883Z",
+    "pages": {
+      "id": "1651dd90-7edf-43e5-acf3-c5a8f06ab9e2",
+      "commit": "cfb6ecdefa56bca373ff04aa0c8a451aa3234aba",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "63cc59cc-1ffd-4ff0-a858-ffef4d41e3ae",
+            "percentage": 100
+          }
+        ],
+        "admission": true,
+        "indexed": true,
+        "sha256": "82dce937632408986ea763ce0169d966bf14a640f64b28969252fefaefb0c55b"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "3af00e44-14aa-4081-841f-fa09152598ec",
+            "percentage": 100
+          }
+        ],
+        "admission": true,
+        "indexed": true,
+        "sha256": "11f5e1e3ccd9a4ad783d1d590acea5e2f264b840d61202cf253291c70451d8a5"
+      }
+    ],
+    "tests": 8,
+    "windowsManifest": {
+      "releaseId": "dc9d05e2a2ea9ed0d862f6ec62f67664e07ea27d31f4d8c15efe172f029bb44a",
+      "changed": [],
+      "removed": []
+    },
+    "accountWrites": 0,
+    "messages": 0
+  },
+  "validation": {
+    "initialFocusedTests": 15,
+    "finalDeployTests": 8,
+    "paths": [
+      "로비 전체 메뉴 → 클랜 → 가입 신청",
+      "원로 가입 심사 → 가입 승인",
+      "동시 마지막 자리 승인",
+      "정원 마감",
+      "시즌 시작/종료 경계",
+      "원로 권한 거절",
+      "재가입 제한",
+      "영수증 오류 전체 롤백",
+      "재시도 중복 가입 없음"
+    ],
+    "productionAccountWrites": 0,
+    "messages": 0,
+    "calendarTransitionRegression": {
+      "passed": 1,
+      "description": "Existing calendar transition test now expects already-joined members to be rejected as ORG_MEMBER during competition, preserving preseason ORG_JOIN_CLOSED."
+    },
+    "publicDelivery": {
+      "condition": "Deployed public browser assets with isolated SQL accounts; live production Worker code independently verified",
+      "firstMs": 1806,
+      "returnMs": 525,
+      "applied": true,
+      "approved": true,
+      "postExitRequests": 0
+    }
+  },
+  "performance": {
+    "conditions": "Windows headless Chrome/WebKit, isolated PGlite PostgreSQL, actual lobby entry; Android/iOS viewport, Windows launcher URL and H5 iframe emulation. Not physical phones or installed app measurements. Local first/return single samples. Production service measurements use READ ONLY database calls with network.",
+    "platforms": [
+      {
+        "name": "desktop",
+        "before": {
+          "firstMs": 1064,
+          "returnMs": 317,
+          "frames": {
+            "samples": 207,
+            "p95Ms": 4.3,
+            "maxMs": 4.3,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": false,
+          "approved": false
+        },
+        "candidate": {
+          "firstMs": 1322,
+          "returnMs": 383,
+          "frames": {
+            "samples": 312,
+            "p95Ms": 4.3,
+            "maxMs": 104.2,
+            "over50": 1,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": true,
+          "approved": true
+        }
+      },
+      {
+        "name": "android",
+        "before": {
+          "firstMs": 1062,
+          "returnMs": 325,
+          "frames": {
+            "samples": 212,
+            "p95Ms": 4.3,
+            "maxMs": 4.4,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": false,
+          "approved": false
+        },
+        "candidate": {
+          "firstMs": 1091,
+          "returnMs": 360,
+          "frames": {
+            "samples": 282,
+            "p95Ms": 4.3,
+            "maxMs": 87.6,
+            "over50": 1,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": true,
+          "approved": true
+        }
+      },
+      {
+        "name": "ios",
+        "before": {
+          "firstMs": 1465,
+          "returnMs": 811,
+          "frames": {
+            "samples": 45,
+            "p95Ms": 29,
+            "maxMs": 98,
+            "over50": 1,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "applied": false,
+          "approved": false
+        },
+        "candidate": {
+          "firstMs": 1634,
+          "returnMs": 814,
+          "frames": {
+            "samples": 103,
+            "p95Ms": 35,
+            "maxMs": 239,
+            "over50": 1,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "applied": true,
+          "approved": true
+        }
+      },
+      {
+        "name": "windows",
+        "before": {
+          "firstMs": 1080,
+          "returnMs": 296,
+          "frames": {
+            "samples": 208,
+            "p95Ms": 4.2,
+            "maxMs": 4.3,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": false,
+          "approved": false
+        },
+        "candidate": {
+          "firstMs": 1038,
+          "returnMs": 317,
+          "frames": {
+            "samples": 304,
+            "p95Ms": 4.3,
+            "maxMs": 83.3,
+            "over50": 1,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": true,
+          "approved": true
+        }
+      },
+      {
+        "name": "h5",
+        "before": {
+          "firstMs": 1289,
+          "returnMs": 389,
+          "frames": {
+            "samples": 207,
+            "p95Ms": 4.3,
+            "maxMs": 4.5,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": false,
+          "approved": false
+        },
+        "candidate": {
+          "firstMs": 1674,
+          "returnMs": 421,
+          "frames": {
+            "samples": 280,
+            "p95Ms": 4.3,
+            "maxMs": 104.1,
+            "over50": 1,
+            "overflow": false
+          },
+          "postExitRequests": 0,
+          "knownWarnings": [],
+          "applied": true,
+          "approved": true
+        }
+      }
+    ],
+    "serviceViews": [
+      {
+        "phase": "before",
+        "entry": "first",
+        "ms": 292.8,
+        "queries": 2,
+        "enabled": false,
+        "canReview": true,
+        "pending": 0
+      },
+      {
+        "phase": "before",
+        "entry": "return",
+        "ms": 147.5,
+        "queries": 2,
+        "enabled": false,
+        "canReview": true,
+        "pending": 0
+      },
+      {
+        "phase": "after",
+        "entry": "first",
+        "ms": 290.9,
+        "queries": 4,
+        "enabled": true,
+        "canReview": true,
+        "pending": 0
+      },
+      {
+        "phase": "after",
+        "entry": "return",
+        "ms": 288.8,
+        "queries": 4,
+        "enabled": true,
+        "canReview": true,
+        "pending": 0
+      }
+    ],
+    "fullOverview": [
+      {
+        "entry": "first",
+        "ms": 724.4,
+        "queries": 10,
+        "roundId": "98a29259-a828-4004-92fb-d05f96161b2a",
+        "clan": "FM",
+        "level": 2,
+        "members": 10,
+        "capacity": 10,
+        "canReview": true
+      },
+      {
+        "entry": "return",
+        "ms": 719.2,
+        "queries": 10,
+        "roundId": "98a29259-a828-4004-92fb-d05f96161b2a",
+        "clan": "FM",
+        "level": 2,
+        "members": 10,
+        "capacity": 10,
+        "canReview": true
+      }
+    ],
+    "queryPlans": [
+      {
+        "phase": "before",
+        "rows": 0,
+        "networkMs": 239.4,
+        "serverExecutionMs": 72.524,
+        "plan": "Gather Merge"
+      },
+      {
+        "phase": "after",
+        "rows": 0,
+        "networkMs": 77.9,
+        "serverExecutionMs": 0.017,
+        "plan": "Index Scan"
+      }
+    ],
+    "notes": [
+      "기존에는 가입 화면이 닫혀 있었고 수정 후에는 신청·승인 데이터를 읽으므로 로딩 개선을 주장하지 않는다.",
+      "기존 WebKit ResizeObserver 경고를 기록했다. 승인 중 전체 화면 재그리기의 긴 프레임을 기록했고 퇴장 뒤 클랜 요청은 모든 경로 0건이다.",
+      "신청 조회 SQL은 동일 운영 연결과 스냅샷에서 결과를 대조했다. 네트워크·캐시 편차가 있는 단회 수치다."
+    ]
+  },
+  "realJoins": {
+    "at": "2026-11-18T11:40:43.753Z",
+    "clan": "FM",
+    "beforeMembers": 8,
+    "currentMembers": 10,
+    "capacity": 10,
+    "count": 2,
+    "approvals": [
+      {
+        "joinedAt": "2026-11-18T11:38:14.164Z",
+        "reviewedBy": 1195,
+        "status": "APPROVED",
+        "bothRosters": true
+      },
+      {
+        "joinedAt": "2026-11-18T11:38:17.426Z",
+        "reviewedBy": 1195,
+        "status": "APPROVED",
+        "bothRosters": true
+      }
+    ],
+    "operatorAccountWrites": 0
+  }
+}

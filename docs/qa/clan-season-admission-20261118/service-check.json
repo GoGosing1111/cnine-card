@@ -1,0 +1,218 @@
+{
+  "at": "2026-11-18T11:40:09.580Z",
+  "conditions": "Windows Node, production PostgreSQL READ ONLY; same connection and account; network included, single sample per visit; newly enabled admission reads more data, not a speed comparison; no account changes or messages",
+  "user": {
+    "id": 1195,
+    "nickname": "씨나인택갓"
+  },
+  "views": [
+    {
+      "phase": "before",
+      "entry": "first",
+      "ms": 292.8,
+      "queries": 2,
+      "enabled": false,
+      "canReview": true,
+      "pending": 0
+    },
+    {
+      "phase": "before",
+      "entry": "return",
+      "ms": 147.5,
+      "queries": 2,
+      "enabled": false,
+      "canReview": true,
+      "pending": 0
+    },
+    {
+      "phase": "after",
+      "entry": "first",
+      "ms": 290.9,
+      "queries": 4,
+      "enabled": true,
+      "canReview": true,
+      "pending": 0
+    },
+    {
+      "phase": "after",
+      "entry": "return",
+      "ms": 288.8,
+      "queries": 4,
+      "enabled": true,
+      "canReview": true,
+      "pending": 0
+    }
+  ],
+  "full": [
+    {
+      "entry": "first",
+      "ms": 724.4,
+      "queries": 10,
+      "roundId": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan": "FM",
+      "level": 2,
+      "members": 10,
+      "capacity": 10,
+      "canReview": true
+    },
+    {
+      "entry": "return",
+      "ms": 719.2,
+      "queries": 10,
+      "roundId": "98a29259-a828-4004-92fb-d05f96161b2a",
+      "clan": "FM",
+      "level": 2,
+      "members": 10,
+      "capacity": 10,
+      "canReview": true
+    }
+  ],
+  "traces": [
+    {
+      "sql": "SELECT id,nickname,role,status FROM users WHERE id=1195",
+      "ms": 74.3
+    },
+    {
+      "sql": "SELECT * FROM organization_rounds_v1 WHERE scope='LIVE'",
+      "ms": 78.8
+    },
+    {
+      "sql": "SELECT * FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+      "ms": 73.9
+    },
+    {
+      "sql": "SELECT value::jsonb value FROM app_meta WHERE key=$1",
+      "ms": 75.1
+    },
+    {
+      "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+      "ms": 217.6
+    },
+    {
+      "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND ",
+      "ms": 74.1
+    },
+    {
+      "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+      "ms": 74
+    },
+    {
+      "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND ",
+      "ms": 73
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.4
+    },
+    {
+      "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+      "ms": 72.7
+    },
+    {
+      "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND ",
+      "ms": 71.7
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+      "ms": 72.6
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.5
+    },
+    {
+      "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+      "ms": 72.8
+    },
+    {
+      "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND ",
+      "ms": 71.8
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+      "ms": 72
+    }
+  ],
+  "appTraces": [
+    {
+      "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+      "ms": 71.8
+    },
+    {
+      "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2",
+      "ms": 71.8
+    },
+    {
+      "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+      "ms": 72.2
+    },
+    {
+      "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT J",
+      "ms": 144.6
+    },
+    {
+      "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 A",
+      "ms": 72.1
+    },
+    {
+      "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 71.9
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.8
+    },
+    {
+      "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+      "ms": 72.6
+    },
+    {
+      "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND ",
+      "ms": 71.9
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+      "ms": 71.6
+    },
+    {
+      "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+      "ms": 71.5
+    },
+    {
+      "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2",
+      "ms": 71.5
+    },
+    {
+      "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+      "ms": 71.9
+    },
+    {
+      "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT J",
+      "ms": 144.2
+    },
+    {
+      "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 A",
+      "ms": 71.9
+    },
+    {
+      "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+      "ms": 71.6
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.3
+    },
+    {
+      "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+      "ms": 72.7
+    },
+    {
+      "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND ",
+      "ms": 71.7
+    },
+    {
+      "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+      "ms": 71.5
+    }
+  ]
+}
