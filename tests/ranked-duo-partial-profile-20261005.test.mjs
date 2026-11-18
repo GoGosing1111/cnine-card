@@ -7,6 +7,8 @@ for(const postgres of [false,'pipeline']){
  test(`${postgres||'SQLite'} lower grade card invalidates cached admission while preserving saved replay data`,async t=>{
   const f=await duoFixture(t,{postgres});await f.ready();
   const before=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert(before[0].attackReady&&before[0].defenseReady);
+  await f.p("UPDATE cards SET rarity='FUR' WHERE id IN ('C-0','C-1')").run();
+  const fur=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert(fur[0].attackReady&&fur[0].defenseReady);assert.equal(fur[0].attack.cards.filter(c=>c.rarity==='FUR').length,2);
   await f.p("UPDATE cards SET rarity='MA' WHERE id='C-0'").run();
   const after=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});assert.equal(after[0].attackReady,false);assert.equal(after[0].defenseReady,false);
   assert.equal(after[0].attack.cards.length,5);assert.equal(after[0].attack.cards[0].rarity,'MA');

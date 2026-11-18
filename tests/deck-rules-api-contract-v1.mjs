@@ -27,7 +27,7 @@ assert.doesNotMatch(contractSource,/await|env\.DB|prepare\(/,'deck rule contract
 assert.doesNotMatch(contractSource,/synerg/i,'retired deck synergy must not leak into the public rule contract');
 
 const buildContract=Function(
-  `const PVP_MINIMUM_GRADE='ZENITH',PVP_ALLOWED_GRADES=['ZENITH','SUPERSTAR','ICON'];const ICON_DECK_LIMIT=2;const PRESTIGE_DECK_LIMIT=${limits.PRESTIGE};const FUR_DECK_LIMIT=${limits.FUR};const ZENITH_DECK_LIMIT=${limits.ZENITH};const SUPERSTAR_DECK_LIMIT=${limits.SUPERSTAR};${contractSource};return deckRulesContract;`
+  `const PVP_MINIMUM_GRADE='FUR',PVP_ALLOWED_GRADES=['FUR','ZENITH','SUPERSTAR','ICON'];const ICON_DECK_LIMIT=2;const PRESTIGE_DECK_LIMIT=${limits.PRESTIGE};const FUR_DECK_LIMIT=${limits.FUR};const ZENITH_DECK_LIMIT=${limits.ZENITH};const SUPERSTAR_DECK_LIMIT=${limits.SUPERSTAR};${contractSource};return deckRulesContract;`
 )();
 const expectedBase={
   schemaVersion:1,
@@ -38,7 +38,7 @@ const expectedBase={
   formation:{code:'FRONT_2_BACK_3',frontSlots:2,backSlots:3,slots:['FRONT','FRONT','BACK','BACK','BACK']}
 };
 assert.deepEqual(buildContract('PVE'),{...expectedBase,scope:'PVE'});
-assert.deepEqual(buildContract('pvp'),{...expectedBase,scope:'PVP',minimumGrade:'ZENITH',allowedGrades:['ZENITH','SUPERSTAR','ICON']});
+assert.deepEqual(buildContract('pvp'),{...expectedBase,scope:'PVP',minimumGrade:'FUR',allowedGrades:['FUR','ZENITH','SUPERSTAR','ICON']});
 assert.equal(Object.hasOwn(buildContract('PVE'),'synergy'),false,'deck synergy must remain absent');
 
 const endpointBlock=(start,end)=>{

@@ -5,7 +5,7 @@ import {DatabaseSync} from 'node:sqlite';
 import * as policy from '../functions/_pvp_deck_policy.js';
 const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const between=(start,end)=>api.slice(api.indexOf(start),api.indexOf(end,api.indexOf(start)));
-const cards=['ZENITH','ZENITH','SUPERSTAR','ICON','ICON','MA','FUR','PRESTIGE','LIMITED','C'].map((rarity,i)=>({id:String(i+1),rarity,title:rarity}));
+const cards=['ZENITH','ZENITH','SUPERSTAR','ICON','ICON','MA','FUR','PRESTIGE','LIMITED','C','FUR','FUR'].map((rarity,i)=>({id:String(i+1),rarity,title:rarity}));
 function fixture(t){
  const db=new DatabaseSync(':memory:');t.after(()=>db.close());
  db.exec('CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,power_type TEXT,base_power INTEGER,image_url TEXT,focus_x INTEGER,focus_y INTEGER,member_id INTEGER); CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,breakthrough_level INTEGER); CREATE TABLE members(id INTEGER PRIMARY KEY,name TEXT); INSERT INTO members VALUES(1,\'fixture\');');
@@ -16,16 +16,23 @@ function fixture(t){
  const functions=Function('deps',`with(deps){${between('async function deckGradeCounts','async function deckSynergySettings')}\n${between('async function pvpDeckSnapshot(','async function pvpEnergySnapshot(')}\nreturn {validateDeckGradeLimits,pvpDeckSnapshot,pvpDeckSnapshotByIds,pveDeckSnapshot};}`)(deps);
  return {env,state,...functions,queries:()=>queries};
 }
-test('only the three ordinary card grades are accepted, with no implicit unknown grade admission',()=>{
+test('FUR and the three higher ordinary card grades are accepted; lower and unknown grades remain blocked',()=>{
  assert(policy.pvpDeckGradeAllowed(cards.slice(0,5)));
- for(const rarity of ['MA','SSR','UR','HR','SR','R','U','C','FUR','PRESTIGE','LIMITED','UNKNOWN','',null])assert(!policy.pvpCardGradeAllowed({rarity}),String(rarity));
+ for(const rarity of ['MA','SSR','UR','HR','SR','R','U','C','PRESTIGE','LIMITED','UNKNOWN','',null])assert(!policy.pvpCardGradeAllowed({rarity}),String(rarity));
+ assert(policy.pvpCardGradeAllowed({rarity:'FUR'}));assert(policy.pvpCardGradeAllowed({grade:'fur'}));
  assert(policy.pvpCardGradeAllowed({grade:'zenith'}));
  assert(!policy.pvpDeckGradeAllowed(cards.slice(0,4)));
 });
 test('actual catalog aggregate rejects each lower grade for PVP in one query and keeps PVE unchanged',async t=>{
  const f=fixture(t);await f.validateDeckGradeLimits(f.env,f.state.attack,'랭크전 덱','PVP');
- for(const c of cards.slice(5)){const n=f.queries();await assert.rejects(f.validateDeckGradeLimits(f.env,['1','2','3','4',c.id],'랭크전 덱','PVP'),e=>e.code==='PVP_MINIMUM_GRADE'&&e.status===400);assert.equal(f.queries()-n,1);}
+ for(const c of [cards[5],cards[7],cards[8],cards[9]]){const n=f.queries();await assert.rejects(f.validateDeckGradeLimits(f.env,['1','2','3','4',c.id],'랭크전 덱','PVP'),e=>e.code==='PVP_MINIMUM_GRADE'&&e.grade==='FUR'&&e.status===400);assert.equal(f.queries()-n,1);}
  await f.validateDeckGradeLimits(f.env,f.state.pve,'전투 덱','PVE');
+});
+test('two FUR cards can be saved and admitted for attack, defense and explicit decks; three still fail the existing cap',async t=>{
+ const f=fixture(t),furDeck=['7','11','1','3','4'];await f.validateDeckGradeLimits(f.env,furDeck,'랭크전 덱','PVP');
+ f.state.attack=furDeck;f.state.defense=furDeck;
+ for(const deck of [await f.pvpDeckSnapshot(f.env,1),await f.pvpDeckSnapshot(f.env,1,true),await f.pvpDeckSnapshotByIds(f.env,1,furDeck)]){assert.equal(deck.length,5);assert.equal(deck.filter(c=>c.rarity==='FUR').length,2);}
+ await assert.rejects(f.validateDeckGradeLimits(f.env,['7','11','12','3','4'],'랭크전 덱','PVP'),e=>e.code==='FUR_DECK_LIMIT'&&e.limit===2);
 });
 test('saved attack, defense and explicit-id PVP snapshots reject lower grades without fallback; PVE still loads',async t=>{
  const f=fixture(t);assert.equal((await f.pvpDeckSnapshot(f.env,1)).length,5);

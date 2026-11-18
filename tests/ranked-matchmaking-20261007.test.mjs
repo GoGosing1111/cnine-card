@@ -41,7 +41,7 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
  const ticketPayloads=new Map(),rosterCodes=['V-001','V-002','V-003'];
  let currentTier='silver';const blockedDecks=new Set();
  const deps={rankedMatchForecast,rankedRosterPrefix,rankedPromotionKey,
-  pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE,pvpDeckSnapshot:async(_,id)=>blockedDecks.has(Number(id))?[]:['ZENITH','ZENITH','SUPERSTAR','ICON','ICON'].map((rarity,i)=>({id:String(i),rarity})),
+  pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE,pvpDeckSnapshot:async(_,id)=>blockedDecks.has(Number(id))?[]:['FUR','FUR','ZENITH','SUPERSTAR','ICON'].map((rarity,i)=>({id:String(i),rarity})),
   readRankedCandidateRosters:(_,batch)=>deps.readRankedRosters(_,batch.map(row=>row.id)),
   readRankedRosters:async(_,ids)=>new Map(ids.map(id=>[Number(id),{ready:rows.find(row=>row.id===Number(id))?.rosterReady!==false,codes:rosterCodes}])),
   saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender,scoringTier})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,scoringTier,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
