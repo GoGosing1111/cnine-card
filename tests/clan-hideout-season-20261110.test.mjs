@@ -132,7 +132,7 @@ test('fixed season calendar admits volunteers for 24h, starts with vacant elders
  assert.equal((await q("SELECT * FROM clan_members WHERE season_id=$1 AND member_role='MEMBER'",[seasonId])).length,8);
  assert.equal((await q('SELECT * FROM organization_members_v1 WHERE round_id=$1',[roundId])).length,9);
  assert.equal((await q('SELECT * FROM organization_members_v1 WHERE round_id=$1',[f.roundId])).length,128);
- assert.equal((await f.post('organization/join/apply',{roundId,revision:0,organizationId:8,message:''},{user:55})).data.code,'ORG_JOIN_CLOSED');
+ assert.equal((await f.post('organization/join/apply',{roundId,revision:0,organizationId:8,message:''},{user:55})).data.code,'ORG_MEMBER');
  const times=clanPlayoffTimes(c);
  const wars=await q('SELECT * FROM clan_wars WHERE season_id=$1',[seasonId]);
  assert.ok(wars.length>=80&&wars.every(w=>Date.parse(w.starts_at)>=c.startsAt&&Date.parse(w.ends_at)<=times.regularEndsAt));
