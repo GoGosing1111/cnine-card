@@ -1,0 +1,1514 @@
+{
+  "completedAt": "2026-11-18T13:48:57.010Z",
+  "status": "DEPLOYED_VERIFIED",
+  "sourceCommit": "ec90144c2603b0edb374bf966be223d1eafae5c5",
+  "runtimeCommit": "9289932560d3f37eebe991c5980494271ba40778",
+  "request": {
+    "priceWon": 49800,
+    "salesThrough": "2026-11-23 23:59 KST",
+    "exclusiveCutoff": "2026-11-24T00:00:00+09:00",
+    "confirmedChoice": "앞으로도 10회마다 자동 반복"
+  },
+  "behavior": {
+    "repeatEveryPurchases": 10,
+    "rewardsPerCycle": [
+      {
+        "purchases": 1,
+        "bonusTrillions": 1000,
+        "cubes": 5
+      },
+      {
+        "purchases": 2,
+        "bonusTrillions": 2000,
+        "cubes": 10
+      },
+      {
+        "purchases": 3,
+        "bonusTrillions": 3000,
+        "cubes": 15
+      },
+      {
+        "purchases": 4,
+        "bonusTrillions": 6000,
+        "cubes": 20
+      },
+      {
+        "purchases": 5,
+        "bonusTrillions": 8000,
+        "cubes": 40
+      },
+      {
+        "purchases": 10,
+        "bonusTrillions": 8000,
+        "cubes": 100
+      }
+    ],
+    "totalBonusPerCycle": {
+      "coins": "28000000000000000",
+      "cubes": 190
+    },
+    "existingAtLeastTen": "Next purchase begins at tier one, including existing counts of 12 and 20; no retroactive rewards for old excess purchases.",
+    "existingBelowTen": "Preserve current progress toward ten.",
+    "bulk": "One through 100 purchased units cross cycle boundaries and grant every newly reached tier. Example 100 fresh units: 330000000000000000 coins including base packages and 1900 bonus cubes.",
+    "pending": "Existing pending orders can still be fulfilled after closing; completed receipts replay unchanged.",
+    "preserved": [
+      "price and base package items",
+      "season-pass eligibility",
+      "ONE store exclusion",
+      "original purchase count and already delivered rewards",
+      "older immutable product snapshots",
+      "purchase/payment/refund history",
+      "previous operator reset markers",
+      "account lock, state compare-and-swap and atomic receipt"
+    ],
+    "entry": "로비 → 전체 메뉴 → 서버 안내 → 패키지 구매"
+  },
+  "implementation": {
+    "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+    "stateVersion": 2,
+    "baseline": "The next ordinary fulfillment stores a validated repeatBaseline in the existing counter transaction. Original records are never reset by deployment or GET. Existing version-one counts at least ten start at zero effective cycle progress; lower counts retain progress.",
+    "validation": "Exact BigInt coin totals and safe integer cube counts are checked against the preserved baseline plus newly earned tiers. Corrupt totals fail closed.",
+    "workBound": "At most eleven cycles for a maximum 100-unit order, irrespective of historical purchase count. Aggregate one coin grant and one cube item grant; no per-cycle database call.",
+    "cache": "Buyer/CMS imports use 20261118-package-repeat23-v1; root shell and service worker share package-repeat23-20261118-v1 prefix."
+  },
+  "existingAccounts": {
+    "readOnlySnapshotAt": "2026-11-18T13:23:10.825Z",
+    "validated": 34,
+    "restartAtOne": 13,
+    "preservePartial": 21,
+    "productionWrites": 0,
+    "detailsKeptLocally": "operations/support-package-repeat23-20261118/progress-preview.json"
+  },
+  "verification": {
+    "uniqueTests": 43,
+    "firstGate": {
+      "tests": 43,
+      "passed": 41,
+      "failed": 2,
+      "log": "release-928993256-1795009126065.log",
+      "explanation": "Both failures were a pre-existing base-items-only assertion in cutoff fulfillment, omitting the existing first-purchase five cube bonus. Corrected the expected items without changing runtime code."
+    },
+    "finalGate": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "retainedPassingTests": 39,
+      "runtimeIdenticalTo": "9289932560d3f37eebe991c5980494271ba40778"
+    },
+    "testFiles": [
+      "tests/support-package-repeat23-20261118.test.mjs",
+      "tests/support-package-refresh-20261106.test.mjs",
+      "tests/support-package-refresh-20261115.test.mjs",
+      "tests/support-package-cubes-20261116.test.mjs",
+      "tests/support-package-hide-20261026.test.mjs",
+      "tests/support-package-web-20261101.test.mjs",
+      "tests/support-package-guarantee-notice-20261106.test.mjs",
+      "tests/support-package-cms-recovery-20261020.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "cases": [
+      "current and historical policies",
+      "partial and completed old counters",
+      "9→10→11 and 19→20→21 boundaries",
+      "multi-cycle 100-unit orders",
+      "SQLite and PostgreSQL exact grants and accounting",
+      "inventory, audit and receipt failure rollback",
+      "concurrent confirmation and repeated receipt",
+      "old receipt after later cycles",
+      "corrupt baseline/totals rejection",
+      "November 19 stays open; all of November 23 stays open; November 24 rejects new orders",
+      "post-cutoff pending fulfillment and replay",
+      "eligibility, CMS quote/session recovery and ONE store exclusion"
+    ],
+    "publicUi": [
+      {
+        "phase": "public",
+        "platform": "desktop",
+        "emulated": true,
+        "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+        "entries": [
+          {
+            "interactiveMs": 1162,
+            "imagesMs": 1385,
+            "frames": {
+              "samples": 79,
+              "p95Ms": 14.400000000000091,
+              "maxMs": 17.200000000000273,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            },
+            "backgroundStatusRequests": 0
+          },
+          {
+            "interactiveMs": 321,
+            "imagesMs": 364,
+            "frames": {
+              "samples": 67,
+              "p95Ms": 20,
+              "maxMs": 20.800000000000182,
+              "over50": 0
+            },
+            "afterExit": {
+              "connected": false,
+              "mutations": 0,
+              "packageRequests": 0
+            },
+            "backgroundStatusRequests": 0
+          }
+        ],
+        "errors": [],
+        "knownWarnings": [],
+        "productionWrites": 0,
+        "coldLobbyMs": 1792,
+        "blockedPosts": [
+          {
+            "endpoint": "sync/ticket",
+            "method": "POST"
+          }
+        ]
+      },
+      {
+        "phase": "public",
+        "platform": "h5",
+        "emulated": true,
+        "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+        "entries": [
+          {
+            "interactiveMs": 292,
+            "packageHidden": true
+          },
+          {
+            "interactiveMs": 200,
+            "packageHidden": true
+          }
+        ],
+        "errors": [],
+        "knownWarnings": [],
+        "productionWrites": 0,
+        "coldLobbyMs": 2270,
+        "packageHidden": true,
+        "packageApiCalls": 0,
+        "storeVariant": "Existing production H5 variant is unchanged; package remains excluded.",
+        "blockedPosts": [
+          {
+            "endpoint": "sync/ticket",
+            "method": "POST"
+          }
+        ]
+      }
+    ]
+  },
+  "performance": {
+    "conditions": "Single samples, Windows Node and Windows headless Chromium/WebKit; browser/PWA paths plus Android/iOS/Windows URL emulation. No physical device or installed-native-client measurement. UI uses actual lobby navigation, source/CDN assets and isolated PostgreSQL APIs; production services use live PostgreSQL READ ONLY. No overall speed improvement claimed.",
+    "beforeService": {
+      "at": "2026-11-18T13:23:50.368Z",
+      "conditions": "Windows Node; actual service with live PostgreSQL READ ONLY, first/repeat on same connection; network included; single samples, no speed claim.",
+      "samples": [
+        {
+          "id": 5426,
+          "entry": "first",
+          "ms": 688,
+          "queries": 8,
+          "salesOpen": true,
+          "paidPurchases": 12,
+          "cyclePurchases": null,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 12,
+            "paidPurchasesAfter": 13,
+            "milestones": [],
+            "coins": "0",
+            "totalEarnedCoins": "28000000000000000",
+            "cubes": 0,
+            "totalEarnedCubes": 190
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            }
+          ]
+        },
+        {
+          "id": 5426,
+          "entry": "repeat",
+          "ms": 555,
+          "queries": 7,
+          "salesOpen": true,
+          "paidPurchases": 12,
+          "cyclePurchases": null,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 12,
+            "paidPurchasesAfter": 13,
+            "milestones": [],
+            "coins": "0",
+            "totalEarnedCoins": "28000000000000000",
+            "cubes": 0,
+            "totalEarnedCubes": 190
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            }
+          ]
+        },
+        {
+          "id": 197,
+          "entry": "first",
+          "ms": 547,
+          "queries": 7,
+          "salesOpen": true,
+          "paidPurchases": 5,
+          "cyclePurchases": null,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 5,
+            "paidPurchasesAfter": 6,
+            "milestones": [],
+            "coins": "0",
+            "totalEarnedCoins": "20000000000000000",
+            "cubes": 0,
+            "totalEarnedCubes": 90
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            }
+          ]
+        },
+        {
+          "id": 197,
+          "entry": "repeat",
+          "ms": 559,
+          "queries": 7,
+          "salesOpen": true,
+          "paidPurchases": 5,
+          "cyclePurchases": null,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 5,
+            "paidPurchasesAfter": 6,
+            "milestones": [],
+            "coins": "0",
+            "totalEarnedCoins": "20000000000000000",
+            "cubes": 0,
+            "totalEarnedCubes": 90
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 83.67680000000018
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 78.27050000000008
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 79.31719999999996
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 86.17719999999963
+        },
+        {
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)",
+          "ms": 76.78340000000026
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.8760000000002
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 108.61270000000013
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.8397
+        },
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 78.57830000000013
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.79860000000008
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 77.05180000000018
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 82.72859999999946
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.57889999999952
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 83.9322000000002
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.71690000000035
+        },
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 76.91119999999955
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.71520000000055
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.96819999999934
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 78.11239999999998
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.82089999999971
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 83.53810000000067
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.73889999999938
+        },
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 80.01260000000002
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 77.21149999999943
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.76189999999951
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 82.50450000000001
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 81.05869999999959
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 83.57290000000012
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 76.78679999999986
+        }
+      ],
+      "productionWrites": 0
+    },
+    "afterService": {
+      "at": "2026-11-18T13:29:18.557Z",
+      "conditions": "Windows Node; actual service with live PostgreSQL READ ONLY, first/repeat on same connection; network included; single samples, no speed claim.",
+      "samples": [
+        {
+          "id": 5426,
+          "entry": "first",
+          "ms": 614,
+          "queries": 8,
+          "salesOpen": true,
+          "paidPurchases": 12,
+          "cyclePurchases": 0,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 12,
+            "paidPurchasesAfter": 13,
+            "milestones": [
+              {
+                "purchases": 1,
+                "coins": "1000000000000000",
+                "cubes": 5,
+                "cycle": 2,
+                "atPurchase": 1
+              }
+            ],
+            "coins": "1000000000000000",
+            "totalEarnedCoins": "29000000000000000",
+            "cubes": 5,
+            "totalEarnedCubes": 195,
+            "repeatEvery": 10,
+            "cycleBefore": 2,
+            "cycleAfter": 2,
+            "cyclePurchasesBefore": 0,
+            "cyclePurchasesAfter": 1
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            },
+            {
+              "code": "SSS_MIRACLE_CUBE",
+              "quantity": 5
+            }
+          ]
+        },
+        {
+          "id": 5426,
+          "entry": "repeat",
+          "ms": 510,
+          "queries": 7,
+          "salesOpen": true,
+          "paidPurchases": 12,
+          "cyclePurchases": 0,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 12,
+            "paidPurchasesAfter": 13,
+            "milestones": [
+              {
+                "purchases": 1,
+                "coins": "1000000000000000",
+                "cubes": 5,
+                "cycle": 2,
+                "atPurchase": 1
+              }
+            ],
+            "coins": "1000000000000000",
+            "totalEarnedCoins": "29000000000000000",
+            "cubes": 5,
+            "totalEarnedCubes": 195,
+            "repeatEvery": 10,
+            "cycleBefore": 2,
+            "cycleAfter": 2,
+            "cyclePurchasesBefore": 0,
+            "cyclePurchasesAfter": 1
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            },
+            {
+              "code": "SSS_MIRACLE_CUBE",
+              "quantity": 5
+            }
+          ]
+        },
+        {
+          "id": 197,
+          "entry": "first",
+          "ms": 512,
+          "queries": 7,
+          "salesOpen": true,
+          "paidPurchases": 5,
+          "cyclePurchases": 5,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 5,
+            "paidPurchasesAfter": 6,
+            "milestones": [],
+            "coins": "0",
+            "totalEarnedCoins": "20000000000000000",
+            "cubes": 0,
+            "totalEarnedCubes": 90,
+            "repeatEvery": 10,
+            "cycleBefore": 1,
+            "cycleAfter": 1,
+            "cyclePurchasesBefore": 5,
+            "cyclePurchasesAfter": 6
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            }
+          ]
+        },
+        {
+          "id": 197,
+          "entry": "repeat",
+          "ms": 520,
+          "queries": 7,
+          "salesOpen": true,
+          "paidPurchases": 5,
+          "cyclePurchases": 5,
+          "nextBonus": {
+            "policyCode": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+            "paidPurchasesBefore": 5,
+            "paidPurchasesAfter": 6,
+            "milestones": [],
+            "coins": "0",
+            "totalEarnedCoins": "20000000000000000",
+            "cubes": 0,
+            "totalEarnedCubes": 90,
+            "repeatEvery": 10,
+            "cycleBefore": 1,
+            "cycleAfter": 1,
+            "cyclePurchasesBefore": 5,
+            "cyclePurchasesAfter": 6
+          },
+          "items": [
+            {
+              "code": "MASTER_STAR",
+              "quantity": 1000000000
+            },
+            {
+              "code": "ARDEN_ENERGY",
+              "quantity": 50
+            },
+            {
+              "code": "WEAPON_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "ARMOR_ENHANCEMENT_SCROLL",
+              "quantity": 10
+            },
+            {
+              "code": "MERCENARY_SSS_LIMITED_SHARD",
+              "quantity": 25
+            },
+            {
+              "code": "PET_SEAL_ORB",
+              "quantity": 50
+            },
+            {
+              "code": "PET_ESSENCE",
+              "quantity": 500
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 76.38340000000017
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 72.3734000000004
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 72.30380000000014
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 72.24209999999994
+        },
+        {
+          "sql": "SELECT key,value FROM app_meta WHERE key IN ($1)",
+          "ms": 72.05829999999969
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.46049999999968
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 83.3096999999998
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.54830000000038
+        },
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 71.5333999999998
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.52049999999963
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.65669999999955
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.66630000000077
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.97109999999975
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 77.89480000000003
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.66069999999945
+        },
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 72.66190000000006
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.32170000000042
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 72.0022999999992
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.63369999999941
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 72.24009999999998
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 78.84889999999996
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.58719999999994
+        },
+        {
+          "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id WH",
+          "ms": 73.08510000000024
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 73.16690000000017
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 73.53440000000046
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.68130000000019
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.41269999999986
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key LIKE $1 ESCAPE '!' ORDER BY updated_at DESC LIMIT 5",
+          "ms": 84.07880000000023
+        },
+        {
+          "sql": "SELECT value FROM app_meta WHERE key=$1",
+          "ms": 71.47410000000036
+        }
+      ],
+      "productionWrites": 0
+    },
+    "bottleneck": "Production service latency is dominated by its existing database round trips; query counts remain eight on the first catalog access and seven thereafter. Repeat calculation adds no SQL. Each order aggregates rewards instead of writing a row per cycle.",
+    "platforms": [
+      {
+        "platform": "desktop",
+        "before": {
+          "phase": "before",
+          "platform": "desktop",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 660,
+              "imagesMs": 807,
+              "frames": {
+                "samples": 166,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 8.299999999999727,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 166,
+              "imagesMs": 179,
+              "frames": {
+                "samples": 172,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1434,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "desktop",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 801,
+              "imagesMs": 959,
+              "frames": {
+                "samples": 173,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 166,
+              "imagesMs": 183,
+              "frames": {
+                "samples": 169,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1304,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        }
+      },
+      {
+        "platform": "android",
+        "before": {
+          "phase": "before",
+          "platform": "android",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 629,
+              "imagesMs": 756,
+              "frames": {
+                "samples": 168,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 169,
+              "imagesMs": 205,
+              "frames": {
+                "samples": 165,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.399999999999636,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1395,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "android",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 626,
+              "imagesMs": 722,
+              "frames": {
+                "samples": 166,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "interactiveMs": 198,
+              "imagesMs": 215,
+              "frames": {
+                "samples": 166,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.400000000000546,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1513,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        }
+      },
+      {
+        "platform": "ios",
+        "before": {
+          "phase": "before",
+          "platform": "ios",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 1611,
+              "imagesMs": 1804,
+              "frames": {
+                "samples": 51,
+                "p95Ms": 83,
+                "maxMs": 129,
+                "over50": 10
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 0
+            },
+            {
+              "interactiveMs": 1558,
+              "imagesMs": 1633,
+              "frames": {
+                "samples": 54,
+                "p95Ms": 111,
+                "maxMs": 129,
+                "over50": 14
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 1
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "productionWrites": 0,
+          "coldLobbyMs": 2592,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "ios",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 2432,
+              "imagesMs": 3192,
+              "frames": {
+                "samples": 50,
+                "p95Ms": 136,
+                "maxMs": 247,
+                "over50": 14
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 0
+            },
+            {
+              "interactiveMs": 1357,
+              "imagesMs": 1386,
+              "frames": {
+                "samples": 54,
+                "p95Ms": 83,
+                "maxMs": 304,
+                "over50": 7
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 0
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "productionWrites": 0,
+          "coldLobbyMs": 4599,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        }
+      },
+      {
+        "platform": "windows",
+        "before": {
+          "phase": "before",
+          "platform": "windows",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 905,
+              "imagesMs": 1063,
+              "frames": {
+                "samples": 178,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 0
+            },
+            {
+              "interactiveMs": 161,
+              "imagesMs": 176,
+              "frames": {
+                "samples": 168,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.399999999999636,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 0
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1627,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "windows",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 799,
+              "imagesMs": 980,
+              "frames": {
+                "samples": 169,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 0
+            },
+            {
+              "interactiveMs": 170,
+              "imagesMs": 188,
+              "frames": {
+                "samples": 166,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.399999999999636,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "backgroundStatusRequests": 0
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1222,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        }
+      },
+      {
+        "platform": "h5",
+        "before": {
+          "phase": "before",
+          "platform": "h5",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 229,
+              "packageHidden": true
+            },
+            {
+              "interactiveMs": 181,
+              "packageHidden": true
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1971,
+          "packageHidden": true,
+          "packageApiCalls": 0,
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "h5",
+          "emulated": true,
+          "conditions": "Windows headless browser, actual lobby → all menu → server information → package; CDN assets with current/baseline source overrides; isolated PostgreSQL APIs. Windows URL and H5 iframe are emulated, not physical devices or an installed app.",
+          "entries": [
+            {
+              "interactiveMs": 358,
+              "packageHidden": true
+            },
+            {
+              "interactiveMs": 395,
+              "packageHidden": true
+            }
+          ],
+          "errors": [],
+          "knownWarnings": [],
+          "productionWrites": 0,
+          "coldLobbyMs": 1683,
+          "packageHidden": true,
+          "packageApiCalls": 0,
+          "storeVariant": "Existing production H5 variant is unchanged; package remains excluded.",
+          "blockedPosts": [
+            {
+              "endpoint": "sync/ticket",
+              "method": "POST"
+            }
+          ]
+        }
+      }
+    ],
+    "limits": [
+      "WebKit has long frames before and after while changing quantities and retains its existing ResizeObserver warning. No claim that these are resolved.",
+      "A background server-support/status poll belongs to the lobby navigation; exit checks count package data requests separately. Detached package DOM mutations and new package requests are zero.",
+      "Browser sync/ticket POST attempts were intercepted and blocked; no package purchase POST or production write was made.",
+      "H5 retains its existing generated production variant because this package is excluded there. Its menu exclusion and absence of package requests were verified."
+    ]
+  },
+  "deployment": {
+    "at": "2026-11-18T13:47:26.995Z",
+    "sourceCommit": "ec90144c2603b0edb374bf966be223d1eafae5c5",
+    "pages": {
+      "id": "609c7454-30ba-4fd8-b186-91a38eaa2aed",
+      "commit": "ec90144c2603b0edb374bf966be223d1eafae5c5",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "299d4c4f-117a-45bf-9c9a-a636a2d019db",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "8f4ff418-6274-47ab-a9a1-5f08d56bb436",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "apiWorker": {
+      "sha256": "59ee0a878536d4b17a67dd24034f22140fd66c2a3863b05c7b0026b5a381bf1c",
+      "repeatBaseline": true,
+      "deadline": true
+    },
+    "files": [
+      {
+        "path": "js/adventure-lobby-v2107.js",
+        "sha256": "57a14339bbf988dc349e9279fcb4860a15066091fd104405a7d481aa28714dc5",
+        "bytes": 1231188
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "4cbc703b4104c1d30c458cc6bbdb4d0ab31bde4924964d3ea8413161bcbfa068",
+        "bytes": 83239
+      },
+      {
+        "path": "admin/server-support-admin-v1.mjs",
+        "sha256": "f94c4841bcb01de4b2245f153280628eaac34f64d312eb60a5d3ff0f1efae574",
+        "bytes": 20627
+      },
+      {
+        "path": "admin/support-package-admin-v1.mjs",
+        "sha256": "7e637364d0e555556502e0a03221ee6e0b4863a63fc9feb2d13161903ab07af2",
+        "bytes": 6001
+      },
+      {
+        "path": "js/server-support-v1.mjs",
+        "sha256": "8f66dd7c0106bbe2a746055ad5c904941e7ac6d5816cf79752bc25389411ab33",
+        "bytes": 21929
+      },
+      {
+        "path": "js/support-package-alerts-v1.mjs",
+        "sha256": "66f669887a717568dfccfc7b5b2efd9e3a739904c28c724f0f6e943fe659264f",
+        "bytes": 6095
+      },
+      {
+        "path": "js/support-package-v1.mjs",
+        "sha256": "5088c1bd53680c4e622b64a117bae5e3ab274870af89d3b9ba9c24947c26b2ad",
+        "bytes": 10439
+      },
+      {
+        "path": "index.html",
+        "sha256": "a6270dac2d1e5ab40deb6702174a57e15fc6b1828e0719bc9e5c1c3911a28a0b",
+        "bytes": 53251
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "97131ad211647d3b1f16afdb9688142ac5285f84c5e4575fe35d1c6ba041b2fd",
+        "bytes": 26748
+      },
+      {
+        "path": "shared/support-package-v1.mjs",
+        "sha256": "5d489f6b682e9b5e61dc62734b24436fdaee6f705779db644ce6194fcbed7e23",
+        "bytes": 18286
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "f87f30362d573d19b5773dabfc5cedbec9feca701b3dd7db8f6a4d712d45e3e1",
+      "verified": 6,
+      "excluded": [
+        "admin/index.html",
+        "admin/server-support-admin-v1.mjs",
+        "admin/support-package-admin-v1.mjs",
+        "service-worker.js"
+      ],
+      "changed": [
+        "/index.html",
+        "/js/adventure-lobby-v2107.js",
+        "/js/server-support-v1.mjs",
+        "/js/support-package-alerts-v1.mjs",
+        "/js/support-package-v1.mjs",
+        "/shared/support-package-v1.mjs"
+      ],
+      "removed": []
+    },
+    "tests": 43,
+    "releaseTests": 4,
+    "retainedPassingTests": {
+      "head": "9289932560d3f37eebe991c5980494271ba40778",
+      "log": "release-928993256-1795009126065.log",
+      "count": 39,
+      "excludedFile": "tests/support-package-hide-20261026.test.mjs",
+      "reason": "Only this test expectation changed: pending fulfillment retains its existing first-purchase cube bonus of five. All other 39 cases passed; runtime sources are byte-identical. Rerun the four tests in this file, retain the previous unrelated passes."
+    },
+    "operatingAccountWrites": 0,
+    "messages": 0,
+    "command": "npm run deploy:production -- --scoped",
+    "base": "9dbd397339187958aed0541fb57469c3f4adff25",
+    "log": "release-ec90144c2-1795009255115.log"
+  },
+  "productionEffects": {
+    "directAccountWrites": 0,
+    "manualResets": 0,
+    "coinsGranted": 0,
+    "cubesGranted": 0,
+    "ordersCreated": 0,
+    "messages": 0,
+    "schemaChanges": 0
+  },
+  "qaNotes": [
+    "An initial UI guard counted an unrelated blocked sync/ticket request as a package mutation; final verification records that blocked background request and requires no package POST.",
+    "An iOS exit assertion initially included a normal lobby status poll; the final package-specific exit measure is zero requests and zero detached DOM changes.",
+    "The optional old standalone H5 authoring builder failed on its pre-existing js/app.js patch, which this task did not edit. The production release uses the unchanged generated H5 variant; no unrelated patch repair or variant rebuild was attempted. The source cache-match string was kept consistent for future builds."
+  ],
+  "screenshots": [
+    "desktop-one.png",
+    "android-one.png",
+    "desktop-bulk100.png",
+    "public-desktop-one.png",
+    "public-desktop-deadline.png"
+  ],
+  "localEvidence": "operations/support-package-repeat23-20261118/"
+}

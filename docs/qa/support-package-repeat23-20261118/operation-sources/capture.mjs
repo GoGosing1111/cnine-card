@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';import path from 'node:path';import {build} from 'esbuild';
+import {connect,safe,out,source,save} from './common.mjs';
+import {__postgresCompatTest} from '../coop-pc-performance-20261108/source/functions/_postgres_d1_compat.js';
+const phase=process.argv[2];assert(['before','after'].includes(phase));
+if(phase==='after')await build({stdin:{contents:"export * from './shared/support-package-v1.mjs';export {handleSupportPackage} from './functions/_support_package.js';",resolveDir:source},bundle:true,platform:'node',format:'esm',packages:'external',outfile:path.join(out,'runtime-after.mjs'),logLevel:'silent'});
+const runtime=await import('./runtime-'+phase+'.mjs'),db=connect();
+try{await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');await db.query("SET LOCAL statement_timeout='20s'");
+ const queries=[],DB=new __postgresCompatTest.PostgresD1Database({async query(input,args){const sql=typeof input==='string'?input:input.text;assert.match(sql,/^SELECT\b/);const start=performance.now();try{return await db.query(input,args);}finally{queries.push({sql:sql.slice(0,130),ms:performance.now()-start});}}}),samples=[];
+ for(const id of [5426,197])for(const entry of ['first','repeat']){const start=performance.now(),q=queries.length,data=await runtime.handleSupportPackage({path:'server-support/package',request:new Request('https://cnine-card.pages.dev/api/server-support/package',{headers:{'user-agent':'Mozilla/5.0'}}),env:{DB},user:{id},deps:{},now:Date.now()});
+  const product=runtime.supportPackageWithBonus(data.product,data.bonusProgress);samples.push({id,entry,ms:Math.round(performance.now()-start),queries:queries.length-q,salesOpen:data.salesOpen,paidPurchases:data.bonusProgress.paidPurchases,cyclePurchases:runtime.supportPackageCycleProgress?.(data.bonusProgress).paidPurchases??null,nextBonus:product.purchaseBonus,items:product.items.map(i=>({code:i.code,quantity:i.quantity}))});
+ }
+ assert.deepEqual((await db.query('SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins+n_tup_upd+n_tup_del>0')).rows,[]);await db.query('ROLLBACK');save('service-'+phase,{at:new Date().toISOString(),conditions:'Windows Node; actual service with live PostgreSQL READ ONLY, first/repeat on same connection; network included; single samples, no speed claim.',samples,queries,productionWrites:0});console.log(JSON.stringify({phase,samples:samples.map(({id,entry,ms,queries,paidPurchases,cyclePurchases,nextBonus})=>({id,entry,ms,queries,paidPurchases,cyclePurchases,nextBonusCoins:nextBonus.coins,nextBonusCubes:nextBonus.cubes}))}));
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));process.exitCode=1;}finally{await db.end();}

@@ -1,0 +1,123 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"9dbd397339187958aed0541fb57469c3f4adff25","reason":"Extend the 49,800 won package through Nov 23 23:59 KST (exclusive Nov 24 midnight). User explicitly chose recurring rewards every ten purchases. Preserve historical products, payments and grants, preserve progress below ten, start already completed legacy counts at the next first tier. Migrate each counter to a validated repeat baseline inside its next existing atomic fulfillment; no bulk account write or retrospective grant. Bound reward calculation to at most eleven cycles per 100-unit order and aggregate coin/cube grants. Verify exact money, cycle boundaries, old/partial counters, SQLite/Postgres, rollback through receipt, simultaneous approvals, replay, cutoff/pending orders, CMS quote and store exclusion. Actual lobby first/reentry/frame/exit on desktop/mobile/Windows/H5 and live READ ONLY overview retain SQL count.","changed":["AGENTS.md","admin/index.html","admin/server-support-admin-v1.mjs","admin/support-package-admin-v1.mjs","docs/qa/clan-elder-kick-enable-20261118/README.md","docs/qa/clan-elder-kick-enable-20261118/completion.json","docs/qa/clan-elder-kick-enable-20261118/operation-sources/README.txt","docs/qa/clan-elder-kick-enable-20261118/operation-sources/browser-suite.mjs","docs/qa/clan-elder-kick-enable-20261118/operation-sources/capture.mjs","docs/qa/clan-elder-kick-enable-20261118/operation-sources/commit.mjs","docs/qa/clan-elder-kick-enable-20261118/operation-sources/common.mjs","docs/qa/clan-elder-kick-enable-20261118/operation-sources/document.mjs","docs/qa/clan-elder-kick-enable-20261118/operation-sources/portal.mjs","docs/qa/clan-elder-kick-enable-20261118/operation-sources/release.mjs","docs/qa/clan-elder-kick-enable-20261118/release-9dbd39733-1795006964293.log","docs/qa/clan-elder-kick-enable-20261118/ui-android-confirmation.png","docs/qa/clan-elder-kick-enable-20261118/ui-pc-confirmation.png","docs/qa/clan-elder-kick-enable-20261118/ui-public-confirmation.png","functions/_support_package.js","index.html","js/adventure-lobby-v2107.js","js/server-support-v1.mjs","js/support-package-alerts-v1.mjs","js/support-package-v1.mjs","scripts/onestore/web-overrides.mjs","service-worker.js","shared/support-package-v1.mjs","tests/support-package-cubes-20261116.test.mjs","tests/support-package-hide-20261026.test.mjs","tests/support-package-refresh-20261106.test.mjs","tests/support-package-refresh-20261115.test.mjs","tests/support-package-repeat23-20261118.test.mjs","tests/support-package-web-20261101.test.mjs"],"tests":["tests/support-package-repeat23-20261118.test.mjs","tests/support-package-refresh-20261106.test.mjs","tests/support-package-refresh-20261115.test.mjs","tests/support-package-cubes-20261116.test.mjs","tests/support-package-hide-20261026.test.mjs","tests/support-package-web-20261101.test.mjs","tests/support-package-guarantee-notice-20261106.test.mjs","tests/support-package-cms-recovery-20261020.test.mjs"],"checks":["check:worker"]}
+{"out":"C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\support-package-repeat23-20261118\\cms-recovery","reports":[{"width":1440,"initialReadRetry":true,"openFormPreserved":true,"packageReadNotRepeated":true,"sessionSwitchClears":true,"forbiddenNotRetried":true,"mutations":0,"errors":[]},{"width":390,"initialReadRetry":true,"openFormPreserved":true,"packageReadNotRepeated":true,"sessionSwitchClears":true,"forbiddenNotRetried":true,"mutations":0,"errors":[]}]}
+✔ support CMS recovers reads, preserves open payment forms and clears revoked or changed sessions (22283.5354ms)
+✔ existing six milestones add 5/10/15/20/40/100 cubes without changing coins, base items or older campaigns (4.7055ms)
+✔ bulk approval grants cumulative cubes, logs once, replays read-only and rejection leaves rewards unchanged (9433.5451ms)
+✔ successive milestones grant only newly crossed cube tiers (99.1577ms)
+✔ pre-cube count stays valid; payment during retrospective work records only the cubes actually granted (6117.0792ms)
+✔ missing cube catalog and audit failure roll back money, prior materials, counter and cube together (8008.44ms)
+✔ four paid units excluded, fifth sends once with payment; replay, later purchase and read/delete do not resend (SQLite) (325.6092ms)
+✔ four paid units excluded, fifth sends once with payment; replay, later purchase and read/delete do not resend (PostgreSQL) (10003.8928ms)
+✔ bulk first payment qualifies immediately, old products and rejected applications never send (4924.9411ms)
+✔ prior manual recipients remain suppressed even when their original message has been deleted (8338.7996ms)
+✔ an existing notice is adopted without changing its read/hidden state (4201.3436ms)
+✔ notice insert, durable receipt, and later audit failures roll back payment, counter, inventory, notice and receipt together (3756.1913ms)
+✔ competing payment confirmations commit one notice and one purchase (2568.0116ms)
+✔ package sales close at 2026-11-24 00:00 KST for the refreshed offer (2.9335ms)
+✖ midnight hides only the package, rejects new applications and preserves pending payment (SQLite) (150.8105ms)
+✖ midnight hides only the package, rejects new applications and preserves pending payment (PostgreSQL) (9201.1227ms)
+✔ a new request waiting for its account lock is rejected if the deadline passes (4785.0404ms)
+✔ 49,800-won 1+1 TOTALS are exact integers; only the refreshed product earns bonuses; November 24 midnight is exclusive (5.3736ms)
+✔ milestones repeat every ten: 5 = 20,000T bonus; 10 = 28,000T; 100 = 280,000T (1.2537ms)
+✔ successive 1..10 paid purchases match exact cumulative money and inventory, rejection/replay never advance count (SQLite) (382.1185ms)
+✔ successive 1..10 paid purchases match exact cumulative money and inventory, rejection/replay never advance count (PostgreSQL) (11746.1821ms)
+✔ 100 purchases pay 330,000 trillion exactly into an odd balance above MAX_SAFE_INTEGER and give 2,500 shards/1,000 of each scroll (4842.6106ms)
+✔ wallet, bonus count, inventory, ledgers and receipt roll back together when later inventory/audit writes fail (7855.7073ms)
+✔ old 500T pending bulk order preserves old materials and contributes zero new purchase milestones (4405.5446ms)
+✔ counter compare-and-swap protects simultaneous confirmation; a forged or inconsistent counter fails closed (2906.7378ms)
+✔ new campaign resets every prior count and keeps immutable old products and deadlines (4.0618ms)
+✔ pet additions upgrade pending November 15 orders, keep completed terms and do not restart the counter (9570.0515ms)
+✔ all prior purchase counts display zero; first new payment, bulk, rollback and replay leave old history untouched (5542.3153ms)
+✔ every ten purchases repeat all six tiers, including multi-cycle bulk and cycle boundaries (2.8159ms)
+✔ existing completed counts start at one; partial progress, exact prior rewards and resets remain preserved (17.8971ms)
+✔ old completed counter rolls into recurring payouts; bulk, rejection and old receipt replay (SQLite) (271.4522ms)
+✔ old completed counter rolls into recurring payouts; bulk, rejection and old receipt replay (PostgreSQL) (9151.4724ms)
+✔ migration and crossed-cycle payment roll back with inventory/audit/receipt failure; duplicate approvals grant once (5270.2565ms)
+✔ 23 November is fully open; midnight on the 24th rejects new applications but preserves receipts (7006.8022ms)
+✔ direct Windows and Android clients plus browser/PWA user agents expose and submit the same offer, preserving eligibility and deadline (10186.069ms)
+✔ 5, 10, custom 7 and maximum 100 applications have matching bank, owner, CMS and exact atomic grants (5495.3976ms)
+✔ quantity boundaries and conflicting retries never create or modify an order (8012.8113ms)
+✔ 100 applications roll back completely on partial inventory failure and preserve bigint origin through spending and auction refunds (4318.7325ms)
+✔ Refreshed offer has 500 trillion in 1+1 total and keeps historical products unchanged (1.8452ms)
+✔ ordinary desktop, Android Chrome and iPhone Safari browsers stay eligible for web checkout (0.434ms)
+✔ ONE store clients and documents cannot expose or submit package checkout; no order or message is written (3380.4561ms)
+✔ an October pending order keeps 200 trillion in the page, reissued bank instructions and fulfillment (2379.651ms)
+✔ pre-scroll November bulk orders preserve other items and receive the increased coins; new scroll grants fail atomically on armor-item failure (2503.7142ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 41
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37546.8004
+
+✖ failing tests:
+
+test at tests\support-package-hide-20261026.test.mjs:15:36
+✖ midnight hides only the package, rejects new applications and preserves pending payment (SQLite) (150.8105ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      {
+        code: 'MASTER_STAR',
+        image: 'assets/ui/icon-fusion-20261004/master-star.webp',
+        name: '마스터의 별',
+  ...
+      },
+  +   {
+  +     code: 'SSS_MIRACLE_CUBE',
+  +     image: 'assets/ui/sss-miracle-cube-20261021/cube-768.webp',
+  +     name: 'SSS 미라클큐브',
+  +     quantity: 5
+  +   }
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/tests/support-package-hide-20261026.test.mjs:34:40)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { code: 'MASTER_STAR', name: '마스터의 별', quantity: 1000000000, image: 'assets/ui/icon-fusion-20261004/master-star.webp' }, { code: 'ARDEN_ENERGY', name: '아르덴 에너지', quantity: 50, image: 'assets/items/arden-energy-v1.webp' }, { code: 'WEAPON_ENHANCEMENT_SCROLL', name: '무기 강화주문서', quantity: 10, image: 'assets/items/weapon-enhancement-scroll-v1.webp' }, { code: 'ARMOR_ENHANCEMENT_SCROLL', name: '방어구 강화주문서', quantity: 10, image: 'assets/items/armor-enhancement-scroll-v1.webp' }, { code: 'MERCENARY_SSS_LIMITED_SHARD', name: 'SSS 리미티드 조각', quantity: 25, image: 'assets/items/sss-limited-shard-20261020/item.webp' }, { code: 'PET_SEAL_ORB', name: '펫 봉인구', quantity: 50, image: 'assets/items/pet-opening-v1/pet-seal-orb.webp' }, { code: 'PET_ESSENCE', name: '펫 정수', quantity: 500, image: 'assets/items/pet-opening-v1/pet-essence.webp' }, { code: 'SSS_MIRACLE_CUBE', name: 'SSS 미라클큐브', image: 'assets/ui/sss-miracle-cube-20261021/cube-768.webp', quantity: 5 } ],
+    expected: [ { code: 'MASTER_STAR', name: '마스터의 별', quantity: 1000000000, image: 'assets/ui/icon-fusion-20261004/master-star.webp' }, { code: 'ARDEN_ENERGY', name: '아르덴 에너지', quantity: 50, image: 'assets/items/arden-energy-v1.webp' }, { code: 'WEAPON_ENHANCEMENT_SCROLL', name: '무기 강화주문서', quantity: 10, image: 'assets/items/weapon-enhancement-scroll-v1.webp' }, { code: 'ARMOR_ENHANCEMENT_SCROLL', name: '방어구 강화주문서', quantity: 10, image: 'assets/items/armor-enhancement-scroll-v1.webp' }, { code: 'MERCENARY_SSS_LIMITED_SHARD', name: 'SSS 리미티드 조각', quantity: 25, image: 'assets/items/sss-limited-shard-20261020/item.webp' }, { code: 'PET_SEAL_ORB', name: '펫 봉인구', quantity: 50, image: 'assets/items/pet-opening-v1/pet-seal-orb.webp' }, { code: 'PET_ESSENCE', name: '펫 정수', quantity: 500, image: 'assets/items/pet-opening-v1/pet-essence.webp' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\support-package-hide-20261026.test.mjs:15:36
+✖ midnight hides only the package, rejects new applications and preserves pending payment (PostgreSQL) (9201.1227ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      {
+        code: 'MASTER_STAR',
+        image: 'assets/ui/icon-fusion-20261004/master-star.webp',
+        name: '마스터의 별',
+  ...
+      },
+  +   {
+  +     code: 'SSS_MIRACLE_CUBE',
+  +     image: 'assets/ui/sss-miracle-cube-20261021/cube-768.webp',
+  +     name: 'SSS 미라클큐브',
+  +     quantity: 5
+  +   }
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/tests/support-package-hide-20261026.test.mjs:34:40)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { code: 'MASTER_STAR', name: '마스터의 별', quantity: 1000000000, image: 'assets/ui/icon-fusion-20261004/master-star.webp' }, { code: 'ARDEN_ENERGY', name: '아르덴 에너지', quantity: 50, image: 'assets/items/arden-energy-v1.webp' }, { code: 'WEAPON_ENHANCEMENT_SCROLL', name: '무기 강화주문서', quantity: 10, image: 'assets/items/weapon-enhancement-scroll-v1.webp' }, { code: 'ARMOR_ENHANCEMENT_SCROLL', name: '방어구 강화주문서', quantity: 10, image: 'assets/items/armor-enhancement-scroll-v1.webp' }, { code: 'MERCENARY_SSS_LIMITED_SHARD', name: 'SSS 리미티드 조각', quantity: 25, image: 'assets/items/sss-limited-shard-20261020/item.webp' }, { code: 'PET_SEAL_ORB', name: '펫 봉인구', quantity: 50, image: 'assets/items/pet-opening-v1/pet-seal-orb.webp' }, { code: 'PET_ESSENCE', name: '펫 정수', quantity: 500, image: 'assets/items/pet-opening-v1/pet-essence.webp' }, { code: 'SSS_MIRACLE_CUBE', name: 'SSS 미라클큐브', image: 'assets/ui/sss-miracle-cube-20261021/cube-768.webp', quantity: 5 } ],
+    expected: [ { code: 'MASTER_STAR', name: '마스터의 별', quantity: 1000000000, image: 'assets/ui/icon-fusion-20261004/master-star.webp' }, { code: 'ARDEN_ENERGY', name: '아르덴 에너지', quantity: 50, image: 'assets/items/arden-energy-v1.webp' }, { code: 'WEAPON_ENHANCEMENT_SCROLL', name: '무기 강화주문서', quantity: 10, image: 'assets/items/weapon-enhancement-scroll-v1.webp' }, { code: 'ARMOR_ENHANCEMENT_SCROLL', name: '방어구 강화주문서', quantity: 10, image: 'assets/items/armor-enhancement-scroll-v1.webp' }, { code: 'MERCENARY_SSS_LIMITED_SHARD', name: 'SSS 리미티드 조각', quantity: 25, image: 'assets/items/sss-limited-shard-20261020/item.webp' }, { code: 'PET_SEAL_ORB', name: '펫 봉인구', quantity: 50, image: 'assets/items/pet-opening-v1/pet-seal-orb.webp' }, { code: 'PET_ESSENCE', name: '펫 정수', quantity: 500, image: 'assets/items/pet-opening-v1/pet-essence.webp' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
