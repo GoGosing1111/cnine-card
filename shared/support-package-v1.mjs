@@ -10,30 +10,74 @@ export const supportPackageHasBonus=product=>[SUPPORT_PACKAGE_BONUS_CODE,SUPPORT
 const tiersFor=policy=>{if(policy===SUPPORT_PACKAGE_BONUS_CODE)return SUPPORT_PACKAGE_BONUS_TIERS;if(policy===SUPPORT_PACKAGE_LEGACY_BONUS_CODE)return legacyBonusTiers;throw Error('Invalid package bonus policy');};
 export const supportPackageBonusKey=(userId,policy=SUPPORT_PACKAGE_BONUS_CODE)=>{tiersFor(policy);return (policy===SUPPORT_PACKAGE_BONUS_CODE?'support_package_bonus_20261115_v1:':'support_package_bonus_20261106_v1:')+Number(userId);};
 export const packageCoinValue=coins=>coins<=BigInt(Number.MAX_SAFE_INTEGER)?Number(coins):coins.toString();
+export const SUPPORT_PACKAGE_REPEAT_EVERY=10;
+const validCount=n=>Number.isSafeInteger(n)&&n>=0;
+function bonusTotals(count,policy,repeat=true){
+  const tiers=tiersFor(policy),loops=repeat&&policy===SUPPORT_PACKAGE_BONUS_CODE?Math.floor(count/SUPPORT_PACKAGE_REPEAT_EVERY):0;
+  const remainder=repeat&&policy===SUPPORT_PACKAGE_BONUS_CODE?count%SUPPORT_PACKAGE_REPEAT_EVERY:count;
+  const coins=tiers.reduce((sum,t)=>sum+BigInt(t.coins)*BigInt(loops+(remainder>=t.purchases?1:0)),0n);
+  const cubes=tiers.reduce((sum,t)=>sum+(t.cubes??0)*(loops+(remainder>=t.purchases?1:0)),0);
+  if(!Number.isSafeInteger(cubes))throw Error('Invalid package cube total');
+  return {coins,cubes};
+}
 export function supportPackageBonus(paidPurchases=0,quantity=0,policyCode=SUPPORT_PACKAGE_BONUS_CODE){
-  if(!Number.isSafeInteger(paidPurchases)||paidPurchases<0||!Number.isInteger(quantity)||quantity<0||quantity>100||!Number.isSafeInteger(paidPurchases+quantity))throw Error('Invalid package purchase count');
-  const after=paidPurchases+quantity,tiers=tiersFor(policyCode),milestones=tiers.filter(t=>t.purchases>paidPurchases&&t.purchases<=after);
+  if(!validCount(paidPurchases)||!Number.isInteger(quantity)||quantity<0||quantity>100||!validCount(paidPurchases+quantity))throw Error('Invalid package purchase count');
+  const after=paidPurchases+quantity,tiers=tiersFor(policyCode),repeats=policyCode===SUPPORT_PACKAGE_BONUS_CODE,milestones=[];
+  // At most eleven cycles for a 100-unit order; never iterate over historical purchases.
+  if(repeats){for(let cycle=Math.floor(paidPurchases/10);cycle<=Math.floor(after/10);cycle++)for(const t of tiers){const at=cycle*10+t.purchases;if(at>paidPurchases&&at<=after)milestones.push({...t,cycle:cycle+1,atPurchase:at});}}
+  else milestones.push(...tiers.filter(t=>t.purchases>paidPurchases&&t.purchases<=after));
+  const beforeTotal=bonusTotals(paidPurchases,policyCode),afterTotal=bonusTotals(after,policyCode);
   return {policyCode,paidPurchasesBefore:paidPurchases,paidPurchasesAfter:after,milestones,
-    coins:milestones.reduce((sum,t)=>sum+BigInt(t.coins),0n).toString(),
-    totalEarnedCoins:tiers.filter(t=>t.purchases<=after).reduce((sum,t)=>sum+BigInt(t.coins),0n).toString(),
-    ...(policyCode===SUPPORT_PACKAGE_BONUS_CODE?{cubes:milestones.reduce((sum,t)=>sum+t.cubes,0),totalEarnedCubes:tiers.filter(t=>t.purchases<=after).reduce((sum,t)=>sum+t.cubes,0)}:{})};
+    coins:(afterTotal.coins-beforeTotal.coins).toString(),totalEarnedCoins:afterTotal.coins.toString(),
+    ...(repeats?{cubes:afterTotal.cubes-beforeTotal.cubes,totalEarnedCubes:afterTotal.cubes,repeatEvery:10,cycleBefore:Math.floor(paidPurchases/10)+1,cycleAfter:Math.floor(after/10)+1,cyclePurchasesBefore:paidPurchases%10,cyclePurchasesAfter:after%10}:{})};
+}
+const repeatStart=state=>state.repeatBaseline??{paidPurchases:state.paidPurchases,totalBonusCoins:state.totalBonusCoins,totalBonusCubes:state.totalBonusCubes??0};
+const repeatPosition=(state,baseline=repeatStart(state))=>(baseline.paidPurchases<10?baseline.paidPurchases:0)+state.paidPurchases-baseline.paidPurchases;
+function validLegacyState(state,policy){
+  if(!validCount(state.paidPurchases))return false;
+  const total=bonusTotals(state.paidPurchases,policy,false);
+  return state.totalBonusCoins===total.coins.toString()&&(state.totalBonusCubes===undefined||validCount(state.totalBonusCubes)&&state.totalBonusCubes<=total.cubes);
 }
 export function supportPackageBonusState(value=null,policyCode=SUPPORT_PACKAGE_BONUS_CODE){
   const state=value??{version:1,policyCode,paidPurchases:0,totalBonusCoins:'0'};
-  if(state.version!==1||state.policyCode!==policyCode||!Number.isSafeInteger(state.paidPurchases)||state.paidPurchases<0||state.totalBonusCoins!==supportPackageBonus(state.paidPurchases,0,policyCode).totalEarnedCoins)throw Error('Invalid package bonus state');
-  // Absent totals mean pre-cube purchases. Track actual grants so an intervening
-  // payment cannot mark outstanding retrospective rewards as already delivered.
-  if(state.totalBonusCubes!==undefined&&(!Number.isSafeInteger(state.totalBonusCubes)||state.totalBonusCubes<0||state.totalBonusCubes>(supportPackageBonus(state.paidPurchases,0,policyCode).totalEarnedCubes??0)))throw Error('Invalid package cube bonus state');
+  if(state.policyCode!==policyCode||!validCount(state.paidPurchases))throw Error('Invalid package bonus state');
+  if(state.version===1){if(state.repeatBaseline!==undefined||!validLegacyState(state,policyCode))throw Error('Invalid package bonus state');}
+  else if(state.version===2&&policyCode===SUPPORT_PACKAGE_BONUS_CODE){
+    const base=state.repeatBaseline;
+    if(!base||!validLegacyState(base,policyCode)||!validCount(base.totalBonusCubes)||base.paidPurchases>state.paidPurchases)throw Error('Invalid package repeat baseline');
+    const start=bonusTotals(base.paidPurchases<10?base.paidPurchases:0,policyCode),end=bonusTotals(repeatPosition(state),policyCode);
+    if(state.totalBonusCoins!==(BigInt(base.totalBonusCoins)+end.coins-start.coins).toString()||!validCount(state.totalBonusCubes)||state.totalBonusCubes!==base.totalBonusCubes+end.cubes-start.cubes)throw Error('Invalid package repeat totals');
+  }else throw Error('Invalid package bonus version');
   return state;
+}
+export function supportPackageCycleProgress(value=null){
+  const state=supportPackageBonusState(value,value?.policyCode??SUPPORT_PACKAGE_BONUS_CODE);
+  if(state.policyCode!==SUPPORT_PACKAGE_BONUS_CODE)return {repeats:false,paidPurchases:state.paidPurchases,cycle:1};
+  const position=repeatPosition(state),prior=repeatStart(state).paidPurchases>=10?1:0;
+  return {repeats:true,paidPurchases:position%10,cycle:prior+Math.floor(position/10)+1};
 }
 export function supportPackageWithBonus(product,progress=0){
   if(!supportPackageHasBonus(product))return product;
-  const paidPurchases=typeof progress==='number'?progress:supportPackageBonusState(progress,product.bonusPolicy).paidPurchases;
-  const purchaseBonus=supportPackageBonus(paidPurchases,product.purchaseQuantity??1,product.bonusPolicy);
+  let purchaseBonus;
+  if(typeof progress==='number')purchaseBonus=supportPackageBonus(progress,product.purchaseQuantity??1,product.bonusPolicy);
+  else{
+    const state=supportPackageBonusState(progress,product.bonusPolicy),repeats=product.bonusPolicy===SUPPORT_PACKAGE_BONUS_CODE;
+    const position=repeats?repeatPosition(state):state.paidPurchases,quantity=product.purchaseQuantity??1,calculated=supportPackageBonus(position,quantity,product.bonusPolicy),prior=repeats&&repeatStart(state).paidPurchases>=10?1:0;
+    purchaseBonus={...calculated,paidPurchasesBefore:state.paidPurchases,paidPurchasesAfter:state.paidPurchases+quantity,totalEarnedCoins:(BigInt(state.totalBonusCoins)+BigInt(calculated.coins)).toString(),
+      ...(repeats?{cycleBefore:calculated.cycleBefore+prior,cycleAfter:calculated.cycleAfter+prior,milestones:calculated.milestones.map(t=>({...t,cycle:t.cycle+prior})),totalEarnedCubes:(state.totalBonusCubes??0)+calculated.cubes}:{})};
+    if(!validCount(purchaseBonus.paidPurchasesAfter))throw Error('Invalid package purchase count');
+  }
   return {...product,baseCoins:product.coins,coins:packageCoinValue(BigInt(product.coins)+BigInt(purchaseBonus.coins)),purchaseBonus,
     ...(purchaseBonus.cubes?{items:[...product.items,{...SUPPORT_PACKAGE_CUBE,quantity:purchaseBonus.cubes}]}:{})};
 }
-export const supportPackageBonusSummary=bonus=>bonus?`누적 ${bonus.paidPurchasesBefore} → ${bonus.paidPurchasesAfter}회 · 이번 구매 보너스 ${BigInt(bonus.coins)/1000000000000n}조 코인${bonus.cubes?` · SSS 미라클큐브 ${bonus.cubes}개`:''}`:'';
+export function supportPackageAdvanceBonus(value,bonus,{orderId,now}){
+  const state=supportPackageBonusState(value,bonus.policyCode),repeat=state.policyCode===SUPPORT_PACKAGE_BONUS_CODE;
+  if(bonus.paidPurchasesBefore!==state.paidPurchases)throw Error('Package bonus revision changed');
+  const next={...state,...(repeat?{version:2,repeatBaseline:repeatStart(state)}:{}),paidPurchases:bonus.paidPurchasesAfter,totalBonusCoins:bonus.totalEarnedCoins,
+    ...(bonus.cubes!==undefined?{totalBonusCubes:(state.totalBonusCubes??0)+bonus.cubes}:{}),lastOrderId:orderId,updatedAt:now};
+  return supportPackageBonusState(next,bonus.policyCode);
+}
+export const supportPackageBonusSummary=bonus=>bonus?`${bonus.repeatEvery?`${bonus.cycleBefore}주기 ${bonus.cyclePurchasesBefore}회 → ${bonus.cycleAfter}주기 ${bonus.cyclePurchasesAfter}회 · 10회마다 자동 반복`:`누적 ${bonus.paidPurchasesBefore} → ${bonus.paidPurchasesAfter}회`} · 이번 구매 보너스 ${BigInt(bonus.coins)/1000000000000n}조 코인${bonus.cubes?` · SSS 미라클큐브 ${bonus.cubes}개`:''}`:'';
 export const supportPackageItemQuantity=n=>n>=100000000&&n%100000000===0?`${n/100000000}억`:Number(n).toLocaleString('ko-KR');
 export const LIMITED_SHARD=Object.freeze({code:'MERCENARY_SSS_LIMITED_SHARD',name:'SSS 리미티드 조각',subtitle:'SSS LIMITED MERCENARY SHARD',description:'SSS 리미티드 용병을 위한 별도 보관용 재료입니다. 교환 방법과 필요 수량은 추후 안내됩니다.',category:'MATERIAL',rarity:'SSS',image:'assets/items/sss-limited-shard-20261020/item.webp',sortOrder:174903});
 export const SUPPORT_PACKAGE_UNIT=Object.freeze({code:'SEASON_PASS_PACKAGE_20261020',name:'리버스콜 코인 패키지',priceWon:49800,coins:100000000000000,coinImage:'assets/ui/icon-fusion-20261004/coin.webp',items:Object.freeze([
@@ -106,9 +150,9 @@ const NOVEMBER6_DEADLINE=Object.freeze({
   notice:'1+1 패키지 판매 종료: 2026년 11월 9일 00:00 (한국시간)\n11월 8일에서 9일로 넘어가는 자정'
 });
 export const SUPPORT_PACKAGE_EVENT_DEADLINE=Object.freeze({
-  eventCode:'SUPPORT_PACKAGE_BOGO_20261115',endsAt:'2026-11-19T00:00:00+09:00',
-  label:'11월 18일 23:59까지 판매',detail:'한국시간 · 11월 19일 00:00부터 구매 불가',
-  notice:'1+1 패키지 판매: 2026년 11월 18일 23:59까지 (한국시간)'
+  eventCode:'SUPPORT_PACKAGE_BOGO_20261115',endsAt:'2026-11-24T00:00:00+09:00',
+  label:'11월 23일 23:59까지 판매',detail:'한국시간 · 11월 24일 00:00부터 구매 불가',
+  notice:'1+1 패키지 판매: 2026년 11월 23일 23:59까지 (한국시간)'
 });
 export const supportPackageEventDeadline=product=>[SUPPORT_PACKAGE_EVENT_DEADLINE,NOVEMBER6_DEADLINE,NOVEMBER_LEGACY_DEADLINE].find(d=>d.eventCode===product?.eventCode)||null;
 export const SUPPORT_PACKAGE_SALES_ENDS_AT=Date.parse(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt);

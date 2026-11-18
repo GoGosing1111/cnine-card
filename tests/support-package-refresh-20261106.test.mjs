@@ -10,18 +10,18 @@ const apply=(f,quantity=1)=>f.call('server-support/package/apply',{user:2,body:{
 const state=async f=>{const row=await f.one('SELECT value FROM app_meta WHERE key=?',supportPackageBonusKey(2));return row?JSON.parse(row.value):null;};
 const balance=async f=>(await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin;
 
-test('49,800-won 1+1 TOTALS are exact integers; only the refreshed product earns bonuses; November 19 midnight is exclusive',()=>{
+test('49,800-won 1+1 TOTALS are exact integers; only the refreshed product earns bonuses; November 24 midnight is exclusive',()=>{
  assert.equal(SUPPORT_PACKAGE.priceWon,49800);assert.equal(SUPPORT_PACKAGE.coins,500000000000000);assert.equal(SUPPORT_PACKAGE.eventLabel,'1+1 이벤트');assert.equal(SUPPORT_PACKAGE.packageQuantity,2);assert.deepEqual(items(SUPPORT_PACKAGE),expectedItems);
- assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-18T15:00:00.000Z');
- assert(supportPackageSalesOpen(Date.parse('2026-11-18T23:59:59.999+09:00')));assert(!supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT));
+ assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-23T15:00:00.000Z');
+ assert(supportPackageSalesOpen(Date.parse('2026-11-23T23:59:59.999+09:00')));assert(!supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT));
  assert.equal(SUPPORT_PACKAGE_500T_BOGO.code,'SEASON_PASS_PACKAGE_20261101_500T');assert.equal(SUPPORT_PACKAGE_500T_BOGO.bonusPolicy,undefined);
  assert.deepEqual(items(SUPPORT_PACKAGE_500T_BOGO),{EMPEROR_ENERGY:400,MERCENARY_SSS_LIMITED_SHARD:10,WEAPON_ENHANCEMENT_SCROLL:10,ARMOR_ENHANCEMENT_SCROLL:10});
  assert.equal(supportPackageOrderProduct({product:{...SUPPORT_PACKAGE,coins:1000},quantity:1}),null);
 });
 
-test('milestones add once: 5 purchases = 20,000T bonus; 10 = 28,000T; 11 through 100 earn no repeated tier',()=>{
- for(const [count,expected] of [[0,'0'],[1,'1000000000000000'],[2,'3000000000000000'],[3,'6000000000000000'],[4,'12000000000000000'],[5,'20000000000000000'],[9,'20000000000000000'],[10,'28000000000000000'],[100,'28000000000000000']])assert.equal(supportPackageBonus(0,count).coins,expected);
- assert.equal(supportPackageBonus(4,6).coins,'16000000000000000');assert.equal(supportPackageBonus(10,100).coins,'0');
+test('milestones repeat every ten: 5 = 20,000T bonus; 10 = 28,000T; 100 = 280,000T',()=>{
+ for(const [count,expected] of [[0,'0'],[1,'1000000000000000'],[2,'3000000000000000'],[3,'6000000000000000'],[4,'12000000000000000'],[5,'20000000000000000'],[9,'20000000000000000'],[10,'28000000000000000'],[100,'280000000000000000']])assert.equal(supportPackageBonus(0,count).coins,expected);
+ assert.equal(supportPackageBonus(4,6).coins,'16000000000000000');assert.equal(supportPackageBonus(10,100).coins,'280000000000000000');
  for(const [p,q] of [[-1,1],[1.5,1],[0,101],[Number.MAX_SAFE_INTEGER,1]])assert.throws(()=>supportPackageBonus(p,q));
 });
 
@@ -46,13 +46,13 @@ for(const postgres of [false,true])test(`successive 1..10 paid purchases match e
  }finally{await f.close();}
 });
 
-test('100 purchases pay 78,000 trillion exactly into an odd balance above MAX_SAFE_INTEGER and give 2,500 shards/1,000 of each scroll',async()=>{
+test('100 purchases pay 330,000 trillion exactly into an odd balance above MAX_SAFE_INTEGER and give 2,500 shards/1,000 of each scroll',async()=>{
  const f=await packageFixture({postgres:true});try{
   await f.activate();await f.run('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=2','10000000000000001');
   const order=(await apply(f,100)).body.order,r=await f.process(order);assert.equal(r.status,200,JSON.stringify(r.body));
-  assert.equal(r.body.order.fulfillment.coins,'78000000000000000');assert.equal(await balance(f),'88000000000000001');assert.equal((await state(f)).paidPurchases,100);
+  assert.equal(r.body.order.fulfillment.coins,'330000000000000000');assert.equal(await balance(f),'340000000000000001');assert.equal((await state(f)).paidPurchases,100);
   for(const [code,count] of Object.entries(expectedItems))assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),count*100);
-  const second=await f.process((await apply(f,1)).body.order);assert.equal(second.status,200);assert.equal(second.body.order.fulfillment.purchaseBonus.coins,'0');assert.equal(await balance(f),'88500000000000001');
+  const second=await f.process((await apply(f,1)).body.order);assert.equal(second.status,200);assert.equal(second.body.order.fulfillment.purchaseBonus.coins,'1000000000000000');assert.equal(await balance(f),'341500000000000001');
  }finally{await f.close();}
 });
 

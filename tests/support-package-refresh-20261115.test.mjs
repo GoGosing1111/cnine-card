@@ -8,10 +8,10 @@ test('new campaign resets every prior count and keeps immutable old products and
  assert.deepEqual(supportPackageBonusState(),{version:1,policyCode:SUPPORT_PACKAGE_BONUS_CODE,paidPurchases:0,totalBonusCoins:'0'});
  assert.equal(supportPackageWithBonus(SUPPORT_PACKAGE).purchaseBonus.coins,'1000000000000000');
  assert.equal(supportPackageWithBonus(SUPPORT_PACKAGE_NOVEMBER6).purchaseBonus.coins,'200000000000000');
- assert.equal(supportPackageBonus(0,5).coins,'20000000000000000');assert.equal(supportPackageBonus(0,10).coins,'28000000000000000');assert.equal(supportPackageBonus(10,100).coins,'0');
+ assert.equal(supportPackageBonus(0,5).coins,'20000000000000000');assert.equal(supportPackageBonus(0,10).coins,'28000000000000000');assert.equal(supportPackageBonus(10,100).coins,'280000000000000000');
  assert.deepEqual(supportPackageOrderProduct({product:SUPPORT_PACKAGE_NOVEMBER6,status:'FULFILLED'}),SUPPORT_PACKAGE_NOVEMBER6);
  assert.throws(()=>supportPackageBonusState({version:1,policyCode:SUPPORT_PACKAGE_LEGACY_BONUS_CODE,paidPurchases:5,totalBonusCoins:'4100000000000000'}));
- assert(supportPackageSalesOpen(Date.parse('2026-11-18T23:59:59.999+09:00')));assert(!supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT));
+ assert(supportPackageSalesOpen(Date.parse('2026-11-23T23:59:59.999+09:00')));assert(!supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT));
 });
 
 test('pet additions upgrade pending November 15 orders, keep completed terms and do not restart the counter',async()=>{

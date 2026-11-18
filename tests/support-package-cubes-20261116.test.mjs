@@ -7,8 +7,8 @@ const cubeCount=async f=>Number((await f.one('SELECT quantity FROM cnine_user_in
 const order=async(f,quantity=1)=>(await f.call('server-support/package/apply',{user:2,body:{requestId:crypto.randomUUID(),quantity}})).body.order;
 test('existing six milestones add 5/10/15/20/40/100 cubes without changing coins, base items or older campaigns',()=>{
  assert.deepEqual(SUPPORT_PACKAGE_BONUS_TIERS.map(t=>[t.purchases,t.cubes]),[[1,5],[2,10],[3,15],[4,20],[5,40],[10,100]]);
- for(const [count,total] of [[0,0],[1,5],[2,15],[3,30],[4,50],[5,90],[9,90],[10,190],[20,190],[100,190]])assert.equal(supportPackageBonus(0,count).cubes,total);
- assert.equal(supportPackageBonus(4,6).cubes,140);assert.equal(supportPackageBonus(10,100).cubes,0);
+ for(const [count,total] of [[0,0],[1,5],[2,15],[3,30],[4,50],[5,90],[9,90],[10,190],[20,380],[100,1900]])assert.equal(supportPackageBonus(0,count).cubes,total);
+ assert.equal(supportPackageBonus(4,6).cubes,140);assert.equal(supportPackageBonus(10,100).cubes,1900);
  assert.equal(supportPackageBonus(0,10).coins,'28000000000000000');assert(!SUPPORT_PACKAGE.items.some(i=>i.code===cube));
  assert(!supportPackageWithBonus(SUPPORT_PACKAGE_NOVEMBER6,0).items.some(i=>i.code===cube));assert.deepEqual(supportPackageOrderProduct({product:SUPPORT_PACKAGE_NOVEMBER6,status:'FULFILLED'}),SUPPORT_PACKAGE_NOVEMBER6);
 });
@@ -19,7 +19,7 @@ test('bulk approval grants cumulative cubes, logs once, replays read-only and re
   assert.equal(Number((await f.one('SELECT COUNT(*) n FROM inventory_logs WHERE item_code=?',cube)).n),1);
   const start=f.queries.length;assert((await f.process(o,'FULFILL',requestId)).body.replayed);assert(!f.queries.slice(start).some(q=>/^\s*(INSERT|UPDATE|DELETE)\b/.test(q)));
   assert.equal((await f.process(await order(f),'REJECT')).status,200);assert.equal(await cubeCount(f),190);assert.equal((await state(f)).paidPurchases,10);
-  assert.equal((await f.process(await order(f,100))).status,200);assert.equal(await cubeCount(f),190);assert.equal((await state(f)).totalBonusCubes,190);
+  assert.equal((await f.process(await order(f,100))).status,200);assert.equal(await cubeCount(f),2090);assert.equal((await state(f)).totalBonusCubes,2090);
  }finally{await f.close();}
 });
 test('successive milestones grant only newly crossed cube tiers',async()=>{

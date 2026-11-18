@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import {packageFixture} from './helpers/support-package-fixture.mjs';
 import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_SALES_ENDS_AT,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 
-test('package sales close at 2026-11-19 00:00 KST for the refreshed offer',()=>{
- assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-18T15:00:00.000Z');
- assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT-Date.parse('2026-11-15T00:00:00+09:00'),4*86400000);
+test('package sales close at 2026-11-24 00:00 KST for the refreshed offer',()=>{
+ assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-23T15:00:00.000Z');
+ assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT-Date.parse('2026-11-15T00:00:00+09:00'),9*86400000);
  assert.equal(supportPackageSalesOpen(Date.parse('2026-11-03T00:00:00+09:00')),true);
  assert.equal(supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT-1),true);
  assert.equal(supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT),false);
