@@ -4,9 +4,16 @@ import {ORGANIZATION_FIXED_SCHEDULE} from '../shared/organization-schedule-v1.mj
 import {mirrorResumedClanJoin} from './_clan_resumption.js';
 import {readClanRejoin,assertClanRejoin} from './_organization_rejoin.js';
 import {organizationMemberLimit} from './_organization_capacity.js';
+import {clanCalendarPhase} from '../shared/clan-resumption-v1.mjs';
 const prefix=r=>'organization-join:'+r.id+':';
 const key=(r,id)=>prefix(r)+id;
 export const organizationJoinOpen=(r,now)=>ORGANIZATION_RELEASE_ENABLED&&r?.phase==='ASSIGNED'&&now>=ORGANIZATION_FIXED_SCHEDULE.effectiveAt;
+// Pre-season signup owns the source round; vacancies in the active season use elder approval.
+const calendarJoinOpen=(r,calendar,now)=>!calendar||r.id!==calendar.sourceRoundId&&clanCalendarPhase(calendar,now)==='COMPETITION';
+async function assertJoinCalendar(q,r,now){
+ const [row]=await q("SELECT value::jsonb->'calendar' AS calendar FROM app_meta WHERE key=$1",['organization:elder-season:'+r.id]);
+ orgAssert(calendarJoinOpen(r,row?.calendar,now),'JOIN_CLOSED','현재는 시즌 중 가입 신청 기간이 아닙니다. 모집 일정을 확인하세요.');
+}
 async function membership(q,r,id){return (await q('SELECT * FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,id]))[0];}
 async function application(q,r,id){const [row]=await q('SELECT value FROM app_meta WHERE key=$1',[key(r,id)]);return row?JSON.parse(row.value):null;}
 async function authority(q,r,user,{lock=false,knownMembership}={}){
@@ -19,13 +26,13 @@ async function authority(q,r,user,{lock=false,knownMembership}={}){
  return {organizationId,elderIds,canReview:organizationElderIds(state,roster,organizationId).includes(Number(user.id))};
 }
 export async function organizationJoinOverview(q,r,user,now,knownMembership,calendar,rejoin){
- if(calendar){
+ if(calendar&&!calendarJoinOpen(r,calendar,now)){
   const auth=r.id!==calendar.sourceRoundId&&knownMembership?await authority(q,r,user,{knownMembership}):{};
   return {enabled:false,canApply:false,canReview:false,applications:[],...auth};
  }
  if(!organizationJoinOpen(r,now))return {enabled:false,canApply:false,canReview:false,applications:[]};
  const mine=knownMembership===undefined?await membership(q,r,user.id):knownMembership,a=await application(q,r,user.id),auth=await authority(q,r,user,{knownMembership:mine});
- const rows=auth.canReview?await q('SELECT value FROM app_meta WHERE left(key,length($1))=$1 ORDER BY key',[prefix(r)]):[];
+ const rows=auth.canReview?await q('SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key',[prefix(r),prefix(r)+'\uffff']):[];
  const requests=rows.map(row=>JSON.parse(row.value)).filter(a=>a.organizationId===auth.organizationId&&a.status==='PENDING');
  const users=requests.length?await q('SELECT id,nickname,status FROM users WHERE id=ANY($1::bigint[])',[requests.map(a=>a.userId)]):[];
  rejoin??=await readClanRejoin(q,r,user.id,now);
@@ -40,6 +47,7 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
   await env.DB.enqueue(async()=>{
    const q=qFor(env.DB),[r]=await q('SELECT * FROM organization_rounds_v1 WHERE id=$1',[body.roundId]);
    orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 클랜 배정 완료 후 이용할 수 있습니다.');
+   await assertJoinCalendar(q,r,now);
    const auth=await authority(q,r,user),a=await application(q,r,body.userId);
    orgAssert(auth.canReview&&a?.organizationId===auth.organizationId,'ELDER','우리 클랜의 원로만 가입 신청을 심사할 수 있습니다.',403);
    orgAssert(a.status==='PENDING'&&a.revision===body.revision,'STALE','신청 상태가 변경되었습니다. 다시 불러오세요.');
@@ -51,8 +59,7 @@ export async function organizationJoinCommand(env,user,path,body,deps,now,{mutat
  return mutation(env,user,path,body,async q=>{
   const {r}=await lockedContext(q,user,body);
   now=(deps.now||Date.now)();
-  const [timed]=await q("SELECT 1 FROM app_meta WHERE key=$1 AND value::jsonb->'calendar' IS NOT NULL",['organization:elder-season:'+r.id]);
-  orgAssert(!timed,'JOIN_CLOSED','시즌 모집 일정에서 희망 클랜에 자율 가입하세요.');
+  await assertJoinCalendar(q,r,now);
   orgAssert(organizationJoinOpen(r,now),'JOIN_CLOSED','가입 신청은 클랜 배정 완료 후 이용할 수 있습니다.');
   const [actor]=await q('SELECT status,banned_until FROM users WHERE id=$1 FOR SHARE',[user.id]);
   orgAssert(actor?.status==='ACTIVE'&&(!actor.banned_until||Date.parse(actor.banned_until)<=now),'ACCOUNT','활성 계정만 가입 신청과 심사를 진행할 수 있습니다.',403);
