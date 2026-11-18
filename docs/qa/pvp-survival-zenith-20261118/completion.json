@@ -1,0 +1,1218 @@
+{
+  "completedAt": "2026-11-18T08:31:04.575Z",
+  "status": "deployed_verified",
+  "scope": {
+    "survival": "Oversized ally barriers now count toward the incoming hit cap of PVP ordinary cards. Current shield is used; HP-only cap returns after the barrier is consumed. Raw attack, defense, mercenary durability and PVE are unchanged.",
+    "minimum": "Only ZENITH, SUPERSTAR and ICON ordinary cards may be saved or admitted in PVP. Applies to stale attack/defense decks, cached match tickets and duo profile admission. Existing caps remain ZENITH 2, SUPERSTAR 1, ICON 2. Mercenary and pet eligibility are unchanged.",
+    "recovery": "Previously admitted paid duo matches and ranked result receipts remain recoverable; new admission uses current rules.",
+    "excluded": "Identical character artwork was explicitly excluded by the user. No artwork or account asset changes, no messages sent."
+  },
+  "reproduction": {
+    "condition": "Windows Node; identical recorded seed/decks/mercenary choices with current read-only equipment and growth snapshots. CPU only, 12 paired warm runs; not the complete historical replay.",
+    "limitation": "Stored receipts contain summary rounds rather than a complete historical timeline. Recorded seed/decks/mercenary choices were combined with current read-only equipment/growth. This reproduces the abnormal barrier survival in round 1 of the matching set; the screenshot shows round 2, so it is not claimed as a frame-identical historical replay.",
+    "before": [
+      {
+        "round": 1,
+        "winner": "A",
+        "actions": 65,
+        "events": 949,
+        "maxHp": 20977,
+        "hits": 480,
+        "zeroHpHits": 478,
+        "maxShield": 94056038,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0,
+            "maxShield": 94079518
+          }
+        ]
+      },
+      {
+        "round": 2,
+        "winner": "B",
+        "actions": 2,
+        "events": 80,
+        "maxHp": 20977,
+        "hits": 3,
+        "zeroHpHits": 0,
+        "maxShield": 0,
+        "final": [
+          {
+            "hp": 7342,
+            "shield": 0,
+            "maxShield": 5023
+          }
+        ]
+      },
+      {
+        "round": 3,
+        "winner": "A",
+        "actions": 3,
+        "events": 71,
+        "maxHp": 20977,
+        "hits": 2,
+        "zeroHpHits": 0,
+        "maxShield": 0,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0,
+            "maxShield": 5023
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "round": 1,
+        "winner": "A",
+        "actions": 3,
+        "events": 71,
+        "maxHp": 20977,
+        "hits": 2,
+        "zeroHpHits": 0,
+        "maxShield": 0,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0,
+            "maxShield": 94079518
+          }
+        ]
+      },
+      {
+        "round": 2,
+        "winner": "B",
+        "actions": 2,
+        "events": 80,
+        "maxHp": 20977,
+        "hits": 3,
+        "zeroHpHits": 0,
+        "maxShield": 0,
+        "final": [
+          {
+            "hp": 7342,
+            "shield": 0,
+            "maxShield": 5023
+          }
+        ]
+      },
+      {
+        "round": 3,
+        "winner": "A",
+        "actions": 3,
+        "events": 71,
+        "maxHp": 20977,
+        "hits": 2,
+        "zeroHpHits": 0,
+        "maxShield": 0,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0,
+            "maxShield": 5023
+          }
+        ]
+      }
+    ],
+    "warmCpuMedianMs": {
+      "before": 42.49839999999995,
+      "after": 17.111400000000003
+    },
+    "runs": 12
+  },
+  "services": {
+    "at": "2026-11-18T08:20:28.744Z",
+    "condition": "Windows Node, live saved-deck service in PostgreSQL REPEATABLE READ READ ONLY; includes network. One first/repeat pair per phase, no account writes.",
+    "rows": [
+      {
+        "phase": "before",
+        "userId": 5147,
+        "visit": "first",
+        "ms": 167.60030000000006,
+        "queries": 2,
+        "admittedCards": 5
+      },
+      {
+        "phase": "before",
+        "userId": 5147,
+        "visit": "repeat",
+        "ms": 159.23250000000007,
+        "queries": 2,
+        "admittedCards": 5
+      },
+      {
+        "phase": "before",
+        "userId": 1195,
+        "visit": "first",
+        "ms": 158.66610000000037,
+        "queries": 2,
+        "admittedCards": 5
+      },
+      {
+        "phase": "before",
+        "userId": 1195,
+        "visit": "repeat",
+        "ms": 156.9987000000001,
+        "queries": 2,
+        "admittedCards": 5
+      },
+      {
+        "phase": "after",
+        "userId": 5147,
+        "visit": "first",
+        "ms": 157.33380000000034,
+        "queries": 2,
+        "admittedCards": 0
+      },
+      {
+        "phase": "after",
+        "userId": 5147,
+        "visit": "repeat",
+        "ms": 157.20730000000003,
+        "queries": 2,
+        "admittedCards": 0
+      },
+      {
+        "phase": "after",
+        "userId": 1195,
+        "visit": "first",
+        "ms": 157.0680000000002,
+        "queries": 2,
+        "admittedCards": 0
+      },
+      {
+        "phase": "after",
+        "userId": 1195,
+        "visit": "repeat",
+        "ms": 156.61340000000018,
+        "queries": 2,
+        "admittedCards": 0
+      }
+    ],
+    "pvpRules": {
+      "schemaVersion": 1,
+      "scope": "PVP",
+      "minimumGrade": "ZENITH",
+      "allowedGrades": [
+        "ZENITH",
+        "SUPERSTAR",
+        "ICON"
+      ],
+      "deckSize": 5,
+      "gradeLimits": {
+        "PRESTIGE": 2,
+        "FUR": 2,
+        "ZENITH": 2,
+        "SUPERSTAR": 1,
+        "ICON": 2
+      },
+      "healerDuplicatePenalty": {
+        "2": 60,
+        "3": 75,
+        "4": 85,
+        "5": 90
+      },
+      "healerPenaltyScope": "PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED",
+      "formation": {
+        "code": "FRONT_2_BACK_3",
+        "frontSlots": 2,
+        "backSlots": 3,
+        "slots": [
+          "FRONT",
+          "FRONT",
+          "BACK",
+          "BACK",
+          "BACK"
+        ]
+      }
+    },
+    "pveRules": {
+      "schemaVersion": 1,
+      "scope": "PVE",
+      "deckSize": 5,
+      "gradeLimits": {
+        "PRESTIGE": 2,
+        "FUR": 2,
+        "ZENITH": 2,
+        "SUPERSTAR": 1,
+        "ICON": 2
+      },
+      "healerDuplicatePenalty": {
+        "2": 60,
+        "3": 75,
+        "4": 85,
+        "5": 90
+      },
+      "healerPenaltyScope": "PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED",
+      "formation": {
+        "code": "FRONT_2_BACK_3",
+        "frontSlots": 2,
+        "backSlots": 3,
+        "slots": [
+          "FRONT",
+          "FRONT",
+          "BACK",
+          "BACK",
+          "BACK"
+        ]
+      }
+    }
+  },
+  "ui": {
+    "pc": {
+      "before": {
+        "at": "2026-11-18T08:19:22.565Z",
+        "device": "pc",
+        "phase": "before",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 495,
+            "deckReadyMs": 324,
+            "frames": {
+              "count": 284,
+              "p95Ms": 12.5,
+              "maxMs": 180.89999999552947,
+              "over50": 5
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 331,
+            "deckReadyMs": 107,
+            "frames": {
+              "count": 238,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 16.699999999999818,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1242.1000000014901
+      },
+      "after": {
+        "at": "2026-11-18T08:19:22.648Z",
+        "device": "pc",
+        "phase": "after",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 496,
+            "deckReadyMs": 182,
+            "frames": {
+              "count": 279,
+              "p95Ms": 12.600000000000364,
+              "maxMs": 216.69999999999982,
+              "over50": 4
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 230,
+            "deckReadyMs": 138,
+            "frames": {
+              "count": 241,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 8.399999999999636,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1500.1000000014901
+      }
+    },
+    "android": {
+      "before": {
+        "at": "2026-11-18T08:19:46.245Z",
+        "device": "android",
+        "phase": "before",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 524,
+            "deckReadyMs": 211,
+            "frames": {
+              "count": 291,
+              "p95Ms": 8.300000000000182,
+              "maxMs": 220.80000000000018,
+              "over50": 4
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 376,
+            "deckReadyMs": 118,
+            "frames": {
+              "count": 241,
+              "p95Ms": 4.200000000000728,
+              "maxMs": 8.399999999999636,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1223
+      },
+      "after": {
+        "at": "2026-11-18T08:19:46.245Z",
+        "device": "android",
+        "phase": "after",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 612,
+            "deckReadyMs": 214,
+            "frames": {
+              "count": 293,
+              "p95Ms": 12.5,
+              "maxMs": 166.69999999999982,
+              "over50": 4
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 403,
+            "deckReadyMs": 96,
+            "frames": {
+              "count": 242,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 8.400000000000546,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1189.2999999970198
+      }
+    },
+    "ios": {
+      "before": {
+        "at": "2026-11-18T08:19:54.600Z",
+        "device": "ios",
+        "phase": "before",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 926,
+            "deckReadyMs": 343,
+            "frames": {
+              "count": 110,
+              "p95Ms": 71,
+              "maxMs": 157,
+              "over50": 10
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 689,
+            "deckReadyMs": 205,
+            "frames": {
+              "count": 59,
+              "p95Ms": 29,
+              "maxMs": 31,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "firstLaunchMs": 1589
+      },
+      "after": {
+        "at": "2026-11-18T08:19:54.584Z",
+        "device": "ios",
+        "phase": "after",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 903,
+            "deckReadyMs": 334,
+            "frames": {
+              "count": 114,
+              "p95Ms": 74,
+              "maxMs": 129,
+              "over50": 9
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 665,
+            "deckReadyMs": 245,
+            "frames": {
+              "count": 58,
+              "p95Ms": 30,
+              "maxMs": 31,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "firstLaunchMs": 1504
+      }
+    },
+    "windows": {
+      "before": {
+        "at": "2026-11-18T08:20:05.845Z",
+        "device": "windows",
+        "phase": "before",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 611,
+            "deckReadyMs": 326,
+            "frames": {
+              "count": 284,
+              "p95Ms": 12.599999999999909,
+              "maxMs": 139.29999999552956,
+              "over50": 5
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 403,
+            "deckReadyMs": 163,
+            "frames": {
+              "count": 240,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 12.5,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1273.7000000029802
+      },
+      "after": {
+        "at": "2026-11-18T08:20:05.669Z",
+        "device": "windows",
+        "phase": "after",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 634,
+            "deckReadyMs": 345,
+            "frames": {
+              "count": 282,
+              "p95Ms": 16.700000000000273,
+              "maxMs": 164.20000000447044,
+              "over50": 4
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 342,
+            "deckReadyMs": 97,
+            "frames": {
+              "count": 240,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 12.5,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1191.5999999940395
+      }
+    },
+    "h5": {
+      "before": {
+        "at": "2026-11-18T08:20:14.671Z",
+        "device": "h5",
+        "phase": "before",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 535,
+            "deckReadyMs": 348,
+            "frames": {
+              "count": 479,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 133.4000000000001,
+              "over50": 4
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 404,
+            "deckReadyMs": 153,
+            "frames": {
+              "count": 240,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 8.300000000000182,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH",
+              "FUR",
+              "PRESTIGE",
+              "LIMITED",
+              "MA",
+              "SSR",
+              "UR",
+              "HR",
+              "SR",
+              "R",
+              "U",
+              "C"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1269.8000000044703
+      },
+      "after": {
+        "at": "2026-11-18T08:20:14.236Z",
+        "device": "h5",
+        "phase": "after",
+        "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+        "visits": [
+          {
+            "entryMs": 611,
+            "deckReadyMs": 430,
+            "frames": {
+              "count": 480,
+              "p95Ms": 4.400000000000091,
+              "maxMs": 162.4000000000001,
+              "over50": 4
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          },
+          {
+            "entryMs": 395,
+            "deckReadyMs": 178,
+            "frames": {
+              "count": 240,
+              "p95Ms": 4.200000000000728,
+              "maxMs": 12.5,
+              "over50": 0
+            },
+            "gradeOptions": [
+              "ALL",
+              "ICON",
+              "SUPERSTAR",
+              "ZENITH"
+            ],
+            "mercOptions": [
+              "전체 등급",
+              "SSS · 3종",
+              "SS · 3종",
+              "S · 0종",
+              "A · 0종",
+              "B · 0종",
+              "C · 0종"
+            ],
+            "exit": {
+              "energyTimer": false,
+              "reopenTimer": false,
+              "canvases": 0
+            },
+            "postExitCalls": 0
+          }
+        ],
+        "errors": [],
+        "firstLaunchMs": 1209.2999999970198
+      }
+    }
+  },
+  "battle": {
+    "at": "2026-11-18T08:21:19.394Z",
+    "device": "pc",
+    "phase": "after",
+    "condition": "Windows headless Chrome/WebKit; localhost actual lobby -> PVP -> deck with isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local server excludes network-service latency.",
+    "visits": [
+      {
+        "readyMs": 5914,
+        "completedMs": 83908,
+        "frames": {
+          "count": 18208,
+          "p95Ms": 4.299999999999272,
+          "maxMs": 145.8000000000029,
+          "over50": 5
+        },
+        "exit": {
+          "mounted": false,
+          "timelines": 0,
+          "canvases": 0
+        },
+        "postExitCalls": 0,
+        "result": "PVP 랭크전\nPVP검수\n대\nQA 상대\n적 생존 0 / 7\n아군 5 / 7\nPVP VICTORY\n\n내 팀 승리 · 전멸 판정 · 생존 5 : 0\n\n✓\nPVP · 랭크전\n랭크전 승리\n\n두 차전 승리로 세트 종료\n\n세트 결과 2 : 1\n1차전 승 · 2차전 패 · 3차전 승\n시즌 점수\n+32\n획득 코인\n+1,409,375\n마지막 차전 상세\n3회 행동\n랭크전으로 돌아가기\n→\n🔇 전투음\n3차전 종료 · 2 : 1\n아군\n5/7\n전투불능\n아이젠 족스케\n전투불능\n오조은\n치타구\n오조은\n디임\n용병\n2\n카드구\n디임\n상대\n0/7\n전투불능\n짱구 희야\n전투불능\n망순이\n전투불능\n쇼츠 채리\n전투불능\n나무늘봉순\n전투불능\nBISU택신\n용병\n2\n전투불능\n디임\n전투불능\n천룡검황 진무"
+      },
+      {
+        "readyMs": 4840,
+        "completedMs": 81799,
+        "frames": {
+          "count": 18052,
+          "p95Ms": 4.2999999999883585,
+          "maxMs": 95.90000000000873,
+          "over50": 3
+        },
+        "exit": {
+          "mounted": false,
+          "timelines": 0,
+          "canvases": 0
+        },
+        "postExitCalls": 0,
+        "result": "PVP 랭크전\nPVP검수\n대\nQA 상대\n적 생존 0 / 7\n아군 5 / 7\nPVP VICTORY\n\n내 팀 승리 · 전멸 판정 · 생존 5 : 0\n\n✓\nPVP · 랭크전\n랭크전 승리\n\n두 차전 승리로 세트 종료\n\n세트 결과 2 : 1\n1차전 승 · 2차전 패 · 3차전 승\n시즌 점수\n+32\n획득 코인\n+1,409,375\n마지막 차전 상세\n3회 행동\n랭크전으로 돌아가기\n→\n🔇 전투음\n3차전 종료 · 2 : 1\n아군\n5/7\n전투불능\n아이젠 족스케\n전투불능\n오조은\n치타구\n오조은\n디임\n용병\n2\n카드구\n디임\n상대\n0/7\n전투불능\n짱구 희야\n전투불능\n망순이\n전투불능\n쇼츠 채리\n전투불능\n나무늘봉순\n전투불능\nBISU택신\n용병\n2\n전투불능\n디임\n전투불능\n천룡검황 진무"
+      }
+    ],
+    "errors": [],
+    "firstLaunchMs": 1109.1999999955297
+  },
+  "live": {
+    "at": "2026-11-18T08:30:53.567Z",
+    "sourceCommit": "78a490199a8e1b509395947061a5411ea9146c58",
+    "pages": {
+      "id": "a14a34f7-edf5-424a-9005-86abd69b4987",
+      "commit": "78a490199a8e1b509395947061a5411ea9146c58",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "1a50e678-552f-4966-a458-6c0026aae9d3",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "5a133159-b929-43e0-98a3-bda286f657d0",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "903b2c574d7cecfb1b2be6cd6395c49774dfb85320279e578326c919839ba6da",
+        "bytes": 53170
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "d54b48811fa1f0f9b7b67fcdb8bb194b0d3329372d768050ebcd32df3dd8cfab",
+        "bytes": 26669
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "2576676430236986e2c0f6be78564c8178c16c34fc39212a6cc72f7c8f1acede",
+        "bytes": 826490
+      },
+      {
+        "path": "shared/mercenary-combat-link-v2103.mjs",
+        "sha256": "b8bb4ee2865727c734de69b69349159d78f89fca45e57fac1ad23b03ec01df22",
+        "bytes": 19189
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "f144a4dee90f234374dede4dfa4dfe0c63c7e3672035bb6a24c61156933b457a",
+      "verified": 3,
+      "excluded": [
+        "service-worker.js"
+      ]
+    },
+    "tests": 95
+  },
+  "limitations": [
+    "Browser tests use isolated mocked API fixtures on the actual shipped shell and renderer; no production matches or rewards were created.",
+    "Windows Chrome/WebKit headless with Android/iOS touch/viewport, Windows launcher URL and H5 iframe emulation. No physical phones or installed launcher measurements.",
+    "Existing WebKit ResizeObserver warning occurred before and after. Long frames remain documented; no general loading or FPS improvement is claimed.",
+    "Live PostgreSQL reads include network latency, 2 SQL per saved-deck read before and after. The principal wait is DB/network round trips; no new query was added to the grade aggregate or normal saved-deck read. Reused tickets additionally recheck both saved decks."
+  ]
+}
