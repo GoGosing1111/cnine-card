@@ -1,0 +1,1 @@
+Exact operation sources retained for audit. Original execution directory: operations/cnine-vip-trophy-20261118. Relative imports refer to that original directory and existing repository dependencies. Generated runtime bundles and duplicate project/dependency copies are not included.

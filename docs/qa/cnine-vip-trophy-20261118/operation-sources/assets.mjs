@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import sharp from 'sharp';
+import {source,hash,save} from './common.mjs';
+const dir=path.join(source,'assets/ui/player-card/cnine-vip-20261118'),original='cnine-vip-v2.png',runtime='cnine-vip-v2.webp';
+const sourceFile='C:/Users/User/.codex/generated_images/01a1eda8-7d93-7083-8353-2fb18893b35e/exec-f7aeecf7-b3d2-4e25-b28b-e7b0f48943e1.png';
+const bytes=fs.readFileSync(sourceFile),metadata=await sharp(bytes).metadata();assert(metadata.hasAlpha);
+fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,original),bytes,{flag:'wx'});
+const webp=await sharp(bytes).resize(512,512,{fit:'contain',background:{r:0,g:0,b:0,alpha:0}}).webp({quality:94,alphaQuality:100}).toBuffer();assert.equal((await sharp(webp).stats()).isOpaque,false);assert(webp.length<180000);fs.writeFileSync(path.join(dir,runtime),webp,{flag:'wx'});
+const manifest={generator:'image_gen.imagegen',revision:2,review:'Redesigned per user: C9 logo and pedestal share silver, ice-blue and subtle rose-silver materials; logo curves form the supports; no SOOP wordmark.',logoReference:'preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png',logoSha256:hash(fs.readFileSync(path.join(source,'preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png'))),original,runtime,originalSha256:hash(bytes),runtimeSha256:hash(webp),originalSize:[metadata.width,metadata.height],runtimeSize:[512,512],hasAlpha:true,originalBytes:bytes.length,runtimeBytes:webp.length};
+fs.writeFileSync(path.join(dir,'manifest.json'),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});save('art',manifest);console.log(JSON.stringify(manifest));

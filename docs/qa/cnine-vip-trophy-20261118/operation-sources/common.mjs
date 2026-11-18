@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+export {connect,safe} from '../rap-contest-rewards-20261027/preflight.mjs';
+export {cloud} from '../avatar-santa-joeun-replace-20261116/state.mjs';
+export const out=import.meta.dirname,source=path.resolve(out,'../coop-pc-performance-20261108/source');
+export const CODES=['SANTA_HIHEEYA','SANTA_BONGSOON','SANTA_JOEUN','SANTA_SUDAENG'];
+export const save=(n,x)=>fs.writeFileSync(path.join(out,n+'.json'),JSON.stringify(x,null,2)+'\n');
+export const read=n=>JSON.parse(fs.readFileSync(path.join(out,n+'.json'),'utf8'));
+export const hash=x=>createHash('sha256').update(typeof x==='string'||Buffer.isBuffer(x)?x:JSON.stringify(x)).digest('hex');
+export const git=(...a)=>execFileSync('git',['-c','gc.auto=0','-c','maintenance.auto=false',...a],{cwd:source,encoding:'utf8',windowsHide:true,maxBuffer:32*1024*1024}).trim();

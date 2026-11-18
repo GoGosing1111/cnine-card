@@ -1,0 +1,153 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"0047bd87698bf8cd697f7fe9300642651d0c9355","reason":"Add CNINE VIP trophy with coherent silver C9 sculpture, exact four stable avatar ownership identities including renamed Dealer Sudaeng, current valid ownership and zero default bonus. Preserve existing CMS effects and awards; skip ownership queries on zero-bonus reward paths. Load only visible trophy-page art eagerly. Validate SQLite/Postgres ownership, expiry, read-only public projection, CMS backward compatibility and assets; compare actual lobby/card first/reentry, frames and exit on five emulated paths and live READ ONLY service timings.","changed":["AGENTS.md","admin/index.html","admin/trophy-bonuses-v1.mjs","assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.png","assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp","assets/ui/player-card/cnine-vip-20261118/manifest.json","assets/ui/player-card/cnine-vip-20261118/prompts.json","docs/qa/avatar-dealer-namsudaeng-20261118/applied.json","docs/qa/avatar-dealer-namsudaeng-20261118/completion.json","docs/qa/avatar-dealer-namsudaeng-20261118/deployment-result.json","docs/qa/avatar-dealer-namsudaeng-20261118/live-android-equipment.png","docs/qa/avatar-dealer-namsudaeng-20261118/live-android.json","docs/qa/avatar-dealer-namsudaeng-20261118/live-pc-equipment.png","docs/qa/avatar-dealer-namsudaeng-20261118/live-pc.json","docs/qa/avatar-dealer-namsudaeng-20261118/operation-sources/release.mjs","docs/qa/avatar-dealer-namsudaeng-20261118/replay.json","docs/qa/avatar-dealer-namsudaeng-20261118/verified.json","functions/_cnine_vip_trophy.js","functions/_player_card.js","functions/_trophy_honors.js","index.html","js/player-card-model-v2052.js","js/player-card-v2052.js","scripts/prepare-production-assets.mjs","service-worker.js","shared/trophy-bonuses-v1.mjs","tests/cnine-vip-trophy-20261118.test.mjs","tests/cnine-vip-trophy-assets-20261118.test.mjs","tests/collection-bonuses-20261014.test.mjs","tests/player-card-v2052.test.mjs","tests/trophy-renewal-20261101.test.mjs"],"tests":["tests/cnine-vip-trophy-20261118.test.mjs","tests/cnine-vip-trophy-assets-20261118.test.mjs","tests/player-card-v2052.test.mjs","tests/trophy-bonuses-expansion-20261023.test.mjs","tests/collection-bonuses-20261014.test.mjs","tests/trophy-renewal-20261101.test.mjs"],"checks":["check:worker"]}
+✔ SQLite: exact four avatar identities, dealer rename, no duplicate-kind credit, isolation and expiry boundary (25.854ms)
+✔ SQLite: zero default skips ownership work; an explicitly configured VIP bonus follows live four-kind ownership (23.8417ms)
+✔ Postgres: exact four avatar identities, dealer rename, no duplicate-kind credit, isolation and expiry boundary (4140.7593ms)
+✔ Postgres: zero default skips ownership work; an explicitly configured VIP bonus follows live four-kind ownership (2264.8133ms)
+✔ previous CMS documents retain every saved rate and add only a zero VIP row; current full saves require VIP (0.9784ms)
+✔ cohesive C9 revision preserves exact generated original; only small transparent runtime art ships (67.3459ms)
+✔ neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math (3.6743ms)
+✔ SQLite: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request (57.8737ms)
+✔ SQLite: enabled new trophies use the same honor projection and only their selected sources (41.3513ms)
+✔ SQLite: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive (32.6192ms)
+✔ SQLite: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant (89.1467ms)
+✔ SQLite: portal bonus freezes rate on first roll; no retry reroll after unequip (16.6797ms)
+✔ SQLite: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit (40.9325ms)
+✔ SQLite: core reward seals freeze boosted choices and minimum without repricing old offers (54.2131ms)
+✔ Postgres: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request (4165.4453ms)
+✔ Postgres: enabled new trophies use the same honor projection and only their selected sources (2126.4081ms)
+✔ Postgres: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive (1802.7838ms)
+✔ Postgres: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant (1828.2119ms)
+✔ Postgres: portal bonus freezes rate on first roll; no retry reroll after unequip (1619.5689ms)
+✔ Postgres: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit (1577.8409ms)
+✔ Postgres: core reward seals freeze boosted choices and minimum without repricing old offers (1562.2971ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/functions/_ranked_duo.js:272:33)
+✔ SQLite: duo bonus freezes on admission and survives failed settlement, unequip and retry (161.7521ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/functions/_postgres_d1_compat.js:905:27
+✔ pipeline: duo bonus freezes on admission and survives failed settlement, unequip and retry (1913.3027ms)
+✔ weighted item odds consume only empty outcomes, preserve coin odds and one reward; quantities/daily budgets remain separate (2.4241ms)
+✔ fixed raid plan applies owned bonuses without a second roll; independent of the joint mercenary growth release (2.052ms)
+✔ CNINE VIP is shared by the public card and honor service, accepts dealer identity and never writes on viewing (4323.8055ms)
+✔ explicit trophy grant appears in the card and bonuses without changing records; replay and other users stay unchanged (2164.5147ms)
+{"event":"player_card_read_failed","message":"INVALID_TROPHY_GRANTS"}
+✔ manual grant dry run, audit failure, and receipt failure roll back; identity and corrupt records fail closed (1723.8327ms)
+✔ existing trophies and first dates are preserved; manual grants validate only known unique trophy kinds (1692.4695ms)
+✔ city and Lich milestones share permanent counts, earned date and collection honors; the public card remains read-only (1505.0462ms)
+✔ Dragon Slayer appears at 5000 clears with the same progress in public card and collection honors, without read-time writes (1422.7581ms)
+{"event":"player_card_read_failed","message":"relation \"coin_prediction_bets\" does not exist"}
+✔ prediction appreciation trophy is the same settled milestone in the public card and collection honors (1455.4841ms)
+✔ duo challenger trophy is projected only from each owner’s permanent season receipts (1499.0149ms)
+✔ official records: historical clan affiliation, all three trophies, public-only read with no side effects (1382.9016ms)
+✔ current LIVE clan replaces retired affiliation for the requested player while preserving historical honors (1226.3489ms)
+✔ current LIVE clan excludes TEST, previous rounds, non-assigned rounds and former members without a legacy fallback (1322.7759ms)
+✔ current LIVE clan roles follow current canonical elders and attack captains without changing stored state (1437.6186ms)
+✔ missing participation, non-challenger final tier and rank 21 all break consecutive official seasons (1226.4847ms)
+✔ rank first-place trophy is only one per completed season, never for another player or a live first place (1255.6781ms)
+✔ champions trophy requires a delivered receipt and frozen winner membership, distinct from regular first place (1197.7841ms)
+✔ unfinished settlements and expired season never claim current challenger; hidden/expired appearance stays private (1245.6719ms)
+✔ GET/auth/identity validation and inactive target guards fail closed (1139.948ms)
+✔ history is bounded but all-time honors survive outside the displayed 12 seasons (1148.5883ms)
+{"event":"player_card_read_failed","message":"relation \"clan_season_settlements\" does not exist"}
+✔ unavailable source records return a retryable error, not invented zero awards (1142.4763ms)
+✔ nickname renderer escapes text and attributes; only local asset images allowed (3.2233ms)
+✔ live Hi Heeya and Cheon portrait paths render without widening trophy image access (1218.5345ms)
+✔ portrait preview exception rejects foreign origins, credentials, documents, APIs and traversal (2.3761ms)
+✔ live connections use exact user IDs; FX remains lazy, cancellable and non-blocking (10.2348ms)
+✔ all trophy assets are real transparent production assets with preserved high-resolution originals (1459.5706ms)
+✔ rapid user switching ignores stale responses and closing restores focus/scroll without late-close races (5.0316ms)
+✔ WebGL startup failure does not hide the card and a late renderer is destroyed after close (3.1239ms)
+✔ request error has retry and close controls, not an infinite loader (1.8202ms)
+✔ a request stuck in the read queue has a total deadline, retry and stale-response protection (1.9694ms)
+✔ empty trophy shelves keep border FX without creating an empty GSAP tween (2.6446ms)
+✔ public card and common honors agree after launch while previous trophies stay owned and new records start at zero (1264.2457ms)
+✔ new milestones show season, distinct-type percentage, and post-only receipt progress without invented dates (3.7427ms)
+✔ three new trophy defaults are zero and each earned type contributes its configured bonus once (3.5837ms)
+✔ legacy 8-trophy read preserves every saved rate and record; strict CMS save requires all current codes (108.9981ms)
+✔ legacy 9-trophy read preserves every saved rate and record; strict CMS save requires all current codes (22.4248ms)
+✔ legacy normalization still rejects missing original trophies, unknown codes, duplicates and malformed rates (2.3362ms)
+✔ zero configured defaults preserve the reward fast path without reading any milestone source or writing state (4.9087ms)
+✔ SQLite: new collection stays locked until the immutable launch record exists, old manual grants never expand (7.3542ms)
+✔ SQLite: ranked eras do not borrow old seasons; exact cutoff, gaps, retained records, and subsequent streaks (19.8289ms)
+✔ SQLite: Blackwing requires fifteen distinct post-launch official clears; rewards and later departure do not affect proof (11.5111ms)
+✔ SQLite: regular and champions victories split at launch and keep distinct verified winner memberships (8.0622ms)
+✔ PostgreSQL: new collection stays locked until the immutable launch record exists, old manual grants never expand (3436.3776ms)
+✔ PostgreSQL: ranked eras do not borrow old seasons; exact cutoff, gaps, retained records, and subsequent streaks (2326.9502ms)
+✔ PostgreSQL: Blackwing requires fifteen distinct post-launch official clears; rewards and later departure do not affect proof (1767.5575ms)
+✔ PostgreSQL: regular and champions victories split at launch and keep distinct verified winner memberships (1583.5697ms)
+✔ twelve saved bonus settings remain unchanged and four additions default to zero; UI retains indices and marks old designs (8.37ms)
+ℹ tests 70
+ℹ suites 0
+ℹ pass 70
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34686.6482
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] cnine-vip-20261118-v2-pvp-fur-minimum-20261118-v1-pvp-survival-zenith-20261118-v1-bluegear-8000t-opening20-20261118-equipment-polish-fusion-20261118-v1-sx-ground-fixed-20261117-v1-citadel-clean-attack-20261117-v1-shiranui-brigadier-20261117-auction-verify-20261117-forge-focus-20261116-v1-ddung-joeun16-forge-mercenary-20261116-v1-package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261117-v15-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-icons-coin1000t-20261116-v1-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1-hyper-ticket-retired-20261117-v1-20261117-isgen-settlement-v2-core8-cnine17-sx-craft17 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 16139 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.164.0)
+───────────────────────────────────────────────
+Total Upload: 9703.72 KiB / gzip: 2107.67 KiB
+Worker Startup Time: 58 ms
+Your Worker has access to the following bindings:
+Binding                                                                         Resource                  
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)               Durable Object            
+env.COOP_ROOMS (CooperativeRoom)                                                Durable Object            
+env.COOP_PLAYERS (CooperativePlayer)                                            Durable Object            
+env.ACCOUNT_SYNC (AccountSync)                                                  Durable Object            
+env.DB (cnine-card-db)                                                          D1 Database               
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                               Hyperdrive Config         
+env.SEASON_S1_ENABLED ("1")                                                     Environment Variable      
+env.SEASON_S1_SCHEDULE ("live")                                                 Environment Variable      
+
+Uploaded cnine-card-api-runtime (5.09 sec)
+Deployed cnine-card-api-runtime triggers (1.12 sec)
+  schedule: * * * * *
+Current Version ID: 8c54f9d2-0bd0-46ac-819e-d1d58bb05fb7
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.164.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19991/20000)
+Uploading... (19994/20000)
+Uploading... (19997/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 9 files (19991 already uploaded) (2.11 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://58a67db2.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.164.0)
+───────────────────────────────────────────────
+Total Upload: 3959.42 KiB / gzip: 883.25 KiB
+Worker Startup Time: 53 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.51 sec)
+Deployed cnine-card-clan-draft triggers (1.00 sec)
+  schedule: * * * * *
+Current Version ID: a0920027-4890-4da6-8277-c49205203cfe

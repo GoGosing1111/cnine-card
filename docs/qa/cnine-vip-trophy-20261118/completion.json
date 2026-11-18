@@ -1,0 +1,1048 @@
+{
+  "completedAt": "2026-11-18T12:17:14.615Z",
+  "status": "DEPLOYED_VERIFIED",
+  "name": "씨나인 VIP",
+  "sourceCommit": "a3ca71ef8dc3c19d5712ab80453872a0e49a4405",
+  "definition": {
+    "code": "CNINE_VIP",
+    "avatars": [
+      {
+        "code": "SANTA_HIHEEYA",
+        "name": "산타걸 하이희야"
+      },
+      {
+        "code": "SANTA_BONGSOON",
+        "name": "산타걸 나무늘봉순"
+      },
+      {
+        "code": "SANTA_JOEUN",
+        "name": "산타걸 오조은"
+      },
+      {
+        "code": "SANTA_SUDAENG",
+        "name": "딜러 남수댕",
+        "formerName": "산타걸 남수댕"
+      }
+    ],
+    "goal": 4,
+    "currentValidOwnership": true,
+    "expiredExcluded": true,
+    "duplicateKindsCountOnce": true,
+    "unexpiredTemporaryOwnershipCounts": true,
+    "awardedCount": 1,
+    "implementation": "Existing collection-honor projection, automatically reflects present ownership on the public player card; no write-on-read or batch account grant.",
+    "defaultRewardBonuses": {
+      "dropPercent": 0,
+      "accountXpPercent": 0,
+      "coinPercent": 0
+    }
+  },
+  "design": {
+    "generator": "image_gen.imagegen",
+    "revision": 2,
+    "review": "Redesigned per user: C9 logo and pedestal share silver, ice-blue and subtle rose-silver materials; logo curves form the supports; no SOOP wordmark.",
+    "logoReference": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+    "logoSha256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba",
+    "original": "cnine-vip-v2.png",
+    "runtime": "cnine-vip-v2.webp",
+    "originalSha256": "328aa2a848cb5ce3b35290e44794a96765f55c865b4633a76de30f668fc0cc08",
+    "runtimeSha256": "287d096a3296e45763d6a8710b52bf77940f9899f14bc26f93d3b21582c9bf55",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ],
+    "hasAlpha": true,
+    "originalBytes": 1452953,
+    "runtimeBytes": 75084,
+    "forbiddenLogo": "assets/ui/cninelogo.png (SOOP)",
+    "generation": "Built-in image_gen.imagegen",
+    "revision1": "Rejected by user; preserved in prompt history; never deployed."
+  },
+  "operatingState": {
+    "readOnly": true,
+    "catalog": [
+      {
+        "code": "SANTA_BONGSOON",
+        "serial": "A-38",
+        "name": "산타걸 나무늘봉순",
+        "is_active": 1,
+        "is_public": 1
+      },
+      {
+        "code": "SANTA_HIHEEYA",
+        "serial": "A-37",
+        "name": "산타걸 하이희야",
+        "is_active": 1,
+        "is_public": 1
+      },
+      {
+        "code": "SANTA_JOEUN",
+        "serial": "A-39",
+        "name": "산타걸 오조은",
+        "is_active": 1,
+        "is_public": 1
+      },
+      {
+        "code": "SANTA_SUDAENG",
+        "serial": "A-40",
+        "name": "딜러 남수댕",
+        "is_active": 1,
+        "is_public": 1
+      }
+    ],
+    "qualifiedActiveAccounts": 0,
+    "operatingAccountWrites": 0,
+    "messagesSent": 0,
+    "inventoryConsumption": 0,
+    "autoEquip": 0
+  },
+  "release": {
+    "at": "2026-11-18T12:16:11.931Z",
+    "sourceCommit": "a3ca71ef8dc3c19d5712ab80453872a0e49a4405",
+    "pages": {
+      "id": "58a67db2-bea0-4e20-847c-33a4e1b482f7",
+      "commit": "a3ca71ef8dc3c19d5712ab80453872a0e49a4405",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "8c54f9d2-0bd0-46ac-819e-d1d58bb05fb7",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "a0920027-4890-4da6-8277-c49205203cfe",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "740a99c03d01309e7ce60c2def4d8145aefd6e6a9cd9810fdbdf3c665fae36da",
+        "bytes": 53222
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "36ef2de35fe9542d0263612402ec5de9b8790fac6d025c856d816ca82dcdb77c",
+        "bytes": 26719
+      },
+      {
+        "path": "js/player-card-model-v2052.js",
+        "sha256": "a90f8cade068addd905335258f1fe55ac4089aa35817e860f8d7b5fce6eb7e05",
+        "bytes": 6921
+      },
+      {
+        "path": "js/player-card-v2052.js",
+        "sha256": "bd378409ed210111438b9b114f8d9c7b30369660bdeea854066d8515e0b65da4",
+        "bytes": 20373
+      },
+      {
+        "path": "shared/trophy-bonuses-v1.mjs",
+        "sha256": "c131e15e2d8ced0d240fa02916f0894d3cec34a792d52ea00c304baad130b6d2",
+        "bytes": 2452
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "704280081eecf7e947ff5a4c23c45adb7627ae364f90264d115fdac22d4a1d63",
+        "bytes": 83233
+      },
+      {
+        "path": "admin/trophy-bonuses-v1.mjs",
+        "sha256": "5aff65f5d89a429eeee07ff95a9334d4f9a08b473c79f4ba562bd2c8ef5e379c",
+        "bytes": 5494
+      },
+      {
+        "path": "assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+        "sha256": "287d096a3296e45763d6a8710b52bf77940f9899f14bc26f93d3b21582c9bf55",
+        "bytes": 75084
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "454d66d15e56ea26e10107941d847eb49acea8c0120f5fd7e985994ef7cf1b42",
+      "verified": 5,
+      "excluded": [
+        "service-worker.js",
+        "admin/index.html",
+        "admin/trophy-bonuses-v1.mjs"
+      ]
+    },
+    "tests": 70
+  },
+  "validation": {
+    "testCount": 70,
+    "failed": 0,
+    "databases": [
+      "SQLite",
+      "isolated PostgreSQL/PGlite"
+    ],
+    "cases": [
+      "0/3/4 avatar kinds",
+      "unchanged identity after dealer rename or catalog visibility change",
+      "expiry/exact-now/future boundaries",
+      "duplicate kind and account isolation",
+      "public card and reward projection agreement",
+      "legacy CMS effects preserved, VIP defaults zero",
+      "zero-bonus paths skip VIP ownership lookup",
+      "read-only public handler and missing-source failure",
+      "transparent exact-art hashes, runtime-only packaging",
+      "pagination, 4/4 owned, 3/4 locked, details and overflow across five paths",
+      "close destroys canvas and leaves no card animations or profile requests"
+    ],
+    "productionStaticBrowser": {
+      "at": "2026-11-18T12:16:13.312Z",
+      "device": "pc",
+      "phase": "public",
+      "condition": "Windows headless Chrome; actual production CDN assets and lobby -> account -> player-card navigation. Every API request intercepted to isolated local fixtures, with no operating account writes. Timings include CDN latency and exclude production API latency. Not a physical-device or installed-app test.",
+      "visits": [
+        {
+          "readyMs": 328,
+          "imageReadyMs": 602,
+          "loadedImages": [
+            "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+            "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+            "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+            "/assets/ui/player-card/renewal-20261101/champions-league.webp"
+          ],
+          "frames": {
+            "count": 313,
+            "p95Ms": 4.300000000000182,
+            "maxMs": 33.30000000000018,
+            "over50": 0
+          },
+          "exit": {
+            "canvases": 0,
+            "cardAnimations": 0
+          },
+          "postExitCalls": 0,
+          "exitObservationMs": 1000
+        },
+        {
+          "readyMs": 183,
+          "imageReadyMs": 220,
+          "loadedImages": [
+            "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+            "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+            "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+            "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+            "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+            "/assets/ui/player-card/ranked-champion-v2052.webp",
+            "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+            "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+            "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+            "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+            "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+            "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+            "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+            "/assets/ui/player-card/challenger-streak-v2052.webp",
+            "/assets/ui/player-card/champions-league-v2109.webp",
+            "/assets/ui/player-card/clan-champion-v2052.webp"
+          ],
+          "frames": {
+            "count": 306,
+            "p95Ms": 4.300000000000182,
+            "maxMs": 12.600000000000364,
+            "over50": 0
+          },
+          "exit": {
+            "canvases": 0,
+            "cardAnimations": 0
+          },
+          "postExitCalls": 0,
+          "exitObservationMs": 1000
+        }
+      ],
+      "errors": [],
+      "failedAssets": [],
+      "firstLaunchMs": 1211.8000000044703
+    }
+  },
+  "performance": {
+    "ui": [
+      {
+        "device": "pc",
+        "conditions": "Windows headless Chrome/WebKit; actual lobby and account/card navigation, isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local resource timings exclude production service latency. Fixtures exercise full/partial avatar collection without operating account writes.",
+        "before": {
+          "launchMs": 1193.7000000029802,
+          "visits": [
+            {
+              "readyMs": 261,
+              "imageReadyMs": 328,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 292,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 202.19999999850984,
+                "over50": 3
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 135,
+              "imageReadyMs": 138,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 294,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.399999999999636,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "launchMs": 2078.7000000029802,
+          "visits": [
+            {
+              "readyMs": 262,
+              "imageReadyMs": 766,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp"
+              ],
+              "frames": {
+                "count": 311,
+                "p95Ms": 4.5,
+                "maxMs": 37.69999999999982,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 221,
+              "imageReadyMs": 226,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 303,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.599999999999454,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        }
+      },
+      {
+        "device": "android",
+        "conditions": "Windows headless Chrome/WebKit; actual lobby and account/card navigation, isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local resource timings exclude production service latency. Fixtures exercise full/partial avatar collection without operating account writes.",
+        "before": {
+          "launchMs": 1437.3999999985099,
+          "visits": [
+            {
+              "readyMs": 268,
+              "imageReadyMs": 580,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 279,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 29.100000000000364,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 249,
+              "imageReadyMs": 261,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 293,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.600000000000364,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "launchMs": 1439.7999999970198,
+          "visits": [
+            {
+              "readyMs": 236,
+              "imageReadyMs": 796,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp"
+              ],
+              "frames": {
+                "count": 296,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 25,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 178,
+              "imageReadyMs": 183,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 291,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 16.699999999999818,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        }
+      },
+      {
+        "device": "ios",
+        "conditions": "Windows headless Chrome/WebKit; actual lobby and account/card navigation, isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local resource timings exclude production service latency. Fixtures exercise full/partial avatar collection without operating account writes.",
+        "before": {
+          "launchMs": 1498,
+          "visits": [
+            {
+              "readyMs": 611,
+              "imageReadyMs": 1053,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 61,
+                "p95Ms": 86,
+                "maxMs": 340,
+                "over50": 52
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 575,
+              "imageReadyMs": 580,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 58,
+                "p95Ms": 121,
+                "maxMs": 231,
+                "over50": 50
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "launchMs": 1603,
+          "visits": [
+            {
+              "readyMs": 1035,
+              "imageReadyMs": 1254,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp"
+              ],
+              "frames": {
+                "count": 75,
+                "p95Ms": 136,
+                "maxMs": 327,
+                "over50": 64
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 479,
+              "imageReadyMs": 484,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 71,
+                "p95Ms": 73,
+                "maxMs": 319,
+                "over50": 36
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      {
+        "device": "windows",
+        "conditions": "Windows headless Chrome/WebKit; actual lobby and account/card navigation, isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local resource timings exclude production service latency. Fixtures exercise full/partial avatar collection without operating account writes.",
+        "before": {
+          "launchMs": 1269.6000000014901,
+          "visits": [
+            {
+              "readyMs": 273,
+              "imageReadyMs": 553,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 301,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 41.69999999999982,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 280,
+              "imageReadyMs": 292,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 310,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.600000000000364,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "launchMs": 1434.3999999985099,
+          "visits": [
+            {
+              "readyMs": 302,
+              "imageReadyMs": 778,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp"
+              ],
+              "frames": {
+                "count": 304,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 29.09999999999991,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 191,
+              "imageReadyMs": 237,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 301,
+                "p95Ms": 4.400000000000546,
+                "maxMs": 16.600000000000364,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        }
+      },
+      {
+        "device": "h5",
+        "conditions": "Windows headless Chrome/WebKit; actual lobby and account/card navigation, isolated API fixtures. Mobile viewport/touch, Windows launcher URL and H5 iframe emulation; not physical devices. Local resource timings exclude production service latency. Fixtures exercise full/partial avatar collection without operating account writes.",
+        "before": {
+          "launchMs": 1321.7999999970198,
+          "visits": [
+            {
+              "readyMs": 328,
+              "imageReadyMs": 649,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 284,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 41.70000000000027,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 169,
+              "imageReadyMs": 171,
+              "loadedImages": [
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 297,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 29.100000000000364,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        },
+        "after": {
+          "launchMs": 1294.8999999985099,
+          "visits": [
+            {
+              "readyMs": 699,
+              "imageReadyMs": 770,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp"
+              ],
+              "frames": {
+                "count": 298,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 25,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            },
+            {
+              "readyMs": 172,
+              "imageReadyMs": 174,
+              "loadedImages": [
+                "/assets/ui/player-card/cnine-vip-20261118/cnine-vip-v2.webp",
+                "/assets/ui/player-card/renewal-20261101/blackwing-oath.webp",
+                "/assets/ui/player-card/renewal-20261101/challenger-dynasty.webp",
+                "/assets/ui/player-card/renewal-20261101/champions-league.webp",
+                "/assets/ui/player-card/renewal-20261101/clan-glory.webp",
+                "/assets/ui/player-card/ranked-champion-v2052.webp",
+                "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+                "/assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+                "/assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/blue-empire-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/limited-edition-v1.webp",
+                "/assets/ui/player-card/milestones-20261023/loyal-service-medal-v1.webp",
+                "/assets/ui/player-card/challenger-streak-v2052.webp",
+                "/assets/ui/player-card/champions-league-v2109.webp",
+                "/assets/ui/player-card/clan-champion-v2052.webp"
+              ],
+              "frames": {
+                "count": 289,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 16.799999999999272,
+                "over50": 0
+              },
+              "exit": {
+                "canvases": 0,
+                "cardAnimations": 0
+              },
+              "postExitCalls": 0,
+              "exitObservationMs": 1000
+            }
+          ],
+          "errors": []
+        }
+      }
+    ],
+    "service": {
+      "condition": "Windows CLI, production player-card handler with all production read dependencies on live PostgreSQL; first/repeat on one connection, network included. No operating account mutations.",
+      "before": [
+        {
+          "userId": "3",
+          "progress": 1,
+          "visit": "first",
+          "ms": 3556,
+          "sql": 38
+        },
+        {
+          "userId": "3",
+          "progress": 1,
+          "visit": "repeat",
+          "ms": 3236,
+          "sql": 37
+        }
+      ],
+      "after": [
+        {
+          "userId": "3",
+          "progress": 1,
+          "visit": "first",
+          "ms": 3452,
+          "sql": 39
+        },
+        {
+          "userId": "3",
+          "progress": 1,
+          "visit": "repeat",
+          "ms": 3192,
+          "sql": 38
+        }
+      ],
+      "afterDeployment": [
+        {
+          "userId": "3",
+          "progress": 1,
+          "visit": "first",
+          "ms": 3816,
+          "sql": 39
+        },
+        {
+          "userId": "3",
+          "progress": 1,
+          "visit": "repeat",
+          "ms": 3612,
+          "sql": 38
+        }
+      ],
+      "newOwnershipQuery": {
+        "index": "idx_avatar_ownership_user",
+        "executionMs": 0.038,
+        "queriesAddedToPublicCard": 1,
+        "queriesAddedToDefaultRewardPath": 0
+      },
+      "mainWait": "Existing network/database round trips dominate the player-card service.",
+      "conclusion": "Single samples include network/cache variance and do not establish overall loading-speed improvement."
+    },
+    "resourceOptimization": {
+      "runtimeBytes": 75084,
+      "originalBytes": 1452953,
+      "trackedPlayerCardImageRequestsBefore": 15,
+      "trackedPlayerCardImageRequestsAfter": 4,
+      "counterScope": "/assets/ui/player-card/*; ranked-duo trophy is a separate directory.",
+      "behavior": "Only four visible-page images load eagerly; hidden-page images load on demand."
+    },
+    "limitations": [
+      "Windows headless Chrome/WebKit and mobile viewport/touch emulation, not real mobile devices or installed Windows client.",
+      "Existing WebKit ResizeObserver warning and long frames occur before and after; recorded without claiming removal.",
+      "Profile responses in browser checks are isolated fixtures; live ownership is independently checked through a READ ONLY production DB transaction.",
+      "Production static browser has production CDN latency; local baseline comparison excludes production network latency."
+    ]
+  },
+  "recovery": {
+    "initialRelease": "Blocked before deployment because index app tag differed from service-worker tag; aligned both and passed the full scoped gate.",
+    "staleBaselineTests": "Three pre-existing collection-bonus assertions used stale catalog order/SSS counts; corrected fixtures to current catalog-derived goals.",
+    "previousProductionBase": "0047bd87698bf8cd697f7fe9300642651d0c9355"
+  }
+}
