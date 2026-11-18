@@ -1,4 +1,5 @@
 import {clanHideoutCapacity,clanCapacityDescription} from '../shared/organization-capacity-v1.mjs?v=20261115';
+import {fitOrganizationDialog} from './organization-embed-size-v1.mjs?v=20261118-elder-kick';
 import {organizationCrest} from './organization-identity-v1.mjs?v=20261025-clan-eight';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
 import {openOrganizationFaction} from './organization-faction-window-v1.mjs?v=20261025-clan-eight';
@@ -124,7 +125,7 @@ export async function mountOrganization({root,api,isOwner=false}){
         if(stale){dialog.querySelector('[data-kick-cancel]').textContent='명단 새로고침';dialog.querySelector('[data-kick-cancel]').onclick=()=>{close();load().catch(e=>message(e.message,true));};}
       }finally{submitting=false;if(dialog.isConnected&&!dialog.querySelector('[data-kick-cancel]').textContent.includes('새로고침'))dialog.querySelectorAll('button').forEach(b=>b.disabled=false);}
     };
-    document.body.append(dialog);dialog.showModal();
+    document.body.append(dialog);dialog.showModal();fitOrganizationDialog(dialog);
   }
   function openClanLeave(){
     if(leaveDialog||busy)return;

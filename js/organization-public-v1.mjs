@@ -1,5 +1,5 @@
-import {mountOrganization} from './organization-system-v1.mjs?clanSeason=20261115-capacity&v=20261029-elder-kick&clanRestore=20261025&clanResume=20261025&factionEvening=20261105-v1';
-import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261025-clan-eight';
+import {mountOrganization} from './organization-system-v1.mjs?clanSeason=20261115-capacity&v=20261118-elder-kick&clanRestore=20261025&clanResume=20261025&factionEvening=20261105-v1';
+import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261118-elder-kick';
 import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261025-clan-eight';
 
 const embedded=isOrganizationEmbedded();
