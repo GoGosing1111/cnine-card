@@ -1,0 +1,94 @@
+{
+  "mode": "live",
+  "device": "pc",
+  "origin": "https://cnine-card.pages.dev",
+  "conditions": "Windows headless Chrome/WebKit; canonical live production routes/renderers and unmocked CDN images; synthetic API/equipped account only. Real network with no throttling, not physical devices or installed Windows app.",
+  "requests": [
+    "loot-shop/balance",
+    "sync/ticket",
+    "service/status",
+    "chief/extension-notice",
+    "loot-shop/balance",
+    "cards",
+    "packs",
+    "me/summary",
+    "pve/v3/feature",
+    "mercenary-cards/feature",
+    "loot-shop/balance",
+    "card/unique-advancement/feature",
+    "burning-event/status",
+    "streamer-profiles",
+    "me/menu-favorites",
+    "shell/summary",
+    "rank-exp-potion/status",
+    "live-operations",
+    "chief/status",
+    "account-rank/status",
+    "auction/user/lobby",
+    "chief/status",
+    "loot-shop/balance",
+    "server-support/status",
+    "chief/extension-notice",
+    "character/loadout",
+    "season/status",
+    "clan/war/ready-alert",
+    "clan/faction/alerts",
+    "jokgak-city/notifications",
+    "rank-exp-potion/status",
+    "auction/user/lobby",
+    "server-support/status",
+    "character/loadout",
+    "season/status",
+    "rank-exp-potion/status"
+  ],
+  "images": [],
+  "rounds": [
+    {
+      "round": "first",
+      "clickToDecodedMs": 344,
+      "image": {
+        "src": "https://cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+        "width": 640,
+        "height": 1280
+      },
+      "frames": {
+        "count": 48,
+        "p95Ms": 58.4,
+        "maxMs": 192.4,
+        "over50": 3
+      },
+      "exit": {
+        "equipmentRoots": 0,
+        "equipmentAnimations": 0,
+        "newCharacterRequests": 0
+      }
+    },
+    {
+      "round": "reentry",
+      "clickToDecodedMs": 107,
+      "image": {
+        "src": "https://cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+        "width": 640,
+        "height": 1280
+      },
+      "frames": {
+        "count": 112,
+        "p95Ms": 4.3,
+        "maxMs": 29.1,
+        "over50": 0
+      },
+      "exit": {
+        "equipmentRoots": 0,
+        "equipmentAnimations": 0,
+        "newCharacterRequests": 0
+      }
+    }
+  ],
+  "errors": [],
+  "lobbyImage": {
+    "src": "https://cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp?v=127f1fb9-dealer-v4",
+    "width": 894,
+    "height": 1759
+  },
+  "coldStartToLobbyMs": 1367
+}

@@ -1,0 +1,38 @@
+{
+  "head": "0047bd87698bf8cd697f7fe9300642651d0c9355",
+  "base": "cfb6ecdefa56bca373ff04aa0c8a451aa3234aba",
+  "logfile": "release-0047bd876-1795003111802.log",
+  "exitCode": 0,
+  "production": {
+    "pages": {
+      "id": "f9db11b2-5ad0-47b7-9251-ae0608c3fd00",
+      "commit": "0047bd87698bf8cd697f7fe9300642651d0c9355",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "d56521fc-54f2-4ecd-9880-9b7d5197170d",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "6d713e79-9917-447d-93b6-3d16bbac7fdc",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "reason": "Replace only the three Dealer Namsudaeng avatar images and preserve approved aspect ratio; run the existing avatar catalog/effects and image delivery regressions. No runtime behavior or economy changes.",
+  "tests": [
+    "tests/avatar-santa-options-20261114.test.mjs"
+  ],
+  "at": "2026-11-18T12:02:43.033Z"
+}

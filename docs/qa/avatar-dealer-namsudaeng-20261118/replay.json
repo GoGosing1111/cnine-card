@@ -1,0 +1,286 @@
+{
+  "at": "2026-11-18T12:04:37.066Z",
+  "receipt": {
+    "key": "ops:santa-sudaeng:dealer-approved-v4:20261118:replace:v1",
+    "authorization": [
+      "해당 이미지로 사용, 장비창에 사용할 정자세 포즈도 만들것",
+      "산타걸 남수댕 아바타 딜러 남수댕으로 변경"
+    ],
+    "at": "2026-11-18T12:03:57.335Z",
+    "code": "SANTA_SUDAENG",
+    "serial": "A-40",
+    "name": "딜러 남수댕",
+    "role": "딜러",
+    "description": "남수댕의 붉은 재킷 딜러 아바타입니다.",
+    "approvedVersion": "v4-balanced-head",
+    "approvedMasterSHA256": "127f1fb9fb8f7f7c64a795a707f9ca36c1c6030417ae428fa5651855a70cb428",
+    "source": "0047bd87698bf8cd697f7fe9300642651d0c9355",
+    "pages": "f9db11b2-5ad0-47b7-9251-ae0608c3fd00",
+    "beforeVersion": 2,
+    "version": 3,
+    "images": [
+      {
+        "url": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp?v=127f1fb9-dealer-v4",
+        "bytes": 1253336,
+        "sha256": "bab7bb42346b4b9f3ff2e6472e6f3fd7ea85fa952671e4011df6dd19b08ebfa4",
+        "fetchMs": 1556
+      },
+      {
+        "url": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-640.webp?v=127f1fb9-dealer-v4",
+        "bytes": 719640,
+        "sha256": "dd4e3d762d59de2e3f6d8a8fbcfb5b9b09a436b41b9da6770e2b805e8d96d8d9",
+        "fetchMs": 1223
+      },
+      {
+        "url": "assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+        "bytes": 388484,
+        "sha256": "8d5bbe9273e478ee6459966b93bc50f09e8298f16fe1228b68cd2a845c249d4e",
+        "fetchMs": 778
+      }
+    ],
+    "public": true,
+    "sale": false,
+    "active": true,
+    "effectsUnchanged": true,
+    "ownershipUnchanged": true,
+    "loadoutsUnchanged": true,
+    "approvedLobbyRGBUnchanged": true,
+    "audit": 64141
+  },
+  "transactionWrites": 0,
+  "replayed": true,
+  "production": {
+    "pages": {
+      "id": "f9db11b2-5ad0-47b7-9251-ae0608c3fd00",
+      "commit": "0047bd87698bf8cd697f7fe9300642651d0c9355",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "d56521fc-54f2-4ecd-9880-9b7d5197170d",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "6d713e79-9917-447d-93b6-3d16bbac7fdc",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "served": [
+    {
+      "url": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp?v=127f1fb9-dealer-v4",
+      "bytes": 1253336,
+      "sha256": "bab7bb42346b4b9f3ff2e6472e6f3fd7ea85fa952671e4011df6dd19b08ebfa4",
+      "fetchMs": 192
+    },
+    {
+      "url": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-640.webp?v=127f1fb9-dealer-v4",
+      "bytes": 719640,
+      "sha256": "dd4e3d762d59de2e3f6d8a8fbcfb5b9b09a436b41b9da6770e2b805e8d96d8d9",
+      "fetchMs": 201
+    },
+    {
+      "url": "assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+      "bytes": 388484,
+      "sha256": "8d5bbe9273e478ee6459966b93bc50f09e8298f16fe1228b68cd2a845c249d4e",
+      "fetchMs": 126
+    }
+  ],
+  "adminResponse": {
+    "serial": "A-40",
+    "code": "SANTA_SUDAENG",
+    "name": "딜러 남수댕",
+    "callSign": "남수댕",
+    "role": "딜러",
+    "description": "남수댕의 붉은 재킷 딜러 아바타입니다.",
+    "coinGainCap": 175,
+    "rankXpAllowed": true,
+    "lobbyImage": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp?v=127f1fb9-dealer-v4",
+    "lobbyMobileImage": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-640.webp?v=127f1fb9-dealer-v4",
+    "equipmentImage": "assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+    "accent": "#9e4f69",
+    "acquisitionType": "UNSET",
+    "coinPrice": null,
+    "sourceLabel": "",
+    "sourceDetail": "",
+    "effect": {
+      "type": "DROP_RATE_PERCENT",
+      "value": 50
+    },
+    "effects": [
+      {
+        "type": "DROP_RATE_PERCENT",
+        "value": 50
+      },
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 175
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 15
+      },
+      {
+        "type": "BATTLE_POWER_PERCENT",
+        "value": 7.7
+      },
+      {
+        "type": "ACCOUNT_RANK_XP_PERCENT",
+        "value": 30
+      }
+    ],
+    "owned": false,
+    "equipped": false,
+    "expiresAt": null,
+    "active": true,
+    "public": true,
+    "saleEnabled": false,
+    "sortOrder": 400,
+    "version": 3
+  },
+  "publicResponse": {
+    "serial": "A-40",
+    "code": "SANTA_SUDAENG",
+    "name": "딜러 남수댕",
+    "callSign": "남수댕",
+    "role": "딜러",
+    "description": "남수댕의 붉은 재킷 딜러 아바타입니다.",
+    "coinGainCap": 175,
+    "rankXpAllowed": true,
+    "lobbyImage": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp?v=127f1fb9-dealer-v4",
+    "lobbyMobileImage": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-640.webp?v=127f1fb9-dealer-v4",
+    "equipmentImage": "assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+    "accent": "#9e4f69",
+    "acquisitionType": "UNSET",
+    "coinPrice": null,
+    "sourceLabel": "",
+    "sourceDetail": "",
+    "effect": {
+      "type": "DROP_RATE_PERCENT",
+      "value": 50
+    },
+    "effects": [
+      {
+        "type": "DROP_RATE_PERCENT",
+        "value": 50
+      },
+      {
+        "type": "BATTLE_POWER_PERCENT",
+        "value": 7.7
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 15
+      },
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 175
+      },
+      {
+        "type": "ACCOUNT_RANK_XP_PERCENT",
+        "value": 30
+      }
+    ],
+    "owned": false,
+    "equipped": false,
+    "expiresAt": null,
+    "active": true,
+    "public": true,
+    "saleEnabled": false,
+    "sortOrder": 400,
+    "version": 3
+  },
+  "service": [
+    {
+      "round": "first",
+      "ms": 373,
+      "sql": 3
+    },
+    {
+      "round": "repeat",
+      "ms": 152,
+      "sql": 2
+    }
+  ],
+  "ownership": [],
+  "loadouts": [],
+  "otherCatalogAndEffectsPreserved": true,
+  "audit": {
+    "id": "64141",
+    "action_type": "AVATAR_RENAME_ART_REPLACE",
+    "target_type": "AVATAR_CATALOG",
+    "target_id": "SANTA_SUDAENG"
+  },
+  "windowsManifest": {
+    "releaseId": "ed37f8b413600243ac665cce25865b96e2a81c96dc97f73cf838b8657620753e",
+    "assets": [
+      {
+        "path": "/assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp",
+        "sha256": "bab7bb42346b4b9f3ff2e6472e6f3fd7ea85fa952671e4011df6dd19b08ebfa4",
+        "bytes": 1253336,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-640.webp",
+        "sha256": "dd4e3d762d59de2e3f6d8a8fbcfb5b9b09a436b41b9da6770e2b805e8d96d8d9",
+        "bytes": 719640,
+        "essential": false
+      },
+      {
+        "path": "/assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp",
+        "sha256": "8d5bbe9273e478ee6459966b93bc50f09e8298f16fe1228b68cd2a845c249d4e",
+        "bytes": 388484,
+        "essential": false
+      }
+    ]
+  },
+  "otherAvatarAssets": [
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/bongsoon-equipment-640.webp",
+      "sha256": "a21c22bb1ea2655fafe99a136e368f39fc7bb75b04ed1567468d6fdd08dcf4f7"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-1024.webp",
+      "sha256": "8965bd52ce75e09a56ccbcb719b91609f3dd53bac129c31f6719076119860c3d"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/bongsoon-lobby-640.webp",
+      "sha256": "041865256fa2cc01d89128dc00f1d4808238b23064ccb1b28f7675991031861f"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/hiheeya-equipment-640.webp",
+      "sha256": "2ad2dc4d3a2c556de34679e29c7fc5af00d1ec0a0633dcb146df0d4307dfeeda"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/hiheeya-lobby-1024.webp",
+      "sha256": "c33a13c6002842d40f169c8996e35b73b068408d8d328082fe974986b2e60b69"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/hiheeya-lobby-640.webp",
+      "sha256": "0200c9145670dddeb7dbdf3f8a355292b500c279707a286e793c92abc8e54b6a"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-equipment-640.webp",
+      "sha256": "937337b43810e2dacb8c5bfc15657ceb29551bb35f0ef4aa6805ba9e6fa1b7e3"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-1024.webp",
+      "sha256": "5d6b8cb6cf8e5564106d93fc5bf601fd6773e38f75622161a83dfbef33e4d993"
+    },
+    {
+      "file": "assets/ui/avatars-v1/santa-20261114/joeun-lobby-640.webp",
+      "sha256": "2312b4a49db0ddaee5477a38d27a085baeb600fc8d1a32a2ddecd44c9e903e07"
+    }
+  ],
+  "independentReadOnlyConnection": false
+}
