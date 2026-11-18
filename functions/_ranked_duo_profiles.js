@@ -9,7 +9,7 @@ import {avatarBattlePowerPercents} from './_avatar_power.js';
 import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 import {mercenaryEquipmentRuntimes} from './_mercenary_equipment.js';
 import {strongestDuoCards,validateDuoDeck,duoError,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
-import {pvpDeckGradeAllowed} from '../shared/pvp-deck-policy-v1.mjs';
+import {pvpDeckGradeAllowed} from './_pvp_deck_policy.js';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';

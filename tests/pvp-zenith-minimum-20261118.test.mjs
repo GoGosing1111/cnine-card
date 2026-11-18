@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
-import * as policy from '../shared/pvp-deck-policy-v1.mjs';
+import * as policy from '../functions/_pvp_deck_policy.js';
 const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const between=(start,end)=>api.slice(api.indexOf(start),api.indexOf(end,api.indexOf(start)));
 const cards=['ZENITH','ZENITH','SUPERSTAR','ICON','ICON','MA','FUR','PRESTIGE','LIMITED','C'].map((rarity,i)=>({id:String(i+1),rarity,title:rarity}));

@@ -1,4 +1,4 @@
-import {PVP_MINIMUM_GRADE,PVP_ALLOWED_GRADES,PVP_MINIMUM_GRADE_MESSAGE,pvpCardGradeAllowed,pvpDeckGradeAllowed} from '../../shared/pvp-deck-policy-v1.mjs';
+import {PVP_MINIMUM_GRADE,PVP_ALLOWED_GRADES,PVP_MINIMUM_GRADE_MESSAGE,pvpCardGradeAllowed,pvpDeckGradeAllowed} from '../_pvp_deck_policy.js';
 import {RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE} from '../_hyper_ticket_retirement.js';
 import {handleSeasonS1,seasonAwardStatements,seasonBonus,seasonEnabled,seasonTowerFloors} from '../_season_s1.js';
 import {addCoins,coinInteger,coinValue} from '../../shared/coin-integer-v1.mjs';

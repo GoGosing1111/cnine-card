@@ -7,7 +7,7 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {rankedPowerDifference,rankedMatchForecast} from '../shared/ranked-reform-v1.mjs';
 import {rankedRosterPrefix} from '../functions/_ranked_series.js';
 import {rankedPromotionKey} from '../functions/_ranked_reform.js';
-import {pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE} from '../shared/pvp-deck-policy-v1.mjs';
+import {pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE} from '../functions/_pvp_deck_policy.js';
 import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
 
 const settings={matchSeasonRange:250,matchCardRange:20};
