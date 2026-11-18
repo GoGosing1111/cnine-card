@@ -1,0 +1,103 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"a3ca71ef8dc3c19d5712ab80453872a0e49a4405","reason":"User explicitly resumes elder clan-member removal after the prior OFF instruction. Enable the existing policy and preserve same-clan/current elder authentication, protected self/elders/foreign targets, battle and settlement locks, atomic two-roster cleanup, rollback and replay/rejoin protections. Fit the existing confirmation dialog inside the visible embedded game viewport and release its scroll/resize observers on close. Exercise actual lobby paths on five emulated platforms with isolated PostgreSQL, cancel/confirm behavior and no production removals. Production READ ONLY permission projection keeps ten queries; no schema changes or real account mutations.","changed":["AGENTS.md","docs/qa/cnine-vip-trophy-20261118/README.md","docs/qa/cnine-vip-trophy-20261118/completion.json","docs/qa/cnine-vip-trophy-20261118/operation-sources/README.txt","docs/qa/cnine-vip-trophy-20261118/operation-sources/assets.mjs","docs/qa/cnine-vip-trophy-20261118/operation-sources/browser.mjs","docs/qa/cnine-vip-trophy-20261118/operation-sources/capture.mjs","docs/qa/cnine-vip-trophy-20261118/operation-sources/common.mjs","docs/qa/cnine-vip-trophy-20261118/operation-sources/release.mjs","docs/qa/cnine-vip-trophy-20261118/operation-sources/server.mjs","docs/qa/cnine-vip-trophy-20261118/release-a3ca71ef8-1795003925959.log","docs/qa/cnine-vip-trophy-20261118/ui-android-after-0.png","docs/qa/cnine-vip-trophy-20261118/ui-pc-after-0.png","docs/qa/cnine-vip-trophy-20261118/ui-pc-public-0.png","js/organization-embed-size-v1.mjs","js/organization-public-v1.mjs","js/organization-system-v1.mjs","organization/index.html","shared/clan-member-kick-policy-v1.mjs","tests/clan-elder-kick-enable-20261118.test.mjs","tests/clan-kick-restored-route-20261029.test.mjs","tests/helpers/clan-season-kick-fixture.mjs","tests/organization-member-kick-20261029.test.mjs"],"tests":["tests/organization-member-kick-20261029.test.mjs","tests/clan-kick-restored-route-20261029.test.mjs","tests/clan-elder-kick-enable-20261118.test.mjs","tests/clan-member-kick.test.mjs","tests/clan-season-admission-20261118.test.mjs","tests/clan-review-rejoin-20261114.test.mjs","tests/organization-join-20261023.test.mjs"],"checks":["check:worker"]}
+✔ season five elders can remove only their ordinary members, atomically and once, through the real organization route (6943.8786ms)
+✔ the actual restored clan route reaches elder removal and updates both rosters once (6340.6529ms)
+✔ legacy requests still require current elder authority and protect self, elders and other clans (3804.2212ms)
+✔ battle, settlement and reservation guards remain on the restored route (3395.9027ms)
+✔ audit or receipt failure rolls back both rosters; an exact retry commits once (3386.7271ms)
+✔ old dialogs and successful retries cannot remove a rejoined member; competing elders remove once (2792.6421ms)
+✔ only the restored POST kick route is enabled; authentication, unreleased state and recruitment locks stay enforced (2066.8801ms)
+✔ elected executive can remove a legacy master; old master cannot exercise authority (5408.4406ms)
+✔ master kick atomically removes membership, withdraws draft and cleans faction; replay is harmless (3126.5073ms)
+✔ non-master, foreign master, self, stale membership and season cannot remove anyone (3179.8414ms)
+✔ battle, reservation, phase and active faction participants are protected (2938.1846ms)
+✔ audit failure rolls back member, draft, faction and receipt together (2932.703ms)
+✔ expired faction battle waiting for lazy reconciliation no longer blocks removal (2380.5476ms)
+✔ an old dialog cannot kick a user who left and rejoined; old successful replay does not kick them again (1902.2991ms)
+✔ manual review keeps pending applicants out, prevents rejected reapplication and allocates approved active candidates once (7275.6797ms)
+✔ review rejects more than 24 approvals and rolls decisions/audit back when receipt fails (4023.3276ms)
+✔ scheduled member and elder departures atomically clear future seats, preserve old season and block all clans across rounds for exactly seven days (4555.9855ms)
+✔ active season self-leave removes membership, formations and elder authority; battle/receipt failures do not start cooldown (3068.5815ms)
+✔ active season level two exposes applicant/elder screens and fills only two vacancies atomically (7735.0922ms)
+✔ calendar boundaries and archived source round keep scheduled signup separate from season approvals (4096.0762ms)
+✔ season admission preserves rejoin cooldown and rolls back both rosters on receipt failure (4235.8545ms)
+✔ nonmembers apply; only the same organization elders review; approval atomically joins and replays (6277.6197ms)
+✔ pending requests cannot move silently; cancellation/rejection can resubmit and stale review is rejected (3540.9734ms)
+✔ parallel elder approvals cannot exceed hideout level one capacity; last slot belongs to one applicant (3366.2657ms)
+✔ receipt failure rolls back membership/application/round revision, then exact retry succeeds (3507.4573ms)
+✔ banned applicants, removed elders, malformed fields and off-scope users are rejected (2653.1319ms)
+✔ an elder removes a member from both current rosters and formations, preserving earned records and funds (6420.2704ms)
+✔ self, other elders, foreign members, non-elders and OWNER without elder membership cannot remove anyone (3463.879ms)
+✔ active faction battles, regular matches, unsettled fights and reservations block removal (3280.3694ms)
+✔ audit/receipt failure rolls both rosters and every side effect back, exact retry succeeds (3461.9271ms)
+✔ competing elders remove only once; old dialogs cannot remove a rejoined membership (2614.9502ms)
+✔ no resumption leaves legacy history untouched and TEST access remains enforced (2120.8692ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22615.4511
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] cnine-vip-20261118-v2-pvp-fur-minimum-20261118-v1-pvp-survival-zenith-20261118-v1-bluegear-8000t-opening20-20261118-equipment-polish-fusion-20261118-v1-sx-ground-fixed-20261117-v1-citadel-clean-attack-20261117-v1-shiranui-brigadier-20261117-auction-verify-20261117-forge-focus-20261116-v1-ddung-joeun16-forge-mercenary-20261116-v1-package-cubes16-pepegu-reset16-legion-recovery16-package15pets-sudal15-defense-sets15-zero-awakening15-v1-petgrowth14-polish14-bgcontract1-bluegear14-mercAdv11-20261113-bloodmoon-sale-end-20261112-v1-inventory-choice-20261111-v1-auction-duration-20261110-v1-clan-season-20261110-v1-lobby-status-20261112-v1-territory-draft-20261109-v1-ranked-promotion-20261109-v2-territory-radio-20261109-v1-s1-duo-v1-territory-frontline-20261108-v1-s1-counts-v2-veteran30-avatar-refresh-v1-s1-entry-v2-bus-driver-shiranui-20261108-citadel1-s1-lobby-20261108-2-royal-rune-frame-fit-20261107-1-mercenary-four-1950k-20261108-guaranteed-scroll-20261107-v1-pass-months-20261107-v1-auction-bgm-exact-20261107-v1-ranked-favorites-20261106-v1-workshop-ui-20261106-v2-coin-10g-20261106-v1-auction-bgm-volume-20261106-v1-support-package-refresh-20261106-v1-x-body-craft-20261106-v1-auction-bgm-compact-drag-20261106-v1-mercenary-armory-20261105-v2-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-hyper-pack-hidden-20261105-v1-streamer-pack-20261105-v1-pet-modes-20261105-v1-faction-evening-20261105-v1-pet-jjanggu-heeya-20261104-v1-lich-mobile-mechanics-20261104-v1-cnine-streamer-box-20261103-v1-bloodmoon-unique-20261103-v1-auction-user-off-20261103-v2-prediction-camp-closed-20261103-v1-quest-command-20261103-v1-package-extend-20261102-v1-apocalypse-overlay-off-20261102-v1-tactical-hud-20261102-v1-account-panel-20261102-v2-prime-zero-top-20261102-v1-ranked-labels-20261102-v1-tower-coop-dual-20261102-v2-blackwing-confirm8-20261101-v1-pepegu-ranked-rental-20261101-v1-trophy-renewal-20261101-v1-blackwing-reward20t-scroll30-20261101-v1-equipment-11-15-glow-20261101-v1-equipment-plus10-glow-20261101-v1-support-package-500t-20261101-v1-battle-resource-recovery-20261101-v1-support-package-clients-20261101-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-growth-guide-20261030-v1-blackcrown-opening-20261031-unique-v1-clan-kick-off-20261030-v1-tactical-shell-20261030-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-chat-squad-20261029-v1-territory-mobile-20261029-v1-heukmu-live-20261029-v1-omega-craft-20261029-v1-lobby-restore-20261029-v1-clan-elder-kick-20261029-v1-limited-220-20261029-v1-legion-ascendant-20261029-v1-blackwing-rewards-20261029-v1-lobby-pretendard-20261029-v5-icon-diim-front-20261029-v1-damage-hp-sync-20261029-v1-war-chat-20261028-v1-raid-rewards-20261028-v1-kamishiro-live-20261028-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-soop-watch-repeat-20261028-v1-blackwing-bloodscale-20261028-v3-classic-colosseum-20261027-v2-blackcrown-shop-sss-20261027-v1-blackcrown-sss-20261027-v1-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-age-ratings-20261027-v1-revan-general-jok-20261027-v2-blackcrown-live-20261027-v1-jokro-motion-20261027-v1-blackcrown-buttons-20261027-v4-support-package-hide-20261026-v1-soop-watch-consent-20261026-v1-bloodmoon-namsudaeng-timeout-20261026-v1-isgen-input-recovery-20261026-v1-prime-craft-open-20261026-v1-mercenary-selector-20261026-v1-stock-schedule-20261026-v1-cnine-roster-20261117-v15-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-general-jok-grip-20261025-v16-heukgu-large-head-20261025-v3-xp-transfer-item-required-20261025-v2-support-package-deadline-20261025-v1-faction-window-polling-20261025-v1-clan-wed-sat-sun-20261025-v1-bloodmoon-eunseol4-20261025-v1-jokro-power-2200000-20261025-v1-bloodmoon-expansion-20261025-v1-mercenary-xp-transfer-20261025-v1-streamer-cnine-four-20261025-v1-clan-resume-20261025-v1-bloodmoon-status-fix-20261025-v2-clan-eight-20261025-v1-support-package-bogo-20261025-v1-bloodmoon-battle-ready-20261025-v1-bloodmoon-ss30-leonel7-20261025-v3-halloween-shop-remove-20261025-v1-bloodmoon-open-20261025-v1-bloodmoon-prime-material-20261025-v1-superstar-bulk-20261025-v1-organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-coin-draft-20261026-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1-seal-mercenary-20261022-v1-prime-pve-fx-cadence-20261022-v1-coupon-prediction-caps-20261022-v1-territory-vote15-20261022-v1-jokro-stock2-20261022-v1-gift-icons-coin1000t-20261116-v1-halloween-stock-20261023-v1-general-jok-live-20261023-v15-blood-pack-preparation-20261023-v1-mercenary-gear-balance-20261023-v1-eunseol-live-20261023-v1-loot-delete-save-20261023-v1-mobile-memory-20261024-v1-icon-enhancement-20261024-v1-bloodmoon-bulk-20261025-v1-icon-four-20261029-arden-craft-20261029-v1-pet-pepegu-20261101-v1-apocalypse-trio-20261106-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-clan-random-20261113-iphone-combat-20261114-v1-astra-20261115-v1-hyper-ticket-retired-20261117-v1-20261117-isgen-settlement-v2-core8-cnine17-sx-craft17 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 16154 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.164.0)
+───────────────────────────────────────────────
+Total Upload: 9703.72 KiB / gzip: 2107.67 KiB
+Worker Startup Time: 66 ms
+Your Worker has access to the following bindings:
+Binding                                                                         Resource                  
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)               Durable Object            
+env.COOP_ROOMS (CooperativeRoom)                                                Durable Object            
+env.COOP_PLAYERS (CooperativePlayer)                                            Durable Object            
+env.ACCOUNT_SYNC (AccountSync)                                                  Durable Object            
+env.DB (cnine-card-db)                                                          D1 Database               
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                               Hyperdrive Config         
+env.SEASON_S1_ENABLED ("1")                                                     Environment Variable      
+env.SEASON_S1_SCHEDULE ("live")                                                 Environment Variable      
+
+Uploaded cnine-card-api-runtime (4.95 sec)
+Deployed cnine-card-api-runtime triggers (0.94 sec)
+  schedule: * * * * *
+Current Version ID: 12b9f96e-e6da-406b-83fc-76554a4b227d
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.164.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19994/20000)
+Uploading... (19996/20000)
+Uploading... (19998/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 6 files (19994 already uploaded) (2.23 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://a7912ee2.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.164.0)
+───────────────────────────────────────────────
+Total Upload: 3959.41 KiB / gzip: 883.26 KiB
+Worker Startup Time: 125 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.58 sec)
+Deployed cnine-card-clan-draft triggers (1.36 sec)
+  schedule: * * * * *
+Current Version ID: 623c6032-e569-479a-afa1-65609b12adcd

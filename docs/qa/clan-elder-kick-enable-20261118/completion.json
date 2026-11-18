@@ -1,0 +1,887 @@
+{
+  "completedAt": "2026-11-18T13:07:08.218Z",
+  "status": "DEPLOYED_VERIFIED",
+  "request": "원로가 클랜원 추방할수있게 활성화",
+  "sourceCommit": "9dbd397339187958aed0541fb57469c3f4adff25",
+  "behavior": {
+    "enabled": true,
+    "authorization": "Latest explicit request resumes the feature previously disabled on 2026-10-30.",
+    "entry": "로비 → 전체 메뉴 → 클랜 → 내 클랜 → 방출",
+    "allowed": "Current active elder may remove an ordinary member of the same current clan.",
+    "protected": [
+      "self",
+      "other elders",
+      "other clans",
+      "non-elder actors, including OWNER without elder membership",
+      "active battle, settlement and reserved defense restrictions",
+      "round/revision/joined-at freshness"
+    ],
+    "atomicEffects": [
+      "organization membership",
+      "regular-season membership",
+      "both faction formations and captain/empty-defense cleanup",
+      "audit and idempotency receipt"
+    ],
+    "preserved": [
+      "funds",
+      "currency",
+      "past combat and reward records",
+      "voluntary leave seven-day cooldown",
+      "current season admission/review rules"
+    ],
+    "retry": "Successful replay does not remove a member who later rejoins; a new request with the stale membership timestamp is rejected."
+  },
+  "implementation": {
+    "policy": "Enable the existing shared policy; retain existing server authorization and transactional removal.",
+    "dialog": "Position the native confirmation inside the visible parent game viewport, including the command header, because an auto-height iframe otherwise centers the buttons offscreen.",
+    "renderWork": "Coalesce scroll/resize into one animation frame, avoid unchanged style writes, and disconnect all new listeners/observer and cancel pending frame on close/pagehide.",
+    "cache": "Version the organization document/module import chain with 20261118-elder-kick."
+  },
+  "verification": {
+    "tests": 32,
+    "failed": 0,
+    "files": [
+      "tests/organization-member-kick-20261029.test.mjs",
+      "tests/clan-kick-restored-route-20261029.test.mjs",
+      "tests/clan-elder-kick-enable-20261118.test.mjs",
+      "tests/clan-member-kick.test.mjs",
+      "tests/clan-season-admission-20261118.test.mjs",
+      "tests/clan-review-rejoin-20261114.test.mjs",
+      "tests/organization-join-20261023.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "cases": [
+      "actual organization and legacy clan routes",
+      "current season five elder/ordinary/owner/foreign authority",
+      "battle, settlement and reservation locks",
+      "two-roster/faction consistency",
+      "injected audit and receipt failures roll back",
+      "competing elders and repeat requests",
+      "rejoin followed by old receipt and stale request",
+      "current admission and voluntary leave cooldown"
+    ],
+    "browser": "Five actual lobby entry paths with isolated PGlite APIs, cancel without POST, confirm once, both rosters removed once, listener counts restored, then exit with zero requests.",
+    "publicUi": {
+      "phase": "public",
+      "platform": "desktop",
+      "width": 1440,
+      "height": 900,
+      "entry": [
+        {
+          "ms": 1249,
+          "kickButtons": 6,
+          "calls": [
+            "clan/overview",
+            "organization/overview",
+            "organization/faction/overview"
+          ]
+        },
+        {
+          "ms": 394,
+          "kickButtons": 6,
+          "calls": [
+            "organization/overview",
+            "organization/faction/overview"
+          ]
+        }
+      ],
+      "errors": [],
+      "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+      "knownWarnings": [],
+      "coldLobbyMs": 1331,
+      "publicFeed": {
+        "status": 200,
+        "serverNow": "2026-11-18T13:06:54.931Z",
+        "nextTerritoryChangeAt": "2026-11-24T10:30:00.000Z",
+        "items": [
+          {
+            "kind": "ORGANIZATION",
+            "phase": "ACTIVE",
+            "entityId": "98a29259-a828-4004-92fb-d05f96161b2a",
+            "title": "클랜 본부",
+            "detail": "시즌 5 · 클랜전·세력전·챔피언스리그",
+            "deadlineAt": null,
+            "sortOrder": 0
+          },
+          {
+            "kind": "RANKED_DUO",
+            "phase": "ACTIVE",
+            "additionalRecruiting": false,
+            "entityId": "6b4d280f-7796-40d2-a960-da0dc2409766",
+            "title": "랭크 듀오 시즌 9",
+            "detail": "상시 랜덤 2대2 · 랭크전 덱으로 바로 출전",
+            "deadlineAt": "2026-11-24T05:39:19.410Z",
+            "sortOrder": 0
+          }
+        ]
+      },
+      "entrySurface": "로비 전체 메뉴 → 클랜",
+      "cancelWithoutMutation": true,
+      "removedBothRostersOnce": true,
+      "dialogListenersReleased": true,
+      "frames": {
+        "samples": 258,
+        "p95Ms": 4.3,
+        "maxMs": 12.6,
+        "over50": 0,
+        "overflow": false
+      },
+      "postExit": 0,
+      "isolatedAccount": true
+    }
+  },
+  "performance": {
+    "conditions": "Windows headless Chromium and WebKit; Android/iOS/Windows launch URL/H5 iframe emulation. No physical handset or installed-client measurements. Local source assets plus isolated PGlite APIs for before/after; actual CDN assets plus isolated APIs for public smoke. Single samples; no overall speed improvement claimed.",
+    "service": {
+      "before": {
+        "capturedAt": "2026-11-18T12:46:53.318Z",
+        "conditions": "Windows Node, actual production organizationOverview, live PostgreSQL READ ONLY, same connection first/repeat, network included, single samples; no real member removal.",
+        "actorId": 1195,
+        "roundId": "98a29259-a828-4004-92fb-d05f96161b2a",
+        "roster": 10,
+        "elders": 2,
+        "eligibleTargets": 0,
+        "samples": [
+          {
+            "entry": "first",
+            "ms": 957,
+            "sql": 10,
+            "roster": 10,
+            "kickable": 0
+          },
+          {
+            "entry": "repeat",
+            "ms": 790,
+            "sql": 10,
+            "roster": 10,
+            "kickable": 0
+          }
+        ],
+        "queryTimings": [
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 79.63250000000062
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2",
+            "ms": 80.34160000000065
+          },
+          {
+            "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 80.48390000000018
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT JOIN organization_members_v1 m ",
+            "ms": 159.08699999999953
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2 ORDER ",
+            "ms": 79.26749999999993
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+            "ms": 80.97249999999985
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 78.54579999999987
+          },
+          {
+            "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+            "ms": 234.98640000000069
+          },
+          {
+            "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2",
+            "ms": 79.14570000000003
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+            "ms": 79.40850000000046
+          },
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 77.63289999999961
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2",
+            "ms": 78.61790000000019
+          },
+          {
+            "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 78.28959999999915
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT JOIN organization_members_v1 m ",
+            "ms": 156.15849999999955
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2 ORDER ",
+            "ms": 79.1247999999996
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+            "ms": 78.41330000000016
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 80.47500000000036
+          },
+          {
+            "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+            "ms": 80.20509999999922
+          },
+          {
+            "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2",
+            "ms": 78.65819999999985
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+            "ms": 79.21290000000045
+          }
+        ],
+        "totalQueryMs": 1898.6596
+      },
+      "after": {
+        "capturedAt": "2026-11-18T12:48:15.823Z",
+        "conditions": "Windows Node, actual production organizationOverview, live PostgreSQL READ ONLY, same connection first/repeat, network included, single samples; no real member removal.",
+        "actorId": 1195,
+        "roundId": "98a29259-a828-4004-92fb-d05f96161b2a",
+        "roster": 10,
+        "elders": 2,
+        "eligibleTargets": 8,
+        "samples": [
+          {
+            "entry": "first",
+            "ms": 913,
+            "sql": 10,
+            "roster": 10,
+            "kickable": 8
+          },
+          {
+            "entry": "repeat",
+            "ms": 800,
+            "sql": 10,
+            "roster": 10,
+            "kickable": 8
+          }
+        ],
+        "queryTimings": [
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 73.34619999999995
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2",
+            "ms": 74.28229999999985
+          },
+          {
+            "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 74.11290000000008
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT JOIN organization_members_v1 m ",
+            "ms": 148.5662000000002
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2 ORDER ",
+            "ms": 81.19369999999981
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+            "ms": 79.03409999999985
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 74.99130000000059
+          },
+          {
+            "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+            "ms": 229.14300000000003
+          },
+          {
+            "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2",
+            "ms": 74.46660000000065
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+            "ms": 71.95070000000032
+          },
+          {
+            "sql": "SELECT * FROM organization_policy_v1 WHERE id=1",
+            "ms": 73.6244999999999
+          },
+          {
+            "sql": "SELECT * FROM organization_rounds_v1 WHERE scope IN('LIVE','TEST') ORDER BY created_at DESC,id LIMIT 2",
+            "ms": 73.20780000000013
+          },
+          {
+            "sql": "SELECT organization_id,slot,joined_at FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2",
+            "ms": 73.55160000000069
+          },
+          {
+            "sql": "SELECT p.*,COUNT(m.user_id)::integer AS member_count,COALESCE(SUM(m.seed_power),0) AS power FROM organization_progress_v1 p LEFT JOIN organization_members_v1 m ",
+            "ms": 145.47299999999996
+          },
+          {
+            "sql": "SELECT m.user_id,m.slot,m.joined_at,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2 ORDER ",
+            "ms": 73.45880000000034
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[])",
+            "ms": 71.96619999999984
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 72.07310000000052
+          },
+          {
+            "sql": "SELECT state_json FROM organization_faction_state_v1 WHERE round_id=$1",
+            "ms": 143.52529999999933
+          },
+          {
+            "sql": "SELECT m.user_id,m.organization_id,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 AND m.organization_id=$2",
+            "ms": 71.72890000000007
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key >= $1 AND key < $2 AND left(key,length($1))=$1 ORDER BY key",
+            "ms": 72.9382000000005
+          }
+        ],
+        "totalQueryMs": 1852.6344000000026
+      }
+    },
+    "bottleneck": "The unchanged ten database round trips dominate production overview latency. No additional SQL or per-member request was introduced. Dialog positioning work is scheduled at most once per animation frame and stops on close.",
+    "platforms": [
+      {
+        "platform": "desktop",
+        "before": {
+          "phase": "before",
+          "platform": "desktop",
+          "width": 1440,
+          "height": 900,
+          "entry": [
+            {
+              "ms": 1490,
+              "kickButtons": 0,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 471,
+              "kickButtons": 0,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 1406,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "frames": {
+            "samples": 205,
+            "p95Ms": 4.3,
+            "maxMs": 4.5,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "desktop",
+          "width": 1440,
+          "height": 900,
+          "entry": [
+            {
+              "ms": 1325,
+              "kickButtons": 6,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 343,
+              "kickButtons": 6,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 1090,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "cancelWithoutMutation": true,
+          "removedBothRostersOnce": true,
+          "dialogListenersReleased": true,
+          "frames": {
+            "samples": 264,
+            "p95Ms": 4.3,
+            "maxMs": 12.5,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        }
+      },
+      {
+        "platform": "android",
+        "before": {
+          "phase": "before",
+          "platform": "android",
+          "width": 390,
+          "height": 844,
+          "entry": [
+            {
+              "ms": 1378,
+              "kickButtons": 0,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 326,
+              "kickButtons": 0,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 1152,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "frames": {
+            "samples": 207,
+            "p95Ms": 4.2,
+            "maxMs": 4.3,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "android",
+          "width": 390,
+          "height": 844,
+          "entry": [
+            {
+              "ms": 1246,
+              "kickButtons": 6,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 431,
+              "kickButtons": 6,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 1248,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "cancelWithoutMutation": true,
+          "removedBothRostersOnce": true,
+          "dialogListenersReleased": true,
+          "frames": {
+            "samples": 256,
+            "p95Ms": 4.3,
+            "maxMs": 16.8,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        }
+      },
+      {
+        "platform": "ios",
+        "before": {
+          "phase": "before",
+          "platform": "ios",
+          "width": 390,
+          "height": 844,
+          "entry": [
+            {
+              "ms": 2196,
+              "kickButtons": 0,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 1374,
+              "kickButtons": 0,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldLobbyMs": 1740,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "frames": {
+            "samples": 51,
+            "p95Ms": 30,
+            "maxMs": 30,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "ios",
+          "width": 390,
+          "height": 844,
+          "entry": [
+            {
+              "ms": 2029,
+              "kickButtons": 6,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 1237,
+              "kickButtons": 6,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldLobbyMs": 1809,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "cancelWithoutMutation": true,
+          "removedBothRostersOnce": true,
+          "dialogListenersReleased": true,
+          "frames": {
+            "samples": 104,
+            "p95Ms": 31,
+            "maxMs": 295,
+            "over50": 1,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        }
+      },
+      {
+        "platform": "windows",
+        "before": {
+          "phase": "before",
+          "platform": "windows",
+          "width": 1440,
+          "height": 900,
+          "entry": [
+            {
+              "ms": 1064,
+              "kickButtons": 0,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 341,
+              "kickButtons": 0,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 1382,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "frames": {
+            "samples": 212,
+            "p95Ms": 4.3,
+            "maxMs": 8.6,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "windows",
+          "width": 1440,
+          "height": 900,
+          "entry": [
+            {
+              "ms": 1833,
+              "kickButtons": 6,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 429,
+              "kickButtons": 6,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 1619,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "cancelWithoutMutation": true,
+          "removedBothRostersOnce": true,
+          "dialogListenersReleased": true,
+          "frames": {
+            "samples": 273,
+            "p95Ms": 4.3,
+            "maxMs": 20.9,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        }
+      },
+      {
+        "platform": "h5",
+        "before": {
+          "phase": "before",
+          "platform": "h5",
+          "width": 390,
+          "height": 844,
+          "entry": [
+            {
+              "ms": 1685,
+              "kickButtons": 0,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 1631,
+              "kickButtons": 0,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 2197,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "frames": {
+            "samples": 285,
+            "p95Ms": 4.4,
+            "maxMs": 4.7,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        },
+        "after": {
+          "phase": "candidate",
+          "platform": "h5",
+          "width": 390,
+          "height": 844,
+          "entry": [
+            {
+              "ms": 1788,
+              "kickButtons": 6,
+              "calls": [
+                "clan/overview",
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            },
+            {
+              "ms": 604,
+              "kickButtons": 6,
+              "calls": [
+                "organization/overview",
+                "organization/faction/overview"
+              ]
+            }
+          ],
+          "errors": [],
+          "conditions": "Windows headless browser; isolated PostgreSQL; actual lobby entry; Windows URL/H5 iframe emulation, not physical devices",
+          "knownWarnings": [],
+          "coldLobbyMs": 3990,
+          "entrySurface": "로비 전체 메뉴 → 클랜",
+          "cancelWithoutMutation": true,
+          "removedBothRostersOnce": true,
+          "dialogListenersReleased": true,
+          "frames": {
+            "samples": 275,
+            "p95Ms": 4.3,
+            "maxMs": 25,
+            "over50": 0,
+            "overflow": false
+          },
+          "postExit": 0,
+          "isolatedAccount": true
+        }
+      }
+    ],
+    "limitations": [
+      "Before frame sampling covers the roster because removal is disabled; after sampling additionally covers opening, cancelling and confirming. These frame workloads are not equivalent.",
+      "WebKit retains its existing ResizeObserver warning; enabled-action sampling recorded one 295 ms long frame. This is recorded, not claimed fixed.",
+      "Desktop before/after was repeated after the test process had finished to avoid test CPU contention.",
+      "Loading samples include local process/browser/cache variation; Windows and H5 observations are emulated entry paths."
+    ]
+  },
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "base": "a3ca71ef8dc3c19d5712ab80453872a0e49a4405",
+    "at": "2026-11-18T13:06:45.327Z",
+    "sourceCommit": "9dbd397339187958aed0541fb57469c3f4adff25",
+    "pages": {
+      "id": "a7912ee2-7932-42d4-9d8b-457ca4b78d35",
+      "commit": "9dbd397339187958aed0541fb57469c3f4adff25",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "12b9f96e-e6da-406b-83fc-76554a4b227d",
+            "percentage": 100
+          }
+        ],
+        "elderKickEnabled": true,
+        "sha256": "deeaef05800c6096e3d236ce20bfe8cb9e3978414bcbc078a4215961f507bb6b"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "623c6032-e569-479a-afa1-65609b12adcd",
+            "percentage": 100
+          }
+        ],
+        "elderKickEnabled": true,
+        "sha256": "4e423ea50eba1d1da7a5ddf91c21581e06119dca8966fe59bcc805c50fbec84b"
+      }
+    ],
+    "files": [
+      {
+        "path": "shared/clan-member-kick-policy-v1.mjs",
+        "sha256": "4d23c494912e5fdf7c8ae3b8df718895e9f48113864002ff928b040db6f465d7",
+        "bytes": 357
+      },
+      {
+        "path": "js/organization-embed-size-v1.mjs",
+        "sha256": "ad2f90c9c6b2f3f437b43511b9e06f83f06c3d5d373f7ce70ab51a069f748511",
+        "bytes": 3633
+      },
+      {
+        "path": "js/organization-system-v1.mjs",
+        "sha256": "146ed3f2f315b1dcf41bda2ee632bc12aa5a8cbda07c7e11270742f58480c691",
+        "bytes": 37148
+      },
+      {
+        "path": "js/organization-public-v1.mjs",
+        "sha256": "62b4583e6754a41fe60cbe86d6fd1038cb84a4fb6d1ddfca9856d2d55de4dcf0",
+        "bytes": 994
+      },
+      {
+        "path": "organization/index.html",
+        "sha256": "e6ebcbd00e0f75e2c7c1d63f2a02abc9fafd0e0e68e706d9df680ce5963341de",
+        "bytes": 1123
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "f858a86cae6b949714c4ddc74f7593eefaa57a1f8e15608016ece2d48c9271fa",
+      "verified": 5,
+      "excluded": [],
+      "changed": [
+        "/js/organization-embed-size-v1.mjs",
+        "/js/organization-public-v1.mjs",
+        "/js/organization-system-v1.mjs",
+        "/organization/index.html",
+        "/shared/clan-member-kick-policy-v1.mjs"
+      ],
+      "removed": []
+    },
+    "tests": 32,
+    "operatingMemberRemovals": 0,
+    "messages": 0,
+    "log": "release-9dbd39733-1795006964293.log"
+  },
+  "productionEffects": {
+    "accountWrites": 0,
+    "memberRemovals": 0,
+    "messages": 0,
+    "schemaChanges": 0
+  },
+  "qaNotes": [
+    "Initial new-season test failed because its admission-only fixture lacked clan_faction_state. A dedicated kick fixture adds the isolated table; the final release gate passes all 32 tests.",
+    "Initial UI confirmation placed its controls below the parent viewport. The scoped dialog positioning fix was then verified across the five platforms.",
+    "The old OFF regression assertions were replaced with the previously reviewed ON suites and current-season coverage. Historical OFF records remain preserved."
+  ],
+  "screenshots": [
+    "ui-pc-confirmation.png",
+    "ui-android-confirmation.png",
+    "ui-public-confirmation.png"
+  ],
+  "localEvidence": "operations/clan-elder-kick-enable-20261118/"
+}
