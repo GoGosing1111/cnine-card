@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {spawn} from 'node:child_process';
+import {out,source,git,cloud,save} from './state.mjs';
+const before=JSON.parse(fs.readFileSync(path.join(out,'release-baseline.json'))),head=git('rev-parse','HEAD'),live=await cloud();
+assert.deepEqual(live,before.production);assert.equal(git('rev-parse','origin/main'),head);assert.equal(git('status','--porcelain','--untracked-files=all'),'');
+const base=before.production.pages.commit,changed=git('diff','--name-only',base,head).split('\n').filter(Boolean);assert(changed.every(x=>x==='AGENTS.md'||x.startsWith('assets/ui/avatars-v1/santa-20261114/sudaeng-')||x.startsWith('docs/qa/')||x==='tests/avatar-santa-options-20261114.test.mjs'||x==='tests/clan-hideout-season-20261110.test.mjs'));
+const logfile='release-'+head.slice(0,9)+'.log',fd=fs.openSync(path.join(out,logfile),'wx');
+const reason='Replace only the three Dealer Namsudaeng avatar images and preserve approved aspect ratio; run the existing avatar catalog/effects and image delivery regressions. No runtime behavior or economy changes.';
+const env={...process.env,SCOPED_DEPLOY_BASE:base,SCOPED_DEPLOY_REASON:reason,SCOPED_DEPLOY_TESTS:JSON.stringify(['tests/avatar-santa-options-20261114.test.mjs']),SCOPED_DEPLOY_CHECKS:'[]',GIT_CONFIG_COUNT:'2',GIT_CONFIG_KEY_0:'gc.auto',GIT_CONFIG_VALUE_0:'0',GIT_CONFIG_KEY_1:'maintenance.auto',GIT_CONFIG_VALUE_1:'false'};
+const child=spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm run deploy:production -- --scoped'],{cwd:source,env,windowsHide:true,stdio:['ignore',fd,fd]});console.log(JSON.stringify({head,base,logfile}));
+const exitCode=await new Promise((resolve,reject)=>{child.once('exit',resolve);child.once('error',reject)});fs.closeSync(fd);assert.equal(exitCode,0,'Inspect '+logfile);
+const production=await cloud();assert.equal(production.pages.commit,head);assert.equal(production.pages.status,'success');
+save('deployment-result',{head,base,logfile,exitCode,production,reason,tests:['tests/avatar-santa-options-20261114.test.mjs'],at:new Date().toISOString()});console.log(JSON.stringify({head,production}));

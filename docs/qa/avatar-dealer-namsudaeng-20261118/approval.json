@@ -1,0 +1,59 @@
+{
+  "at": "2026-11-18T11:46:14.594Z",
+  "authorization": [
+    "해당 이미지로 사용, 장비창에 사용할 정자세 포즈도 만들것",
+    "산타걸 남수댕 아바타 딜러 남수댕으로 변경"
+  ],
+  "lobbyStatus": "USER_APPROVED_EXACT_V4",
+  "lobby": {
+    "file": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\avatars\\dealer-namsudaeng-20261118\\dealer-namsudaeng-lobby-approved-v4.png",
+    "width": 894,
+    "height": 1759,
+    "bytes": 1928452,
+    "alpha": false,
+    "sha256": "127f1fb9fb8f7f7c64a795a707f9ca36c1c6030417ae428fa5651855a70cb428"
+  },
+  "equipmentStatus": "CREATED_PER_USER_REQUEST",
+  "equipment": {
+    "file": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\avatars\\dealer-namsudaeng-20261118\\dealer-namsudaeng-equipment-v1.png",
+    "width": 887,
+    "height": 1774,
+    "bytes": 1033455,
+    "alpha": true,
+    "sha256": "d4d05f0f635f0ee957f625040d251b4f2772845d6ef6e6298e1844ee2b0aa000"
+  },
+  "name": "딜러 남수댕",
+  "existingCodePreserved": "SANTA_SUDAENG",
+  "existingSerialPreserved": "A-40",
+  "standingPose": "front-facing neutral full body; transparent background; same face/outfit direction",
+  "method": "built-in image_gen for standing pose; approved lobby copied unchanged; lossless WebP export",
+  "alpha": {
+    "width": 887,
+    "height": 1774,
+    "hasAlpha": true,
+    "transparentPercent": 67.36538933282831,
+    "solidPercent": 27.920774712781004,
+    "opaqueEdgePixels": 0,
+    "visibleBounds": [
+      140,
+      11,
+      738,
+      1749
+    ],
+    "method": "Built-in image_gen genuine alpha, preserved without mask editing"
+  },
+  "encoding": {
+    "encoding": {
+      "lossless": true,
+      "effort": 6,
+      "alphaQuality": 100
+    },
+    "elapsedMs": 5989,
+    "lobbyFullRGBChangedChannels": 0,
+    "lobbyMobileRGBChangedChannelsComparedWithProportionalResize": 0,
+    "equipmentOpaqueRGBChangedChannelsComparedWithProportionalResize": 0,
+    "equipmentAlphaChanged": 0,
+    "upscaled": false,
+    "approvedLobbySHA256": "127f1fb9fb8f7f7c64a795a707f9ca36c1c6030417ae428fa5651855a70cb428"
+  }
+}

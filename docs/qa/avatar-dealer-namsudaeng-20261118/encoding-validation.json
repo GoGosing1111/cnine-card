@@ -1,0 +1,14 @@
+{
+  "encoding": {
+    "lossless": true,
+    "effort": 6,
+    "alphaQuality": 100
+  },
+  "elapsedMs": 5989,
+  "lobbyFullRGBChangedChannels": 0,
+  "lobbyMobileRGBChangedChannelsComparedWithProportionalResize": 0,
+  "equipmentOpaqueRGBChangedChannelsComparedWithProportionalResize": 0,
+  "equipmentAlphaChanged": 0,
+  "upscaled": false,
+  "approvedLobbySHA256": "127f1fb9fb8f7f7c64a795a707f9ca36c1c6030417ae428fa5651855a70cb428"
+}

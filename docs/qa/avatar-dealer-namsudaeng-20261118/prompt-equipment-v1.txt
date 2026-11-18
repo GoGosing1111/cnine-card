@@ -1,0 +1,19 @@
+Use case: identity-preserve.
+Asset type: transparent full-body standing equipment-screen avatar for the adult character "Dealer Namsudaeng".
+
+Image 1 is the USER-APPROVED FINAL CHARACTER ART. It is the only authority for facial identity, exact drawing/rendering style, skin tone, head-to-body proportions, hairstyle and all clothing. The user explicitly selected THIS VERSION. Do not apply any newer face stylization, alternate face design or prior rejected head-size changes.
+
+Create a matching alternate pose for the equipment window:
+One complete adult woman standing upright, facing forward, head upright, looking toward the viewer, shoulders and hips naturally level. A neutral relaxed standing posture with a very slight natural weight balance, no dramatic contrapposto. Both legs extended naturally, parallel and close with a modest comfortable gap; both black high-heeled shoes resting on the same invisible ground plane. Arms relaxed down at her sides and slightly separated from the waist so the hands and jacket silhouette are readable; hands naturally open/relaxed and empty. Not a T-pose, no crossed legs, no bent seated pose, no hand at chin. Centered full-body front view from crown to both shoe soles, with a small clean safety margin above/below. Tall slender well-proportioned figure with the approved small-head balance and notably long legs; do not enlarge the head or make the figure squat.
+
+IDENTITY AND STYLE LOCK:
+The SAME Namsudaeng as Image 1: same softly oval face, gently rounded chin, eye shape and spacing, dark eyes, nose, natural pink lips and subtle smile, illustrated with EXACTLY the approved polished anime/semi-realistic game-art treatment in the input. Reproject the same face naturally into a front-facing upright head without redesigning her features. Keep the current approved head size relative to shoulders. Same light peach-pink skin with gentle blush; no whitening, tanning, extra redness, yellow shift or gray cast. Keep the existing skin-color family and restrained light/shadow values as closely as possible. No glossy doll face, no different anime abstraction level, no exaggerated eyes.
+
+HAIR LOCK:
+Same black loose flowing waves and light airy see-through bangs, both eyes unobstructed. Hair naturally falls behind the shoulders and hips with continuous organic strands, a few soft front wisps, and subtle restrained purple-pink edge reflections consistent with the reference. No white ribbons or added accessories, no rigid layered plates. Do not let hair hide the costume or hands.
+
+COSTUME LOCK:
+Exactly the same fitted rich red blazer with black lapels/trim and pockets, small gold buttons at black cuffs, white collared shirt, black neck ribbon/tie, short gray plaid skirt with the same pattern and material, sheer dark charcoal tights covering BOTH full legs, and glossy black closed-toe stiletto pumps. Preserve the existing garment coverage, fit, chest/waist/hip proportions and outfit details. Do not add playing cards, cards in hand, props, weapons, jewelry, hats, badges or logos.
+
+BACKGROUND AND DELIVERY:
+Genuine transparent alpha background, not a white/gray/black background or drawn checkerboard. Clean character cutout including delicate hair edges, no opaque halo. No scenery, floating petals, particles, floor, platform, cast shadow or lighting aura outside the silhouette. Keep the approved rich drawn shading and controlled rim lighting ON the character. Deliver one high-resolution vertical full-body transparent PNG, approximately 1:2 portrait composition. No text or watermark.

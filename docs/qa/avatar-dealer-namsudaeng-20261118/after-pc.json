@@ -1,0 +1,111 @@
+{
+  "mode": "after",
+  "device": "pc",
+  "origin": "https://1651dd90.cnine-card.pages.dev",
+  "conditions": "Windows headless Chrome/WebKit; production entry routes and production renderers; synthetic API and equipped account only. Image delivery fixed 25 ms latency + 2 MB/s. Not a physical phone or installed Windows client.",
+  "requests": [
+    "loot-shop/balance",
+    "sync/ticket",
+    "service/status",
+    "chief/extension-notice",
+    "loot-shop/balance",
+    "cards",
+    "packs",
+    "me/summary",
+    "pve/v3/feature",
+    "mercenary-cards/feature",
+    "loot-shop/balance",
+    "card/unique-advancement/feature",
+    "burning-event/status",
+    "streamer-profiles",
+    "me/menu-favorites",
+    "shell/summary",
+    "rank-exp-potion/status",
+    "live-operations",
+    "chief/status",
+    "account-rank/status",
+    "auction/user/lobby",
+    "chief/status",
+    "chief/extension-notice",
+    "loot-shop/balance",
+    "server-support/status",
+    "character/loadout",
+    "season/status",
+    "clan/war/ready-alert",
+    "clan/faction/alerts",
+    "jokgak-city/notifications",
+    "character/title/sync",
+    "shell/summary",
+    "rank-exp-potion/status",
+    "live-operations",
+    "account-rank/status",
+    "auction/user/lobby",
+    "server-support/status",
+    "character/loadout",
+    "season/status",
+    "rank-exp-potion/status",
+    "auction/user/lobby",
+    "chief/extension-notice"
+  ],
+  "images": [
+    {
+      "file": "sudaeng-lobby-1024.webp",
+      "bytes": 1253336,
+      "deliveryMs": 672
+    },
+    {
+      "file": "sudaeng-equipment-640.webp",
+      "bytes": 388484,
+      "deliveryMs": 239
+    }
+  ],
+  "rounds": [
+    {
+      "round": "first",
+      "clickToDecodedMs": 462,
+      "image": {
+        "src": "https://1651dd90.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+        "width": 640,
+        "height": 1280
+      },
+      "frames": {
+        "count": 76,
+        "p95Ms": 33.3,
+        "maxMs": 69,
+        "over50": 2
+      },
+      "exit": {
+        "equipmentRoots": 0,
+        "equipmentAnimations": 0,
+        "newCharacterRequests": 0
+      }
+    },
+    {
+      "round": "reentry",
+      "clickToDecodedMs": 206,
+      "image": {
+        "src": "https://1651dd90.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp?v=127f1fb9-dealer-v4",
+        "width": 640,
+        "height": 1280
+      },
+      "frames": {
+        "count": 119,
+        "p95Ms": 4.3,
+        "maxMs": 12.4,
+        "over50": 0
+      },
+      "exit": {
+        "equipmentRoots": 0,
+        "equipmentAnimations": 0,
+        "newCharacterRequests": 0
+      }
+    }
+  ],
+  "errors": [],
+  "lobbyImage": {
+    "src": "https://1651dd90.cnine-card.pages.dev/assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp?v=127f1fb9-dealer-v4",
+    "width": 894,
+    "height": 1759
+  },
+  "coldStartToLobbyMs": 2023
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-1024.webp",
+    "width": 894,
+    "height": 1759,
+    "bytes": 1253336,
+    "alpha": false,
+    "sha256": "bab7bb42346b4b9f3ff2e6472e6f3fd7ea85fa952671e4011df6dd19b08ebfa4"
+  },
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/sudaeng-lobby-640.webp",
+    "width": 640,
+    "height": 1259,
+    "bytes": 719640,
+    "alpha": false,
+    "sha256": "dd4e3d762d59de2e3f6d8a8fbcfb5b9b09a436b41b9da6770e2b805e8d96d8d9"
+  },
+  {
+    "file": "assets/ui/avatars-v1/santa-20261114/sudaeng-equipment-640.webp",
+    "width": 640,
+    "height": 1280,
+    "bytes": 388484,
+    "alpha": true,
+    "sha256": "8d5bbe9273e478ee6459966b93bc50f09e8298f16fe1228b68cd2a845c249d4e"
+  }
+]

@@ -55,6 +55,10 @@ for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' · four private S
 });
 test('only site-ready responsive Santa files are public; cap fits the deployment budget',async()=>{
  const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');const {readFileSync}=await import('node:fs');const {execFileSync}=await import('node:child_process');const sharp=(await import('sharp')).default;
- const cwd=new URL('..',import.meta.url);for(const id of ['hiheeya','bongsoon','joeun','sudaeng'])for(const [kind,w] of [['equipment-640',640],['lobby-640',640],['lobby-1024',1024]]){const path='assets/ui/avatars-v1/santa-20261114/'+id+'-'+kind+'.webp';assert(isProductionFile(path));const m=await sharp(readFileSync(new URL(path,cwd))).metadata();assert.deepEqual([m.width,m.height],[w,w*1.5]);assert.equal(m.hasAlpha,kind==='equipment-640');}
+ const cwd=new URL('..',import.meta.url);for(const id of ['hiheeya','bongsoon','joeun','sudaeng'])for(const [kind,w] of [['equipment-640',640],['lobby-640',640],['lobby-1024',1024]]){const path='assets/ui/avatars-v1/santa-20261114/'+id+'-'+kind+'.webp';assert(isProductionFile(path));const m=await sharp(readFileSync(new URL(path,cwd))).metadata();
+  // Dealer Namsudaeng keeps the user-approved portrait's native aspect ratio;
+  // the full image must not be stretched or upscaled to the legacy 2:3 canvas.
+  const size=id==='sudaeng'?({'equipment-640':[640,1280],'lobby-640':[640,1259],'lobby-1024':[894,1759]})[kind]:[w,w*1.5];
+  assert.deepEqual([m.width,m.height],size);assert.equal(m.hasAlpha,kind==='equipment-640');}
  assert.equal(isProductionFile('preview/avatar-iyejun-suit-20261018-v1/README.md'),false);const list=execFileSync('git',['ls-files','-z'],{cwd,maxBuffer:40e6}).toString().split('\0').filter(Boolean);const count=list.filter(f=>isProductionFile(f)&&!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+2;assert.ok(count<=20000,'Public file count '+count);
 });

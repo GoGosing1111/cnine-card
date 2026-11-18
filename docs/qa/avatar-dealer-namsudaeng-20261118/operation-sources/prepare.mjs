@@ -1,0 +1,35 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import sharp from 'sharp';
+import {out,root,source,base,files,approvedSHA256,digest,save} from './state.mjs';
+const original=path.join(root,'output/avatars/red-blazer-face-redesign-20261118/avatar-namsudaeng-v4-balanced-head.png');
+const generated='C:/Users/User/.codex/generated_images/01a1ee62-dfaf-7442-9962-6c1260536497/exec-8c13af34-dcb7-4f59-a1e3-b058eaef65b1.png';
+const artDir=path.join(root,'output/avatars/dealer-namsudaeng-20261118'),qa=path.join(source,'docs/qa/avatar-dealer-namsudaeng-20261118');
+const before=JSON.parse(fs.readFileSync(path.join(out,'baseline.json')));
+assert.equal(digest(fs.readFileSync(original)),approvedSHA256);
+for(const dir of [artDir,qa,path.join(out,'before')])fs.mkdirSync(dir,{recursive:true});
+const lobby=path.join(artDir,'dealer-namsudaeng-lobby-approved-v4.png'),equipment=path.join(artDir,'dealer-namsudaeng-equipment-v1.png');
+fs.copyFileSync(original,lobby,fs.constants.COPYFILE_EXCL);fs.copyFileSync(generated,equipment,fs.constants.COPYFILE_EXCL);
+for(const f of files){const b=fs.readFileSync(path.join(source,base,f));assert.equal(digest(b),before.assets.find(a=>a.file===base+f).sha256);fs.writeFileSync(path.join(out,'before',f),b,{flag:'wx'});}
+const cut=await sharp(equipment).ensureAlpha().raw().toBuffer({resolveWithObject:true});let zero=0,solid=0,edge=0;let bounds=[cut.info.width,cut.info.height,0,0];
+for(let i=0;i<cut.data.length;i+=4){const a=cut.data[i+3],x=i/4%cut.info.width,y=Math.floor(i/4/cut.info.width);if(a===0)zero++;if(a>=250)solid++;if(a>32){bounds=[Math.min(bounds[0],x),Math.min(bounds[1],y),Math.max(bounds[2],x),Math.max(bounds[3],y)];if(x===0||y===0||x===cut.info.width-1||y===cut.info.height-1)edge++;}}
+assert(zero>cut.info.width*cut.info.height*.4);assert(solid>cut.info.width*cut.info.height*.1);assert.equal(edge,0);
+const alpha={width:cut.info.width,height:cut.info.height,hasAlpha:true,transparentPercent:zero/(cut.info.width*cut.info.height)*100,solidPercent:solid/(cut.info.width*cut.info.height)*100,opaqueEdgePixels:edge,visibleBounds:bounds,method:'Built-in image_gen genuine alpha, preserved without mask editing'};save('alpha-validation',alpha);
+const encoding={lossless:true,effort:6,alphaQuality:100},started=performance.now();
+await sharp(lobby).webp(encoding).toFile(path.join(source,base,files[0]));
+await sharp(lobby).resize({width:640,withoutEnlargement:true}).webp(encoding).toFile(path.join(source,base,files[1]));
+await sharp(equipment).resize({width:640,withoutEnlargement:true}).webp(encoding).toFile(path.join(source,base,files[2]));
+const fullReference=await sharp(lobby).removeAlpha().raw().toBuffer(),full=await sharp(path.join(source,base,files[0])).removeAlpha().raw().toBuffer();assert.deepEqual(full,fullReference);
+const mobileReference=await sharp(lobby).resize({width:640,withoutEnlargement:true}).removeAlpha().raw().toBuffer(),mobile=await sharp(path.join(source,base,files[1])).removeAlpha().raw().toBuffer();assert.deepEqual(mobile,mobileReference);
+const equipmentReference=await sharp(equipment).resize({width:640,withoutEnlargement:true}).ensureAlpha().raw().toBuffer(),equipmentExport=await sharp(path.join(source,base,files[2])).ensureAlpha().raw().toBuffer();assert.equal(equipmentReference.length,equipmentExport.length);let opaqueChanged=0,alphaChanged=0;
+for(let i=0;i<equipmentExport.length;i+=4){if(equipmentReference[i+3]!==equipmentExport[i+3])alphaChanged++;if(equipmentReference[i+3]===255)for(let c=0;c<3;c++)if(equipmentReference[i+c]!==equipmentExport[i+c])opaqueChanged++;}assert.equal(opaqueChanged,0);assert.equal(alphaChanged,0);
+const encodingProof={encoding,elapsedMs:Math.round(performance.now()-started),lobbyFullRGBChangedChannels:0,lobbyMobileRGBChangedChannelsComparedWithProportionalResize:0,equipmentOpaqueRGBChangedChannelsComparedWithProportionalResize:opaqueChanged,equipmentAlphaChanged:alphaChanged,upscaled:false,approvedLobbySHA256:approvedSHA256};save('encoding-validation',encodingProof);
+const info=async f=>{const b=fs.readFileSync(f),m=await sharp(b).metadata();return{file:f,width:m.width,height:m.height,bytes:b.length,alpha:m.hasAlpha,sha256:digest(b)};};
+const assets=await Promise.all(files.map(async f=>({...await info(path.join(source,base,f)),file:base+f})));save('assets',assets);
+for(const a of before.assets.filter(a=>!files.some(f=>a.file===base+f)))assert.equal(digest(fs.readFileSync(path.join(source,a.file))),a.sha256);
+const approval={at:new Date().toISOString(),authorization:['해당 이미지로 사용, 장비창에 사용할 정자세 포즈도 만들것','산타걸 남수댕 아바타 딜러 남수댕으로 변경'],lobbyStatus:'USER_APPROVED_EXACT_V4',lobby:await info(lobby),equipmentStatus:'CREATED_PER_USER_REQUEST',equipment:await info(equipment),name:'딜러 남수댕',existingCodePreserved:'SANTA_SUDAENG',existingSerialPreserved:'A-40',standingPose:'front-facing neutral full body; transparent background; same face/outfit direction',method:'built-in image_gen for standing pose; approved lobby copied unchanged; lossless WebP export',alpha,encoding:encodingProof};save('approval',approval);
+for(const [f,src]of [['approved-lobby-v4.png',lobby],['equipment-v1.png',equipment]])fs.copyFileSync(src,path.join(qa,f));
+for(const f of ['approval.json','alpha-validation.json','encoding-validation.json','assets.json'])fs.copyFileSync(path.join(out,f),path.join(qa,f));
+fs.writeFileSync(path.join(artDir,'manifest.json'),JSON.stringify(approval,null,2)+'\n');
+console.log(JSON.stringify({assets,alpha,encoding:encodingProof,otherAvatarFilesUnchanged:before.assets.length-3,oldBytes:before.assets.filter(a=>files.some(f=>a.file===base+f)).reduce((a,b)=>a+b.bytes,0),newBytes:assets.reduce((a,b)=>a+b.bytes,0)}));
