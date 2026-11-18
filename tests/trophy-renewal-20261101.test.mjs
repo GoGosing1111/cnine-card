@@ -76,10 +76,10 @@ for(const postgres of [false,true]){
 }
 test('twelve saved bonus settings remain unchanged and four additions default to zero; UI retains indices and marks old designs',()=>{
  const current=emptyTrophyBonuses(),old={version:1,trophies:current.trophies.filter(t=>!RENEWED_TROPHY_CODES.includes(t.code))};old.trophies.forEach(t=>t.rewardBonuses={coinPercent:2,dropPercent:1,accountXpPercent:3});
- const before=JSON.stringify(old),normalized=validateTrophyBonuses(old,{allowLegacy:true});assert.equal(normalized.trophies.length,16);assert.equal(JSON.stringify(old),before);assert.throws(()=>validateTrophyBonuses(old));
+ const before=JSON.stringify(old),normalized=validateTrophyBonuses(old,{allowLegacy:true});assert.equal(normalized.trophies.length,TROPHY_CATALOG.length);assert.equal(JSON.stringify(old),before);assert.throws(()=>validateTrophyBonuses(old));
  const honors=trophyHonors({stats:{longest_streak:3},clanStats:{wins:1},champions:{wins:1}}),projection=trophyBonusProjection(normalized,honors);assert.deepEqual(projection.totals,{coinPercent:6,dropPercent:3,accountXpPercent:9});
  const window={location:{origin:'https://qa.test'}};vm.runInNewContext(readFileSync(new URL('../js/player-card-v2052.js',import.meta.url),'utf8'),{window,URL,Intl,AbortController});
  const reversed=[...projection.trophies].reverse(),html=window.PlayerCallingCard.render({player:{nickname:'검수'},ranked:{},trophies:reversed});
- const indices=[...html.matchAll(/data-pc-trophy="(\d+)"/g)].map(m=>Number(m[1]));assert.deepEqual(indices.slice(0,4).map(i=>reversed[i].code),RENEWED_TROPHY_CODES);assert(indices.slice(-3).every(i=>reversed[i].name.startsWith('(구) ')));
+ const indices=[...html.matchAll(/data-pc-trophy="(\d+)"/g)].map(m=>Number(m[1]));assert.deepEqual(indices.map(i=>reversed[i].code).filter(code=>RENEWED_TROPHY_CODES.includes(code)),RENEWED_TROPHY_CODES);assert(indices.slice(-3).every(i=>reversed[i].name.startsWith('(구) ')));
  assert.equal(TROPHY_CATALOG.filter(t=>t.edition==='legacy').length,3);assert.equal(parseTrophyRenewal(null),null);
 });

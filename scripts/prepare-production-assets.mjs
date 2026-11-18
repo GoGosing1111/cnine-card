@@ -150,7 +150,7 @@ export const previewNodeAuthoringOnly=new Set(JSON.parse(readFileSync(new URL('.
 const pumpkinChoiceAuthoringOnly=file=>file==='docs/pumpkin-pet-choice-20261023.md'||(file.startsWith('assets/items/pumpkin-pet-choice-20261023/')&&!['ticket.webp','panel.webp','button.webp'].includes(file.split('/').at(-1)));
 // Trophy UI loads three WebPs. Exact PNG originals, prompts and hash records
 // remain in Git; only this new authoring directory is excluded from Pages.
-const trophyAuthoringOnly=file=>/^assets\/ui\/player-card\/renewal-20261101\/(?:[^/]+\.png|prompts\.json|manifest\.json)$/.test(file)||/^assets\/ui\/player-card\/milestones-20261023\/(?:[^/]+\.png|prompts\.json|manifest\.json)$/.test(file);
+const trophyAuthoringOnly=file=>/^assets\/ui\/player-card\/(?:renewal-20261101|milestones-20261023|cnine-vip-20261118)\/(?:[^/]+\.png|prompts\.json|manifest\.json)$/.test(file);
 // Three historical Node filesystem validators have no browser consumers.
 // Retain the exact scripts in Git; their slots hold the three trophy WebPs.
 export const trophyNodeQaOnly=new Set(['scripts/validate-v1676.mjs','scripts/validate-v1677.mjs','scripts/validate-v1680.mjs']);
@@ -272,6 +272,8 @@ const rankedShopNativeTools=new Set(["scripts/android-direct/build-apk.ps1","scr
 // Draft announcements remain in Git until separately published.
 // Historical trophy implementation notes remain in Git; only runtime art ships.
 export const trophyHistoricalNotesOnly=new Set(["docs/champions-trophy-v2109-20260914.md","docs/trophy-milestones-20261011.md","docs/trophy-milestones-20261011.json","docs/pet-trophy-reward-bonuses-20261014.md"]);
+// The historical grant note remains in Git; its public slot carries VIP art.
+trophyHistoricalNotesOnly.add('docs/pink-all-trophies-20261014.md');
 // These November 1–2 art studies are local authoring work, not released game assets.
 // Keep every original, native Spine file, prompt and preview in Git and on disk.
 const novemberArtStudyOnly=file=>[

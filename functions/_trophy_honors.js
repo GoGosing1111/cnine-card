@@ -1,4 +1,5 @@
 import {emptyRenewedHonors,readTrophyRenewalHonors} from './_trophy_renewal.js';
+import {readCnineVipHonor,emptyCnineVipHonor,CNINE_VIP_GOAL} from './_cnine_vip_trophy.js';
 import {readNewTrophyMilestones} from './_trophy_milestones.js';
 import { readDuoHonors } from './_ranked_duo_honors.js';
 import { readPredictionStakeHonors, PREDICTION_TROPHY_GOAL } from './_prediction_trophy.js';
@@ -42,9 +43,10 @@ export const CHAMPIONS_HONORS_SQL = `SELECT COUNT(DISTINCT r.season_id) wins,MIN
         WHERE r.user_id=? AND r.reward_type='CLAN_CHAMPIONS_TROPHY' AND r.reward_amount=1 AND r.status='SENT'
           AND c.status='COMPLETED' AND c.completed_at IS NOT NULL AND c.reward_status<>'DISABLED_TEST'`;
 
-export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {}, cityTop = {}, lichClear = {}, worldRaid = {}, blueEmpire = {}, limitedEdition = {}, loyalServicePost = {} }) {
+export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {}, cityTop = {}, lichClear = {}, worldRaid = {}, blueEmpire = {}, limitedEdition = {}, loyalServicePost = {}, cnineVip = {} }) {
   return {
       ...emptyRenewedHonors(),
+      CNINE_VIP: {count:n(cnineVip.count),progress:n(cnineVip.progress),goal:CNINE_VIP_GOAL,acquiredAt:null},
       DUO_CHALLENGER: { count: n(duo.count), acquiredAt: duo.acquiredAt, progress: n(duo.count), goal: 1 },
       CLAN_CHAMPION: { count: n(clanStats.wins), acquiredAt: clanStats.first_at || null, progress: n(clanStats.wins), goal: 1 },
       CHALLENGER_STREAK_3: { count: n(stats.longest_streak) >= 3 ? 1 : 0, acquiredAt: stats.streak_at || null, progress: n(stats.current_streak), goal: 3 },
@@ -61,14 +63,15 @@ export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo =
 }
 
 export async function readTrophyHonors(env, userId, {newMilestoneCodes,newTrophyCodes} = {}) {
-  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones, renewal] = await Promise.all([
+  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones, renewal, cnineVip] = await Promise.all([
     env.DB.prepare(RANKED_HONORS_SQL).bind(userId).first(),
     env.DB.prepare(`SELECT COUNT(*) wins,MIN(x.completed_at) first_at ${CLAN_HONORS}`).bind(userId).first(),
     env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(userId).first(),
     readDuoHonors(env, userId),
-    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId),readWorldRaidClearHonors(env,userId),readTrophyManualGrants(env,userId),readNewTrophyMilestones(env,userId,{codes:newMilestoneCodes}),readRenewedTrophyHonors(env,userId,{newCodes:newTrophyCodes})
+    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId),readWorldRaidClearHonors(env,userId),readTrophyManualGrants(env,userId),readNewTrophyMilestones(env,userId,{codes:newMilestoneCodes}),readRenewedTrophyHonors(env,userId,{newCodes:newTrophyCodes}),
+    newTrophyCodes===undefined||newTrophyCodes.includes('CNINE_VIP')?readCnineVipHonor(env,userId):emptyCnineVipHonor()
   ]);
-  return applyTrophyManualGrants({...trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear, worldRaid, ...milestones }),...renewal},manualGrants);
+  return applyTrophyManualGrants({...trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear, worldRaid, ...milestones, cnineVip }),...renewal},manualGrants);
 }
 
 export const readRenewedTrophyHonors=(env,userId,options={})=>readTrophyRenewalHonors(env,userId,{rankedSql:RANKED_HONORS_SQL,clanSql:CLAN_HONORS,championsSql:CHAMPIONS_HONORS_SQL,...options});

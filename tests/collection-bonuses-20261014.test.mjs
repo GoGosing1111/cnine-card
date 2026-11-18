@@ -9,6 +9,7 @@ import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 import {weeklyFixture} from './helpers/ranked-duo-weekly.mjs';
 import {readCollectionBonuses,collectionRewardCoin,withCollectionBonusScope} from '../functions/_collection_bonuses.js';
 import {readTrophyHonors} from '../functions/_trophy_honors.js';
+import {readCodexSssLimitedCodes} from '../functions/_trophy_milestones.js';
 import {handleTrophyBonusCms} from '../functions/_trophy_bonus_cms.js';
 import {handlePetCompanionCms} from '../functions/_pet_companion_cms.js';
 import {accountRankAward,accountRankBenefits,rankCoin,MAX_RANK_TICKS} from '../functions/_account_rank.js';
@@ -26,8 +27,8 @@ test('neutral defaults, strict percentages, decimal sums, relative drop cap and 
   assert.throws(()=>validateRewardBonuses({...ZERO_REWARD_BONUSES,other:0}));
   assert.equal(rewardAmountWithBonus(101,2.25),103);assert.equal(rewardAmountWithBonus(Number.MAX_SAFE_INTEGER,100),Number.MAX_SAFE_INTEGER);assert.equal(rewardAmountWithBonus(98,50,100),100);
   assert.equal(rewardDropWithBonus(0,1000),0);assert.equal(rewardDropWithBonus(0.5,20),0.6);assert.equal(rewardDropWithBonus(90,1000),100);
-  const doc=emptyTrophyBonuses();doc.trophies[0].rewardBonuses={dropPercent:10,accountXpPercent:10,coinPercent:10};
-  assert.deepEqual(trophyBonusProjection(doc,{DUO_CHALLENGER:{count:999}}).totals,doc.trophies[0].rewardBonuses);
+  const doc=emptyTrophyBonuses(),duo=doc.trophies.find(t=>t.code==='DUO_CHALLENGER');duo.rewardBonuses={dropPercent:10,accountXpPercent:10,coinPercent:10};
+  assert.deepEqual(trophyBonusProjection(doc,{DUO_CHALLENGER:{count:999}}).totals,duo.rewardBonuses);
 });
 
 for(const postgres of [false,true]){
@@ -54,23 +55,23 @@ for(const postgres of [false,true]){
       await f.p('INSERT INTO pvp_season_settlements VALUES(?,?,?,?,?,?)',id,'season-'+id,'시즌 '+id,'2026-09-01','2026-10-01','COMPLETED').run();
       await f.p("INSERT INTO pvp_season_settlement_ranks VALUES(?,7,'challenger','챌린저',20,3000,10,0)",id).run();
     }
-    const codexHoldings=['V-973','V-974','V-975','V-976','V-987','V-978','V-996','V-999','V-988'];
-    for(const code of codexHoldings.slice(0,8))await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',code,'2026-10-20','2026-10-20').run();
+    const codex=readCodexSssLimitedCodes(),goal=Math.ceil(codex.length*0.8),codexHoldings=codex.filter(code=>!['V-979','V-989'].includes(code));assert(codexHoldings.length>=goal);
+    for(const code of codexHoldings.slice(0,goal-1))await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',code,'2026-10-20','2026-10-20').run();
     const codes=['BLUE_EMPIRE_20','LIMITED_EDITION_80'];
     for(const code of codes)f.trophies.trophies.find(row=>row.code===code).rewardBonuses={dropPercent:1,accountXpPercent:2,coinPercent:3};
     await f.write(TROPHY_BONUSES_KEY,{revision:2,audit:[],document:f.trophies});
     const queries=[],prepare=f.env.DB.prepare.bind(f.env.DB);f.env.DB.prepare=source=>{queries.push(source);return prepare(source);};
     const partial=await readCollectionBonuses(f.env,7);
     assert.deepEqual(partial.totals,{dropPercent:18,accountXpPercent:37,coinPercent:53});
-    assert(!partial.trophies.some(row=>row.code==='LIMITED_EDITION_80'),'Eight of eleven codex types stay below 80%');
-    await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',codexHoldings[8],'2026-10-20','2026-10-20').run();
+    assert(!partial.trophies.some(row=>row.code==='LIMITED_EDITION_80'),'One fewer distinct kind than the current catalog threshold stays below 80%');
+    await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(7,?,1,0,?,?)',codexHoldings[goal-1],'2026-10-20','2026-10-20').run();
     const rewards=await readCollectionBonuses(f.env,7);
     assert.deepEqual(rewards.totals,{dropPercent:19,accountXpPercent:39,coinPercent:56});
     assert(!queries.some(sql=>/quest_hub_foundation_20260924|quest_weekly_claims_v1/.test(sql)),'The unconfigured POST trophy source stays unused');
     const honors=await readTrophyHonors(f.env,7);
     for(const code of codes){const trophy=rewards.trophies.find(row=>row.code===code);for(const key of Object.keys(honors[code]))assert.equal(trophy[key],honors[code][key],code+':'+key);}
     const limited=rewards.trophies.find(row=>row.code==='LIMITED_EDITION_80');
-    assert.equal(limited.total,11);assert.equal(limited.goal,9);assert.equal(limited.progress,9);
+    assert.equal(limited.total,codex.length);assert.equal(limited.goal,goal);assert.equal(limited.progress,goal);
   });
   test(label+': account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive',async t=>{
     const f=await collectionFixture(t,{postgres}),env=withAvatarDropScope(f.env);

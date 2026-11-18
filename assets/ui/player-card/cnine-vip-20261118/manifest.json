@@ -1,0 +1,22 @@
+{
+  "generator": "image_gen.imagegen",
+  "revision": 2,
+  "review": "Redesigned per user: C9 logo and pedestal share silver, ice-blue and subtle rose-silver materials; logo curves form the supports; no SOOP wordmark.",
+  "logoReference": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+  "logoSha256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba",
+  "original": "cnine-vip-v2.png",
+  "runtime": "cnine-vip-v2.webp",
+  "originalSha256": "328aa2a848cb5ce3b35290e44794a96765f55c865b4633a76de30f668fc0cc08",
+  "runtimeSha256": "287d096a3296e45763d6a8710b52bf77940f9899f14bc26f93d3b21582c9bf55",
+  "originalSize": [
+    1254,
+    1254
+  ],
+  "runtimeSize": [
+    512,
+    512
+  ],
+  "hasAlpha": true,
+  "originalBytes": 1452953,
+  "runtimeBytes": 75084
+}

@@ -29,11 +29,11 @@
       ? '<img class="pc-rank-symbol" src="/assets/ui/tiers/challenger-v2032.png" alt="챌린저 마크" width="110" height="110">'
       : `<div class="pc-rank-symbol pc-unranked" aria-hidden="true">${esc(ranked.tier.name.slice(0, 1))}</div>`;
   }
-  function trophyHtml(t, i) {
+  function trophyHtml(t, i, eager = false) {
     const art = asset(t.art), champions = t.code === 'CLAN_CHAMPIONS_TROPHY', tone = ['gold', 'blue', 'ruby', 'platinum'].includes(t.tone) ? t.tone : 'gold';
     const manual=t.adminGranted&&!(t.officialCount>0);
     return `<button type="button" class="pc-trophy ${t.owned ? 'is-owned' : 'is-locked'} pc-tone-${tone}${champions ? ' pc-trophy-champions' : ''}" data-pc-trophy="${i}" aria-pressed="false" aria-label="${esc(t.name)} · ${t.owned ? '획득' : '미획득'} · 상세 보기">
-      <span class="pc-trophy-stage">${art ? `<img src="${esc(art)}" alt="" width="512" height="512" decoding="async">` : ''}<span class="pc-plinth"></span></span>
+      <span class="pc-trophy-stage">${art ? `<img src="${esc(art)}" alt="" width="512" height="512" loading="${eager ? 'eager' : 'lazy'}" decoding="async">` : ''}<span class="pc-plinth"></span></span>
       <span class="pc-trophy-copy">${t.edition ? `<span class="pc-edition">${t.edition==='legacy'?'이전 트로피':'새 트로피'}</span>` : ''}${champions ? '<span class="pc-champions-kicker">CHAMPIONS LEAGUE</span>' : ''}
         <span class="pc-trophy-name">${esc(t.code === 'PREDICTION_STAKE_300T' ? '300조 감사패' : t.name)}</span>
         <span class="pc-trophy-subtitle">${t.subtitle ? esc(t.subtitle) : t.code === 'PREDICTION_STAKE_300T' ? '누적 베팅액 300조 달성' : t.code === 'DUO_CHALLENGER' ? '듀오 시즌 최종 상위 10팀' : champions ? '최종 우승 클랜의 영예' : t.code === 'CLAN_CHAMPION' ? '클랜 시즌 우승' : t.code === 'CHALLENGER_STREAK_3' ? '3시즌 연속 챌린저' : '랭크 시즌 1위'}</span>
@@ -55,7 +55,7 @@
   const defaultDetail='<span class="pc-detail-icon" aria-hidden="true">✦</span><p><b>기록으로 증명하는 명예</b><span>트로피를 선택하면 획득 조건과 달성 기록을 확인할 수 있습니다.</span></p>';
   function shelves(rows){
     const pages=[];for(let i=0;i<rows.length;i+=4)pages.push(rows.slice(i,i+4));
-    return `${pages.length>1?`<nav class="pc-shelf-nav" aria-label="트로피 진열장 페이지"><span>COLLECTION <b data-pc-shelf-count aria-live="polite">1 / ${pages.length}</b></span><div><button type="button" data-pc-page="prev" disabled aria-label="이전 트로피 페이지">← 이전</button><button type="button" data-pc-page="next" aria-label="다음 트로피 페이지">다음 →</button></div></nav>`:''}<div class="pc-shelves">${pages.map((page,i)=>`<div class="pc-shelf-page" data-pc-shelf="${i}" ${i?'hidden':''}><div class="pc-trophies${page.some(({t})=>t.code==='CLAN_CHAMPIONS_TROPHY')?' pc-has-champions':' pc-shelf-grid'}${page.every(({t})=>t.edition==='new')?' pc-renewal-shelf':''}">${page.map(({t,i})=>trophyHtml(t,i)).join('')}</div></div>`).join('')}</div>`;
+    return `${pages.length>1?`<nav class="pc-shelf-nav" aria-label="트로피 진열장 페이지"><span>COLLECTION <b data-pc-shelf-count aria-live="polite">1 / ${pages.length}</b></span><div><button type="button" data-pc-page="prev" disabled aria-label="이전 트로피 페이지">← 이전</button><button type="button" data-pc-page="next" aria-label="다음 트로피 페이지">다음 →</button></div></nav>`:''}<div class="pc-shelves">${pages.map((page,i)=>`<div class="pc-shelf-page" data-pc-shelf="${i}" ${i?'hidden':''}><div class="pc-trophies${page.some(({t})=>t.code==='CLAN_CHAMPIONS_TROPHY')?' pc-has-champions':' pc-shelf-grid'}${page.every(({t})=>t.edition==='new')?' pc-renewal-shelf':''}">${page.map(({t,i:index})=>trophyHtml(t,index,i===0)).join('')}</div></div>`).join('')}</div>`;
   }
   function render(profile, { demo = false } = {}) {
     const p = profile.player, r = profile.ranked, trophies = profile.trophies || [], avatar = asset(p.avatar?.image, true);
