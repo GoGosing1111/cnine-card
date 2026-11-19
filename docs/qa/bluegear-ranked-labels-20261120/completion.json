@@ -1,0 +1,882 @@
+{
+  "status": "COMPLETE",
+  "at": "2026-11-19T16:28:22.814Z",
+  "task": "랭크전 블루기어 용병 식별 표기 수정",
+  "commit": "52ff65ac2041185a4f38249e4a6cc4912f43b103",
+  "release": {
+    "pages": {
+      "id": "ea02a3f3-4059-4527-bd20-d0920e916dc4",
+      "commit": "e692773fe8d89dd45c79701785816379070782aa",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "d4d5a8cc-744c-48d1-8814-b9c7910948d9",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "e00daaea-e502-4123-8b90-5f97a6421cf1",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "cause": "rankedPublicMercenary knew Black Crown/Blood Moon/Halloween membership but omitted Blue Gear. Ranked account snapshots omit edition, leaving both regular and Blue Gear Hiheeya labelled SS. The screenshot star is a device-local favorite, not a limited-edition indicator.",
+  "change": "Resolve all eight Blue Gear identities from the canonical pack pool. Five SS and Zero/Hakuya show Blue Gear + rank + limited; unlimited Astra shows Blue Gear SSS. Existing labels, favorites, code-based selection, rank constraints, hidden opponent order and gameplay are preserved. No frontend cache or asset rebuild is needed for this server response label change.",
+  "labels": {
+    "regular": "SS · 하이희야",
+    "blue": "블루기어 SS 리미티드 · 하이희야",
+    "astra": "블루기어 SSS · 아스트라",
+    "zero": "블루기어 SSS 리미티드 · 제로",
+    "hakuya": "블루기어 SSS 리미티드 · 하쿠야 신"
+  },
+  "tests": {
+    "passed": 16,
+    "failed": 0,
+    "workerSyntax": "PASSED",
+    "files": [
+      "tests/bluegear-ranked-labels-20261120.test.mjs",
+      "tests/ranked-mercenary-labels-20261102.test.mjs",
+      "tests/ranked-mercenary-favorites-20261106.test.mjs"
+    ],
+    "coverage": "SQLite and PostgreSQL actual ranked read/save/ticket-preview services; 8 identities, same-name ordinary counterpart, public field allowlist, same-rank/duplicate blocking, stored codes, canonical identity independent of forged name/season, unchanged account coins."
+  },
+  "browser": {
+    "before": {
+      "status": "PASSED",
+      "before": true,
+      "publicBase": "",
+      "environment": "Windows Chrome headless; PC/mobile touch emulation; isolated PGlite API; no production account writes",
+      "service": [
+        {
+          "ms": 5.899800000000141,
+          "sql": 3
+        },
+        {
+          "ms": 5.150200000000041,
+          "sql": 3
+        }
+      ],
+      "reports": [
+        {
+          "width": 1440,
+          "visit": 0,
+          "readyMs": 1445.1628,
+          "labels": {
+            "V-059": "SSS · 아스트라",
+            "V-976": "SSS 리미티드 · 제로",
+            "V-967": "SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-702": "SS · 나무늘봉순",
+            "V-703": "SS · 디임",
+            "V-704": "SS · 수댕",
+            "V-705": "SS · 조은",
+            "V-044": "SS · 하이희야",
+            "V-701": "★ SS · 하이희야"
+          },
+          "identities": [
+            "SSS",
+            "SS",
+            "SSS 리미티드",
+            "SS",
+            "SSS 리미티드",
+            "SS"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 12.5,
+            "max": 158.4000000000001,
+            "over50": 3
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        },
+        {
+          "width": 1440,
+          "visit": 1,
+          "readyMs": 73.32999999999993,
+          "labels": {
+            "V-059": "SSS · 아스트라",
+            "V-976": "SSS 리미티드 · 제로",
+            "V-967": "SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-702": "SS · 나무늘봉순",
+            "V-703": "SS · 디임",
+            "V-704": "SS · 수댕",
+            "V-705": "SS · 조은",
+            "V-044": "SS · 하이희야",
+            "V-701": "★ SS · 하이희야"
+          },
+          "identities": [
+            "SSS",
+            "SS",
+            "SSS 리미티드",
+            "SS",
+            "SSS 리미티드",
+            "SS"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 20.800000000000182,
+            "max": 41.69999999999982,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        },
+        {
+          "width": 390,
+          "visit": 0,
+          "readyMs": 154.45610000000124,
+          "labels": {
+            "V-059": "SSS · 아스트라",
+            "V-976": "SSS 리미티드 · 제로",
+            "V-967": "SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-702": "SS · 나무늘봉순",
+            "V-703": "SS · 디임",
+            "V-704": "SS · 수댕",
+            "V-705": "SS · 조은",
+            "V-044": "SS · 하이희야",
+            "V-701": "★ SS · 하이희야"
+          },
+          "identities": [
+            "SSS",
+            "SS",
+            "SSS 리미티드",
+            "SS",
+            "SSS 리미티드",
+            "SS"
+          ],
+          "frames": {
+            "p50": 4.199999999999932,
+            "p95": 24.899999999999864,
+            "max": 58.200000000000045,
+            "over50": 1
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        },
+        {
+          "width": 390,
+          "visit": 1,
+          "readyMs": 56.03820000000087,
+          "labels": {
+            "V-059": "SSS · 아스트라",
+            "V-976": "SSS 리미티드 · 제로",
+            "V-967": "SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-702": "SS · 나무늘봉순",
+            "V-703": "SS · 디임",
+            "V-704": "SS · 수댕",
+            "V-705": "SS · 조은",
+            "V-044": "SS · 하이희야",
+            "V-701": "★ SS · 하이희야"
+          },
+          "identities": [
+            "SSS",
+            "SS",
+            "SSS 리미티드",
+            "SS",
+            "SSS 리미티드",
+            "SS"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 20.799999999999727,
+            "max": 29.199999999999818,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        }
+      ]
+    },
+    "after": {
+      "status": "PASSED",
+      "before": false,
+      "publicBase": "",
+      "environment": "Windows Chrome headless; PC/mobile touch emulation; isolated PGlite API; no production account writes",
+      "service": [
+        {
+          "ms": 6.149899999999889,
+          "sql": 3
+        },
+        {
+          "ms": 6.236399999999776,
+          "sql": 3
+        }
+      ],
+      "reports": [
+        {
+          "width": 1440,
+          "visit": 0,
+          "readyMs": 1522.5541000000003,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 12.5,
+            "max": 137.59999999999945,
+            "over50": 5
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        },
+        {
+          "width": 1440,
+          "visit": 1,
+          "readyMs": 68.3778999999995,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 20.899999999999636,
+            "max": 38.600000000000364,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        },
+        {
+          "width": 390,
+          "visit": 0,
+          "readyMs": 183.84190000000126,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.2000000000000455,
+            "p95": 24.90000000000009,
+            "max": 79.20000000000005,
+            "over50": 1
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        },
+        {
+          "width": 390,
+          "visit": 1,
+          "readyMs": 71.34479999999894,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 20.799999999999727,
+            "max": 29.200000000000273,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          }
+        }
+      ]
+    },
+    "publicRun": {
+      "status": "PASSED",
+      "before": false,
+      "publicBase": "https://cnine-card.pages.dev",
+      "environment": "Windows Chrome headless; PC/mobile touch emulation; isolated PGlite API; no production account writes",
+      "service": [
+        {
+          "ms": 4.739999999999782,
+          "sql": 3
+        },
+        {
+          "ms": 4.14240000000018,
+          "sql": 3
+        }
+      ],
+      "reports": [
+        {
+          "width": 1440,
+          "visit": 0,
+          "readyMs": 225.21690000000035,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 29.200000000000273,
+            "max": 166.60000000000014,
+            "over50": 3
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [
+              {
+                "start": 2049.199999988079,
+                "duration": 97
+              }
+            ],
+            "resources": []
+          }
+        },
+        {
+          "width": 1440,
+          "visit": 1,
+          "readyMs": 55.250199999999495,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 16.699999999999818,
+            "max": 29.300000000000182,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [],
+            "resources": []
+          }
+        },
+        {
+          "width": 390,
+          "visit": 0,
+          "readyMs": 174.0537000000004,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.2000000000000455,
+            "p95": 20.799999999999955,
+            "max": 62.59999999999991,
+            "over50": 1
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [
+              {
+                "start": 1003.1999999880791,
+                "duration": 60
+              }
+            ],
+            "resources": []
+          }
+        },
+        {
+          "width": 390,
+          "visit": 1,
+          "readyMs": 56.67439999999988,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 20.800000000000182,
+            "max": 33.40000000000009,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [],
+            "resources": []
+          }
+        }
+      ]
+    },
+    "h5": {
+      "status": "PASSED",
+      "before": false,
+      "publicBase": "https://cnine-card.pages.dev",
+      "environment": "Windows Chrome headless; PC/mobile touch emulation; isolated PGlite API; no production account writes",
+      "service": [
+        {
+          "ms": 2.830399999999827,
+          "sql": 3
+        },
+        {
+          "ms": 2.992500000000291,
+          "sql": 3
+        }
+      ],
+      "reports": [
+        {
+          "width": 1440,
+          "visit": 0,
+          "readyMs": 391.5697999999993,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 20.90000000000009,
+            "max": 100,
+            "over50": 3
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [
+              {
+                "start": 3624,
+                "duration": 106
+              }
+            ],
+            "resources": []
+          }
+        },
+        {
+          "width": 1440,
+          "visit": 1,
+          "readyMs": 54.14840000000004,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 16.699999999999818,
+            "max": 29.199999999999818,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [],
+            "resources": []
+          }
+        },
+        {
+          "width": 390,
+          "visit": 0,
+          "readyMs": 266.97229999999945,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 29.09999999999991,
+            "max": 45.90000000000009,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [
+              {
+                "start": 2218.199999988079,
+                "duration": 62
+              }
+            ],
+            "resources": []
+          }
+        },
+        {
+          "width": 390,
+          "visit": 1,
+          "readyMs": 54.96030000000064,
+          "labels": {
+            "V-059": "블루기어 SSS · 아스트라",
+            "V-976": "블루기어 SSS 리미티드 · 제로",
+            "V-967": "블루기어 SSS 리미티드 · 하쿠야 신",
+            "V-951": "블랙크라운 SS 리미티드 · 나무늘봉순",
+            "V-960": "블러드문 SS 리미티드 · 나무늘봉순",
+            "V-702": "블루기어 SS 리미티드 · 나무늘봉순",
+            "V-980": "할로윈 SS 리미티드 · 나무늘봉순",
+            "V-703": "블루기어 SS 리미티드 · 디임",
+            "V-704": "블루기어 SS 리미티드 · 수댕",
+            "V-705": "블루기어 SS 리미티드 · 조은",
+            "V-701": "★ 블루기어 SS 리미티드 · 하이희야",
+            "V-044": "SS · 하이희야"
+          },
+          "identities": [
+            "블루기어 SSS",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드",
+            "블루기어 SSS 리미티드",
+            "블루기어 SS 리미티드"
+          ],
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 16.800000000000182,
+            "max": 37.5,
+            "over50": 0
+          },
+          "exit": {
+            "extraConfigReads": 0,
+            "canvases": 0,
+            "preview": 0
+          },
+          "diagnostics": {
+            "longTasks": [],
+            "resources": []
+          }
+        }
+      ]
+    },
+    "physicalDevice": false,
+    "installedWindowsClient": false,
+    "productionAccountApi": false,
+    "conditions": "Windows Chrome headless, 1440x960 PC and 390x844 mobile touch emulation, main shell ranked entry and H5 iframe /onestore/index.html. Public files with isolated PGlite account routes; saves occur only in the disposable fixture. First/reentry/favorite filtering/ordinary versus Blue Gear selection/save/opponent preview/exit verified."
+  },
+  "performance": {
+    "comparison": "Local same conditions single trials: PC first/reentry1445/73 → 1523/68ms; mobile154/56 → 184/71ms. PGlite ranked read first/repeat5.9/5.2 → 6.1/6.2ms, 3 SQL unchanged. No speed improvement claimed.",
+    "bottleneck": "Public entry main-thread long tasks 97ms PC / 60ms mobile, with none on reentry; isolated DB reads about6ms. Resource timing sample was empty, so network/disk contribution is not quantified. Shared label resolution adds no API/DB call or per-frame work. Canonical membership map is constructed once per module.",
+    "frames": "RAF p50 4.2ms is browser callback cadence, not battle FPS. First-entry long frames existed before and remain recorded. No game canvas is mounted in this label task.",
+    "exit": "All before/after/public/H5 visits: extra ranked config queries 0, canvases 0, opponent-preview DOM 0 after leaving (1.2s observation)."
+  },
+  "reviewNotes": [
+    "Initial H5 automation did not wait for shell startup or handle the consent dialog inside its iframe. The fixture handler was corrected; failed logs remain in h5/ and h5-final/. No product consent or login behavior changed."
+  ],
+  "liveVerification": {
+    "at": "2026-11-19T16:23:43.834Z",
+    "commit": "52ff65ac2041185a4f38249e4a6cc4912f43b103",
+    "production": {
+      "pages": {
+        "id": "ea02a3f3-4059-4527-bd20-d0920e916dc4",
+        "commit": "e692773fe8d89dd45c79701785816379070782aa",
+        "status": "success"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "deployments": [
+            {
+              "version_id": "d4d5a8cc-744c-48d1-8814-b9c7910948d9",
+              "percentage": 100
+            }
+          ]
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "deployments": [
+            {
+              "version_id": "e00daaea-e502-4123-8b90-5f97a6421cf1",
+              "percentage": 100
+            }
+          ]
+        }
+      ]
+    },
+    "windowsReleaseId": "f447df596acb257dbd1de1ba3143e3fc07d13c467c156c8091221f9e5302a7bc",
+    "files": [
+      {
+        "file": "shared/ranked-series-v1.mjs",
+        "bytes": 4544,
+        "sha256": "4e6f837a2208da3c4f4e0d2ac02787d367d7a526a19c04f0687a7b9d76041305",
+        "windows": true
+      },
+      {
+        "file": "shared/mercenary-blue-gear-pack-v1.mjs",
+        "bytes": 5851,
+        "sha256": "be6f8e8dda46184b8de58c4d305e1b3407a107730eb4e2ffa08bbc41d2f96fdc",
+        "windows": true
+      },
+      {
+        "file": "shared/mercenary-blue-gear-catalog-v1.mjs",
+        "bytes": 1918,
+        "sha256": "fa7ab570fd1b5e262d7f8a06c14d46d4c6c921f323617313ab374946ab8e101e",
+        "windows": true
+      },
+      {
+        "file": "js/ranked-series-ui-v1.js",
+        "bytes": 19811,
+        "sha256": "2786abb72ea7cdc5b2a959e2f7643bf669ac86de3f45de7f904ac7cf5a9dc000",
+        "windows": true
+      },
+      {
+        "file": "index.html",
+        "bytes": 46923,
+        "sha256": "5e0ecdb6df60338790afe42c96e299e9745b1a1f1f0cea10cec8d388b0f3fb64",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 47046,
+        "sha256": "bb8971b2c7a40097da0885f6f06c0d9a04992bf152e86877bb80773d91c96701",
+        "windows": false
+      }
+    ],
+    "productionAccountWrites": 0,
+    "messages": 0
+  },
+  "productionAccountWrites": 0,
+  "purchases": 0,
+  "grants": 0,
+  "economyChanges": 0,
+  "messages": 0,
+  "artifactDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\bluegear-ranked-labels-20261120",
+  "announcement": {
+    "file": "유저공지.txt",
+    "published": false
+  }
+}
