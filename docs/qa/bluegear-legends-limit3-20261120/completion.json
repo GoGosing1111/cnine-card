@@ -1,0 +1,2580 @@
+{
+  "at": "2026-11-19T16:20:03.044Z",
+  "status": "REFILLED_DEPLOYED_VERIFIED",
+  "operationKey": "ops:bluegear:zero-hakuya-remaining3:20261120:v1",
+  "authorization": {
+    "initial": "블루기어팩 하쿠야신 제로 한도 3장씩 다시 맞춰",
+    "clarified": "남은 수량을 각 3장으로 보충"
+  },
+  "result": {
+    "zero": {
+      "issuedBefore": 3,
+      "totalLimitBefore": 3,
+      "totalLimitAfter": 6,
+      "remainingAtCommit": 3,
+      "added": 3
+    },
+    "hakuya": {
+      "issuedBefore": 1,
+      "totalLimitBefore": 3,
+      "totalLimitAfter": 4,
+      "remainingAtCommit": 3,
+      "added": 1
+    },
+    "ssLimitsUnchanged": 45,
+    "pricesAndConfiguredProbabilitiesUnchanged": true,
+    "issuedSerialsPreserved": 4,
+    "accountWrites": 0,
+    "messages": 0
+  },
+  "applied": {
+    "receipt": {
+      "operationKey": "ops:bluegear:zero-hakuya-remaining3:20261120:v1",
+      "completedAt": "2026-11-19T16:09:54.478Z",
+      "authorization": "남은 수량을 각 3장으로 보충",
+      "before": {
+        "revision": 5,
+        "openingAt": "2026-11-19T15:00:00.000Z",
+        "references": {
+          "bloodmoon": 14,
+          "blackcrown": 11
+        },
+        "settings": {
+          "prices": {
+            "single": 2250000000,
+            "ten": 22500000000
+          },
+          "missRatePpm": 800000,
+          "normalRankRatesPpm": {
+            "C": 104500,
+            "B": 30000,
+            "A": 30000,
+            "S": 30000,
+            "SS": 4700,
+            "SSS": 800
+          },
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 1,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999246.4375,
+          "stockLimits": {
+            "V-701": 45,
+            "V-702": 45,
+            "V-703": 45,
+            "V-704": 45,
+            "V-705": 45,
+            "V-976": 3,
+            "V-967": 3
+          }
+        }
+      },
+      "after": {
+        "revision": 6,
+        "openingAt": "2026-11-19T15:00:00.000Z",
+        "references": {
+          "bloodmoon": 14,
+          "blackcrown": 11
+        },
+        "settings": {
+          "prices": {
+            "single": 2250000000,
+            "ten": 22500000000
+          },
+          "missRatePpm": 800000,
+          "normalRankRatesPpm": {
+            "C": 104500,
+            "B": 30000,
+            "A": 30000,
+            "S": 30000,
+            "SS": 4700,
+            "SSS": 800
+          },
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 1,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999246.4375,
+          "stockLimits": {
+            "V-701": 45,
+            "V-702": 45,
+            "V-703": 45,
+            "V-704": 45,
+            "V-705": 45,
+            "V-976": 6,
+            "V-967": 4
+          }
+        }
+      },
+      "stockBefore": [
+        {
+          "code": "BLUE_GEAR:V-967",
+          "stock_limit": "3",
+          "issued": "1",
+          "revision": "1",
+          "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+        },
+        {
+          "code": "BLUE_GEAR:V-976",
+          "stock_limit": "3",
+          "issued": "3",
+          "revision": "3",
+          "last_token": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1"
+        }
+      ],
+      "stockAfter": [
+        {
+          "code": "BLUE_GEAR:V-967",
+          "stock_limit": "4",
+          "issued": "1",
+          "revision": "2",
+          "last_token": "ops:bluegear:zero-hakuya-remaining3:20261120:v1"
+        },
+        {
+          "code": "BLUE_GEAR:V-976",
+          "stock_limit": "6",
+          "issued": "3",
+          "revision": "4",
+          "last_token": "ops:bluegear:zero-hakuya-remaining3:20261120:v1"
+        }
+      ],
+      "protectedBefore": {
+        "issues": [
+          {
+            "acquisition_id": "da289fcf-0750-41ed-9680-b6088df48dc6:29673",
+            "request_id": "da289fcf-0750-41ed-9680-b6088df48dc6",
+            "user_id": 233,
+            "code": "BLUE_GEAR:V-967",
+            "serial": 1,
+            "created_at": "2026-11-19T15:04:34.137Z"
+          },
+          {
+            "acquisition_id": "c5ae029b-bad6-429a-a0b2-6ccff0a362dc:6971",
+            "request_id": "c5ae029b-bad6-429a-a0b2-6ccff0a362dc",
+            "user_id": 4391,
+            "code": "BLUE_GEAR:V-976",
+            "serial": 1,
+            "created_at": "2026-11-19T15:17:50.335Z"
+          },
+          {
+            "acquisition_id": "a27084f8-ce5b-41b7-aed6-6f5f844d0247:357835",
+            "request_id": "a27084f8-ce5b-41b7-aed6-6f5f844d0247",
+            "user_id": 3,
+            "code": "BLUE_GEAR:V-976",
+            "serial": 2,
+            "created_at": "2026-11-19T15:57:43.370Z"
+          },
+          {
+            "acquisition_id": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1:5877:V-976:1",
+            "request_id": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1",
+            "user_id": 5877,
+            "code": "BLUE_GEAR:V-976",
+            "serial": 3,
+            "created_at": "2026-11-19T16:05:03.659Z"
+          }
+        ],
+        "otherLimits": [
+          {
+            "code": "BLUE_GEAR:V-701",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-702",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-703",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-704",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-705",
+            "stock_limit": "45"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-950",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-951",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-952",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-953",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-954",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-955",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-970",
+            "stock_limit": "3"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-971",
+            "stock_limit": "3"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-973",
+            "stock_limit": "30"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-974",
+            "stock_limit": "20"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-975",
+            "stock_limit": "3"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-978",
+            "stock_limit": "30"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-979",
+            "stock_limit": "60"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-989",
+            "stock_limit": "50"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-996",
+            "stock_limit": "100"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-999",
+            "stock_limit": "50"
+          },
+          {
+            "code": "V-950",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-951",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-952",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-953",
+            "stock_limit": "60"
+          },
+          {
+            "code": "V-954",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-955",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-960",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-961",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-962",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-963",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-964",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-965",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-970",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-971",
+            "stock_limit": "8"
+          },
+          {
+            "code": "V-973",
+            "stock_limit": "7"
+          },
+          {
+            "code": "V-974",
+            "stock_limit": "9"
+          },
+          {
+            "code": "V-975",
+            "stock_limit": "6"
+          },
+          {
+            "code": "V-977",
+            "stock_limit": "20"
+          },
+          {
+            "code": "V-978",
+            "stock_limit": "18"
+          },
+          {
+            "code": "V-979",
+            "stock_limit": "3"
+          },
+          {
+            "code": "V-980",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-981",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-982",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-983",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-984",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-985",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-986",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-989",
+            "stock_limit": "5"
+          },
+          {
+            "code": "V-990",
+            "stock_limit": "15"
+          },
+          {
+            "code": "V-991",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-992",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-993",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-994",
+            "stock_limit": "12"
+          },
+          {
+            "code": "V-996",
+            "stock_limit": "15"
+          },
+          {
+            "code": "V-997",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-998",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-999",
+            "stock_limit": "8"
+          }
+        ]
+      },
+      "accountWrites": 0,
+      "messages": 0,
+      "auditId": "65546"
+    },
+    "performanceBefore": {
+      "checks": [
+        {
+          "visit": "first",
+          "ms": 323,
+          "sql": 3
+        },
+        {
+          "visit": "repeat",
+          "ms": 163,
+          "sql": 3
+        }
+      ],
+      "state": {
+        "id": "mercenary-blue-gear",
+        "name": "블루기어팩",
+        "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+        "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+        "openPath": "mercenaries/v3/blue-gear-pack/open",
+        "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+        "storageNamespace": "blue-gear-pack",
+        "maxBatch": 10,
+        "theme": "blue-gear",
+        "range": "일반 C~SSS · SS/SSS 리미티드",
+        "description": "블루기어 SS 5종 · 제로 · 하쿠야 신 · 아스트라",
+        "price": 2250000000,
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "drawMode": "MERCENARY_BLUE_GEAR",
+        "imageUrl": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+        "allowed": [],
+        "maxDrawCount": 10,
+        "drawEnabled": true,
+        "comingSoon": false,
+        "openingScheduled": false,
+        "openingAt": "2026-11-19T15:00:00.000Z",
+        "previewCards": [
+          {
+            "code": "V-701",
+            "name": "하이희야",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/hiheeya-320.webp",
+            "limit": 45,
+            "issued": 28,
+            "remaining": 17,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "name": "나무늘봉순",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/bongsoon-320.webp",
+            "limit": 45,
+            "issued": 24,
+            "remaining": 21,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "name": "디임",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/diim-320.webp",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "name": "수댕",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/sudaeng-320.webp",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "name": "조은",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/joeun-320.webp",
+            "limit": 45,
+            "issued": 25,
+            "remaining": 20,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "name": "제로",
+            "rank": "SSS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-976-320.webp",
+            "limit": 3,
+            "issued": 3,
+            "remaining": 0,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "name": "하쿠야 신",
+            "rank": "SSS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-967-320.webp",
+            "limit": 3,
+            "issued": 1,
+            "remaining": 2,
+            "prepared": true
+          },
+          {
+            "code": "V-059",
+            "name": "아스트라",
+            "rank": "SSS",
+            "thumbnailArt": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+            "stockPolicy": "UNLIMITED",
+            "limit": null,
+            "remaining": null
+          }
+        ],
+        "pack": {
+          "id": "mercenary-blue-gear",
+          "name": "블루기어팩",
+          "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+          "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+          "openPath": "mercenaries/v3/blue-gear-pack/open",
+          "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+          "storageNamespace": "blue-gear-pack",
+          "maxBatch": 10
+        },
+        "settings": {
+          "prices": {
+            "single": 2250000000,
+            "ten": 22500000000
+          },
+          "missRatePpm": 800000,
+          "normalRankRatesPpm": {
+            "C": 104500,
+            "B": 30000,
+            "A": 30000,
+            "S": 30000,
+            "SS": 4700,
+            "SSS": 800
+          },
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 1,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999246.4375,
+          "stockLimits": {
+            "V-701": 45,
+            "V-702": 45,
+            "V-703": 45,
+            "V-704": 45,
+            "V-705": 45,
+            "V-976": 3,
+            "V-967": 3
+          },
+          "mode": "ON"
+        },
+        "serverNow": "2026-11-19T16:09:48.467Z",
+        "revision": 5,
+        "normalCards": [
+          {
+            "code": "V-017",
+            "name": "마레나",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-swordshield-tide-bastion-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-018",
+            "name": "미레시아",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-staff-mage-mirror-salt-magister-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-020",
+            "name": "사요",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-023",
+            "name": "이안",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-025",
+            "name": "에이라",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-026",
+            "name": "루카스",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-028",
+            "name": "연휘",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-030",
+            "name": "홍련",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-031",
+            "name": "루시안",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-032",
+            "name": "셀레네",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-033",
+            "name": "로젤",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-035",
+            "name": "세라",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-039",
+            "name": "로제타",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-012",
+            "name": "세리온",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/dawn-spear-marshal-mercenary-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-013",
+            "name": "라비에나",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-024",
+            "name": "벨루아",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-029",
+            "name": "레오나",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-038",
+            "name": "세실리아",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-002",
+            "name": "리시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-mercenary-m4-v4-knight-style.png",
+            "weight": 1
+          },
+          {
+            "code": "V-006",
+            "name": "카르시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/black-eclipse-greatsword-mercenary-v2.png",
+            "weight": 1
+          },
+          {
+            "code": "V-007",
+            "name": "서윤",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/modern-office-pistol-mercenary-v2.png",
+            "weight": 1
+          },
+          {
+            "code": "V-014",
+            "name": "엘리시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/tempest-wing-k2-officer-mercenary-source-art-v2.png",
+            "weight": 1
+          },
+          {
+            "code": "V-015",
+            "name": "녹시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-assassin-urban-nightblade-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-016",
+            "name": "솔레아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-mage-eclipse-arcanist-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-019",
+            "name": "아우렐리온",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/male-spear-archangel-high-seraph-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-027",
+            "name": "케일",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-034",
+            "name": "세이지",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-041",
+            "name": "레니아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-001",
+            "name": "아우렌",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+            "weight": 1
+          },
+          {
+            "code": "V-003",
+            "name": "솔바인",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-005",
+            "name": "청아",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png",
+            "weight": 1
+          },
+          {
+            "code": "V-008",
+            "name": "아스텔",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-011",
+            "name": "아르카엘",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-022",
+            "name": "엘로디",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-004",
+            "name": "베스페라",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-009",
+            "name": "련화",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+            "weight": 495
+          },
+          {
+            "code": "V-010",
+            "name": "월령",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/moonlit-crimson-sword-mercenary-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-036",
+            "name": "네레이아",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-037",
+            "name": "아델린",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-040",
+            "name": "마리엘",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-042",
+            "name": "경찰 조은",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-043",
+            "name": "동탄 디임",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+            "weight": 198
+          },
+          {
+            "code": "V-044",
+            "name": "하이희야",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-045",
+            "name": "망이사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-047",
+            "name": "비키니 조은",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-048",
+            "name": "흑월",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260922/mercenary-v048-heukwol-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-050",
+            "name": "저격 오리꿍",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-051",
+            "name": "디임간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-052",
+            "name": "희야 간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-053",
+            "name": "조은 간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-054",
+            "name": "봉순 간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png",
+            "weight": 3
+          },
+          {
+            "code": "V-021",
+            "name": "오메가-X",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg",
+            "weight": 990
+          },
+          {
+            "code": "V-046",
+            "name": "라그니엘",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png",
+            "weight": 297
+          },
+          {
+            "code": "V-049",
+            "name": "크라이베른",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+            "weight": 198
+          },
+          {
+            "code": "V-055",
+            "name": "베르칸",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-056",
+            "name": "아잔트",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-057",
+            "name": "신궁 강윤",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20261018/kangyun-source-art.png",
+            "weight": 17
+          }
+        ],
+        "stock": [
+          {
+            "code": "V-701",
+            "limit": 45,
+            "issued": 28,
+            "remaining": 17,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "limit": 45,
+            "issued": 24,
+            "remaining": 21,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "limit": 45,
+            "issued": 25,
+            "remaining": 20,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "limit": 3,
+            "issued": 3,
+            "remaining": 0,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "limit": 3,
+            "issued": 1,
+            "remaining": 2,
+            "prepared": true
+          }
+        ],
+        "readiness": {
+          "ready": true,
+          "blockers": []
+        },
+        "userOpeningEnabled": true,
+        "ownershipRule": {
+          "basis": "CURRENT_DISTINCT_BLUE_GEAR_SS",
+          "duplicatesAllowed": false,
+          "threshold": 2,
+          "divisors": [
+            1,
+            1,
+            2,
+            4,
+            8,
+            16
+          ],
+          "fallback": "STANDARD_SSS"
+        },
+        "ownedCodes": [],
+        "ownedDistinctCount": 0,
+        "ssProbabilityDivisor": 1,
+        "currentRates": {
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 0,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999247.4375
+        },
+        "effectiveCardPercents": {
+          "V-701": "0.000005625",
+          "V-702": "0.000005625",
+          "V-703": "0.000005625",
+          "V-704": "0.000005625",
+          "V-705": "0.000005625",
+          "V-976": "0",
+          "V-967": "0.00000008",
+          "V-059": "0.000032"
+        },
+        "effectiveNormalSssPercent": "0.079939795",
+        "rawPack": "{\"revision\":5,\"openingAt\":\"2026-11-19T15:00:00.000Z\",\"references\":{\"bloodmoon\":14,\"blackcrown\":11},\"settings\":{\"prices\":{\"single\":2250000000,\"ten\":22500000000},\"missRatePpm\":800000,\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"cardRatesPpm\":{\"V-701\":70.3125,\"V-702\":70.3125,\"V-703\":70.3125,\"V-704\":70.3125,\"V-705\":70.3125,\"V-976\":1,\"V-967\":1,\"V-059\":400},\"normalSssRatePpm\":999246.4375,\"stockLimits\":{\"V-701\":45,\"V-702\":45,\"V-703\":45,\"V-704\":45,\"V-705\":45,\"V-976\":3,\"V-967\":3}}}",
+        "normalCmsRevision": 61,
+        "normalDrawRevision": 31,
+        "personalOddsKnown": false
+      }
+    },
+    "failedStagesRolledBack": 4,
+    "fullRehearsalRolledBack": true,
+    "applyMs": 702
+  },
+  "independentVerification": {
+    "at": "2026-11-19T16:10:37.449Z",
+    "receipt": {
+      "operationKey": "ops:bluegear:zero-hakuya-remaining3:20261120:v1",
+      "completedAt": "2026-11-19T16:09:54.478Z",
+      "authorization": "남은 수량을 각 3장으로 보충",
+      "before": {
+        "revision": 5,
+        "openingAt": "2026-11-19T15:00:00.000Z",
+        "references": {
+          "bloodmoon": 14,
+          "blackcrown": 11
+        },
+        "settings": {
+          "prices": {
+            "single": 2250000000,
+            "ten": 22500000000
+          },
+          "missRatePpm": 800000,
+          "normalRankRatesPpm": {
+            "C": 104500,
+            "B": 30000,
+            "A": 30000,
+            "S": 30000,
+            "SS": 4700,
+            "SSS": 800
+          },
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 1,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999246.4375,
+          "stockLimits": {
+            "V-701": 45,
+            "V-702": 45,
+            "V-703": 45,
+            "V-704": 45,
+            "V-705": 45,
+            "V-976": 3,
+            "V-967": 3
+          }
+        }
+      },
+      "after": {
+        "revision": 6,
+        "openingAt": "2026-11-19T15:00:00.000Z",
+        "references": {
+          "bloodmoon": 14,
+          "blackcrown": 11
+        },
+        "settings": {
+          "prices": {
+            "single": 2250000000,
+            "ten": 22500000000
+          },
+          "missRatePpm": 800000,
+          "normalRankRatesPpm": {
+            "C": 104500,
+            "B": 30000,
+            "A": 30000,
+            "S": 30000,
+            "SS": 4700,
+            "SSS": 800
+          },
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 1,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999246.4375,
+          "stockLimits": {
+            "V-701": 45,
+            "V-702": 45,
+            "V-703": 45,
+            "V-704": 45,
+            "V-705": 45,
+            "V-976": 6,
+            "V-967": 4
+          }
+        }
+      },
+      "stockBefore": [
+        {
+          "code": "BLUE_GEAR:V-967",
+          "stock_limit": "3",
+          "issued": "1",
+          "revision": "1",
+          "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+        },
+        {
+          "code": "BLUE_GEAR:V-976",
+          "stock_limit": "3",
+          "issued": "3",
+          "revision": "3",
+          "last_token": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1"
+        }
+      ],
+      "stockAfter": [
+        {
+          "code": "BLUE_GEAR:V-967",
+          "stock_limit": "4",
+          "issued": "1",
+          "revision": "2",
+          "last_token": "ops:bluegear:zero-hakuya-remaining3:20261120:v1"
+        },
+        {
+          "code": "BLUE_GEAR:V-976",
+          "stock_limit": "6",
+          "issued": "3",
+          "revision": "4",
+          "last_token": "ops:bluegear:zero-hakuya-remaining3:20261120:v1"
+        }
+      ],
+      "protectedBefore": {
+        "issues": [
+          {
+            "acquisition_id": "da289fcf-0750-41ed-9680-b6088df48dc6:29673",
+            "request_id": "da289fcf-0750-41ed-9680-b6088df48dc6",
+            "user_id": 233,
+            "code": "BLUE_GEAR:V-967",
+            "serial": 1,
+            "created_at": "2026-11-19T15:04:34.137Z"
+          },
+          {
+            "acquisition_id": "c5ae029b-bad6-429a-a0b2-6ccff0a362dc:6971",
+            "request_id": "c5ae029b-bad6-429a-a0b2-6ccff0a362dc",
+            "user_id": 4391,
+            "code": "BLUE_GEAR:V-976",
+            "serial": 1,
+            "created_at": "2026-11-19T15:17:50.335Z"
+          },
+          {
+            "acquisition_id": "a27084f8-ce5b-41b7-aed6-6f5f844d0247:357835",
+            "request_id": "a27084f8-ce5b-41b7-aed6-6f5f844d0247",
+            "user_id": 3,
+            "code": "BLUE_GEAR:V-976",
+            "serial": 2,
+            "created_at": "2026-11-19T15:57:43.370Z"
+          },
+          {
+            "acquisition_id": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1:5877:V-976:1",
+            "request_id": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1",
+            "user_id": 5877,
+            "code": "BLUE_GEAR:V-976",
+            "serial": 3,
+            "created_at": "2026-11-19T16:05:03.659Z"
+          }
+        ],
+        "otherLimits": [
+          {
+            "code": "BLUE_GEAR:V-701",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-702",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-703",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-704",
+            "stock_limit": "45"
+          },
+          {
+            "code": "BLUE_GEAR:V-705",
+            "stock_limit": "45"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-950",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-951",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-952",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-953",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-954",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-955",
+            "stock_limit": "10"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-970",
+            "stock_limit": "3"
+          },
+          {
+            "code": "REVERSECALL_STREAMER:V-971",
+            "stock_limit": "3"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-973",
+            "stock_limit": "30"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-974",
+            "stock_limit": "20"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-975",
+            "stock_limit": "3"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-978",
+            "stock_limit": "30"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-979",
+            "stock_limit": "60"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-989",
+            "stock_limit": "50"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-996",
+            "stock_limit": "100"
+          },
+          {
+            "code": "SSS_MIRACLE_CUBE:V-999",
+            "stock_limit": "50"
+          },
+          {
+            "code": "V-950",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-951",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-952",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-953",
+            "stock_limit": "60"
+          },
+          {
+            "code": "V-954",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-955",
+            "stock_limit": "80"
+          },
+          {
+            "code": "V-960",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-961",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-962",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-963",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-964",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-965",
+            "stock_limit": "105"
+          },
+          {
+            "code": "V-970",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-971",
+            "stock_limit": "8"
+          },
+          {
+            "code": "V-973",
+            "stock_limit": "7"
+          },
+          {
+            "code": "V-974",
+            "stock_limit": "9"
+          },
+          {
+            "code": "V-975",
+            "stock_limit": "6"
+          },
+          {
+            "code": "V-977",
+            "stock_limit": "20"
+          },
+          {
+            "code": "V-978",
+            "stock_limit": "18"
+          },
+          {
+            "code": "V-979",
+            "stock_limit": "3"
+          },
+          {
+            "code": "V-980",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-981",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-982",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-983",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-984",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-985",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-986",
+            "stock_limit": "13"
+          },
+          {
+            "code": "V-989",
+            "stock_limit": "5"
+          },
+          {
+            "code": "V-990",
+            "stock_limit": "15"
+          },
+          {
+            "code": "V-991",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-992",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-993",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-994",
+            "stock_limit": "12"
+          },
+          {
+            "code": "V-996",
+            "stock_limit": "15"
+          },
+          {
+            "code": "V-997",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-998",
+            "stock_limit": "10"
+          },
+          {
+            "code": "V-999",
+            "stock_limit": "8"
+          }
+        ]
+      },
+      "accountWrites": 0,
+      "messages": 0,
+      "auditId": "65546"
+    },
+    "stock": [
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "4",
+        "issued": "1",
+        "revision": "2",
+        "last_token": "ops:bluegear:zero-hakuya-remaining3:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "6",
+        "issued": "3",
+        "revision": "4",
+        "last_token": "ops:bluegear:zero-hakuya-remaining3:20261120:v1"
+      }
+    ],
+    "performance": {
+      "checks": [
+        {
+          "visit": "first",
+          "ms": 306,
+          "sql": 3
+        },
+        {
+          "visit": "repeat",
+          "ms": 163,
+          "sql": 3
+        }
+      ],
+      "state": {
+        "id": "mercenary-blue-gear",
+        "name": "블루기어팩",
+        "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+        "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+        "openPath": "mercenaries/v3/blue-gear-pack/open",
+        "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+        "storageNamespace": "blue-gear-pack",
+        "maxBatch": 10,
+        "theme": "blue-gear",
+        "range": "일반 C~SSS · SS/SSS 리미티드",
+        "description": "블루기어 SS 5종 · 제로 · 하쿠야 신 · 아스트라",
+        "price": 2250000000,
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "drawMode": "MERCENARY_BLUE_GEAR",
+        "imageUrl": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+        "allowed": [],
+        "maxDrawCount": 10,
+        "drawEnabled": true,
+        "comingSoon": false,
+        "openingScheduled": false,
+        "openingAt": "2026-11-19T15:00:00.000Z",
+        "previewCards": [
+          {
+            "code": "V-701",
+            "name": "하이희야",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/hiheeya-320.webp",
+            "limit": 45,
+            "issued": 28,
+            "remaining": 17,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "name": "나무늘봉순",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/bongsoon-320.webp",
+            "limit": 45,
+            "issued": 24,
+            "remaining": 21,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "name": "디임",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/diim-320.webp",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "name": "수댕",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/sudaeng-320.webp",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "name": "조은",
+            "rank": "SS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/joeun-320.webp",
+            "limit": 45,
+            "issued": 25,
+            "remaining": 20,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "name": "제로",
+            "rank": "SSS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-976-320.webp",
+            "limit": 6,
+            "issued": 3,
+            "remaining": 3,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "name": "하쿠야 신",
+            "rank": "SSS",
+            "thumbnailArt": "assets/ui/packs/blue-gear-live-v1/V-967-320.webp",
+            "limit": 4,
+            "issued": 1,
+            "remaining": 3,
+            "prepared": true
+          },
+          {
+            "code": "V-059",
+            "name": "아스트라",
+            "rank": "SSS",
+            "thumbnailArt": "assets/ui/project-v/mercenaries/astra-20261115/art-320.webp",
+            "stockPolicy": "UNLIMITED",
+            "limit": null,
+            "remaining": null
+          }
+        ],
+        "pack": {
+          "id": "mercenary-blue-gear",
+          "name": "블루기어팩",
+          "image": "assets/ui/packs/blue-gear-live-v1/pack-768.webp",
+          "featurePath": "mercenaries/v3/blue-gear-pack/feature",
+          "openPath": "mercenaries/v3/blue-gear-pack/open",
+          "receiptPath": "mercenaries/v3/blue-gear-pack/receipt",
+          "storageNamespace": "blue-gear-pack",
+          "maxBatch": 10
+        },
+        "settings": {
+          "prices": {
+            "single": 2250000000,
+            "ten": 22500000000
+          },
+          "missRatePpm": 800000,
+          "normalRankRatesPpm": {
+            "C": 104500,
+            "B": 30000,
+            "A": 30000,
+            "S": 30000,
+            "SS": 4700,
+            "SSS": 800
+          },
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 1,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999246.4375,
+          "stockLimits": {
+            "V-701": 45,
+            "V-702": 45,
+            "V-703": 45,
+            "V-704": 45,
+            "V-705": 45,
+            "V-976": 6,
+            "V-967": 4
+          },
+          "mode": "ON"
+        },
+        "serverNow": "2026-11-19T16:10:37.063Z",
+        "revision": 6,
+        "normalCards": [
+          {
+            "code": "V-017",
+            "name": "마레나",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-swordshield-tide-bastion-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-018",
+            "name": "미레시아",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-staff-mage-mirror-salt-magister-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-020",
+            "name": "사요",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-023",
+            "name": "이안",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-025",
+            "name": "에이라",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-026",
+            "name": "루카스",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-028",
+            "name": "연휘",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-030",
+            "name": "홍련",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-031",
+            "name": "루시안",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-032",
+            "name": "셀레네",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-033",
+            "name": "로젤",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-035",
+            "name": "세라",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-039",
+            "name": "로제타",
+            "rank": "C",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-012",
+            "name": "세리온",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/dawn-spear-marshal-mercenary-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-013",
+            "name": "라비에나",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-024",
+            "name": "벨루아",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-029",
+            "name": "레오나",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-038",
+            "name": "세실리아",
+            "rank": "B",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-002",
+            "name": "리시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-mercenary-m4-v4-knight-style.png",
+            "weight": 1
+          },
+          {
+            "code": "V-006",
+            "name": "카르시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/black-eclipse-greatsword-mercenary-v2.png",
+            "weight": 1
+          },
+          {
+            "code": "V-007",
+            "name": "서윤",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/modern-office-pistol-mercenary-v2.png",
+            "weight": 1
+          },
+          {
+            "code": "V-014",
+            "name": "엘리시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/tempest-wing-k2-officer-mercenary-source-art-v2.png",
+            "weight": 1
+          },
+          {
+            "code": "V-015",
+            "name": "녹시아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-assassin-urban-nightblade-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-016",
+            "name": "솔레아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-mage-eclipse-arcanist-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-019",
+            "name": "아우렐리온",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/male-spear-archangel-high-seraph-mercenary-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-027",
+            "name": "케일",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-034",
+            "name": "세이지",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-041",
+            "name": "레니아",
+            "rank": "A",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-001",
+            "name": "아우렌",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+            "weight": 1
+          },
+          {
+            "code": "V-003",
+            "name": "솔바인",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-005",
+            "name": "청아",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png",
+            "weight": 1
+          },
+          {
+            "code": "V-008",
+            "name": "아스텔",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-011",
+            "name": "아르카엘",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-022",
+            "name": "엘로디",
+            "rank": "S",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+            "weight": 1
+          },
+          {
+            "code": "V-004",
+            "name": "베스페라",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-009",
+            "name": "련화",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+            "weight": 495
+          },
+          {
+            "code": "V-010",
+            "name": "월령",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/moonlit-crimson-sword-mercenary-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-036",
+            "name": "네레이아",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-037",
+            "name": "아델린",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-040",
+            "name": "마리엘",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-042",
+            "name": "경찰 조은",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+            "weight": 495
+          },
+          {
+            "code": "V-043",
+            "name": "동탄 디임",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+            "weight": 198
+          },
+          {
+            "code": "V-044",
+            "name": "하이희야",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-045",
+            "name": "망이사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-047",
+            "name": "비키니 조은",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-048",
+            "name": "흑월",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260922/mercenary-v048-heukwol-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-050",
+            "name": "저격 오리꿍",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-051",
+            "name": "디임간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-052",
+            "name": "희야 간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-053",
+            "name": "조은 간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-054",
+            "name": "봉순 간호사",
+            "rank": "SS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png",
+            "weight": 3
+          },
+          {
+            "code": "V-021",
+            "name": "오메가-X",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg",
+            "weight": 990
+          },
+          {
+            "code": "V-046",
+            "name": "라그니엘",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png",
+            "weight": 297
+          },
+          {
+            "code": "V-049",
+            "name": "크라이베른",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+            "weight": 198
+          },
+          {
+            "code": "V-055",
+            "name": "베르칸",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-056",
+            "name": "아잔트",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+            "weight": 99
+          },
+          {
+            "code": "V-057",
+            "name": "신궁 강윤",
+            "rank": "SSS",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20261018/kangyun-source-art.png",
+            "weight": 17
+          }
+        ],
+        "stock": [
+          {
+            "code": "V-701",
+            "limit": 45,
+            "issued": 28,
+            "remaining": 17,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "limit": 45,
+            "issued": 24,
+            "remaining": 21,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "limit": 45,
+            "issued": 27,
+            "remaining": 18,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "limit": 45,
+            "issued": 25,
+            "remaining": 20,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "limit": 6,
+            "issued": 3,
+            "remaining": 3,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "limit": 4,
+            "issued": 1,
+            "remaining": 3,
+            "prepared": true
+          }
+        ],
+        "readiness": {
+          "ready": true,
+          "blockers": []
+        },
+        "userOpeningEnabled": true,
+        "ownershipRule": {
+          "basis": "CURRENT_DISTINCT_BLUE_GEAR_SS",
+          "duplicatesAllowed": false,
+          "threshold": 2,
+          "divisors": [
+            1,
+            1,
+            2,
+            4,
+            8,
+            16
+          ],
+          "fallback": "STANDARD_SSS"
+        },
+        "ownedCodes": [],
+        "ownedDistinctCount": 0,
+        "ssProbabilityDivisor": 1,
+        "currentRates": {
+          "cardRatesPpm": {
+            "V-701": 70.3125,
+            "V-702": 70.3125,
+            "V-703": 70.3125,
+            "V-704": 70.3125,
+            "V-705": 70.3125,
+            "V-976": 1,
+            "V-967": 1,
+            "V-059": 400
+          },
+          "normalSssRatePpm": 999246.4375
+        },
+        "effectiveCardPercents": {
+          "V-701": "0.000005625",
+          "V-702": "0.000005625",
+          "V-703": "0.000005625",
+          "V-704": "0.000005625",
+          "V-705": "0.000005625",
+          "V-976": "0.00000008",
+          "V-967": "0.00000008",
+          "V-059": "0.000032"
+        },
+        "effectiveNormalSssPercent": "0.079939715",
+        "rawPack": "{\"revision\":6,\"openingAt\":\"2026-11-19T15:00:00.000Z\",\"references\":{\"bloodmoon\":14,\"blackcrown\":11},\"settings\":{\"prices\":{\"single\":2250000000,\"ten\":22500000000},\"missRatePpm\":800000,\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"cardRatesPpm\":{\"V-701\":70.3125,\"V-702\":70.3125,\"V-703\":70.3125,\"V-704\":70.3125,\"V-705\":70.3125,\"V-976\":1,\"V-967\":1,\"V-059\":400},\"normalSssRatePpm\":999246.4375,\"stockLimits\":{\"V-701\":45,\"V-702\":45,\"V-703\":45,\"V-704\":45,\"V-705\":45,\"V-976\":6,\"V-967\":4}}}",
+        "normalCmsRevision": 61,
+        "normalDrawRevision": 31,
+        "personalOddsKnown": false
+      }
+    },
+    "readOnly": true,
+    "replayWrites": 0,
+    "lockReleased": true
+  },
+  "subsequentLiveIssues": {
+    "at": "2026-11-19T16:19:43.661Z",
+    "refilledAt": "2026-11-19T16:09:54.478Z",
+    "extra": [
+      {
+        "code": "BLUE_GEAR:V-967",
+        "serial": "2",
+        "created_at": "2026-11-19T16:17:03.418Z"
+      }
+    ],
+    "stock": [
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "4",
+        "issued": "2"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "6",
+        "issued": "3"
+      }
+    ],
+    "readOnly": true
+  },
+  "deployment": {
+    "at": "2026-11-19T16:19:14.319Z",
+    "head": "eec0e0951863962ce5648ccd1624914f6c93dce0",
+    "pages": {
+      "id": "39dc02a2-3864-47a8-87fe-a223c82dce72",
+      "commit": "eec0e0951863962ce5648ccd1624914f6c93dce0",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "a80a488c-fded-442b-add5-e88ce6d71abf",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "4514f8b5-626a-4e74-a268-eaa47b4c884c",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "file": "index.html",
+        "sha256": "5e0ecdb6df60338790afe42c96e299e9745b1a1f1f0cea10cec8d388b0f3fb64"
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "bb8971b2c7a40097da0885f6f06c0d9a04992bf152e86877bb80773d91c96701"
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "fae5a0ed6eb454d150072be7d32fee26949f5488eb63a68bc61f3c8605e5d795"
+      },
+      {
+        "file": "onestore/js/app.js",
+        "sha256": "47aef2b7106c663e3f994c967b544f517f3c5db2fc1f97801ec2606c8f33b9c9"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "352542792b2d88ce116578860e44b525652fddf6817d812eed1fa5ea9c00eb15"
+      },
+      {
+        "file": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+        "sha256": "d897cf9153bc86dc58a1a30a2a170d5f706f7775a33b5b4ae99e5bbfbeb1f3c8"
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "2627c4072222837a0cac4e91a633db2dcc8e515d31431af2746d95aef642121e",
+      "checked": [
+        "index.html",
+        "js/app.js",
+        "js/mercenary-blue-gear-pack-live.bundle.mjs"
+      ]
+    },
+    "stock": [
+      {
+        "code": "V-976",
+        "limit": 6,
+        "issued": 3,
+        "remaining": 3,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "limit": 4,
+        "issued": 2,
+        "remaining": 2,
+        "prepared": true
+      }
+    ],
+    "codex": [
+      {
+        "code": "V-976",
+        "name": "제로",
+        "description": "블루기어팩에서 한정 발행합니다. 현재 잔여 수량은 상점에서 확인하세요."
+      },
+      {
+        "code": "V-967",
+        "name": "하쿠야 신",
+        "description": "블루기어팩에서 한정 발행합니다. 현재 잔여 수량은 상점에서 확인하세요."
+      }
+    ],
+    "tests": 26
+  },
+  "browser": [
+    {
+      "platform": "desktop",
+      "mode": "before",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 307,
+          "roomMs": 87,
+          "frames": {
+            "p95": 4.200000000000273,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 101,
+          "roomMs": 55,
+          "frames": {
+            "p95": 4.299999999999727,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [],
+      "launchMs": 1058,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    },
+    {
+      "platform": "android",
+      "mode": "local",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 416,
+          "roomMs": 62,
+          "frames": {
+            "p95": 4.200000000000273,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 208,
+          "roomMs": 46,
+          "frames": {
+            "p95": 4.300000000000182,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [],
+      "launchMs": 1136,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    },
+    {
+      "platform": "desktop",
+      "mode": "local",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 394,
+          "roomMs": 77,
+          "frames": {
+            "p95": 4.300000000000182,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 204,
+          "roomMs": 132,
+          "frames": {
+            "p95": 4.300000000000182,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [],
+      "launchMs": 1092,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    },
+    {
+      "platform": "h5",
+      "mode": "local",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 402,
+          "roomMs": 128,
+          "frames": {
+            "p95": 4.300000000000182,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 196,
+          "roomMs": 55,
+          "frames": {
+            "p95": 4.300000000000182,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [],
+      "launchMs": 1455,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    },
+    {
+      "platform": "ios",
+      "mode": "local",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 230,
+          "roomMs": 172,
+          "frames": {
+            "p95": 124,
+            "over50": 2
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 148,
+          "roomMs": 60,
+          "frames": {
+            "p95": 168,
+            "over50": 3
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "launchMs": 3016,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    },
+    {
+      "platform": "windows",
+      "mode": "local",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 407,
+          "roomMs": 89,
+          "frames": {
+            "p95": 4.200000000000273,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 198,
+          "roomMs": 53,
+          "frames": {
+            "p95": 4.300000000000182,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [],
+      "launchMs": 1604,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    },
+    {
+      "platform": "desktop",
+      "mode": "public",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 382,
+          "roomMs": 278,
+          "frames": {
+            "p95": 4.200000000000728,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 198,
+          "roomMs": 257,
+          "frames": {
+            "p95": 4.200000000000728,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [],
+      "launchMs": 2794,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    }
+  ],
+  "performance": {
+    "before": [
+      {
+        "visit": "first",
+        "ms": 323,
+        "sql": 3
+      },
+      {
+        "visit": "repeat",
+        "ms": 163,
+        "sql": 3
+      }
+    ],
+    "after": [
+      {
+        "visit": "first",
+        "ms": 306,
+        "sql": 3
+      },
+      {
+        "visit": "repeat",
+        "ms": 163,
+        "sql": 3
+      }
+    ],
+    "conditions": "Windows CLI actual production feature service including network/database waits; one first/repeat pair. Windows headless Chrome/Android touch/WebKit, Windows URL and H5 host emulation use real lobby → shop → room. Before uses the existing public files and isolated pre-refill stock, local uses patched files and isolated post-refill stock; public mode uses current public assets and read-only live stock APIs. No physical-device or installed-app claim.",
+    "bottleneck": "Three indexed feature reads remain unchanged; network/database round trips dominate. Labels use already-fetched stock and add no requests, timers or animation work. No loading/FPS speed improvement claimed.",
+    "webkit": "Existing ResizeObserver loop warning and long frames remain documented.",
+    "afterExit": "Zero further feature queries on every measured exit."
+  },
+  "reproducibility": {
+    "scriptsRoot": "operations/bluegear-legends-limit3-20261120",
+    "sourceFiles": [
+      "js/app.js",
+      "onestore/js/app.js",
+      "js/mercenary-blue-gear-pack-live.mjs",
+      "functions/_mercenary_codex.js",
+      "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "index.html",
+      "onestore/index.html",
+      "service-worker.js",
+      "tests/bluegear-legend-refill-20261120.test.mjs"
+    ]
+  },
+  "replay": "This is one refill, not a recurring three-copy guarantee. Repeated use of the operation key reads the original receipt without adding stock again. Subsequent legitimate issues can reduce the public remaining count."
+}
