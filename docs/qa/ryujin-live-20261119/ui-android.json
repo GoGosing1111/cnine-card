@@ -1,0 +1,332 @@
+{
+  "at": "2026-11-19T06:11:16.080Z",
+  "device": "android",
+  "phase": "after",
+  "condition": "Windows headless Chrome/WebKit, localhost actual game lobby -> PVE menu -> hunt start -> actual renderer with isolated synthetic 류진 battle response. Android/iOS viewport and touch emulation, Windows launcher URL, H5 iframe with mock host SDK; not physical phones or installed Windows app.",
+  "rounds": [
+    {
+      "visit": "first",
+      "readyMs": 1660,
+      "frames": {
+        "count": 745,
+        "p95Ms": 4.300000000000182,
+        "maxMs": 283.39999999999986,
+        "over50": 4
+      },
+      "probe": {
+        "code": "V-958",
+        "bodyVisible": false,
+        "autoUpdate": false,
+        "aura": {
+          "version": "ryujin-v14-six-plus-ten",
+          "enabled": true,
+          "instances": 1,
+          "spineRigs": 3,
+          "independentTickers": 0,
+          "clock": "existing V3 common visual clock",
+          "acceptedBladePreserved": true,
+          "monochrome": false,
+          "renderCount": 130,
+          "actors": [
+            {
+              "action": "idle",
+              "attachment": "guard",
+              "phase": 1.4469,
+              "grip": {
+                "x": -36.02251826723238,
+                "y": -143.8086318969726
+              },
+              "tip": {
+                "x": 113.97748327396954,
+                "y": -77.39212329571062
+              },
+              "bladeBase": {
+                "x": -9.022517989816034,
+                "y": -131.85366034874545
+              },
+              "bladeLength": 195.05092217000765,
+              "bladeExtension": 1.45,
+              "bladeLateralMirrored": true,
+              "hiltClearance": 29.528314542137405,
+              "bladeAppearancePreserved": true,
+              "outline": {
+                "body": "subtle white plus red glyph emission",
+                "weapon": "thin fluorescent white",
+                "weaponWidthScreenPx": 0.8,
+                "enabled": true
+              },
+              "spectral": {
+                "maskPresent": false,
+                "floor": "red-white",
+                "bodyDarkness": true,
+                "shadowAttachment": "guard",
+                "bodyDeformed": false,
+                "weight": 1
+              },
+              "glyphEmission": true,
+              "selectedRear": {
+                "main": "06",
+                "mainScaleMultiplier": 1.1,
+                "mainRiseH": 0.04,
+                "fill": "10",
+                "fillBehindMain": true,
+                "stillArtwork": true,
+                "sourcePixelsEdited": false,
+                "layers": [
+                  {
+                    "id": "10",
+                    "scale": 0.2909090909090909,
+                    "x": -10.500000000000002,
+                    "y": -126,
+                    "alpha": 0.72,
+                    "width": 422.6909090909091,
+                    "height": 192,
+                    "behindBody": true
+                  },
+                  {
+                    "id": "06",
+                    "scale": 0.25454545454545463,
+                    "x": -10.500000000000002,
+                    "y": -177,
+                    "alpha": 0.98,
+                    "width": 362.4727272727274,
+                    "height": 184.80000000000007,
+                    "behindBody": true
+                  }
+                ]
+              }
+            }
+          ],
+          "selectedConcept": "06+10",
+          "newEffectAnimationClaimed": false
+        }
+      },
+      "exit": {
+        "mounted": false,
+        "timelines": 0,
+        "ambient": false,
+        "states": 0
+      },
+      "postExitCalls": 0
+    },
+    {
+      "visit": "reentry",
+      "readyMs": 269,
+      "frames": {
+        "count": 597,
+        "p95Ms": 4.300000000000182,
+        "maxMs": 66.70000000000073,
+        "over50": 1
+      },
+      "probe": {
+        "code": "V-958",
+        "bodyVisible": false,
+        "autoUpdate": false,
+        "aura": {
+          "version": "ryujin-v14-six-plus-ten",
+          "enabled": true,
+          "instances": 1,
+          "spineRigs": 3,
+          "independentTickers": 0,
+          "clock": "existing V3 common visual clock",
+          "acceptedBladePreserved": true,
+          "monochrome": false,
+          "renderCount": 141,
+          "actors": [
+            {
+              "action": "idle",
+              "attachment": "guard",
+              "phase": 0.5577,
+              "grip": {
+                "x": -36.02251826723238,
+                "y": -143.8086318969726
+              },
+              "tip": {
+                "x": 113.97748327396954,
+                "y": -77.39212329571062
+              },
+              "bladeBase": {
+                "x": -9.022517989816034,
+                "y": -131.85366034874545
+              },
+              "bladeLength": 195.05092217000765,
+              "bladeExtension": 1.45,
+              "bladeLateralMirrored": true,
+              "hiltClearance": 29.528314542137405,
+              "bladeAppearancePreserved": true,
+              "outline": {
+                "body": "subtle white plus red glyph emission",
+                "weapon": "thin fluorescent white",
+                "weaponWidthScreenPx": 0.8,
+                "enabled": true
+              },
+              "spectral": {
+                "maskPresent": false,
+                "floor": "red-white",
+                "bodyDarkness": true,
+                "shadowAttachment": "guard",
+                "bodyDeformed": false,
+                "weight": 1
+              },
+              "glyphEmission": true,
+              "selectedRear": {
+                "main": "06",
+                "mainScaleMultiplier": 1.1,
+                "mainRiseH": 0.04,
+                "fill": "10",
+                "fillBehindMain": true,
+                "stillArtwork": true,
+                "sourcePixelsEdited": false,
+                "layers": [
+                  {
+                    "id": "10",
+                    "scale": 0.2909090909090909,
+                    "x": -10.500000000000002,
+                    "y": -126,
+                    "alpha": 0.72,
+                    "width": 422.6909090909091,
+                    "height": 192,
+                    "behindBody": true
+                  },
+                  {
+                    "id": "06",
+                    "scale": 0.25454545454545463,
+                    "x": -10.500000000000002,
+                    "y": -177,
+                    "alpha": 0.98,
+                    "width": 362.4727272727274,
+                    "height": 184.80000000000007,
+                    "behindBody": true
+                  }
+                ]
+              }
+            }
+          ],
+          "selectedConcept": "06+10",
+          "newEffectAnimationClaimed": false
+        }
+      },
+      "exit": {
+        "mounted": false,
+        "timelines": 0,
+        "ambient": false,
+        "states": 0
+      },
+      "postExitCalls": 0
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "/api/loot-shop/balance",
+    "/api/sync/ticket",
+    "/api/service/status",
+    "/api/chief/extension-notice",
+    "/api/loot-shop/balance",
+    "/api/cards",
+    "/api/packs",
+    "/api/me/summary",
+    "/api/pve/v3/feature",
+    "/api/mercenary-cards/feature",
+    "/api/loot-shop/balance",
+    "/api/card/unique-advancement/feature",
+    "/api/burning-event/status",
+    "/api/streamer-profiles",
+    "/api/me/menu-favorites",
+    "/api/shell/summary",
+    "/api/rank-exp-potion/status",
+    "/api/live-operations",
+    "/api/chief/status",
+    "/api/account-rank/status",
+    "/api/auction/user/lobby",
+    "/api/loot-shop/balance",
+    "/api/admin/server-support/package/alerts",
+    "/api/server-support/status",
+    "/api/chief/status",
+    "/api/battle/config",
+    "/api/raid/lich/feature",
+    "/api/escort/status",
+    "/api/raid/madara/feature",
+    "/api/raid/blackwing/feature",
+    "/api/raid/nox/feature",
+    "/api/clan/war/ready-alert",
+    "/api/coop/feature",
+    "/api/legion-hunt/status",
+    "/api/clan/faction/alerts",
+    "/api/tower/config",
+    "/api/battle/fight",
+    "/api/raid/lich/feature",
+    "/api/raid/madara/feature",
+    "/api/raid/blackwing/feature",
+    "/api/raid/nox/feature",
+    "/api/chief/extension-notice",
+    "/api/jokgak-city/notifications",
+    "/api/account-rank/status",
+    "/api/loot-shop/balance",
+    "/api/chief/extension-notice",
+    "/api/legion-hunt/status",
+    "/api/battle/config",
+    "/api/escort/status",
+    "/api/shell/summary",
+    "/api/coop/feature",
+    "/api/battle/fight",
+    "/api/raid/lich/feature",
+    "/api/raid/madara/feature",
+    "/api/raid/blackwing/feature",
+    "/api/raid/nox/feature",
+    "/api/account-rank/status",
+    "/api/clan/faction/alerts",
+    "/api/loot-shop/balance",
+    "/api/legion-hunt/status",
+    "/api/battle/config",
+    "/api/escort/status",
+    "/api/coop/feature",
+    "/api/shell/summary"
+  ],
+  "firstLaunchMs": 569.4000000059605,
+  "closeButtons": [
+    "PVE로 돌아가기→",
+    "🔇 전투음"
+  ],
+  "network": [
+    {
+      "path": "/js/seal-battle.js",
+      "ms": 252,
+      "bytes": 36699
+    },
+    {
+      "path": "/js/territory-war-v1811.js",
+      "ms": 241,
+      "bytes": 92885
+    },
+    {
+      "path": "/js/territory-battlefield-v5.js",
+      "ms": 240,
+      "bytes": 20709
+    },
+    {
+      "path": "/js/app.js",
+      "ms": 228,
+      "bytes": 826626
+    },
+    {
+      "path": "/js/responsive-battle-sprites-v1815.js",
+      "ms": 207,
+      "bytes": 4825
+    },
+    {
+      "path": "/js/responsive-superstar-battle-sprites-v1896.js",
+      "ms": 206,
+      "bytes": 1798
+    },
+    {
+      "path": "/js/responsive-battle-sprites-v1803.js",
+      "ms": 204,
+      "bytes": 13646
+    },
+    {
+      "path": "/js/cooperative-battleground-entry.js",
+      "ms": 197,
+      "bytes": 2605
+    }
+  ]
+}
