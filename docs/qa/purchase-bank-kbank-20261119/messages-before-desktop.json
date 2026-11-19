@@ -1,0 +1,58 @@
+{
+  "phase": "before",
+  "platform": "desktop",
+  "entries": [
+    {
+      "visit": "first",
+      "readyMs": 122.69999998807907,
+      "requests": 1,
+      "frames": {
+        "p50": 11.099999999999909,
+        "p95": 36.79999999999973,
+        "max": 70.70000000000005,
+        "over50": 1,
+        "longTasks": [
+          {
+            "start": 1801,
+            "duration": 65
+          }
+        ]
+      },
+      "horizontalOverflow": false,
+      "exit": {
+        "inboxRequests": 0,
+        "expiryTimers": 0,
+        "messageCards": 0
+      }
+    },
+    {
+      "visit": "repeat",
+      "readyMs": 88.2999999821186,
+      "requests": 1,
+      "frames": {
+        "p50": 13.599999999999909,
+        "p95": 19.600000000000364,
+        "max": 19.699999999999818,
+        "over50": 0,
+        "longTasks": []
+      },
+      "horizontalOverflow": false,
+      "exit": {
+        "inboxRequests": 0,
+        "expiryTimers": 0,
+        "messageCards": 0
+      }
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    }
+  ],
+  "conditions": "Windows headless Chrome/WebKit, PC and touch emulation; Windows URL and H5 iframe host emulation. Actual game lobby to message center with actual generated isolated PGlite messages. API reads isolated with fixed 25 ms delay; production mutations blocked. No physical device or installed app measurement.",
+  "launchMs": 1537.8222999999998,
+  "blockedMutations": 1,
+  "productionMutations": 0
+}

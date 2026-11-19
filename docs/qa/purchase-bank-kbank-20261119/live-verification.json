@@ -1,0 +1,51 @@
+{
+  "at": "2026-11-19T13:32:48.741Z",
+  "head": "8cc9a4b2e3fa65d1107f3b43ce250a1fff884c44",
+  "pages": {
+    "id": "19890ff4-a33a-4eca-9b72-a6ef6694b854",
+    "commit": "8cc9a4b2e3fa65d1107f3b43ce250a1fff884c44",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "46dc648c-2f20-41f5-8331-e398a63bf078",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "55425ea3-1052-4bd8-9ac6-d1c1551d9cef",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "workerTemplates": [
+    {
+      "name": "cnine-card-api-runtime",
+      "sha256": "3108e23d675a761098e3049eb164ce5aae62a0c933d46343880c9dcae3d34dff",
+      "guidanceService": true,
+      "newBankTemplates": 2,
+      "newHolderTemplates": 2,
+      "oldAccountOccurrences": 0
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "sha256": "044f654e626a89331934f9eecfb916d1d692d7eea000e81f7d3cbb00f84ec3d6",
+      "guidanceService": false,
+      "newBankTemplates": 0,
+      "newHolderTemplates": 0,
+      "oldAccountOccurrences": 0
+    }
+  ],
+  "unauthenticatedMessagesStatus": 401,
+  "tests": 16,
+  "productionMessagesSent": 0,
+  "accountWrites": 0
+}

@@ -1,0 +1,632 @@
+{
+  "at": "2026-11-19T13:33:04.711Z",
+  "request": "서버 내 구매 안내 계좌를 케이뱅크 100129930071 오대현으로 변경",
+  "status": "complete",
+  "account": {
+    "bank": "케이뱅크",
+    "number": "100129930071",
+    "holder": "오대현"
+  },
+  "scope": [
+    "패키지 구매 안내",
+    "시즌패스 서버 후원 안내"
+  ],
+  "release": {
+    "at": "2026-11-19T13:32:48.741Z",
+    "head": "8cc9a4b2e3fa65d1107f3b43ce250a1fff884c44",
+    "pages": {
+      "id": "19890ff4-a33a-4eca-9b72-a6ef6694b854",
+      "commit": "8cc9a4b2e3fa65d1107f3b43ce250a1fff884c44",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "46dc648c-2f20-41f5-8331-e398a63bf078",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "55425ea3-1052-4bd8-9ac6-d1c1551d9cef",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "workerTemplates": [
+      {
+        "name": "cnine-card-api-runtime",
+        "sha256": "3108e23d675a761098e3049eb164ce5aae62a0c933d46343880c9dcae3d34dff",
+        "guidanceService": true,
+        "newBankTemplates": 2,
+        "newHolderTemplates": 2,
+        "oldAccountOccurrences": 0
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "sha256": "044f654e626a89331934f9eecfb916d1d692d7eea000e81f7d3cbb00f84ec3d6",
+        "guidanceService": false,
+        "newBankTemplates": 0,
+        "newHolderTemplates": 0,
+        "oldAccountOccurrences": 0
+      }
+    ],
+    "unauthenticatedMessagesStatus": 401,
+    "tests": 16,
+    "productionMessagesSent": 0,
+    "accountWrites": 0
+  },
+  "changedRuntimeFiles": [
+    "functions/_support_package.js",
+    "functions/_supporter_application.js"
+  ],
+  "preserved": [
+    "가격·혜택·판매 ON/OFF",
+    "발급 자격·거래·중복 방지",
+    "발급 후 5분 자동 삭제",
+    "기존 계정·구매 기록·재화",
+    "H5의 기존 후원·계좌 안내 숨김 정책"
+  ],
+  "productionAccountWrites": 0,
+  "productionMessagesSent": 0,
+  "verification": {
+    "tests": 16,
+    "sqlFixtures": [
+      "SQLite",
+      "PGlite PostgreSQL-compatible"
+    ],
+    "before": {
+      "at": "2026-11-19T13:14:25.938Z",
+      "phase": "before",
+      "results": [
+        {
+          "kind": "seasonPass",
+          "times": [
+            {
+              "visit": "first",
+              "elapsedMs": 30.420700000000124,
+              "sql": 33
+            },
+            {
+              "visit": "repeat",
+              "elapsedMs": 30.77059999999983,
+              "sql": 33
+            },
+            {
+              "visit": "receipt-replay",
+              "elapsedMs": 5.803199999999833,
+              "sql": 7
+            }
+          ],
+          "message": {
+            "id": 2,
+            "sender_type": "SYSTEM",
+            "title": "[후원 신청] 1개월차 시즌패스 계좌 안내 · 5분 후 삭제",
+            "body": "서버 운영 후원 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n1개월차 시즌패스 · 30일 후원: 29,800원\n\n반드시 게임 닉네임으로 입금해 주세요.\n\n이 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 계좌 안내는 하루 3회까지 발급할 수 있습니다.\n운영자의 후원 확인 후 30일 혜택이 적용됩니다.",
+            "message_type": "SUPPORT_BANK_ACCOUNT",
+            "campaign_key": "support_application_v1:2:2a3dcb48-58cb-441a-980d-e4ee1510e525",
+            "coupon_code": null,
+            "is_read": 0,
+            "created_at": "2026-10-10T04:00:00.000Z",
+            "read_at": null,
+            "reward_type": null,
+            "reward_amount": null,
+            "claimed_at": null,
+            "needs_recovery": 0,
+            "cleanupEligible": 1,
+            "cleanupEligibleOnRead": 1,
+            "expiresAt": 1791605100000,
+            "deleteOnRead": false
+          },
+          "messageCount": 2,
+          "replayDoesNotResend": true,
+          "accountCoinUnchanged": true
+        },
+        {
+          "kind": "package",
+          "times": [
+            {
+              "visit": "first",
+              "elapsedMs": 37.401600000000144,
+              "sql": 34
+            },
+            {
+              "visit": "repeat",
+              "elapsedMs": 25.705599999999322,
+              "sql": 32
+            },
+            {
+              "visit": "receipt-replay",
+              "elapsedMs": 8.052300000000287,
+              "sql": 11
+            }
+          ],
+          "message": {
+            "id": 3,
+            "sender_type": "SYSTEM",
+            "title": "[패키지 구매] 49,800원 계좌 안내 · 5분 후 삭제",
+            "body": "패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: 49,800원\n신청 횟수: 1회\n\n1+1 이벤트 · 패키지 총 2개\n1500조 코인 (기본 500조 + 보너스 1000조) · 마스터의 별 10억개 · 아르덴 에너지 50개 · 무기 강화주문서 10개 · 방어구 강화주문서 10개 · SSS 리미티드 조각 25개 · 펫 봉인구 50개 · 펫 정수 500개 · SSS 미라클큐브 5개 · 1주기 0회 → 1주기 1회 · 10회마다 자동 반복 · 이번 구매 보너스 1000조 코인 · SSS 미라클큐브 5개\n1+1 패키지 판매: 2026년 11월 23일 23:59까지 (한국시간)\n신청 번호: 2_80d21c2e-f1b4-4662-9eb0-2eb730960b55\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.",
+            "message_type": "SUPPORT_BANK_ACCOUNT",
+            "campaign_key": "support_package_bank_v1:2:e544ec05-7ae5-467b-9d7e-a65fa55742a0",
+            "coupon_code": null,
+            "is_read": 0,
+            "created_at": "2026-10-10T04:00:00.000Z",
+            "read_at": null,
+            "reward_type": null,
+            "reward_amount": null,
+            "claimed_at": null,
+            "needs_recovery": 0,
+            "cleanupEligible": 1,
+            "cleanupEligibleOnRead": 1,
+            "expiresAt": 1791605100000,
+            "deleteOnRead": false
+          },
+          "messageCount": 2,
+          "replayDoesNotResend": true,
+          "accountCoinUnchanged": true
+        }
+      ],
+      "condition": "Actual application and inbox handlers against isolated PGlite PostgreSQL-compatible fixtures on Windows. No production requests or messages. First and repeated new requests and receipt replay recorded; no physical device or production latency claim."
+    },
+    "after": {
+      "at": "2026-11-19T13:14:46.506Z",
+      "phase": "after",
+      "results": [
+        {
+          "kind": "seasonPass",
+          "times": [
+            {
+              "visit": "first",
+              "elapsedMs": 25.072400000000016,
+              "sql": 33
+            },
+            {
+              "visit": "repeat",
+              "elapsedMs": 19.158000000000357,
+              "sql": 33
+            },
+            {
+              "visit": "receipt-replay",
+              "elapsedMs": 4.925899999999729,
+              "sql": 7
+            }
+          ],
+          "message": {
+            "id": 2,
+            "sender_type": "SYSTEM",
+            "title": "[후원 신청] 1개월차 시즌패스 계좌 안내 · 5분 후 삭제",
+            "body": "서버 운영 후원 계좌 안내\n\n케이뱅크 100129930071\n예금주: 오대현\n1개월차 시즌패스 · 30일 후원: 29,800원\n\n반드시 게임 닉네임으로 입금해 주세요.\n\n이 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 계좌 안내는 하루 3회까지 발급할 수 있습니다.\n운영자의 후원 확인 후 30일 혜택이 적용됩니다.",
+            "message_type": "SUPPORT_BANK_ACCOUNT",
+            "campaign_key": "support_application_v1:2:65117d64-2403-4ad0-b8f1-7a46da6cc2e4",
+            "coupon_code": null,
+            "is_read": 0,
+            "created_at": "2026-10-10T04:00:00.000Z",
+            "read_at": null,
+            "reward_type": null,
+            "reward_amount": null,
+            "claimed_at": null,
+            "needs_recovery": 0,
+            "cleanupEligible": 1,
+            "cleanupEligibleOnRead": 1,
+            "expiresAt": 1791605100000,
+            "deleteOnRead": false
+          },
+          "messageCount": 2,
+          "replayDoesNotResend": true,
+          "accountCoinUnchanged": true
+        },
+        {
+          "kind": "package",
+          "times": [
+            {
+              "visit": "first",
+              "elapsedMs": 29.031200000000354,
+              "sql": 34
+            },
+            {
+              "visit": "repeat",
+              "elapsedMs": 26.23160000000007,
+              "sql": 32
+            },
+            {
+              "visit": "receipt-replay",
+              "elapsedMs": 36.91110000000026,
+              "sql": 11
+            }
+          ],
+          "message": {
+            "id": 3,
+            "sender_type": "SYSTEM",
+            "title": "[패키지 구매] 49,800원 계좌 안내 · 5분 후 삭제",
+            "body": "패키지 구매 계좌 안내\n\n케이뱅크 100129930071\n예금주: 오대현\n결제 금액: 49,800원\n신청 횟수: 1회\n\n1+1 이벤트 · 패키지 총 2개\n1500조 코인 (기본 500조 + 보너스 1000조) · 마스터의 별 10억개 · 아르덴 에너지 50개 · 무기 강화주문서 10개 · 방어구 강화주문서 10개 · SSS 리미티드 조각 25개 · 펫 봉인구 50개 · 펫 정수 500개 · SSS 미라클큐브 5개 · 1주기 0회 → 1주기 1회 · 10회마다 자동 반복 · 이번 구매 보너스 1000조 코인 · SSS 미라클큐브 5개\n1+1 패키지 판매: 2026년 11월 23일 23:59까지 (한국시간)\n신청 번호: 2_e39324d8-135d-44cc-afe8-d8f1bb0b7202\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.",
+            "message_type": "SUPPORT_BANK_ACCOUNT",
+            "campaign_key": "support_package_bank_v1:2:08900912-4830-459e-8bf7-e8470f703662",
+            "coupon_code": null,
+            "is_read": 0,
+            "created_at": "2026-10-10T04:00:00.000Z",
+            "read_at": null,
+            "reward_type": null,
+            "reward_amount": null,
+            "claimed_at": null,
+            "needs_recovery": 0,
+            "cleanupEligible": 1,
+            "cleanupEligibleOnRead": 1,
+            "expiresAt": 1791605100000,
+            "deleteOnRead": false
+          },
+          "messageCount": 2,
+          "replayDoesNotResend": true,
+          "accountCoinUnchanged": true
+        }
+      ],
+      "condition": "Actual application and inbox handlers against isolated PGlite PostgreSQL-compatible fixtures on Windows. No production requests or messages. First and repeated new requests and receipt replay recorded; no physical device or production latency claim."
+    },
+    "browsers": [
+      {
+        "platform": "desktop",
+        "firstMs": {
+          "before": 122.7,
+          "after": 150.1
+        },
+        "repeatMs": {
+          "before": 88.3,
+          "after": 61.6
+        },
+        "frames": {
+          "before": [
+            {
+              "p50": 11.099999999999909,
+              "p95": 36.79999999999973,
+              "max": 70.70000000000005,
+              "over50": 1,
+              "longTasks": [
+                {
+                  "start": 1801,
+                  "duration": 65
+                }
+              ]
+            },
+            {
+              "p50": 13.599999999999909,
+              "p95": 19.600000000000364,
+              "max": 19.699999999999818,
+              "over50": 0,
+              "longTasks": []
+            }
+          ],
+          "after": [
+            {
+              "p50": 12.5,
+              "p95": 39.30000000000018,
+              "max": 56,
+              "over50": 1,
+              "longTasks": [
+                {
+                  "start": 2609.5,
+                  "duration": 57
+                }
+              ]
+            },
+            {
+              "p50": 8.599999999999454,
+              "p95": 18.899999999999636,
+              "max": 20.199999999999818,
+              "over50": 0,
+              "longTasks": []
+            }
+          ]
+        },
+        "exits": [
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          },
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          }
+        ],
+        "errors": [],
+        "blockedRequests": [
+          {
+            "method": "POST",
+            "path": "/api/sync/ticket"
+          }
+        ]
+      },
+      {
+        "platform": "android",
+        "firstMs": {
+          "before": 119.7,
+          "after": 323.6
+        },
+        "repeatMs": {
+          "before": 80.7,
+          "after": 160.1
+        },
+        "frames": {
+          "before": [
+            {
+              "p50": 11.800000000000182,
+              "p95": 25,
+              "max": 136.30000000000018,
+              "over50": 1,
+              "longTasks": []
+            },
+            {
+              "p50": 10.200000000000728,
+              "p95": 17.799999999999272,
+              "max": 18.199999999999818,
+              "over50": 0,
+              "longTasks": []
+            }
+          ],
+          "after": [
+            {
+              "p50": 12.800000000000182,
+              "p95": 19.09999999999991,
+              "max": 20,
+              "over50": 0,
+              "longTasks": [
+                {
+                  "start": 2938.199999988079,
+                  "duration": 68
+                }
+              ]
+            },
+            {
+              "p50": 10.399999999999636,
+              "p95": 20.599999999999454,
+              "max": 20.599999999999454,
+              "over50": 0,
+              "longTasks": []
+            }
+          ]
+        },
+        "exits": [
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          },
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          }
+        ],
+        "errors": [],
+        "blockedRequests": [
+          {
+            "method": "POST",
+            "path": "/api/sync/ticket"
+          }
+        ]
+      },
+      {
+        "platform": "ios",
+        "firstMs": {
+          "before": 296,
+          "after": 389
+        },
+        "repeatMs": {
+          "before": 112,
+          "after": 227
+        },
+        "frames": {
+          "before": [
+            {
+              "p50": 16,
+              "p95": 242,
+              "max": 329,
+              "over50": 3,
+              "longTasks": []
+            },
+            {
+              "p50": 16,
+              "p95": 280,
+              "max": 392,
+              "over50": 3,
+              "longTasks": []
+            }
+          ],
+          "after": [
+            {
+              "p50": 16,
+              "p95": 366,
+              "max": 418,
+              "over50": 2,
+              "longTasks": []
+            },
+            {
+              "p50": 16,
+              "p95": 378,
+              "max": 479,
+              "over50": 3,
+              "longTasks": []
+            }
+          ]
+        },
+        "exits": [
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          },
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "blockedRequests": [
+          {
+            "method": "POST",
+            "path": "/api/sync/ticket"
+          }
+        ]
+      },
+      {
+        "platform": "windows",
+        "firstMs": {
+          "before": 234.4,
+          "after": 190.2
+        },
+        "repeatMs": {
+          "before": 109.1,
+          "after": 104.8
+        },
+        "frames": {
+          "before": [
+            {
+              "p50": 9.700000000000273,
+              "p95": 33.90000000000009,
+              "max": 34.80000000000018,
+              "over50": 0,
+              "longTasks": [
+                {
+                  "start": 3042.300000011921,
+                  "duration": 67
+                }
+              ]
+            },
+            {
+              "p50": 9.200000000000728,
+              "p95": 20.700000000000728,
+              "max": 24,
+              "over50": 0,
+              "longTasks": []
+            }
+          ],
+          "after": [
+            {
+              "p50": 11.199999999999818,
+              "p95": 19.899999999999636,
+              "max": 22.86999999999989,
+              "over50": 0,
+              "longTasks": [
+                {
+                  "start": 2199.5999999940395,
+                  "duration": 67
+                },
+                {
+                  "start": 2407.199999988079,
+                  "duration": 72
+                }
+              ]
+            },
+            {
+              "p50": 10.399999999999636,
+              "p95": 20.700000000000728,
+              "max": 20.700000000000728,
+              "over50": 0,
+              "longTasks": []
+            }
+          ]
+        },
+        "exits": [
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          },
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          }
+        ],
+        "errors": [],
+        "blockedRequests": [
+          {
+            "method": "POST",
+            "path": "/api/sync/ticket"
+          }
+        ]
+      },
+      {
+        "platform": "h5",
+        "firstMs": {
+          "before": 59.6,
+          "after": 119.4
+        },
+        "repeatMs": {
+          "before": 34.4,
+          "after": 46.5
+        },
+        "frames": {
+          "before": [
+            {
+              "p50": 14.199999999999818,
+              "p95": 15.799999999999955,
+              "max": 53.700000000000045,
+              "over50": 1,
+              "longTasks": []
+            },
+            {
+              "p50": 4.199999999999818,
+              "p95": 4.5,
+              "max": 8.300000000000182,
+              "over50": 0,
+              "longTasks": []
+            }
+          ],
+          "after": [
+            {
+              "p50": 13.699999999999818,
+              "p95": 36.69999999999982,
+              "max": 97,
+              "over50": 1,
+              "longTasks": [
+                {
+                  "start": 1964.5999999940395,
+                  "duration": 50
+                }
+              ]
+            },
+            {
+              "p50": 13.400000000000546,
+              "p95": 14.799999999999272,
+              "max": 15.700000000000728,
+              "over50": 0,
+              "longTasks": []
+            }
+          ]
+        },
+        "exits": [
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          },
+          {
+            "inboxRequests": 0,
+            "expiryTimers": 0,
+            "messageCards": 0
+          }
+        ],
+        "errors": [],
+        "blockedRequests": [
+          {
+            "method": "POST",
+            "path": "/api/sync/ticket"
+          }
+        ]
+      }
+    ],
+    "h5BankGuidanceRemainsHidden": true
+  },
+  "performanceInterpretation": "문구 두 곳만 변경했으며 서버 SQL 수와 UI 실행 코드는 동일하다. Windows headless PC/Android/WebKit/Windows URL/H5 에뮬레이션으로 로비→메시지함 첫/재진입을 같은 25ms API 지연·격리 응답 조건에서 각각 단회 측정했다. 로딩 대기는 초기 공용 자산·메인 스레드 및 메시지 API/동적 모듈 준비에 해당한다. 기록된 긴 프레임과 기존 WebKit ResizeObserver 경고를 보존하며 수치 편차를 속도 개선이나 운영 지연으로 환산하지 않는다. 실휴대기기·설치 앱 측정이 아니다. 화면 퇴장 후 안내 타이머·메시지 조회·메시지 카드 0건. 공통 실시간 연결 POST /api/sync/ticket은 QA에서 차단했다.",
+  "cache": "서버 생성 안내 문자열이며 클라이언트 캐시 변경 불필요. 두 Worker 실행 소스와 100% 배포 버전 대조. 새 안내 발급에 적용되며 기존 안내는 원래 5분 만료 정책 유지."
+}

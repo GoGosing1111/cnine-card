@@ -1,0 +1,13 @@
+{
+  "files": [
+    "functions/_support_package.js",
+    "functions/_supporter_application.js",
+    "tests/supporter-application-20261011.test.mjs",
+    "tests/support-package-20261020.test.mjs"
+  ],
+  "details": {
+    "bank": "케이뱅크",
+    "account": "100129930071",
+    "holder": "오대현"
+  }
+}

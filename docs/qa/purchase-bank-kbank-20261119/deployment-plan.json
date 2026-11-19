@@ -1,0 +1,11 @@
+{
+  "base": "15e56d83ab3aa10f8593ad354ae2718876c3b4e7",
+  "tests": [
+    "tests/supporter-application-20261011.test.mjs",
+    "tests/support-package-20261020.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "User requested changing the account in server purchase guidance to K bank 100129930071, holder O Daehyeon. Change only two server-generated message templates and existing exact-account assertions. Preserve eligibility, prices, benefits, sales state, idempotency, 5-minute expiry, transaction and delivery logic. Verify SQLite/Postgres application, replay, expiry and rollback; generated messages on PC, touch, Windows URL and H5 entry. No real account messages or payment requests."
+}

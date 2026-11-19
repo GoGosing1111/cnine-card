@@ -1,0 +1,53 @@
+{
+  "phase": "before",
+  "platform": "android",
+  "entries": [
+    {
+      "visit": "first",
+      "readyMs": 119.69999998807907,
+      "requests": 1,
+      "frames": {
+        "p50": 11.800000000000182,
+        "p95": 25,
+        "max": 136.30000000000018,
+        "over50": 1,
+        "longTasks": []
+      },
+      "horizontalOverflow": false,
+      "exit": {
+        "inboxRequests": 0,
+        "expiryTimers": 0,
+        "messageCards": 0
+      }
+    },
+    {
+      "visit": "repeat",
+      "readyMs": 80.69999998807907,
+      "requests": 1,
+      "frames": {
+        "p50": 10.200000000000728,
+        "p95": 17.799999999999272,
+        "max": 18.199999999999818,
+        "over50": 0,
+        "longTasks": []
+      },
+      "horizontalOverflow": false,
+      "exit": {
+        "inboxRequests": 0,
+        "expiryTimers": 0,
+        "messageCards": 0
+      }
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [
+    {
+      "method": "POST",
+      "path": "/api/sync/ticket"
+    }
+  ],
+  "conditions": "Windows headless Chrome/WebKit, PC and touch emulation; Windows URL and H5 iframe host emulation. Actual game lobby to message center with actual generated isolated PGlite messages. API reads isolated with fixed 25 ms delay; production mutations blocked. No physical device or installed app measurement.",
+  "launchMs": 1934.7099000000003,
+  "blockedMutations": 1,
+  "productionMutations": 0
+}

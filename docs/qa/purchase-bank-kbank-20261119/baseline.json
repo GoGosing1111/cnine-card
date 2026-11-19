@@ -1,0 +1,75 @@
+{
+  "at": "2026-11-19T13:13:42.351Z",
+  "prior": {
+    "head": "07eb2be085b24cd25232803f13dbfae8d7db4d9a",
+    "branch": "codex/purchase-bank-kbank-20261119"
+  },
+  "head": "07eb2be085b24cd25232803f13dbfae8d7db4d9a",
+  "production": {
+    "pages": {
+      "id": "6fa55c99-28b0-426b-bc32-acda85848ba6",
+      "commit": "15e56d83ab3aa10f8593ad354ae2718876c3b4e7",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "09361f8e-7e9c-4112-b97b-39a8ce2f3208",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "b4f5b80b-d0a3-4c74-a923-6e4646beed60",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "pending": [
+    "AGENTS.md",
+    "docs/qa/bluegear-midnight-stock25-20261119/applied.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/apply.mjs.source.txt",
+    "docs/qa/bluegear-midnight-stock25-20261119/codex-android.png",
+    "docs/qa/bluegear-midnight-stock25-20261119/codex-desktop.png",
+    "docs/qa/bluegear-midnight-stock25-20261119/codex-qa.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/common.mjs.source.txt",
+    "docs/qa/bluegear-midnight-stock25-20261119/completion.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/deployment-plan-v2.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/live-verification.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/local-android-room.png",
+    "docs/qa/bluegear-midnight-stock25-20261119/local-desktop-room.png",
+    "docs/qa/bluegear-midnight-stock25-20261119/notice-verified.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/notice.mjs.source.txt",
+    "docs/qa/bluegear-midnight-stock25-20261119/plan.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/public-desktop-room.png",
+    "docs/qa/bluegear-midnight-stock25-20261119/public-verification.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/service-after.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/service-before.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-before-android.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-before-desktop.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-before-h5.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-before-ios.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-before-windows.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-local-android.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-local-desktop.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-local-h5.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-local-ios.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-local-windows.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/shop-public-desktop.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/verified.json",
+    "docs/qa/bluegear-midnight-stock25-20261119/유저공지.txt"
+  ],
+  "source": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout",
+  "files": [
+    "functions/_support_package.js",
+    "functions/_supporter_application.js"
+  ],
+  "authorization": "서버 내 구매 안내 계좌 변경: 케이뱅크 100129930071 오대현"
+}

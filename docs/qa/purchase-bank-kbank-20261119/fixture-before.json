@@ -1,0 +1,93 @@
+{
+  "at": "2026-11-19T13:14:25.938Z",
+  "phase": "before",
+  "results": [
+    {
+      "kind": "seasonPass",
+      "times": [
+        {
+          "visit": "first",
+          "elapsedMs": 30.420700000000124,
+          "sql": 33
+        },
+        {
+          "visit": "repeat",
+          "elapsedMs": 30.77059999999983,
+          "sql": 33
+        },
+        {
+          "visit": "receipt-replay",
+          "elapsedMs": 5.803199999999833,
+          "sql": 7
+        }
+      ],
+      "message": {
+        "id": 2,
+        "sender_type": "SYSTEM",
+        "title": "[후원 신청] 1개월차 시즌패스 계좌 안내 · 5분 후 삭제",
+        "body": "서버 운영 후원 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n1개월차 시즌패스 · 30일 후원: 29,800원\n\n반드시 게임 닉네임으로 입금해 주세요.\n\n이 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 계좌 안내는 하루 3회까지 발급할 수 있습니다.\n운영자의 후원 확인 후 30일 혜택이 적용됩니다.",
+        "message_type": "SUPPORT_BANK_ACCOUNT",
+        "campaign_key": "support_application_v1:2:2a3dcb48-58cb-441a-980d-e4ee1510e525",
+        "coupon_code": null,
+        "is_read": 0,
+        "created_at": "2026-10-10T04:00:00.000Z",
+        "read_at": null,
+        "reward_type": null,
+        "reward_amount": null,
+        "claimed_at": null,
+        "needs_recovery": 0,
+        "cleanupEligible": 1,
+        "cleanupEligibleOnRead": 1,
+        "expiresAt": 1791605100000,
+        "deleteOnRead": false
+      },
+      "messageCount": 2,
+      "replayDoesNotResend": true,
+      "accountCoinUnchanged": true
+    },
+    {
+      "kind": "package",
+      "times": [
+        {
+          "visit": "first",
+          "elapsedMs": 37.401600000000144,
+          "sql": 34
+        },
+        {
+          "visit": "repeat",
+          "elapsedMs": 25.705599999999322,
+          "sql": 32
+        },
+        {
+          "visit": "receipt-replay",
+          "elapsedMs": 8.052300000000287,
+          "sql": 11
+        }
+      ],
+      "message": {
+        "id": 3,
+        "sender_type": "SYSTEM",
+        "title": "[패키지 구매] 49,800원 계좌 안내 · 5분 후 삭제",
+        "body": "패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: 49,800원\n신청 횟수: 1회\n\n1+1 이벤트 · 패키지 총 2개\n1500조 코인 (기본 500조 + 보너스 1000조) · 마스터의 별 10억개 · 아르덴 에너지 50개 · 무기 강화주문서 10개 · 방어구 강화주문서 10개 · SSS 리미티드 조각 25개 · 펫 봉인구 50개 · 펫 정수 500개 · SSS 미라클큐브 5개 · 1주기 0회 → 1주기 1회 · 10회마다 자동 반복 · 이번 구매 보너스 1000조 코인 · SSS 미라클큐브 5개\n1+1 패키지 판매: 2026년 11월 23일 23:59까지 (한국시간)\n신청 번호: 2_80d21c2e-f1b4-4662-9eb0-2eb730960b55\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.",
+        "message_type": "SUPPORT_BANK_ACCOUNT",
+        "campaign_key": "support_package_bank_v1:2:e544ec05-7ae5-467b-9d7e-a65fa55742a0",
+        "coupon_code": null,
+        "is_read": 0,
+        "created_at": "2026-10-10T04:00:00.000Z",
+        "read_at": null,
+        "reward_type": null,
+        "reward_amount": null,
+        "claimed_at": null,
+        "needs_recovery": 0,
+        "cleanupEligible": 1,
+        "cleanupEligibleOnRead": 1,
+        "expiresAt": 1791605100000,
+        "deleteOnRead": false
+      },
+      "messageCount": 2,
+      "replayDoesNotResend": true,
+      "accountCoinUnchanged": true
+    }
+  ],
+  "condition": "Actual application and inbox handlers against isolated PGlite PostgreSQL-compatible fixtures on Windows. No production requests or messages. First and repeated new requests and receipt replay recorded; no physical device or production latency claim."
+}

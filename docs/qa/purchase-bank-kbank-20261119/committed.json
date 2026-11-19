@@ -1,0 +1,10 @@
+{
+  "head": "8cc9a4b2e3fa65d1107f3b43ce250a1fff884c44",
+  "files": [
+    "functions/_support_package.js",
+    "functions/_supporter_application.js",
+    "tests/supporter-application-20261011.test.mjs",
+    "tests/support-package-20261020.test.mjs"
+  ],
+  "at": "2026-11-19T13:23:12.325Z"
+}
