@@ -31,12 +31,15 @@ export class NoxFloor {
       const inner=t.points.flatMap(p=>[center.x+(p.x-center.x)*.76,center.y+(p.y-center.y)*.76]);g.clear();g.poly(points).fill({color:safe?0x053f42:0x4b0817,alpha:cue?.92:.72}).stroke({color,width:(cue?4:2)/scale,alpha:1});g.poly(inner).stroke({color,width:1/scale,alpha:.7});
       if(!safe){
         const radius=8/scale,star=[];for(let n=0;n<16;n++){const angle=n*Math.PI/8,r=n%2?radius*.55:radius;star.push(center.x+Math.cos(angle)*r,center.y+Math.sin(angle)*r*.62);}g.poly(star).fill({color:0xff5260,alpha:1});g.circle(center.x,center.y,4/scale).fill(0x3e0716).stroke({color:0xff8090,width:1/scale});g.circle(center.x,center.y,1.5/scale).fill(0xffe4cf);
-      }else if(!cue&&!step){const r=7/scale;g.moveTo(center.x-r,center.y).lineTo(center.x-r/3,center.y+r*.4).lineTo(center.x+r,center.y-r*.55).stroke({color,width:2/scale});}
+      }else if(!cue&&!step){const r=6/scale;g.poly([center.x,center.y-r*.7,center.x+r,center.y,center.x,center.y+r*.7,center.x-r,center.y]).stroke({color,width:2/scale});}
       t.label.text=cue?String(c.cueStep):step?String(step):'';t.label.style.fill=0xfff6cf;
     }
   }
   placeTargets(target){
-    if(!this.root.visible||!this.layout())return;this.draw();const e=this.engine,m=e.stage.worldTransform,key=[m.a,m.b,m.c,m.d,m.tx,m.ty,this.layoutKey].join(':');if(key===this.targetKey)return;this.targetKey=key;
+    if(!this.root.visible||!this.layout())return;this.draw();const e=this.engine,m=e.stage.worldTransform,key=[m.a,m.b,m.c,m.d,m.tx,m.ty,this.layoutKey,this.state.challenge.id].join(':');
+    // Each MEMORY replaces the DOM buttons. An unchanged camera does not mean
+    // those new elements have hit areas; also cover a same-phase DOM remount.
+    if(key===this.targetKey&&target.children[0]===this.targetFirst)return;this.targetKey=key;this.targetFirst=target.children[0];
     for(let id=0;id<this.tiles.length;id++){
       const b=target.children[id];if(!b)continue;const points=this.tiles[id].points.map(p=>e.stage.toGlobal(p)),left=Math.min(...points.map(p=>p.x)),top=Math.min(...points.map(p=>p.y)),width=Math.max(...points.map(p=>p.x))-left,height=Math.max(...points.map(p=>p.y))-top;
       const transform=`translate(${left}px,${top}px)`;if(b.style.transform!==transform)b.style.transform=transform;b.style.width=width+'px';b.style.height=height+'px';b.style.clipPath='polygon('+points.map(p=>`${(p.x-left)/width*100}% ${(p.y-top)/height*100}%`).join(',')+')';

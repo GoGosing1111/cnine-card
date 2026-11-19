@@ -2,7 +2,9 @@ import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,eventTim
 import {NOX_TRACK,NOX_RHYTHM_RULES,noxTrack} from '/shared/nox-raid-chart-v1.mjs?v=20261119-rhythm2';
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const roles=['저음','중음','고음'],keys=['D','F','J','K'];
-let token=sessionStorage.getItem('noxLiveRoom')||'',state=null,payload=null,epoch=0,eventSeq=0,pollTimer=0,flushTimer=0,frame=0,toastTimer=0,input=null,layer=null,mounted=false,mountPromise=null,preparing=false,posting=false,seq=0,offset=Date.now()-performance.now(),bestRtt=Infinity,stageId='',localHits=new Set(),outbox=[],nodes=new Map(),hudSignature='',ended=false,requests=new Set(),polling=false,lastPaint=0,frameTimes=[];
+let token=sessionStorage.getItem('noxLiveRoom')||'',state=null,payload=null,epoch=0,eventSeq=0,pollTimer=0,flushTimer=0,frame=0,toastTimer=0,input=null,layer=null,mounted=false,mountPromise=null,preparing=false,seq=0,offset=Date.now()-performance.now(),bestRtt=Infinity,stageId='',localHits=new Set(),outbox=[],nodes=new Map(),hudSignature='',ended=false,requests=new Set(),polling=false,lastPaint=0,frameTimes=[];
+const posts=new Map(),sentPackets=new Map();
+let retryAt=0,retryDelay=250;
 let calibration=Math.max(-150,Math.min(150,Number(localStorage.getItem('noxTimingOffset'))||0));
 const audio=new NoxAudio(),serverNow=()=>performance.now()+offset;
 let chartObserver=null,hitY=1,noteHeight=56,combo=0,floorAbort=null;
@@ -30,20 +32,24 @@ function prepareRhythmArt(){
 }
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4000);}
 function playerToken(){return localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}
-async function api(route,body,{keepalive=false}={}){
-  const controller=new AbortController(),started=performance.now(),auth=playerToken();requests.add(controller);const timeout=setTimeout(()=>controller.abort(),7000);
+async function api(route,body,{keepalive=false,controller=new AbortController()}={}){
+  const auth=playerToken();requests.add(controller);const timeout=setTimeout(()=>controller.abort(),7000);
   const kind=route.split('?')[0];let endpoint='/api/raid/nox/'+route;
   if(body===undefined&&token)endpoint+=(endpoint.includes('?')?'&':'?')+'roomId='+encodeURIComponent(token);
-  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:2,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
+  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:3,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
   try{
     let result;
     for(let attempt=0;attempt<2;attempt++){
+      const started=performance.now();
       const response=await fetch(endpoint,{method:body===undefined?'GET':'POST',cache:'no-store',credentials:'same-origin',headers:{'content-type':'application/json',authorization:'Bearer '+auth},...(body===undefined?{}:{body:JSON.stringify(body)}),signal:controller.signal,keepalive});
-      result=await response.json();if(!response.ok){if(response.status>=500&&body&&kind!=='action'&&!attempt)continue;throw Object.assign(new Error(result.error||'요청에 실패했습니다.'),{status:response.status,code:result.code});}break;
+      result=await response.json();
+      if(auth!==playerToken())throw Object.assign(new Error('로그인 정보가 바뀌었습니다. 다시 입장하세요.'),{status:401});
+      // Error responses carry the same trusted clock sample as success. Do not
+      // leave a bad clock untouched while rejecting every following input.
+      const received=performance.now(),rtt=received-started,clock=result.serverNow??result.state?.responseNow??result.state?.serverNow,networkRtt=Math.max(0,rtt-(clock-(result.serverReceivedAt??clock)));
+      if(Number.isFinite(clock)&&networkRtt<bestRtt+10){bestRtt=Math.min(bestRtt,networkRtt);offset=((result.serverReceivedAt??clock)-started+clock-received)/2;}
+      if(!response.ok){if(response.status>=500&&body&&kind!=='action'&&!attempt)continue;throw Object.assign(new Error(result.error||'요청에 실패했습니다.'),{status:response.status,code:result.code});}break;
     }
-    if(auth!==playerToken())throw Object.assign(new Error('로그인 정보가 바뀌었습니다. 다시 입장하세요.'),{status:401});
-    const received=performance.now(),rtt=received-started,clock=result.serverNow??result.state?.responseNow??result.state?.serverNow,networkRtt=Math.max(0,rtt-(clock-(result.serverReceivedAt??clock)));
-    if(Number.isFinite(clock)&&networkRtt<bestRtt+10){bestRtt=Math.min(bestRtt,networkRtt);offset=((result.serverReceivedAt??clock)-started+clock-received)/2;}
     if(kind==='start')window.parent.dispatchEvent(new Event('cnine:account-mutation'));
     return result;
   }finally{clearTimeout(timeout);requests.delete(controller);}
@@ -51,8 +57,8 @@ async function api(route,body,{keepalive=false}={}){
 function screen(combat){$('lobby').hidden=combat;$('combat').hidden=!combat;document.body.classList.toggle('in-combat',combat);}
 function healthMarkup(m){return `<article class="nox-member${m.id===state.me.id?' is-me':''}${m.hp<=0?' is-dead':''}" data-member="${esc(m.id)}"><div><strong>${esc(m.name)}</strong><span>${m.hp>0?roles[m.role]:'전투 불능'}</span></div><div class="nox-gauge" style="--hp:${Math.max(0,m.hp/Math.max(1,m.maxHp))}" role="progressbar" aria-label="${esc(m.name)} HP" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(100*m.hp/Math.max(1,m.maxHp))}"><div class="nox-gauge-trail"></div><div class="nox-gauge-fill"></div></div></article>`;}
 function render(result){
-  if(!result?.state)return;const next=result.state;if(state&&state.id===next.id&&next.serverNow<state.serverNow)return;
-  const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;seq=Math.max(seq,next.me.lastSequence);if(result.payload)payload=result.payload;
+  if(!result?.state)return;const next=result.state;if(state&&state.id===next.id&&(next.revision<state.revision||next.revision===state.revision&&next.serverNow<state.serverNow))return;
+  const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;seq=Math.max(seq,next.me.lastSequence);outbox=outbox.filter(p=>p.seq>next.me.lastSequence);for(const end of sentPackets.keys())if(end<=next.me.lastSequence)sentPackets.delete(end);if(result.payload)payload=result.payload;
   if(state.status==='LOBBY'){
     screen(false);$('createForm').hidden=true;$('assembly').hidden=false;$('roomCode').textContent=state.id;showFee(state.release.mode,state.entryCoins);
     $('memberList').innerHTML=state.members.map(m=>`<li>${esc(m.name)}<span>${roles[m.role]} · ${m.ready?'준비 완료':'준비 중'}${m.bot?' · 연습 동료':''}</span></li>`).join('');
@@ -73,7 +79,7 @@ async function mountBattle(){
   if(mounted)return;if(mountPromise)return mountPromise;const version=epoch;
   mountPromise=(async()=>{
     if(!payload){const result=await api('state?payload=1');payload=result.payload;render(result);}
-    await loadScript('/raid/nox/battle.bundle.js?nox=20261119-memory3&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
+    await loadScript('/raid/nox/battle.bundle.js?nox=20261119-input4&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
     chartObserver=new ResizeObserver(()=>{noteHeight=parseFloat(getComputedStyle($('chart')).getPropertyValue('--note-height'))||56;hitY=noxHitY($('chart').clientHeight,noteHeight);$('chart').style.setProperty('--hit-y',hitY+'px');});chartObserver.observe($('chart'));
@@ -92,7 +98,7 @@ async function prepare(){
 }
 function updateMechanic(){
   if(!layer||!state?.challenge)return;const c=state.challenge;
-  if(c.id!==stageId){stageId=c.id;layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;outbox=[];localHits=new Set(state.me.hits||[]);nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();combo=0;$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 밝은 선에 맞추세요';$('rhythmCombo').textContent='';$('combatMessage').textContent='';
+  if(c.id!==stageId){stageId=c.id;for(const p of posts.values())p.controller.abort();posts.clear();retryAt=0;retryDelay=250;layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;outbox=[];sentPackets.clear();localHits=new Set(state.me.hits||[]);nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();combo=0;$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 밝은 선에 맞추세요';$('rhythmCombo').textContent='';$('combatMessage').textContent='';
     $('rhythm').hidden=c.stage!=='RHYTHM';$('memory').hidden=c.stage!=='MEMORY';$('coop').hidden=c.stage!=='COOP';
     $('mechanicName').textContent=({RHYTHM:'종언의 악보',MEMORY:'잔향의 발판',COOP:'삼중 공명',EXPOSED:'왕관 붕괴'})[c.stage];
     $('mechanicHint').textContent=({RHYTHM:'D · F · J · K  /  정확도 90% · MISS 3 이하',MEMORY:'바닥의 1 → 2 → 3 위치 기억 · 지뢰를 피하세요',COOP:'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
@@ -144,21 +150,30 @@ function press(lane,perfTime){
   if(c.stage==='RHYTHM'&&(audio.context?.state!=='running'||audioTime===null)){toast('소리 재개를 눌러 음원을 연결하세요.');return;}
   const at=audioTime===null?perfTime+offset:c.musicStartAt+noxRhythmTime(audioTime,calibration);
   if(at<c.startsAt||c.stage==='MEMORY'&&(at<c.revealEnd||state.me.memoryIndex>=3)||c.stage==='COOP'&&state.me.cooperated)return;
-  if(c.stage==='RHYTHM'){const judged=nearestNoxNote(c.chart,localHits,lane,at-c.musicStartAt);showHit(lane,judged,at-c.musicStartAt);if(judged){localHits.add(judged.note.id);nodes.get(judged.note.id)?.remove();nodes.delete(judged.note.id);}}
-  outbox.push({lane,at});scheduleFlush();
+  let noteId;
+  if(c.stage==='RHYTHM'){const judged=nearestNoxNote(c.chart,localHits,lane,at-c.musicStartAt);showHit(lane,judged,at-c.musicStartAt);if(judged){noteId=judged.note.id;localHits.add(noteId);nodes.get(noteId)?.remove();nodes.delete(noteId);}}
+  outbox.push({lane,at,seq:++seq,noteId});scheduleFlush();
 }
-function scheduleFlush(){if(flushTimer||posting||!outbox.length)return;flushTimer=setTimeout(()=>{flushTimer=0;void flush();},35);}
+function scheduleFlush(){if(flushTimer||posts.size>=8||!outbox.length||state?.status!=='ACTIVE'||document.hidden)return;flushTimer=setTimeout(()=>{flushTimer=0;void flush();},Math.max(35,retryAt-performance.now()));}
 async function flush(){
-  if(posting||!outbox.length||state?.status!=='ACTIVE')return;posting=true;const version=epoch,packet={seq:++seq,challengeId:state.challenge.id,inputs:outbox.splice(0,24)};
-  try{let result;for(let attempt=0;attempt<2;attempt++){try{result=await api('action?since='+eventSeq,packet);break;}catch(error){if(error.status&&error.status<500||attempt===1)throw error;}}if(version===epoch)render(result);}
-  catch(error){if(version===epoch&&error.name!=='AbortError'){toast(error.message);void sync();}}
-  finally{posting=false;if(version===epoch)scheduleFlush();}
+  if(posts.size>=8||!outbox.length||state?.status!=='ACTIVE')return;
+  // Do not make subsequent keys wait for a slow acknowledgement. Overlapping
+  // packets carry unacknowledged keys; the server applies each sequence once.
+  const version=epoch,batch=outbox.slice(0,24),end=batch.at(-1).seq,packet=sentPackets.get(end)||{seq:end,challengeId:state.challenge.id,inputs:batch.map(({lane,at})=>({lane,at})),stream:true},key=version+':'+packet.seq;
+  if(posts.has(key))return;const controller=new AbortController();sentPackets.set(end,packet);posts.set(key,{packet,controller});
+  try{let result;for(let attempt=0;attempt<2;attempt++){try{result=await api('action?since='+eventSeq,packet,{controller});break;}catch(error){if(controller.signal.aborted||error.status&&error.status<500||attempt===1)throw error;}}if(version===epoch){retryAt=0;retryDelay=250;render(result);}}
+  catch(error){if(version===epoch&&packet.challengeId===state?.challenge?.id){
+    if(error.status&&error.status<500&&packet.challengeId===state?.challenge?.id){outbox=outbox.filter(p=>p.seq>packet.seq);for(const end of sentPackets.keys())if(end<=packet.seq)sentPackets.delete(end);localHits=new Set([...(state.me.hits||[]),...outbox.map(p=>p.noteId).filter(id=>id!==undefined)]);}
+    else{retryAt=performance.now()+retryDelay;retryDelay=Math.min(2000,retryDelay*2);}
+    if(error.name!=='AbortError')toast(error.message);void sync();
+  }}
+  finally{posts.delete(key);if(version===epoch)scheduleFlush();}
 }
 function stopLoops(){clearTimeout(pollTimer);clearTimeout(flushTimer);cancelAnimationFrame(frame);pollTimer=flushTimer=frame=0;lastPaint=0;clearHitEffects();}
 function schedulePoll(){clearTimeout(pollTimer);if(!token||ended||document.hidden)return;pollTimer=setTimeout(()=>void sync(),state?.status==='ACTIVE'?200:1500);}
 async function sync(){if(!token||polling)return;polling=true;const version=epoch;try{const result=await api('state?since='+eventSeq+(!payload?'&payload=1':''));if(version===epoch){render(result);if(state?.status!=='LOBBY'&&!mounted)await mountBattle();}}catch(error){if(version===epoch&&error.name!=='AbortError'){toast(error.message);if(error.status===401||error.status===403||error.status===404||error.status===423)await leave(false);}}finally{polling=false;if(version===epoch)schedulePoll();}}
 async function leave(notify=true){
-  const oldToken=token;epoch++;stopLoops();requests.forEach(c=>c.abort());requests.clear();input?.destroy();input=null;floorAbort?.abort();chartObserver?.disconnect();await audio.suspend();window.NoxBattle?.teardown();mounted=false;mountPromise=null;layer?.remove();layer=null;nodes.clear();outbox=[];stageId='';token='';sessionStorage.removeItem('noxLiveRoom');state=null;payload=null;eventSeq=0;seq=0;ended=false;preparing=false;hudSignature='';bestRtt=Infinity;screen(false);$('createForm').hidden=false;$('assembly').hidden=true;$('createButton').disabled=false;$('audioResume').hidden=true;
+  const oldToken=token;epoch++;stopLoops();requests.forEach(c=>c.abort());requests.clear();posts.clear();sentPackets.clear();retryAt=0;retryDelay=250;input?.destroy();input=null;floorAbort?.abort();chartObserver?.disconnect();await audio.suspend();window.NoxBattle?.teardown();mounted=false;mountPromise=null;layer?.remove();layer=null;nodes.clear();outbox=[];stageId='';token='';sessionStorage.removeItem('noxLiveRoom');state=null;payload=null;eventSeq=0;seq=0;ended=false;preparing=false;hudSignature='';bestRtt=Infinity;frameTimes=[];screen(false);$('createForm').hidden=false;$('assembly').hidden=true;$('createButton').disabled=false;$('audioResume').hidden=true;
   if(notify&&oldToken)try{await api('leave',{roomId:oldToken},{keepalive:true});}catch(error){toast(error.message);}
 }
 async function establish(action,body){$('createButton').disabled=true;$('joinButton').disabled=true;try{await leave();const result=await api(action,body);token=result.roomId;sessionStorage.setItem('noxLiveRoom',token);render(result);schedulePoll();}catch(error){toast(error.message);}finally{$('createButton').disabled=false;$('joinButton').disabled=false;}}
@@ -181,5 +196,5 @@ async function boot(){
     const result=await api('deck');$('deckList').innerHTML=result.cards.map(c=>`<figure><img src="${esc(c.image)}" alt="${esc(c.title)}" loading="lazy"><figcaption>${esc(c.title)}</figcaption></figure>`).join('');$('deckNotice').textContent='저장된 PVE 덱으로 출전합니다. · '+result.account.name;token=result.roomId||'';if(token){sessionStorage.setItem('noxLiveRoom',token);await sync();}else sessionStorage.removeItem('noxLiveRoom');$('createButton').disabled=$('joinButton').disabled=false;
   }catch(error){$('deckNotice').textContent=error.message;$('feeDetail').textContent=error.message;token='';}
 }
-window.NoxRaid={sync,leave,diagnostics:()=>({state,mounted,pendingInputs:outbox.length,inflight:requests.size,poll:!!pollTimer,raf:!!frame,held:input?.held.size||0,audio:audio.context?.state,playing:!!audio.source,trackUrl:audio.trackUrl,preparedTracks:audio.buffers.size,audioBufferBytes:[...audio.buffers.values()].reduce((n,b)=>n+b.length*b.numberOfChannels*4,0),audioPositionMs:audio.timeAt(),serverNowEstimate:serverNow(),notes:nodes.size,frameTimes:[...frameTimes],battle:window.NoxBattle?.diagnostics()})};
+window.NoxRaid={sync,leave,diagnostics:()=>({state,mounted,pendingInputs:outbox.length,inputRequests:posts.size,inputPackets:sentPackets.size,inflight:requests.size,poll:!!pollTimer,raf:!!frame,held:input?.held.size||0,audio:audio.context?.state,playing:!!audio.source,trackUrl:audio.trackUrl,preparedTracks:audio.buffers.size,audioBufferBytes:[...audio.buffers.values()].reduce((n,b)=>n+b.length*b.numberOfChannels*4,0),audioPositionMs:audio.timeAt(),serverNowEstimate:serverNow(),notes:nodes.size,frameTimes:[...frameTimes],battle:window.NoxBattle?.diagnostics()})};
 void boot();

@@ -22,6 +22,14 @@ test('a hidden or zero-scale battlefield defers floor projection and recovers al
     assert.equal(floor.root.parent,combatLayer);
     for(const [i,tile] of [2,13,28].entries()){state.challenge.cue=tile;state.challenge.cueStep=i+1;floor.update(state);assert.equal(floor.tiles[tile].label.text,String(i+1));}
     floor.update({...state,stage:'COOP'});assert.equal(floor.root.visible,false);
+    // New rounds replace the buttons, even when camera and viewport do not move.
+    for(const round of [2,3]){
+      state.challenge.id='memory-'+round;state.challenge.cue=null;state.me.memoryTiles=[];floor.update(state);
+      target.children=Array.from({length:30},()=>({style:{}}));floor.placeTargets(target);
+      assert(target.children.every(b=>parseFloat(b.style.width)>0&&parseFloat(b.style.height)>0&&b.style.clipPath),'new round '+round+' must project all new buttons');
+      target.children=Array.from({length:30},()=>({style:{}}));floor.placeTargets(target);
+      assert(target.children.every(b=>parseFloat(b.style.width)>0),'a same-challenge DOM remount must also recover');
+    }
   }finally{floor.destroy();root.destroy({children:true});globalThis.ResizeObserver=previousObserver;globalThis.getComputedStyle=previousStyle;}
   assert.equal(disconnects,1);
 });

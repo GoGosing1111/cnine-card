@@ -1,7 +1,7 @@
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,leaveNoxRoom,tickNoxRoom,actNoxRoom,noxView,noxBattlePayload,loadNoxPveDeck} from './_raid_nox.js';
 import {readJointBody,jointError} from './_joint_request.js';
 
-export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CLIENT_VERSION=2;
+export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CLIENT_VERSION=3;
 export const NOX_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS raid_nox_rooms_v1(room_id TEXT PRIMARY KEY,state_json TEXT NOT NULL,version BIGINT NOT NULL DEFAULT 0,status TEXT NOT NULL,expires_at BIGINT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS raid_nox_active_v1(user_id BIGINT PRIMARY KEY,room_id TEXT NOT NULL)`,
@@ -109,7 +109,7 @@ async function action(env,user,body,since,arrival){
   for(let retry=0;retry<3;retry++){
     const {cfg,raw,row,room}=await read(env,q=>snapshot(q,body.roomId,user));
     const me=member(room,user),index=room.members.indexOf(me),previousSeq=me.lastSequence,previousEvent=room.eventSeq,previousChallenge=room.challenge?.id;
-    if(me.receipts[body.seq]){actNoxRoom(room,String(user.id),body,Math.max(room.clock,arrival),{receiptNow:arrival});return result(room,user,cfg,{since});}
+    if(me.receipts[body.seq]||body.stream&&body.seq<=me.lastSequence){actNoxRoom(room,String(user.id),body,Math.max(room.clock,arrival),{receiptNow:arrival});return result(room,user,cfg,{since});}
     const before=signature(room);tick(room,Math.max(room.clock,arrival));
     if(signature(room)!==before){if(await read(env,q=>save(q,row,room)))continue;continue;}
     actNoxRoom(room,String(user.id),body,room.clock,{receiptNow:arrival});
@@ -138,7 +138,7 @@ export async function handleNoxLive({path,request,env,deps}){
     const url=new URL(request.url);if(path.startsWith('admin/'))return send(await admin(env,user,request,url,path.slice('admin/raid/nox/'.length)));
     const kind=path.slice('raid/nox/'.length),since=Math.max(0,Number(url.searchParams.get('since'))||0);
     if(kind==='state'&&request.method==='GET')return send(await state(env,user,url.searchParams.get('roomId'),{since,payload:url.searchParams.get('payload')==='1'},arrival));
-    if(kind==='action'&&request.method==='POST'){const body=await readJointBody(request,{fields:['roomId','seq','challengeId','inputs'],maxBytes:8192});return send(await action(env,user,body,since,arrival));}
+    if(kind==='action'&&request.method==='POST'){const body=await readJointBody(request,{fields:['roomId','seq','challengeId','inputs','stream'],maxBytes:8192});return send(await action(env,user,body,since,arrival));}
     const {cfg}=await read(env,q=>config(q));
     if(kind==='feature'&&request.method==='GET')return send({ok:true,...noxAccess(user,cfg)});
     if(kind!=='leave')access(user,cfg);

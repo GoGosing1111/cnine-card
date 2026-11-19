@@ -93,18 +93,23 @@ export function tickNoxRoom(room,now){
 }
 export function actNoxRoom(room,id,input,now,{receiptNow=now}={}){
   const m=room.members.find(m=>m.id===id&&!m.left);if(!m)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
-  if(!input||!Number.isSafeInteger(input.seq)||input.seq<1||!Array.isArray(input.inputs)||input.inputs.length>24)fail('INPUT','잘못된 입력 묶음입니다.',400);
-  const signature=JSON.stringify([input.challengeId,input.inputs]);
+  if(!input||!Number.isSafeInteger(input.seq)||input.seq<1||!Array.isArray(input.inputs)||input.inputs.length>24||input.stream!==undefined&&input.stream!==true||input.stream&&(input.inputs.length<1||input.seq<input.inputs.length))fail('INPUT','잘못된 입력 묶음입니다.',400);
+  const signature=JSON.stringify(input.stream?[input.challengeId,input.inputs,true]:[input.challengeId,input.inputs]);
   if(m.receipts[input.seq]){if(m.receipts[input.seq]!==signature)fail('REPLAY_CONFLICT','재시도 입력 내용이 바뀌었습니다.');return room;}
+  // Stream packets contain every unacknowledged input, ending at seq. A newer
+  // packet may arrive first; its overlap is already authoritative, not a new
+  // key press. Legacy packets keep their original strict replay checks.
+  if(input.stream&&input.seq<=m.lastSequence)return room;
   if(input.seq<=m.lastSequence)fail('STALE_SEQUENCE','지난 입력 묶음입니다.');
   tickNoxRoom(room,now);if(room.status!=='ACTIVE'||m.hp<=0)fail('INACTIVE','현재 입력할 수 없는 상태입니다.');
   const c=room.challenge;if(input.challengeId!==c.id)fail('STALE_CHALLENGE','지난 기믹의 입력입니다.');
+  const inputs=input.stream?input.inputs.slice(Math.max(0,m.lastSequence-(input.seq-input.inputs.length))):input.inputs;
   // Validate the whole packet before mutating. Never trust client damage, score,
   // note id, role, member id or outcome. Time is bounded to server receipt time.
   // A rhythm timestamp includes up to ±150 ms of user calibration. Keep the
   // original clock tolerance for the uncalibrated floor/cooperative actions.
-  for(const p of input.inputs){if(!Number.isInteger(p.lane)||p.lane<0||p.lane>(c.stage==='RHYTHM'?3:c.stage==='MEMORY'?c.tiles.length-1:2)||!Number.isFinite(p.at)||p.at>receiptNow+(c.stage==='RHYTHM'?NOX_RULES.inputLeadMs:60)||p.at<receiptNow-NOX_RULES.receiptGraceMs||p.at<c.startsAt)fail('INPUT_TIME','입력 시각이 허용 범위를 벗어났습니다.',400);}
-  for(const p of input.inputs){
+  for(const p of inputs){if(!p||!Number.isInteger(p.lane)||p.lane<0||p.lane>(c.stage==='RHYTHM'?3:c.stage==='MEMORY'?c.tiles.length-1:2)||!Number.isFinite(p.at)||p.at>receiptNow+(c.stage==='RHYTHM'?NOX_RULES.inputLeadMs:60)||p.at<receiptNow-NOX_RULES.receiptGraceMs||p.at<c.startsAt)fail('INPUT_TIME','입력 시각이 허용 범위를 벗어났습니다.',400);}
+  for(const p of inputs){
     if(m.hp<=0)break;
     if(c.stage==='RHYTHM'){
       const relative=p.at-c.musicStartAt;
