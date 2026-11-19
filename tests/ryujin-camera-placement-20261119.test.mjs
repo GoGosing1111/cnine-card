@@ -48,6 +48,11 @@ test('mirrored casts stop in front of enemies and do not retreat when already in
  const close={x:1040,y:420},near=ryujinSkillPlacement({start:close,targets,cooperative:false,duration:1.25});
  assert.deepEqual(near.cast,close);assert.equal(near.approachSeconds,0);assert.equal(near.returnSeconds,0);
 });
+test('portrait parties approach upward to the central front, without entering enemy rows',()=>{
+ const home={x:300,y:950},enemies=[actor(200,150),actor(800,450)];
+ const p=ryujinSkillPlacement({start:home,targets:enemies,cooperative:true,duration:1.25,reach:90,axis:'y'});
+ assert.deepEqual(p.cast,{x:500,y:540});assert.equal(p.axis,'y');assert.deepEqual(p.rootAt(-.24),home);assert.deepEqual(p.rootAt(.57),p.cast);assert.deepEqual(p.rootAt(1.47),home);
+});
 test('one target and missing presentation targets remain finite',()=>{
  for(const list of [[actor(800,500)],[],[{root:{x:NaN,y:NaN}}]]){
   const p=ryujinSkillPlacement({start,targets:list,cooperative:true,duration:.75,contact:.3});
