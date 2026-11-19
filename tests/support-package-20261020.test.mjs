@@ -15,6 +15,7 @@ for(const postgres of [false,true]){
    const item=await f.one('SELECT * FROM inventory_items WHERE code=?',LIMITED_SHARD.code);assert.equal(item.category,'MATERIAL');assert.equal(item.rarity,'SSS');assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),1234);
    const id=crypto.randomUUID(),applied=await f.apply(2,id);assert.equal(applied.status,200,JSON.stringify(applied.body));const order=applied.body.order;
    assert.equal(order.product.coins,500000000000000);assert.equal(applied.body.messageExpired,false);
+   const bank=(await f.messages(2)).body.messages.find(m=>m.message_type==='SUPPORT_BANK_ACCOUNT');assert.match(bank.body,/케이뱅크 100129930071\n예금주: 오대현/);assert.doesNotMatch(bank.body,/신한은행|110-290-621512|전병은/);
    assert.equal((await f.apply(2,id)).body.replayed,true);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM user_messages')).n),2);
    const reissued=await f.apply();assert.equal(reissued.body.order.id,order.id);assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
    const alerts=await f.call('admin/server-support/package/alerts');assert.equal(alerts.body.pending.length,1);assert.equal(alerts.body.pending[0].nickname,'후원 검수 계정');

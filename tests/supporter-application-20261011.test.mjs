@@ -28,11 +28,11 @@ for(const postgres of [false,true]){
     const f=await applicationFixture({postgres});t.after(()=>f.close());await f.setting(true);
     const id=crypto.randomUUID(),one=await f.issue(2,id);assert.equal(one.status,200);assert.equal(one.body.application.remaining,2);assert.equal(one.body.expiresAt-one.body.issuedAt,300000);
     const inbox=await f.messages();assert.equal(inbox.body.messages.length,1);assert.match(inbox.headers.get('cache-control'),/private, no-store/);
-    assert.match(inbox.body.messages[0].body,/신한은행 110-290-621512\n예금주: 전병은/);assert.equal(inbox.body.messages[0].expiresAt,one.body.expiresAt);
+    assert.match(inbox.body.messages[0].body,/케이뱅크 100129930071\n예금주: 오대현/);assert.equal(inbox.body.messages[0].expiresAt,one.body.expiresAt);
     assert.equal((await f.messages(3)).body.messages.length,0);
     for(let i=0;i<4;i++)assert.equal((await f.issue(2,id)).body.replayed,true);
     assert.equal((await f.one('SELECT COUNT(*) n FROM user_messages')).n,1);
-    assert.ok(!(await f.all('SELECT value FROM app_meta')).some(r=>r.value.includes('110-290-621512')));
+    assert.ok(!(await f.all('SELECT value FROM app_meta')).some(r=>r.value.includes('100129930071')));
     await f.issue();await f.issue();assert.equal((await f.issue()).status,429);
     await f.run('DELETE FROM user_messages WHERE user_id=2');assert.equal((await f.issue()).status,429);
     assert.equal((await f.issue(3)).status,200);

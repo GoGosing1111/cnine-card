@@ -69,7 +69,7 @@ export async function issuePackage(env,user,body,now=Date.now()){
  // Reissuing bank instructions keeps the same pending order and never repeats its owner alert.
  const campaign='support_package_bank_v1:'+id+':'+body.requestId;
  const result={ok:true,order,campaignKey:campaign,issuedAt:now,expiresAt:now+SUPPORT_BANK_MESSAGE_TTL,replayed:false};
- const message=`패키지 구매 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n결제 금액: ${product.priceWon.toLocaleString('ko-KR')}원\n신청 횟수: ${order.quantity??1}회\n\n${product.eventLabel} · 패키지 총 ${product.packageQuantity}개\n${supportPackageSummary(product)}\n${SUPPORT_PACKAGE_EVENT_DEADLINE.notice}\n신청 번호: ${order.id}\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.`;
+ const message=`패키지 구매 계좌 안내\n\n케이뱅크 100129930071\n예금주: 오대현\n결제 금액: ${product.priceWon.toLocaleString('ko-KR')}원\n신청 횟수: ${order.quantity??1}회\n\n${product.eventLabel} · 패키지 총 ${product.packageQuantity}개\n${supportPackageSummary(product)}\n${SUPPORT_PACKAGE_EVENT_DEADLINE.notice}\n신청 번호: ${order.id}\n\n반드시 게임 닉네임으로 입금해 주세요.\n같은 신청에 중복 입금하지 마세요. 운영자의 입금 확인 후 패키지가 지급됩니다. 시즌패스 기간은 연장되지 않습니다. 패키지 코인은 승부예측에 사용할 수 없습니다.\n계좌 안내 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 신청 기록은 유지됩니다.`;
  const DB=env.DB,token=crypto.randomUUID(),tokens=[],p=(sql,...a)=>DB.prepare(sql).bind(...a),guard=(test,args)=>{const t=token+tokens.length;tokens.push(t);return jointGuard(DB,t,test,args);};
  try{await DB.batch([
   ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,config.key)]:[]),
