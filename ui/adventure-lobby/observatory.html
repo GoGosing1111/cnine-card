@@ -1,9 +1,9 @@
 
   <a class="skip skip-link" href="#main">출전 메뉴로 바로가기</a>
-  <div class="lobby" id="lobby">
+  <div class="lobby" id="lobby" part="frame">
     <div class="scene" aria-hidden="true"></div><div class="scene-shade" aria-hidden="true"></div>
     <div class="hero-scene"><img id="hero" class="hero stage-character" hidden alt="로비 아바타" fetchpriority="high"></div>
-    <header class="topbar">
+    <header class="topbar" part="header">
       <a class="brand" href="/?screen=home" aria-label="리버스콜 로비"><img src="/assets/ui/brand/reverse-call-20261016/icon-192.png" alt=""><span>REVERSE CALL<small>리버스콜</small></span></a>
       <div class="header-profile account-identity"><button id="account-rank-button" type="button" class="account-rank-button" aria-label="계급과 혜택" hidden></button><button id="account-shortcut" class="account-name-shortcut" type="button"><b id="player-name">플레이어</b></button></div>
       <div class="wallet" aria-label="보유 재화">
@@ -14,7 +14,7 @@
       </div>
       <div class="utilities"><button class="icon-button" data-route="messages" aria-label="메시지함"><span data-icon="messages"></span><i id="inbox-count" class="notification" hidden></i></button><button class="icon-button" id="start-tutorial" aria-label="초보유저 성장팁"><span data-icon="book"></span></button></div>
     </header>
-    <aside class="rail sidebar" aria-label="주요 메뉴">
+    <aside class="rail sidebar" part="rail" aria-label="주요 메뉴">
       <button class="rail-item side-link" data-home aria-current="page"><span data-icon="home"></span><b>로비</b></button>
       <button class="rail-item side-link" data-category="cards"><span data-icon="mercenaryDex"></span><b>카드·용병·펫</b></button>
       <button class="rail-item side-link" data-category="equipment"><span data-icon="equipmentForge"></span><b>장비·제작</b></button>

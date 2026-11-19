@@ -502,6 +502,18 @@
 
 /* Raid selection lives in the route's existing vertical scroller. Keep every
    visible raid reachable without the former six 220px-wide tab minimums. */
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]:has(#pveRaidHubView:not([hidden])) {
+  --adventure-header-height:0px!important;
+}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]:has(#pveRaidHubView:not([hidden])) > .screen-viewport {top:0!important;}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]:has(#pveRaidHubView:not([hidden])) > soop-adventure-lobby::part(header) {display:none;}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]:has(#pveRaidHubView:not([hidden])) > soop-adventure-lobby::part(frame) {height:100%;min-height:0;padding:0;}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]:has(#pveRaidHubView:not([hidden])) > soop-adventure-lobby::part(rail) {top:0;bottom:0;}
+/* Home and the content directory stay in the persistent rail/mobile dock.
+   The destination tabs already identify this screen, so avoid duplicate heads. */
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]:has(#pveRaidHubView:not([hidden])) .v21-live-route[data-live-route="battle"] > .v21-route-command-head {display:none!important;}
+.page.game-frame.v21-production-shell[data-adventure-navigation="1"]:has(#pveRaidHubView:not([hidden])) .v21-live-route[data-live-route="battle"] > .v21-route-body {padding:8px;background:#0c1b28;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-live-toolbar {display:none!important;}
 #pveCommandV2:has(#pveRaidHubView:not([hidden])) {overflow:visible;}
 #pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-live-toolbar {
   min-height:48px!important;padding:2px 12px!important;gap:12px!important;
@@ -651,7 +663,8 @@
   #pveCoreRaidView .core-raid-boss img {height:150px;}
   #pveCoreRaidView .core-raid-statusline {grid-column:1 / -1;}
   #pveCoreRaidView .core-room-browser {grid-template-columns:minmax(0,1fr);}
-  #pveCoreRaidView .core-weekly-detail {padding:0;border:0;}
+  #pveCoreRaidView .core-weekly-count {width:100%;justify-content:space-between;}
+  #pveCoreRaidView .core-weekly-detail {min-width:min(100%,170px);padding:0;border:0;}
   #pveCoreRaidView .core-weekly-reward > p {margin:0;}
 }
 
