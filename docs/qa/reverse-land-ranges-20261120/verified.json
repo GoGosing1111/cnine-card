@@ -1,0 +1,76 @@
+{
+  "at": "2026-11-19T16:58:30.565Z",
+  "head": "811dc9fae89bbd094044ff7b56a2fb87fba8ba94",
+  "pages": {
+    "id": "bd9fb7f9-c13b-4a44-a0b5-2ebd1368cb12",
+    "commit": "811dc9fae89bbd094044ff7b56a2fb87fba8ba94",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "532cc510-016a-4910-a05e-c14315b0595d",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "198d28cf-7bfb-4175-94ee-0522d3354120",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "testsPassed": 60,
+  "files": [
+    {
+      "file": "preview/soopketland-v2039/index.html",
+      "sha256": "8650cf7d0fe720680f1ac0cc2123768b12010eddf8f54afdd1f3c90c1b6ee0bf",
+      "localSha256": "8650cf7d0fe720680f1ac0cc2123768b12010eddf8f54afdd1f3c90c1b6ee0bf",
+      "normalizedEqual": true
+    },
+    {
+      "file": "preview/soopketland-v2039/preview.js",
+      "sha256": "0056a37a892f6bc0b63d6461f754cffb31d2b8f6c2e9b80321e025ce9cbaded5",
+      "localSha256": "0056a37a892f6bc0b63d6461f754cffb31d2b8f6c2e9b80321e025ce9cbaded5",
+      "normalizedEqual": true
+    },
+    {
+      "file": "js/soopketland-v2039.bundle.js",
+      "sha256": "a19020763c21238f0b334e1ac277a14c340cc66edf9557717de8d6946e58185e",
+      "localSha256": "a19020763c21238f0b334e1ac277a14c340cc66edf9557717de8d6946e58185e",
+      "normalizedEqual": true
+    },
+    {
+      "file": "css/soopketland-v2039.css",
+      "sha256": "4b62d91f36da0ac5e2d7c996855d63f13ea7ed87789f07744cefd606aa3bd13d",
+      "localSha256": "4b62d91f36da0ac5e2d7c996855d63f13ea7ed87789f07744cefd606aa3bd13d",
+      "normalizedEqual": true
+    }
+  ],
+  "apiWorker": {
+    "sha256": "3671b44748ecd0967de990a497ac6343e6938e741633a0625351abfc0662f15b",
+    "ranges": [
+      "1조 ~ 500조",
+      "10 ~ 100개",
+      "100,000 ~ 50,000,000개",
+      "10 ~ 10,000개"
+    ],
+    "coinMin": 1000000000000,
+    "coinMax": 500000000000000
+  },
+  "windowsManifest": {
+    "releaseId": "f6b4cc342372c1fd7de6ff63e3ba740ad9918dbd2971a07d53e12f1afaa3a195",
+    "files": [
+      "js/soopketland-v2039.bundle.js",
+      "css/soopketland-v2039.css"
+    ]
+  },
+  "liveAccountMutations": 0,
+  "messagesSent": 0
+}

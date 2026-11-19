@@ -1,0 +1,45 @@
+{
+  "head": "811dc9fae89bbd094044ff7b56a2fb87fba8ba94",
+  "base": "e692773fe8d89dd45c79701785816379070782aa",
+  "production": {
+    "pages": {
+      "id": "ea02a3f3-4059-4527-bd20-d0920e916dc4",
+      "commit": "e692773fe8d89dd45c79701785816379070782aa",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "d4d5a8cc-744c-48d1-8814-b9c7910948d9",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "e00daaea-e502-4123-8b90-5f97a6421cf1",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    "functions/_soopket_land.js",
+    "preview/soopketland-v2039/index.html",
+    "preview/soopketland-v2039/preview.js",
+    "tests/soopketland-v2039.browser.mjs",
+    "tests/soopketland-v2039.test.mjs"
+  ],
+  "tests": [
+    "tests/soopketland-v2039.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "User-approved Reverse Land quantity-only update for four rewards: coin 1T-500T, Emperor energy 10-100, Master Stars 100k-50m and Mystic energy 10-10000. Keep six prize types, live odds, existing discrete steps, ten daily tickets, 150 viewers and eight-hour coupons. The focused service regression verifies bounds, 500T BIGINT issuance/redemption, old coupons, rollbacks, replay and daily caps; actual lobby first/repeat browser checks cover all existing entry surfaces. No live account writes or messages."
+}

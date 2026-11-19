@@ -1,0 +1,1204 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "request": "리버스랜드 네 품목 수량 변경; 사은품·리페어 유지",
+  "sourceCommit": "811dc9fae89bbd094044ff7b56a2fb87fba8ba94",
+  "pages": {
+    "id": "bd9fb7f9-c13b-4a44-a0b5-2ebd1368cb12",
+    "commit": "811dc9fae89bbd094044ff7b56a2fb87fba8ba94",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "532cc510-016a-4910-a05e-c14315b0595d",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "198d28cf-7bfb-4175-94ee-0522d3354120",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "rewards": [
+    {
+      "code": "COIN",
+      "name": "코인",
+      "range": "1조 ~ 500조",
+      "min": 1000000000000,
+      "max": 500000000000000,
+      "step": 500000000,
+      "weight": 18000,
+      "percent": 60
+    },
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "range": "10 ~ 100개",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "weight": 1500,
+      "percent": 5
+    },
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "range": "100,000 ~ 50,000,000개",
+      "min": 100000,
+      "max": 50000000,
+      "step": 5000,
+      "weight": 4200,
+      "percent": 14.000000000000002
+    },
+    {
+      "code": "STARLIGHT_ARMOR_CORE",
+      "name": "미스틱 에너지",
+      "range": "10 ~ 10,000개",
+      "min": 10,
+      "max": 10000,
+      "step": 5,
+      "weight": 3000,
+      "percent": 10
+    },
+    {
+      "code": "PINGDU_THANKS_GIFT_BOX",
+      "name": "핑두의 감사 선물",
+      "range": "5개",
+      "min": 5,
+      "max": 5,
+      "step": 5,
+      "weight": 300,
+      "percent": 1
+    },
+    {
+      "code": "PINGDU_REPAIR_COUPON",
+      "name": "핑두 리페어 쿠폰",
+      "range": "1개",
+      "min": 1,
+      "max": 1,
+      "step": 1,
+      "weight": 3000,
+      "percent": 10
+    }
+  ],
+  "preserved": {
+    "sixPrizeTypes": true,
+    "liveWeights": true,
+    "uniformDiscreteDraws": true,
+    "dailyLimit": 10,
+    "couponUses": 150,
+    "couponTtlHours": 8,
+    "oldCouponAmounts": true,
+    "priorReceipts": true,
+    "accountBalances": true,
+    "streamerRegistrations": true
+  },
+  "testsPassed": 60,
+  "validation": [
+    "minimum/maximum and representative interior draw values",
+    "500 trillion coin coupon issuance, durable replay and SQLite/PostgreSQL BIGINT redemption/log balances",
+    "maximum Emperor, Master Star and Mystic coupon redemption",
+    "inventory failure rolls back coupon use and reward together",
+    "old minimum/maximum and retired coupons retain amounts",
+    "exhausted/expired/duplicate coupon and daily cap regression",
+    "all five actual lobby entry surfaces, first/repeat, frame and exit measurements"
+  ],
+  "liveAccountWrites": 0,
+  "liveDraws": 0,
+  "liveCouponRedemptions": 0,
+  "messagesSent": 0,
+  "publicVerification": {
+    "at": "2026-11-19T16:58:30.565Z",
+    "head": "811dc9fae89bbd094044ff7b56a2fb87fba8ba94",
+    "pages": {
+      "id": "bd9fb7f9-c13b-4a44-a0b5-2ebd1368cb12",
+      "commit": "811dc9fae89bbd094044ff7b56a2fb87fba8ba94",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "532cc510-016a-4910-a05e-c14315b0595d",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "198d28cf-7bfb-4175-94ee-0522d3354120",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "testsPassed": 60,
+    "files": [
+      {
+        "file": "preview/soopketland-v2039/index.html",
+        "sha256": "8650cf7d0fe720680f1ac0cc2123768b12010eddf8f54afdd1f3c90c1b6ee0bf",
+        "localSha256": "8650cf7d0fe720680f1ac0cc2123768b12010eddf8f54afdd1f3c90c1b6ee0bf",
+        "normalizedEqual": true
+      },
+      {
+        "file": "preview/soopketland-v2039/preview.js",
+        "sha256": "0056a37a892f6bc0b63d6461f754cffb31d2b8f6c2e9b80321e025ce9cbaded5",
+        "localSha256": "0056a37a892f6bc0b63d6461f754cffb31d2b8f6c2e9b80321e025ce9cbaded5",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/soopketland-v2039.bundle.js",
+        "sha256": "a19020763c21238f0b334e1ac277a14c340cc66edf9557717de8d6946e58185e",
+        "localSha256": "a19020763c21238f0b334e1ac277a14c340cc66edf9557717de8d6946e58185e",
+        "normalizedEqual": true
+      },
+      {
+        "file": "css/soopketland-v2039.css",
+        "sha256": "4b62d91f36da0ac5e2d7c996855d63f13ea7ed87789f07744cefd606aa3bd13d",
+        "localSha256": "4b62d91f36da0ac5e2d7c996855d63f13ea7ed87789f07744cefd606aa3bd13d",
+        "normalizedEqual": true
+      }
+    ],
+    "apiWorker": {
+      "sha256": "3671b44748ecd0967de990a497ac6343e6938e741633a0625351abfc0662f15b",
+      "ranges": [
+        "1조 ~ 500조",
+        "10 ~ 100개",
+        "100,000 ~ 50,000,000개",
+        "10 ~ 10,000개"
+      ],
+      "coinMin": 1000000000000,
+      "coinMax": 500000000000000
+    },
+    "windowsManifest": {
+      "releaseId": "f6b4cc342372c1fd7de6ff63e3ba740ad9918dbd2971a07d53e12f1afaa3a195",
+      "files": [
+        "js/soopketland-v2039.bundle.js",
+        "css/soopketland-v2039.css"
+      ]
+    },
+    "liveAccountMutations": 0,
+    "messagesSent": 0
+  },
+  "publicBrowserChecks": [
+    {
+      "phase": "public",
+      "platform": "desktop",
+      "entries": [
+        {
+          "visit": "first",
+          "readyMs": 525,
+          "stateReads": 2,
+          "frames": {
+            "samples": 90,
+            "p50": 4.199999999999818,
+            "p95": 8.300000000000182,
+            "max": 137.5,
+            "over50": 1,
+            "longTasks": [
+              {
+                "start": 2283.4000000059605,
+                "duration": 66
+              },
+              {
+                "start": 2433.300000011921,
+                "duration": 81
+              },
+              {
+                "start": 2552.5,
+                "duration": 57
+              },
+              {
+                "start": 3095.9000000059605,
+                "duration": 129
+              }
+            ]
+          },
+          "resultAmount": 500000000000000,
+          "horizontalOverflow": false,
+          "exit": {
+            "active": false,
+            "updates": 0,
+            "timers": 0,
+            "canvas": 0,
+            "stateReads": 0
+          }
+        },
+        {
+          "visit": "repeat",
+          "readyMs": 195.69999998807907,
+          "stateReads": 2,
+          "frames": {
+            "samples": 90,
+            "p50": 4.199999999999818,
+            "p95": 4.299999999999272,
+            "max": 12.400000000000546,
+            "over50": 0,
+            "longTasks": [
+              {
+                "start": 5346.4000000059605,
+                "duration": 69
+              }
+            ]
+          },
+          "resultAmount": 50000000,
+          "horizontalOverflow": false,
+          "exit": {
+            "active": false,
+            "updates": 0,
+            "timers": 0,
+            "canvas": 0,
+            "stateReads": 0
+          }
+        }
+      ],
+      "errors": [],
+      "blockedRequests": [
+        {
+          "method": "POST",
+          "path": "/api/sync/ticket"
+        }
+      ],
+      "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+      "launchMs": 1474.2034999999998,
+      "fixtureSpins": 2,
+      "productionMutations": 0
+    },
+    {
+      "phase": "public",
+      "platform": "android",
+      "entries": [
+        {
+          "visit": "first",
+          "readyMs": 366.10000002384186,
+          "stateReads": 2,
+          "frames": {
+            "samples": 90,
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 95.70000000000005,
+            "over50": 1,
+            "longTasks": [
+              {
+                "start": 1663.300000011921,
+                "duration": 71
+              },
+              {
+                "start": 1782.6000000238419,
+                "duration": 55
+              },
+              {
+                "start": 2008.7000000178814,
+                "duration": 98
+              }
+            ]
+          },
+          "resultAmount": 500000000000000,
+          "horizontalOverflow": false,
+          "exit": {
+            "active": false,
+            "updates": 0,
+            "timers": 0,
+            "canvas": 0,
+            "stateReads": 0
+          }
+        },
+        {
+          "visit": "repeat",
+          "readyMs": 182.60000002384186,
+          "stateReads": 2,
+          "frames": {
+            "samples": 90,
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 16.600000000000364,
+            "over50": 0,
+            "longTasks": [
+              {
+                "start": 4445.200000017881,
+                "duration": 78
+              }
+            ]
+          },
+          "resultAmount": 50000000,
+          "horizontalOverflow": false,
+          "exit": {
+            "active": false,
+            "updates": 0,
+            "timers": 0,
+            "canvas": 0,
+            "stateReads": 0
+          }
+        }
+      ],
+      "errors": [],
+      "blockedRequests": [
+        {
+          "method": "POST",
+          "path": "/api/sync/ticket"
+        }
+      ],
+      "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+      "launchMs": 1145.8909,
+      "fixtureSpins": 2,
+      "productionMutations": 0
+    }
+  ],
+  "performance": {
+    "serviceBefore": [
+      {
+        "visit": "first",
+        "ms": 1274,
+        "sql": 15,
+        "queryRoundTripMs": 1243
+      },
+      {
+        "visit": "repeat",
+        "ms": 688,
+        "sql": 9,
+        "queryRoundTripMs": 686
+      }
+    ],
+    "serviceAfter": [
+      {
+        "visit": "first",
+        "ms": 1217,
+        "sql": 15,
+        "queryRoundTripMs": 1193
+      },
+      {
+        "visit": "repeat",
+        "ms": 650,
+        "sql": 9,
+        "queryRoundTripMs": 648
+      }
+    ],
+    "serviceSlowestBefore": [
+      {
+        "ms": 156,
+        "statement": "SELECT r.response_json,r.created_at,c.created_at AS coupon_created_at FROM soopketland_rolls r LEFT JOIN soopketland_coupons c ON c.request_"
+      },
+      {
+        "ms": 81,
+        "statement": "SELECT u.id FROM soopketland_accounts a JOIN users u ON u.id=a.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until"
+      },
+      {
+        "ms": 79,
+        "statement": "SELECT value FROM app_meta WHERE key=$1"
+      },
+      {
+        "ms": 79,
+        "statement": "SELECT coupon_uses,remaining FROM soopketland_ticket_lots WHERE user_id=$1 AND remaining>0 AND created_at::timestamptz>=$2::timestamptz AND "
+      },
+      {
+        "ms": 78,
+        "statement": "SELECT user_id FROM soopketland_accounts WHERE user_id=$1"
+      }
+    ],
+    "serviceSlowestAfter": [
+      {
+        "ms": 161,
+        "statement": "SELECT r.response_json,r.created_at,c.created_at AS coupon_created_at FROM soopketland_rolls r LEFT JOIN soopketland_coupons c ON c.request_"
+      },
+      {
+        "ms": 79,
+        "statement": "SELECT value FROM app_meta WHERE key=$1"
+      },
+      {
+        "ms": 77,
+        "statement": "SELECT (SELECT COUNT(*) FROM soopketland_rolls WHERE user_id=$1 AND created_at::timestamptz>=$2::timestamptz AND created_at::timestamptz<$3:"
+      },
+      {
+        "ms": 77,
+        "statement": "SELECT coupon_uses,remaining FROM soopketland_ticket_lots WHERE user_id=$1 AND remaining>0 AND created_at::timestamptz>=$2::timestamptz AND "
+      },
+      {
+        "ms": 76,
+        "statement": "SELECT u.id FROM soopketland_accounts a JOIN users u ON u.id=a.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until"
+      }
+    ],
+    "browsers": {
+      "desktop": {
+        "before": {
+          "phase": "before",
+          "platform": "desktop",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 326.7999999821186,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.399999999999636,
+                "max": 108.40000000000009,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 1664.5,
+                    "duration": 63
+                  },
+                  {
+                    "start": 1760.0999999940395,
+                    "duration": 54
+                  },
+                  {
+                    "start": 1960.0999999940395,
+                    "duration": 101
+                  }
+                ]
+              },
+              "resultAmount": 3000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 161.09999999403954,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 8.299999999999272,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 4055.899999976158,
+                    "duration": 71
+                  }
+                ]
+              },
+              "resultAmount": 5000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1066.6952999999999,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        },
+        "after": {
+          "phase": "after",
+          "platform": "desktop",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 293.7999999821186,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 83.39999999999986,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 1606.5999999940395,
+                    "duration": 52
+                  },
+                  {
+                    "start": 1861.5999999940395,
+                    "duration": 79
+                  }
+                ]
+              },
+              "resultAmount": 500000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 150.5,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 8.300000000000182,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 3824.699999988079,
+                    "duration": 63
+                  }
+                ]
+              },
+              "resultAmount": 50000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1182.873,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        }
+      },
+      "android": {
+        "before": {
+          "phase": "before",
+          "platform": "android",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 388.59999999403954,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 7.800000000000182,
+                "max": 100,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 1666.300000011921,
+                    "duration": 76
+                  },
+                  {
+                    "start": 1797.0999999940395,
+                    "duration": 67
+                  },
+                  {
+                    "start": 2028,
+                    "duration": 100
+                  }
+                ]
+              },
+              "resultAmount": 3000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 166.69999998807907,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 8.400000000000546,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 4413.199999988079,
+                    "duration": 58
+                  }
+                ]
+              },
+              "resultAmount": 5000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1148.5313999999998,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        },
+        "after": {
+          "phase": "after",
+          "platform": "android",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 376.90000000596046,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 95.79999999999973,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 1842.699999988079,
+                    "duration": 88
+                  },
+                  {
+                    "start": 1977.0999999940395,
+                    "duration": 51
+                  },
+                  {
+                    "start": 2206.199999988079,
+                    "duration": 93
+                  }
+                ]
+              },
+              "resultAmount": 500000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 180.30000001192093,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 16.700000000000728,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 4531.799999982119,
+                    "duration": 63
+                  }
+                ]
+              },
+              "resultAmount": 50000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1138.6652,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        }
+      },
+      "windows": {
+        "before": {
+          "phase": "before",
+          "platform": "windows",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 483.2999999821186,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 8.399999999999636,
+                "max": 129.10000000000036,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 3039.0999999940395,
+                    "duration": 85
+                  },
+                  {
+                    "start": 3159.699999988079,
+                    "duration": 55
+                  },
+                  {
+                    "start": 3585.2999999821186,
+                    "duration": 123
+                  }
+                ]
+              },
+              "resultAmount": 3000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 185,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 8.299999999999272,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 5677.0999999940395,
+                    "duration": 62
+                  }
+                ]
+              },
+              "resultAmount": 5000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 2428.6375,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        },
+        "after": {
+          "phase": "after",
+          "platform": "windows",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 326.7000000178814,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 100,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 1827.4000000059605,
+                    "duration": 65
+                  },
+                  {
+                    "start": 1930.199999988079,
+                    "duration": 50
+                  },
+                  {
+                    "start": 2140.0999999940395,
+                    "duration": 97
+                  }
+                ]
+              },
+              "resultAmount": 500000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 141.5,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 8.400000000000546,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 4223.5,
+                    "duration": 55
+                  }
+                ]
+              },
+              "resultAmount": 50000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1200.1960000000001,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        }
+      },
+      "h5": {
+        "before": {
+          "phase": "before",
+          "platform": "h5",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 469,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 108.30000000000018,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 1821.4000000059605,
+                    "duration": 93
+                  },
+                  {
+                    "start": 1970.9000000059605,
+                    "duration": 62
+                  },
+                  {
+                    "start": 2263.300000011921,
+                    "duration": 102
+                  }
+                ]
+              },
+              "resultAmount": 3000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 136.30000001192093,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.399999999999636,
+                "max": 12.5,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 4568,
+                    "duration": 62
+                  }
+                ]
+              },
+              "resultAmount": 5000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1305.3185,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        },
+        "after": {
+          "phase": "after",
+          "platform": "h5",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 387.59999999403954,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 91.70000000000027,
+                "over50": 1,
+                "longTasks": [
+                  {
+                    "start": 1710.5,
+                    "duration": 90
+                  },
+                  {
+                    "start": 1849.699999988079,
+                    "duration": 58
+                  },
+                  {
+                    "start": 2101.9000000059605,
+                    "duration": 89
+                  }
+                ]
+              },
+              "resultAmount": 500000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 142,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 12.399999999999636,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 4445.4000000059605,
+                    "duration": 50
+                  }
+                ]
+              },
+              "resultAmount": 50000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1269.1480000000001,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        }
+      },
+      "ios": {
+        "before": {
+          "phase": "before",
+          "platform": "ios",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 946,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 99,
+                "p95": 146,
+                "max": 199,
+                "over50": 90,
+                "longTasks": []
+              },
+              "resultAmount": 3000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 244,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 97,
+                "p95": 131,
+                "max": 136,
+                "over50": 90,
+                "longTasks": []
+              },
+              "resultAmount": 5000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1146.9622,
+          "naturallyFinishedDuringSkip": true,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        },
+        "after": {
+          "phase": "after",
+          "platform": "ios",
+          "entries": [
+            {
+              "visit": "first",
+              "readyMs": 874,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 94,
+                "p95": 109,
+                "max": 142,
+                "over50": 90,
+                "longTasks": []
+              },
+              "resultAmount": 500000000000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "readyMs": 68,
+              "stateReads": 2,
+              "frames": {
+                "samples": 90,
+                "p50": 94,
+                "p95": 126,
+                "max": 132,
+                "over50": 90,
+                "longTasks": []
+              },
+              "resultAmount": 50000000,
+              "horizontalOverflow": false,
+              "exit": {
+                "active": false,
+                "updates": 0,
+                "timers": 0,
+                "canvas": 0,
+                "stateReads": 0
+              }
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "blockedRequests": [
+            {
+              "method": "POST",
+              "path": "/api/sync/ticket"
+            }
+          ],
+          "conditions": "Windows headless Chrome/WebKit; desktop, touch, Windows launch URL and H5 iframe host emulation. Actual lobby -> all menu -> Reverse Land. API fixtures use the real reward catalog and live weights with fixed 25ms latency; no live account mutation. Network assets, single samples; no speed-improvement or physical-device claim.",
+          "launchMs": 1419.1627999999998,
+          "naturallyFinishedDuringSkip": true,
+          "fixtureSpins": 2,
+          "productionMutations": 0
+        }
+      }
+    },
+    "bottlenecks": "Server reads remain 15 SQL on first call and 9 on repeat: database/network round trips dominate. New ranges still use two bounded RNG calls and a six-row catalog; no range-sized arrays, new asset loads, polling or per-frame work were added. Existing renderer and transaction paths are reused.",
+    "conditions": "Windows CLI reads use production PostgreSQL in READ ONLY mode with an already-normalized account. Browser API fixtures use live weights and actual source catalog with fixed 25ms delay; actual lobby/menu, Windows launch URL and H5 iframe are exercised. Windows headless Chrome/WebKit and mobile touch emulation; no physical-device or installed-app measurement.",
+    "limitations": "Single samples include network/server/asset cache effects; no speed-improvement claim. Existing WebKit software-rendering long frames and ResizeObserver warning were reproduced before and after. Initial WebKit automation attempted skip after natural animation completion; the runner now accepts natural completion and both measured visits pass. Generic shell fixture omits an unrelated pig-coin balance (NaN in full-screen capture); prize crops and amount assertions cover this change."
+  },
+  "completedAt": "2026-11-19T16:58:55.746Z"
+}
