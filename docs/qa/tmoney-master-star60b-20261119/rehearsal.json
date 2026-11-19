@@ -1,0 +1,20 @@
+{
+  "partial": [
+    {
+      "step": "balance",
+      "rolledBack": true
+    },
+    {
+      "step": "ledger",
+      "rolledBack": true
+    },
+    {
+      "step": "receipt",
+      "rolledBack": true
+    }
+  ],
+  "fullRollback": true,
+  "invalidPlanBlocked": true,
+  "original100EokNotApplied": true,
+  "preStateHash": "3941ee442cdfe53dbc2099d5939b9ab10f5d35b56e762ab0a2373dc6b118c1ac"
+}

@@ -1,0 +1,299 @@
+{
+  "checkedAt": "2026-11-19T14:12:11.927Z",
+  "readOnly": true,
+  "user": {
+    "id": "5147",
+    "nickname": "T-Money™",
+    "role": "USER",
+    "status": "ACTIVE",
+    "coin": "203092237861636781",
+    "card_shards": "238246417",
+    "magic_crystals": "97941",
+    "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+  },
+  "inventory": [
+    {
+      "user_id": "5147",
+      "item_code": "MASTER_STAR",
+      "quantity": "53153727492",
+      "unseen_quantity": "0",
+      "created_at": "2026-09-09 14:48:39",
+      "updated_at": "2026-11-19 14:06:05"
+    }
+  ],
+  "item": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "is_active": "1"
+    }
+  ],
+  "proposedAfter": "113153727492",
+  "recentStars": [
+    {
+      "id": "90125587",
+      "change_amount": "40000000000",
+      "balance_after": "53153727492",
+      "reason": "시즌패스 패키지 구매",
+      "reference_type": "SUPPORT_PACKAGE",
+      "reference_id": "5147_95ec9db8-1cd5-41d4-afef-51db1873d6c3",
+      "created_at": "2026-11-19 14:05:18"
+    },
+    {
+      "id": "90114888",
+      "change_amount": "375746",
+      "balance_after": "13153727492",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:92bef744-7ad3-4588-a058-730e005467b8:FINISH",
+      "created_at": "2026-11-19 09:36:25"
+    },
+    {
+      "id": "90114262",
+      "change_amount": "390518",
+      "balance_after": "13153351746",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:44d60cc9-6895-4887-a476-483abfbbb62d:FINISH",
+      "created_at": "2026-11-19 09:21:19"
+    },
+    {
+      "id": "90112885",
+      "change_amount": "338519",
+      "balance_after": "13152961228",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:25dadbde-0a6b-48e7-8842-b2bfb0be0de4:FINISH",
+      "created_at": "2026-11-19 09:02:29"
+    },
+    {
+      "id": "90112631",
+      "change_amount": "262681",
+      "balance_after": "13152622709",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:d9e562c9-aa8a-4063-8446-8bd2dca386e7:FINISH",
+      "created_at": "2026-11-19 08:56:35"
+    },
+    {
+      "id": "90112367",
+      "change_amount": "328353",
+      "balance_after": "13152360028",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:4cff860a-0cdc-4c07-808d-937d722a149f:FINISH",
+      "created_at": "2026-11-19 08:51:15"
+    },
+    {
+      "id": "90111173",
+      "change_amount": "337306",
+      "balance_after": "13152031675",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:f95764b0-7304-4a8c-ac72-fac6eec9a914:FINISH",
+      "created_at": "2026-11-19 08:32:31"
+    },
+    {
+      "id": "90110841",
+      "change_amount": "1134427",
+      "balance_after": "13151694369",
+      "reason": "통합 드랍풀 · LEGION_CITADEL",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_CITADEL:c79f8f1cdde1e78005cdda59:5147",
+      "created_at": "2026-11-19 08:26:37"
+    },
+    {
+      "id": "90103755",
+      "change_amount": "260922",
+      "balance_after": "13150559942",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:1567c023-16de-47f6-ba59-61d3257737ab:FINISH",
+      "created_at": "2026-11-19 06:26:23"
+    },
+    {
+      "id": "90103671",
+      "change_amount": "233842",
+      "balance_after": "13150299020",
+      "reason": "통합 드랍풀 · LEGION_HUNT",
+      "reference_type": "UNIFIED_DROP",
+      "reference_id": "LEGION_HUNT:b41790fb-40b8-48da-8aa2-1314824fc777:FINISH",
+      "created_at": "2026-11-19 06:19:49"
+    }
+  ],
+  "triggers": [
+    {
+      "relname": "app_meta",
+      "tgname": "clan_elder_title_release_delete_v1",
+      "definition": "CREATE CONSTRAINT TRIGGER clan_elder_title_release_delete_v1 AFTER DELETE ON public.app_meta DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN ((old.key = 'clan_resumption_v1'::text)) EXECUTE FUNCTION cnine_clan_elder_title_role_changed_v1()",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_clan_elder_title_role_changed_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n IF TG_TABLE_NAME IN('organization_members_v1','clan_members','clan_executives') THEN\n  IF TG_OP<>'INSERT' THEN PERFORM cnine_sync_clan_elder_title_v1(OLD.user_id); END IF;\n  IF TG_OP='INSERT' OR (TG_OP='UPDATE' AND NEW.user_id IS DISTINCT FROM OLD.user_id) THEN\n   PERFORM cnine_sync_clan_elder_title_v1(NEW.user_id);\n  END IF;\n ELSE\n  PERFORM cnine_sync_clan_elder_title_v1(NULL);\n END IF;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "clan_elder_title_release_insert_v1",
+      "definition": "CREATE CONSTRAINT TRIGGER clan_elder_title_release_insert_v1 AFTER INSERT ON public.app_meta DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN ((new.key = 'clan_resumption_v1'::text)) EXECUTE FUNCTION cnine_clan_elder_title_role_changed_v1()",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_clan_elder_title_role_changed_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n IF TG_TABLE_NAME IN('organization_members_v1','clan_members','clan_executives') THEN\n  IF TG_OP<>'INSERT' THEN PERFORM cnine_sync_clan_elder_title_v1(OLD.user_id); END IF;\n  IF TG_OP='INSERT' OR (TG_OP='UPDATE' AND NEW.user_id IS DISTINCT FROM OLD.user_id) THEN\n   PERFORM cnine_sync_clan_elder_title_v1(NEW.user_id);\n  END IF;\n ELSE\n  PERFORM cnine_sync_clan_elder_title_v1(NULL);\n END IF;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "clan_elder_title_release_update_v1",
+      "definition": "CREATE CONSTRAINT TRIGGER clan_elder_title_release_update_v1 AFTER UPDATE OF key, value ON public.app_meta DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN ((((old.key = 'clan_resumption_v1'::text) OR (new.key = 'clan_resumption_v1'::text)) AND ((old.key IS DISTINCT FROM new.key) OR (old.value IS DISTINCT FROM new.value)))) EXECUTE FUNCTION cnine_clan_elder_title_role_changed_v1()",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_clan_elder_title_role_changed_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n IF TG_TABLE_NAME IN('organization_members_v1','clan_members','clan_executives') THEN\n  IF TG_OP<>'INSERT' THEN PERFORM cnine_sync_clan_elder_title_v1(OLD.user_id); END IF;\n  IF TG_OP='INSERT' OR (TG_OP='UPDATE' AND NEW.user_id IS DISTINCT FROM OLD.user_id) THEN\n   PERFORM cnine_sync_clan_elder_title_v1(NEW.user_id);\n  END IF;\n ELSE\n  PERFORM cnine_sync_clan_elder_title_v1(NULL);\n END IF;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "cnine_sync_delete_v1",
+      "definition": "CREATE TRIGGER cnine_sync_delete_v1 AFTER DELETE ON public.app_meta REFERENCING OLD TABLE AS old_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('key', 'meta')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "cnine_sync_insert_v1",
+      "definition": "CREATE TRIGGER cnine_sync_insert_v1 AFTER INSERT ON public.app_meta REFERENCING NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('key', 'meta')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "cnine_sync_update_v1",
+      "definition": "CREATE TRIGGER cnine_sync_update_v1 AFTER UPDATE ON public.app_meta REFERENCING OLD TABLE AS old_rows NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('key', 'meta')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "ranked_duo_config_delete_v1",
+      "definition": "CREATE TRIGGER ranked_duo_config_delete_v1 AFTER DELETE ON public.app_meta FOR EACH ROW WHEN ((old.key = ANY (ARRAY['battle_settings_v1'::text, 'fur_master_star_breakthrough_v1802'::text, 'zenith_master_star_breakthrough_v1802'::text, 'card_unique_effect_settings_v1'::text, 'card_unique_advancement_settings_v1937_release'::text, 'magic_card_settings_v1'::text, 'mercenary_runtime_policy_v1'::text, 'mercenary_level_policy_v1'::text, 'v3_joint_release_20260913-joint1'::text, 'equipment_forge_release_20260922_v1'::text, 'equipment_forge_runtime_v1'::text]))) EXECUTE FUNCTION ranked_duo_touch_policy_v1()",
+      "function": "CREATE OR REPLACE FUNCTION public.ranked_duo_touch_policy_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ BEGIN UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1; RETURN NULL; END $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "ranked_duo_config_insert_v1",
+      "definition": "CREATE TRIGGER ranked_duo_config_insert_v1 AFTER INSERT ON public.app_meta FOR EACH ROW WHEN ((new.key = ANY (ARRAY['battle_settings_v1'::text, 'fur_master_star_breakthrough_v1802'::text, 'zenith_master_star_breakthrough_v1802'::text, 'card_unique_effect_settings_v1'::text, 'card_unique_advancement_settings_v1937_release'::text, 'magic_card_settings_v1'::text, 'mercenary_runtime_policy_v1'::text, 'mercenary_level_policy_v1'::text, 'v3_joint_release_20260913-joint1'::text, 'equipment_forge_release_20260922_v1'::text, 'equipment_forge_runtime_v1'::text]))) EXECUTE FUNCTION ranked_duo_touch_policy_v1()",
+      "function": "CREATE OR REPLACE FUNCTION public.ranked_duo_touch_policy_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ BEGIN UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1; RETURN NULL; END $function$\n"
+    },
+    {
+      "relname": "app_meta",
+      "tgname": "ranked_duo_config_update_v1",
+      "definition": "CREATE TRIGGER ranked_duo_config_update_v1 AFTER UPDATE ON public.app_meta FOR EACH ROW WHEN ((new.key = ANY (ARRAY['battle_settings_v1'::text, 'fur_master_star_breakthrough_v1802'::text, 'zenith_master_star_breakthrough_v1802'::text, 'card_unique_effect_settings_v1'::text, 'card_unique_advancement_settings_v1937_release'::text, 'magic_card_settings_v1'::text, 'mercenary_runtime_policy_v1'::text, 'mercenary_level_policy_v1'::text, 'v3_joint_release_20260913-joint1'::text, 'equipment_forge_release_20260922_v1'::text, 'equipment_forge_runtime_v1'::text]))) EXECUTE FUNCTION ranked_duo_touch_policy_v1()",
+      "function": "CREATE OR REPLACE FUNCTION public.ranked_duo_touch_policy_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ BEGIN UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1; RETURN NULL; END $function$\n"
+    },
+    {
+      "relname": "cnine_user_inventory",
+      "tgname": "cnine_sync_delete_v1",
+      "definition": "CREATE TRIGGER cnine_sync_delete_v1 AFTER DELETE ON public.cnine_user_inventory REFERENCING OLD TABLE AS old_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'inventory')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "cnine_user_inventory",
+      "tgname": "cnine_sync_insert_v1",
+      "definition": "CREATE TRIGGER cnine_sync_insert_v1 AFTER INSERT ON public.cnine_user_inventory REFERENCING NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'inventory')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "cnine_user_inventory",
+      "tgname": "cnine_sync_update_v1",
+      "definition": "CREATE TRIGGER cnine_sync_update_v1 AFTER UPDATE ON public.cnine_user_inventory REFERENCING OLD TABLE AS old_rows NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'inventory')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "cnine_user_inventory",
+      "column_name": "user_id",
+      "data_type": "bigint",
+      "column_default": null
+    },
+    {
+      "table_name": "cnine_user_inventory",
+      "column_name": "item_code",
+      "data_type": "text",
+      "column_default": null
+    },
+    {
+      "table_name": "cnine_user_inventory",
+      "column_name": "quantity",
+      "data_type": "bigint",
+      "column_default": "0"
+    },
+    {
+      "table_name": "cnine_user_inventory",
+      "column_name": "unseen_quantity",
+      "data_type": "bigint",
+      "column_default": "0"
+    },
+    {
+      "table_name": "cnine_user_inventory",
+      "column_name": "created_at",
+      "data_type": "text",
+      "column_default": "to_char((now() AT TIME ZONE 'UTC'::text), 'YYYY-MM-DD HH24:MI:SS'::text)"
+    },
+    {
+      "table_name": "cnine_user_inventory",
+      "column_name": "updated_at",
+      "data_type": "text",
+      "column_default": "to_char((now() AT TIME ZONE 'UTC'::text), 'YYYY-MM-DD HH24:MI:SS'::text)"
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "id",
+      "data_type": "bigint",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "user_id",
+      "data_type": "bigint",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "item_code",
+      "data_type": "text",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "change_amount",
+      "data_type": "bigint",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "balance_after",
+      "data_type": "bigint",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "reason",
+      "data_type": "text",
+      "column_default": "''::text"
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "reference_type",
+      "data_type": "text",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "reference_id",
+      "data_type": "text",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "admin_id",
+      "data_type": "bigint",
+      "column_default": null
+    },
+    {
+      "table_name": "inventory_logs",
+      "column_name": "created_at",
+      "data_type": "text",
+      "column_default": "to_char((now() AT TIME ZONE 'UTC'::text), 'YYYY-MM-DD HH24:MI:SS'::text)"
+    }
+  ],
+  "operationKey": "ops:tmoney:master-star60b:20261119:v1",
+  "priorReceipt": false,
+  "planHash": "51a1a5ec56d913a1cac635002fad2d01e16b6843b1463bd84613097b33a786f5"
+}

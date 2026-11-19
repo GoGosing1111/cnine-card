@@ -1,0 +1,32 @@
+{
+  "operationKey": "ops:tmoney:master-star60b:20261119:v1",
+  "itemCode": "MASTER_STAR",
+  "delivery": "DIRECT",
+  "sendMessages": false,
+  "requestedParts": [
+    {
+      "amount": "10000000000",
+      "instruction": "T-Money™ 마별 100억 지급해"
+    },
+    {
+      "amount": "50000000000",
+      "instruction": "500억 더지급해"
+    }
+  ],
+  "amount": "60000000000",
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+    }
+  ],
+  "logFloor": {
+    "inventory": "90125901",
+    "audit": "65067"
+  },
+  "authorization": "T-Money™ 마별 100억 지급해 / 500억 더지급해 (총 600억)"
+}

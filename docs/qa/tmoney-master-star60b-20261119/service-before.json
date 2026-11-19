@@ -1,0 +1,21 @@
+{
+  "at": "2026-11-19T14:13:27.846Z",
+  "phase": "before",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "masterStars": "53153727492",
+  "measurements": [
+    {
+      "visit": "first",
+      "elapsedMs": 84,
+      "sql": 4
+    },
+    {
+      "visit": "repeat",
+      "elapsedMs": 76,
+      "sql": 4
+    }
+  ],
+  "readOnly": true,
+  "condition": "Windows CLI actual Master Star mine balance service against production PostgreSQL. Network included; first/repeat within one connection. No UI/runtime changes, browser or physical-device FPS measurement; no speed improvement claim."
+}

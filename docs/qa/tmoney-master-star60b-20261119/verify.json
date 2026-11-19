@@ -1,0 +1,133 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:tmoney:master-star60b:20261119:v1",
+    "planHash": "51a1a5ec56d913a1cac635002fad2d01e16b6843b1463bd84613097b33a786f5",
+    "plan": {
+      "operationKey": "ops:tmoney:master-star60b:20261119:v1",
+      "itemCode": "MASTER_STAR",
+      "delivery": "DIRECT",
+      "sendMessages": false,
+      "requestedParts": [
+        {
+          "amount": "10000000000",
+          "instruction": "T-Money™ 마별 100억 지급해"
+        },
+        {
+          "amount": "50000000000",
+          "instruction": "500억 더지급해"
+        }
+      ],
+      "amount": "60000000000",
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "userId": "5147",
+          "nickname": "T-Money™",
+          "status": "ACTIVE",
+          "role": "USER",
+          "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+        }
+      ],
+      "logFloor": {
+        "inventory": "90125901",
+        "audit": "65067"
+      },
+      "authorization": "T-Money™ 마별 100억 지급해 / 500억 더지급해 (총 600억)"
+    },
+    "completedAt": "2026-11-19T14:14:09.296Z",
+    "grants": [
+      {
+        "userId": "5147",
+        "nickname": "T-Money™",
+        "amount": "60000000000",
+        "before": "53153727492",
+        "after": "113153727492",
+        "unseenBefore": "0",
+        "unseenAfter": "60000000000",
+        "logId": "90126031"
+      }
+    ],
+    "protectedBeforeHash": "32d561aac874af0314e8d1c34ff01818edd02bbfdf2a99d5f7249ee68f8613af",
+    "protectedAfterHash": "32d561aac874af0314e8d1c34ff01818edd02bbfdf2a99d5f7249ee68f8613af",
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "306172",
+          "wallet": "306816",
+          "loadout": "305127",
+          "messages": "306826",
+          "inventory": "306828",
+          "collection": "305660"
+        },
+        "user_id": "5147",
+        "revision": "306828"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "306172",
+          "wallet": "306816",
+          "loadout": "305127",
+          "messages": "306826",
+          "inventory": "306829",
+          "collection": "305660"
+        },
+        "user_id": "5147",
+        "revision": "306829"
+      }
+    ],
+    "messagesSent": 0,
+    "auditId": "65070"
+  },
+  "checked": {
+    "verified": true,
+    "recipients": 1,
+    "itemCode": "MASTER_STAR",
+    "amount": "60000000000",
+    "inventoryLogs": 1,
+    "auditRecords": 1,
+    "auditId": "65070",
+    "completedAt": "2026-11-19T14:14:09.296Z"
+  },
+  "currentMasterStars": "113153727492",
+  "subsequentChanges": {
+    "count": 0,
+    "amount": "0"
+  },
+  "readOnly": true,
+  "independentConnection": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "verifyMs": 663,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 75.57870000000003
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 73.02149999999983
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.40189999999984
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 74.4347000000007
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 72.98309999999947
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.54050000000007
+    }
+  ]
+}
