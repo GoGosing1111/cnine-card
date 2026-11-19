@@ -1,0 +1,284 @@
+{
+  "status": "VERIFIED",
+  "verifiedAt": "2026-11-19T09:16:43.907Z",
+  "completedAt": "2026-11-19T09:15:58.193Z",
+  "operationKey": "ops:simsimi:package5-with-bonus:20261119:v1",
+  "userId": "4933",
+  "nickname": "심심이",
+  "auditId": "64860",
+  "quantity": 5,
+  "source": "OPERATOR_GRANT",
+  "chargedWon": 0,
+  "coins": {
+    "base": "2500000000000000",
+    "bonus": "8000000000000000",
+    "total": "10500000000000000",
+    "before": "10120200639503031",
+    "after": "20620200639503031",
+    "logId": "106774633"
+  },
+  "currentCoins": "20620201924503031",
+  "subsequentCoins": {
+    "delta": "1285000000",
+    "entries": 15
+  },
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "granted": 5000000000,
+      "before": "18604681904",
+      "immediateAfter": "23604681904",
+      "current": "23604681904",
+      "subsequentDelta": "0",
+      "logId": "90113919"
+    },
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "granted": 250,
+      "before": "204",
+      "immediateAfter": "454",
+      "current": "454",
+      "subsequentDelta": "0",
+      "logId": "90113917"
+    },
+    {
+      "code": "WEAPON_ENHANCEMENT_SCROLL",
+      "name": "무기 강화주문서",
+      "granted": 50,
+      "before": "1",
+      "immediateAfter": "51",
+      "current": "51",
+      "subsequentDelta": "0",
+      "logId": "90113924"
+    },
+    {
+      "code": "ARMOR_ENHANCEMENT_SCROLL",
+      "name": "방어구 강화주문서",
+      "granted": 50,
+      "before": "0",
+      "immediateAfter": "50",
+      "current": "50",
+      "subsequentDelta": "0",
+      "logId": "90113918"
+    },
+    {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "granted": 125,
+      "before": "2",
+      "immediateAfter": "127",
+      "current": "127",
+      "subsequentDelta": "0",
+      "logId": "90113920"
+    },
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "granted": 250,
+      "before": "340",
+      "immediateAfter": "590",
+      "current": "590",
+      "subsequentDelta": "0",
+      "logId": "90113922"
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "granted": 2500,
+      "before": "5",
+      "immediateAfter": "2505",
+      "current": "2505",
+      "subsequentDelta": "0",
+      "logId": "90113921"
+    },
+    {
+      "code": "SSS_MIRACLE_CUBE",
+      "name": "SSS 미라클큐브",
+      "granted": 40,
+      "before": "0",
+      "immediateAfter": "40",
+      "current": "40",
+      "subsequentDelta": "0",
+      "logId": "90113923"
+    }
+  ],
+  "bonus": {
+    "before": 4,
+    "after": 9,
+    "currentPurchases": 9,
+    "coins": "8000000000000000",
+    "cubes": 40,
+    "milestones": [
+      {
+        "purchases": 5,
+        "coins": "8000000000000000",
+        "cubes": 40,
+        "cycle": 1,
+        "atPurchase": 5
+      }
+    ]
+  },
+  "orderId": "4933_ops_simsimi_package5_bonus_20261119_v1",
+  "orderStatus": "FULFILLED",
+  "coinLedgerRecords": 1,
+  "inventoryLedgerRecords": 8,
+  "auditRecords": 1,
+  "balancesReconciled": true,
+  "exactIntegerArithmetic": true,
+  "protectedStatePreserved": true,
+  "packageAccountingCheckpointUpdated": true,
+  "readOnly": true,
+  "noWriteReplay": true,
+  "additionalGrantsOnReplay": 0,
+  "operationLocksRemaining": 0,
+  "messagesSent": 0,
+  "kst": "2026-11-19 18:15:58",
+  "authorization": "심심이 계정 1+1 5회치 지급하고 누적보상도5회",
+  "clarification": "기존 4→9회 — 총 코인 1경 500조·큐브 40개",
+  "productCode": "SEASON_PASS_PACKAGE_20261115_PETS",
+  "unitPriceWon": 49800,
+  "listValueWon": 249000,
+  "delivery": "DIRECT",
+  "checks": {
+    "testsPassed": 14,
+    "testFiles": [
+      "tests/support-package-repeat23-20261118.test.mjs",
+      "tests/support-package-refresh-20261115.test.mjs",
+      "tests/support-package-cubes-20261116.test.mjs"
+    ],
+    "invalidPlansRejected": 4,
+    "injectedPartialFailureRollback": true,
+    "injectedFailurePoints": 2,
+    "fullRehearsalRollback": true,
+    "onlyExpectedWrites": true,
+    "independentReadOnly": true,
+    "noWriteReplay": true,
+    "operationLocksRemaining": 0
+  },
+  "performance": {
+    "before": {
+      "at": "2026-11-19T09:15:08.479Z",
+      "phase": "before",
+      "userId": "4933",
+      "nickname": "심심이",
+      "measurements": [
+        {
+          "kind": "package",
+          "visit": "first",
+          "elapsedMs": 386,
+          "sql": 8
+        },
+        {
+          "kind": "package",
+          "visit": "repeat",
+          "elapsedMs": 240,
+          "sql": 7
+        },
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "elapsedMs": 2103,
+          "sql": 12
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "elapsedMs": 1400,
+          "sql": 12
+        }
+      ],
+      "currentPurchases": 4,
+      "totalBonusCubes": 50,
+      "orderIds": [
+        "4933_ops_simsimi_package4_bonus_20261116_v1",
+        "4933_42f9bcd0-55f6-4b4a-a50a-093f89907ee3",
+        "4933_31d3a0fa-5b5e-4968-aa37-cfa142857e50",
+        "4933_05e11d89-6348-4f8e-8458-669c458083f5"
+      ],
+      "coins": {
+        "total": "10120191432503031",
+        "restricted": "7749256898000000",
+        "available": "2370934534503031"
+      },
+      "readOnly": true,
+      "condition": "Windows CLI, actual package and wallet service against production PostgreSQL, network included, first and repeat reads. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+    },
+    "after": {
+      "at": "2026-11-19T09:16:48.555Z",
+      "phase": "after",
+      "userId": "4933",
+      "nickname": "심심이",
+      "measurements": [
+        {
+          "kind": "package",
+          "visit": "first",
+          "elapsedMs": 377,
+          "sql": 8
+        },
+        {
+          "kind": "package",
+          "visit": "repeat",
+          "elapsedMs": 253,
+          "sql": 7
+        },
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "elapsedMs": 156,
+          "sql": 3
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "elapsedMs": 154,
+          "sql": 3
+        }
+      ],
+      "currentPurchases": 9,
+      "totalBonusCubes": 90,
+      "orderIds": [
+        "4933_ops_simsimi_package5_bonus_20261119_v1",
+        "4933_ops_simsimi_package4_bonus_20261116_v1",
+        "4933_42f9bcd0-55f6-4b4a-a50a-093f89907ee3",
+        "4933_31d3a0fa-5b5e-4968-aa37-cfa142857e50",
+        "4933_05e11d89-6348-4f8e-8458-669c458083f5"
+      ],
+      "coins": {
+        "total": "20620202089503031",
+        "restricted": "18249256898000000",
+        "available": "2370945191503031"
+      },
+      "readOnly": true,
+      "condition": "Windows CLI, actual package and wallet service against production PostgreSQL, network included, first and repeat reads. Data-only operator grant; no UI/runtime change or browser/device/FPS measurement."
+    },
+    "grantMs": 2752,
+    "rehearsalMs": 2823,
+    "inventoryCreditQueries": 1,
+    "inventoryLedgerQueries": 1,
+    "bottleneck": "The stale package-wallet checkpoint replayed 19,134 coin entries. They were reconciled before the grant and the checkpoint was advanced in the same atomic transaction, preserving unrestricted funds and reserved auction coins.",
+    "checkpoint": {
+      "historicalEntries": 19134,
+      "preparationQueries": 7,
+      "readOnlyPreparationMs": 2546
+    },
+    "comparison": "Same account, actual package/wallet service on Windows CLI with production network. Package first/repeat 386/240 -> 377/253ms (8/7 SQL). Wallet 2103/1400 -> 156/154ms (12 -> 3 SQL). Single samples include network/cache variation; not a general latency guarantee.",
+    "noUIOrRuntimeChanges": true,
+    "notPhysicalDeviceOrFPS": true
+  },
+  "preserved": [
+    "Previously granted four packages and their immutable order/receipt",
+    "Earlier campaign counters and prior cube retrospective reward",
+    "Existing funds/source restrictions and auction reservations",
+    "Other items, equipment, mercenaries, growth, pet state, loadouts and season pass"
+  ],
+  "runtimeDeployment": false,
+  "operationArtifacts": {
+    "local": "operations/simsimi-package5-bonus-20261119/",
+    "grantSHA256": "243442d68d3a7dfb36a63ea1deef78126a8bfc62d1fd0f78996c16a04b0d8508",
+    "planSHA256": "18df30434c677d1867d16ea96763c5bd5aba239a08226d4ac007b44451c7bd95",
+    "lockedBackup": "locked-before.json",
+    "receipt": "apply.json"
+  }
+}
