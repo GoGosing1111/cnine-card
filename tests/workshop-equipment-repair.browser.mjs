@@ -39,7 +39,7 @@ try{
   await page.goto(base+'/qa/cms');await page.locator('#nav [data-view="workshop"]').click();await page.locator('#workshopAdminEasternDraft').click();
   check(await page.locator('#workshopCraftFailurePolicy').inputValue()==='CONSUME'&&await page.locator('#workshopCraftRepairPolicy').inputValue()==='1',size+' Eastern draft consumes and allows repair');
   check(!await page.locator('#workshopRecipeActiveV1668').isChecked()&&!await page.locator('#workshopRecipePublicV1668').isChecked(),size+' new Eastern draft remains OFF/hidden');
-  check(await page.locator('#workshopRecipeStarV1668').getAttribute('max')==='20000000',size+' CMS star input accepts 20 million');
+  check(await page.locator('#workshopRecipeStarV1668').getAttribute('max')==='1000000000',size+' CMS star input accepts one billion');
   await page.locator('#workshopRecipeNameV1668').fill('격리 동방무기 복구 검수');await page.locator('#workshopRecipeOutputRefV1668').selectOption('102');await page.locator('#workshopCraftInput').selectOption('101');await page.locator('#workshopCraftPity').fill('3');await page.locator('#workshopRecipeCoinV1668').fill('1000000000000');await page.locator('#workshopRecipeStarV1668').fill('20000000');
   await page.locator('#workshopMaterialAddV1668').click();await page.locator('[data-workshop-material-code]').selectOption('QA_MATERIAL');await page.locator('[data-workshop-material-qty]').fill('5');
   const [saved]=await Promise.all([page.waitForResponse(r=>r.url().endsWith('/api/admin/workshop')&&r.request().method()==='POST'),page.locator('#workshopRecipeSaveV1668').press('Enter')]);check(saved.ok(),size+' CMS saves repair policy plus 20 million stars');

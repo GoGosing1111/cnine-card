@@ -1,7 +1,7 @@
 {
-  "status": "CONFIGURED_LOCKED_AWAITING_DEPLOYMENT",
-  "at": "2026-11-19T05:22:34.453Z",
-  "sourceCommit": "4197c4e762150ce9b30db66db7d0db9ff7132ec1",
+  "status": "DEPLOYED_CONFIGURED_LOCKED",
+  "at": "2026-11-19T06:30:42.556Z",
+  "sourceCommit": "72e3fc0c62453fd1eb3fff13d9d7a06432fbac6e",
   "recipe": {
     "operationKey": "ops:eastern-p90:requirements:20261119:v1",
     "status": "CONFIGURED_LOCKED",
@@ -102,7 +102,8 @@
     "combatStatsOrCadenceChanged": false
   },
   "powers": {
-    "at": "2026-11-19T05:16:55.343Z",
+    "at": "2026-11-19T06:27:16.325Z",
+    "readOnly": true,
     "forgePolicyRevision": 3,
     "powers": [
       {
@@ -221,7 +222,7 @@
       "preservedRecipesHash": "43ddc31700265bfcbf9ba5956ed99bd8adaa6dc2eac969c84817eb2deaf5a85c"
     },
     "configured": {
-      "at": "2026-11-19T05:17:05.821Z",
+      "at": "2026-11-19T06:27:18.051Z",
       "readOnly": true,
       "receipt": {
         "operationKey": "ops:eastern-p90:requirements:20261119:v1",
@@ -390,9 +391,253 @@
         }
       ]
     },
-    "regression": null,
-    "live": null,
-    "liveBrowser": null
+    "regression": {
+      "at": "2026-11-19T05:26:56.411Z",
+      "head": "915ad79e04fc2e8f865b01d8b255e38908acbe29",
+      "exitCode": 0,
+      "log": "craft-regression-1795065996817.log",
+      "tests": [
+        "tests/eastern-p90-craft-20261119.test.mjs",
+        "tests/workshop-equipment-craft-20260928.test.mjs",
+        "tests/workshop-equipment-repair-20261004.test.mjs",
+        "tests/workshop-polish-inheritance-20261115.test.mjs"
+      ],
+      "sources": [
+        {
+          "file": "functions/_workshop_equipment_craft.js",
+          "sha256": "75d242a6bf652e4f3e4a84fc082e1bd34d352d25431633f37b7467aa85630527"
+        },
+        {
+          "file": "shared/workshop-equipment-craft.mjs",
+          "sha256": "c6a71ed4aaeeaeb07323043244f4de934001e89caceaada033be60551b0082de"
+        },
+        {
+          "file": "tests/eastern-p90-craft-20261119.test.mjs",
+          "sha256": "63f0cb51416babc1a722fec824cccd64703ef2c4f1f66ce2603ba2492c6f20d9"
+        },
+        {
+          "file": "tests/workshop-equipment-craft-20260928.test.mjs",
+          "sha256": "0d2fdce6dbc64c345842cc0ff852a42285831b6c7a1c03e736bace2398cdc2a0"
+        },
+        {
+          "file": "tests/workshop-equipment-repair-20261004.test.mjs",
+          "sha256": "1da40231afea2059e634ba7bf4b0b04517ba72ad7d87166e86fec805e439b989"
+        },
+        {
+          "file": "tests/workshop-polish-inheritance-20261115.test.mjs",
+          "sha256": "501bdd5f281ef51f6543960dc0e366b64a1063581f06f7c0c14b41f5f1fbefd6"
+        },
+        {
+          "file": "tests/helpers/eastern-p90-20261119.mjs",
+          "sha256": "1e915ddd03c4bc092f07b59ff8b08e695e6b533047c5f935e96a7707a2ba3a2f"
+        }
+      ],
+      "passed": 56,
+      "failed": 0,
+      "ms": 19648
+    },
+    "live": {
+      "at": "2026-11-19T06:30:05.237Z",
+      "sourceCommit": "72e3fc0c62453fd1eb3fff13d9d7a06432fbac6e",
+      "pages": {
+        "id": "6d5dee21-afc5-4916-aef2-a11297e2521f",
+        "commit": "72e3fc0c62453fd1eb3fff13d9d7a06432fbac6e",
+        "status": "success"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "deployments": [
+            {
+              "version_id": "8846032d-cf03-4751-9017-5c93cdef140d",
+              "percentage": 100
+            }
+          ]
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "deployments": [
+            {
+              "version_id": "b4487798-18d6-4be0-824f-5b94bae2d7e8",
+              "percentage": 100
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "path": "index.html",
+          "sha256": "7137e527c6f4c4402103355d968ea628597e2129eb09c3e01cce1abc86b754b7",
+          "bytes": 53347,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "service-worker.js",
+          "sha256": "047c04eb9007d6c8a79106585b1c7ba52d161a3a54a7499d4148995cec520462",
+          "bytes": 26772,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "js/app.js",
+          "sha256": "839eda90bb4c2bc72d5f7dc2e1ef95c682460b299d82b7ed42cfc950f9a2a7fb",
+          "bytes": 833336,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "js/battle-v3-live.js",
+          "sha256": "2bfce5ee23c219a55bfddbc86151ea1a7f41ea4b6747a32ec3c327cd1d6861b5",
+          "bytes": 78789,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "sha256": "20f8d6e6d313f53ab5a07f2c33d1e47d10e3de8687974a427fa7b4776772ae47",
+          "bytes": 3767778,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "pve-v3/battle.bundle.js",
+          "sha256": "a6ed4e9491ddf335a9318292dfa2aef73bf8159ab25b18755e330b3f44813c7e",
+          "bytes": 3767752,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "preview/sustained-hunt-v2/battle.bundle.js",
+          "sha256": "fde70422bb6403baf1c8d888d73e7c1571ec70727e9dd882e5212b120beb10cf",
+          "bytes": 3791472,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "js/workshop-recipes-v1.js",
+          "sha256": "9da972aacf660f4a0780ee3bbd8960254f58bf7385d91565910ec9eb5349df5e",
+          "bytes": 6143,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "js/workshop-v1881.js",
+          "sha256": "859d5524f7d60a21a411954e32ce2a195af9af32b8a7c2c9b2963bb09a93c00c",
+          "bytes": 133532,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "admin/workshop-admin-v1668.js",
+          "sha256": "0b8ad539d22d72905cefc3279a99ddf86a84e241880d2dbc8ada01e59bc93638",
+          "bytes": 33010,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "admin/index.html",
+          "sha256": "fc031c6ac80456deb3cd65d1028e4e249adfedb7db52051a72d5d688fbaeffd4",
+          "bytes": 83340,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "raid/nox/battle.bundle.js",
+          "sha256": "2c6534feec9ef53dc6ab169310496613e5c1e31959e5d54789b446ad9d2fad8d",
+          "bytes": 3776193,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        },
+        {
+          "path": "raid/nox/raid.mjs",
+          "sha256": "37f8b02ef41245ad5bf022f1b000fc10230dd871c6461ff9420a3a71088c68ef",
+          "bytes": 24304,
+          "gitComparison": "only-CRLF-versus-LF-differs"
+        }
+      ],
+      "assets": [
+        {
+          "code": "BATTLE_SUIT_01",
+          "path": "assets/ui/project-v/account-battle-suits/animations/battle-suit-01-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 276406,
+          "sha256": "fe44c9d02ae4103244505007f1789bcd16faaba1bbe65a0fa4287fe056f4c5b7",
+          "originalPreserved": true
+        },
+        {
+          "code": "BATTLE_SUIT_02",
+          "path": "assets/ui/project-v/account-battle-suits/animations/battle-suit-02-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 258563,
+          "sha256": "94387f0e510933fa2742338e271a9f3ddf2c416b53ec8bcb9ce25c4b7e81d7c5",
+          "originalPreserved": true
+        },
+        {
+          "code": "BATTLE_SUIT_03",
+          "path": "assets/ui/project-v/account-battle-suits/animations/battle-suit-03-gilded-dragon-horizontal-fire-atlas-v1.png",
+          "bytes": 288174,
+          "sha256": "51d894a360b037947eafc508b9a5ae638356e9bc1873e7b24f60f7704849ce05",
+          "originalPreserved": true
+        },
+        {
+          "code": "BATTLE_SUIT_H_BODY",
+          "path": "assets/ui/project-v/account-battle-suits/animations/h-body-gilded-dragon-atlas-v2066.png",
+          "bytes": 352435,
+          "sha256": "0f5abdce61e4a4ed41ea5346743a2e099dc523bd02c6e83c4daaf44381fc4395",
+          "originalPreserved": true
+        },
+        {
+          "code": "BATTLE_SUIT_S_BODY",
+          "path": "assets/ui/project-v/account-battle-suits/animations/s-body-gilded-dragon-atlas-v2124.png",
+          "bytes": 380300,
+          "sha256": "5a4411e340069dc9b9302743c92d6d67e703f4533a7d104099ecf4d074f84ebd",
+          "originalPreserved": true
+        }
+      ],
+      "windowsManifest": {
+        "releaseId": "b6e5ce3cca5251e7e9963dbddbfbe548e005097890d7a1bbe86798900ebaf12e",
+        "verified": 10
+      },
+      "tests": 56,
+      "fullProductionGatePassed": true,
+      "sharedDeployment": true,
+      "releaseLog": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\nox-test-release-20261119\\deploy-resume20.log"
+    },
+    "liveBrowser": {
+      "source": "ui-pc-live.json",
+      "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+      "device": "pc",
+      "phase": "live",
+      "firstLaunchMs": 984.3000000119209,
+      "rounds": [
+        {
+          "visit": "first",
+          "readyMs": 514,
+          "frames": {
+            "count": 919,
+            "p95Ms": 4.300000000000182,
+            "maxMs": 87.40000000000009,
+            "over50": 1
+          },
+          "exit": {
+            "mounted": false,
+            "timelines": 0,
+            "fire": false,
+            "idle": false,
+            "continuous": false
+          },
+          "postExitCalls": 0,
+          "shots": 8
+        },
+        {
+          "visit": "reentry",
+          "readyMs": 284,
+          "frames": {
+            "count": 902,
+            "p95Ms": 4.299999999999272,
+            "maxMs": 45.900000000000546,
+            "over50": 0
+          },
+          "exit": {
+            "mounted": false,
+            "timelines": 0,
+            "fire": false,
+            "idle": false,
+            "continuous": false
+          },
+          "postExitCalls": 0,
+          "shots": 8
+        }
+      ],
+      "errors": []
+    }
   },
   "performance": {
     "serviceBefore": {
