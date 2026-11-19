@@ -1,0 +1,315 @@
+{
+  "at": "2026-11-19T10:04:17.740Z",
+  "bgm": [
+    {
+      "bgm_url": "assets/effects/18888.mp4#av=25",
+      "bgm_duration": "54",
+      "sort_order": "0"
+    },
+    {
+      "bgm_url": "assets/effects/30000.mp3#av=25",
+      "bgm_duration": "41",
+      "sort_order": "1"
+    },
+    {
+      "bgm_url": "assets/effects/10060.mp3#av=25",
+      "bgm_duration": "41",
+      "sort_order": "2"
+    },
+    {
+      "bgm_url": "assets/effects/50000~99999.mp3#av=25",
+      "bgm_duration": "60",
+      "sort_order": "3"
+    },
+    {
+      "bgm_url": "assets/effects/10091.mp3#av=25",
+      "bgm_duration": "48",
+      "sort_order": "4"
+    },
+    {
+      "bgm_url": "assets/effects/20069.mp3#av=25",
+      "bgm_duration": "58",
+      "sort_order": "5"
+    },
+    {
+      "bgm_url": "assets/effects/10069.mp3#av=25",
+      "bgm_duration": "56",
+      "sort_order": "6"
+    },
+    {
+      "bgm_url": "assets/effects/10782.mp3#av=25",
+      "bgm_duration": "45",
+      "sort_order": "7"
+    },
+    {
+      "bgm_url": "assets/effects/11223.mp3#av=25",
+      "bgm_duration": "51",
+      "sort_order": "8"
+    },
+    {
+      "bgm_url": "assets/effects/12525.mp3#av=25",
+      "bgm_duration": "58",
+      "sort_order": "9"
+    },
+    {
+      "bgm_url": "assets/effects/16767.mp3#av=25",
+      "bgm_duration": "55",
+      "sort_order": "10"
+    },
+    {
+      "bgm_url": "assets/effects/17272.mp3#av=25",
+      "bgm_duration": "45",
+      "sort_order": "11"
+    },
+    {
+      "bgm_url": "assets/effects/15000.mp3#av=25",
+      "bgm_duration": "54",
+      "sort_order": "12"
+    },
+    {
+      "bgm_url": "assets/effects/15151.mp3#av=25",
+      "bgm_duration": "51",
+      "sort_order": "13"
+    },
+    {
+      "bgm_url": "assets/effects/10003.mp3#av=25",
+      "bgm_duration": "54",
+      "sort_order": "14"
+    },
+    {
+      "bgm_url": "assets/effects/10054.mp3#av=25",
+      "bgm_duration": "49",
+      "sort_order": "15"
+    },
+    {
+      "bgm_url": "assets/effects/10119.mp3#av=25",
+      "bgm_duration": "57",
+      "sort_order": "16"
+    },
+    {
+      "bgm_url": "assets/effects/11000.mp3#av=25",
+      "bgm_duration": "53",
+      "sort_order": "17"
+    },
+    {
+      "bgm_url": "assets/effects/12520.mp3#av=25",
+      "bgm_duration": "54",
+      "sort_order": "18"
+    },
+    {
+      "bgm_url": "assets/effects/10000.mp3#av=25",
+      "bgm_duration": "53",
+      "sort_order": "19"
+    },
+    {
+      "bgm_url": "assets/effects/7272.mp3#av=25",
+      "bgm_duration": "41",
+      "sort_order": "20"
+    },
+    {
+      "bgm_url": "assets/effects/10071.mp3#av=25",
+      "bgm_duration": "48",
+      "sort_order": "21"
+    },
+    {
+      "bgm_url": "assets/effects/10075.mp3#av=25",
+      "bgm_duration": "52",
+      "sort_order": "22"
+    },
+    {
+      "bgm_url": "assets/effects/11333.mp3#av=25",
+      "bgm_duration": "44",
+      "sort_order": "23"
+    },
+    {
+      "bgm_url": "assets/effects/26969.mp3#av=25",
+      "bgm_duration": "48",
+      "sort_order": "24"
+    },
+    {
+      "bgm_url": "assets/effects/28888.mp3#av=25",
+      "bgm_duration": "56",
+      "sort_order": "25"
+    },
+    {
+      "bgm_url": "assets/effects/12222.mp3#av=25",
+      "bgm_duration": "54",
+      "sort_order": "26"
+    },
+    {
+      "bgm_url": "assets/effects/10923.mp3#av=25",
+      "bgm_duration": "57",
+      "sort_order": "27"
+    },
+    {
+      "bgm_url": "assets/effects/26767.mp3#av=25",
+      "bgm_duration": "45",
+      "sort_order": "28"
+    },
+    {
+      "bgm_url": "assets/effects/29999.mp3#av=25",
+      "bgm_duration": "56",
+      "sort_order": "29"
+    },
+    {
+      "bgm_url": "assets/effects/12345.mp3#av=25",
+      "bgm_duration": "42",
+      "sort_order": "30"
+    },
+    {
+      "bgm_url": "assets/effects/14444.mp3#av=25",
+      "bgm_duration": "39",
+      "sort_order": "31"
+    },
+    {
+      "bgm_url": "assets/effects/15551.mp3#av=25",
+      "bgm_duration": "52",
+      "sort_order": "32"
+    },
+    {
+      "bgm_url": "assets/effects/24444.mp3#av=25",
+      "bgm_duration": "35",
+      "sort_order": "33"
+    },
+    {
+      "bgm_url": "assets/effects/29272.mp3#av=25",
+      "bgm_duration": "53",
+      "sort_order": "34"
+    },
+    {
+      "bgm_url": "assets/effects/29486.mp3#av=25",
+      "bgm_duration": "56",
+      "sort_order": "35"
+    },
+    {
+      "bgm_url": "assets/effects/4040.mp3#av=25",
+      "bgm_duration": "37",
+      "sort_order": "36"
+    },
+    {
+      "bgm_url": "assets/effects/7777.mp3#av=25",
+      "bgm_duration": "46",
+      "sort_order": "37"
+    },
+    {
+      "bgm_url": "assets/effects/10044.mp3#av=25",
+      "bgm_duration": "50",
+      "sort_order": "38"
+    },
+    {
+      "bgm_url": "assets/effects/10057.mp3#av=25",
+      "bgm_duration": "55",
+      "sort_order": "39"
+    },
+    {
+      "bgm_url": "assets/effects/10065.mp3#av=25",
+      "bgm_duration": "53",
+      "sort_order": "40"
+    },
+    {
+      "bgm_url": "assets/effects/10195.mp3#av=25",
+      "bgm_duration": "59",
+      "sort_order": "41"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EB%82%98%EB%AC%B4%EB%8A%98%EB%B4%89%EC%88%9C_5785.mp3#av=25",
+      "bgm_duration": "50",
+      "sort_order": "42"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EB%8B%88%EC%97%98%ED%98%952%E2%86%91_13333.mp3#av=25",
+      "bgm_duration": "58",
+      "sort_order": "43"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EB%B2%A8%EB%9D%BC74_11174.mp3#av=25",
+      "bgm_duration": "56",
+      "sort_order": "44"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%82%BC%EA%B2%B9%EA%B5%AC_10369.mp3#av=25",
+      "bgm_duration": "47",
+      "sort_order": "45"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%95%84%EA%B8%B0%EB%AD%89%EB%A9%98_10579.mp3#av=25",
+      "bgm_duration": "53",
+      "sort_order": "46"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%95%BD%EC%86%8D%ED%95%B4_20009.mp3#av=25",
+      "bgm_duration": "49",
+      "sort_order": "47"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%98%A4%EB%B2%A0R_10058.mp3#av=25",
+      "bgm_duration": "47",
+      "sort_order": "48"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%A1%B0%EB%A1%9C_19999.mp3#av=25",
+      "bgm_duration": "37",
+      "sort_order": "49"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%AB%84%EB%B3%91_13088.mp3#av=25",
+      "bgm_duration": "47",
+      "sort_order": "50"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%B4%88%EC%9B%94_10070.mp3#av=25",
+      "bgm_duration": "47",
+      "sort_order": "51"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%EC%B9%B4%EB%A6%AC%23_10228.mp3#av=25",
+      "bgm_duration": "49",
+      "sort_order": "52"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%ED%81%B0%EB%9D%BC%EB%84%A4%ED%8A%B8_20442.mp3#av=25",
+      "bgm_duration": "60",
+      "sort_order": "53"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%ED%81%B0%EC%98%A4%EC%8A%B9%ED%99%98_20252.mp3#av=25",
+      "bgm_duration": "54",
+      "sort_order": "54"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%ED%81%B0%ED%8F%B4%EB%A1%9C_22892.mp3#av=25",
+      "bgm_duration": "60",
+      "sort_order": "55"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%ED%8B%B0%EB%A8%B8%EB%8B%88_22000.mp3#av=25",
+      "bgm_duration": "42",
+      "sort_order": "56"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%ED%8E%98%EB%9D%BC%EB%A6%ACv12_10812.mp3#av=25",
+      "bgm_duration": "56",
+      "sort_order": "57"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%ED%97%A4%EC%9D%B4%EC%A6%90_10027.mp3#av=25",
+      "bgm_duration": "57",
+      "sort_order": "58"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261106/%ED%98%B8%EB%9E%91%EC%88%98%EC%9B%94%EA%B0%80_10390.mp3#av=25",
+      "bgm_duration": "58",
+      "sort_order": "59"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261107/%EC%98%A4%EC%A7%81%EC%A1%B0%EC%9D%80_5759.mp3#av=25",
+      "bgm_duration": "57",
+      "sort_order": "60"
+    },
+    {
+      "bgm_url": "assets/effects/auction-20261107/%EA%B3%A8%ED%83%8069_16969.mp3#av=25",
+      "bgm_duration": "55",
+      "sort_order": "61"
+    }
+  ]
+}
