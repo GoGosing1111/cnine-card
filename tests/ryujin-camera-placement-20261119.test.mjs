@@ -17,7 +17,7 @@ function playbackGuard(){
 }
 test('first awakening plus finisher completes before the actual web recovery deadline',async()=>{
  const h=playbackGuard();let result;h.play([{type:'MERCENARY_RYUJIN_AREA'}],'Ryujin').then(v=>result=v);
- await h.advance(9350);assert.equal(result,undefined);assert.equal(h.recoveries,0);
+ await h.advance(9810);assert.equal(result,undefined);assert.equal(h.recoveries,0);
  await h.finish();assert.equal(result,true);await h.advance(20000);assert.equal(h.recoveries,0);
  for(const actorId of ['A:MERCENARY:V-958','B:MERCENARY:V-958','A:OWNER:1:MERCENARY:V-958'])assert(h.budget([{type:'TURN',actorId}])>3350);
  assert.equal(h.budget([{type:'TURN',actorId:'A:MERCENARY:V-001'}]),2000);
@@ -27,18 +27,26 @@ test('a stuck Ryujin cast still recovers once and ignores late completion',async
  await h.advance(11999);assert.equal(result,undefined);await h.advance(1);assert.equal(result,false);assert.equal(h.recoveries,1);
  await h.finish();await h.advance(20000);assert.equal(h.recoveries,1);assert.equal(result,false);
 });
-test('PVE area casts stay at home and use the whole enemy formation regardless of hit order',()=>{
+test('PVE approaches the enemy front before the skill starts and returns after it ends',()=>{
  for(const order of [targets,[...targets].reverse(),[targets[1],targets[2],targets[0]]]){
   const p=ryujinSkillPlacement({start,targets:order,cooperative:false,duration:4.8,contact:2});
-  assert.deepEqual(p.impact,{x:1210,y:420});assert.equal(p.mode,'PVE_FIXED');
-  for(let frame=0;frame<=288;frame++)assert.deepEqual(p.rootAt(frame/60),start);
+  assert.deepEqual(p.impact,{x:1210,y:420});assert.equal(p.mode,'PVE_APPROACH');assert.deepEqual(p.cast,{x:930,y:420});
+  assert.deepEqual(p.rootAt(-p.approachSeconds),start);
+  for(let frame=0;frame<=288;frame++)assert.deepEqual(p.rootAt(frame/60),p.cast);
+  assert.deepEqual(p.rootAt(4.8+p.returnSeconds),start);
  }
 });
-test('party casts enter the middle lane smoothly and recover without following a dashing top target',()=>{
+test('party approaches the front of the middle lane on both axes, independent of a dashing top target',()=>{
  const before=structuredClone(targets),p=ryujinSkillPlacement({start,targets,cooperative:true,duration:1.25,contact:.57});
- assert.deepEqual(p.rootAt(0),start);assert.deepEqual(p.cast,{x:420,y:420});assert.deepEqual(p.rootAt(.57),p.cast);assert.deepEqual(p.rootAt(1.25),start);
- let previous=start;for(let f=1;f<=75;f++){const q=p.rootAt(f/60);assert.equal(q.x,420);assert(q.y>=180&&q.y<=420);assert(Math.abs(q.y-previous.y)<34);previous=q;}
+ assert.deepEqual(p.rootAt(-p.approachSeconds),start);assert.deepEqual(p.cast,{x:930,y:420});assert.deepEqual(p.rootAt(.57),p.cast);assert.deepEqual(p.rootAt(1.25),p.cast);assert.deepEqual(p.rootAt(1.25+p.returnSeconds),start);
+ let previous=start;for(let f=1;f<=14;f++){const q=p.rootAt(-p.approachSeconds+f/60);assert(q.x>previous.x);assert(q.y>previous.y);assert(q.x<=p.cast.x);assert(Math.abs(q.x-previous.x)<56);previous=q;}
  assert.deepEqual(targets,before);
+});
+test('mirrored casts stop in front of enemies and do not retreat when already in range',()=>{
+ const right={x:1600,y:180},p=ryujinSkillPlacement({start:right,targets,cooperative:true,duration:1.25,reach:100});
+ assert.deepEqual(p.cast,{x:1420,y:420});assert.deepEqual(p.rootAt(-.24),right);assert.deepEqual(p.rootAt(.57),p.cast);
+ const close={x:1040,y:420},near=ryujinSkillPlacement({start:close,targets,cooperative:false,duration:1.25});
+ assert.deepEqual(near.cast,close);assert.equal(near.approachSeconds,0);assert.equal(near.returnSeconds,0);
 });
 test('one target and missing presentation targets remain finite',()=>{
  for(const list of [[actor(800,500)],[],[{root:{x:NaN,y:NaN}}]]){

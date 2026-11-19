@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "97e8aa7f8f88847964fc5bfcbee939ecb55e70fa",
+  "sourceRevision": "bc9227f5eaf269ef8222cfa39474356f708846fb",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
   "serverHash": "36e546acd89d2c5ea792b57cb50b23ac068cf178bd99565f1d6ad2d903284c81",
   "engineHash": "f6ee609459bb609618ef06fd231eff17bc0b78f22fb72d7ee8acd7e1fc0af641",
   "playbackHash": "459b7773a7ee9408a4291827856607493be1bb147607a3c7be33af93945fdf3e",
-  "bundleHash": "59632a960e099fbf332eb57c427324d55bc11778a57dcf662bebc6bdb6b64053",
+  "bundleHash": "c51bbfb6d110738b91424ee5740bde94b1de4ebdf9445096c8d5d237b48650e4",
   "commonInputs": [
     "preview/project-v-v3/source/battle/mercenary-advancement/catalog.mjs",
     "preview/project-v-v3/source/battle/mercenary-advancement/AdvancementEffects.mjs",
