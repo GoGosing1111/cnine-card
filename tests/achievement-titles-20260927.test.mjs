@@ -20,6 +20,7 @@ CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,is_active INTEGER,is_
 CREATE TABLE user_garage_vehicles(user_id INTEGER,garage_id INTEGER,PRIMARY KEY(user_id,garage_id));
 CREATE TABLE pvp_season_settlements(id INTEGER PRIMARY KEY,season_key TEXT,season_name TEXT,status TEXT,started_at TEXT,completed_at TEXT);
 CREATE TABLE user_mercenary_cards_v1(user_id INTEGER,mercenary_code TEXT,total_copies INTEGER);
+CREATE TABLE avatar_user_ownership_v1(user_id INTEGER,avatar_code TEXT,expires_at TEXT,PRIMARY KEY(user_id,avatar_code));
 CREATE TABLE pvp_season_settlement_ranks(settlement_id INTEGER,user_id INTEGER,tier_id TEXT,tier_name TEXT,final_rank INTEGER,season_score INTEGER,wins INTEGER,losses INTEGER);
 CREATE TABLE clan_season_settlements(season_id INTEGER,champion_clan_id INTEGER,status TEXT,reward_status TEXT,completed_at TEXT);
 CREATE TABLE clan_seasons(id INTEGER,phase TEXT);
