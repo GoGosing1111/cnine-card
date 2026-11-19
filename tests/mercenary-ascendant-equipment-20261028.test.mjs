@@ -55,7 +55,7 @@ test('PVP derives only authorized catalog sets, ignoring forged effects, charact
  assert.deepEqual(mercenaryPvpEquipmentEffects({...equipment,items:Array(5).fill(gear(10)[0])}),{});
 });
 
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: owned first/last tier gear, independent modes, polish isolation and ordinary-character exclusion`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: owned first/last tier gear, independent loadouts, shared item polish and ordinary-character exclusion`,async t=>{
  const f=await ascendantEquipmentFixture(t,{postgres}),coins=await f.coin();
  for(const tier of [1,10])for(const mode of ['PVE','PVP'])for(const item of gear(tier))await f.equip(mode,item);
  let state=await mercenaryEquipmentState(f.env,f.user);
@@ -68,7 +68,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: owne
  await f.setting(polishStateKey(weapon,7),{schemaVersion:1,userId:7,instanceId:weapon,attempts:10,levels:[10,0,0,0,0],values:[5,0,0,0,0]});
  await f.p('INSERT INTO equipment_forge_states_v1 VALUES(?,7,10,1)',Number(weapon)).run();
  state=await mercenaryEquipmentState(f.env,f.user);
- assert.equal(state.loadouts.PVE.effects.attackPercent,31);assert.equal(state.loadouts.PVP.effects.attackPercent,26);
+ assert.equal(state.loadouts.PVE.effects.attackPercent,31);assert.equal(state.loadouts.PVP.effects.attackPercent,31);
  assert.equal(state.loadouts.PVP.power,345000+forgePower(1000000,10).pvp-100000);
  await f.p("INSERT INTO user_equipment_loadout(user_id,slot,instance_id) VALUES(7,'WEAPON',?)",Number(weapon)).run();
  assert.deepEqual(await forgeEquipmentBonus(f.env,7),{pve:0,pvp:0});assert.deepEqual((await equipmentGrowthRuntime(f.env,7)).effects,{});
