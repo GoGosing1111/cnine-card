@@ -13,6 +13,7 @@ import {MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mj
 import {rankedMatchPower} from '../shared/ranked-matchmaking-v2.mjs';
 import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 import {iconEnhancementPower} from '../shared/icon-enhancement-v1.mjs';
+import {pvpCardGradeAllowed,pvpDeckGradeAllowed,PVP_MINIMUM_GRADE,PVP_ALLOWED_GRADES} from '../functions/_pvp_deck_policy.js';
 
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const api=read('functions/api/[[path]].js'),app=read('js/app.js'),pve=read('js/pve-command-v2-live.js');
@@ -30,6 +31,7 @@ function constantSource(source,name){
 }
 function server(overrides={}){
   const context=vm.createContext({
+    pvpCardGradeAllowed,pvpDeckGradeAllowed,PVP_MINIMUM_GRADE,PVP_ALLOWED_GRADES,
     releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FORGE_RUNTIME_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,extendFurHighBreakthrough,MERCENARY_EQUIPMENT_SQL_CODES,rankedMatchPower,
     avatarScaledPower,iconEnhancementPower,avatarBattlePowerPercents:async()=>new Map(), // These deck fixtures have no equipped avatars.
     normalizeBattleEngineSettings:x=>x||{},normalizeNightmareSettings:x=>x||{},normalizeApocalypseSettings:x=>x||{},normalizeUltimateRequiredGrade:x=>x,
@@ -46,7 +48,7 @@ function server(overrides={}){
 function client(){
   const context=vm.createContext({cards:[]});
   vm.runInContext([
-    ...['FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','HIGH_BREAKTHROUGH_BONUS_FALLBACK','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT','ICON_DECK_LIMIT','DEFAULT_DECK_GRADE_LIMITS','DEFAULT_HEALER_PENALTIES'].map(n=>constantSource(app,n)),
+    ...['FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','HIGH_BREAKTHROUGH_BONUS_FALLBACK','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT','ICON_DECK_LIMIT','PVP_ALLOWED_GRADES','pvpCardGradeAllowed','DEFAULT_DECK_GRADE_LIMITS','DEFAULT_HEALER_PENALTIES'].map(n=>constantSource(app,n)),
     ...['clientBreakthroughBonusPercent','battleCardPower','deckGradeCount','normalizeDeckRules','deckGradeLimitViolation','deckGradeRuleLabel','deckGradeRuleSummaryHtml'].map(n=>functionSource(app,n))
   ].join('\n'),context);
   return context;
@@ -196,7 +198,7 @@ test('invalid active ranked preset never substitutes an intact defence deck',asy
       assert.deepEqual(plain(await s.pvpDeckSnapshot(env,1,true)).map(card=>card.id),good);
     }
     const fight=api.slice(api.indexOf("if(path==='pvp/fight'&&request.method==='POST')"));
-    assert.match(fight,/if\(aDeck.length!==5\)return rejectRankedMatch\(\{error:'랭크전 덱을 다시 저장해주세요\./);
+    assert.match(fight,/if\(aDeck.length!==5\)return rejectRankedMatch\(\{error:'FUR 등급 이상 카드 5장으로 랭크전 덱을 다시 저장해주세요\./);
   }finally{db.close()}
 });
 
