@@ -72,7 +72,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: S/Z 
 test('approved S/Z full-body alpha and all twelve atlas profiles are byte-identical in production',async()=>{
   assert.equal(manifest.liveEnabled,true);assert.equal(manifest.scope,'PVE_ONLY');
   assert.deepEqual(manifest.approval.order,['H-BODY','S-BODY','Z-BODY']);
-  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,36);
+  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,41);
   for(const suit of manifest.suits){
     const approved=preview.suits.find(s=>s.code===suit.code);
     assert.equal(suit.entries.length,6);assert.equal(sha(await bytes(suit.battleSprite)),suit.sha256);

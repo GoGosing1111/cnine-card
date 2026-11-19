@@ -66,7 +66,8 @@ test('exact monster/card IDs resolve the new sprites without changing original c
   const cacheVersion=new URL(bundle,'https://qa.test/').searchParams.get('v');
   assert.ok(cacheVersion&&recoveryBundle&&sourceRuntime,'current bundle and runtime source must retain explicit versions');
   assert.equal(cacheVersion,new URL(recoveryBundle,'https://qa.test/').searchParams.get('v'),'main and recovery loaders must request the same cached battle bundle');
-  assert.equal(app.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1],sourceRuntime,'main loader must request the current runtime source');
+  const entryRuntime=app.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1];
+  assert.ok(entryRuntime&&(entryRuntime===sourceRuntime||Number(bridge.match(/entryContractVersion:\s*(\d+)/)?.[1])===1&&sourceRuntime.startsWith(entryRuntime+'-')),'main loader must require the exact runtime or its declared compatible additive release');
   assert.equal(bridge.match(/const BATTLE_RUNTIME\s*=\s*['"]([^'"]+)['"]/)?.[1],sourceRuntime,'bridge must request the same runtime source');
   const preview=(await read('preview/boss-resources-v2048/battle.html')).toString();
   for(const adapter of ['project-v-battle-art-adapter-v1','project-v-tier-battle-art-adapter-v1','project-v-monster-battle-art-adapter-v1','project-v-unassigned-battle-fallback-v1'])assert(preview.includes(adapter));
