@@ -61,7 +61,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: owne
  let state=await mercenaryEquipmentState(f.env,f.user);
  assert.equal(state.catalog.length,95);assert.equal(state.regions.length,15);assert.equal(state.regions.at(-1).five.shieldPercent,25);
  for(const mode of ['PVE','PVP']){
-  const loadout=state.loadouts[mode];assert.equal(loadout.power,mode==='PVE'?3105000:345000);assert.equal(loadout.sets[0].active,5);assert.deepEqual(loadout.effects,snapshotGear(10,mode).effects);
+  const loadout=state.loadouts[mode];assert.equal(loadout.power,mode==='PVE'?3105000:345000);assert.equal(loadout.sets[0].active,5);assert.deepEqual(loadout.effects,{...snapshotGear(10,mode).effects,...(mode==='PVE'?{defensePercent:200,pveGuardPercent:60}:{})});
   const snapshot=await releasedMercenarySnapshot(f.env,f.user,mode);assert.equal(snapshot.equipment.mode,mode);assert.equal(snapshot.equipment.power,loadout.power);
  }
  const weapon=f.instances.get(gear(10)[0].code);
