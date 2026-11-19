@@ -1,0 +1,2982 @@
+{
+  "status": "COMPLETE",
+  "at": "2026-11-19T16:06:20.654Z",
+  "task": "블루기어 전체 점검 및 아스트라 편성 오류 수정",
+  "runtimeSourceCommit": "1f4f6ce491815b6e81eb5df3578bc1444140f16d",
+  "release": {
+    "pages": {
+      "id": "b972f34c-7e90-4d73-9d12-b09f2890cee2",
+      "commit": "2170d89b4550440d022c93ee27797d77b4acb34b",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "3a6e81d4-b5ca-4caf-8407-b8ec6ad88973",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "d51c8576-167b-47db-bcff-7e141fdb0b1d",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "publicFiles": 36,
+  "windowsFiles": 33,
+  "windowsReleaseId": "97b087cf06d273a6bdcfb8016ade278b16477c796a6bfebb29de5932b2a26586",
+  "fixes": [
+    {
+      "cause": "Astra WINDUP/END entered the generic skill catalog, which does not contain MS-1101..1103.",
+      "change": "Route lifecycle records to the dedicated Astra actor; strike alone owns animation and damage. Unknown generic skills still fail.",
+      "reproduction": "before-apocalypse/browser.json: two actual menu/start entries fail with the reported undefined-skill error."
+    },
+    {
+      "cause": "The generic 2000ms playback deadline interrupted Astra siege/fortress and could interrupt longer Blue Gear casts.",
+      "change": "Use a bounded 6000ms deadline for dedicated Astra/Blue Gear strike events, without adding a delay or altering animation speed.",
+      "reproduction": "after-lifecycle/1440-APOCALYPSE-0.json: siege timeout remains after lifecycle-only fix."
+    },
+    {
+      "cause": "Zero second/third basic attacks exceed the generic 2000ms deadline.",
+      "change": "Allow 6000ms for the eight Blue Gear actor basic attacks; ordinary cards retain 2000ms.",
+      "reproduction": "mobile/390-V-976+V-701-APOCALYPSE-0.json: second basic times out before final fix."
+    }
+  ],
+  "coverage": {
+    "cards": [
+      {
+        "code": "V-701",
+        "name": "하이희야",
+        "rank": "SS",
+        "basePower": 1000000,
+        "skills": [
+          {
+            "id": "MS-701",
+            "name": "황금 도탄"
+          },
+          {
+            "id": "MS-702",
+            "name": "극광 가속탄"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      },
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "basePower": 1000000,
+        "skills": [
+          {
+            "id": "MS-703",
+            "name": "청월 올려베기"
+          },
+          {
+            "id": "MS-704",
+            "name": "이지스 브레이크"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      },
+      {
+        "code": "V-703",
+        "name": "디임",
+        "rank": "SS",
+        "basePower": 1000000,
+        "skills": [
+          {
+            "id": "MS-705",
+            "name": "일점 작렬포"
+          },
+          {
+            "id": "MS-706",
+            "name": "특이점 박격포"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      },
+      {
+        "code": "V-704",
+        "name": "수댕",
+        "rank": "SS",
+        "basePower": 1000000,
+        "skills": [
+          {
+            "id": "MS-707",
+            "name": "쇄도하는 해류창"
+          },
+          {
+            "id": "MS-708",
+            "name": "용오름 낙창"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      },
+      {
+        "code": "V-705",
+        "name": "조은",
+        "rank": "SS",
+        "basePower": 1000000,
+        "skills": [
+          {
+            "id": "MS-709",
+            "name": "프리즘 관통사격"
+          },
+          {
+            "id": "MS-710",
+            "name": "오로라 좌표포격"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      },
+      {
+        "code": "V-976",
+        "name": "제로",
+        "rank": "SSS",
+        "basePower": 3000000,
+        "skills": [
+          {
+            "id": "MS-972",
+            "name": "청광 횡단"
+          },
+          {
+            "id": "MS-973",
+            "name": "섬광 연참"
+          },
+          {
+            "id": "MS-974",
+            "name": "용궤 검격"
+          },
+          {
+            "id": "MS-976",
+            "name": "천검 포위"
+          },
+          {
+            "id": "MS-975",
+            "name": "창천 종단"
+          },
+          {
+            "id": "MS-1096",
+            "name": "극광 · 백금천섬"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      },
+      {
+        "code": "V-967",
+        "name": "하쿠야 신",
+        "rank": "SSS",
+        "basePower": 2700000,
+        "skills": [
+          {
+            "id": "MS-909",
+            "name": "절광발도"
+          },
+          {
+            "id": "MS-910",
+            "name": "삼첩관통"
+          },
+          {
+            "id": "MS-911",
+            "name": "회천검압"
+          },
+          {
+            "id": "MS-912",
+            "name": "만검낙성"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      },
+      {
+        "code": "V-059",
+        "name": "아스트라",
+        "rank": "SSS",
+        "basePower": 1250000,
+        "skills": [
+          {
+            "id": "MS-1101",
+            "name": "쌍드론 협공"
+          },
+          {
+            "id": "MS-1102",
+            "name": "기갑 포탑 집중사격"
+          },
+          {
+            "id": "MS-1103",
+            "name": "블루기어 포트리스"
+          }
+        ],
+        "acquisition": "BLUE_GEAR_PACK"
+      }
+    ],
+    "tests": {
+      "passed": 70,
+      "failed": 0,
+      "files": [
+        "tests/astra-playback-20261120.test.mjs",
+        "tests/astra-bluegear-20261115.test.mjs",
+        "tests/bluegear-delivery-audit-20261120.test.mjs",
+        "tests/blue-gear-pack-20261113.test.mjs",
+        "tests/blue-gear-bloodmoon-room-20261113.test.mjs",
+        "tests/blue-gear-8000t-opening20-20261118.test.mjs",
+        "tests/bluegear-large-bulk-20261120.test.mjs",
+        "tests/bluegear-blackcrown-entitlement-20261120.test.mjs",
+        "tests/hakuya-live-20261105.test.mjs",
+        "tests/zero-awakening-20261115.test.mjs",
+        "tests/prime-zero-top-tier-20261102.test.mjs",
+        "tests/pve-battlefield-entry-v2117.test.mjs",
+        "tests/nox-public-assets-20261119.test.mjs"
+      ]
+    },
+    "localCombatRuns": 27,
+    "publicAssetCombatRuns": 4,
+    "details": [
+      {
+        "artifact": "after-all/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-705"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 6124.299999982119,
+        "elapsedMs": 25365.5,
+        "frames": {
+          "samples": 5884,
+          "p50": 4.199999999999818,
+          "p95": 4.299999999999272,
+          "max": 145.80000000000018,
+          "over50": 6
+        },
+        "longTasks": [
+          {
+            "start": 2199.5999999940395,
+            "duration": 149
+          },
+          {
+            "start": 2702.5,
+            "duration": 81
+          },
+          {
+            "start": 3797.5,
+            "duration": 54
+          },
+          {
+            "start": 27445.90000000596,
+            "duration": 72
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-705:MS-709",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-705:MS-710",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-all/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-705"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 3843.899999976158,
+        "elapsedMs": 22983.59999999404,
+        "frames": {
+          "samples": 5473,
+          "p50": 4.19999999999709,
+          "p95": 4.299999999999272,
+          "max": 33.29999999999927,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-705:MS-709",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-705:MS-710",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-all/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-705"
+        ],
+        "mode": "PVP",
+        "visit": 0,
+        "readyMs": 2835.5,
+        "elapsedMs": 19342,
+        "frames": {
+          "samples": 4544,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 41.700000000004366,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-705:MS-709",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-705:MS-710",
+          "B:MERCENARY:V-059:MS-1101",
+          "B:MERCENARY:V-705:MS-709",
+          "B:MERCENARY:V-059:MS-1102"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-all/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-705"
+        ],
+        "mode": "PVP",
+        "visit": 1,
+        "readyMs": 2521.800000011921,
+        "elapsedMs": 19029.90000000596,
+        "frames": {
+          "samples": 4442,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 45.89999999999418,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-705:MS-709",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-705:MS-710",
+          "B:MERCENARY:V-059:MS-1101",
+          "B:MERCENARY:V-705:MS-709",
+          "B:MERCENARY:V-059:MS-1102"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-rest/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-976",
+          "V-701"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 7248.699999988079,
+        "elapsedMs": 31614,
+        "frames": {
+          "samples": 7269,
+          "p50": 4.199999999998909,
+          "p95": 4.300000000000182,
+          "max": 125,
+          "over50": 7
+        },
+        "longTasks": [
+          {
+            "start": 2607,
+            "duration": 129
+          },
+          {
+            "start": 3012.300000011921,
+            "duration": 77
+          },
+          {
+            "start": 3900.699999988079,
+            "duration": 61
+          },
+          {
+            "start": 6393,
+            "duration": 58
+          },
+          {
+            "start": 9859.699999988079,
+            "duration": 100
+          },
+          {
+            "start": 34098.09999999404,
+            "duration": 83
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-976:MS-976",
+          "A:MERCENARY:V-701:MS-701",
+          "A:MERCENARY:V-701:MS-702",
+          "A:MERCENARY:V-976:MS-975",
+          "A:MERCENARY:V-976:MS-1096"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-rest/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-976",
+          "V-701"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 3771.899999976158,
+        "elapsedMs": 28126.79999998212,
+        "frames": {
+          "samples": 6628,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 41.700000000004366,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-976:MS-976",
+          "A:MERCENARY:V-701:MS-701",
+          "A:MERCENARY:V-701:MS-702",
+          "A:MERCENARY:V-976:MS-975",
+          "A:MERCENARY:V-976:MS-1096"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-rest/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-976",
+          "V-701"
+        ],
+        "mode": "PVP",
+        "visit": 0,
+        "readyMs": 2793.7999999821186,
+        "elapsedMs": 13977.299999982119,
+        "frames": {
+          "samples": 3244,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 66.70000000001164,
+          "over50": 2
+        },
+        "longTasks": [
+          {
+            "start": 64515,
+            "duration": 52
+          },
+          {
+            "start": 67304.59999999404,
+            "duration": 64
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-701:MS-701",
+          "A:MERCENARY:V-701:MS-702",
+          "B:MERCENARY:V-701:MS-701",
+          "B:MERCENARY:V-701:MS-702"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-rest/failure.json",
+        "width": 1440,
+        "codes": [
+          "V-976",
+          "V-701"
+        ],
+        "mode": "PVP",
+        "visit": 1,
+        "readyMs": 3013.600000023842,
+        "elapsedMs": 14198,
+        "frames": {
+          "samples": 3292,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 62.5,
+          "over50": 2
+        },
+        "longTasks": [
+          {
+            "start": 79170.90000000596,
+            "duration": 52
+          },
+          {
+            "start": 82192.59999999404,
+            "duration": 62
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-701:MS-701",
+          "A:MERCENARY:V-701:MS-702",
+          "B:MERCENARY:V-701:MS-701",
+          "B:MERCENARY:V-701:MS-702"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-967",
+          "V-702"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 4002.2000000178814,
+        "elapsedMs": 17829.40000000596,
+        "frames": {
+          "samples": 4015,
+          "p50": 4.199999999998909,
+          "p95": 4.300000000000182,
+          "max": 129.10000000000036,
+          "over50": 7
+        },
+        "longTasks": [
+          {
+            "start": 2168.199999988079,
+            "duration": 132
+          },
+          {
+            "start": 2466.300000011921,
+            "duration": 83
+          },
+          {
+            "start": 3280.0999999940395,
+            "duration": 57
+          },
+          {
+            "start": 8732,
+            "duration": 89
+          },
+          {
+            "start": 13258.40000000596,
+            "duration": 57
+          },
+          {
+            "start": 19884.69999998808,
+            "duration": 72
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-967:MS-911",
+          "A:MERCENARY:V-702:MS-703",
+          "A:MERCENARY:V-967:MS-912",
+          "A:MERCENARY:V-702:MS-704"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-967",
+          "V-702"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 1811.2999999821186,
+        "elapsedMs": 15130.299999982119,
+        "frames": {
+          "samples": 3577,
+          "p50": 4.19999999999709,
+          "p95": 4.299999999999272,
+          "max": 41.599999999998545,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-967:MS-911",
+          "A:MERCENARY:V-702:MS-703",
+          "A:MERCENARY:V-967:MS-912",
+          "A:MERCENARY:V-702:MS-704"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-967",
+          "V-702"
+        ],
+        "mode": "PVP",
+        "visit": 0,
+        "readyMs": 1387,
+        "elapsedMs": 10555.40000000596,
+        "frames": {
+          "samples": 2442,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 58.200000000004366,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 42575.59999999404,
+            "duration": 61
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-702:MS-703",
+          "A:MERCENARY:V-702:MS-704",
+          "B:MERCENARY:V-702:MS-703",
+          "B:MERCENARY:V-702:MS-704"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-967",
+          "V-702"
+        ],
+        "mode": "PVP",
+        "visit": 1,
+        "readyMs": 1078,
+        "elapsedMs": 10235,
+        "frames": {
+          "samples": 2401,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 54.19999999999709,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 53542.5,
+            "duration": 57
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-702:MS-703",
+          "A:MERCENARY:V-702:MS-704",
+          "B:MERCENARY:V-702:MS-703",
+          "B:MERCENARY:V-702:MS-704"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-703"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 3605.2000000178814,
+        "elapsedMs": 23213.90000000596,
+        "frames": {
+          "samples": 5401,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 33.29999999998836,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-703:MS-705",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-703:MS-706",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-703"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 3324.800000011921,
+        "elapsedMs": 22967.59999999404,
+        "frames": {
+          "samples": 5334,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 46,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-703:MS-705",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-703:MS-706",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-703"
+        ],
+        "mode": "PVP",
+        "visit": 0,
+        "readyMs": 3734,
+        "elapsedMs": 20900.40000000596,
+        "frames": {
+          "samples": 4897,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 62.59999999999127,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 107123.30000001192,
+            "duration": 66
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-703:MS-705",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-703:MS-706",
+          "B:MERCENARY:V-059:MS-1101",
+          "B:MERCENARY:V-703:MS-705",
+          "B:MERCENARY:V-059:MS-1102"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-703"
+        ],
+        "mode": "PVP",
+        "visit": 1,
+        "readyMs": 2801.699999988079,
+        "elapsedMs": 19969.30000001192,
+        "frames": {
+          "samples": 4661,
+          "p50": 4.199999999982538,
+          "p95": 4.300000000017462,
+          "max": 62.5,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 128784.90000000596,
+            "duration": 53
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-703:MS-705",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-703:MS-706",
+          "B:MERCENARY:V-059:MS-1101",
+          "B:MERCENARY:V-703:MS-705",
+          "B:MERCENARY:V-059:MS-1102"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-704"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 7620.0999999940395,
+        "elapsedMs": 26699.90000000596,
+        "frames": {
+          "samples": 6135,
+          "p50": 4.199999999982538,
+          "p95": 4.300000000017462,
+          "max": 54.19999999998254,
+          "over50": 1
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-704:MS-707",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-704:MS-708",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-704"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 4577.5,
+        "elapsedMs": 23678.40000000596,
+        "frames": {
+          "samples": 5448,
+          "p50": 4.199999999982538,
+          "p95": 4.399999999994179,
+          "max": 66.70000000001164,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 200849.59999999404,
+            "duration": 50
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-704:MS-707",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-704:MS-708",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-704"
+        ],
+        "mode": "PVP",
+        "visit": 0,
+        "readyMs": 6816.0999999940395,
+        "elapsedMs": 23236.09999999404,
+        "frames": {
+          "samples": 5387,
+          "p50": 4.199999999982538,
+          "p95": 4.300000000017462,
+          "max": 91.5,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 202297.69999998808,
+            "duration": 73
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-704:MS-707",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-704:MS-708",
+          "B:MERCENARY:V-059:MS-1101",
+          "B:MERCENARY:V-704:MS-707",
+          "B:MERCENARY:V-059:MS-1102"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-remaining/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-704"
+        ],
+        "mode": "PVP",
+        "visit": 1,
+        "readyMs": 3507.7999999821186,
+        "elapsedMs": 19885.79999998212,
+        "frames": {
+          "samples": 4640,
+          "p50": 4.199999999982538,
+          "p95": 4.2999999999883585,
+          "max": 83.79999999998836,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 226339.90000000596,
+            "duration": 71
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-704:MS-707",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-704:MS-708",
+          "B:MERCENARY:V-059:MS-1101",
+          "B:MERCENARY:V-704:MS-707",
+          "B:MERCENARY:V-059:MS-1102"
+        ],
+        "error": false
+      },
+      {
+        "artifact": "mobile/progress.json",
+        "width": 390,
+        "codes": [
+          "V-059",
+          "V-705"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 9590.5,
+        "elapsedMs": 28914.69999998808,
+        "frames": {
+          "samples": 6698,
+          "p50": 4.199999999999818,
+          "p95": 4.30000000000291,
+          "max": 116.60000000000036,
+          "over50": 6
+        },
+        "longTasks": [
+          {
+            "start": 2827,
+            "duration": 117
+          },
+          {
+            "start": 3093.600000023842,
+            "duration": 51
+          },
+          {
+            "start": 3165.300000011921,
+            "duration": 85
+          },
+          {
+            "start": 4167.300000011921,
+            "duration": 57
+          },
+          {
+            "start": 31588.100000023842,
+            "duration": 98
+          }
+        ],
+        "slowResources": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-705:MS-709",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-705:MS-710",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-705",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "artifact": "mobile-final/browser.json",
+        "width": 390,
+        "codes": [
+          "V-976",
+          "V-701"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 7077.100000023842,
+        "elapsedMs": 36797.40000000596,
+        "frames": {
+          "samples": 8495,
+          "p50": 4.199999999998909,
+          "p95": 4.300000000001091,
+          "max": 137.4000000000001,
+          "over50": 7
+        },
+        "longTasks": [
+          {
+            "start": 3524.899999976158,
+            "duration": 141
+          },
+          {
+            "start": 3957.2999999821186,
+            "duration": 82
+          },
+          {
+            "start": 4823.5,
+            "duration": 60
+          },
+          {
+            "start": 6917.799999982119,
+            "duration": 52
+          },
+          {
+            "start": 10601.5,
+            "duration": 111
+          },
+          {
+            "start": 40174,
+            "duration": 98
+          }
+        ],
+        "slowResources": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-976:MS-976",
+          "A:MERCENARY:V-701:MS-701",
+          "A:MERCENARY:V-701:MS-702",
+          "A:MERCENARY:V-976:MS-975",
+          "A:MERCENARY:V-976:MS-1096"
+        ],
+        "basics": [
+          {
+            "code": "V-976",
+            "mode": "horizon",
+            "result": true
+          },
+          {
+            "code": "V-701",
+            "result": true
+          },
+          {
+            "code": "V-976",
+            "mode": "flurry",
+            "result": true
+          },
+          {
+            "code": "V-976",
+            "mode": "meteor",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "artifact": "mobile-final/browser.json",
+        "width": 390,
+        "codes": [
+          "V-967",
+          "V-702"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 3267.2000000178814,
+        "elapsedMs": 17572.59999999404,
+        "frames": {
+          "samples": 4070,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 83.5,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 49051,
+            "duration": 85
+          },
+          {
+            "start": 51349.39999997616,
+            "duration": 53
+          }
+        ],
+        "slowResources": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-967:MS-911",
+          "A:MERCENARY:V-702:MS-703",
+          "A:MERCENARY:V-967:MS-912",
+          "A:MERCENARY:V-702:MS-704"
+        ],
+        "basics": [
+          {
+            "code": "V-967",
+            "mode": "skill_iai",
+            "result": true
+          },
+          {
+            "code": "V-702",
+            "result": true
+          },
+          {
+            "code": "V-967",
+            "mode": "skill_rift",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "artifact": "mobile-final/browser.json",
+        "width": 390,
+        "codes": [
+          "V-059",
+          "V-703"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 4799.799999982119,
+        "elapsedMs": 24461.19999998808,
+        "frames": {
+          "samples": 5631,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 41.599999999998545,
+          "over50": 0
+        },
+        "longTasks": [],
+        "slowResources": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-703:MS-705",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-703:MS-706",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-703",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "artifact": "mobile-final/browser.json",
+        "width": 390,
+        "codes": [
+          "V-059",
+          "V-704"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 5272,
+        "elapsedMs": 24335.30000001192,
+        "frames": {
+          "samples": 5490,
+          "p50": 4.19999999999709,
+          "p95": 4.400000000008731,
+          "max": 70.80000000000291,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 84560.69999998808,
+            "duration": 59
+          }
+        ],
+        "slowResources": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-704:MS-707",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-704:MS-708",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-704",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-matched/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-047"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 7363.0999999940395,
+        "elapsedMs": 25406.5,
+        "frames": {
+          "samples": 5867,
+          "p50": 4.199999999998909,
+          "p95": 4.299999999999272,
+          "max": 141.70000000000027,
+          "over50": 5
+        },
+        "renderFrames": {
+          "samples": 1048,
+          "p50": 16.69999998807907,
+          "p95": 20.80000001192093,
+          "max": 109.69999998807907,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 2698.800000011921,
+            "duration": 140
+          },
+          {
+            "start": 3068.5999999940395,
+            "duration": 90
+          },
+          {
+            "start": 4217.700000017881,
+            "duration": 69
+          },
+          {
+            "start": 27982.5,
+            "duration": 71
+          }
+        ],
+        "slowResources": [
+          {
+            "path": "/assets/optimized/20261015-v1/1d33db1c01d4aa7a7ee53eae.webp",
+            "ms": 705.2000000178814,
+            "bytes": 1688020
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/astra-20261115/source-art.png",
+            "ms": 694.6000000238419,
+            "bytes": 2552036
+          },
+          {
+            "path": "/assets/NEWCARD/24.png",
+            "ms": 679.6999999880791,
+            "bytes": 177649
+          },
+          {
+            "path": "/assets/superstar/1.jpg",
+            "ms": 678.9000000059605,
+            "bytes": 96787
+          },
+          {
+            "path": "/assets/fonts/battle/RussoOne-Regular.ttf",
+            "ms": 629,
+            "bytes": 39424
+          },
+          {
+            "path": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+            "ms": 623.8000000119209,
+            "bytes": 1173956
+          },
+          {
+            "path": "/assets/responsive/cards/43e821eb058a467c-192.webp",
+            "ms": 525.0999999940395,
+            "bytes": 5720
+          },
+          {
+            "path": "/assets/responsive/cards/ce94a92927cc23d3-192.webp",
+            "ms": 438.40000000596046,
+            "bytes": 4846
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-047:MS-047",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-047",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "artifact": "after-matched/browser.json",
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-047"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 2904.2000000178814,
+        "elapsedMs": 20840.59999999404,
+        "frames": {
+          "samples": 4955,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 33.400000000001455,
+          "over50": 0
+        },
+        "renderFrames": {
+          "samples": 1046,
+          "p50": 16.69999998807907,
+          "p95": 20.80000001192093,
+          "max": 103.90000000596046,
+          "over50": 1
+        },
+        "longTasks": [],
+        "slowResources": [
+          {
+            "path": "/assets/ui/project-v/mercenaries/astra-20261115/pose-registration.json",
+            "ms": 166.60000002384186,
+            "bytes": 11523
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/astra-20261115/assets-v3.json",
+            "ms": 93.80000001192093,
+            "bytes": 26682
+          },
+          {
+            "path": "/preview/mercenary-role-attacks-v2100/assets/sniper/atlas.json",
+            "ms": 81.7999999821186,
+            "bytes": 3073
+          },
+          {
+            "path": "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+            "ms": 79.09999999403954,
+            "bytes": 4754
+          },
+          {
+            "path": "/preview/mercenary-role-attacks-v2100/assets/marksman/atlas.json",
+            "ms": 72.40000000596046,
+            "bytes": 3105
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+            "ms": 16.5,
+            "bytes": 5590
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+            "ms": 16.30000001192093,
+            "bytes": 5618
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+            "ms": 14.899999976158142,
+            "bytes": 5672
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-047:MS-047",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-047",
+            "result": true
+          }
+        ],
+        "error": false
+      }
+    ],
+    "public": [
+      {
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-705"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 2448.600000023842,
+        "elapsedMs": 21671.20000001788,
+        "frames": {
+          "samples": 5014,
+          "p50": 4.199999999998909,
+          "p95": 4.299999999999727,
+          "max": 104.10000000000036,
+          "over50": 6
+        },
+        "renderFrames": {
+          "samples": 1116,
+          "p50": 16.69999998807907,
+          "p95": 20.799999982118607,
+          "max": 115.19999998807907,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 2054.5,
+            "duration": 106
+          },
+          {
+            "start": 2296.9000000059605,
+            "duration": 70
+          },
+          {
+            "start": 2888,
+            "duration": 56
+          },
+          {
+            "start": 23588.30000001192,
+            "duration": 96
+          }
+        ],
+        "slowResources": [
+          {
+            "path": "/assets/responsive/project-v/superstar/superstar-cn-48bbcac81d0e44fa-sd-v1-768.webp",
+            "ms": 400,
+            "bytes": 87978
+          },
+          {
+            "path": "/assets/responsive/cards/43e821eb058a467c-192.webp",
+            "ms": 365.90000000596046,
+            "bytes": 5720
+          },
+          {
+            "path": "/assets/responsive/cards/ce94a92927cc23d3-192.webp",
+            "ms": 353.59999999403954,
+            "bytes": 4846
+          },
+          {
+            "path": "/js/support-package-alerts-v1.mjs",
+            "ms": 308.5,
+            "bytes": 6395
+          },
+          {
+            "path": "/assets/responsive/project-v/zenith/zenith-cn-be9eb8304a744ecf-sd-v1-384.avif",
+            "ms": 281.40000000596046,
+            "bytes": 14302
+          },
+          {
+            "path": "/assets/effects/SKILL-v1497.webp",
+            "ms": 176.90000000596046,
+            "bytes": 2426028
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/astra-20261115/source-art.png",
+            "ms": 167.90000000596046,
+            "bytes": 2552036
+          },
+          {
+            "path": "/assets/ui/packs/blue-gear-live-v1/joeun-640.webp",
+            "ms": 120.59999999403954,
+            "bytes": 115666
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-705:MS-709",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-705:MS-710",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-705",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-705"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 499,
+        "elapsedMs": 19655.79999998212,
+        "frames": {
+          "samples": 4680,
+          "p50": 4.19999999999709,
+          "p95": 4.299999999999272,
+          "max": 29.200000000000728,
+          "over50": 0
+        },
+        "renderFrames": {
+          "samples": 1117,
+          "p50": 16.69999998807907,
+          "p95": 20.80000001192093,
+          "max": 108,
+          "over50": 1
+        },
+        "longTasks": [],
+        "slowResources": [
+          {
+            "path": "/preview/mercenary-role-attacks-v2100/assets/sniper/atlas.json",
+            "ms": 12.699999988079071,
+            "bytes": 3073
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+            "ms": 12.599999994039536,
+            "bytes": 5618
+          },
+          {
+            "path": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+            "ms": 12.5,
+            "bytes": 42348
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+            "ms": 12.5,
+            "bytes": 5590
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+            "ms": 12.399999976158142,
+            "bytes": 5672
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+            "ms": 12.300000011920929,
+            "bytes": 5645
+          },
+          {
+            "path": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+            "ms": 12,
+            "bytes": 30436
+          },
+          {
+            "path": "/qa-api/battle/apocalypse-challenge/open",
+            "ms": 10.100000023841858,
+            "bytes": 976
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-705:MS-709",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-705:MS-710",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-705",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "width": 1440,
+        "codes": [
+          "V-976",
+          "V-701"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 1811.4000000059605,
+        "elapsedMs": 31291,
+        "frames": {
+          "samples": 7380,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 66.70000000000437,
+          "over50": 2
+        },
+        "renderFrames": {
+          "samples": 1720,
+          "p50": 16.69999998807907,
+          "p95": 20.799999982118607,
+          "max": 114.69999998807907,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 46821.40000000596,
+            "duration": 65
+          }
+        ],
+        "slowResources": [
+          {
+            "path": "/assets/ui/project-v/mercenaries/sss-area-dialogue-20261028/zero-frame.webp",
+            "ms": 604.7999999821186,
+            "bytes": 279714
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+            "ms": 221,
+            "bytes": 2873680
+          },
+          {
+            "path": "/assets/ui/packs/blue-gear-live-v1/hiheeya-640.webp",
+            "ms": 96.7000000178814,
+            "bytes": 133072
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/hiheeya/runtime/hiheeya.json",
+            "ms": 74,
+            "bytes": 5773
+          },
+          {
+            "path": "/preview/mercenary-golden-dragon-battle-v1/assets/source-art-preview.webp",
+            "ms": 65.69999998807907,
+            "bytes": 195398
+          },
+          {
+            "path": "/preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+            "ms": 59.60000002384186,
+            "bytes": 111401
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/hiheeya/runtime/hiheeya-ccdc117ec0c2.atlas",
+            "ms": 57.900000005960464,
+            "bytes": 690
+          },
+          {
+            "path": "/preview/mercenary-cyan-knight-battle-20261020-v1/manifest.json",
+            "ms": 38,
+            "bytes": 144693
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-976:MS-976",
+          "A:MERCENARY:V-701:MS-701",
+          "A:MERCENARY:V-701:MS-702",
+          "A:MERCENARY:V-976:MS-975",
+          "A:MERCENARY:V-976:MS-1096"
+        ],
+        "basics": [
+          {
+            "code": "V-976",
+            "mode": "horizon",
+            "result": true
+          },
+          {
+            "code": "V-701",
+            "result": true
+          },
+          {
+            "code": "V-976",
+            "mode": "flurry",
+            "result": true
+          },
+          {
+            "code": "V-976",
+            "mode": "meteor",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "width": 1440,
+        "codes": [
+          "V-976",
+          "V-701"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 682.0999999940395,
+        "elapsedMs": 30205.19999998808,
+        "frames": {
+          "samples": 6933,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 62.39999999999418,
+          "over50": 1
+        },
+        "renderFrames": {
+          "samples": 1719,
+          "p50": 16.69999998807907,
+          "p95": 21,
+          "max": 145.59999999403954,
+          "over50": 1
+        },
+        "longTasks": [],
+        "slowResources": [
+          {
+            "path": "/qa-api/battle/apocalypse-challenge/claim",
+            "ms": 44.099999994039536,
+            "bytes": 1222
+          },
+          {
+            "path": "/qa-api/battle/apocalypse-challenge/pulse",
+            "ms": 34.19999998807907,
+            "bytes": 966
+          },
+          {
+            "path": "/qa-api/battle/apocalypse-challenge/answer",
+            "ms": 17.5,
+            "bytes": 966
+          },
+          {
+            "path": "/qa-api/battle/apocalypse-challenge/open",
+            "ms": 16.30000001192093,
+            "bytes": 976
+          },
+          {
+            "path": "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+            "ms": 14,
+            "bytes": 4754
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+            "ms": 9.900000005960464,
+            "bytes": 5645
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+            "ms": 9.799999982118607,
+            "bytes": 5618
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+            "ms": 9.699999988079071,
+            "bytes": 5672
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-976:MS-976",
+          "A:MERCENARY:V-701:MS-701",
+          "A:MERCENARY:V-701:MS-702",
+          "A:MERCENARY:V-976:MS-975",
+          "A:MERCENARY:V-976:MS-1096"
+        ],
+        "basics": [
+          {
+            "code": "V-976",
+            "mode": "horizon",
+            "result": true
+          },
+          {
+            "code": "V-701",
+            "result": true
+          },
+          {
+            "code": "V-976",
+            "mode": "flurry",
+            "result": true
+          },
+          {
+            "code": "V-976",
+            "mode": "meteor",
+            "result": true
+          }
+        ],
+        "error": false
+      }
+    ],
+    "formation": "All eight owned identities save/load in actual PVE and PVP account services on isolated PGlite; unowned rejected; SS/SSS caps preserved.",
+    "combat": "Actual server lifecycle groups, all emitted skills, all three Zero and both Hakuya basic forms; PVE 7-enemy area hits applied once per target and PVP both sides. Final full basic variants verified on mobile and public Astra/Zero PC runs.",
+    "pack": [
+      {
+        "name": "after-desktop-recovery",
+        "mode": "after",
+        "platform": "desktop",
+        "recovery": true,
+        "emulated": true,
+        "entries": [
+          {
+            "visit": "first",
+            "roomMs": 178,
+            "sameRequestRecovered": true,
+            "frames": {
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 4.300000000000182,
+              "over50": 0
+            },
+            "horizontalOverflow": false,
+            "skippedFilms": 2,
+            "afterCloseReads": 0
+          }
+        ],
+        "transactions": [
+          {
+            "requestId": "95b4dd43-274e-400e-972c-6ef97ccc0ed5",
+            "count": 44444,
+            "coinCost": 99999000000000,
+            "ms": 38,
+            "queries": 42,
+            "statements": 32,
+            "receiptBytes": 973
+          }
+        ],
+        "errors": [],
+        "launchMs": 1410,
+        "posts": 1,
+        "featureReads": 3,
+        "receiptReads": 2,
+        "lateCancelledResponses": 0,
+        "finalCoin": 2900001000000000,
+        "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+      },
+      {
+        "name": "after-h5",
+        "mode": "after",
+        "platform": "h5",
+        "recovery": false,
+        "emulated": true,
+        "entries": [
+          {
+            "visit": "first",
+            "roomMs": 203,
+            "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+            "resultReadyMs": 179,
+            "frames": {
+              "p50": 4.199999999998909,
+              "p95": 4.300000000001091,
+              "max": 4.399999999999636,
+              "over50": 0
+            },
+            "horizontalOverflow": false,
+            "skippedFilms": 2,
+            "afterCloseReads": 0
+          },
+          {
+            "visit": "repeat",
+            "roomMs": 129,
+            "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+            "resultReadyMs": 247,
+            "frames": {
+              "p50": 4.19999999999709,
+              "p95": 4.299999999999272,
+              "max": 4.299999999999272,
+              "over50": 0
+            },
+            "horizontalOverflow": false,
+            "skippedFilms": 1,
+            "afterCloseReads": 0
+          }
+        ],
+        "transactions": [
+          {
+            "requestId": "87725066-a625-4acf-8beb-af12d724708b",
+            "count": 222222,
+            "coinCost": 499999500000000,
+            "ms": 89,
+            "queries": 50,
+            "statements": 32,
+            "receiptBytes": 978
+          },
+          {
+            "requestId": "a2112452-4aee-4c2a-8f8f-1ec11dcb1d85",
+            "count": 444444,
+            "coinCost": 999999000000000,
+            "ms": 127,
+            "queries": 45,
+            "statements": 28,
+            "receiptBytes": 908
+          }
+        ],
+        "errors": [],
+        "launchMs": 2917,
+        "posts": 2,
+        "featureReads": 4,
+        "receiptReads": 0,
+        "lateCancelledResponses": 0,
+        "finalCoin": 1500001500000000,
+        "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+      }
+    ],
+    "nox": {
+      "pass": true,
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 142.3847999999998,
+          "prepareMs": 2155.0267000000003,
+          "viewport": {
+            "w": 1440,
+            "h": 900,
+            "root": {
+              "x": 0,
+              "y": 0,
+              "width": 1440,
+              "height": 908.546875,
+              "top": 0,
+              "right": 1440,
+              "bottom": 908.546875,
+              "left": 0
+            },
+            "fee": "TEST · 지정 참가자 무료"
+          },
+          "music": {
+            "trackId": "bgm-82e53ee7e20b",
+            "url": "/assets/effects/auction-20261106/%ED%98%B8%EB%9E%91%EC%88%98%EC%9B%94%EA%B0%80_10390.mp3",
+            "prepared": 3,
+            "bufferBytes": 35712000,
+            "calibration": "0"
+          },
+          "frames": {
+            "samples": 2400,
+            "p95": 4.300000000000182,
+            "max": 37.59999999999991,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -5.85009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 2.612600000000384,
+          "prepareMs": 1020.4510000000009,
+          "viewport": {
+            "w": 1440,
+            "h": 900,
+            "root": {
+              "x": 0,
+              "y": 0,
+              "width": 1440,
+              "height": 908.546875,
+              "top": 0,
+              "right": 1440,
+              "bottom": 908.546875,
+              "left": 0
+            },
+            "fee": "TEST · 지정 참가자 무료"
+          },
+          "music": {
+            "trackId": "bgm-1612d7a2fa66",
+            "url": "/assets/effects/10060.mp3",
+            "prepared": 3,
+            "bufferBytes": 35712000,
+            "calibration": "0"
+          },
+          "frames": {
+            "samples": 2400,
+            "p95": 4.299999999999272,
+            "max": 8.400000000001455,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.500244140625,
+            "inflight": 1
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "errors": [],
+      "broken": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12602/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:12602/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12602/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12602/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12602/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12602/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12602/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ]
+    }
+  },
+  "performance": {
+    "conditions": "Windows Chrome headless, PC 1440x942 and touch 390x844 emulation. Actual main menu/start/result/reentry; local loopback and isolated PGlite APIs. Public static bytes via read-only proxy for post-release tests. H5 iframe host emulation. No physical mobile, installed Windows client or native ONE store app measurement.",
+    "matchedBefore": [
+      {
+        "width": 1440,
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 4389,
+        "elapsedMs": 11031.59999999404,
+        "frames": {
+          "samples": 2504,
+          "p50": 4.199999999999818,
+          "p95": 4.300000000000182,
+          "max": 83.30000000000018,
+          "over50": 4
+        },
+        "longTasks": [
+          {
+            "start": 1669.5,
+            "duration": 85
+          },
+          {
+            "start": 1911.8999999761581,
+            "duration": 82
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [],
+        "error": true
+      },
+      {
+        "width": 1440,
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 2651.7000000178814,
+        "elapsedMs": 9271.300000011921,
+        "frames": {
+          "samples": 2155,
+          "p50": 4.199999999998909,
+          "p95": 4.399999999997817,
+          "max": 37.5,
+          "over50": 0
+        },
+        "longTasks": [],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [],
+        "error": true
+      }
+    ],
+    "matchedAfter": [
+      {
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-047"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 0,
+        "readyMs": 7363.0999999940395,
+        "elapsedMs": 25406.5,
+        "frames": {
+          "samples": 5867,
+          "p50": 4.199999999998909,
+          "p95": 4.299999999999272,
+          "max": 141.70000000000027,
+          "over50": 5
+        },
+        "renderFrames": {
+          "samples": 1048,
+          "p50": 16.69999998807907,
+          "p95": 20.80000001192093,
+          "max": 109.69999998807907,
+          "over50": 1
+        },
+        "longTasks": [
+          {
+            "start": 2698.800000011921,
+            "duration": 140
+          },
+          {
+            "start": 3068.5999999940395,
+            "duration": 90
+          },
+          {
+            "start": 4217.700000017881,
+            "duration": 69
+          },
+          {
+            "start": 27982.5,
+            "duration": 71
+          }
+        ],
+        "slowResources": [
+          {
+            "path": "/assets/optimized/20261015-v1/1d33db1c01d4aa7a7ee53eae.webp",
+            "ms": 705.2000000178814,
+            "bytes": 1688020
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/astra-20261115/source-art.png",
+            "ms": 694.6000000238419,
+            "bytes": 2552036
+          },
+          {
+            "path": "/assets/NEWCARD/24.png",
+            "ms": 679.6999999880791,
+            "bytes": 177649
+          },
+          {
+            "path": "/assets/superstar/1.jpg",
+            "ms": 678.9000000059605,
+            "bytes": 96787
+          },
+          {
+            "path": "/assets/fonts/battle/RussoOne-Regular.ttf",
+            "ms": 629,
+            "bytes": 39424
+          },
+          {
+            "path": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+            "ms": 623.8000000119209,
+            "bytes": 1173956
+          },
+          {
+            "path": "/assets/responsive/cards/43e821eb058a467c-192.webp",
+            "ms": 525.0999999940395,
+            "bytes": 5720
+          },
+          {
+            "path": "/assets/responsive/cards/ce94a92927cc23d3-192.webp",
+            "ms": 438.40000000596046,
+            "bytes": 4846
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-047:MS-047",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-047",
+            "result": true
+          }
+        ],
+        "error": false
+      },
+      {
+        "width": 1440,
+        "codes": [
+          "V-059",
+          "V-047"
+        ],
+        "mode": "APOCALYPSE",
+        "visit": 1,
+        "readyMs": 2904.2000000178814,
+        "elapsedMs": 20840.59999999404,
+        "frames": {
+          "samples": 4955,
+          "p50": 4.19999999999709,
+          "p95": 4.30000000000291,
+          "max": 33.400000000001455,
+          "over50": 0
+        },
+        "renderFrames": {
+          "samples": 1046,
+          "p50": 16.69999998807907,
+          "p95": 20.80000001192093,
+          "max": 103.90000000596046,
+          "over50": 1
+        },
+        "longTasks": [],
+        "slowResources": [
+          {
+            "path": "/assets/ui/project-v/mercenaries/astra-20261115/pose-registration.json",
+            "ms": 166.60000002384186,
+            "bytes": 11523
+          },
+          {
+            "path": "/assets/ui/project-v/mercenaries/astra-20261115/assets-v3.json",
+            "ms": 93.80000001192093,
+            "bytes": 26682
+          },
+          {
+            "path": "/preview/mercenary-role-attacks-v2100/assets/sniper/atlas.json",
+            "ms": 81.7999999821186,
+            "bytes": 3073
+          },
+          {
+            "path": "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+            "ms": 79.09999999403954,
+            "bytes": 4754
+          },
+          {
+            "path": "/preview/mercenary-role-attacks-v2100/assets/marksman/atlas.json",
+            "ms": 72.40000000596046,
+            "bytes": 3105
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+            "ms": 16.5,
+            "bytes": 5590
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+            "ms": 16.30000001192093,
+            "bytes": 5618
+          },
+          {
+            "path": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+            "ms": 14.899999976158142,
+            "bytes": 5672
+          }
+        ],
+        "exit": {
+          "canvas": 0,
+          "actors": 0,
+          "loads": 0,
+          "simpleTimelines": 0,
+          "timelines": 0,
+          "visible": false,
+          "tickerStarted": false
+        },
+        "skills": [
+          "A:MERCENARY:V-059:MS-1101",
+          "A:MERCENARY:V-059:MS-1102",
+          "A:MERCENARY:V-047:MS-047",
+          "A:MERCENARY:V-059:MS-1103"
+        ],
+        "basics": [
+          {
+            "code": "V-059",
+            "mode": "attack_basic",
+            "result": true
+          },
+          {
+            "code": "V-047",
+            "result": true
+          }
+        ],
+        "error": false
+      }
+    ],
+    "comparison": "Same Astra + V-047 party, cold/warm local runs: ready 4389/2652ms before and 7363/2904ms after. Single trials; before fails early while after plays complete animations, so overall/frame samples differ. Concurrent host activity and sparse git asset serving affect timings. No speed improvement claimed.",
+    "bottleneck": "First entry asset/font responses around 0.6-0.7s and main-thread tasks up to 140ms; repeat avoids most initial loading. Fix removes premature timeout cancellation/recovery rather than changing intended cast durations. Shared GSAP clock reused; no new per-frame task/network polling.",
+    "renderer": "After matched runs actual Pixi prerender p50 16.7ms / p95 20.8ms, max 109.7/103.9ms, one >50ms sample each. RAF 4.2ms is browser callback cadence and is not game render FPS.",
+    "exit": "All passing combat runs: canvas/actors/loading/ticker zero; latest harness also checks both timeline sets zero. Nox polling/RAF/audio/buffers/canvases zero; pack reads after close zero."
+  },
+  "productionReadOnly": {
+    "at": "2026-11-19T16:03:21.587Z",
+    "settingsRevision": 5,
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "stocks": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "45",
+        "issued": "28",
+        "revision": "30"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "45",
+        "issued": "24",
+        "revision": "26"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "45",
+        "issued": "26",
+        "revision": "28"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "45",
+        "issued": "24",
+        "revision": "26"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "45",
+        "issued": "25",
+        "revision": "27"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "2",
+        "revision": "2"
+      }
+    ],
+    "issueCounts": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "count": 28,
+        "serials": 28
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "count": 24,
+        "serials": 24
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "count": 26,
+        "serials": 26
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "count": 24,
+        "serials": 24
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "count": 25,
+        "serials": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "count": 1,
+        "serials": 1
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "count": 2,
+        "serials": 2
+      }
+    ],
+    "allSerialsUniqueAndCountsMatch": true,
+    "note": "SS stock was increased from 25 to 45 each by a separate explicitly authorized operation during this audit. This task only read the latest setting and stock/issue counts; it did not reset or change economy settings."
+  },
+  "limitations": [
+    "Browser battle API is isolated and the full server timeline is reduced to complete representative skill groups and basic forms. This checks playback/entry/reentry/damage application, not a claim of end-to-end live-account battles or balance results.",
+    "Initial historical checks included superseded pre-awakening Zero balance/skill expectations, exact old runtime suffix expectations and missing sparse fixtures. Current policy and new delivery checks pass. Initial harness invalid rank pairing and Hakuya presentation-ID assumptions were corrected; failed evidence is retained.",
+    "Nox fixture WebSocket/service-worker warnings and Pixi cache warning are preserved. No missing public assets or page exceptions in final combat coverage."
+  ],
+  "productionAccountWrites": 0,
+  "purchases": 0,
+  "grants": 0,
+  "messages": 0,
+  "announcement": {
+    "file": "유저공지.txt",
+    "published": false
+  },
+  "artifactDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\astra-playback-20261120",
+  "liveVerification": {
+    "at": "2026-11-19T16:03:24.534Z",
+    "release": {
+      "base": "219fb0e4ea03a44f23680335d76401a9cdca460b",
+      "head": "1f4f6ce491815b6e81eb5df3578bc1444140f16d",
+      "files": [
+        "index.html",
+        "js/app.js",
+        "js/battle-v3-live.js",
+        "onestore/index.html",
+        "onestore/js/app.js",
+        "service-worker.js",
+        "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+        "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+        "preview/project-v-v3/grid-build-report.json",
+        "preview/battle-suit-skill-chip-v1/build-report.json",
+        "preview/sustained-hunt-v2/engine-build.json",
+        "preview/v3-wide-grid-v1/app.bundle.js",
+        "raid/nox/battle.bundle.js",
+        "raid/nox/raid.mjs",
+        "tests/astra-playback-20261120.browser.mjs",
+        "tests/astra-playback-20261120.test.mjs",
+        "tests/bluegear-delivery-audit-20261120.test.mjs",
+        "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "preview/scrapyard-v3-v1/battle.bundle.js",
+        "preview/cow-room-v3-v1/battle.bundle.js",
+        "preview/infinite-tower-v3-v1/battle.bundle.js",
+        "pve-v3/battle.bundle.js",
+        "preview/v3-wide-grid-v1/battle.bundle.js",
+        "preview/boss-resources-v2048/lab.bundle.js",
+        "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "preview/coop-defense-v1/defense.bundle.js",
+        "preview/sustained-hunt-v2/battle.bundle.js"
+      ]
+    },
+    "production": {
+      "pages": {
+        "id": "b972f34c-7e90-4d73-9d12-b09f2890cee2",
+        "commit": "2170d89b4550440d022c93ee27797d77b4acb34b",
+        "status": "success"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "deployments": [
+            {
+              "version_id": "3a6e81d4-b5ca-4caf-8407-b8ec6ad88973",
+              "percentage": 100
+            }
+          ]
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "deployments": [
+            {
+              "version_id": "d51c8576-167b-47db-bcff-7e141fdb0b1d",
+              "percentage": 100
+            }
+          ]
+        }
+      ]
+    },
+    "files": [
+      {
+        "file": "assets/ui/packs/blue-gear-live-v1/bongsoon-640.webp",
+        "bytes": 177426,
+        "sha256": "66b8d824c063411d3368ffc8b212c6632f9f16ee5ec3f5dfbb87bb1827bc2c5d",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/packs/blue-gear-live-v1/diim-640.webp",
+        "bytes": 145942,
+        "sha256": "9570b30263325b95760ae130c66326a0425830e68898abce41240980bea45935",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/packs/blue-gear-live-v1/hiheeya-640.webp",
+        "bytes": 132772,
+        "sha256": "cfd842d564a2b7819a385acf309ff1a495d5897358a61f8b897fdb9cc64de385",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/packs/blue-gear-live-v1/joeun-640.webp",
+        "bytes": 115366,
+        "sha256": "bb6f96a340480b6842e73919ef872eb960584f0c171763f793b86c65f3a3d61e",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/packs/blue-gear-live-v1/sudaeng-640.webp",
+        "bytes": 149620,
+        "sha256": "8cb67bdfec0311f005f58acc25902611719b75f8dfc50a16d16b0700a1d5953c",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/astra-20261115/guard.webp",
+        "bytes": 81040,
+        "sha256": "587f7e219c193c13ddbb2594681034c9297103392adea01443295fa9d503fba0",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/astra-20261115/source-art.png",
+        "bytes": 2551736,
+        "sha256": "b53cb2373a3890f2ce4c48172ede086a4361ad2175d29152013caf7fa17f0202",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/bongsoon/runtime/guard.webp",
+        "bytes": 68856,
+        "sha256": "1144bd585bb1dabf1a857b7769d818b763139e5c9c2c6ef9dc2e9a00c4737e6a",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/diim/runtime/guard.webp",
+        "bytes": 53774,
+        "sha256": "fcdcd867a0203564e5a7353bc6175e2f6ef7e6de9f465f8c8136879e0dea22f4",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/hiheeya/runtime/guard.webp",
+        "bytes": 48948,
+        "sha256": "3e77d7f8fb3650baf168b4efa12d057648249251d0677edaddb593148b78ac4a",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/joeun/runtime/guard.webp",
+        "bytes": 52830,
+        "sha256": "0b196965115ff0c0936ea3c966e7f4ec9d8b5ccd5bd1258281092d945b41f4f3",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/sudaeng/runtime/guard.webp",
+        "bytes": 46410,
+        "sha256": "bff900c379b17290c8201ccab36b5b745592407676d40396c7ab9062f9176f02",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/body-ready.png",
+        "bytes": 620436,
+        "sha256": "3590b08ddc7fff6ec4e3dc6e05e81f2cf29d95dea987c0ec990283e2956a1bb1",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/hakuya-shin-20261105/source-art-approved.png",
+        "bytes": 2743094,
+        "sha256": "813d9d05b870848b1c9a0b00345f37720d57354c67a8da368010c72aa0aad604",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/zero-20261020/idle.png",
+        "bytes": 131018,
+        "sha256": "3d2a3cb1814fc75ab99fad6e144468560ebf66d10feac6219b4f9cac4db231a9",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+        "bytes": 2873380,
+        "sha256": "d9ebf2dd04de55d7eba230617bbe81b11c1eaf6e728d61bb32d892ecc82d0159",
+        "windows": true
+      },
+      {
+        "file": "index.html",
+        "bytes": 46922,
+        "sha256": "022a55bca7494eadca9a8f4075354b80e387511e43d0ababaf185012ff0a8707",
+        "windows": true
+      },
+      {
+        "file": "js/app.js",
+        "bytes": 833444,
+        "sha256": "ef9ba100d21b785ab7def7e7ad9a6bfcde46755405b2ef257ba05dfd21fc06dd",
+        "windows": true
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "bytes": 79708,
+        "sha256": "07f1cc1757c64280d933037422dd518db6f7dcd73352c6f9de207adb07ad3164",
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 47045,
+        "sha256": "ef385a73e958276440a3a102faf3f95e5e030a1808378d28df2477505b007571",
+        "windows": false
+      },
+      {
+        "file": "onestore/js/app.js",
+        "bytes": 834368,
+        "sha256": "0f08a2ed47464f6858872239b5ec9e8a2fe9055c271bef81c089284ec9c03046",
+        "windows": false
+      },
+      {
+        "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+        "bytes": 3861881,
+        "sha256": "83dfaf409f74b0a82c272f85aba86fcecef3ef6bdee989008cff5f68b3c7bf86",
+        "windows": true
+      },
+      {
+        "file": "preview/boss-resources-v2048/lab.bundle.js",
+        "bytes": 3857175,
+        "sha256": "822d8fa81f612310995ba244c8b88ba223ecbfcf8077729d734ddd40040f564d",
+        "windows": true
+      },
+      {
+        "file": "preview/coop-defense-v1/defense.bundle.js",
+        "bytes": 3994075,
+        "sha256": "8e186b4de52fe0ab62a1cceefc347b74fd9f037790de7d15dcc198b1bb1a19c1",
+        "windows": true
+      },
+      {
+        "file": "preview/cow-room-v3-v1/battle.bundle.js",
+        "bytes": 3860158,
+        "sha256": "32c5baf27ec7ace1389f125345aaeff41fd0f6aafd4bb7aba32941236cd43b4a",
+        "windows": true
+      },
+      {
+        "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+        "bytes": 3860147,
+        "sha256": "8d888aa6b82321e742d09c3f23ddabc9353f0b985c6f3912ae8428f03089a565",
+        "windows": true
+      },
+      {
+        "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+        "bytes": 3906982,
+        "sha256": "4a17d1d52d2a4ecadca84bde592eb7fa85440815d24828ecb7f0b9705dba6aa9",
+        "windows": true
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "bytes": 3860532,
+        "sha256": "a41d648a5018b0c555158556b8b7d6488f42cb1024a39c6ad6f611e4bd05633b",
+        "windows": true
+      },
+      {
+        "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+        "bytes": 3860090,
+        "sha256": "e90a7b59e6acf1e437d6c12972c6f8bbc307248c120627c081bf4baebc801eae",
+        "windows": true
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "bytes": 3884221,
+        "sha256": "825a0c8349f4d578fe1ee3fba3c2b58296cadffbee7f037df2674d4f1ada84ea",
+        "windows": true
+      },
+      {
+        "file": "preview/v3-wide-grid-v1/app.bundle.js",
+        "bytes": 552767,
+        "sha256": "21ae317c4b9eab973aa3da3dc6e1e73ac8f569be5fffa1f7c1f767066530b41d",
+        "windows": true
+      },
+      {
+        "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+        "bytes": 3863716,
+        "sha256": "0ca72616d7af15f30fab1f4d9c84c258ec4bd4fd73052420f3cb39a5cf782e49",
+        "windows": true
+      },
+      {
+        "file": "pve-v3/battle.bundle.js",
+        "bytes": 3860506,
+        "sha256": "f8a8d7c233e2a6451f3c69a4e34ab03b2d500e9722f280f1f4b5fcfa251d7ecc",
+        "windows": true
+      },
+      {
+        "file": "raid/nox/battle.bundle.js",
+        "bytes": 3870676,
+        "sha256": "e46d3e2aef494d4745967fc5f4abab8c619f5a564b343ef29f8d979850247032",
+        "windows": true
+      },
+      {
+        "file": "raid/nox/raid.mjs",
+        "bytes": 26883,
+        "sha256": "6317379afa571f59132540cf1d6cd1c0bcdb8621b5693613e61434d1cae424e1",
+        "windows": true
+      },
+      {
+        "file": "service-worker.js",
+        "bytes": 20238,
+        "sha256": "6670257433d658eb2df4660fb2d790e5187dc26aa6226249329064bfaea52cb6",
+        "windows": false
+      }
+    ],
+    "windowsReleaseId": "97b087cf06d273a6bdcfb8016ade278b16477c796a6bfebb29de5932b2a26586",
+    "productionAccountWrites": 0,
+    "purchases": 0,
+    "messages": 0
+  }
+}
