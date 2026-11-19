@@ -1,0 +1,3734 @@
+{
+  "method": "Individually illustrated complete cels; native Spine region attachment timelines. No body mesh, IK, deform or dissolve.",
+  "bodyPixels": 1040,
+  "records": {
+    "guard": {
+      "floor": 1066,
+      "front": 862,
+      "origin": 714,
+      "head": 164,
+      "grip": [
+        586,
+        555
+      ],
+      "tip": [
+        1119,
+        791
+      ],
+      "chest": [
+        700,
+        320
+      ],
+      "scale": 0.975609756097561,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "6187d84889266b4582027b199d85628a9905df758e6d11b5edd4e3f230946032",
+      "gripWorld": {
+        "x": -124.8780487804878,
+        "y": 498.5365853658536
+      },
+      "tipWorld": {
+        "x": 395.1219512195122,
+        "y": 268.2926829268293
+      },
+      "chestWorld": {
+        "x": -13.658536585365853,
+        "y": 727.8048780487804
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-lift": {
+      "floor": 1065,
+      "front": 1122,
+      "origin": 805,
+      "head": 176,
+      "grip": [
+        669,
+        455
+      ],
+      "tip": [
+        1005,
+        20
+      ],
+      "chest": [
+        730,
+        367
+      ],
+      "scale": 0.9090909090909091,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "ea6441dc5e80e51a9647e12188d88140ff99a25a9d045a816e61c88449de7723",
+      "gripWorld": {
+        "x": -123.63636363636363,
+        "y": 554.5454545454545
+      },
+      "tipWorld": {
+        "x": 181.8181818181818,
+        "y": 950
+      },
+      "chestWorld": {
+        "x": -68.18181818181817,
+        "y": 634.5454545454545
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-turn": {
+      "floor": 1067,
+      "front": 1085,
+      "origin": 878.75,
+      "head": 150,
+      "grip": [
+        598,
+        350
+      ],
+      "tip": [
+        469,
+        8
+      ],
+      "chest": [
+        706,
+        520
+      ],
+      "plant": 220,
+      "scale": 1.0666666666666667,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "d57056efb8ab17c899b5fc8102ad79c3411311932eab83f72e4addab96127877",
+      "gripWorld": {
+        "x": -299.46666666666664,
+        "y": 764.8
+      },
+      "tipWorld": {
+        "x": -437.06666666666666,
+        "y": 1129.6
+      },
+      "chestWorld": {
+        "x": -184.26666666666665,
+        "y": 583.4666666666667
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-windup": {
+      "floor": 1046,
+      "front": 1195,
+      "origin": 874.375,
+      "head": 180,
+      "grip": [
+        600,
+        165
+      ],
+      "tip": [
+        63,
+        40
+      ],
+      "chest": [
+        773,
+        375
+      ],
+      "plant": 285,
+      "scale": 0.8888888888888888,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "27153945bfc13e209f99677fa50f0e0594ee5daed9700348486e641cf2a41b2b",
+      "gripWorld": {
+        "x": -243.88888888888889,
+        "y": 783.1111111111111
+      },
+      "tipWorld": {
+        "x": -721.2222222222222,
+        "y": 894.2222222222222
+      },
+      "chestWorld": {
+        "x": -90.1111111111111,
+        "y": 596.4444444444445
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-overhead": {
+      "floor": 1286,
+      "front": 1040,
+      "origin": 762.125,
+      "head": 156,
+      "grip": [
+        891,
+        540
+      ],
+      "tip": [
+        776,
+        15
+      ],
+      "chest": [
+        727,
+        730
+      ],
+      "plant": 285,
+      "scale": 1.0256410256410255,
+      "width": 1199,
+      "height": 1312,
+      "sha256": "12c6ebd3baba4751c5fc7f94307f3e002c04cde2eba2d9cce28763f3d6090014",
+      "gripWorld": {
+        "x": 132.17948717948715,
+        "y": 765.1282051282051
+      },
+      "tipWorld": {
+        "x": 14.23076923076923,
+        "y": 1303.5897435897434
+      },
+      "chestWorld": {
+        "x": -36.02564102564102,
+        "y": 570.2564102564102
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-mid": {
+      "floor": 1055,
+      "front": 1061,
+      "origin": 740.375,
+      "head": 180,
+      "grip": [
+        1036,
+        320
+      ],
+      "tip": [
+        1397,
+        30
+      ],
+      "chest": [
+        749,
+        440
+      ],
+      "plant": 285,
+      "scale": 0.8888888888888888,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "c21e54722a8f7eaa1d30433ca2e89d724810d426376e30ae3031119058e92c51",
+      "gripWorld": {
+        "x": 262.77777777777777,
+        "y": 653.3333333333333
+      },
+      "tipWorld": {
+        "x": 583.6666666666666,
+        "y": 911.1111111111111
+      },
+      "chestWorld": {
+        "x": 7.666666666666666,
+        "y": 546.6666666666666
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-precontact": {
+      "floor": 1041,
+      "front": 1037,
+      "origin": 723.5,
+      "head": 176,
+      "grip": [
+        959,
+        347
+      ],
+      "tip": [
+        1409,
+        174
+      ],
+      "chest": [
+        708,
+        436
+      ],
+      "plant": 285,
+      "scale": 0.9090909090909091,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "05f86ec536b02b13ac9910d42e4bd8240acf629a77476c26507419a6bf9924c3",
+      "gripWorld": {
+        "x": 214.0909090909091,
+        "y": 630.9090909090909
+      },
+      "tipWorld": {
+        "x": 623.1818181818181,
+        "y": 788.1818181818181
+      },
+      "chestWorld": {
+        "x": -14.09090909090909,
+        "y": 550
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-contact": {
+      "floor": 1038,
+      "front": 999,
+      "origin": 678.375,
+      "head": 180,
+      "grip": [
+        900,
+        432
+      ],
+      "tip": [
+        1437,
+        478
+      ],
+      "chest": [
+        700,
+        439
+      ],
+      "plant": 285,
+      "scale": 0.8888888888888888,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "03852094d96dee9ef62bd0f1b031893a0bbcbc17ffd24a3a90dcad6b14da5484",
+      "gripWorld": {
+        "x": 197,
+        "y": 538.6666666666666
+      },
+      "tipWorld": {
+        "x": 674.3333333333333,
+        "y": 497.77777777777777
+      },
+      "chestWorld": {
+        "x": 19.22222222222222,
+        "y": 532.4444444444445
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-postcontact": {
+      "floor": 1041,
+      "front": 1037,
+      "origin": 721.71875,
+      "head": 177,
+      "grip": [
+        733,
+        540
+      ],
+      "tip": [
+        1400,
+        697
+      ],
+      "chest": [
+        719,
+        398
+      ],
+      "plant": 285,
+      "scale": 0.903954802259887,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "9c6383ceda33eda89ee5e3194ecf03008efdde5b1e81b05c9a3eacd1dcd3b9e8",
+      "gripWorld": {
+        "x": 10.19774011299435,
+        "y": 452.8813559322034
+      },
+      "tipWorld": {
+        "x": 613.1355932203389,
+        "y": 310.96045197740114
+      },
+      "chestWorld": {
+        "x": -2.457627118644068,
+        "y": 581.2429378531074
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-follow": {
+      "floor": 1042,
+      "front": 1020,
+      "origin": 694.03125,
+      "head": 183,
+      "grip": [
+        702,
+        665
+      ],
+      "tip": [
+        1319,
+        980
+      ],
+      "chest": [
+        745,
+        415
+      ],
+      "plant": 285,
+      "scale": 0.8743169398907104,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "6fe0ea51d095d910c75872b4882fa0510290b663950ce8ead1634c0d50070dbb",
+      "gripWorld": {
+        "x": 6.967213114754098,
+        "y": 329.6174863387978
+      },
+      "tipWorld": {
+        "x": 546.4207650273224,
+        "y": 54.20765027322404
+      },
+      "chestWorld": {
+        "x": 44.56284153005464,
+        "y": 548.1967213114754
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-rise-low": {
+      "floor": 1043,
+      "front": 1030,
+      "origin": 753.75,
+      "head": 170,
+      "grip": [
+        724,
+        653
+      ],
+      "tip": [
+        1340,
+        964
+      ],
+      "chest": [
+        745,
+        390
+      ],
+      "plant": 260,
+      "scale": 0.9411764705882353,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "996b7460ccbfe20bcf6b1991ee02b7207f71d6db1e0c4eccc8b7645671030b44",
+      "gripWorld": {
+        "x": -28,
+        "y": 367.05882352941177
+      },
+      "tipWorld": {
+        "x": 551.7647058823529,
+        "y": 74.3529411764706
+      },
+      "chestWorld": {
+        "x": -8.235294117647058,
+        "y": 614.5882352941177
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-rise-mid": {
+      "floor": 1054,
+      "front": 950,
+      "origin": 709.375,
+      "head": 175,
+      "grip": [
+        612,
+        571
+      ],
+      "tip": [
+        1194,
+        864
+      ],
+      "chest": [
+        744,
+        315
+      ],
+      "plant": 220,
+      "scale": 0.9142857142857143,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "ffb6a46fc1e4cbd6b21501eb6261cb90f9ae775ce4cc588cbacecdb06b5410fa",
+      "gripWorld": {
+        "x": -89.02857142857142,
+        "y": 441.59999999999997
+      },
+      "tipWorld": {
+        "x": 443.0857142857143,
+        "y": 173.71428571428572
+      },
+      "chestWorld": {
+        "x": 31.657142857142855,
+        "y": 675.6571428571428
+      },
+      "sourcePixelsEdited": false
+    },
+    "basic-recover": {
+      "floor": 1063,
+      "front": 921,
+      "origin": 742,
+      "head": 164,
+      "grip": [
+        603,
+        550
+      ],
+      "tip": [
+        1158,
+        797
+      ],
+      "chest": [
+        699,
+        313
+      ],
+      "scale": 0.975609756097561,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "31b6180ac8b1f24195e19591350c52083e8cc1ea560ecaaea393381c16425c4e",
+      "gripWorld": {
+        "x": -135.60975609756096,
+        "y": 500.4878048780488
+      },
+      "tipWorld": {
+        "x": 405.8536585365854,
+        "y": 259.5121951219512
+      },
+      "chestWorld": {
+        "x": -41.951219512195124,
+        "y": 731.7073170731708
+      },
+      "sourcePixelsEdited": false
+    },
+    "dash-low": {
+      "floor": 976,
+      "front": 1071,
+      "origin": 746.8125,
+      "head": 182,
+      "grip": [
+        632,
+        447
+      ],
+      "tip": [
+        18,
+        464
+      ],
+      "chest": [
+        1090,
+        482
+      ],
+      "plant": 285,
+      "scale": 0.8791208791208791,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "d508f1bcd6c3829167d2e4c92c10de03be2021e08ed790372d3c191432320ef4",
+      "gripWorld": {
+        "x": -100.93406593406593,
+        "y": 465.05494505494505
+      },
+      "tipWorld": {
+        "x": -640.7142857142857,
+        "y": 450.1098901098901
+      },
+      "chestWorld": {
+        "x": 301.7032967032967,
+        "y": 434.2857142857143
+      },
+      "sourcePixelsEdited": false
+    },
+    "dash-gather": {
+      "floor": 976,
+      "front": 1335,
+      "origin": 1000,
+      "head": 183,
+      "grip": [
+        632,
+        447
+      ],
+      "tip": [
+        18,
+        464
+      ],
+      "chest": [
+        1090,
+        482
+      ],
+      "scale": 0.8743169398907104,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "51b3746c224bf5d6148d9e4585b0faff8433cf085849d4b7d31074bcebdfe042",
+      "gripWorld": {
+        "x": -321.74863387978144,
+        "y": 462.5136612021858
+      },
+      "tipWorld": {
+        "x": -858.5792349726776,
+        "y": 447.6502732240437
+      },
+      "chestWorld": {
+        "x": 78.68852459016394,
+        "y": 431.91256830601094
+      },
+      "sourcePixelsEdited": false
+    },
+    "rise-cut": {
+      "floor": 1518,
+      "front": 300,
+      "origin": 540,
+      "head": 135,
+      "scale": 1,
+      "grip": [
+        787,
+        480
+      ],
+      "tip": [
+        990,
+        18
+      ],
+      "chest": [
+        588,
+        740
+      ],
+      "width": 1024,
+      "height": 1536,
+      "sha256": "621c6716cfab9637598641dae17751f9dcd804bb9ae6e1230a0e66a013011d6f",
+      "gripWorld": {
+        "x": 247,
+        "y": 1038
+      },
+      "tipWorld": {
+        "x": 450,
+        "y": 1500
+      },
+      "chestWorld": {
+        "x": 48,
+        "y": 778
+      },
+      "sourcePixelsEdited": false
+    },
+    "air-windup": {
+      "floor": 1047,
+      "front": 390,
+      "origin": 720,
+      "head": 172,
+      "grip": [
+        710,
+        125
+      ],
+      "tip": [
+        159,
+        15
+      ],
+      "chest": [
+        797,
+        410
+      ],
+      "scale": 0.9302325581395349,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "0d6f8e4781640bbb15e398fdabdeb818d53b8993198df94e0a8a691f8e9626eb",
+      "gripWorld": {
+        "x": -9.30232558139535,
+        "y": 857.6744186046511
+      },
+      "tipWorld": {
+        "x": -521.8604651162791,
+        "y": 960
+      },
+      "chestWorld": {
+        "x": 71.62790697674419,
+        "y": 592.5581395348837
+      },
+      "sourcePixelsEdited": false
+    },
+    "air-overhead-headfix-v2": {
+      "floor": 1519,
+      "front": 940,
+      "origin": 570,
+      "head": 160,
+      "grip": [
+        802,
+        508
+      ],
+      "tip": [
+        691,
+        27
+      ],
+      "chest": [
+        603,
+        842
+      ],
+      "scale": 1,
+      "width": 1024,
+      "height": 1536,
+      "sha256": "f42eeea12a543cb38b753743bf8e2b649d48d84632c7f33ac4b2ae2198c0496a",
+      "gripWorld": {
+        "x": 232,
+        "y": 1011
+      },
+      "tipWorld": {
+        "x": 121,
+        "y": 1492
+      },
+      "chestWorld": {
+        "x": 33,
+        "y": 677
+      },
+      "sourcePixelsEdited": false
+    },
+    "air-strike": {
+      "floor": 1010,
+      "front": 1050,
+      "origin": 700,
+      "head": 205,
+      "grip": [
+        892,
+        412
+      ],
+      "tip": [
+        1377,
+        1008
+      ],
+      "chest": [
+        724,
+        385
+      ],
+      "scale": 0.7804878048780488,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "a73c07f1b54bb5a9e1a81fe1f73fd5171682c261ff68f4ac93ee4d630cb50ea5",
+      "gripWorld": {
+        "x": 149.85365853658539,
+        "y": 466.7317073170732
+      },
+      "tipWorld": {
+        "x": 528.390243902439,
+        "y": 1.5609756097560976
+      },
+      "chestWorld": {
+        "x": 18.731707317073173,
+        "y": 487.8048780487805
+      },
+      "sourcePixelsEdited": false
+    },
+    "slam-land": {
+      "floor": 1028,
+      "front": 1030,
+      "origin": 695.25,
+      "head": 206,
+      "grip": [
+        820,
+        712
+      ],
+      "tip": [
+        1361,
+        1031
+      ],
+      "chest": [
+        825,
+        510
+      ],
+      "plant": 260,
+      "scale": 0.7766990291262136,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "f54a810e8d4b2b7a9216153ec23b2e2f07e9115a049951706bd4e715c8f6edf8",
+      "gripWorld": {
+        "x": 96.89320388349515,
+        "y": 245.4368932038835
+      },
+      "tipWorld": {
+        "x": 517.0873786407767,
+        "y": -2.3300970873786406
+      },
+      "chestWorld": {
+        "x": 100.7766990291262,
+        "y": 402.33009708737865
+      },
+      "sourcePixelsEdited": false
+    },
+    "spin-back": {
+      "floor": 1050,
+      "front": 906,
+      "origin": 685.625,
+      "head": 164,
+      "grip": [
+        928,
+        336
+      ],
+      "tip": [
+        1428,
+        339
+      ],
+      "chest": [
+        650,
+        320
+      ],
+      "plant": 215,
+      "scale": 0.975609756097561,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "ea82a67844257e7225662d38930f12295d7d5aaf1be82daff47bdb905807c9d5",
+      "gripWorld": {
+        "x": 236.46341463414635,
+        "y": 696.5853658536586
+      },
+      "tipWorld": {
+        "x": 724.2682926829268,
+        "y": 693.6585365853658
+      },
+      "chestWorld": {
+        "x": -34.75609756097561,
+        "y": 712.1951219512194
+      },
+      "sourcePixelsEdited": false
+    },
+    "spin-exit": {
+      "floor": 1058,
+      "front": 1020,
+      "origin": 738.875,
+      "head": 173,
+      "grip": [
+        880,
+        600
+      ],
+      "tip": [
+        1413,
+        891
+      ],
+      "chest": [
+        737,
+        346
+      ],
+      "plant": 260,
+      "scale": 0.9248554913294798,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "98fba76744357ea6c2d85227400d9eb0d478adee0dcc740c8d9e122fdbdb93aa",
+      "gripWorld": {
+        "x": 130.52023121387282,
+        "y": 423.5838150289017
+      },
+      "tipWorld": {
+        "x": 623.4682080924855,
+        "y": 154.4508670520231
+      },
+      "chestWorld": {
+        "x": -1.7341040462427746,
+        "y": 658.4971098265896
+      },
+      "sourcePixelsEdited": false
+    },
+    "hit": {
+      "floor": 1067,
+      "front": 916,
+      "origin": 738,
+      "head": 171,
+      "grip": [
+        586,
+        565
+      ],
+      "tip": [
+        1175,
+        806
+      ],
+      "chest": [
+        620,
+        310
+      ],
+      "scale": 0.935672514619883,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "6954a87189e169d31f763ad56e2262bfc061c79959e78e8311fbbf3680c2292e",
+      "gripWorld": {
+        "x": -142.22222222222223,
+        "y": 469.7076023391813
+      },
+      "tipWorld": {
+        "x": 408.88888888888886,
+        "y": 244.21052631578945
+      },
+      "chestWorld": {
+        "x": -110.4093567251462,
+        "y": 708.3040935672515
+      },
+      "sourcePixelsEdited": false
+    },
+    "defeat": {
+      "floor": 1035,
+      "front": 945,
+      "origin": 755,
+      "head": 206,
+      "grip": [
+        713,
+        782
+      ],
+      "tip": [
+        1380,
+        1046
+      ],
+      "chest": [
+        755,
+        465
+      ],
+      "scale": 0.7766990291262136,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "9660af62202e43a522cb28ac44d772e14877198ebc870ec277ed1bd2a23df462",
+      "gripWorld": {
+        "x": -32.62135922330097,
+        "y": 196.50485436893203
+      },
+      "tipWorld": {
+        "x": 485.43689320388347,
+        "y": -8.54368932038835
+      },
+      "chestWorld": {
+        "x": 0,
+        "y": 442.71844660194176
+      },
+      "sourcePixelsEdited": false
+    }
+  },
+  "sequence": [
+    [
+      0,
+      "guard"
+    ],
+    [
+      0.065,
+      "basic-lift"
+    ],
+    [
+      0.12,
+      "basic-turn"
+    ],
+    [
+      0.18,
+      "basic-windup"
+    ],
+    [
+      0.255,
+      "basic-overhead"
+    ],
+    [
+      0.295,
+      "basic-mid"
+    ],
+    [
+      0.33,
+      "basic-precontact"
+    ],
+    [
+      0.365,
+      "basic-contact"
+    ],
+    [
+      0.425,
+      "basic-postcontact"
+    ],
+    [
+      0.49,
+      "basic-follow"
+    ],
+    [
+      0.57,
+      "basic-rise-low"
+    ],
+    [
+      0.64,
+      "basic-rise-mid"
+    ],
+    [
+      0.72,
+      "basic-recover"
+    ],
+    [
+      0.84,
+      "guard"
+    ],
+    [
+      0.96,
+      "guard"
+    ]
+  ],
+  "actions": {
+    "skill_awakening": {
+      "label": "01 · 기운 개방",
+      "source": [
+        0,
+        2.6
+      ],
+      "duration": 2.6,
+      "noDamage": true,
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.24,
+          "basic-lift"
+        ],
+        [
+          0.55,
+          "basic-turn"
+        ],
+        [
+          1.25,
+          "basic-lift"
+        ],
+        [
+          1.8,
+          "basic-recover"
+        ],
+        [
+          2.1,
+          "guard"
+        ],
+        [
+          2.6,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "vortex",
+          "at": 0.45,
+          "life": 1.75,
+          "w": 1.65,
+          "h": 1.9,
+          "anchor": "actor",
+          "loop": true,
+          "alpha": 0.5,
+          "behind": true
+        },
+        {
+          "type": "helix",
+          "at": 1.25,
+          "life": 0.8,
+          "w": 2.5,
+          "h": 1.55,
+          "anchor": "actor",
+          "behind": true
+        }
+      ],
+      "clones": [
+        {
+          "animation": "idle",
+          "at": 0.1,
+          "life": 2.5,
+          "from": [
+            -0.9,
+            0
+          ],
+          "to": [
+            -0.9,
+            0
+          ],
+          "anchor": "actor",
+          "alpha": 0.68
+        }
+      ],
+      "notes": "Portrait overlay excluded; stage charge and spirit appearance retained."
+    },
+    "attack_basic": {
+      "melee": true,
+      "label": "02 · 첫 횡베기",
+      "source": [
+        2.65,
+        3.27
+      ],
+      "duration": 0.62,
+      "contact": 0.24,
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.043199999999999995,
+          "basic-lift"
+        ],
+        [
+          0.08399999999999999,
+          "basic-turn"
+        ],
+        [
+          0.12,
+          "basic-windup"
+        ],
+        [
+          0.156,
+          "basic-overhead"
+        ],
+        [
+          0.1872,
+          "basic-mid"
+        ],
+        [
+          0.216,
+          "basic-precontact"
+        ],
+        [
+          0.24,
+          "basic-contact"
+        ],
+        [
+          0.2932,
+          "basic-postcontact"
+        ],
+        [
+          0.354,
+          "basic-follow"
+        ],
+        [
+          0.43,
+          "basic-rise-low"
+        ],
+        [
+          0.487,
+          "basic-rise-mid"
+        ],
+        [
+          0.544,
+          "basic-recover"
+        ],
+        [
+          0.62,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "crescent",
+          "at": 0.13,
+          "life": 0.42,
+          "w": 2.55,
+          "h": 1.35,
+          "anchor": "hit",
+          "x": -0.55,
+          "angle": 0.15
+        },
+        {
+          "type": "burst",
+          "at": 0.24,
+          "life": 0.36,
+          "w": 0.9,
+          "h": 1.05,
+          "anchor": "hit"
+        }
+      ],
+      "clones": []
+    },
+    "skill_dash": {
+      "label": "03 · 질주 참격",
+      "source": [
+        3.3,
+        4.05
+      ],
+      "duration": 0.75,
+      "contact": 0.3,
+      "moves": [
+        {
+          "at": 0.06,
+          "duration": 0.2,
+          "to": "past",
+          "ease": "power3.in"
+        },
+        {
+          "at": 0.55,
+          "duration": 0.2,
+          "to": "start"
+        }
+      ],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.0938,
+          "basic-rise-low"
+        ],
+        [
+          0.1875,
+          "dash-gather"
+        ],
+        [
+          0.2813,
+          "dash-low"
+        ],
+        [
+          0.375,
+          "basic-contact"
+        ],
+        [
+          0.4688,
+          "basic-postcontact"
+        ],
+        [
+          0.5625,
+          "basic-follow"
+        ],
+        [
+          0.6563,
+          "basic-recover"
+        ],
+        [
+          0.75,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "dash",
+          "at": 0.1,
+          "life": 0.62,
+          "w": 6.9,
+          "h": 1.1,
+          "anchor": "mid",
+          "y": 0.05
+        },
+        {
+          "type": "burst",
+          "at": 0.3,
+          "life": 0.4,
+          "w": 1.35,
+          "h": 1.4,
+          "anchor": "hit"
+        }
+      ],
+      "clones": []
+    },
+    "skill_launch": {
+      "melee": true,
+      "label": "04 · 분신 교차 올려베기",
+      "source": [
+        4.1,
+        5.15
+      ],
+      "duration": 1.05,
+      "contact": 0.62,
+      "visualContacts": [
+        0.3,
+        0.62
+      ],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.0875,
+          "basic-lift"
+        ],
+        [
+          0.175,
+          "basic-turn"
+        ],
+        [
+          0.2625,
+          "basic-windup"
+        ],
+        [
+          0.35,
+          "basic-mid"
+        ],
+        [
+          0.4375,
+          "basic-contact"
+        ],
+        [
+          0.525,
+          "spin-back"
+        ],
+        [
+          0.6125,
+          "spin-exit"
+        ],
+        [
+          0.7,
+          "rise-cut"
+        ],
+        [
+          0.7875,
+          "air-strike"
+        ],
+        [
+          0.875,
+          "slam-land"
+        ],
+        [
+          0.9625,
+          "basic-recover"
+        ],
+        [
+          1.05,
+          "guard"
+        ]
+      ],
+      "jump": [
+        [
+          0,
+          0
+        ],
+        [
+          0.6,
+          0
+        ],
+        [
+          0.73,
+          180
+        ],
+        [
+          0.83,
+          100
+        ],
+        [
+          0.9,
+          0
+        ],
+        [
+          1.05,
+          0
+        ]
+      ],
+      "moves": [],
+      "cues": [
+        {
+          "type": "crescent",
+          "at": 0.17,
+          "life": 0.48,
+          "w": 3.4,
+          "h": 2.4,
+          "anchor": "hit",
+          "x": -0.35,
+          "angle": -0.22
+        },
+        {
+          "type": "helix",
+          "at": 0.44,
+          "life": 0.6,
+          "w": 4.7,
+          "h": 3.2,
+          "anchor": "target"
+        },
+        {
+          "type": "burst",
+          "at": 0.62,
+          "life": 0.4,
+          "w": 1.4,
+          "h": 1.6,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_launch",
+          "at": 0.08,
+          "life": 0.9,
+          "from": [
+            -1.8,
+            0
+          ],
+          "to": [
+            0.8,
+            0
+          ],
+          "reverse": true
+        }
+      ]
+    },
+    "skill_return": {
+      "label": "05 · 왕복 검붉은 잔상",
+      "source": [
+        5.15,
+        6.3
+      ],
+      "duration": 1.15,
+      "contact": 0.57,
+      "visualContacts": [
+        0.12,
+        0.57
+      ],
+      "moves": [
+        {
+          "at": 0,
+          "duration": 0.17,
+          "to": "past"
+        },
+        {
+          "at": 0.43,
+          "duration": 0.16,
+          "to": "start"
+        }
+      ],
+      "sequence": [
+        [
+          0,
+          "dash-low"
+        ],
+        [
+          0.1045,
+          "basic-contact"
+        ],
+        [
+          0.2091,
+          "basic-postcontact"
+        ],
+        [
+          0.3136,
+          "spin-back"
+        ],
+        [
+          0.4182,
+          "spin-exit"
+        ],
+        [
+          0.5227,
+          "dash-low"
+        ],
+        [
+          0.6273,
+          "basic-contact"
+        ],
+        [
+          0.7318,
+          "basic-postcontact"
+        ],
+        [
+          0.8364,
+          "basic-follow"
+        ],
+        [
+          0.9409,
+          "basic-rise-low"
+        ],
+        [
+          1.0455,
+          "basic-recover"
+        ],
+        [
+          1.15,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "dash",
+          "at": 0,
+          "life": 1.08,
+          "w": 7.7,
+          "h": 1.05,
+          "anchor": "mid",
+          "y": 0.12
+        },
+        {
+          "type": "dash",
+          "at": 0.46,
+          "life": 0.65,
+          "w": 6.4,
+          "h": 0.8,
+          "anchor": "mid",
+          "flip": -1,
+          "y": -0.18
+        },
+        {
+          "type": "crescent",
+          "at": 0.58,
+          "life": 0.45,
+          "w": 2.5,
+          "h": 2.8,
+          "anchor": "start",
+          "x": -0.3,
+          "flip": -1
+        },
+        {
+          "type": "burst",
+          "at": 0.57,
+          "life": 0.4,
+          "w": 1.1,
+          "h": 1.3,
+          "anchor": "hit"
+        }
+      ],
+      "clones": []
+    },
+    "skill_wave": {
+      "label": "06 · 혼령 압력파",
+      "source": [
+        6.3,
+        7.55
+      ],
+      "duration": 1.25,
+      "contact": 0.57,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.08,
+          "basic-lift"
+        ],
+        [
+          0.2,
+          "basic-turn"
+        ],
+        [
+          0.37,
+          "basic-mid"
+        ],
+        [
+          0.5,
+          "basic-contact"
+        ],
+        [
+          0.7,
+          "basic-follow"
+        ],
+        [
+          0.9,
+          "basic-recover"
+        ],
+        [
+          1.25,
+          "guard"
+        ]
+      ],
+      "moves": [],
+      "cues": [
+        {
+          "type": "helix",
+          "at": 0.18,
+          "life": 0.62,
+          "w": 5.8,
+          "h": 2.45,
+          "anchor": "mid",
+          "y": -0.1
+        },
+        {
+          "type": "wave",
+          "at": 0.33,
+          "life": 0.84,
+          "w": 7.1,
+          "h": 1.8,
+          "anchor": "mid",
+          "travel": 1.7,
+          "y": 0.2
+        },
+        {
+          "type": "burst",
+          "at": 0.57,
+          "life": 0.5,
+          "w": 1.6,
+          "h": 1.8,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_wave",
+          "at": 0.05,
+          "life": 1.1,
+          "from": [
+            -1.5,
+            0
+          ],
+          "to": [
+            1.8,
+            0
+          ]
+        }
+      ]
+    },
+    "skill_vortex": {
+      "label": "07 · 검은 소용돌이",
+      "source": [
+        7.55,
+        8.4
+      ],
+      "duration": 0.85,
+      "contact": 0.45,
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.072,
+          "basic-lift"
+        ],
+        [
+          0.13999999999999999,
+          "basic-turn"
+        ],
+        [
+          0.2,
+          "basic-windup"
+        ],
+        [
+          0.26,
+          "basic-overhead"
+        ],
+        [
+          0.31200000000000006,
+          "basic-mid"
+        ],
+        [
+          0.36000000000000004,
+          "basic-precontact"
+        ],
+        [
+          0.4,
+          "basic-contact"
+        ],
+        [
+          0.463,
+          "basic-postcontact"
+        ],
+        [
+          0.535,
+          "basic-follow"
+        ],
+        [
+          0.625,
+          "basic-rise-low"
+        ],
+        [
+          0.6925,
+          "basic-rise-mid"
+        ],
+        [
+          0.76,
+          "basic-recover"
+        ],
+        [
+          0.85,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "crescent",
+          "at": 0.22,
+          "life": 0.45,
+          "w": 2.7,
+          "h": 2.2,
+          "anchor": "hit",
+          "x": -0.5,
+          "angle": -0.5
+        },
+        {
+          "type": "vortex",
+          "at": 0.2,
+          "life": 3.65,
+          "w": 3.7,
+          "h": 4.05,
+          "anchor": "target",
+          "persistent": true,
+          "behind": true,
+          "loop": true
+        }
+      ],
+      "clones": []
+    },
+    "skill_double_cut": {
+      "melee": true,
+      "label": "08 · 이단 연격",
+      "source": [
+        8.43,
+        9.3
+      ],
+      "duration": 0.87,
+      "contact": 0.52,
+      "visualContacts": [
+        0.23,
+        0.52
+      ],
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.0725,
+          "basic-windup"
+        ],
+        [
+          0.145,
+          "basic-mid"
+        ],
+        [
+          0.2175,
+          "basic-contact"
+        ],
+        [
+          0.29,
+          "basic-follow"
+        ],
+        [
+          0.3625,
+          "spin-back"
+        ],
+        [
+          0.435,
+          "spin-exit"
+        ],
+        [
+          0.5075,
+          "basic-mid"
+        ],
+        [
+          0.58,
+          "basic-contact"
+        ],
+        [
+          0.6525,
+          "basic-postcontact"
+        ],
+        [
+          0.725,
+          "basic-follow"
+        ],
+        [
+          0.7975,
+          "basic-recover"
+        ],
+        [
+          0.87,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "crescent",
+          "at": 0.13,
+          "life": 0.38,
+          "w": 3.2,
+          "h": 1.65,
+          "anchor": "hit",
+          "angle": 0.25
+        },
+        {
+          "type": "crescent",
+          "at": 0.43,
+          "life": 0.42,
+          "w": 3.3,
+          "h": 2.2,
+          "anchor": "hit",
+          "angle": -0.65,
+          "flip": -1
+        },
+        {
+          "type": "burst",
+          "at": 0.23,
+          "life": 0.25,
+          "w": 1.1,
+          "h": 1.1,
+          "anchor": "hit"
+        },
+        {
+          "type": "burst",
+          "at": 0.52,
+          "life": 0.34,
+          "w": 1.3,
+          "h": 1.6,
+          "anchor": "hit"
+        }
+      ],
+      "clones": []
+    },
+    "skill_helix": {
+      "melee": true,
+      "label": "09 · 검붉은 나선",
+      "source": [
+        9.63,
+        10.65
+      ],
+      "duration": 1.02,
+      "contact": 0.5,
+      "visualContacts": [
+        0.25,
+        0.5
+      ],
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.0927,
+          "basic-windup"
+        ],
+        [
+          0.1855,
+          "basic-mid"
+        ],
+        [
+          0.2782,
+          "basic-contact"
+        ],
+        [
+          0.3709,
+          "spin-back"
+        ],
+        [
+          0.4636,
+          "spin-exit"
+        ],
+        [
+          0.5564,
+          "rise-cut"
+        ],
+        [
+          0.6491,
+          "air-windup"
+        ],
+        [
+          0.7418,
+          "air-strike"
+        ],
+        [
+          0.8345,
+          "slam-land"
+        ],
+        [
+          0.9273,
+          "basic-recover"
+        ],
+        [
+          1.02,
+          "guard"
+        ]
+      ],
+      "jump": [
+        [
+          0,
+          0
+        ],
+        [
+          0.44,
+          0
+        ],
+        [
+          0.63,
+          190
+        ],
+        [
+          0.78,
+          130
+        ],
+        [
+          0.88,
+          0
+        ],
+        [
+          1.02,
+          0
+        ]
+      ],
+      "cues": [
+        {
+          "type": "helix",
+          "at": 0.1,
+          "life": 0.9,
+          "w": 5.1,
+          "h": 3.85,
+          "anchor": "target"
+        },
+        {
+          "type": "crescent",
+          "at": 0.44,
+          "life": 0.48,
+          "w": 3.8,
+          "h": 2.6,
+          "anchor": "hit",
+          "x": 0.3,
+          "angle": -0.6
+        },
+        {
+          "type": "burst",
+          "at": 0.5,
+          "life": 0.4,
+          "w": 1.6,
+          "h": 1.9,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_launch",
+          "at": 0.12,
+          "life": 0.8,
+          "from": [
+            -1.5,
+            0
+          ],
+          "to": [
+            1.1,
+            -0.2
+          ]
+        }
+      ]
+    },
+    "skill_air_slam": {
+      "label": "10 · 분신 강하 폭발",
+      "source": [
+        10.7,
+        11.8
+      ],
+      "duration": 1.1,
+      "contact": 0.55,
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.1,
+          "basic-lift"
+        ],
+        [
+          0.2,
+          "basic-turn"
+        ],
+        [
+          0.45,
+          "basic-lift"
+        ],
+        [
+          0.6,
+          "basic-recover"
+        ],
+        [
+          0.8,
+          "guard"
+        ],
+        [
+          1.1,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "wave",
+          "at": 0.39,
+          "life": 0.23,
+          "w": 4.3,
+          "h": 0.55,
+          "anchor": "hit",
+          "angle": 1.5707963267948966,
+          "y": -1.1
+        },
+        {
+          "type": "ground",
+          "at": 0.51,
+          "life": 0.59,
+          "w": 2.75,
+          "h": 1.5,
+          "anchor": "target"
+        },
+        {
+          "type": "wave",
+          "at": 0.51,
+          "life": 0.245,
+          "w": 4.1,
+          "h": 0.13,
+          "anchor": "hit",
+          "angle": 1.5707963267948966,
+          "y": -1.52,
+          "hold": true
+        },
+        {
+          "type": "helix",
+          "at": 0.54,
+          "life": 0.5,
+          "w": 3,
+          "h": 0.34,
+          "anchor": "target"
+        },
+        {
+          "type": "burst",
+          "at": 0.55,
+          "life": 0.42,
+          "w": 1.2,
+          "h": 1.5,
+          "anchor": "target",
+          "y": -0.1
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_air_slam",
+          "at": 0,
+          "life": 1.1,
+          "from": [
+            -0.7,
+            0
+          ],
+          "to": [
+            0.1,
+            0
+          ]
+        }
+      ],
+      "notes": "Main remains planted; spirit performs jump and ground strike. White core ~0.21 source seconds."
+    },
+    "skill_thrust": {
+      "label": "11 · 혼령 찌르기",
+      "source": [
+        11.83,
+        12.3
+      ],
+      "duration": 0.47,
+      "contact": 0.18,
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.05,
+          "basic-lift"
+        ],
+        [
+          0.13,
+          "basic-mid"
+        ],
+        [
+          0.18,
+          "basic-contact"
+        ],
+        [
+          0.28,
+          "basic-follow"
+        ],
+        [
+          0.38,
+          "basic-recover"
+        ],
+        [
+          0.47,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "wave",
+          "at": 0.07,
+          "life": 0.34,
+          "w": 4.4,
+          "h": 0.6,
+          "anchor": "mid"
+        },
+        {
+          "type": "burst",
+          "at": 0.18,
+          "life": 0.27,
+          "w": 1,
+          "h": 1.1,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_thrust",
+          "at": 0,
+          "life": 0.45,
+          "from": [
+            -1.7,
+            0
+          ],
+          "to": [
+            1.7,
+            0
+          ]
+        }
+      ]
+    },
+    "skill_crescent": {
+      "label": "12 · 거대 검은 초승달",
+      "source": [
+        12.65,
+        13.25
+      ],
+      "duration": 0.6,
+      "contact": 0.26,
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.039599999999999996,
+          "basic-lift"
+        ],
+        [
+          0.077,
+          "basic-turn"
+        ],
+        [
+          0.11,
+          "basic-windup"
+        ],
+        [
+          0.14300000000000002,
+          "basic-overhead"
+        ],
+        [
+          0.1716,
+          "basic-mid"
+        ],
+        [
+          0.198,
+          "basic-precontact"
+        ],
+        [
+          0.22,
+          "basic-contact"
+        ],
+        [
+          0.2732,
+          "basic-postcontact"
+        ],
+        [
+          0.33399999999999996,
+          "basic-follow"
+        ],
+        [
+          0.41000000000000003,
+          "basic-rise-low"
+        ],
+        [
+          0.467,
+          "basic-rise-mid"
+        ],
+        [
+          0.524,
+          "basic-recover"
+        ],
+        [
+          0.6,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "crescent",
+          "at": 0.08,
+          "life": 0.51,
+          "w": 4.386,
+          "h": 2.921,
+          "anchor": "hit",
+          "x": -0.52,
+          "travel": 1.05
+        },
+        {
+          "type": "burst",
+          "at": 0.26,
+          "life": 0.29,
+          "w": 1.15,
+          "h": 1.5,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [],
+      "notes": "Visible peak 614×409px / standing body140px. Full dark face retained ~0.25s; not canvas-size normalization."
+    },
+    "skill_return_chase": {
+      "label": "13 · 추격·반전 연계",
+      "source": [
+        13.3,
+        14.61
+      ],
+      "duration": 1.31,
+      "contact": 0.86,
+      "visualContacts": [
+        0.18,
+        0.5,
+        0.86
+      ],
+      "moves": [
+        {
+          "at": 0.04,
+          "duration": 0.12,
+          "to": "past"
+        },
+        {
+          "at": 0.36,
+          "duration": 0.13,
+          "to": "start"
+        },
+        {
+          "at": 0.71,
+          "duration": 0.13,
+          "to": "target"
+        },
+        {
+          "at": 1.08,
+          "duration": 0.22,
+          "to": "start"
+        }
+      ],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.0873,
+          "dash-low"
+        ],
+        [
+          0.1747,
+          "basic-contact"
+        ],
+        [
+          0.262,
+          "basic-postcontact"
+        ],
+        [
+          0.3493,
+          "spin-back"
+        ],
+        [
+          0.4367,
+          "dash-gather"
+        ],
+        [
+          0.524,
+          "basic-contact"
+        ],
+        [
+          0.6113,
+          "basic-follow"
+        ],
+        [
+          0.6987,
+          "spin-exit"
+        ],
+        [
+          0.786,
+          "dash-low"
+        ],
+        [
+          0.8733,
+          "basic-contact"
+        ],
+        [
+          0.9607,
+          "basic-postcontact"
+        ],
+        [
+          1.048,
+          "basic-follow"
+        ],
+        [
+          1.1353,
+          "basic-rise-mid"
+        ],
+        [
+          1.2227,
+          "basic-recover"
+        ],
+        [
+          1.31,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "dash",
+          "at": 0.06,
+          "life": 0.57,
+          "w": 6.7,
+          "h": 0.95,
+          "anchor": "mid"
+        },
+        {
+          "type": "dash",
+          "at": 0.4,
+          "life": 0.6,
+          "w": 6.5,
+          "h": 1.05,
+          "anchor": "mid",
+          "flip": -1
+        },
+        {
+          "type": "crescent",
+          "at": 0.75,
+          "life": 0.5,
+          "w": 3.4,
+          "h": 2.1,
+          "anchor": "hit",
+          "angle": -0.2
+        },
+        {
+          "type": "burst",
+          "at": 0.86,
+          "life": 0.42,
+          "w": 1.4,
+          "h": 1.5,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_thrust",
+          "at": 0.66,
+          "life": 0.55,
+          "from": [
+            1.8,
+            0
+          ],
+          "to": [
+            -1.2,
+            0
+          ],
+          "reverse": true
+        }
+      ]
+    },
+    "skill_orbit": {
+      "melee": true,
+      "label": "14 · 거대 궤도 검무",
+      "source": [
+        14.7,
+        15.75
+      ],
+      "duration": 1.05,
+      "contact": 0.52,
+      "visualContacts": [
+        0.29,
+        0.52,
+        0.72
+      ],
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.0875,
+          "basic-turn"
+        ],
+        [
+          0.175,
+          "basic-windup"
+        ],
+        [
+          0.2625,
+          "basic-mid"
+        ],
+        [
+          0.35,
+          "basic-contact"
+        ],
+        [
+          0.4375,
+          "spin-back"
+        ],
+        [
+          0.525,
+          "spin-exit"
+        ],
+        [
+          0.6125,
+          "basic-mid"
+        ],
+        [
+          0.7,
+          "basic-contact"
+        ],
+        [
+          0.7875,
+          "basic-follow"
+        ],
+        [
+          0.875,
+          "basic-rise-mid"
+        ],
+        [
+          0.9625,
+          "basic-recover"
+        ],
+        [
+          1.05,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "helix",
+          "at": 0.12,
+          "life": 0.86,
+          "w": 5.65,
+          "h": 3.15,
+          "anchor": "target",
+          "angle": 0.12
+        },
+        {
+          "type": "crescent",
+          "at": 0.36,
+          "life": 0.58,
+          "w": 4.55,
+          "h": 2.15,
+          "anchor": "hit",
+          "angle": 2.261946710584651,
+          "flip": -1
+        },
+        {
+          "type": "burst",
+          "at": 0.52,
+          "life": 0.45,
+          "w": 1.7,
+          "h": 1.8,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_orbit",
+          "at": 0.13,
+          "life": 0.82,
+          "from": [
+            -1.8,
+            0
+          ],
+          "to": [
+            1.6,
+            0
+          ]
+        }
+      ]
+    },
+    "skill_twin": {
+      "label": "15 · 본체·분신 쌍월",
+      "source": [
+        16.6,
+        18.2
+      ],
+      "duration": 1.6,
+      "contact": 0.91,
+      "visualContacts": [
+        0.55,
+        0.91
+      ],
+      "moves": [],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.1,
+          "basic-lift"
+        ],
+        [
+          0.2,
+          "basic-turn"
+        ],
+        [
+          0.3,
+          "basic-windup"
+        ],
+        [
+          0.4,
+          "basic-mid"
+        ],
+        [
+          0.5,
+          "basic-contact"
+        ],
+        [
+          0.6,
+          "basic-postcontact"
+        ],
+        [
+          0.7,
+          "spin-back"
+        ],
+        [
+          0.8,
+          "spin-exit"
+        ],
+        [
+          0.9,
+          "basic-mid"
+        ],
+        [
+          1,
+          "basic-contact"
+        ],
+        [
+          1.1,
+          "basic-postcontact"
+        ],
+        [
+          1.2,
+          "basic-follow"
+        ],
+        [
+          1.3,
+          "basic-rise-low"
+        ],
+        [
+          1.4,
+          "basic-rise-mid"
+        ],
+        [
+          1.5,
+          "basic-recover"
+        ],
+        [
+          1.6,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "crescent",
+          "at": 0.39,
+          "life": 0.65,
+          "w": 4.7,
+          "h": 3.05,
+          "anchor": "hit",
+          "x": -0.7,
+          "travel": 1
+        },
+        {
+          "type": "crescent",
+          "at": 0.77,
+          "life": 0.7,
+          "w": 4.7,
+          "h": 3.05,
+          "anchor": "hit",
+          "x": 0.7,
+          "flip": -1,
+          "travel": -1,
+          "spirit": true
+        },
+        {
+          "type": "burst",
+          "at": 0.91,
+          "life": 0.6,
+          "w": 2.15,
+          "h": 2.5,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_twin",
+          "at": 0.04,
+          "life": 1.52,
+          "from": [
+            2.3,
+            0
+          ],
+          "to": [
+            1.3,
+            0
+          ],
+          "reverse": true
+        }
+      ]
+    },
+    "skill_cross": {
+      "label": "16 · 교차 참격 전투 연출",
+      "source": [
+        18.25,
+        21.65
+      ],
+      "duration": 3.4,
+      "contact": 2.9,
+      "visualContacts": [
+        0.58,
+        1.25,
+        1.85,
+        2.38,
+        2.9
+      ],
+      "cinematic": true,
+      "moves": [
+        {
+          "at": 0.12,
+          "duration": 0.26,
+          "to": "target"
+        },
+        {
+          "at": 2.99,
+          "duration": 0.34,
+          "to": "start"
+        }
+      ],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.13,
+          "basic-lift"
+        ],
+        [
+          0.27,
+          "rise-cut"
+        ],
+        [
+          0.45,
+          "air-windup"
+        ],
+        [
+          0.58,
+          "air-strike"
+        ],
+        [
+          0.72,
+          "slam-land"
+        ],
+        [
+          0.95,
+          "basic-windup"
+        ],
+        [
+          1.14,
+          "basic-mid"
+        ],
+        [
+          1.25,
+          "basic-contact"
+        ],
+        [
+          1.4,
+          "basic-follow"
+        ],
+        [
+          1.6,
+          "spin-back"
+        ],
+        [
+          1.76,
+          "spin-exit"
+        ],
+        [
+          1.85,
+          "basic-contact"
+        ],
+        [
+          2.04,
+          "basic-follow"
+        ],
+        [
+          2.2,
+          "basic-overhead"
+        ],
+        [
+          2.38,
+          "basic-contact"
+        ],
+        [
+          2.56,
+          "basic-follow"
+        ],
+        [
+          2.72,
+          "basic-windup"
+        ],
+        [
+          2.83,
+          "basic-mid"
+        ],
+        [
+          2.9,
+          "basic-contact"
+        ],
+        [
+          3.01,
+          "basic-follow"
+        ],
+        [
+          3.15,
+          "basic-recover"
+        ],
+        [
+          3.4,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "wave",
+          "at": 0.48,
+          "life": 1.95,
+          "w": 8,
+          "h": 0.22,
+          "anchor": "hit",
+          "angle": 1.5707963267948966,
+          "hold": true
+        },
+        {
+          "type": "wave",
+          "at": 1.12,
+          "life": 1.35,
+          "w": 8,
+          "h": 0.24,
+          "anchor": "hit",
+          "hold": true
+        },
+        {
+          "type": "wave",
+          "at": 1.72,
+          "life": 0.7,
+          "w": 8.2,
+          "h": 0.26,
+          "anchor": "hit",
+          "angle": -0.28
+        },
+        {
+          "type": "wave",
+          "at": 2.25,
+          "life": 0.65,
+          "w": 8.2,
+          "h": 0.24,
+          "anchor": "hit",
+          "angle": 0.22,
+          "spirit": true
+        },
+        {
+          "type": "burst",
+          "at": 2.71,
+          "life": 0.68,
+          "w": 5.1,
+          "h": 4.8,
+          "anchor": "hit"
+        },
+        {
+          "type": "wave",
+          "at": 2.87,
+          "life": 0.46,
+          "w": 10.4,
+          "h": 0.85,
+          "anchor": "hit"
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_air_slam",
+          "at": 0.1,
+          "life": 0.8,
+          "from": [
+            1.4,
+            -0.5
+          ],
+          "to": [
+            -0.8,
+            0
+          ],
+          "reverse": true
+        },
+        {
+          "animation": "clone_thrust",
+          "at": 1.05,
+          "life": 0.6,
+          "from": [
+            -3.5,
+            0
+          ],
+          "to": [
+            2.5,
+            0
+          ]
+        },
+        {
+          "animation": "clone_thrust",
+          "at": 1.7,
+          "life": 0.55,
+          "from": [
+            3.5,
+            -1.8
+          ],
+          "to": [
+            -2.5,
+            0.1
+          ],
+          "reverse": true
+        },
+        {
+          "animation": "clone_thrust",
+          "at": 2.3,
+          "life": 0.55,
+          "from": [
+            -3.4,
+            -1.4
+          ],
+          "to": [
+            2.5,
+            0
+          ]
+        }
+      ],
+      "camera": [
+        {
+          "at": 0,
+          "zoom": 1,
+          "dark": 0
+        },
+        {
+          "at": 0.3,
+          "zoom": 1.08,
+          "dark": 0.76
+        },
+        {
+          "at": 2.7,
+          "zoom": 1.12,
+          "dark": 0.8
+        },
+        {
+          "at": 3.15,
+          "zoom": 1,
+          "dark": 0
+        }
+      ],
+      "notes": "Only portrait overlays removed. Vertical/horizontal/diagonal stage slits, spirit passes, impact and return retained."
+    },
+    "skill_finisher": {
+      "label": "17 · 종결 전투 연출",
+      "source": [
+        21.65,
+        28.4
+      ],
+      "duration": 6.75,
+      "contact": 5.48,
+      "visualContacts": [
+        1.19,
+        1.69,
+        2.02,
+        2.48,
+        2.75,
+        4.88,
+        5.48,
+        5.81
+      ],
+      "cinematic": true,
+      "moves": [
+        {
+          "at": 0.7,
+          "duration": 0.25,
+          "to": "target"
+        },
+        {
+          "at": 6.12,
+          "duration": 0.5,
+          "to": "start"
+        }
+      ],
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.2,
+          "basic-lift"
+        ],
+        [
+          0.45,
+          "basic-turn"
+        ],
+        [
+          0.7,
+          "basic-windup"
+        ],
+        [
+          0.95,
+          "dash-low"
+        ],
+        [
+          1.12,
+          "basic-precontact"
+        ],
+        [
+          1.19,
+          "basic-contact"
+        ],
+        [
+          1.33,
+          "basic-postcontact"
+        ],
+        [
+          1.48,
+          "air-windup"
+        ],
+        [
+          1.69,
+          "air-strike"
+        ],
+        [
+          1.82,
+          "spin-back"
+        ],
+        [
+          2.02,
+          "spin-exit"
+        ],
+        [
+          2.14,
+          "basic-overhead"
+        ],
+        [
+          2.3,
+          "basic-precontact"
+        ],
+        [
+          2.48,
+          "basic-contact"
+        ],
+        [
+          2.6,
+          "basic-follow"
+        ],
+        [
+          2.75,
+          "rise-cut"
+        ],
+        [
+          2.95,
+          "basic-lift"
+        ],
+        [
+          3.25,
+          "basic-turn"
+        ],
+        [
+          3.7,
+          "basic-windup"
+        ],
+        [
+          4.1,
+          "basic-overhead"
+        ],
+        [
+          4.55,
+          "basic-mid"
+        ],
+        [
+          4.88,
+          "basic-precontact"
+        ],
+        [
+          5.15,
+          "basic-windup"
+        ],
+        [
+          5.35,
+          "basic-mid"
+        ],
+        [
+          5.48,
+          "basic-contact"
+        ],
+        [
+          5.64,
+          "basic-postcontact"
+        ],
+        [
+          5.81,
+          "basic-follow"
+        ],
+        [
+          6.1,
+          "basic-rise-low"
+        ],
+        [
+          6.3,
+          "basic-rise-mid"
+        ],
+        [
+          6.5,
+          "basic-recover"
+        ],
+        [
+          6.75,
+          "guard"
+        ]
+      ],
+      "cues": [
+        {
+          "type": "vortex",
+          "at": 0.35,
+          "life": 2.35,
+          "w": 8.8,
+          "h": 4.8,
+          "anchor": "target",
+          "behind": true,
+          "loop": true,
+          "alpha": 0.5
+        },
+        {
+          "type": "wave",
+          "at": 0.92,
+          "life": 0.64,
+          "w": 6,
+          "h": 1.9,
+          "anchor": "hit",
+          "x": -2,
+          "travel": 2
+        },
+        {
+          "type": "wave",
+          "at": 0.92,
+          "life": 0.64,
+          "w": 6,
+          "h": 1.9,
+          "anchor": "hit",
+          "x": 2,
+          "travel": -2,
+          "flip": -1,
+          "spirit": true
+        },
+        {
+          "type": "burst",
+          "at": 1.17,
+          "life": 0.72,
+          "w": 5.4,
+          "h": 4.2,
+          "anchor": "hit"
+        },
+        {
+          "type": "wave",
+          "at": 1.6,
+          "life": 0.5,
+          "w": 7,
+          "h": 0.65,
+          "anchor": "hit",
+          "angle": -0.85
+        },
+        {
+          "type": "wave",
+          "at": 1.72,
+          "life": 0.52,
+          "w": 7,
+          "h": 0.65,
+          "anchor": "hit",
+          "angle": 0.85,
+          "spirit": true
+        },
+        {
+          "type": "helix",
+          "at": 1.9,
+          "life": 0.8,
+          "w": 8,
+          "h": 3.65,
+          "anchor": "target",
+          "spirit": true
+        },
+        {
+          "type": "wave",
+          "at": 2.4,
+          "life": 0.5,
+          "w": 8.8,
+          "h": 0.45,
+          "anchor": "hit",
+          "angle": 1.5707963267948966
+        },
+        {
+          "type": "burst",
+          "at": 2.65,
+          "life": 0.55,
+          "w": 2.8,
+          "h": 3.1,
+          "anchor": "hit"
+        },
+        {
+          "type": "vortex",
+          "at": 2.9,
+          "life": 2.2,
+          "w": 5.3,
+          "h": 4.2,
+          "anchor": "target",
+          "behind": true,
+          "loop": true,
+          "alpha": 0.55
+        },
+        {
+          "type": "crescent",
+          "at": 4.35,
+          "life": 0.9,
+          "w": 6.4,
+          "h": 4.1,
+          "anchor": "hit",
+          "x": -1.6,
+          "travel": 1.4
+        },
+        {
+          "type": "crescent",
+          "at": 4.75,
+          "life": 0.76,
+          "w": 5.8,
+          "h": 4.3,
+          "anchor": "hit",
+          "x": 1.6,
+          "flip": -1,
+          "spirit": true,
+          "travel": -1.4
+        },
+        {
+          "type": "burst",
+          "at": 5.36,
+          "life": 1.12,
+          "w": 8.1,
+          "h": 5.9,
+          "anchor": "hit",
+          "spirit": true
+        },
+        {
+          "type": "wave",
+          "at": 5.72,
+          "life": 0.7,
+          "w": 10.8,
+          "h": 0.6,
+          "anchor": "hit",
+          "angle": -1.15,
+          "spirit": true
+        },
+        {
+          "type": "ground",
+          "at": 5.47,
+          "life": 0.9,
+          "w": 5.1,
+          "h": 3.4,
+          "anchor": "target",
+          "alpha": 0.65
+        }
+      ],
+      "clones": [
+        {
+          "animation": "clone_finisher",
+          "at": 0.35,
+          "life": 6.2,
+          "from": [
+            3,
+            0
+          ],
+          "to": [
+            1.5,
+            0
+          ],
+          "reverse": true
+        }
+      ],
+      "camera": [
+        {
+          "at": 0,
+          "zoom": 1,
+          "dark": 0
+        },
+        {
+          "at": 0.6,
+          "zoom": 1.08,
+          "dark": 0.8
+        },
+        {
+          "at": 1.6,
+          "zoom": 1.16,
+          "dark": 0.82
+        },
+        {
+          "at": 2.9,
+          "zoom": 1.2,
+          "dark": 0.8
+        },
+        {
+          "at": 4.3,
+          "zoom": 1.1,
+          "dark": 0.7
+        },
+        {
+          "at": 5.45,
+          "zoom": 1.08,
+          "dark": 0.6
+        },
+        {
+          "at": 6.6,
+          "zoom": 1,
+          "dark": 0
+        }
+      ],
+      "notes": "Opposing energy collision, airborne cross, orbit, vertical clash, second charge, giant blast and diagonal finish. Illustrated face/torso overlays excluded only."
+    }
+  },
+  "states": {
+    "setup": {
+      "duration": 0.1,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.1,
+          "guard"
+        ]
+      ]
+    },
+    "idle": {
+      "duration": 2,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          2,
+          "guard"
+        ]
+      ]
+    },
+    "move": {
+      "duration": 0.32,
+      "sequence": [
+        [
+          0,
+          "dash-low"
+        ],
+        [
+          0.08,
+          "dash-gather"
+        ],
+        [
+          0.16,
+          "dash-low"
+        ],
+        [
+          0.24,
+          "dash-gather"
+        ],
+        [
+          0.32,
+          "dash-low"
+        ]
+      ]
+    },
+    "hit": {
+      "duration": 0.44,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.04,
+          "hit"
+        ],
+        [
+          0.18,
+          "hit"
+        ],
+        [
+          0.28,
+          "basic-recover"
+        ],
+        [
+          0.38,
+          "guard"
+        ],
+        [
+          0.44,
+          "guard"
+        ]
+      ]
+    },
+    "death": {
+      "duration": 0.74,
+      "sequence": [
+        [
+          0,
+          "hit"
+        ],
+        [
+          0.15,
+          "slam-land"
+        ],
+        [
+          0.31,
+          "defeat"
+        ],
+        [
+          0.74,
+          "defeat"
+        ]
+      ]
+    }
+  },
+  "cutscenes": {
+    "illustrationPortrait": false,
+    "inEngine": true
+  },
+  "rejected": [
+    "images/air-overhead.png",
+    "qa/basic-overhead-short-blade-rejected.png"
+  ],
+  "headCorrection": "images/air-overhead-headfix-v2.png",
+  "userMotionApproval": false,
+  "companions": {
+    "clone_launch": {
+      "duration": 0.9,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.1125,
+          "basic-windup"
+        ],
+        [
+          0.225,
+          "basic-mid"
+        ],
+        [
+          0.3375,
+          "basic-contact"
+        ],
+        [
+          0.45,
+          "rise-cut"
+        ],
+        [
+          0.5625,
+          "air-strike"
+        ],
+        [
+          0.675,
+          "slam-land"
+        ],
+        [
+          0.7875,
+          "basic-recover"
+        ],
+        [
+          0.9,
+          "guard"
+        ]
+      ],
+      "jump": [
+        [
+          0,
+          0
+        ],
+        [
+          0.3,
+          0
+        ],
+        [
+          0.5,
+          220
+        ],
+        [
+          0.68,
+          130
+        ],
+        [
+          0.8,
+          0
+        ],
+        [
+          0.9,
+          0
+        ]
+      ]
+    },
+    "clone_wave": {
+      "duration": 1.1,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.063,
+          "basic-lift"
+        ],
+        [
+          0.12249999999999998,
+          "basic-turn"
+        ],
+        [
+          0.175,
+          "basic-windup"
+        ],
+        [
+          0.22749999999999998,
+          "basic-overhead"
+        ],
+        [
+          0.27299999999999996,
+          "basic-mid"
+        ],
+        [
+          0.315,
+          "basic-precontact"
+        ],
+        [
+          0.35,
+          "basic-contact"
+        ],
+        [
+          0.455,
+          "basic-postcontact"
+        ],
+        [
+          0.575,
+          "basic-follow"
+        ],
+        [
+          0.7250000000000001,
+          "basic-rise-low"
+        ],
+        [
+          0.8375000000000001,
+          "basic-rise-mid"
+        ],
+        [
+          0.9500000000000001,
+          "basic-recover"
+        ],
+        [
+          1.1,
+          "guard"
+        ]
+      ]
+    },
+    "clone_thrust": {
+      "duration": 0.5,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.0714,
+          "dash-gather"
+        ],
+        [
+          0.1429,
+          "dash-low"
+        ],
+        [
+          0.2143,
+          "basic-precontact"
+        ],
+        [
+          0.2857,
+          "basic-contact"
+        ],
+        [
+          0.3571,
+          "basic-postcontact"
+        ],
+        [
+          0.4286,
+          "basic-follow"
+        ],
+        [
+          0.5,
+          "guard"
+        ]
+      ]
+    },
+    "clone_air_slam": {
+      "duration": 1.1,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.08,
+          "basic-rise-low"
+        ],
+        [
+          0.16,
+          "rise-cut"
+        ],
+        [
+          0.24,
+          "air-windup"
+        ],
+        [
+          0.35,
+          "air-overhead-headfix-v2"
+        ],
+        [
+          0.44,
+          "air-strike"
+        ],
+        [
+          0.55,
+          "slam-land"
+        ],
+        [
+          0.75,
+          "basic-rise-low"
+        ],
+        [
+          0.86,
+          "basic-rise-mid"
+        ],
+        [
+          1,
+          "basic-recover"
+        ],
+        [
+          1.1,
+          "guard"
+        ]
+      ],
+      "jump": [
+        [
+          0,
+          0
+        ],
+        [
+          0.12,
+          0
+        ],
+        [
+          0.25,
+          500
+        ],
+        [
+          0.35,
+          870
+        ],
+        [
+          0.42,
+          700
+        ],
+        [
+          0.55,
+          0
+        ],
+        [
+          1.1,
+          0
+        ]
+      ]
+    },
+    "clone_orbit": {
+      "duration": 0.82,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.1025,
+          "basic-turn"
+        ],
+        [
+          0.205,
+          "spin-back"
+        ],
+        [
+          0.3075,
+          "spin-exit"
+        ],
+        [
+          0.41,
+          "basic-contact"
+        ],
+        [
+          0.5125,
+          "basic-follow"
+        ],
+        [
+          0.615,
+          "basic-mid"
+        ],
+        [
+          0.7175,
+          "basic-contact"
+        ],
+        [
+          0.82,
+          "guard"
+        ]
+      ]
+    },
+    "clone_twin": {
+      "duration": 1.52,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.14939999999999998,
+          "basic-lift"
+        ],
+        [
+          0.2905,
+          "basic-turn"
+        ],
+        [
+          0.415,
+          "basic-windup"
+        ],
+        [
+          0.5395,
+          "basic-overhead"
+        ],
+        [
+          0.6474,
+          "basic-mid"
+        ],
+        [
+          0.747,
+          "basic-precontact"
+        ],
+        [
+          0.83,
+          "basic-contact"
+        ],
+        [
+          0.9266,
+          "basic-postcontact"
+        ],
+        [
+          1.037,
+          "basic-follow"
+        ],
+        [
+          1.175,
+          "basic-rise-low"
+        ],
+        [
+          1.2785,
+          "basic-rise-mid"
+        ],
+        [
+          1.3820000000000001,
+          "basic-recover"
+        ],
+        [
+          1.52,
+          "guard"
+        ]
+      ]
+    },
+    "clone_finisher": {
+      "duration": 6.2,
+      "sequence": [
+        [
+          0,
+          "guard"
+        ],
+        [
+          0.3,
+          "basic-windup"
+        ],
+        [
+          0.56,
+          "dash-low"
+        ],
+        [
+          0.84,
+          "basic-contact"
+        ],
+        [
+          1.06,
+          "air-windup"
+        ],
+        [
+          1.34,
+          "air-strike"
+        ],
+        [
+          1.55,
+          "spin-back"
+        ],
+        [
+          1.67,
+          "spin-exit"
+        ],
+        [
+          1.94,
+          "basic-overhead"
+        ],
+        [
+          2.13,
+          "basic-contact"
+        ],
+        [
+          2.4,
+          "rise-cut"
+        ],
+        [
+          2.65,
+          "basic-recover"
+        ],
+        [
+          2.9,
+          "basic-lift"
+        ],
+        [
+          3.3,
+          "basic-turn"
+        ],
+        [
+          3.7,
+          "basic-windup"
+        ],
+        [
+          4.1,
+          "basic-overhead"
+        ],
+        [
+          4.53,
+          "basic-mid"
+        ],
+        [
+          4.8,
+          "basic-precontact"
+        ],
+        [
+          5.13,
+          "basic-contact"
+        ],
+        [
+          5.4,
+          "basic-postcontact"
+        ],
+        [
+          5.7,
+          "basic-follow"
+        ],
+        [
+          6.2,
+          "guard"
+        ]
+      ],
+      "jump": [
+        [
+          0,
+          0
+        ],
+        [
+          0.9,
+          0
+        ],
+        [
+          1.2,
+          220
+        ],
+        [
+          1.6,
+          180
+        ],
+        [
+          2.3,
+          0
+        ],
+        [
+          6.2,
+          0
+        ]
+      ]
+    }
+  },
+  "reference": {
+    "url": "https://youtu.be/DyrExQ_5G54",
+    "duration": 28.921,
+    "inspectionRate": 0.25,
+    "quality": "hd720",
+    "capture": "../reference/full-quarter-v3-clean.json",
+    "sourceFrameCount": 695,
+    "sectionCount": 17,
+    "officialSkillCountClaim": false,
+    "portraitCutins": false,
+    "inEngineCinematics": true,
+    "standbyBodyHeightPx": 140,
+    "approvedPalette": "effects-v3/colour-approval.json"
+  },
+  "paletteApproval": true
+}

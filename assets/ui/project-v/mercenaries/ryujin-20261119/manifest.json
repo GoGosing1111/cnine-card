@@ -1,0 +1,116 @@
+{
+  "code": "V-958",
+  "name": "류진",
+  "power": 4000000,
+  "illustrationApproved": true,
+  "runtimeVersion": "4.3.13",
+  "nativeVersion": "4.3.26",
+  "bodyDeformation": false,
+  "portraitCutin": false,
+  "actions": [
+    "skill_awakening",
+    "attack_basic",
+    "skill_dash",
+    "skill_launch",
+    "skill_return",
+    "skill_wave",
+    "skill_vortex",
+    "skill_double_cut",
+    "skill_helix",
+    "skill_air_slam",
+    "skill_thrust",
+    "skill_crescent",
+    "skill_return_chase",
+    "skill_orbit",
+    "skill_twin",
+    "skill_cross",
+    "skill_finisher"
+  ],
+  "rear": "06+10",
+  "files": [
+    {
+      "path": "source-art-approved.png",
+      "bytes": 2406414,
+      "sha256": "8bced96b9b6d38289062d567cf67b0aaee1d167399faef9bcdfbd359327d1dc9",
+      "source": "../source/approved-illustration.png"
+    },
+    {
+      "path": "guard.png",
+      "bytes": 803745,
+      "sha256": "6187d84889266b4582027b199d85628a9905df758e6d11b5edd4e3f230946032",
+      "source": "images/guard.png"
+    },
+    {
+      "path": "body/crimson-katana-v3.json",
+      "bytes": 76717,
+      "sha256": "deced5e0ef9413d044c70b51c31e4a77aa639cf86fb96f9b93912e3d4e20e6fd",
+      "source": "runtime-90f2c5575094/crimson-katana-v3.json",
+      "canonicalTextSha256": "deced5e0ef9413d044c70b51c31e4a77aa639cf86fb96f9b93912e3d4e20e6fd"
+    },
+    {
+      "path": "body/crimson-katana.atlas",
+      "bytes": 1441,
+      "sha256": "f86638a693bfec9edcb35437cc0babd64f742b471e85482fadb94ecfaa1329f3",
+      "source": "runtime-90f2c5575094/crimson-katana.atlas",
+      "canonicalTextSha256": "f86638a693bfec9edcb35437cc0babd64f742b471e85482fadb94ecfaa1329f3"
+    },
+    {
+      "path": "body/crimson-katana.png",
+      "bytes": 7486460,
+      "sha256": "9e011c48640f436948f94447d14f8e30b4e33545f6b59ab127469a50fdcd94fa",
+      "source": "runtime-90f2c5575094/crimson-katana.png"
+    },
+    {
+      "path": "effects/crimson-reference-fx.json",
+      "bytes": 28825,
+      "sha256": "899c16723188afc10ba553db0c44d22a5ba4dd73516dc3bdb9ed88e83fbcb6dd",
+      "source": "effects-v3/runtime-5ee0ceb0d24c/crimson-reference-fx.json",
+      "canonicalTextSha256": "899c16723188afc10ba553db0c44d22a5ba4dd73516dc3bdb9ed88e83fbcb6dd"
+    },
+    {
+      "path": "effects/crimson-reference-fx.atlas",
+      "bytes": 505,
+      "sha256": "263c108172e473f0b405ee4abda0810a70ab88f199b3b9020f8bf6dcef0bd665",
+      "source": "effects-v3/runtime-5ee0ceb0d24c/crimson-reference-fx.atlas",
+      "canonicalTextSha256": "263c108172e473f0b405ee4abda0810a70ab88f199b3b9020f8bf6dcef0bd665"
+    },
+    {
+      "path": "effects/crimson-reference-fx.png",
+      "bytes": 12664718,
+      "sha256": "253e480460b571f11d2a8dd73ebbe0afbd2187bb0ce26f4b76c6a59e78a06af0",
+      "source": "effects-v3/runtime-5ee0ceb0d24c/crimson-reference-fx.png"
+    },
+    {
+      "path": "floor/ryujin-floor.json",
+      "bytes": 6635,
+      "sha256": "80a1bc91fbd310c5d93f3ebc757d18c35ac8a5511cfb682fd967cfc83814836c",
+      "source": "ambient-v12/runtime-d2de72fd2998/ryujin-floor.json",
+      "canonicalTextSha256": "80a1bc91fbd310c5d93f3ebc757d18c35ac8a5511cfb682fd967cfc83814836c"
+    },
+    {
+      "path": "floor/ryujin-floor.atlas",
+      "bytes": 149,
+      "sha256": "a8c1f3c789ef35bc58bfbc7b25a6bbb35f6c1351d821803704fe523a9740a590",
+      "source": "ambient-v12/runtime-d2de72fd2998/ryujin-floor.atlas",
+      "canonicalTextSha256": "a8c1f3c789ef35bc58bfbc7b25a6bbb35f6c1351d821803704fe523a9740a590"
+    },
+    {
+      "path": "floor/ryujin-floor.png",
+      "bytes": 3299880,
+      "sha256": "51eece273d8b226bcbc11b481aaefefd5c1b515f932fd3cc780de6cf9bc4cfe5",
+      "source": "ambient-v12/runtime-d2de72fd2998/ryujin-floor.png"
+    },
+    {
+      "path": "rear/06.png",
+      "bytes": 1897038,
+      "sha256": "4f6c8764ec454483c6a06ae38f0488e8af89c79f03face1be3d3c89ffe4f8cbb",
+      "source": "rear-concepts-v13/images/06.png"
+    },
+    {
+      "path": "rear/10.png",
+      "bytes": 1825707,
+      "sha256": "c06b740e63325a42bc0b6200e312d9fa6996c56fa6b809ca760b0d458984e3ce",
+      "source": "rear-concepts-v13/images/10.png"
+    }
+  ]
+}

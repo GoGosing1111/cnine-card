@@ -1,3 +1,4 @@
+import {ryujinIncomingDamage,ryujinActionCredit} from '../shared/mercenary-ryujin-v1.mjs';
 import {isAstra,ASTRA_COMBAT,astraActionCredit} from '../shared/mercenary-astra-v1.mjs';
 import {CITADEL_ENEMY_CAPACITY} from '../shared/cooperative-battleground-v1.mjs';
 import {applySeasonFighterBonus} from '../shared/season-s1-combat.mjs';
@@ -639,6 +640,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   incoming = cardguIncomingDamage(target,incoming);
   incoming = kamishiroIncomingDamage(target,incoming);
   incoming = jinJokroIncomingDamage(target,incoming);
+  incoming = ryujinIncomingDamage(target,incoming);
   incoming = heliosKingIncomingDamage(target,incoming);
   incoming = heukmuIncomingDamage(target,incoming);
   incoming = generalJokIncomingDamage(target,incoming);
@@ -898,7 +900,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const mercenaryActionsBySide={A:0,B:0};
   // Valter/Helios reserved turns must not exhaust the old two-turn safety
   // budget before the regular-card clock ends. Other teams retain their cap.
-  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)),Math.ceil(heliosActionCredit(team)),Math.ceil(jinmuActionCredit(team)),Math.ceil(kaironActionCredit(team)),Math.ceil(shiranuiActionCredit(team)),Math.ceil(hakuyaActionCredit(team)),Math.ceil(revanActionCredit(team)),Math.ceil(eunseolActionCredit(team)),Math.ceil(cardguActionCredit(team)),Math.ceil(kamishiroActionCredit(team)),Math.ceil(jinJokroActionCredit(team)),Math.ceil(heliosKingActionCredit(team)),Math.ceil(heukmuActionCredit(team)),Math.ceil(generalJokActionCredit(team)),Math.ceil(primeActionCredit(team)),Math.ceil(zeroActionCredit(team)),Math.ceil(leonelActionCredit(team)),Math.ceil(jokroActionCredit(team)),Math.ceil(astraActionCredit(team)),Math.ceil(razakActionCredit(team)),team.some(m=>isBlueGear(m)&&m.alive!==false&&m.hp>0)?RAZAK_COMBAT.actionCredit:1)]));
+  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)),Math.ceil(heliosActionCredit(team)),Math.ceil(jinmuActionCredit(team)),Math.ceil(kaironActionCredit(team)),Math.ceil(shiranuiActionCredit(team)),Math.ceil(hakuyaActionCredit(team)),Math.ceil(revanActionCredit(team)),Math.ceil(eunseolActionCredit(team)),Math.ceil(cardguActionCredit(team)),Math.ceil(kamishiroActionCredit(team)),Math.ceil(jinJokroActionCredit(team)),Math.ceil(ryujinActionCredit(team)),Math.ceil(heliosKingActionCredit(team)),Math.ceil(heukmuActionCredit(team)),Math.ceil(generalJokActionCredit(team)),Math.ceil(primeActionCredit(team)),Math.ceil(zeroActionCredit(team)),Math.ceil(leonelActionCredit(team)),Math.ceil(jokroActionCredit(team)),Math.ceil(astraActionCredit(team)),Math.ceil(razakActionCredit(team)),team.some(m=>isBlueGear(m)&&m.alive!==false&&m.hp>0)?RAZAK_COMBAT.actionCredit:1)]));
   const mercenaryActorActions=new Map();
   const mercenaryActionAvailable=actor=>!actor.isMercenary||(independentMercenaries
     ?(mercenaryActorActions.get(actor.id)||0)<maxActions*Math.max(2,Math.ceil(mercenaryBaseActionCredit([actor])+mercenaryGrowthActionCredit([actor])))

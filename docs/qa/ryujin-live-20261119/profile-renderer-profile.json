@@ -1,0 +1,23 @@
+{
+  "rows": [
+    {
+      "mode": "approved",
+      "p50": 218,
+      "p95": 246,
+      "samples": 20
+    },
+    {
+      "mode": "filters-off",
+      "p50": 216,
+      "p95": 231,
+      "samples": 20
+    },
+    {
+      "mode": "ryujin-hidden",
+      "p50": 212,
+      "p95": 224,
+      "samples": 20
+    }
+  ],
+  "renderer": "Apple GPU"
+}

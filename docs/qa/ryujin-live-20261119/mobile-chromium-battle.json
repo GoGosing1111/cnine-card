@@ -1,0 +1,646 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "width": 390,
+      "runs": [
+        {
+          "repeat": 0,
+          "readyMs": 3197,
+          "setup": {
+            "canvas": 1,
+            "states": [
+              {
+                "id": "A:MERCENARY:V-958",
+                "facing": 1,
+                "autoUpdate": false,
+                "bodyVisible": false,
+                "aura": {
+                  "version": "ryujin-v14-six-plus-ten",
+                  "enabled": true,
+                  "instances": 1,
+                  "spineRigs": 3,
+                  "independentTickers": 0,
+                  "clock": "existing V3 common visual clock",
+                  "acceptedBladePreserved": true,
+                  "monochrome": false,
+                  "renderCount": 78,
+                  "actors": [
+                    {
+                      "action": "idle",
+                      "attachment": "guard",
+                      "phase": 1.9825,
+                      "grip": {
+                        "x": -36.02251826723238,
+                        "y": -143.8086318969726
+                      },
+                      "tip": {
+                        "x": 113.97748327396954,
+                        "y": -77.39212329571062
+                      },
+                      "bladeBase": {
+                        "x": -9.022517989816034,
+                        "y": -131.85366034874545
+                      },
+                      "bladeLength": 195.05092217000765,
+                      "bladeExtension": 1.45,
+                      "bladeLateralMirrored": true,
+                      "hiltClearance": 29.528314542137405,
+                      "bladeAppearancePreserved": true,
+                      "outline": {
+                        "body": "subtle white plus red glyph emission",
+                        "weapon": "thin fluorescent white",
+                        "weaponWidthScreenPx": 0.8,
+                        "enabled": true
+                      },
+                      "spectral": {
+                        "maskPresent": false,
+                        "floor": "red-white",
+                        "bodyDarkness": true,
+                        "shadowAttachment": "guard",
+                        "bodyDeformed": false,
+                        "weight": 1
+                      },
+                      "glyphEmission": true,
+                      "selectedRear": {
+                        "main": "06",
+                        "mainScaleMultiplier": 1.1,
+                        "mainRiseH": 0.04,
+                        "fill": "10",
+                        "fillBehindMain": true,
+                        "stillArtwork": true,
+                        "sourcePixelsEdited": false,
+                        "layers": [
+                          {
+                            "id": "10",
+                            "scale": 0.2909090909090909,
+                            "x": -10.500000000000002,
+                            "y": -126,
+                            "alpha": 0.72,
+                            "width": 422.6909090909091,
+                            "height": 192,
+                            "behindBody": true
+                          },
+                          {
+                            "id": "06",
+                            "scale": 0.25454545454545463,
+                            "x": -10.500000000000002,
+                            "y": -177,
+                            "alpha": 0.98,
+                            "width": 362.4727272727274,
+                            "height": 184.80000000000007,
+                            "behindBody": true
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "selectedConcept": "06+10",
+                  "newEffectAnimationClaimed": false
+                }
+              },
+              {
+                "id": "B:MERCENARY:V-958",
+                "facing": -1,
+                "autoUpdate": false,
+                "bodyVisible": false,
+                "aura": {
+                  "version": "ryujin-v14-six-plus-ten",
+                  "enabled": true,
+                  "instances": 1,
+                  "spineRigs": 3,
+                  "independentTickers": 0,
+                  "clock": "existing V3 common visual clock",
+                  "acceptedBladePreserved": true,
+                  "monochrome": false,
+                  "renderCount": 78,
+                  "actors": [
+                    {
+                      "action": "idle",
+                      "attachment": "guard",
+                      "phase": 1.9825,
+                      "grip": {
+                        "x": -36.02251826723238,
+                        "y": -143.8086318969726
+                      },
+                      "tip": {
+                        "x": 113.97748327396954,
+                        "y": -77.39212329571062
+                      },
+                      "bladeBase": {
+                        "x": -9.022517989816034,
+                        "y": -131.85366034874545
+                      },
+                      "bladeLength": 195.05092217000765,
+                      "bladeExtension": 1.45,
+                      "bladeLateralMirrored": true,
+                      "hiltClearance": 29.528314542137405,
+                      "bladeAppearancePreserved": true,
+                      "outline": {
+                        "body": "subtle white plus red glyph emission",
+                        "weapon": "thin fluorescent white",
+                        "weaponWidthScreenPx": 0.8,
+                        "enabled": true
+                      },
+                      "spectral": {
+                        "maskPresent": false,
+                        "floor": "red-white",
+                        "bodyDarkness": true,
+                        "shadowAttachment": "guard",
+                        "bodyDeformed": false,
+                        "weight": 1
+                      },
+                      "glyphEmission": true,
+                      "selectedRear": {
+                        "main": "06",
+                        "mainScaleMultiplier": 1.1,
+                        "mainRiseH": 0.04,
+                        "fill": "10",
+                        "fillBehindMain": true,
+                        "stillArtwork": true,
+                        "sourcePixelsEdited": false,
+                        "layers": [
+                          {
+                            "id": "10",
+                            "scale": 0.2909090909090909,
+                            "x": -10.500000000000002,
+                            "y": -126,
+                            "alpha": 0.72,
+                            "width": 422.6909090909091,
+                            "height": 192,
+                            "behindBody": true
+                          },
+                          {
+                            "id": "06",
+                            "scale": 0.25454545454545463,
+                            "x": -10.500000000000002,
+                            "y": -177,
+                            "alpha": 0.98,
+                            "width": 362.4727272727274,
+                            "height": 184.80000000000007,
+                            "behindBody": true
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "selectedConcept": "06+10",
+                  "newEffectAnimationClaimed": false
+                }
+              }
+            ]
+          },
+          "outcomes": [
+            {
+              "action": "attack_basic",
+              "last": {
+                "code": "V-958",
+                "mode": "attack_basic",
+                "clockOwner": "V3_REGISTERED_GSAP",
+                "spineAutoUpdate": false,
+                "individuallyIllustratedCels": true,
+                "bodyDeformation": false,
+                "damageApplications": 1,
+                "contactSeconds": 0.24,
+                "durationSeconds": 0.62
+              },
+              "applied": [
+                "B:0:CN-02D9DC1E8A8A4209"
+              ],
+              "home": {
+                "x": 564,
+                "y": 1312
+              },
+              "end": {
+                "x": 564,
+                "y": 1312
+              },
+              "busy": false,
+              "effect": null,
+              "pose": "idle"
+            },
+            {
+              "action": "skill_wave",
+              "last": {
+                "code": "V-958",
+                "mode": "skill_wave",
+                "clockOwner": "V3_REGISTERED_GSAP",
+                "spineAutoUpdate": false,
+                "individuallyIllustratedCels": true,
+                "bodyDeformation": false,
+                "damageApplications": 5,
+                "contactSeconds": 0.57,
+                "durationSeconds": 1.25
+              },
+              "applied": [
+                "B:0:CN-02D9DC1E8A8A4209",
+                "B:1:CN-0505936A0CBB4E59",
+                "B:2:CN-25F931CE393D474E",
+                "B:3:CN-23EB4B19986D4818",
+                "B:4:CN-519C181C18DF4B8E"
+              ],
+              "home": {
+                "x": 564,
+                "y": 1312
+              },
+              "end": {
+                "x": 564,
+                "y": 1312
+              },
+              "busy": false,
+              "effect": null,
+              "pose": "idle"
+            },
+            {
+              "action": "skill_twin",
+              "last": {
+                "code": "V-958",
+                "mode": "skill_twin",
+                "clockOwner": "V3_REGISTERED_GSAP",
+                "spineAutoUpdate": false,
+                "individuallyIllustratedCels": true,
+                "bodyDeformation": false,
+                "damageApplications": 5,
+                "contactSeconds": 0.91,
+                "durationSeconds": 1.6
+              },
+              "applied": [
+                "B:0:CN-02D9DC1E8A8A4209",
+                "B:1:CN-0505936A0CBB4E59",
+                "B:2:CN-25F931CE393D474E",
+                "B:3:CN-23EB4B19986D4818",
+                "B:4:CN-519C181C18DF4B8E"
+              ],
+              "home": {
+                "x": 564,
+                "y": 1312
+              },
+              "end": {
+                "x": 564,
+                "y": 1312
+              },
+              "busy": false,
+              "effect": null,
+              "pose": "idle"
+            },
+            {
+              "action": "skill_finisher",
+              "last": {
+                "code": "V-958",
+                "mode": "skill_finisher",
+                "clockOwner": "V3_REGISTERED_GSAP",
+                "spineAutoUpdate": false,
+                "individuallyIllustratedCels": true,
+                "bodyDeformation": false,
+                "damageApplications": 5,
+                "contactSeconds": 5.48,
+                "durationSeconds": 6.75
+              },
+              "applied": [
+                "B:0:CN-02D9DC1E8A8A4209",
+                "B:1:CN-0505936A0CBB4E59",
+                "B:2:CN-25F931CE393D474E",
+                "B:3:CN-23EB4B19986D4818",
+                "B:4:CN-519C181C18DF4B8E"
+              ],
+              "home": {
+                "x": 564,
+                "y": 1312
+              },
+              "end": {
+                "x": 564,
+                "y": 1312
+              },
+              "busy": false,
+              "effect": null,
+              "pose": "idle"
+            }
+          ],
+          "lifecycle": {
+            "cancelled": {
+              "impacts": 0,
+              "busy": false,
+              "session": null
+            },
+            "resumed": {
+              "ambient": true,
+              "instances": 1
+            },
+            "frame": {
+              "samples": 2691,
+              "p50": 4.199999999998909,
+              "p95": 4.299999999999272,
+              "max": 33.30000000000018,
+              "over33": 0,
+              "over50": 0
+            },
+            "exit": {
+              "canvases": 0,
+              "loops": 0,
+              "states": 0,
+              "updates": 0
+            }
+          }
+        },
+        {
+          "repeat": 1,
+          "readyMs": 953,
+          "setup": {
+            "canvas": 1,
+            "states": [
+              {
+                "id": "A:MERCENARY:V-958",
+                "facing": 1,
+                "autoUpdate": false,
+                "bodyVisible": false,
+                "aura": {
+                  "version": "ryujin-v14-six-plus-ten",
+                  "enabled": true,
+                  "instances": 1,
+                  "spineRigs": 3,
+                  "independentTickers": 0,
+                  "clock": "existing V3 common visual clock",
+                  "acceptedBladePreserved": true,
+                  "monochrome": false,
+                  "renderCount": 92,
+                  "actors": [
+                    {
+                      "action": "idle",
+                      "attachment": "guard",
+                      "phase": 2.0501,
+                      "grip": {
+                        "x": -36.02251826723238,
+                        "y": -143.8086318969726
+                      },
+                      "tip": {
+                        "x": 113.97748327396954,
+                        "y": -77.39212329571062
+                      },
+                      "bladeBase": {
+                        "x": -9.022517989816034,
+                        "y": -131.85366034874545
+                      },
+                      "bladeLength": 195.05092217000765,
+                      "bladeExtension": 1.45,
+                      "bladeLateralMirrored": true,
+                      "hiltClearance": 29.528314542137405,
+                      "bladeAppearancePreserved": true,
+                      "outline": {
+                        "body": "subtle white plus red glyph emission",
+                        "weapon": "thin fluorescent white",
+                        "weaponWidthScreenPx": 0.8,
+                        "enabled": true
+                      },
+                      "spectral": {
+                        "maskPresent": false,
+                        "floor": "red-white",
+                        "bodyDarkness": true,
+                        "shadowAttachment": "guard",
+                        "bodyDeformed": false,
+                        "weight": 1
+                      },
+                      "glyphEmission": true,
+                      "selectedRear": {
+                        "main": "06",
+                        "mainScaleMultiplier": 1.1,
+                        "mainRiseH": 0.04,
+                        "fill": "10",
+                        "fillBehindMain": true,
+                        "stillArtwork": true,
+                        "sourcePixelsEdited": false,
+                        "layers": [
+                          {
+                            "id": "10",
+                            "scale": 0.2909090909090909,
+                            "x": -10.500000000000002,
+                            "y": -126,
+                            "alpha": 0.72,
+                            "width": 422.6909090909091,
+                            "height": 192,
+                            "behindBody": true
+                          },
+                          {
+                            "id": "06",
+                            "scale": 0.25454545454545463,
+                            "x": -10.500000000000002,
+                            "y": -177,
+                            "alpha": 0.98,
+                            "width": 362.4727272727274,
+                            "height": 184.80000000000007,
+                            "behindBody": true
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "selectedConcept": "06+10",
+                  "newEffectAnimationClaimed": false
+                }
+              },
+              {
+                "id": "B:MERCENARY:V-958",
+                "facing": -1,
+                "autoUpdate": false,
+                "bodyVisible": false,
+                "aura": {
+                  "version": "ryujin-v14-six-plus-ten",
+                  "enabled": true,
+                  "instances": 1,
+                  "spineRigs": 3,
+                  "independentTickers": 0,
+                  "clock": "existing V3 common visual clock",
+                  "acceptedBladePreserved": true,
+                  "monochrome": false,
+                  "renderCount": 92,
+                  "actors": [
+                    {
+                      "action": "idle",
+                      "attachment": "guard",
+                      "phase": 2.0501,
+                      "grip": {
+                        "x": -36.02251826723238,
+                        "y": -143.8086318969726
+                      },
+                      "tip": {
+                        "x": 113.97748327396954,
+                        "y": -77.39212329571062
+                      },
+                      "bladeBase": {
+                        "x": -9.022517989816034,
+                        "y": -131.85366034874545
+                      },
+                      "bladeLength": 195.05092217000765,
+                      "bladeExtension": 1.45,
+                      "bladeLateralMirrored": true,
+                      "hiltClearance": 29.528314542137405,
+                      "bladeAppearancePreserved": true,
+                      "outline": {
+                        "body": "subtle white plus red glyph emission",
+                        "weapon": "thin fluorescent white",
+                        "weaponWidthScreenPx": 0.8,
+                        "enabled": true
+                      },
+                      "spectral": {
+                        "maskPresent": false,
+                        "floor": "red-white",
+                        "bodyDarkness": true,
+                        "shadowAttachment": "guard",
+                        "bodyDeformed": false,
+                        "weight": 1
+                      },
+                      "glyphEmission": true,
+                      "selectedRear": {
+                        "main": "06",
+                        "mainScaleMultiplier": 1.1,
+                        "mainRiseH": 0.04,
+                        "fill": "10",
+                        "fillBehindMain": true,
+                        "stillArtwork": true,
+                        "sourcePixelsEdited": false,
+                        "layers": [
+                          {
+                            "id": "10",
+                            "scale": 0.2909090909090909,
+                            "x": -10.500000000000002,
+                            "y": -126,
+                            "alpha": 0.72,
+                            "width": 422.6909090909091,
+                            "height": 192,
+                            "behindBody": true
+                          },
+                          {
+                            "id": "06",
+                            "scale": 0.25454545454545463,
+                            "x": -10.500000000000002,
+                            "y": -177,
+                            "alpha": 0.98,
+                            "width": 362.4727272727274,
+                            "height": 184.80000000000007,
+                            "behindBody": true
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "selectedConcept": "06+10",
+                  "newEffectAnimationClaimed": false
+                }
+              }
+            ]
+          },
+          "outcomes": [
+            {
+              "action": "attack_basic",
+              "last": {
+                "code": "V-958",
+                "mode": "attack_basic",
+                "clockOwner": "V3_REGISTERED_GSAP",
+                "spineAutoUpdate": false,
+                "individuallyIllustratedCels": true,
+                "bodyDeformation": false,
+                "damageApplications": 1,
+                "contactSeconds": 0.24,
+                "durationSeconds": 0.62
+              },
+              "applied": [
+                "B:0:CN-02D9DC1E8A8A4209"
+              ],
+              "home": {
+                "x": 564,
+                "y": 1312
+              },
+              "end": {
+                "x": 564,
+                "y": 1312
+              },
+              "busy": false,
+              "effect": null,
+              "pose": "idle"
+            },
+            {
+              "action": "skill_finisher",
+              "last": {
+                "code": "V-958",
+                "mode": "skill_finisher",
+                "clockOwner": "V3_REGISTERED_GSAP",
+                "spineAutoUpdate": false,
+                "individuallyIllustratedCels": true,
+                "bodyDeformation": false,
+                "damageApplications": 5,
+                "contactSeconds": 5.48,
+                "durationSeconds": 6.75
+              },
+              "applied": [
+                "B:0:CN-02D9DC1E8A8A4209",
+                "B:1:CN-0505936A0CBB4E59",
+                "B:2:CN-25F931CE393D474E",
+                "B:3:CN-23EB4B19986D4818",
+                "B:4:CN-519C181C18DF4B8E"
+              ],
+              "home": {
+                "x": 564,
+                "y": 1312
+              },
+              "end": {
+                "x": 564,
+                "y": 1312
+              },
+              "busy": false,
+              "effect": null,
+              "pose": "idle"
+            }
+          ],
+          "lifecycle": {
+            "cancelled": {
+              "impacts": 0,
+              "busy": false,
+              "session": null
+            },
+            "resumed": {
+              "ambient": true,
+              "instances": 1
+            },
+            "frame": {
+              "samples": 2194,
+              "p50": 4.19999999999709,
+              "p95": 4.299999999999272,
+              "max": 33.29999999999927,
+              "over33": 0,
+              "over50": 0
+            },
+            "exit": {
+              "canvases": 0,
+              "loops": 0,
+              "states": 0,
+              "updates": 0
+            }
+          }
+        }
+      ],
+      "codex": "류진\nSSS\n카드 원화\n전투 SD\n\n선택한 이미지를 누르면 원본을 확대합니다.\n\n리미티드 · 돌격 · SSS\n\n기본 전투력\n4,000,000\n☆\n대표 스킬\n횡베기\n\n검격으로 일반 공격 220%를 대상 하나에 한 번 적용합니다.\n\n보유 상태\n미보유\n\n전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.\n\n스킬·전투 성능 자세히 보기\n리미티드 컬렉션\nLIMITED EDITION\n류진\n용병 등급\nSSS\n공개 리소스\n원화 · 전투 SD\n전투 편성\n보유 시 가능\n리미티드 전투 편성\n\n보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.\n획득 잠금 · 획득 방법은 추후 지정됩니다.\n\n전투 성능 · 행동 주기\n기본 전투력 4,000,000. 전체 용병 최고 기본 전투력. 일반 공격 220%, PVE 검붉은 검압·쌍월 검무·종결의 총 피해는 6,000%·7,200%·8,400%로 생존 적에게 나눠 대상당 한 번 적용합니다. 세 광역기는 에너지 10·공통 재사용 2행동입니다. 자연 행동 속도 5.5배·아군 카드 행동당 추가 행동 5.5회분, 받는 피해 85% 경감·상태이상·반격·중독 보호. PVP는 일반 공격과 기존 최상위 공격·체력·방벽 보정을 사용합니다. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다.",
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:6610/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)",
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "The resource http://127.0.0.1:6610/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "The resource http://127.0.0.1:6610/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache",
+        "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+        "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+      ]
+    }
+  ],
+  "missing": [],
+  "productionTransactions": 0,
+  "conditions": "Windows headless browser; mobile viewport/device emulation; local assets and server-generated combat fixtures, no physical phone"
+}

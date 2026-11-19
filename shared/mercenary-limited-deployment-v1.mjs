@@ -1,3 +1,4 @@
+import {RYUJIN_CODE,ryujinDeploymentSnapshot} from './mercenary-ryujin-v1.mjs';
 import {ASTRA_CODE,astraDeploymentSnapshot} from './mercenary-astra-v1.mjs';
 import {BLUE_GEAR_MERCENARIES} from './mercenary-blue-gear-catalog-v1.mjs';
 import {blueGearProfile,blueGearDeploymentSnapshot} from './mercenary-blue-gear-v1.mjs';
@@ -53,6 +54,7 @@ export function limitedDeploymentSnapshot(code){
  if(code===RAZAK_CODE)return razakDeploymentSnapshot();
  if(code===NAMSUDAENG_CODE)return namsudaengDeploymentSnapshot();
  if(code===JIN_JOKRO_CODE)return jinJokroDeploymentSnapshot();
+ if(code===RYUJIN_CODE)return ryujinDeploymentSnapshot();
  if(code===HELIOS_KING_CODE)return heliosKingDeploymentSnapshot();
  if(code===HAKUYA_CODE)return hakuyaDeploymentSnapshot();
  if(code===REVAN_CODE)return revanDeploymentSnapshot();

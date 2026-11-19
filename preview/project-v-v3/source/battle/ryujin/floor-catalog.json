@@ -1,0 +1,213 @@
+{
+  "version": "ryujin-ambient-v12",
+  "sources": [
+    {
+      "id": "floor",
+      "file": "images/floor.png",
+      "sha256": "117aa2fcc15acca5b2c921a714ac7280ccb51e3ed9ae212153bb572f439c322c",
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.5920639281253736
+    }
+  ],
+  "blade": {
+    "id": "blade_aura",
+    "file": "katana-aura",
+    "duration": 1.6,
+    "width": 1024,
+    "height": 1536,
+    "sha256": "0a4e9362254302ddd92df0071f5f3eab32d8def4b94a962578d45c413c858372",
+    "frames": [
+      {
+        "index": 0,
+        "rect": {
+          "left": 2,
+          "top": 2,
+          "right": 254,
+          "bottom": 766
+        },
+        "origin": [
+          135.86046511627907,
+          732
+        ],
+        "alpha128Bounds": {
+          "left": 118,
+          "top": 39,
+          "right": 157,
+          "bottom": 732
+        },
+        "visibleWidth": 80,
+        "visibleHeight": 1388,
+        "baseOffset": 0
+      },
+      {
+        "index": 1,
+        "rect": {
+          "left": 258,
+          "top": 2,
+          "right": 510,
+          "bottom": 766
+        },
+        "origin": [
+          386.86046511627904,
+          732
+        ],
+        "alpha128Bounds": {
+          "left": 365,
+          "top": 39,
+          "right": 410,
+          "bottom": 732
+        },
+        "visibleWidth": 92,
+        "visibleHeight": 1388,
+        "baseOffset": 0
+      },
+      {
+        "index": 2,
+        "rect": {
+          "left": 514,
+          "top": 2,
+          "right": 766,
+          "bottom": 766
+        },
+        "origin": [
+          637.0694444444445,
+          732
+        ],
+        "alpha128Bounds": {
+          "left": 616,
+          "top": 39,
+          "right": 662,
+          "bottom": 732
+        },
+        "visibleWidth": 94,
+        "visibleHeight": 1388,
+        "baseOffset": 0
+      },
+      {
+        "index": 3,
+        "rect": {
+          "left": 770,
+          "top": 2,
+          "right": 1022,
+          "bottom": 766
+        },
+        "origin": [
+          888,
+          732
+        ],
+        "alpha128Bounds": {
+          "left": 865,
+          "top": 39,
+          "right": 909,
+          "bottom": 732
+        },
+        "visibleWidth": 90,
+        "visibleHeight": 1388,
+        "baseOffset": 0
+      },
+      {
+        "index": 4,
+        "rect": {
+          "left": 2,
+          "top": 770,
+          "right": 254,
+          "bottom": 1534
+        },
+        "origin": [
+          136.33471074380165,
+          1499
+        ],
+        "alpha128Bounds": {
+          "left": 118,
+          "top": 807,
+          "right": 158,
+          "bottom": 1499
+        },
+        "visibleWidth": 82,
+        "visibleHeight": 1386,
+        "baseOffset": 0
+      },
+      {
+        "index": 5,
+        "rect": {
+          "left": 258,
+          "top": 770,
+          "right": 510,
+          "bottom": 1534
+        },
+        "origin": [
+          387,
+          1500
+        ],
+        "alpha128Bounds": {
+          "left": 365,
+          "top": 807,
+          "right": 409,
+          "bottom": 1500
+        },
+        "visibleWidth": 90,
+        "visibleHeight": 1388,
+        "baseOffset": 0
+      },
+      {
+        "index": 6,
+        "rect": {
+          "left": 514,
+          "top": 770,
+          "right": 766,
+          "bottom": 1534
+        },
+        "origin": [
+          637.3429752066115,
+          1499
+        ],
+        "alpha128Bounds": {
+          "left": 618,
+          "top": 807,
+          "right": 657,
+          "bottom": 1499
+        },
+        "visibleWidth": 80,
+        "visibleHeight": 1386,
+        "baseOffset": 0
+      },
+      {
+        "index": 7,
+        "rect": {
+          "left": 770,
+          "top": 770,
+          "right": 1022,
+          "bottom": 1534
+        },
+        "origin": [
+          888.5502008032129,
+          1499
+        ],
+        "alpha128Bounds": {
+          "left": 870,
+          "top": 806,
+          "right": 909,
+          "bottom": 1499
+        },
+        "visibleWidth": 80,
+        "visibleHeight": 1388,
+        "baseOffset": 0
+      }
+    ],
+    "visibleWidth": 90,
+    "visibleHeight": 1388,
+    "baseOffset": 0,
+    "transparentFraction": 0.8364963531494141,
+    "sourcePixelsEdited": false
+  },
+  "floor": {
+    "size": 1000,
+    "period": 8
+  },
+  "sourcePixelsEdited": false,
+  "animations": [
+    "blade_aura",
+    "floor"
+  ]
+}

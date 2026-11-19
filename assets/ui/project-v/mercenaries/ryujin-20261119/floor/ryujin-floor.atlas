@@ -1,0 +1,9 @@
+ryujin-floor.png
+size:2286,1541
+filter:Linear,Linear
+pma:true
+floor
+bounds:4,283,1254,1254
+katana-aura
+bounds:1262,4,1020,1533
+offsets:2,1,1024,1536

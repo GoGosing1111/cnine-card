@@ -1,0 +1,342 @@
+{
+  "battles": 1344,
+  "wins": 1344,
+  "rows": [
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-974",
+      "name": "제너럴 족",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-975",
+      "name": "프라임 레퀴엠",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-976",
+      "name": "제로",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-987",
+      "name": "시라누이",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-978",
+      "name": "레오넬",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-979",
+      "name": "족로",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-968",
+      "name": "흑무",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-969",
+      "name": "카미시로(神代)",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-970",
+      "name": "카드구",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-959",
+      "name": "진 족로",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-966",
+      "name": "헬리오스 킹",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-967",
+      "name": "하쿠야 신",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-971",
+      "name": "레반",
+      "wins": 24
+    },
+    {
+      "scenario": "weak-deck-lv1",
+      "opponent": "V-972",
+      "name": "각성 오메가",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-974",
+      "name": "제너럴 족",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-975",
+      "name": "프라임 레퀴엠",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-976",
+      "name": "제로",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-987",
+      "name": "시라누이",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-978",
+      "name": "레오넬",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-979",
+      "name": "족로",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-968",
+      "name": "흑무",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-969",
+      "name": "카미시로(神代)",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-970",
+      "name": "카드구",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-959",
+      "name": "진 족로",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-966",
+      "name": "헬리오스 킹",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-967",
+      "name": "하쿠야 신",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-971",
+      "name": "레반",
+      "wins": 24
+    },
+    {
+      "scenario": "standard-lv1",
+      "opponent": "V-972",
+      "name": "각성 오메가",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-974",
+      "name": "제너럴 족",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-975",
+      "name": "프라임 레퀴엠",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-976",
+      "name": "제로",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-987",
+      "name": "시라누이",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-978",
+      "name": "레오넬",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-979",
+      "name": "족로",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-968",
+      "name": "흑무",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-969",
+      "name": "카미시로(神代)",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-970",
+      "name": "카드구",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-959",
+      "name": "진 족로",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-966",
+      "name": "헬리오스 킹",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-967",
+      "name": "하쿠야 신",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-971",
+      "name": "레반",
+      "wins": 24
+    },
+    {
+      "scenario": "grown-lv11",
+      "opponent": "V-972",
+      "name": "각성 오메가",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-974",
+      "name": "제너럴 족",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-975",
+      "name": "프라임 레퀴엠",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-976",
+      "name": "제로",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-987",
+      "name": "시라누이",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-978",
+      "name": "레오넬",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-979",
+      "name": "족로",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-968",
+      "name": "흑무",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-969",
+      "name": "카미시로(神代)",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-970",
+      "name": "카드구",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-959",
+      "name": "진 족로",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-966",
+      "name": "헬리오스 킹",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-967",
+      "name": "하쿠야 신",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-971",
+      "name": "레반",
+      "wins": 24
+    },
+    {
+      "scenario": "high-power-lv21",
+      "opponent": "V-972",
+      "name": "각성 오메가",
+      "wins": 24
+    }
+  ]
+}

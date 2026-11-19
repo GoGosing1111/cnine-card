@@ -1,3 +1,4 @@
+import {RYUJIN_CODE} from '../shared/mercenary-ryujin-v1.mjs';
 import {ASTRA_CODE} from '../shared/mercenary-astra-v1.mjs';
 import {LOAN_PREFIX, LOAN_CODES, PLAYABLE_MERCENARY_COUNTS, PLAYABLE_LEVELS} from './_comeback_loans.js';
 import {JIN_JOKRO_CODE} from '../shared/mercenary-jin-jokro-v1.mjs';
@@ -42,7 +43,7 @@ function captureGrowth(policy,result){
  return result;
 }
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
-function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue,codes){return [...document.mercenaries.filter(c=>!codes||codes.has(c.code)).map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JIN_JOKRO_CODE,HELIOS_KING_CODE,HAKUYA_CODE,CARDGU_CODE,KAMISHIRO_CODE,HEUKMU_CODE,AWAKENED_OMEGA_CODE,REVAN_CODE,EUNSEOL_CODE,GENERAL_JOK_CODE,PRIME_CODE,RAZAK_CODE,ASTRA_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>(!codes||codes.has(code))&&jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+function levelCatalog(document,userId,hasJinmuPackIssue,hasJokroPackIssue,codes){return [...document.mercenaries.filter(c=>!codes||codes.has(c.code)).map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),RYUJIN_CODE,JIN_JOKRO_CODE,HELIOS_KING_CODE,HAKUYA_CODE,CARDGU_CODE,KAMISHIRO_CODE,HEUKMU_CODE,AWAKENED_OMEGA_CODE,REVAN_CODE,EUNSEOL_CODE,GENERAL_JOK_CODE,PRIME_CODE,RAZAK_CODE,ASTRA_CODE,JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE,LEONEL_CODE,ZERO_CODE].filter(code=>(!codes||codes.has(code))&&jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code,Date.now(),hasJokroPackIssue)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 export async function ownedMercenaryLevelCatalog(env,userId,rows,document){
  const codes=new Set(rows.map(row=>row.mercenary_code));
  const [jinmu,jokro]=await Promise.all([readJinmuPackOwners(env,codes.has(JINMU_CODE)?[userId]:[]),readJokroPackOwners(env,codes.has(JOKRO_CODE)?[userId]:[])]);
