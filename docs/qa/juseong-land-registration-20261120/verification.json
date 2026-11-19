@@ -1,0 +1,59 @@
+{
+  "operationKey": "ops:juseong:reverse-land-registration:20261120:v1",
+  "auditId": "66260",
+  "planHash": "aeabb1fff6da3cf63b4fcc7306ca81b62417fda6e0530d1472e26dd43f4d1ee6",
+  "checked": {
+    "registered": true,
+    "access": {
+      "allowed": true,
+      "isOwner": false
+    },
+    "rosterRows": 1,
+    "auditRows": 1,
+    "otherStreamersPreservedInTransaction": true,
+    "accountAssetsPreservedInTransaction": true
+  },
+  "preservedBeforeHash": "e5b0213e0844c235c49a4ff46f57b6acdc3b451298f96d52f0f1fdfdb79d088d",
+  "preservedAfterHash": "e5b0213e0844c235c49a4ff46f57b6acdc3b451298f96d52f0f1fdfdb79d088d",
+  "previousRevocationReceiptHash": "8d7b687ba1010f2db4948b27f4a146679ecc96a386d6afe8e61ac4ecf6ed5b67",
+  "independentReadOnly": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "partialFailures": [
+    {
+      "step": "registration",
+      "rolledBack": true
+    },
+    {
+      "step": "audit",
+      "rolledBack": true
+    },
+    {
+      "step": "receipt",
+      "rolledBack": true
+    }
+  ],
+  "fullRehearsalRolledBack": true,
+  "tests": {
+    "exitCode": 0,
+    "passed": 4,
+    "failed": 0,
+    "registerSha256": "8cef9b2e2a47a6b759a99ac545017b3f4e325101b690c82f91f614351c0946f7",
+    "checkedAt": "2026-11-19T18:18:59.804Z"
+  },
+  "evidenceSha256": {
+    "plan.json": "8e44eb79c1b6f5191c5a053e01bf3cf643f3a04aaa34ca209535fd550d166856",
+    "preflight.json": "712ff10fbf613acd7f2aa98e915f102980d591c01c46f73cdda8efeb13c42f8c",
+    "common.mjs": "7a0420e88b9f2927a258860c820f47082c11d10c554c94c0235ea0e1d7d70535",
+    "register.mjs": "8cef9b2e2a47a6b759a99ac545017b3f4e325101b690c82f91f614351c0946f7",
+    "register.test.mjs": "1e2525fe5d0c004b6fabeefc14211e4b95425a96278bf0583f000c505f9120e6",
+    "run.mjs": "4125734bc394420f7f99098b7c0b039c671fecaae6e6a4444705102bdc56e4ae",
+    "tests.json": "31073f2d1e3f1e785bec8275a824543866943f174470abba946bf00c2a4252cc",
+    "locked-before.json": "4856a0b58ff3ec704f73eb0e3b25540043eb9d3ae972ee900ecfdd348c80ef09",
+    "rehearsal.json": "87b0d549ac111347ee6e8f605b7f7f422382f162b9bcd8b81e194b8308812778",
+    "apply.json": "99b2d298979f24805a29365441ace18a6e4b565c5d498eb5f3f46f4d188f6892",
+    "verify.json": "b512eb690977446edc1534d7edb855ab30fc9398e7c5d0cde11fe6e8a27ebe30",
+    "performance.json": "709a3c1edeea0ba1ceefc613ba2e2236e8965442cb999607cf779dc3841f6e58"
+  }
+}

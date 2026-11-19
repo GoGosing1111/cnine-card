@@ -1,0 +1,87 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:juseong:reverse-land-registration:20261120:v1",
+  "authorization": "주성 리버스랜드 스트리머 등록",
+  "userId": "5393",
+  "nickname": "주성",
+  "scope": "REVERSE_LAND_STREAMER_REGISTRATION_ONLY",
+  "registered": true,
+  "access": {
+    "allowed": true,
+    "isOwner": false
+  },
+  "registeredAt": "2026-11-19T18:19:24.294Z",
+  "completedAtKST": "2026-11-20 03:19:24 KST",
+  "auditId": "66260",
+  "rosterBefore": 7,
+  "rosterAfter": 8,
+  "dailyPolicy": {
+    "dailyLimit": 10,
+    "reset": "00:00 Asia/Seoul",
+    "carryover": false,
+    "manualTicketsGranted": 0,
+    "automaticGrant": "Existing daily scheduler or normal feature entry; not invoked by this registration"
+  },
+  "loungeChanged": false,
+  "previousRevocationReceiptPreserved": true,
+  "otherStreamersPreserved": true,
+  "accountAssetsGrowthLoadoutHistoryPreserved": true,
+  "messagesSent": 0,
+  "testsPassed": 4,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "independentReadOnlyVerified": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "leasesReleased": true,
+  "runtimeChanged": false,
+  "gameRedeployed": false,
+  "performance": {
+    "before": [
+      {
+        "visit": "first",
+        "ms": 154,
+        "sql": 2
+      },
+      {
+        "visit": "repeat",
+        "ms": 154,
+        "sql": 2
+      }
+    ],
+    "after": [
+      {
+        "visit": "first",
+        "ms": 162,
+        "sql": 2
+      },
+      {
+        "visit": "repeat",
+        "ms": 162,
+        "sql": 2
+      }
+    ],
+    "registrationAndVerificationMs": 2558,
+    "independentVerificationMs": 1356,
+    "databaseLookupExecutionMs": 0.069,
+    "databaseLookupPlan": "Seq Scan",
+    "rowsMatched": 1,
+    "environment": "Windows CLI actual landAccess service and production PostgreSQL; network included; no browser or physical-device FPS measurement",
+    "bottleneck": "Two database/network round trips dominate the access service. Database lookup itself took 0.069 ms over the eight-row roster; PostgreSQL selected a sequential scan. Existing two-SELECT entry path retained, bounded state snapshots batched into one SQL, and repeat request needs one SELECT and no writes. No extra runtime query, image or frame work added.",
+    "limits": "Single first/repeat service samples before and after registration, including live network/server load; not a controlled speed improvement. Data-only registration: no changed UI, no new browser/frame/physical-device measurements, and no game redeployment."
+  },
+  "evidenceSha256": {
+    "plan.json": "8e44eb79c1b6f5191c5a053e01bf3cf643f3a04aaa34ca209535fd550d166856",
+    "preflight.json": "712ff10fbf613acd7f2aa98e915f102980d591c01c46f73cdda8efeb13c42f8c",
+    "common.mjs": "7a0420e88b9f2927a258860c820f47082c11d10c554c94c0235ea0e1d7d70535",
+    "register.mjs": "8cef9b2e2a47a6b759a99ac545017b3f4e325101b690c82f91f614351c0946f7",
+    "register.test.mjs": "1e2525fe5d0c004b6fabeefc14211e4b95425a96278bf0583f000c505f9120e6",
+    "run.mjs": "4125734bc394420f7f99098b7c0b039c671fecaae6e6a4444705102bdc56e4ae",
+    "tests.json": "31073f2d1e3f1e785bec8275a824543866943f174470abba946bf00c2a4252cc",
+    "locked-before.json": "4856a0b58ff3ec704f73eb0e3b25540043eb9d3ae972ee900ecfdd348c80ef09",
+    "rehearsal.json": "87b0d549ac111347ee6e8f605b7f7f422382f162b9bcd8b81e194b8308812778",
+    "apply.json": "99b2d298979f24805a29365441ace18a6e4b565c5d498eb5f3f46f4d188f6892",
+    "verify.json": "b512eb690977446edc1534d7edb855ab30fc9398e7c5d0cde11fe6e8a27ebe30",
+    "performance.json": "709a3c1edeea0ba1ceefc613ba2e2236e8965442cb999607cf779dc3841f6e58"
+  }
+}
