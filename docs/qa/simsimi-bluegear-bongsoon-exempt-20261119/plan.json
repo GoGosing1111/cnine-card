@@ -1,0 +1,69 @@
+{
+  "operationKey": "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1",
+  "authorization": "심심이 계정에 블루기어 SS 나무늘봉순 지급해 / 한도차감없이",
+  "dateKst": "2026-11-19",
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "cost": 0,
+  "automaticLoadout": false,
+  "sendMessages": false,
+  "totalQuantity": 1,
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "id": "4933",
+      "nickname": "심심이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "code": "V-702",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "season": "BLUE_GEAR",
+      "basePower": 1000000,
+      "quantity": 1
+    }
+  ],
+  "stockCodes": [
+    "BLUE_GEAR:V-701",
+    "BLUE_GEAR:V-702",
+    "BLUE_GEAR:V-703",
+    "BLUE_GEAR:V-704",
+    "BLUE_GEAR:V-705",
+    "BLUE_GEAR:V-967",
+    "BLUE_GEAR:V-976",
+    "SSS_MIRACLE_CUBE:V-702",
+    "V-702"
+  ],
+  "settingKeys": [
+    "mercenary_blue_gear_pack_v1",
+    "mercenary_limited_pack_v1",
+    "mercenary_limited_draw_policy_v1",
+    "mercenary_bloodmoon_ss_pack_v1",
+    "mercenary_blackcrown_ss_pack_v1",
+    "mercenary_level_policy_v1",
+    "mercenary_runtime_policy_v1",
+    "mercenary_limited_shard_craft_v1:V-702",
+    "support_package_coin_v1:4933",
+    "support_package_bonus_20261115_v1:4933",
+    "support_package_operator_bonus_20261115_v1:4933",
+    "support_package_pending_v1:4933",
+    "pet_collection_v1:4933",
+    "pet_growth_v2:4933",
+    "pet_loadout_v1:4933",
+    "mercenary_equipment_v2:4933",
+    "mercenary_pvp_loadout_v1:4933",
+    "ranked_series_roster_v1:4933"
+  ],
+  "previousPackageGrant": {
+    "key": "ops:simsimi:package5-with-bonus:20261119:v1",
+    "receiptHash": "4dcb6c127ae0ee2a2175f5854d06844488b078d9814a6db518d7e8b7d5cbd99b",
+    "auditId": "64860"
+  }
+}

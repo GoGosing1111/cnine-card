@@ -1,0 +1,787 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "571205",
+          "wallet": "571675",
+          "loadout": "571203",
+          "messages": "551617",
+          "inventory": "571650",
+          "collection": "571664"
+        },
+        "user_id": "4933",
+        "revision": "571675"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "571205",
+          "wallet": "571675",
+          "loadout": "571203",
+          "messages": "551617",
+          "inventory": "571650",
+          "collection": "571676"
+        },
+        "user_id": "4933",
+        "revision": "571676"
+      }
+    ],
+    "rankedBefore": [
+      {
+        "user_id": "4933",
+        "source_version": "331898"
+      }
+    ],
+    "rankedAfter": [
+      {
+        "user_id": "4933",
+        "source_version": "331899"
+      }
+    ],
+    "operationKey": "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1",
+    "planHash": "f9df267875d25f63fcae4a4bc307c55e085eff706272c52d2903e5910cf27bcb",
+    "plan": {
+      "operationKey": "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1",
+      "authorization": "심심이 계정에 블루기어 SS 나무늘봉순 지급해 / 한도차감없이",
+      "dateKst": "2026-11-19",
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "cost": 0,
+      "automaticLoadout": false,
+      "sendMessages": false,
+      "totalQuantity": 1,
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "id": "4933",
+          "nickname": "심심이",
+          "role": "USER",
+          "status": "ACTIVE",
+          "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15"
+        }
+      ],
+      "grants": [
+        {
+          "userId": "4933",
+          "nickname": "심심이",
+          "code": "V-702",
+          "name": "나무늘봉순",
+          "rank": "SS",
+          "edition": "LIMITED",
+          "season": "BLUE_GEAR",
+          "basePower": 1000000,
+          "quantity": 1
+        }
+      ],
+      "stockCodes": [
+        "BLUE_GEAR:V-701",
+        "BLUE_GEAR:V-702",
+        "BLUE_GEAR:V-703",
+        "BLUE_GEAR:V-704",
+        "BLUE_GEAR:V-705",
+        "BLUE_GEAR:V-967",
+        "BLUE_GEAR:V-976",
+        "SSS_MIRACLE_CUBE:V-702",
+        "V-702"
+      ],
+      "settingKeys": [
+        "mercenary_blue_gear_pack_v1",
+        "mercenary_limited_pack_v1",
+        "mercenary_limited_draw_policy_v1",
+        "mercenary_bloodmoon_ss_pack_v1",
+        "mercenary_blackcrown_ss_pack_v1",
+        "mercenary_level_policy_v1",
+        "mercenary_runtime_policy_v1",
+        "mercenary_limited_shard_craft_v1:V-702",
+        "support_package_coin_v1:4933",
+        "support_package_bonus_20261115_v1:4933",
+        "support_package_operator_bonus_20261115_v1:4933",
+        "support_package_pending_v1:4933",
+        "pet_collection_v1:4933",
+        "pet_growth_v2:4933",
+        "pet_loadout_v1:4933",
+        "mercenary_equipment_v2:4933",
+        "mercenary_pvp_loadout_v1:4933",
+        "ranked_series_roster_v1:4933"
+      ],
+      "previousPackageGrant": {
+        "key": "ops:simsimi:package5-with-bonus:20261119:v1",
+        "receiptHash": "4dcb6c127ae0ee2a2175f5854d06844488b078d9814a6db518d7e8b7d5cbd99b",
+        "auditId": "64860"
+      }
+    },
+    "completedAt": "2026-11-19T14:45:17.669Z",
+    "grants": [
+      {
+        "userId": "4933",
+        "nickname": "심심이",
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "season": "BLUE_GEAR",
+        "basePower": 1000000,
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "holdingBefore": null
+      }
+    ],
+    "acquisitions": [
+      "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1:4933:V-702:1"
+    ],
+    "stockBefore": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      }
+    ],
+    "issuesBefore": [],
+    "issuesAfter": [],
+    "craftBefore": [],
+    "craftAfter": [],
+    "protectedBeforeHash": "9aa269ba8167339acbf88b8d4145a53dcf21b70be991234f3dc7e468e8867458",
+    "protectedAfterHash": "9aa269ba8167339acbf88b8d4145a53dcf21b70be991234f3dc7e468e8867458",
+    "preserved": {
+      "currency": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "craftCounts": true,
+      "packAndCraftSettings": true,
+      "otherCards": true,
+      "inventory": true,
+      "loadouts": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    },
+    "auditId": "65076"
+  },
+  "checked": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "previousPackagePreserved": true,
+  "grantVerifyMs": 2893,
+  "grantVerifySql": 31,
+  "otherTablesWrites": 0,
+  "leasesReleased": true,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 81.60739999999987
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 257.8240999999998
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.57049999999981
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 319.01090000000113
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.3089
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.74410000000171
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.14369999999872
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 76.23660000000018
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 76.43709999999919
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 76.2596999999987
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 76.20420000000013
+    },
+    {
+      "statement": "SELECT code FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR SHARE",
+      "ms": 76.2554999999993
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key FOR SHARE",
+      "ms": 76.81390000000101
+    },
+    {
+      "statement": "SELECT user_id FROM user_mercenary_cards_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,mercenary_code FO",
+      "ms": 78.03110000000015
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 159.33030000000144
+    },
+    {
+      "statement": "SELECT id::text,nickname FROM users WHERE nickname=ANY($1::text[])",
+      "ms": 84.17829999999958
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 84.51670000000013
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND status='ACTIVE' AND role='OWNER'",
+      "ms": 76.45920000000115
+    },
+    {
+      "statement": "SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD') kst",
+      "ms": 77.54260000000068
+    },
+    {
+      "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last",
+      "ms": 80.78620000000046
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 85.22259999999915
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 82.02360000000044
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.28700000000026
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 77.5596000000005
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.64429999999993
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 76.3106000000007
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 76.34619999999995
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 76.80409999999938
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 76.8739999999998
+    },
+    {
+      "statement": "SELECT code FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR SHARE",
+      "ms": 76.61509999999907
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key FOR SHARE",
+      "ms": 76.91769999999997
+    },
+    {
+      "statement": "SELECT user_id FROM user_mercenary_cards_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,mercenary_code FO",
+      "ms": 77.84850000000006
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 97.79229999999916
+    },
+    {
+      "statement": "SELECT id::text,nickname FROM users WHERE nickname=ANY($1::text[])",
+      "ms": 76.47979999999916
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 103.86359999999877
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND status='ACTIVE' AND role='OWNER'",
+      "ms": 77.33580000000075
+    },
+    {
+      "statement": "SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD') kst",
+      "ms": 76.67599999999948
+    },
+    {
+      "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last",
+      "ms": 78.63919999999962
+    },
+    {
+      "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_aft",
+      "ms": 80.56840000000011
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 88.9930000000004
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 95.69510000000082
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.45040000000154
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.58460000000014
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.5650999999998
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 76.46759999999995
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 78.86879999999837
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 76.5586000000003
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 76.8130000000001
+    },
+    {
+      "statement": "SELECT code FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR SHARE",
+      "ms": 76.50019999999859
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key FOR SHARE",
+      "ms": 79.21960000000036
+    },
+    {
+      "statement": "SELECT user_id FROM user_mercenary_cards_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,mercenary_code FO",
+      "ms": 78.96260000000257
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 90.6951999999983
+    },
+    {
+      "statement": "SELECT id::text,nickname FROM users WHERE nickname=ANY($1::text[])",
+      "ms": 76.5106999999989
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 81.88869999999952
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND status='ACTIVE' AND role='OWNER'",
+      "ms": 76.23010000000068
+    },
+    {
+      "statement": "SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD') kst",
+      "ms": 76.51870000000054
+    },
+    {
+      "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last",
+      "ms": 78.46999999999753
+    },
+    {
+      "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_aft",
+      "ms": 77.94340000000011
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 85.94130000000223
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,$1,'USER_GR",
+      "ms": 87.57890000000043
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key",
+      "ms": 80.68709999999919
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 82.95859999999811
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 82.54339999999866
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.41200000000026
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.12480000000141
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.45590000000084
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 76.4252000000015
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 76.53410000000076
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 76.17289999999775
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 76.47929999999906
+    },
+    {
+      "statement": "SELECT code FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR SHARE",
+      "ms": 76.40070000000196
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key FOR SHARE",
+      "ms": 79.40759999999864
+    },
+    {
+      "statement": "SELECT user_id FROM user_mercenary_cards_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,mercenary_code FO",
+      "ms": 76.67320000000109
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 83.33790000000226
+    },
+    {
+      "statement": "SELECT id::text,nickname FROM users WHERE nickname=ANY($1::text[])",
+      "ms": 76.95809999999983
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 83.11740000000282
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND status='ACTIVE' AND role='OWNER'",
+      "ms": 76.29420000000027
+    },
+    {
+      "statement": "SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD') kst",
+      "ms": 76.21879999999874
+    },
+    {
+      "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last",
+      "ms": 77.22030000000086
+    },
+    {
+      "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_aft",
+      "ms": 76.45590000000084
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 109.375
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,$1,'USER_GR",
+      "ms": 77.46240000000034
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key",
+      "ms": 77.59759999999733
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.48769999999786
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 84.02429999999731
+    },
+    {
+      "statement": "SELECT * FROM mercenary_card_acquisitions_v1 WHERE acquisition_id LIKE $1 ORDER BY acquisition_id",
+      "ms": 77.21190000000206
+    },
+    {
+      "statement": "SELECT acquisition_id FROM mercenary_limited_issues_v1 WHERE acquisition_id LIKE $1 OR request_id=$2",
+      "ms": 76.8881999999976
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE action_type=$1 AND target_id=$2",
+      "ms": 85.57779999999912
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 76.3897999999972
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 79.89280000000144
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 83.05080000000089
+    },
+    {
+      "statement": "SELECT * FROM mercenary_card_acquisitions_v1 WHERE acquisition_id LIKE $1 ORDER BY acquisition_id",
+      "ms": 77.14830000000075
+    },
+    {
+      "statement": "SELECT acquisition_id FROM mercenary_limited_issues_v1 WHERE acquisition_id LIKE $1 OR request_id=$2",
+      "ms": 77.85359999999855
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE action_type=$1 AND target_id=$2",
+      "ms": 85.8109000000004
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 84.2110999999968
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 82.81680000000051
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.81369999999879
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 76.23489999999947
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.19620000000214
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 76.11409999999887
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 76.17849999999817
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 77.91499999999724
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 76.74079999999958
+    },
+    {
+      "statement": "SELECT code FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR SHARE",
+      "ms": 78.90339999999924
+    },
+    {
+      "statement": "SELECT key FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key FOR SHARE",
+      "ms": 76.73249999999825
+    },
+    {
+      "statement": "SELECT user_id FROM user_mercenary_cards_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,mercenary_code FO",
+      "ms": 76.62810000000172
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 104.73210000000108
+    },
+    {
+      "statement": "SELECT id::text,nickname FROM users WHERE nickname=ANY($1::text[])",
+      "ms": 76.34660000000076
+    },
+    {
+      "statement": "SELECT jsonb_build_object('receipt',COALESCE((SELECT jsonb_agg(t) FROM (SELECT key FROM app_meta WHERE key=$1)",
+      "ms": 82.1801000000014
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND status='ACTIVE' AND role='OWNER'",
+      "ms": 77.86620000000039
+    },
+    {
+      "statement": "SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD') kst",
+      "ms": 76.04390000000058
+    },
+    {
+      "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last",
+      "ms": 76.86030000000028
+    },
+    {
+      "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_aft",
+      "ms": 78.78360000000248
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 83.08529999999882
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,$1,'USER_GR",
+      "ms": 77.51480000000083
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key",
+      "ms": 77.41579999999885
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.2335000000021
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 83.59930000000168
+    },
+    {
+      "statement": "SELECT * FROM mercenary_card_acquisitions_v1 WHERE acquisition_id LIKE $1 ORDER BY acquisition_id",
+      "ms": 77.24439999999959
+    },
+    {
+      "statement": "SELECT acquisition_id FROM mercenary_limited_issues_v1 WHERE acquisition_id LIKE $1 OR request_id=$2",
+      "ms": 76.1681000000026
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE action_type=$1 AND target_id=$2",
+      "ms": 81.85880000000179
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 77.97149999999965
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 79.25460000000021
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 85.4890000000014
+    },
+    {
+      "statement": "SELECT * FROM mercenary_card_acquisitions_v1 WHERE acquisition_id LIKE $1 ORDER BY acquisition_id",
+      "ms": 78.68419999999969
+    },
+    {
+      "statement": "SELECT acquisition_id FROM mercenary_limited_issues_v1 WHERE acquisition_id LIKE $1 OR request_id=$2",
+      "ms": 80.87670000000071
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE action_type=$1 AND target_id=$2",
+      "ms": 82.074099999998
+    }
+  ]
+}

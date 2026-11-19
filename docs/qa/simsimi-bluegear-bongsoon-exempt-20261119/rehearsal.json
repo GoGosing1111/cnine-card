@@ -1,0 +1,65 @@
+{
+  "partial": [
+    {
+      "step": "holding",
+      "rolledBack": true
+    },
+    {
+      "step": "acquisition",
+      "rolledBack": true
+    },
+    {
+      "step": "receipt",
+      "rolledBack": true
+    }
+  ],
+  "fullRollback": true,
+  "invalidPlanBlocked": true,
+  "runtime": {
+    "samples": [
+      {
+        "phase": "first",
+        "ms": 1403,
+        "sql": 17,
+        "queryRoundTripMs": 1373
+      }
+    ],
+    "owned": [
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "totalCopies": 1,
+        "duplicateCount": 0,
+        "level": 1,
+        "loanUntil": null,
+        "canDeploy": true,
+        "basePower": 1000000
+      }
+    ],
+    "slowestQueries": [
+      {
+        "ms": 99,
+        "statement": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),"
+      },
+      {
+        "ms": 87,
+        "statement": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),"
+      },
+      {
+        "ms": 87,
+        "statement": "SELECT value FROM app_meta WHERE key=$1"
+      },
+      {
+        "ms": 86,
+        "statement": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (3,4,5) OR s.code='SSS_MIR"
+      },
+      {
+        "ms": 84,
+        "statement": "SELECT DISTINCT i.user_id FROM mercenary_limited_issues_v1 i JOIN mercenary_limited_stock_v1 s ON s.code=i.code AND (s.stock_limit IN (2,3) OR s.code='SSS_MIRAC"
+      }
+    ],
+    "environment": "Windows CLI; actual production mercenaryAccountState service via PostgreSQL; network included; not browser or physical-device measurement"
+  },
+  "stockPreserved": true,
+  "preStateHash": "530b22455ce8454354488114e0300a6107e3372835da3299965c02896c3c706b"
+}

@@ -1,0 +1,158 @@
+{
+  "checkedAt": "2026-11-19T14:42:55.338Z",
+  "readOnly": true,
+  "user": {
+    "id": "4933",
+    "nickname": "심심이",
+    "role": "USER",
+    "status": "ACTIVE",
+    "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15"
+  },
+  "holding": [],
+  "stock": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "stock_limit": "3",
+      "issued": "0",
+      "revision": "0",
+      "last_token": null
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "stock_limit": "3",
+      "issued": "0",
+      "revision": "0",
+      "last_token": null
+    }
+  ],
+  "issues": [],
+  "settings": [
+    {
+      "key": "mercenary_blackcrown_ss_pack_v1",
+      "value": "{\"revision\":11,\"settings\":{\"mode\":\"OFF\",\"prices\":{\"single\":1500000000,\"ten\":15000000000},\"missRatePpm\":800000,\"format\":\"MERCENARY_BLACKCROWN_SS_PACK_V3\",\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"normalSssRatePpm\":969580,\"cardRatesPpm\":{\"V-951\":5000,\"V-952\":5000,\"V-953\":5000,\"V-950\":5000,\"V-955\":5000,\"V-954\":5000,\"V-058\":400,\"V-970\":10,\"V-971\":10},\"stockLimits\":{\"V-951\":80,\"V-952\":80,\"V-953\":60,\"V-950\":80,\"V-955\":80,\"V-954\":80,\"V-970\":10,\"V-971\":8}},\"updatedAt\":\"2026-11-05T13:00:00.000Z\",\"updatedBy\":1,\"clonedFrom\":{\"key\":\"mercenary_bloodmoon_ss_pack_v1\",\"revision\":11,\"sha256\":\"240f20e1b515da6e55560862376f6a15ae7b2a7c01c6f25a4cc192037273ba7f\"},\"openingSchedule\":{\"status\":\"SCHEDULED\",\"opensAt\":\"2026-10-30T15:00:00.000Z\",\"createdAt\":\"2026-10-30T11:00:46.254Z\",\"operationKey\":\"ops:blackcrown-rates-opening:20261030:v1\"},\"lastStockScheduleId\":\"stock-20261105-2200-blackcrown-soldout-ss20-sss3-v1\",\"lastRequestId\":\"ops:blackcrown-cardgu-limit-plus2:20261101:v1\"}"
+    },
+    {
+      "key": "mercenary_bloodmoon_ss_pack_v1",
+      "value": "{\"revision\":14,\"settings\":{\"mode\":\"OFF\",\"prices\":{\"single\":1500000000,\"ten\":15000000000},\"missRatePpm\":800000,\"format\":\"MERCENARY_BLOODMOON_SS_PACK_V3\",\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"normalSssRatePpm\":969369,\"cardRatesPpm\":{\"V-960\":5000,\"V-961\":5000,\"V-962\":5000,\"V-963\":5000,\"V-964\":5000,\"V-965\":5000,\"V-978\":200,\"V-974\":10,\"V-975\":1,\"V-973\":20,\"V-058\":400},\"stockLimits\":{\"V-960\":105,\"V-961\":105,\"V-962\":105,\"V-963\":105,\"V-964\":105,\"V-965\":105,\"V-978\":18,\"V-974\":9,\"V-975\":6,\"V-973\":7}},\"updatedAt\":\"2026-11-11T15:44:20.282Z\",\"updatedBy\":1,\"lastRequestId\":\"ops:bloodmoon-sale-end:20261112:v1\",\"lastStockScheduleId\":\"stock-20261105-2200-bloodmoon-soldout-ss20-sss3-v1\"}"
+    },
+    {
+      "key": "mercenary_blue_gear_pack_v1",
+      "value": "{\"revision\":4,\"openingAt\":\"2026-11-19T15:00:00.000Z\",\"references\":{\"bloodmoon\":14,\"blackcrown\":11},\"settings\":{\"prices\":{\"single\":2250000000,\"ten\":22500000000},\"missRatePpm\":800000,\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"cardRatesPpm\":{\"V-701\":70.3125,\"V-702\":70.3125,\"V-703\":70.3125,\"V-704\":70.3125,\"V-705\":70.3125,\"V-976\":1,\"V-967\":1,\"V-059\":400},\"normalSssRatePpm\":999246.4375,\"stockLimits\":{\"V-701\":25,\"V-702\":25,\"V-703\":25,\"V-704\":25,\"V-705\":25,\"V-976\":3,\"V-967\":3}}}"
+    },
+    {
+      "key": "mercenary_equipment_v2:4933",
+      "value": "{\"schemaVersion\":2,\"revision\":24,\"loadouts\":{\"V-979\":{\"PVE\":{\"WEAPON\":null,\"TOP\":null,\"BOTTOM\":null,\"SHOES\":null,\"ACCESSORY\":null},\"PVP\":{\"WEAPON\":null,\"TOP\":null,\"BOTTOM\":null,\"SHOES\":null,\"ACCESSORY\":null}},\"V-978\":{\"PVE\":{\"WEAPON\":\"3388777715\",\"TOP\":\"3359549231\",\"BOTTOM\":null,\"SHOES\":null,\"ACCESSORY\":null},\"PVP\":{\"WEAPON\":\"3388777715\",\"TOP\":\"3359549231\",\"BOTTOM\":null,\"SHOES\":null,\"ACCESSORY\":null}},\"V-971\":{\"PVE\":{\"WEAPON\":\"3388775423\",\"TOP\":\"3012423286\",\"BOTTOM\":\"3388775426\",\"SHOES\":\"3388775431\",\"ACCESSORY\":null},\"PVP\":{\"WEAPON\":\"3388775423\",\"TOP\":\"3012423286\",\"BOTTOM\":\"3388775426\",\"SHOES\":\"3388775431\",\"ACCESSORY\":null}}},\"migration\":{\"policy\":\"PVP_FIRST\",\"cleared\":[]}}"
+    },
+    {
+      "key": "mercenary_level_policy_v1",
+      "value": "{\"version\":\"mercenary-level-20261015-v2\",\"revision\":1,\"mode\":\"ON\",\"growth\":{\"version\":\"mercenary-growth-v2-20261015\",\"perLevel\":{\"hpPercent\":25,\"attackPercent\":25,\"defensePercent\":6,\"speedPercent\":1},\"milestones\":[{\"level\":5,\"hpPercent\":100,\"attackPercent\":125,\"defensePercent\":15,\"speedPercent\":2,\"skillPowerPercent\":5,\"mitigationBypassPercent\":12.5,\"actionCatchupPercent\":10,\"actionCreditPercent\":10},{\"level\":10,\"hpPercent\":100,\"attackPercent\":125,\"defensePercent\":15,\"speedPercent\":2,\"skillPowerPercent\":5,\"mitigationBypassPercent\":12.5,\"actionCatchupPercent\":15,\"actionCreditPercent\":15},{\"level\":15,\"hpPercent\":100,\"attackPercent\":125,\"defensePercent\":15,\"speedPercent\":2,\"skillPowerPercent\":5,\"mitigationBypassPercent\":12.5,\"actionCatchupPercent\":20,\"actionCreditPercent\":20},{\"level\":20,\"hpPercent\":100,\"attackPercent\":125,\"defensePercent\":15,\"speedPercent\":2,\"skillPowerPercent\":5,\"mitigationBypassPercent\":12.5,\"actionCatchupPercent\":25,\"actionCreditPercent\":30}]},\"sameCardMultiplier\":3,\"xpPerCard\":{\"C\":100,\"B\":100,\"A\":100,\"S\":100,\"SS\":100,\"SSS\":100},\"levels\":[{\"level\":1,\"requiredXp\":750},{\"level\":2,\"requiredXp\":900},{\"level\":3,\"requiredXp\":1050},{\"level\":4,\"requiredXp\":1200},{\"level\":5,\"requiredXp\":1350},{\"level\":6,\"requiredXp\":1500},{\"level\":7,\"requiredXp\":1650},{\"level\":8,\"requiredXp\":1800},{\"level\":9,\"requiredXp\":1950},{\"level\":10,\"requiredXp\":2100},{\"level\":11,\"requiredXp\":2250},{\"level\":12,\"requiredXp\":2400},{\"level\":13,\"requiredXp\":2550},{\"level\":14,\"requiredXp\":2700},{\"level\":15,\"requiredXp\":2850},{\"level\":16,\"requiredXp\":3000},{\"level\":17,\"requiredXp\":3150},{\"level\":18,\"requiredXp\":3300},{\"level\":19,\"requiredXp\":3450},{\"level\":20,\"requiredXp\":3600}],\"milestones\":[{\"level\":5,\"successChancePpm\":100000,\"bonus\":{\"type\":null,\"value\":null}},{\"level\":10,\"successChancePpm\":100000,\"bonus\":{\"type\":null,\"value\":null}},{\"level\":15,\"successChancePpm\":100000,\"bonus\":{\"type\":null,\"value\":null}},{\"level\":20,\"successChancePpm\":100000,\"bonus\":{\"type\":null,\"value\":null}}]}"
+    },
+    {
+      "key": "mercenary_limited_draw_policy_v1",
+      "value": "{\"revision\":11,\"policy\":{\"format\":\"MERCENARY_LIMITED_POLICY_V1\",\"acquisitionEnabled\":false,\"rankRatesPpm\":{\"SS\":10.5,\"SSS\":0.5},\"cardWeights\":{\"V-996\":5,\"V-990\":1,\"V-991\":1,\"V-992\":1,\"V-993\":1,\"V-994\":1,\"V-997\":1,\"V-998\":1,\"V-999\":1},\"notes\":\"\"},\"updatedAt\":\"2026-10-11T20:51:34.719Z\",\"updatedBy\":1,\"lastRequestId\":\"82f3021d-036d-482c-872b-f50daef51381\"}"
+    },
+    {
+      "key": "mercenary_limited_pack_v1",
+      "value": "{\"revision\":20,\"settings\":{\"format\":\"MERCENARY_LIMITED_PACK_V1\",\"mode\":\"OFF\",\"prices\":{\"single\":1000000000,\"ten\":10000000000},\"stockLimits\":{\"V-996\":15,\"V-990\":15,\"V-991\":10,\"V-992\":10,\"V-993\":10,\"V-994\":12,\"V-997\":10,\"V-998\":10,\"V-999\":8},\"extraRewards\":[{\"id\":\"MASTER_STAR\",\"chancePpm\":400000,\"quantity\":10000},{\"id\":\"MYSTIC_ENERGY\",\"chancePpm\":100000,\"quantity\":50},{\"id\":\"NONE\",\"chancePpm\":333489,\"quantity\":0}],\"normalRankRatesPpm\":{\"C\":100000,\"B\":30000,\"A\":30000,\"S\":5000,\"SS\":1000,\"SSS\":500}},\"updatedAt\":\"2026-10-17T20:38:09.167Z\",\"updatedBy\":1,\"lastRequestId\":\"ops:room-sponsor-rewards:20261018:v1\"}"
+    },
+    {
+      "key": "mercenary_pvp_loadout_v1:4933",
+      "value": "{\"mercenaryCode\":\"V-979\",\"revision\":22}"
+    },
+    {
+      "key": "mercenary_runtime_policy_v1",
+      "value": "{\"revision\":1,\"version\":\"mercenary-runtime-connected-2091\",\"mode\":\"OFF\",\"approved\":false,\"opening\":{\"paymentKind\":\"COIN\",\"coinPerOpen\":500000000,\"itemCode\":null,\"itemsPerOpen\":null,\"maxBatch\":10},\"training\":{\"itemCode\":null,\"experiencePerItem\":null},\"statMode\":\"RANK_FIXED\",\"upgrade\":{\"mode\":\"OFF\",\"method\":\"DUPLICATE_AND_MASTER_STAR\",\"itemCode\":\"MASTER_STAR\"},\"combat\":{\"energyMax\":100,\"energyPerBasic\":10,\"windupTurns\":1,\"statusTurns\":2,\"armorReductionPercent\":20,\"interceptPercent\":40,\"parryPercent\":40,\"orderPercent\":15,\"veilPercent\":25,\"finisherHpPercent\":30,\"finisherBonusPercent\":50,\"focusBonusPercent\":40,\"poisonPercent\":40,\"restraintHits\":2,\"restraintPercent\":25,\"suppressGauge\":20,\"reloadGauge\":20,\"powerGrowthPercentPerLevel\":0}}"
+    },
+    {
+      "key": "pet_collection_v1:4933",
+      "value": "{\"revision\":122,\"pets\":{\"PET-HEADSET-SHIBA\":21,\"PET-MOON-FOX\":15,\"PET-PUMPKIN-BONGSOON\":1,\"PET-JOEUN\":36,\"PET-FROST-WOLF\":8,\"PET-BONGSOON\":24,\"PET-GILDED-DRAGON\":3,\"PET-DIIM\":40,\"PET-HEEYA\":32,\"PET-NAMUNEUL-BONGSOON\":5,\"PET-BEANIE-CAT\":17,\"PET-BAZZI-BONGSOON\":1,\"PET-MALTESE-DIIM\":1},\"commitToken\":\"3183525e-aacd-4006-9c0a-1354365e9657\"}"
+    },
+    {
+      "key": "pet_growth_v2:4933",
+      "value": "{\"version\":2,\"revision\":672,\"pets\":{\"PET-PUMPKIN-BONGSOON:1\":{\"id\":\"PET-PUMPKIN-BONGSOON:1\",\"petCode\":\"PET-PUMPKIN-BONGSOON\",\"cap\":\"A\",\"stats\":{\"attack\":\"B\",\"defense\":\"A\",\"hp\":\"B\",\"speed\":\"A\"},\"trait\":{\"id\":\"GUARD\",\"grade\":\"B\"}},\"PET-BAZZI-BONGSOON:1\":{\"id\":\"PET-BAZZI-BONGSOON:1\",\"petCode\":\"PET-BAZZI-BONGSOON\",\"cap\":\"SSS\",\"stats\":{\"attack\":\"SSS\",\"defense\":\"C\",\"hp\":\"B\",\"speed\":\"SSS\"},\"trait\":{\"id\":\"HASTE\",\"grade\":\"SSS\"}}},\"loadouts\":{\"PVE\":\"PET-BAZZI-BONGSOON:1\",\"PVP\":\"PET-BAZZI-BONGSOON:1\"},\"pending\":null}"
+    },
+    {
+      "key": "pet_loadout_v1:4933",
+      "value": "{\"revision\":4,\"petCode\":\"PET-BAZZI-BONGSOON\",\"updatedAt\":\"2026-11-16T15:18:53.725Z\",\"audit\":[{\"actorId\":4933,\"requestId\":\"86c912fc-6f35-4037-be00-993bfa4dc3cd\",\"payloadHash\":\"862af5bec712ab1b86959983f6cf9e459f1fa096ab583a03d073d2d7924af71e\",\"revision\":2,\"createdAt\":\"2026-10-23T09:22:32.196Z\"},{\"actorId\":4933,\"requestId\":\"7bf490f1-f185-463a-badd-b1f80e6301c9\",\"payloadHash\":\"7ff4db39d224d84fede60c4c121575ac5c8d738f34417402fcc378c00b44adce\",\"revision\":1,\"createdAt\":\"2026-10-11T11:53:28.514Z\"}],\"pveRevision\":3,\"pvp\":{\"petCode\":\"PET-BAZZI-BONGSOON\",\"revision\":4}}"
+    },
+    {
+      "key": "ranked_series_roster_v1:4933",
+      "value": "{\"revision\":28,\"codes\":[\"V-058\",\"V-979\",\"V-960\"]}"
+    },
+    {
+      "key": "support_package_bonus_20261115_v1:4933",
+      "value": "{\"version\":2,\"policyCode\":\"SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1\",\"paidPurchases\":9,\"totalBonusCoins\":\"20000000000000000\",\"lastOrderId\":\"4933_ops_simsimi_package5_bonus_20261119_v1\",\"updatedAt\":1795079758193,\"operatorGrantedPurchases\":9,\"totalBonusCubes\":90,\"cubeRetroactiveKey\":\"ops:support-package:cube-bonus-retroactive:20261116:v1\",\"repeatBaseline\":{\"paidPurchases\":4,\"totalBonusCoins\":\"12000000000000000\",\"totalBonusCubes\":50}}"
+    },
+    {
+      "key": "support_package_coin_v1:4933",
+      "value": "{\"version\":1,\"revision\":5,\"cursor\":106774633,\"restricted\":\"18249256898000000\",\"auctionReserved\":{},\"precredited\":null}"
+    }
+  ],
+  "triggers": [
+    {
+      "relname": "user_mercenary_cards_v1",
+      "tgname": "cnine_sync_delete_v1",
+      "definition": "CREATE TRIGGER cnine_sync_delete_v1 AFTER DELETE ON public.user_mercenary_cards_v1 REFERENCING OLD TABLE AS old_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'collection')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "user_mercenary_cards_v1",
+      "tgname": "cnine_sync_insert_v1",
+      "definition": "CREATE TRIGGER cnine_sync_insert_v1 AFTER INSERT ON public.user_mercenary_cards_v1 REFERENCING NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'collection')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "user_mercenary_cards_v1",
+      "tgname": "cnine_sync_update_v1",
+      "definition": "CREATE TRIGGER cnine_sync_update_v1 AFTER UPDATE ON public.user_mercenary_cards_v1 REFERENCING OLD TABLE AS old_rows NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION cnine_account_sync_stamp_v1('user_id', 'collection')",
+      "function": "CREATE OR REPLACE FUNCTION public.cnine_account_sync_stamp_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nDECLARE source_sql text; uid bigint; item record; scope text;\nBEGIN\n IF TG_OP='INSERT' THEN source_sql:='SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n';\n ELSIF TG_OP='DELETE' THEN source_sql:='SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] AS j FROM old_rows o';\n ELSE source_sql:='(SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] AS j FROM new_rows n EXCEPT SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o) UNION (SELECT to_jsonb(o)-ARRAY[''updated_at'',''last_login_at''] FROM old_rows o EXCEPT SELECT to_jsonb(n)-ARRAY[''updated_at'',''last_login_at''] FROM new_rows n)';\n END IF;\n FOR item IN EXECUTE 'SELECT DISTINCT j->>$1 AS identity FROM ('||source_sql||') changes ORDER BY 1' USING TG_ARGV[0] LOOP\n  scope:=TG_ARGV[1];\n  IF scope='meta' THEN\n   IF item.identity ~ '^(mercenary_pvp_loadout_v1|pet_loadout_v1|pet_potentials_v1):[1-9][0-9]*$' THEN scope:='loadout';\n   ELSIF item.identity ~ '^pet_collection_v1:[1-9][0-9]*$' THEN scope:='collection';\n   ELSE CONTINUE; END IF;\n   uid:=split_part(item.identity,':',2)::bigint;\n  ELSE uid:=item.identity::bigint; END IF;\n  IF uid IS NULL OR uid<1 THEN CONTINUE; END IF;\n  INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(uid,1,jsonb_build_object(scope,'1'))\n  ON CONFLICT(user_id) DO UPDATE SET revision=account_sync_versions_v1.revision+1,\n   domains=account_sync_versions_v1.domains||jsonb_build_object(scope,(account_sync_versions_v1.revision+1)::text),updated_at=clock_timestamp();\n END LOOP;\n RETURN NULL;\nEND $function$\n"
+    },
+    {
+      "relname": "user_mercenary_cards_v1",
+      "tgname": "ranked_duo_touch_v1",
+      "definition": "CREATE TRIGGER ranked_duo_touch_v1 AFTER INSERT OR DELETE OR UPDATE ON public.user_mercenary_cards_v1 FOR EACH ROW EXECUTE FUNCTION ranked_duo_touch_account_v1()",
+      "function": "CREATE OR REPLACE FUNCTION public.ranked_duo_touch_account_v1()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ BEGIN IF TG_OP='DELETE' THEN UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=OLD.user_id; ELSE UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=NEW.user_id; IF TG_OP='UPDATE' AND OLD.user_id<>NEW.user_id THEN UPDATE ranked_duo_accounts_v1 SET source_version=source_version+1 WHERE user_id=OLD.user_id; END IF; END IF; RETURN NULL; END $function$\n"
+    }
+  ],
+  "previousPackageGrant": {
+    "key": "ops:simsimi:package5-with-bonus:20261119:v1",
+    "receiptHash": "4dcb6c127ae0ee2a2175f5854d06844488b078d9814a6db518d7e8b7d5cbd99b",
+    "auditId": "64860"
+  },
+  "planHash": "f9df267875d25f63fcae4a4bc307c55e085eff706272c52d2903e5910cf27bcb"
+}

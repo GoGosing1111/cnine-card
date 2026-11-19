@@ -1,0 +1,376 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "571205",
+          "wallet": "571675",
+          "loadout": "571203",
+          "messages": "551617",
+          "inventory": "571650",
+          "collection": "571664"
+        },
+        "user_id": "4933",
+        "revision": "571675"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "571205",
+          "wallet": "571675",
+          "loadout": "571203",
+          "messages": "551617",
+          "inventory": "571650",
+          "collection": "571676"
+        },
+        "user_id": "4933",
+        "revision": "571676"
+      }
+    ],
+    "rankedBefore": [
+      {
+        "user_id": "4933",
+        "source_version": "331898"
+      }
+    ],
+    "rankedAfter": [
+      {
+        "user_id": "4933",
+        "source_version": "331899"
+      }
+    ],
+    "operationKey": "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1",
+    "planHash": "f9df267875d25f63fcae4a4bc307c55e085eff706272c52d2903e5910cf27bcb",
+    "plan": {
+      "operationKey": "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1",
+      "authorization": "심심이 계정에 블루기어 SS 나무늘봉순 지급해 / 한도차감없이",
+      "dateKst": "2026-11-19",
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "cost": 0,
+      "automaticLoadout": false,
+      "sendMessages": false,
+      "totalQuantity": 1,
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "id": "4933",
+          "nickname": "심심이",
+          "role": "USER",
+          "status": "ACTIVE",
+          "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15"
+        }
+      ],
+      "grants": [
+        {
+          "userId": "4933",
+          "nickname": "심심이",
+          "code": "V-702",
+          "name": "나무늘봉순",
+          "rank": "SS",
+          "edition": "LIMITED",
+          "season": "BLUE_GEAR",
+          "basePower": 1000000,
+          "quantity": 1
+        }
+      ],
+      "stockCodes": [
+        "BLUE_GEAR:V-701",
+        "BLUE_GEAR:V-702",
+        "BLUE_GEAR:V-703",
+        "BLUE_GEAR:V-704",
+        "BLUE_GEAR:V-705",
+        "BLUE_GEAR:V-967",
+        "BLUE_GEAR:V-976",
+        "SSS_MIRACLE_CUBE:V-702",
+        "V-702"
+      ],
+      "settingKeys": [
+        "mercenary_blue_gear_pack_v1",
+        "mercenary_limited_pack_v1",
+        "mercenary_limited_draw_policy_v1",
+        "mercenary_bloodmoon_ss_pack_v1",
+        "mercenary_blackcrown_ss_pack_v1",
+        "mercenary_level_policy_v1",
+        "mercenary_runtime_policy_v1",
+        "mercenary_limited_shard_craft_v1:V-702",
+        "support_package_coin_v1:4933",
+        "support_package_bonus_20261115_v1:4933",
+        "support_package_operator_bonus_20261115_v1:4933",
+        "support_package_pending_v1:4933",
+        "pet_collection_v1:4933",
+        "pet_growth_v2:4933",
+        "pet_loadout_v1:4933",
+        "mercenary_equipment_v2:4933",
+        "mercenary_pvp_loadout_v1:4933",
+        "ranked_series_roster_v1:4933"
+      ],
+      "previousPackageGrant": {
+        "key": "ops:simsimi:package5-with-bonus:20261119:v1",
+        "receiptHash": "4dcb6c127ae0ee2a2175f5854d06844488b078d9814a6db518d7e8b7d5cbd99b",
+        "auditId": "64860"
+      }
+    },
+    "completedAt": "2026-11-19T14:45:17.669Z",
+    "grants": [
+      {
+        "userId": "4933",
+        "nickname": "심심이",
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "season": "BLUE_GEAR",
+        "basePower": 1000000,
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "holdingBefore": null
+      }
+    ],
+    "acquisitions": [
+      "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1:4933:V-702:1"
+    ],
+    "stockBefore": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "issued": 0,
+        "revision": 1,
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+        "stock_limit": 25
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "issued": 0,
+        "revision": 0,
+        "last_token": null,
+        "stock_limit": 3
+      }
+    ],
+    "issuesBefore": [],
+    "issuesAfter": [],
+    "craftBefore": [],
+    "craftAfter": [],
+    "protectedBeforeHash": "9aa269ba8167339acbf88b8d4145a53dcf21b70be991234f3dc7e468e8867458",
+    "protectedAfterHash": "9aa269ba8167339acbf88b8d4145a53dcf21b70be991234f3dc7e468e8867458",
+    "preserved": {
+      "currency": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "craftCounts": true,
+      "packAndCraftSettings": true,
+      "otherCards": true,
+      "inventory": true,
+      "loadouts": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    },
+    "auditId": "65076"
+  },
+  "checked": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "independentReadOnly": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "currentStock": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "issued": 0,
+      "revision": 0,
+      "last_token": null,
+      "stock_limit": 3
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "issued": 0,
+      "revision": 0,
+      "last_token": null,
+      "stock_limit": 3
+    }
+  ],
+  "currentIssues": [],
+  "currentCards": [
+    {
+      "user_id": 4933,
+      "total_copies": 1,
+      "mercenary_code": "V-702",
+      "duplicate_count": 0,
+      "last_obtained_at": "2026-11-19T14:45:17.669Z",
+      "first_obtained_at": "2026-11-19T14:45:17.669Z"
+    }
+  ],
+  "previousPackagePreserved": true,
+  "verifyMs": 1195,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 81.8748000000005
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.84529999999995
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.92439999999988
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 268.52260000000024
+    },
+    {
+      "statement": "SELECT * FROM mercenary_card_acquisitions_v1 WHERE acquisition_id LIKE $1 ORDER BY acquisition_id",
+      "ms": 78.64959999999974
+    },
+    {
+      "statement": "SELECT acquisition_id FROM mercenary_limited_issues_v1 WHERE acquisition_id LIKE $1 OR request_id=$2",
+      "ms": 77.86979999999949
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE action_type=$1 AND target_id=$2",
+      "ms": 133.60440000000017
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.status,u.",
+      "ms": 160.27090000000044
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 78.62069999999949
+    }
+  ]
+}

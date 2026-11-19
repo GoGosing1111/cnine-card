@@ -1,0 +1,182 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1",
+  "authorization": "심심이 계정에 블루기어 SS 나무늘봉순 지급해 / 한도차감없이",
+  "userId": "4933",
+  "nickname": "심심이",
+  "mercenary": {
+    "code": "V-702",
+    "name": "나무늘봉순",
+    "totalCopies": 1,
+    "duplicateCount": 0,
+    "level": 1,
+    "loanUntil": null,
+    "canDeploy": true,
+    "basePower": 1000000
+  },
+  "rank": "SS",
+  "edition": "LIMITED",
+  "season": "BLUE_GEAR",
+  "quantity": 1,
+  "permanent": true,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "stockBefore": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "issued": 0,
+      "revision": 0,
+      "last_token": null,
+      "stock_limit": 3
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "issued": 0,
+      "revision": 0,
+      "last_token": null,
+      "stock_limit": 3
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "issued": 0,
+      "revision": 1,
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+      "stock_limit": 25
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "issued": 0,
+      "revision": 0,
+      "last_token": null,
+      "stock_limit": 3
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "issued": 0,
+      "revision": 0,
+      "last_token": null,
+      "stock_limit": 3
+    }
+  ],
+  "issuedBefore": 0,
+  "issuedAfter": 0,
+  "stockLimit": 25,
+  "limitedIssueRecordsAdded": 0,
+  "acquisitionId": "ops:simsimi:bluegear-bongsoon-exempt:20261119:v1:4933:V-702:1",
+  "auditId": "65076",
+  "completedAt": "2026-11-19T14:45:17.669Z",
+  "completedAtKST": "2026-11-19 23:45:17 KST",
+  "planHash": "f9df267875d25f63fcae4a4bc307c55e085eff706272c52d2903e5910cf27bcb",
+  "testsPassed": 4,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "independentReadOnlyVerified": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "leasesReleased": true,
+  "previousPackagePreserved": true,
+  "otherStatePreserved": true,
+  "autoEquip": false,
+  "messagesSent": 0,
+  "runtimeChanged": false,
+  "gameRedeployed": false,
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "ms": 1583,
+        "sql": 17,
+        "queryRoundTripMs": 1552
+      },
+      {
+        "phase": "repeat",
+        "ms": 1439,
+        "sql": 17,
+        "queryRoundTripMs": 1426
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 1463,
+        "sql": 17,
+        "queryRoundTripMs": 1439
+      },
+      {
+        "phase": "repeat",
+        "ms": 1362,
+        "sql": 17,
+        "queryRoundTripMs": 1350
+      }
+    ],
+    "grantVerifyMs": 2893,
+    "grantVerifySql": 31,
+    "condition": "Windows CLI actual production mercenaryAccountState, first/repeated service reads, network included and single samples. Database round trips dominate; one ownership insert and one acquisition within one transaction, bounded settings lookup. Data-only grant: no UI changes, browser or physical-device FPS measurement and no speed-improvement claim."
+  }
+}
