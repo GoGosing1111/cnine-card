@@ -1,0 +1,855 @@
+{
+  "at": "2026-11-19T13:47:12.294Z",
+  "request": "PC web: black/missing battlefield after the first rhythm, at the Memory floor transition",
+  "sourceCommit": "156f2d6f718002aa61d099c93789a09624c3741f",
+  "production": {
+    "pages": {
+      "id": "9fc9f4cd-a7ca-45db-82d6-70377efc2c09",
+      "commit": "156f2d6f718002aa61d099c93789a09624c3741f",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "7a58a262-e32d-4cdf-a499-65c035daaffa",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "4d7c79e1-ddc2-47e9-b95f-875f3fee28e5",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "findings": {
+    "production": "Read-only recent rooms show rhythm survivors reaching MEMORY and dying without floor inputs. No production account was played or changed.",
+    "reproduction": "Normal cold/warm and full-chart replay with copied real actor data rendered correctly. Pausing the existing renderer and clearing its drawing surface before MEMORY reproduced missing floor artwork while DOM mechanic/click targets continued advancing. The original reporter device trigger is not independently confirmed.",
+    "priorTestGap": "Prior tests verified state changes, audio and clicks, but could pass with an invisible/stopped renderer. New browser checks require active rendering and visible mine/safe outlines at at least 24 of 30 projected tile tips (actors may occlude tips), plus all 30 finite hit regions."
+  },
+  "changes": {
+    "renderer": "Each challenge transition reactivates the existing V3 renderer, restores the valid viewport and commits the battlefield/floor frame. Foreground restoration uses the same path.",
+    "layout": "Stage DOM/HUD layout applies before floor projection. A scoped ResizeObserver follows the actual host; zero-size hidden layouts are ignored. Floor projection waits for positive finite dimensions and scale.",
+    "lifecycle": "Viewport observer disconnects on exit; cancelled preparation cannot attach a late observer. No new renderer or independent animation loop.",
+    "cache": "raid.mjs and the Nox V3 bundle use memory3 cache keys."
+  },
+  "preserved": {
+    "rhythm": "PERFECT 80ms / GOOD 160ms; 61 auction songs and distinct three-song playlists",
+    "memory": "30 floor tiles, 27 mines and 3 safe tiles; same reveal/deadline and server validation",
+    "cooperation": "unchanged",
+    "party": [
+      3,
+      6
+    ],
+    "deck": "saved PVE",
+    "mode": "TEST",
+    "testers": 16,
+    "testEntryCoins": "0",
+    "openEntryCoins": "50000000000000",
+    "rewards": "locked",
+    "productionAccountWrites": 0,
+    "messages": 0
+  },
+  "verification": {
+    "beforeRecovery": {
+      "pass": false,
+      "profile": "pc",
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [],
+      "errors": [],
+      "broken": [],
+      "failure": "AssertionError [ERR_ASSERTION]: the live renderer must be visible at MEMORY entry\n    at assertFloorPainted (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/tests/nox-live.browser.mjs:46:3)\n    at async file:///C:/Users/User/Downloads/upload/cnine-card/operations/coop-pc-performance-20261108/source/tests/nox-live.browser.mjs:123:5"
+    },
+    "local": {
+      "pc": {
+        "pass": true,
+        "profile": "pc",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "fullRhythm": {
+          "hits": 92,
+          "score": 92,
+          "calibration": 0,
+          "targetDelayMs": 0
+        },
+        "nextRound": {
+          "trackId": "bgm-fda9d3540bd9",
+          "url": "/assets/effects/auction-20261106/%EB%8B%88%EC%97%98%ED%98%952%E2%86%91_13333.mp3",
+          "prepared": 3,
+          "hp": 3637461366
+        },
+        "floorPaint": [
+          {
+            "painted": 29,
+            "total": 30,
+            "ticking": true
+          },
+          {
+            "painted": 29,
+            "total": 30,
+            "ticking": true
+          }
+        ],
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 236.73530000000028,
+            "prepareMs": 8867.2188,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-7a1e6bdcb78a",
+              "url": "/assets/effects/11223.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 1792,
+              "p95": 42,
+              "max": 104.40000000000146,
+              "over50": 77,
+              "hits": 92,
+              "score": 92,
+              "clockError": 0.85009765625,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 457.7329999999929,
+            "prepareMs": 12093.863400000002,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-1986faf92ba9",
+              "url": "/assets/effects/15000.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 920,
+              "p95": 29.799999999999272,
+              "max": 104.09999999999854,
+              "over50": 5,
+              "hits": 8,
+              "score": 8,
+              "clockError": -2.55029296875,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "api": {
+          "count": 529,
+          "maxMs": 167.0329999999958,
+          "failures": []
+        }
+      },
+      "mobile": {
+        "pass": true,
+        "profile": "mobile",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "nextRound": {
+          "trackId": "bgm-37ff62da8b7f",
+          "url": "/assets/effects/auction-20261106/%ED%8E%98%EB%9D%BC%EB%A6%ACv12_10812.mp3",
+          "prepared": 3,
+          "hp": 1653912
+        },
+        "floorPaint": [
+          {
+            "painted": 30,
+            "total": 30,
+            "ticking": true
+          },
+          {
+            "painted": 30,
+            "total": 30,
+            "ticking": true
+          }
+        ],
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 216.01569999999992,
+            "prepareMs": 4292.809299999999,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-6485f21a893a",
+              "url": "/assets/effects/auction-20261107/%EA%B3%A8%ED%83%8069_16969.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 492,
+              "p95": 39.29999999999927,
+              "max": 59.5,
+              "over50": 1,
+              "hits": 8,
+              "score": 7.95,
+              "clockError": -1.550048828125,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 554.4701999999961,
+            "prepareMs": 5716.036,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-3a742d207d27",
+              "url": "/assets/effects/auction-20261106/%ED%97%A4%EC%9D%B4%EC%A6%90_10027.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 628,
+              "p95": 37.600000000000364,
+              "max": 65.19999999999982,
+              "over50": 2,
+              "hits": 8,
+              "score": 8,
+              "clockError": 2.75,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "api": {
+          "count": 367,
+          "maxMs": 28.605599999998958,
+          "failures": []
+        }
+      },
+      "windows": {
+        "pass": true,
+        "profile": "windows",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "nextRound": {
+          "trackId": "bgm-8f33aa7cdf7f",
+          "url": "/assets/effects/10195.mp3",
+          "prepared": 3,
+          "hp": 1653912
+        },
+        "floorPaint": [
+          {
+            "painted": 29,
+            "total": 30,
+            "ticking": true
+          },
+          {
+            "painted": 29,
+            "total": 30,
+            "ticking": true
+          }
+        ],
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 263.96019999999953,
+            "prepareMs": 4142.197499999998,
+            "viewport": {
+              "w": 1024,
+              "h": 600,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1024,
+                "height": 842.234375,
+                "top": 0,
+                "right": 1024,
+                "bottom": 842.234375,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-2895e295db47",
+              "url": "/assets/effects/10044.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 1059,
+              "p95": 29.200000000000728,
+              "max": 130,
+              "over50": 4,
+              "hits": 8,
+              "score": 8,
+              "clockError": -0.849853515625,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 215.12549999999464,
+            "prepareMs": 3684.4540999999954,
+            "viewport": {
+              "w": 1024,
+              "h": 600,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1024,
+                "height": 842.234375,
+                "top": 0,
+                "right": 1024,
+                "bottom": 842.234375,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-b44c2f297f64",
+              "url": "/assets/effects/17272.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 853,
+              "p95": 35.5,
+              "max": 41.900000000000546,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.050048828125,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "api": {
+          "count": 368,
+          "maxMs": 36.9372000000003,
+          "failures": []
+        }
+      },
+      "h5": {
+        "pass": true,
+        "profile": "h5",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "nextRound": {
+          "trackId": "bgm-7e42014162ed",
+          "url": "/assets/effects/10003.mp3",
+          "prepared": 3,
+          "hp": 1653912
+        },
+        "floorPaint": [
+          {
+            "painted": 30,
+            "total": 30,
+            "ticking": true
+          },
+          {
+            "painted": 30,
+            "total": 30,
+            "ticking": true
+          }
+        ],
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 203.7484000000004,
+            "prepareMs": 3246.2047999999995,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-82e53ee7e20b",
+              "url": "/assets/effects/auction-20261106/%ED%98%B8%EB%9E%91%EC%88%98%EC%9B%94%EA%B0%80_10390.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 694,
+              "p95": 40.60000000000218,
+              "max": 63.399999999999636,
+              "over50": 1,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.2998046875,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 174.36770000000251,
+            "prepareMs": 3442.4204000000027,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-df77145bfe4c",
+              "url": "/assets/effects/auction-20261106/%EC%95%BD%EC%86%8D%ED%95%B4_20009.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 608,
+              "p95": 41.899999999999636,
+              "max": 45.899999999999636,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.4501953125,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "api": {
+          "count": 373,
+          "maxMs": 39.51539999999659,
+          "failures": []
+        }
+      },
+      "standard": {
+        "pass": true,
+        "profile": "pc",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "floorPaint": [
+          {
+            "painted": 30,
+            "total": 30,
+            "ticking": true
+          },
+          {
+            "painted": 30,
+            "total": 30,
+            "ticking": true
+          }
+        ],
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 182.03529999999955,
+            "prepareMs": 3062.1140000000005,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-b69792929a41",
+              "url": "/assets/effects/29272.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 490,
+              "p95": 43.100000000000364,
+              "max": 76.60000000000036,
+              "over50": 21,
+              "hits": 8,
+              "score": 8,
+              "clockError": -0.5,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 143.57589999999982,
+            "prepareMs": 2844.4026999999987,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "music": {
+              "trackId": "bgm-bfa5cd4e9707",
+              "url": "/assets/effects/10075.mp3",
+              "prepared": 3,
+              "bufferBytes": 35712000,
+              "calibration": "0"
+            },
+            "frames": {
+              "samples": 1175,
+              "p95": 18.899999999999636,
+              "max": 70.39999999999964,
+              "over50": 2,
+              "hits": 8,
+              "score": 8,
+              "clockError": -0.949951171875,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "preparedTracks": 0,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "api": {
+          "count": 187,
+          "maxMs": 33.67840000000069,
+          "failures": []
+        }
+      }
+    },
+    "public": {
+      "pass": true,
+      "profile": "pc",
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Public Pages static assets proxied through Windows loopback; isolated PGlite API. No production gameplay or account mutation.",
+      "nextRound": {
+        "trackId": "bgm-334f1308739e",
+        "url": "/assets/effects/10923.mp3",
+        "prepared": 3,
+        "hp": 1653912
+      },
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 477.53790000000026,
+          "prepareMs": 1781.5996999999998,
+          "viewport": {
+            "w": 1440,
+            "h": 900,
+            "root": {
+              "x": 0,
+              "y": 0,
+              "width": 1440,
+              "height": 908.546875,
+              "top": 0,
+              "right": 1440,
+              "bottom": 908.546875,
+              "left": 0
+            },
+            "fee": "TEST · 지정 참가자 무료"
+          },
+          "music": {
+            "trackId": "bgm-2d59cdb2901e",
+            "url": "/assets/effects/10782.mp3",
+            "prepared": 3,
+            "bufferBytes": 35712000,
+            "calibration": "0"
+          },
+          "frames": {
+            "samples": 928,
+            "p95": 15.600000000000364,
+            "max": 26.40000000000009,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.650146484375,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "errors": [],
+      "broken": [],
+      "api": {
+        "count": 181,
+        "maxMs": 17.0112999999983,
+        "failures": []
+      }
+    },
+    "releaseTests": 35,
+    "publicFiles": [
+      {
+        "file": "raid/nox/index.html",
+        "bytes": 9947,
+        "sha256": "c68a2f807a30dacf684ceb0e517c85e07f80da232187a0accbee7edfd4290755",
+        "windows": true
+      },
+      {
+        "file": "raid/nox/raid.mjs",
+        "bytes": 25124,
+        "sha256": "757ec2b44b491e4846f616065992bd0f23001a07b039d17574dbcb4472979a39",
+        "windows": true
+      },
+      {
+        "file": "raid/nox/battle.bundle.js",
+        "bytes": 3873654,
+        "sha256": "33067a0eedc5e416eefa759ac4d8e5a2e03296fffacfa24f8270cbddca95ff2c",
+        "windows": true
+      },
+      {
+        "file": "raid/nox/raid.css",
+        "bytes": 28889,
+        "sha256": "2f75b4009c49c98cb7ca411730a5c22303a7c016f96ab1253b80ee542104dabe",
+        "windows": true
+      }
+    ],
+    "windowsReleaseId": "c738ca68b0c57818b27e5bc6337b976b6b3959a50a7224f37b3fc306e7b431ab",
+    "design": "Impeccable scan and screenshots reviewed; retained approved assets, type and existing UI. Inherited style warnings were not expanded into a redesign."
+  },
+  "performance": {
+    "conditions": "Windows headless Chrome, isolated PGlite API, PC 1440x900 / Windows URL 1024x600 / Android-touch and H5 390x844. Cold first entry then warm reentry. Windows URL and ONE store host are emulated, not installed apps or physical devices.",
+    "comparison": {
+      "before": [
+        {
+          "lobbyMs": 201.4273000000003,
+          "prepareMs": 2489.934300000001,
+          "frames": {
+            "samples": 2400,
+            "p95": 4.299999999999272,
+            "max": 25,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": 0.199951171875,
+            "inflight": 0
+          }
+        },
+        {
+          "lobbyMs": 102.72910000000411,
+          "prepareMs": 2163.2482999999993,
+          "frames": {
+            "samples": 2400,
+            "p95": 4.300000000000182,
+            "max": 20.800000000000182,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.7998046875,
+            "inflight": 0
+          }
+        }
+      ],
+      "after": [
+        {
+          "lobbyMs": 182.03529999999955,
+          "prepareMs": 3062.1140000000005,
+          "frames": {
+            "samples": 490,
+            "p95": 43.100000000000364,
+            "max": 76.60000000000036,
+            "over50": 21,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.5,
+            "inflight": 0
+          }
+        },
+        {
+          "lobbyMs": 143.57589999999982,
+          "prepareMs": 2844.4026999999987,
+          "frames": {
+            "samples": 1175,
+            "p95": 18.899999999999636,
+            "max": 70.39999999999964,
+            "over50": 2,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.949951171875,
+            "inflight": 0
+          }
+        }
+      ]
+    },
+    "bottlenecks": "Asset reads/fetch/decode and V3 initialization dominate preparation. Host-size observation replaces unconditional window-driven resizes of the hidden field; viewport/floor work stays at layout/stage changes, with no new RAF or network resources.",
+    "limitations": "Some exploratory/full-chart runs overlapped a separate release build on this Windows host. One +110ms full run missed 6 notes during long frames; the centered full run passed all 92 notes. An exploratory H5 reentry overlapped checkout rebasing and loaded the old renderer; that run was discarded and rerun on the stable final source. Existing long frames and all measured values are retained; no loading or FPS improvement claim. WebKit precise AudioContext is unavailable in the existing environment. The original reporter PC was not directly inspected.",
+    "cleanup": "All passing visits assert zero raid polling, mechanic RAF, audio sources/buffers, canvases, viewport observer and subsequent raid requests after exit."
+  }
+}
