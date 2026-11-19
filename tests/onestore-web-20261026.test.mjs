@@ -7,6 +7,7 @@ import {canonicalDocument,storeDocumentUrl,DOCUMENTS} from '../shared/onestore-w
 import {htmlForStore,serveStore,isStoreEntry} from '../functions/_onestore_web.js';
 import {onRequest as rootEntry} from '../functions/index.js';
 import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
+import {readCommittedAsset} from './helpers/sparse-media-fixture.mjs';
 
 test('store documents retain edition and cannot route to excluded/admin documents',()=>{
   for(const path of DOCUMENTS)assert.equal(canonicalDocument('/onestore'+path),path);
@@ -56,7 +57,7 @@ test('ranked coin shop opens inside the store edition with the same purchase cli
   const calls=[];
   const response=await serveStore({request:new Request(storeDocumentUrl('/ranked-shop/')),env:{ASSETS:{fetch:async request=>{
     calls.push(request.url);
-    return new Response(await readFile(new URL('../ranked-shop/index.html',import.meta.url),'utf8'),{headers:{'content-type':'text/html','x-frame-options':'DENY'}});
+    return new Response(await readCommittedAsset(new URL('../ranked-shop/index.html',import.meta.url),'utf8'),{headers:{'content-type':'text/html','x-frame-options':'DENY'}});
   }}}});
   assert.equal(response.status,200);
   assert.deepEqual(calls,['https://cnine-card.pages.dev/ranked-shop/']);

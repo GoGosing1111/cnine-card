@@ -1,10 +1,12 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
 import {isProductionFile,noxHistoricalAuditOnly} from '../scripts/prepare-production-assets.mjs';
+import {readFileSync} from 'node:fs';
 const git=(...args)=>execFileSync('git',args,{maxBuffer:40e6}).toString();
 test('Nox runtime ships within the real Pages limit; unreferenced receipts remain identical in Git',()=>{
   const files=git('ls-files','-z').split('\0').filter(Boolean);
   const runtime=files.filter(f=>/^(raid\/nox\/|assets\/ui\/raid-nox-v[12]\/|assets\/fonts\/nox\/)/.test(f));assert(runtime.length>=25);for(const f of runtime)assert(isProductionFile(f),f);
   assert(isProductionFile('js/nox-raid-entry-v1.js'));assert(isProductionFile('admin/nox-raid-admin-v1.mjs'));
+  assert.match(readFileSync('onestore/index.html','utf8'),/src="js\/nox-raid-entry-v1\.js\?v=20261119-test1"/,'generated H5 entry must expose the same gated Nox menu');
   for(const file of noxHistoricalAuditOnly){assert(files.includes(file));assert(!isProductionFile(file));assert.equal(git('rev-parse','48238db09:'+file),git('rev-parse','HEAD:'+file),'preserve historical source '+file);}
   assert.equal(noxHistoricalAuditOnly.size,50);
   const count=files.filter(isProductionFile).filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;assert(count<=20000,'Pages asset count '+count);

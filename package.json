@@ -128,7 +128,7 @@
     "preview:icon-techniques": "node scripts/serve-icon-technique-preview-20261015.mjs",
     "test:blackwing-raid": "node --test tests/blackwing-raid-20261024.test.mjs",
     "test:trophy-renewal": "node --test --test-skip-pattern=\"^current LIVE clan excludes\" tests/trophy-renewal-20261101.test.mjs tests/player-card-v2052.test.mjs tests/trophy-bonuses-expansion-20261023.test.mjs tests/trophy-renewal-assets-20261101.test.mjs",
-    "test:nox-raid": "node --test tests/nox-live-20261119.test.mjs tests/nox-public-assets-20261119.test.mjs"
+    "test:nox-raid": "node --test tests/nox-live-20261119.test.mjs tests/nox-public-assets-20261119.test.mjs tests/onestore-web-20261026.test.mjs"
   },
   "dependencies": {
     "pg": "^8.16.3"
