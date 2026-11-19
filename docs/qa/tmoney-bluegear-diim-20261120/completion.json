@@ -1,0 +1,105 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:tmoney:bluegear-diim:20261120:v1",
+  "authorization": "T-Money™ 블루기어 디임 지급 / 한도 차감 없이 별도로 1장 지급 확인: ㅇㅇ 지급해",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "mercenary": {
+    "code": "V-703",
+    "name": "디임",
+    "totalCopies": 1,
+    "duplicateCount": 0,
+    "level": 1,
+    "loanUntil": null,
+    "canDeploy": true,
+    "basePower": 1000000
+  },
+  "rank": "SS",
+  "edition": "LIMITED",
+  "season": "BLUE_GEAR",
+  "quantity": 1,
+  "permanent": true,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+  "stockCode": "BLUE_GEAR:V-703",
+  "stockLimit": 45,
+  "issuedBefore": 26,
+  "issuedAfter": 26,
+  "stockSlotsConsumed": 0,
+  "serial": null,
+  "remainingAtCommit": 19,
+  "limitedIssueRecordsAdded": 0,
+  "acquisitionId": "ops:tmoney:bluegear-diim:20261120:v1:5147:V-703:1",
+  "auditId": "65450",
+  "completedAt": "2026-11-19T16:02:25.253Z",
+  "completedAtKST": "2026-11-20 01:02:25 KST",
+  "planHash": "8a78a95ddba3be9d008298d34572f7960e160a2b8e6bac9d121b04ea8ff9e295",
+  "testsPassed": 4,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "independentReadOnlyVerified": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "leasesReleased": true,
+  "previousGrantPreserved": {
+    "key": "ops:tmoney:master-star500b-additional:20261119:v1",
+    "receiptHash": "a34ade5eede650298d7c6f1583afb01305f6139e002a9a3b320e8f9e69fa0dce",
+    "auditId": "65073"
+  },
+  "otherStatePreserved": true,
+  "autoEquip": false,
+  "messagesSent": 0,
+  "currencyDeducted": 0,
+  "runtimeChanged": false,
+  "gameRedeployed": false,
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "ms": 2924,
+        "sql": 23,
+        "queryRoundTripMs": 2885
+      },
+      {
+        "phase": "repeat",
+        "ms": 3475,
+        "sql": 23,
+        "queryRoundTripMs": 3458
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 2009,
+        "sql": 23,
+        "queryRoundTripMs": 1982
+      },
+      {
+        "phase": "repeat",
+        "ms": 1922,
+        "sql": 23,
+        "queryRoundTripMs": 1908
+      }
+    ],
+    "grantVerifyMs": 3156,
+    "grantVerifySql": 31,
+    "independentVerifyMs": 936,
+    "environment": "Windows CLI; actual production mercenaryAccountState service via PostgreSQL; network included; not browser or physical-device measurement",
+    "bottleneck": "Production PostgreSQL/network round trips and CMS reads dominate; no game-runtime changes. One ownership increment and acquisition per account, plus one stock increment and numbered issue for counted Zero, within a single transaction. Bounded state snapshots and one-SELECT replay avoid per-field reads and duplicate writes.",
+    "limits": "Single first/repeated service samples including live network and server load; shared release checkout also has concurrent unrelated changes. These are operational service measurements, not a controlled speed comparison. No UI changes, browser frame measurement, physical-device measurement or speed-improvement claim."
+  },
+  "evidenceSha256": {
+    "plan.json": "d9d2183932896b179cad708867411d16d88fd5af000747aa1357cd4264cc02b5",
+    "approved-preflight.json": "f059e0a096c5e1a00895626590de60979762745ac4ca016dc3540776897805ce",
+    "grant.mjs": "42029ea126f58bd9b1dad514cb6eeebb2e589a86a1bc72336e2ee2c66242e0f5",
+    "grant.test.mjs": "45175775364152c14029e61eca43c86feec0a11f55e5198ec137cb00f1ceb341",
+    "tests.json": "d67fa1c2c5d7cd52831991116d0edaac5bf88faa1ddb0d4f51869104f40c820f",
+    "locked-before.json": "2b892a5094e7a7a074c6d5ac0f7b5e69cb0294d66ae3a0b71c183055b3cb2d20",
+    "rehearsal.json": "95f3bd54464d1f791d9acc4e12c52feb72ddae84631a83801db1002a5512d449",
+    "apply.json": "92f929c508db62d773d8b501eafd75708988328b7186cb7c02b1e5be51976c11",
+    "verify.json": "a776019b792b2d84b20dae7c833f716c3cca6b916675586b6674e93d49be0388",
+    "service-before.json": "11cb8c34cafbfe22fb211186e7260fc69cb2807f39d00c1ee3929199e631ff01",
+    "service-after.json": "1932789db16e05db59acb3c9c5cfe8ee3dedce3ccd8b0e083eb465bdb397405f"
+  }
+}

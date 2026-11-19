@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: exact account receives Zero and consumes one Blue Gear slot; other stock, assets and replay are preserved
+ok 1 - exact account receives Zero and consumes one Blue Gear slot; other stock, assets and replay are preserved
+  ---
+  duration_ms: 1774.8798
+  type: 'test'
+  ...
+# Subtest: failure at final receipt rolls back holding, acquisition, audit and sync together
+ok 2 - failure at final receipt rolls back holding, acquisition, audit and sync together
+  ---
+  duration_ms: 1185.1236
+  type: 'test'
+  ...
+# Subtest: existing copy is incremented once without resetting growth or acquisition date
+ok 3 - existing copy is incremented once without resetting growth or acquisition date
+  ---
+  duration_ms: 1248.5836
+  type: 'test'
+  ...
+# Subtest: wrong plan, changed identity and absent account lease cannot grant
+ok 4 - wrong plan, changed identity and absent account lease cannot grant
+  ---
+  duration_ms: 1309.0809
+  type: 'test'
+  ...
+# Subtest: exhausted stock blocks both issuance and holding without increasing the limit
+ok 5 - exhausted stock blocks both issuance and holding without increasing the limit
+  ---
+  duration_ms: 1252.2435
+  type: 'test'
+  ...
+# Subtest: mismatched pack capacity and missing numbered issues prevent counted grants
+ok 6 - mismatched pack capacity and missing numbered issues prevent counted grants
+  ---
+  duration_ms: 1330.7865
+  type: 'test'
+  ...
+# Subtest: partial stock, holding, acquisition and serial writes roll back together
+ok 7 - partial stock, holding, acquisition and serial writes roll back together
+  ---
+  duration_ms: 1268.7608
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9534.2577

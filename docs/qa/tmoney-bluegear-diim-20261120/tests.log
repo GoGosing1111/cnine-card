@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: exact account receives one Blue Gear 디임 with stock, craft, growth and assets preserved; replay only reads
+ok 1 - exact account receives one Blue Gear 디임 with stock, craft, growth and assets preserved; replay only reads
+  ---
+  duration_ms: 2882.2845
+  type: 'test'
+  ...
+# Subtest: failure at final receipt rolls back holding, acquisition, audit and sync together
+ok 2 - failure at final receipt rolls back holding, acquisition, audit and sync together
+  ---
+  duration_ms: 1802.1313
+  type: 'test'
+  ...
+# Subtest: existing copy is incremented once without resetting growth or acquisition date
+ok 3 - existing copy is incremented once without resetting growth or acquisition date
+  ---
+  duration_ms: 1846.465
+  type: 'test'
+  ...
+# Subtest: wrong plan, changed identity and absent account lease cannot grant
+ok 4 - wrong plan, changed identity and absent account lease cannot grant
+  ---
+  duration_ms: 1661.6646
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8489.1026

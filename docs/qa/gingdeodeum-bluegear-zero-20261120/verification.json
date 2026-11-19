@@ -1,0 +1,87 @@
+{
+  "operationKey": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1",
+  "auditId": "65464",
+  "checked": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": true,
+    "stockSlotsConsumed": 1,
+    "stockLimitChanged": false,
+    "limitedIssueRecordsAdded": 1,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "protectedBeforeHash": "a2df212ffe61cb3433fdfa61b3053a70479cd81c0d9c23d1c29937bb980a4b58",
+  "protectedAfterHash": "a2df212ffe61cb3433fdfa61b3053a70479cd81c0d9c23d1c29937bb980a4b58",
+  "stockBefore": {
+    "code": "BLUE_GEAR:V-976",
+    "issued": 2,
+    "revision": 2,
+    "last_token": "1c735522-8d90-4ce2-986e-b8b73f233718",
+    "stock_limit": 3
+  },
+  "stockAfter": {
+    "code": "BLUE_GEAR:V-976",
+    "issued": 3,
+    "revision": 3,
+    "last_token": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1",
+    "stock_limit": 3
+  },
+  "stockConsumption": {
+    "code": "BLUE_GEAR:V-976",
+    "serial": 3,
+    "limit": 3,
+    "issuedBefore": 2,
+    "issuedAfter": 3,
+    "remaining": 0
+  },
+  "independentReadOnly": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "partialFailures": [
+    {
+      "step": "stock",
+      "rolledBack": true
+    },
+    {
+      "step": "issue",
+      "rolledBack": true
+    },
+    {
+      "step": "holding",
+      "rolledBack": true
+    },
+    {
+      "step": "acquisition",
+      "rolledBack": true
+    },
+    {
+      "step": "receipt",
+      "rolledBack": true
+    }
+  ],
+  "fullRehearsalRolledBack": true,
+  "tests": {
+    "exitCode": 0,
+    "passed": 7,
+    "failed": 0,
+    "grantSha256": "bd4dcfb0747feeb3e5964e87df4e91a66560f7258bbc739ebb8a323c0168c988",
+    "checkedAt": "2026-11-19T16:04:29.023Z"
+  },
+  "evidenceSha256": {
+    "plan.json": "7e9a5ba3b57aa9c78e8e026b3d4eaad7795dfa4157472bf10cf82dbb6a3f2515",
+    "approved-preflight.json": "13273cd99942d3578fd03ec2b5edf08664e7e01e74cd6c11bc3d8a55291fc665",
+    "grant.mjs": "bd4dcfb0747feeb3e5964e87df4e91a66560f7258bbc739ebb8a323c0168c988",
+    "grant.test.mjs": "93d020e4927970c8432578728eda242fa19575239e40f7d9d9380527ab2b2116",
+    "tests.json": "f6a5fc9bbbe87d39b3e8c488ae9177ed0162ea626f415530cce562cf95baf70f",
+    "locked-before.json": "a2c841fcb1e10a3bf805c25545a4cd25e83fd80f55ad8835f415b4b4e6dfaf0c",
+    "rehearsal.json": "bede55b0869cf6a0f4a4dea3a799fd939687bdb76f8d7d43352edb1423359497",
+    "apply.json": "29de0175a8ed3f6f12a90e718d140685517a7201aeb0190883307dbf559093f8",
+    "verify.json": "43e2a17633210ce9344109d8a0fd2c01c1d610f81a53f792b1afb77870727ce0",
+    "service-before.json": "6cd4e8532a68e59fc44aeb188e94aa4461de716dcc6c21e0fd5cfb78dabdb206",
+    "service-after.json": "6c3290a6dfc51d99992ca6d00f81d636969d54d250613ef08b2e7dcd5f90aaa0"
+  }
+}

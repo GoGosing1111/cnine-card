@@ -1,0 +1,105 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1",
+  "authorization": "ㅇㅇ 지급해 그리고 깅더듬계정에 제로 한장 차감하고 지급",
+  "userId": "5877",
+  "nickname": "깅더듬",
+  "mercenary": {
+    "code": "V-976",
+    "name": "제로",
+    "totalCopies": 1,
+    "duplicateCount": 0,
+    "level": 1,
+    "loanUntil": null,
+    "canDeploy": true,
+    "basePower": 3000000
+  },
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "season": "BLUE_GEAR",
+  "quantity": 1,
+  "permanent": true,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "stockPolicy": "COUNT_EXISTING_BLUE_GEAR_STOCK",
+  "stockCode": "BLUE_GEAR:V-976",
+  "stockLimit": 3,
+  "issuedBefore": 2,
+  "issuedAfter": 3,
+  "stockSlotsConsumed": 1,
+  "serial": 3,
+  "remainingAtCommit": 0,
+  "limitedIssueRecordsAdded": 1,
+  "acquisitionId": "ops:gingdeodeum:bluegear-zero-counted:20261120:v1:5877:V-976:1",
+  "auditId": "65464",
+  "completedAt": "2026-11-19T16:05:03.659Z",
+  "completedAtKST": "2026-11-20 01:05:03 KST",
+  "planHash": "75d05167ed66e80d3dc8c14a8914965a1be73d57582b2994b0463a4e4af6692e",
+  "testsPassed": 7,
+  "partialFailuresRolledBack": 5,
+  "fullRehearsalRolledBack": true,
+  "independentReadOnlyVerified": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "leasesReleased": true,
+  "previousGrantPreserved": {
+    "key": "ops:gingdeodeum-blackcrown-diim-grant:20261101:v1",
+    "receiptHash": "428bc59af81e581dd542693781c1c96b9b1ac067c007a3b4df19128648828c42",
+    "auditId": "53628"
+  },
+  "otherStatePreserved": true,
+  "autoEquip": false,
+  "messagesSent": 0,
+  "currencyDeducted": 0,
+  "runtimeChanged": false,
+  "gameRedeployed": false,
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "ms": 1582,
+        "sql": 17,
+        "queryRoundTripMs": 1548
+      },
+      {
+        "phase": "repeat",
+        "ms": 1459,
+        "sql": 17,
+        "queryRoundTripMs": 1444
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 1529,
+        "sql": 17,
+        "queryRoundTripMs": 1506
+      },
+      {
+        "phase": "repeat",
+        "ms": 1342,
+        "sql": 17,
+        "queryRoundTripMs": 1329
+      }
+    ],
+    "grantVerifyMs": 3619,
+    "grantVerifySql": 33,
+    "independentVerifyMs": 1071,
+    "environment": "Windows CLI; actual production mercenaryAccountState service via PostgreSQL; network included; not browser or physical-device measurement",
+    "bottleneck": "Production PostgreSQL/network round trips and CMS reads dominate; no game-runtime changes. One ownership increment and acquisition per account, plus one stock increment and numbered issue for counted Zero, within a single transaction. Bounded state snapshots and one-SELECT replay avoid per-field reads and duplicate writes.",
+    "limits": "Single first/repeated service samples including live network and server load; shared release checkout also has concurrent unrelated changes. These are operational service measurements, not a controlled speed comparison. No UI changes, browser frame measurement, physical-device measurement or speed-improvement claim."
+  },
+  "evidenceSha256": {
+    "plan.json": "7e9a5ba3b57aa9c78e8e026b3d4eaad7795dfa4157472bf10cf82dbb6a3f2515",
+    "approved-preflight.json": "13273cd99942d3578fd03ec2b5edf08664e7e01e74cd6c11bc3d8a55291fc665",
+    "grant.mjs": "bd4dcfb0747feeb3e5964e87df4e91a66560f7258bbc739ebb8a323c0168c988",
+    "grant.test.mjs": "93d020e4927970c8432578728eda242fa19575239e40f7d9d9380527ab2b2116",
+    "tests.json": "f6a5fc9bbbe87d39b3e8c488ae9177ed0162ea626f415530cce562cf95baf70f",
+    "locked-before.json": "a2c841fcb1e10a3bf805c25545a4cd25e83fd80f55ad8835f415b4b4e6dfaf0c",
+    "rehearsal.json": "bede55b0869cf6a0f4a4dea3a799fd939687bdb76f8d7d43352edb1423359497",
+    "apply.json": "29de0175a8ed3f6f12a90e718d140685517a7201aeb0190883307dbf559093f8",
+    "verify.json": "43e2a17633210ce9344109d8a0fd2c01c1d610f81a53f792b1afb77870727ce0",
+    "service-before.json": "6cd4e8532a68e59fc44aeb188e94aa4461de716dcc6c21e0fd5cfb78dabdb206",
+    "service-after.json": "6c3290a6dfc51d99992ca6d00f81d636969d54d250613ef08b2e7dcd5f90aaa0"
+  }
+}

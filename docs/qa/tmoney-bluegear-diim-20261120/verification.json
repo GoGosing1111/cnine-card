@@ -1,0 +1,70 @@
+{
+  "operationKey": "ops:tmoney:bluegear-diim:20261120:v1",
+  "auditId": "65450",
+  "checked": {
+    "status": "VERIFIED",
+    "recipientCount": 1,
+    "totalQuantity": 1,
+    "stockCountersChanged": false,
+    "limitedIssueRecordsAdded": 0,
+    "craftCountsChanged": false,
+    "acquisitionRecords": 1,
+    "auditRecords": 1
+  },
+  "protectedBeforeHash": "b9d64a199c3a55d4eab97b0b32d51e255b3db2e3929bc97b647ff5eb6d34b3ea",
+  "protectedAfterHash": "b9d64a199c3a55d4eab97b0b32d51e255b3db2e3929bc97b647ff5eb6d34b3ea",
+  "stockBefore": {
+    "code": "BLUE_GEAR:V-703",
+    "issued": 26,
+    "revision": 28,
+    "last_token": "bf18a777-df27-410d-99d9-6f618ceb5420",
+    "stock_limit": 45
+  },
+  "stockAfter": {
+    "code": "BLUE_GEAR:V-703",
+    "issued": 26,
+    "revision": 28,
+    "last_token": "bf18a777-df27-410d-99d9-6f618ceb5420",
+    "stock_limit": 45
+  },
+  "stockConsumption": null,
+  "independentReadOnly": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "locksRemaining": 0,
+  "partialFailures": [
+    {
+      "step": "holding",
+      "rolledBack": true
+    },
+    {
+      "step": "acquisition",
+      "rolledBack": true
+    },
+    {
+      "step": "receipt",
+      "rolledBack": true
+    }
+  ],
+  "fullRehearsalRolledBack": true,
+  "tests": {
+    "exitCode": 0,
+    "passed": 4,
+    "failed": 0,
+    "grantSha256": "42029ea126f58bd9b1dad514cb6eeebb2e589a86a1bc72336e2ee2c66242e0f5",
+    "checkedAt": "2026-11-19T16:01:55.206Z"
+  },
+  "evidenceSha256": {
+    "plan.json": "d9d2183932896b179cad708867411d16d88fd5af000747aa1357cd4264cc02b5",
+    "approved-preflight.json": "f059e0a096c5e1a00895626590de60979762745ac4ca016dc3540776897805ce",
+    "grant.mjs": "42029ea126f58bd9b1dad514cb6eeebb2e589a86a1bc72336e2ee2c66242e0f5",
+    "grant.test.mjs": "45175775364152c14029e61eca43c86feec0a11f55e5198ec137cb00f1ceb341",
+    "tests.json": "d67fa1c2c5d7cd52831991116d0edaac5bf88faa1ddb0d4f51869104f40c820f",
+    "locked-before.json": "2b892a5094e7a7a074c6d5ac0f7b5e69cb0294d66ae3a0b71c183055b3cb2d20",
+    "rehearsal.json": "95f3bd54464d1f791d9acc4e12c52feb72ddae84631a83801db1002a5512d449",
+    "apply.json": "92f929c508db62d773d8b501eafd75708988328b7186cb7c02b1e5be51976c11",
+    "verify.json": "a776019b792b2d84b20dae7c833f716c3cca6b916675586b6674e93d49be0388",
+    "service-before.json": "11cb8c34cafbfe22fb211186e7260fc69cb2807f39d00c1ee3929199e631ff01",
+    "service-after.json": "1932789db16e05db59acb3c9c5cfe8ee3dedce3ccd8b0e083eb465bdb397405f"
+  }
+}
