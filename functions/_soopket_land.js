@@ -19,16 +19,16 @@ export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
-  {key:'COIN',label:'코인',range:'1,000억 ~ 3조',min:200,max:6000,unit:500000000,symbol:'C',color:0xffd477},
-  {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'5 ~ 25개',min:1,max:5,unit:5,symbol:'E',color:0xffdf91},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'5,000 ~ 5,000,000개',min:1,max:1000,unit:5000,symbol:'S',color:0xffe7a6},
-  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'5 ~ 5,000개',min:1,max:1000,unit:5,symbol:'M',color:0xc5a5ff},
+  {key:'COIN',label:'코인',range:'1조 ~ 500조',min:2000,max:1000000,unit:500000000,symbol:'C',color:0xffd477},
+  {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'10 ~ 100개',min:2,max:20,unit:5,symbol:'E',color:0xffdf91},
+  {key:'MASTER_STAR',label:'마스터의 별',range:'100,000 ~ 50,000,000개',min:20,max:10000,unit:5000,symbol:'S',color:0xffe7a6},
+  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'10 ~ 10,000개',min:2,max:2000,unit:5,symbol:'M',color:0xc5a5ff},
   {key:LAND_THANKS_GIFT,label:PINGDU_THANKS_GIFT.name,range:'5개',min:1,max:1,unit:5,symbol:'G',color:0xff91c2},
   {key:LAND_REPAIR_COUPON,label:FORGE_REPAIR_ITEM.name,range:'1개',min:1,max:1,unit:1,symbol:'R',color:0xffbca0,image:FORGE_REPAIR_ITEM.image}
 ]);
 // Existing issued coupons retain their rewards within the eight-hour deadline;
 // retired prizes cannot be spun again.
-// New draws multiply the original amount, not the odds. Redemption retains old
+// New draw bounds preserve the existing discrete steps and odds. Redemption retains old
 // minimums and steps so already-issued coupons keep their exact stored reward.
 const REDEEM_PRIZES=[...LAND_PRIZES.map(p=>p.key===LAND_REPAIR_COUPON?p:({...p,min:1,unit:p.unit/5,max:p.max*5})),
  {key:SUPERSTAR_TICKET,min:1,max:1,unit:1},

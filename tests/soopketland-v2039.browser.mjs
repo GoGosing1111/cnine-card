@@ -21,7 +21,7 @@ try{
     for(const key of ['SUPERSTAR_GUARANTEED_PACK','BLACK_MIRACLE_PACK','SOOPKETLAND_HYPER_BURNING_TICKET','ZENITH_RANDOM_CARD','FUR_RANDOM_CARD'])assert.equal(await page.locator(`#previewPrize option[value="${key}"]`).count(),0);
     assert.doesNotMatch(await page.locator('.sl-use-note').innerText(),/하이퍼버닝/);
     assert.match(await page.locator('.sl-guest').innerText(),/하루 최대 10회.*남은 이용권 이월 없음/);
-    for(const label of ['1,000억 ~ 3조','5 ~ 25개','5,000 ~ 5,000,000개','5 ~ 5,000개'])assert.ok((await page.locator('.sl-prizes').innerText()).includes(label));
+    for(const label of ['1조 ~ 500조','10 ~ 100개','100,000 ~ 50,000,000개','10 ~ 10,000개'])assert.ok((await page.locator('.sl-prizes').innerText()).includes(label));
     for(const [label,percent] of [['코인','60.00%'],['마스터의 별','14.00%']])assert.ok((await page.locator('.sl-prize').filter({hasText:label}).innerText()).includes(percent));
     const repair=page.locator('.sl-prize').filter({hasText:'핑두 리페어 쿠폰'});assert.match(await repair.innerText(),/1개[\s\S]*10\.00%/);assert.ok(await repair.locator('img').evaluate(img=>img.complete&&img.naturalWidth>0));
     assert.match(await page.locator('.sl-prize').filter({hasText:'핑두의 감사 선물'}).innerText(),/5개[\s\S]*1\.00%/);
@@ -34,14 +34,14 @@ try{
     await page.locator('[data-sl-canvas]').screenshot({path:path.join(out,`balls-${viewport.width}.png`)});
     await page.waitForTimeout(2900);await page.locator('[data-sl-canvas]').screenshot({path:path.join(out,`reels-${viewport.width}.png`)});}
     await page.locator('[data-sl-result] .sl-receipt').waitFor({timeout:15000});
-    assert.match(await page.locator('[data-sl-result]').innerText(),/3조 코인/);
+    assert.match(await page.locator('[data-sl-result]').innerText(),/500조 코인/);
     assert.equal(await page.locator('[data-sl-balance]').innerText(),'9개');
     await page.screenshot({path:path.join(out,`result-${viewport.width}.png`),fullPage:true});
     await page.selectOption('#previewPrize','MASTER_STAR');await page.locator('[data-sl-play]').click();await page.waitForTimeout(300);await page.locator('[data-sl-skip]').click();
-    await page.waitForFunction(()=>document.querySelector('[data-sl-result]')?.textContent.includes('5,000,000개'));
+    await page.waitForFunction(()=>document.querySelector('[data-sl-result]')?.textContent.includes('50,000,000개'));
     assert.equal(await page.locator('[data-sl-balance]').innerText(),'8개');
     assert.equal(await page.evaluate(()=>window.SoopketLand.diagnostics().busy),false);
-    for(const [key,amount] of [['EMPEROR_ENERGY','25개'],['STARLIGHT_ARMOR_CORE','5,000개'],['PINGDU_THANKS_GIFT_BOX','5개'],['PINGDU_REPAIR_COUPON','1개']]){
+    for(const [key,amount] of [['EMPEROR_ENERGY','100개'],['STARLIGHT_ARMOR_CORE','10,000개'],['PINGDU_THANKS_GIFT_BOX','5개'],['PINGDU_REPAIR_COUPON','1개']]){
       await page.selectOption('#previewPrize',key);await page.locator('[data-sl-play]').click();await page.waitForTimeout(300);await page.locator('[data-sl-skip]').click();
       await page.waitForFunction(()=>!window.SoopketLand.diagnostics().busy);
       assert.ok((await page.locator('[data-sl-result]').innerText()).includes(amount));
@@ -71,6 +71,6 @@ try{
   const slow=await browser.newPage({viewport:{width:390,height:844}});slow.on('pageerror',e=>failures.push(e.message));
   await slow.route('**/cabinet-v1.webp',async route=>{await new Promise(resolve=>setTimeout(resolve,7000));await route.fulfill({status:503,body:'Simulated unavailable cabinet'})});
   await slow.goto(`${base}/preview/soopketland-v2039/`,{waitUntil:'domcontentloaded'});await slow.locator('[data-sl-play]').click();await slow.locator('[data-sl-result] .sl-receipt').waitFor({timeout:6000});
-  assert.match(await slow.locator('[data-sl-result]').innerText(),/3조 코인/);await slow.close();}
-  assert.deepEqual(failures,[]);console.log(JSON.stringify({ok:true,out,viewports:process.env.QA_PUBLIC_BASE?[390]:[1440,390],dailyChecks:['ten spins only','unused tickets do not carry','zero balance disables play','both balances refresh','owner quantity max ten'],checks:rewardsOnly?['six prizes','60/5/14/10/1/10 odds','3조/25-emperor/5000000-star/5000-mystic/5-thanks-gift results','no retired prize selection','repair image in lineup/result/reels','owner weights','no overflow','no page errors']:['WebGL','balls/reels/results','two consecutive spins','skip','reduced motion','no overflow','no page errors']}));
+  assert.match(await slow.locator('[data-sl-result]').innerText(),/500조 코인/);await slow.close();}
+  assert.deepEqual(failures,[]);console.log(JSON.stringify({ok:true,out,viewports:process.env.QA_PUBLIC_BASE?[390]:[1440,390],dailyChecks:['ten spins only','unused tickets do not carry','zero balance disables play','both balances refresh','owner quantity max ten'],checks:rewardsOnly?['six prizes','60/5/14/10/1/10 odds','500조/100-emperor/50000000-star/10000-mystic/5-thanks-gift results','no retired prize selection','repair image in lineup/result/reels','owner weights','no overflow','no page errors']:['WebGL','balls/reels/results','two consecutive spins','skip','reduced motion','no overflow','no page errors']}));
 }finally{await browser.close()}

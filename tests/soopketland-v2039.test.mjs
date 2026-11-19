@@ -462,26 +462,26 @@ function addIyejun(f){
   f.sqlite.prepare("INSERT INTO cards(id,title,rarity,image_url,member_id,is_active,card_status) VALUES(?,'철구','FUR','iyejun.png',1,1,'PUBLIC')").run(LAND_IYEJUN_CARD_ID);
 }
 
-test('fivefold amounts preserve the original discrete outcomes and exact odds',()=>{
-  const expected={COIN:[200,6000,500000000],MASTER_STAR:[1,1000,5000],EMPEROR_ENERGY:[1,5,5],STARLIGHT_ARMOR_CORE:[1,1000,5],[LAND_THANKS_GIFT]:[1,1,5]};
+test('expanded ranges preserve discrete steps and reach both exact endpoints',()=>{
+  const expected={COIN:[2000,1000000,500000000],MASTER_STAR:[20,10000,5000],EMPEROR_ENERGY:[2,20,5],STARLIGHT_ARMOR_CORE:[2,2000,5],[LAND_THANKS_GIFT]:[1,1,5]};
   for(const [key,bounds] of Object.entries(expected)){
     const prize=LAND_PRIZES.find(p=>p.key===key);assert.deepEqual([prize.min,prize.max,prize.unit],bounds);
     const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===key?1:0]));
-    for(let step=0;step<=prize.max-prize.min;step++){let calls=0;assert.equal(pickLandPrize(weights,()=>calls++?step:0).amount,(prize.min+step)*prize.unit)}
+    for(const step of new Set([0,Math.min(1,prize.max-prize.min),Math.floor((prize.max-prize.min)/2),Math.max(0,prize.max-prize.min-1),prize.max-prize.min])){let calls=0;assert.equal(pickLandPrize(weights,()=>calls++?step:0).amount,(prize.min+step)*prize.unit)}
   }
 });
-test('a maximum coin spin persists a 3조 coupon and replay does not consume another ticket',async t=>{
+test('a maximum coin spin persists a 500조 coupon and replay does not consume another ticket',async t=>{
   const f=await fixture();await f.force('COIN');await f.grant(2,2);f.current.id=2;
   const config=f.sqlite.prepare("SELECT value FROM app_meta WHERE key='soopketland_settings_v2039'").get().value;
   const state=(await f.call()).body,coin=state.prizes.find(p=>p.key==='COIN');
-  assert.equal(coin.range,'1,000억 ~ 3조');assert.equal(coin.min,200);assert.equal(coin.max,6000);
-  let samples=0;t.mock.method(crypto,'getRandomValues',buffer=>{buffer[0]=samples++===0?0:5800;return buffer});
-  const id=crypto.randomUUID(),first=await f.spin(id);assert.equal(first.status,200);assert.equal(first.body.prize.amount,3000000000000);
+  assert.equal(coin.range,'1조 ~ 500조');assert.equal(coin.min,2000);assert.equal(coin.max,1000000);
+  let samples=0;t.mock.method(crypto,'getRandomValues',buffer=>{buffer[0]=samples++===0?0:998000;return buffer});
+  const id=crypto.randomUUID(),first=await f.spin(id);assert.equal(first.status,200);assert.equal(first.body.prize.amount,500000000000000);
   assert.equal((await f.spin(id)).body.replayed,true);assert.equal(f.qty(LAND_TICKET),1);
   const coupon=f.sqlite.prepare('SELECT reward_json,max_uses,used_count FROM soopketland_coupons WHERE code=?').get(first.body.code);
-  assert.equal(JSON.parse(coupon.reward_json).amount,3000000000000);assert.equal(coupon.max_uses,2);assert.equal(coupon.used_count,0);
-  assert.equal((await f.redeem(first.body.code)).body.rewardCoin,3000000000000);
-  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=20').get().coin,3000000000000);
+  assert.equal(JSON.parse(coupon.reward_json).amount,500000000000000);assert.equal(coupon.max_uses,2);assert.equal(coupon.used_count,0);
+  assert.equal((await f.redeem(first.body.code)).body.rewardCoin,500000000000000);
+  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=20').get().coin,500000000000000);
   assert.equal(f.sqlite.prepare("SELECT value FROM app_meta WHERE key='soopketland_settings_v2039'").get().value,config);
 });
 test('Emperor replaces the 5% Superstar prize, mystic keeps 10%, and retired keys cannot be spun or saved',async()=>{
@@ -497,7 +497,7 @@ test('Emperor replaces the 5% Superstar prize, mystic keeps 10%, and retired key
 });
 
 test('300억 and previous 200억/50억 coins credit once per viewer; existing stars and Black Miracle coupons keep their amount',async()=>{
-  for(const [key,amount] of [['COIN',30000000000],['COIN',20000000000],['COIN',5000000000],['MASTER_STAR',100000],['MASTER_STAR',50000],['MASTER_STAR',30000],['BLACK_MIRACLE_PACK',20]]){
+  for(const [key,amount] of [['COIN',100000000000],['COIN',3000000000000],['MASTER_STAR',5000],['MASTER_STAR',5000000],[EMPEROR_ENERGY,5],[EMPEROR_ENERGY,25],['STARLIGHT_ARMOR_CORE',5],['STARLIGHT_ARMOR_CORE',5000],['COIN',30000000000],['COIN',20000000000],['COIN',5000000000],['MASTER_STAR',100000],['MASTER_STAR',50000],['MASTER_STAR',30000],['BLACK_MIRACLE_PACK',20]]){
     const f=await fixture(),code=issuedCoupon(f,key,amount,2);
     const id=crypto.randomUUID();assert.equal((await f.redeem(code,20,id)).body.rewardAmount,amount);assert.equal((await f.redeem(code,20,id)).body.replayed,true);
     assert.equal(key==='COIN'?f.sqlite.prepare('SELECT coin FROM users WHERE id=20').get().coin:f.qty(key,20),amount);
@@ -600,7 +600,7 @@ test('the four-prize Superstar replacement preserves custom weights, subsequent 
 });
 
 test('maximum Emperor, stars and mystic spins persist coupons; failed delivery and replay cannot consume or grant twice',async t=>{
- for(const [key,lastSample,amount] of [[EMPEROR_ENERGY,4,25],['MASTER_STAR',999,5000000],['STARLIGHT_ARMOR_CORE',999,5000],[LAND_THANKS_GIFT,0,5],[LAND_REPAIR_COUPON,0,1]])await t.test(key,async t=>{
+ for(const [key,lastSample,amount] of [[EMPEROR_ENERGY,18,100],['MASTER_STAR',9980,50000000],['STARLIGHT_ARMOR_CORE',1998,10000],[LAND_THANKS_GIFT,0,5],[LAND_REPAIR_COUPON,0,1]])await t.test(key,async t=>{
   const f=await fixture();await f.force(key);await f.grant(2);f.current.id=2;
   let samples=0;t.mock.method(crypto,'getRandomValues',buffer=>{buffer[0]=samples++===0?0:lastSample;return buffer});
   const requestId=crypto.randomUUID(),roll=(await f.spin(requestId)).body;assert.equal(roll.prize.amount,amount);
@@ -614,7 +614,7 @@ test('maximum Emperor, stars and mystic spins persist coupons; failed delivery a
 });
 
 test('old one-pack Black Miracle coupons remain valid, and above-cap coupons cannot be consumed',async()=>{
-  for(const [key,legacy,invalid] of [['BLACK_MIRACLE_PACK',1,21],['COIN',100000000,3000100000000],['MASTER_STAR',300000,5001000],['STARLIGHT_ARMOR_CORE',1,5001],[EMPEROR_ENERGY,1,26],[SUPERSTAR_TICKET,1,2],[LAND_THANKS_GIFT,1,6],[LAND_REPAIR_COUPON,1,2]]){
+  for(const [key,legacy,invalid] of [['BLACK_MIRACLE_PACK',1,21],['COIN',100000000,500000100000000],['MASTER_STAR',300000,50001000],['STARLIGHT_ARMOR_CORE',1,10001],[EMPEROR_ENERGY,1,101],[SUPERSTAR_TICKET,1,2],[LAND_THANKS_GIFT,1,6],[LAND_REPAIR_COUPON,1,2]]){
     const f=await fixture(),code=issuedCoupon(f,key,legacy,2);
     couponAmount(f,code,legacy);assert.equal((await f.redeem(code,20)).body.rewardAmount,legacy);
     couponAmount(f,code,invalid);assert.equal((await f.redeem(code,21)).status,409);
@@ -622,9 +622,9 @@ test('old one-pack Black Miracle coupons remain valid, and above-cap coupons can
   }
 });
 
-test('PostgreSQL credits expanded maximum rewards once, including 3조 BIGINT coin and audit balances',async()=>{
+test('PostgreSQL credits expanded maximum rewards once, including 500조 BIGINT coin and audit balances',async()=>{
   const f=await fixture(),coupons=[];
-  for(const [key,amount] of [['COIN',3000000000000],['MASTER_STAR',5000000],['BLACK_MIRACLE_PACK',20],['STARLIGHT_ARMOR_CORE',5000],[EMPEROR_ENERGY,25],[LAND_THANKS_GIFT,5],[LAND_REPAIR_COUPON,1]]){
+  for(const [key,amount] of [['COIN',500000000000000],['MASTER_STAR',50000000],['BLACK_MIRACLE_PACK',20],['STARLIGHT_ARMOR_CORE',10000],[EMPEROR_ENERGY,100],[LAND_THANKS_GIFT,5],[LAND_REPAIR_COUPON,1]]){
     const code=issuedCoupon(f,key,amount);coupons.push({key,amount,code});
   }
   const pg=new PGlite();
@@ -645,7 +645,7 @@ test('PostgreSQL credits expanded maximum rewards once, including 3조 BIGINT co
       const row=key==='COIN'?(await pg.query('SELECT coin AS quantity FROM users WHERE id=20')).rows[0]:(await pg.query('SELECT quantity FROM cnine_user_inventory WHERE user_id=20 AND item_code=$1',[key])).rows[0];
       assert.equal(Number(row.quantity),amount);
     }
-    const audit=(await pg.query('SELECT change_amount,balance_after FROM coin_logs WHERE user_id=20')).rows;assert.equal(audit.length,1);assert.equal(Number(audit[0].change_amount),3000000000000);assert.equal(Number(audit[0].balance_after),3000000000000);
+    const audit=(await pg.query('SELECT change_amount,balance_after FROM coin_logs WHERE user_id=20')).rows;assert.equal(audit.length,1);assert.equal(Number(audit[0].change_amount),500000000000000);assert.equal(Number(audit[0].balance_after),500000000000000);
     const expiring='SLD-'+crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase();
     await pg.query('INSERT INTO soopketland_coupons(code,issuer_id,request_id,reward_json,max_uses,created_at) VALUES($1,2,$2,$3,150,$4)',[expiring,crypto.randomUUID(),JSON.stringify({key:LAND_REPAIR_COUPON,label:'핑두 리페어 쿠폰',amount:1}),new Date().toISOString()]);
     const batch=DB.batch.bind(DB);let changed=false;

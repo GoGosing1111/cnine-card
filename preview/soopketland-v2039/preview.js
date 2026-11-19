@@ -1,9 +1,9 @@
 
 const prizes=[
-  {key:'COIN',label:'코인',range:'1,000억 ~ 3조',min:200,max:6000,unit:500000000,symbol:'C',color:0xffd477,amount:3000000000000},
-  {key:'EMPEROR_ENERGY',label:'엠퍼러 에너지',range:'5 ~ 25개',symbol:'E',color:0xffdf91,amount:25},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'5,000 ~ 5,000,000개',symbol:'S',color:0xffe7a6,amount:5000000},
-  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'5 ~ 5,000개',symbol:'M',color:0xc5a5ff,amount:5000},
+  {key:'COIN',label:'코인',range:'1조 ~ 500조',min:2000,max:1000000,unit:500000000,symbol:'C',color:0xffd477,amount:500000000000000},
+  {key:'EMPEROR_ENERGY',label:'엠퍼러 에너지',range:'10 ~ 100개',symbol:'E',color:0xffdf91,amount:100},
+  {key:'MASTER_STAR',label:'마스터의 별',range:'100,000 ~ 50,000,000개',symbol:'S',color:0xffe7a6,amount:50000000},
+  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'10 ~ 10,000개',symbol:'M',color:0xc5a5ff,amount:10000},
   {key:'PINGDU_THANKS_GIFT_BOX',label:'핑두의 감사 선물',range:'5개',symbol:'G',color:0xff91c2,amount:5},
   {key:'PINGDU_REPAIR_COUPON',label:'핑두 리페어 쿠폰',range:'1개',symbol:'R',color:0xffbca0,amount:1}
 ].map(p=>{const weight={COIN:18000,EMPEROR_ENERGY:1500,MASTER_STAR:4200,STARLIGHT_ARMOR_CORE:3000,PINGDU_THANKS_GIFT_BOX:300,PINGDU_REPAIR_COUPON:3000}[p.key];return {...p,weight,percent:weight/300}});
