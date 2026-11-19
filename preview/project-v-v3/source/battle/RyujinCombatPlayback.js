@@ -73,7 +73,7 @@ export async function playRyujinArea(engine,event){
  s.stopped=false;s.adapter.suspended=false;
  await awaken(engine,s,engine.combatantById(hits[0].targetId));if(s.stopped)return false;
  const skill=RYUJIN_AREA_SKILLS.find(s=>s.id===event.skillId),action=skill.presentationVariants.includes(event.visualMode)?event.visualMode:skill.visualMode;
- return s.adapter.attack({action,hits,target:engine.combatantById(hits[0].targetId)});
+ return s.adapter.attack({action,hits,area:true,target:engine.combatantById(hits[0].targetId)});
 }
 
 async function awaken(engine,s,target){
