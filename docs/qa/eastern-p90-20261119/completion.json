@@ -1,0 +1,1477 @@
+{
+  "status": "CONFIGURED_LOCKED_AWAITING_DEPLOYMENT",
+  "at": "2026-11-19T05:22:34.453Z",
+  "sourceCommit": "4197c4e762150ce9b30db66db7d0db9ff7132ec1",
+  "recipe": {
+    "operationKey": "ops:eastern-p90:requirements:20261119:v1",
+    "status": "CONFIGURED_LOCKED",
+    "recipe": {
+      "id": "586",
+      "code": "WORKSHOP_EASTERN_P90",
+      "category": "ITEM_SYNTHESIS",
+      "name": "P90 · 동방무기상 제작",
+      "description": "금룡 대물저격 또는 금룡 대물소총 +15 중 1개 선택. 비밀무기 설계도 1장·2장·3장 각 1개, 코인 500조, 마스터의 별 10억 소모. 성공률 10%. 5회 실패 누적 후 6번째 확정 성공. 실패 시 무기 파괴, 리페어 가능. 공개 준비 중.",
+      "output_type": "EQUIPMENT",
+      "output_ref": "53",
+      "output_quantity": "1",
+      "payment_mode": "BOTH",
+      "coin_cost": "500000000000000",
+      "master_star_cost": "1000000000",
+      "success_rate": 10,
+      "is_featured": "0",
+      "is_active": "0",
+      "is_public": "0",
+      "owner_test_only": "1",
+      "sort_order": "100",
+      "created_at": "2026-11-19 04:47:06",
+      "updated_at": "2026-11-19 05:16:52.126366+00"
+    },
+    "policy": {
+      "inputEquipmentId": 40,
+      "inputEquipmentIds": [
+        40,
+        41
+      ],
+      "pityAfter": 5,
+      "revision": 1,
+      "requiredLevel": 15,
+      "successRate": 10,
+      "failureInputPolicy": "CONSUME",
+      "failureRepairable": true,
+      "inputName": "금룡 대물저격",
+      "inputImage": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+      "inputRarity": "MYTHIC",
+      "inputOptions": [
+        {
+          "id": 40,
+          "name": "금룡 대물저격",
+          "image": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+          "rarity": "MYTHIC"
+        },
+        {
+          "id": 41,
+          "name": "금룡 대물소총",
+          "image": "/assets\\items\\gilded-dragon-ar-mythic-v1.png",
+          "rarity": "MYTHIC"
+        }
+      ]
+    },
+    "materials": [
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "quantity": 1,
+        "sort": 10
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "quantity": 1,
+        "sort": 20
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "quantity": 1,
+        "sort": 30
+      }
+    ],
+    "pendingFields": [],
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "completedAt": "2026-11-19T05:16:55.147Z",
+    "auditId": "64705"
+  },
+  "initialPreparationAudit": "64700",
+  "interpretation": {
+    "blueprints": "비밀무기 설계도 1장·2장·3장 각 1개",
+    "pity": "사용자가 명시 확인: 5회 실패 후 6번째 확정 성공",
+    "output": "P90 1개 +0; 기존 연마 계승 유지",
+    "activation": "준비 요청: 제작 OFF·유저 비공개·OWNER-only 유지",
+    "successRate": "기존 동방 장비 제작 고정 성공률 10% 유지"
+  },
+  "resources": {
+    "weapon": "EASTERN_WEAPON_DRAFT_01",
+    "resourceWeapon": "EQ_1788486888336",
+    "suits": [
+      "BATTLE_SUIT_01",
+      "BATTLE_SUIT_02",
+      "BATTLE_SUIT_03",
+      "BATTLE_SUIT_H_BODY",
+      "BATTLE_SUIT_S_BODY"
+    ],
+    "newArtwork": 0,
+    "originalAtlasesUnchanged": true,
+    "combatStatsOrCadenceChanged": false
+  },
+  "powers": {
+    "at": "2026-11-19T05:16:55.343Z",
+    "forgePolicyRevision": 3,
+    "powers": [
+      {
+        "id": "40",
+        "code": "EQ_1788486888336",
+        "name": "東方軍火商(동방무기상)",
+        "base": {
+          "total": 468000,
+          "pve": 421200,
+          "pvp": 46800
+        },
+        "plus15": {
+          "total": 2574000,
+          "pve": 2316600,
+          "pvp": 257400
+        }
+      },
+      {
+        "id": "41",
+        "code": "EQ_1788486929132",
+        "name": "東方軍火商(동방무기상)",
+        "base": {
+          "total": 468000,
+          "pve": 421200,
+          "pvp": 46800
+        },
+        "plus15": {
+          "total": 2574000,
+          "pve": 2316600,
+          "pvp": 257400
+        }
+      },
+      {
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "base": {
+          "total": 12500000,
+          "pve": 12500000,
+          "pvp": 0
+        }
+      },
+      {
+        "id": "53",
+        "code": "EASTERN_WEAPON_DRAFT_01",
+        "name": "P90 · 東方軍火商(동방무기상)",
+        "base": {
+          "total": 910000,
+          "pve": 819000,
+          "pvp": 91000
+        },
+        "plus15": {
+          "total": 5005000,
+          "pve": 4504500,
+          "pvp": 500500
+        }
+      }
+    ]
+  },
+  "verification": {
+    "initial": {
+      "at": "2026-11-19T04:47:12.094Z",
+      "readOnly": true,
+      "receipt": {
+        "operationKey": "ops:eastern-p90:recipe-preparation:20261119:v1",
+        "status": "PREPARED_LOCKED",
+        "recipe": {
+          "id": "586",
+          "code": "WORKSHOP_EASTERN_P90",
+          "category": "ITEM_SYNTHESIS",
+          "name": "P90 · 동방무기상 제작",
+          "description": "제작 조건 설정 대기. 투입 장비·강화 단계·재료 수량·코인·마스터의 별·천장을 설정한 후 공개합니다. 현재 제작 잠금.",
+          "output_type": "EQUIPMENT",
+          "output_ref": "53",
+          "output_quantity": "1",
+          "payment_mode": "BOTH",
+          "coin_cost": "0",
+          "master_star_cost": "0",
+          "success_rate": 10,
+          "is_featured": "0",
+          "is_active": "0",
+          "is_public": "0",
+          "owner_test_only": "1",
+          "sort_order": "100",
+          "created_at": "2026-11-19 04:47:06",
+          "updated_at": "2026-11-19 04:47:06"
+        },
+        "policy": {
+          "inputEquipmentId": null,
+          "requiredLevel": null,
+          "pityAfter": null,
+          "revision": 0,
+          "successRate": 10,
+          "failureInputPolicy": "CONSUME",
+          "failureRepairable": true
+        },
+        "pendingFields": [
+          "inputEquipmentId",
+          "requiredLevel",
+          "materials",
+          "coinCost",
+          "masterStarCost",
+          "pityAfter"
+        ],
+        "existingRecipeIds": [
+          "526"
+        ],
+        "accountWrites": 0,
+        "messagesSent": 0,
+        "completedAt": "2026-11-19T04:47:08.291Z",
+        "auditId": "64700"
+      },
+      "replaySelects": 1,
+      "writes": 0,
+      "preservedItemsHash": "2eae23ad9bcebb847d04d08fa486cee3867dd09afc098030bb188965c0be9958",
+      "preservedRecipesHash": "43ddc31700265bfcbf9ba5956ed99bd8adaa6dc2eac969c84817eb2deaf5a85c"
+    },
+    "configured": {
+      "at": "2026-11-19T05:17:05.821Z",
+      "readOnly": true,
+      "receipt": {
+        "operationKey": "ops:eastern-p90:requirements:20261119:v1",
+        "status": "CONFIGURED_LOCKED",
+        "recipe": {
+          "id": "586",
+          "code": "WORKSHOP_EASTERN_P90",
+          "category": "ITEM_SYNTHESIS",
+          "name": "P90 · 동방무기상 제작",
+          "description": "금룡 대물저격 또는 금룡 대물소총 +15 중 1개 선택. 비밀무기 설계도 1장·2장·3장 각 1개, 코인 500조, 마스터의 별 10억 소모. 성공률 10%. 5회 실패 누적 후 6번째 확정 성공. 실패 시 무기 파괴, 리페어 가능. 공개 준비 중.",
+          "output_type": "EQUIPMENT",
+          "output_ref": "53",
+          "output_quantity": "1",
+          "payment_mode": "BOTH",
+          "coin_cost": "500000000000000",
+          "master_star_cost": "1000000000",
+          "success_rate": 10,
+          "is_featured": "0",
+          "is_active": "0",
+          "is_public": "0",
+          "owner_test_only": "1",
+          "sort_order": "100",
+          "created_at": "2026-11-19 04:47:06",
+          "updated_at": "2026-11-19 05:16:52.126366+00"
+        },
+        "policy": {
+          "inputEquipmentId": 40,
+          "inputEquipmentIds": [
+            40,
+            41
+          ],
+          "pityAfter": 5,
+          "revision": 1,
+          "requiredLevel": 15,
+          "successRate": 10,
+          "failureInputPolicy": "CONSUME",
+          "failureRepairable": true,
+          "inputName": "금룡 대물저격",
+          "inputImage": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+          "inputRarity": "MYTHIC",
+          "inputOptions": [
+            {
+              "id": 40,
+              "name": "금룡 대물저격",
+              "image": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+              "rarity": "MYTHIC"
+            },
+            {
+              "id": 41,
+              "name": "금룡 대물소총",
+              "image": "/assets\\items\\gilded-dragon-ar-mythic-v1.png",
+              "rarity": "MYTHIC"
+            }
+          ]
+        },
+        "materials": [
+          {
+            "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+            "quantity": 1,
+            "sort": 10
+          },
+          {
+            "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+            "quantity": 1,
+            "sort": 20
+          },
+          {
+            "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+            "quantity": 1,
+            "sort": 30
+          }
+        ],
+        "pendingFields": [],
+        "accountWrites": 0,
+        "messagesSent": 0,
+        "completedAt": "2026-11-19T05:16:55.147Z",
+        "auditId": "64705"
+      },
+      "materials": [
+        {
+          "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "quantity": "1",
+          "sort_order": "10"
+        },
+        {
+          "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+          "quantity": "1",
+          "sort_order": "20"
+        },
+        {
+          "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+          "quantity": "1",
+          "sort_order": "30"
+        }
+      ],
+      "itemsPreserved": 3,
+      "itemsHash": "d4037e85d70878bda28d87b0c8d01507b50f33fa9e4fda24768d91abde3fab2e",
+      "replaySelects": 1,
+      "writes": 0
+    },
+    "configurationRollback": [
+      {
+        "stage": "recipe",
+        "rolledBack": true
+      },
+      {
+        "stage": "materials",
+        "rolledBack": true
+      },
+      {
+        "stage": "policy",
+        "rolledBack": true
+      },
+      {
+        "stage": "audit",
+        "rolledBack": true
+      },
+      {
+        "stage": "receipt",
+        "rolledBack": true
+      },
+      {
+        "stage": "complete",
+        "rolledBack": true
+      }
+    ],
+    "cms": {
+      "at": "2026-11-19T05:18:08.805Z",
+      "condition": "Real CMS module and save API against isolated PostgreSQL fixture; no production writes.",
+      "results": [
+        {
+          "device": "pc",
+          "visits": [
+            {
+              "visit": "first",
+              "ms": 200
+            },
+            {
+              "visit": "reentry",
+              "ms": 14
+            }
+          ],
+          "overflow": 0,
+          "posts": 1,
+          "errors": [],
+          "exactRequirementsSaved": true,
+          "flags": "OFF/private/OWNER-only"
+        },
+        {
+          "device": "android",
+          "visits": [
+            {
+              "visit": "first",
+              "ms": 165
+            },
+            {
+              "visit": "reentry",
+              "ms": 13
+            }
+          ],
+          "overflow": 0,
+          "posts": 1,
+          "errors": [],
+          "exactRequirementsSaved": true,
+          "flags": "OFF/private/OWNER-only"
+        }
+      ]
+    },
+    "regression": null,
+    "live": null,
+    "liveBrowser": null
+  },
+  "performance": {
+    "serviceBefore": {
+      "phase": "before",
+      "at": "2026-11-19T04:43:45.259Z",
+      "condition": "Windows Node actual workshop/CMS services, production PostgreSQL READ ONLY, first/repeat on one connection, network included, no account writes.",
+      "records": [
+        {
+          "entry": "user",
+          "visit": "first",
+          "ms": 1462.6499999999996,
+          "queryCount": 17,
+          "slowest": [
+            {
+              "ms": 157.46249999999964,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            },
+            {
+              "ms": 92.09249999999975,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            },
+            {
+              "ms": 88.16480000000047,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "user",
+          "visit": "repeat",
+          "ms": 1269.9030000000002,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 92.29780000000028,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 81.10760000000028,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            },
+            {
+              "ms": 79.42159999999967,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "cms",
+          "visit": "first",
+          "ms": 1282.9457999999995,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 92.94470000000001,
+              "sql": "SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM equipment_synthesis_logs_v1676 l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN characte"
+            },
+            {
+              "ms": 88.7564999999995,
+              "sql": "SELECT l.*,r.code recipe_code,u.nickname,c.result_json craft_result_json,CASE WHEN UPPER(COALESCE(r.code,''))='WORKSHOP_MYSTIC_ENERGY' THEN 5000000 ELSE 0 END c"
+            },
+            {
+              "ms": 82.77679999999964,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "cms",
+          "visit": "repeat",
+          "ms": 1177.8399000000009,
+          "queryCount": 15,
+          "slowest": [
+            {
+              "ms": 80.94320000000153,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            },
+            {
+              "ms": 79.72639999999956,
+              "sql": "SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM equipment_synthesis_logs_v1676 l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN characte"
+            },
+            {
+              "ms": 79.04370000000017,
+              "sql": "SELECT key,value FROM app_meta WHERE key LIKE 'SYNTHMAT2008:%'"
+            }
+          ],
+          "draftPresent": false
+        }
+      ]
+    },
+    "serviceAfter": {
+      "phase": "configured",
+      "at": "2026-11-19T05:17:46.341Z",
+      "condition": "Windows Node actual workshop/CMS services, production PostgreSQL READ ONLY, first/repeat on one connection, network included, no account writes.",
+      "records": [
+        {
+          "entry": "user",
+          "visit": "first",
+          "ms": 1499.4654000000005,
+          "queryCount": 17,
+          "slowest": [
+            {
+              "ms": 154.8117999999995,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            },
+            {
+              "ms": 112.8110999999999,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 93.75990000000002,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "user",
+          "visit": "repeat",
+          "ms": 1271.688,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 87.7519000000002,
+              "sql": "SELECT total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=$1 AND mercenary_code=$2"
+            },
+            {
+              "ms": 85.3148000000001,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 81.82840000000033,
+              "sql": "SELECT m.*,i.name item_name,replace(i.image_url,chr(92),'/') image_url,i.rarity FROM workshop_recipe_materials_v1668 m LEFT JOIN inventory_items i ON i.code=m.i"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "cms",
+          "visit": "first",
+          "ms": 1382.2925999999998,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 175.40390000000025,
+              "sql": "SELECT l.*,r.code recipe_code,u.nickname,c.result_json craft_result_json,CASE WHEN UPPER(COALESCE(r.code,''))='WORKSHOP_MYSTIC_ENERGY' THEN 5000000 ELSE 0 END c"
+            },
+            {
+              "ms": 90.65570000000025,
+              "sql": "SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM equipment_synthesis_logs_v1676 l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN characte"
+            },
+            {
+              "ms": 82.59510000000046,
+              "sql": "SELECT id,code,name,slot,rarity,image_url FROM character_equipment_items WHERE is_active=1 ORDER BY sort_order,id"
+            }
+          ],
+          "draftPresent": true
+        },
+        {
+          "entry": "cms",
+          "visit": "repeat",
+          "ms": 1178.1332999999995,
+          "queryCount": 15,
+          "slowest": [
+            {
+              "ms": 82.10899999999856,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            },
+            {
+              "ms": 81.7447000000011,
+              "sql": "SELECT l.*,r.code recipe_code,u.nickname,c.result_json craft_result_json,CASE WHEN UPPER(COALESCE(r.code,''))='WORKSHOP_MYSTIC_ENERGY' THEN 5000000 ELSE 0 END c"
+            },
+            {
+              "ms": 80.54470000000038,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            }
+          ],
+          "draftPresent": true
+        }
+      ]
+    },
+    "battle": [
+      {
+        "source": "ui-pc-before.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "pc",
+        "phase": "before",
+        "firstLaunchMs": 1611.3999999910593,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 1093,
+            "frames": {
+              "count": 317,
+              "p95Ms": 20.699999999999818,
+              "maxMs": 158.20000000000027,
+              "over50": 4
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 471,
+            "frames": {
+              "count": 299,
+              "p95Ms": 20.5,
+              "maxMs": 67.10000000000036,
+              "over50": 2
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          }
+        ],
+        "errors": []
+      },
+      {
+        "source": "ui-pc-after.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "pc",
+        "phase": "after",
+        "firstLaunchMs": 1441.2999999970198,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 768,
+            "frames": {
+              "count": 299,
+              "p95Ms": 20.600000000000364,
+              "maxMs": 115.59999999999991,
+              "over50": 3
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 366,
+            "frames": {
+              "count": 297,
+              "p95Ms": 20.5,
+              "maxMs": 54.79999999999927,
+              "over50": 2
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          }
+        ],
+        "errors": []
+      },
+      {
+        "source": "ui-android-before.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "android",
+        "phase": "before",
+        "firstLaunchMs": 1547.0999999940395,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 808,
+            "frames": {
+              "count": 304,
+              "p95Ms": 20.59999999999991,
+              "maxMs": 127.5,
+              "over50": 4
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 379,
+            "frames": {
+              "count": 291,
+              "p95Ms": 20.100000000000364,
+              "maxMs": 82.5,
+              "over50": 1
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          }
+        ],
+        "errors": []
+      },
+      {
+        "source": "ui-android-after.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "android",
+        "phase": "after",
+        "firstLaunchMs": 1306.9000000059605,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 536,
+            "frames": {
+              "count": 292,
+              "p95Ms": 19.599999999999454,
+              "maxMs": 104.89999999999964,
+              "over50": 3
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 220,
+            "frames": {
+              "count": 286,
+              "p95Ms": 15.399999999999636,
+              "maxMs": 53.20000000000073,
+              "over50": 1
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          }
+        ],
+        "errors": []
+      },
+      {
+        "source": "ui-ios-before.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "ios",
+        "phase": "before",
+        "firstLaunchMs": 1800,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 2113,
+            "frames": {
+              "count": 215,
+              "p95Ms": 40,
+              "maxMs": 530,
+              "over50": 10
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 617,
+            "frames": {
+              "count": 241,
+              "p95Ms": 30,
+              "maxMs": 79,
+              "over50": 3
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "source": "ui-ios-after.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "ios",
+        "phase": "after",
+        "firstLaunchMs": 1081,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 1511,
+            "frames": {
+              "count": 230,
+              "p95Ms": 32,
+              "maxMs": 396,
+              "over50": 6
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 579,
+            "frames": {
+              "count": 194,
+              "p95Ms": 33,
+              "maxMs": 79,
+              "over50": 3
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "source": "ui-windows-before.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "windows",
+        "phase": "before",
+        "firstLaunchMs": 1150.5999999940395,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 511,
+            "frames": {
+              "count": 917,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 70.90000000000009,
+              "over50": 3
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 241,
+            "frames": {
+              "count": 898,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 37.5,
+              "over50": 0
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          }
+        ],
+        "errors": []
+      },
+      {
+        "source": "ui-windows-after.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "windows",
+        "phase": "after",
+        "firstLaunchMs": 1289.2999999970198,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 639,
+            "frames": {
+              "count": 932,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 79.20000000000027,
+              "over50": 2
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 274,
+            "frames": {
+              "count": 906,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 41.70000000000073,
+              "over50": 0
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          }
+        ],
+        "errors": []
+      },
+      {
+        "source": "ui-h5-before.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "h5",
+        "phase": "before",
+        "firstLaunchMs": 1125.7999999970198,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 584,
+            "frames": {
+              "count": 917,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 75,
+              "over50": 3
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 235,
+            "frames": {
+              "count": 888,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 54.19999999999982,
+              "over50": 1
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 0
+          }
+        ],
+        "errors": []
+      },
+      {
+        "source": "ui-h5-after.json",
+        "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+        "device": "h5",
+        "phase": "after",
+        "firstLaunchMs": 1132.3999999910593,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 460,
+            "frames": {
+              "count": 901,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 62.600000000000364,
+              "over50": 2
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 234,
+            "frames": {
+              "count": 889,
+              "p95Ms": 4.299999999999272,
+              "maxMs": 41.70000000000073,
+              "over50": 0
+            },
+            "exit": {
+              "mounted": false,
+              "timelines": 0,
+              "fire": false,
+              "idle": false,
+              "continuous": false
+            },
+            "postExitCalls": 0,
+            "shots": 8
+          }
+        ],
+        "errors": []
+      }
+    ],
+    "integrated": {
+      "source": "ui-pc-integrated.json",
+      "condition": "Windows headless Chrome/WebKit localhost, actual lobby -> hunt -> V3 renderer; isolated synthetic P90 + S-BODY payload. Android/WebKit mobile and touch emulation, Windows launcher URL, H5 iframe mock host. Not physical devices or installed launcher. No production gameplay writes.",
+      "device": "pc",
+      "phase": "integrated",
+      "firstLaunchMs": 1035.699999988079,
+      "rounds": [
+        {
+          "visit": "first",
+          "readyMs": 497,
+          "frames": {
+            "count": 916,
+            "p95Ms": 4.300000000000182,
+            "maxMs": 87.5,
+            "over50": 1
+          },
+          "exit": {
+            "mounted": false,
+            "timelines": 0,
+            "fire": false,
+            "idle": false,
+            "continuous": false
+          },
+          "postExitCalls": 0,
+          "shots": 8
+        },
+        {
+          "visit": "reentry",
+          "readyMs": 264,
+          "frames": {
+            "count": 900,
+            "p95Ms": 4.299999999999272,
+            "maxMs": 50,
+            "over50": 0
+          },
+          "exit": {
+            "mounted": false,
+            "timelines": 0,
+            "fire": false,
+            "idle": false,
+            "continuous": false
+          },
+          "postExitCalls": 0,
+          "shots": 8
+        }
+      ],
+      "errors": []
+    },
+    "craft": [
+      {
+        "source": "craft-pc-before.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "pc",
+        "phase": "before",
+        "firstLaunchMs": 1332.6000000089407,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 657,
+            "frames": {
+              "count": 310,
+              "p95Ms": 12.5,
+              "maxMs": 91.59999999999991,
+              "over50": 4
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 3
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 714,
+            "frames": {
+              "count": 410,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 45.80000000000018,
+              "over50": 0
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 3
+          }
+        ],
+        "errors": [],
+        "isolatedCrafts": 0
+      },
+      {
+        "source": "craft-pc-after.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "pc",
+        "phase": "after",
+        "firstLaunchMs": 1178.7999999970198,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 557,
+            "frames": {
+              "count": 314,
+              "p95Ms": 8.300000000000182,
+              "maxMs": 87.5,
+              "over50": 5
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 222,
+            "frames": {
+              "count": 300,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 37.5,
+              "over50": 0
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          }
+        ],
+        "errors": [],
+        "isolatedCrafts": 1
+      },
+      {
+        "source": "craft-android-before.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "android",
+        "phase": "before",
+        "firstLaunchMs": 1312.800000011921,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 646,
+            "frames": {
+              "count": 282,
+              "p95Ms": 12.5,
+              "maxMs": 111.9619999970198,
+              "over50": 7
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 3
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 183,
+            "frames": {
+              "count": 286,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 29.199999999999818,
+              "over50": 0
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 3
+          }
+        ],
+        "errors": [],
+        "isolatedCrafts": 0
+      },
+      {
+        "source": "craft-android-after.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "android",
+        "phase": "after",
+        "firstLaunchMs": 1266.5,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 757,
+            "frames": {
+              "count": 352,
+              "p95Ms": 8.299999999999955,
+              "maxMs": 109.69999999403944,
+              "over50": 6
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 1466,
+            "frames": {
+              "count": 650,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 54.100000000000364,
+              "over50": 1
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          }
+        ],
+        "errors": [],
+        "isolatedCrafts": 1
+      },
+      {
+        "source": "craft-ios-before.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "ios",
+        "phase": "before",
+        "firstLaunchMs": 1736,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 1621,
+            "frames": {
+              "count": 60,
+              "p95Ms": 242,
+              "maxMs": 379,
+              "over50": 12
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 3
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 1584,
+            "frames": {
+              "count": 91,
+              "p95Ms": 100,
+              "maxMs": 165,
+              "over50": 17
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 3
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "isolatedCrafts": 0
+      },
+      {
+        "source": "craft-ios-after.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "ios",
+        "phase": "after",
+        "firstLaunchMs": 1534,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 1127,
+            "frames": {
+              "count": 80,
+              "p95Ms": 164,
+              "maxMs": 241,
+              "over50": 9
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 1206,
+            "frames": {
+              "count": 97,
+              "p95Ms": 73,
+              "maxMs": 124,
+              "over50": 15
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "isolatedCrafts": 0
+      },
+      {
+        "source": "craft-windows-after.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "windows",
+        "phase": "after",
+        "firstLaunchMs": 1248.1000000089407,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 726,
+            "frames": {
+              "count": 340,
+              "p95Ms": 8.299999999999727,
+              "maxMs": 87.5,
+              "over50": 5
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 206,
+            "frames": {
+              "count": 296,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 33.399999999999636,
+              "over50": 0
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          }
+        ],
+        "errors": [],
+        "isolatedCrafts": 0
+      },
+      {
+        "source": "craft-h5-after.json",
+        "condition": "Windows headless Chrome/WebKit: actual lobby → workshop → equipment crafting → character → reentry. Same isolated PostgreSQL fixture and cost payload in before/after; not physical device or installed app. All spend and destruction are isolated.",
+        "device": "h5",
+        "phase": "after",
+        "firstLaunchMs": 1144.9000000059605,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 512,
+            "frames": {
+              "count": 300,
+              "p95Ms": 8.299999999999955,
+              "maxMs": 87.49999999701981,
+              "over50": 5
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 273,
+            "frames": {
+              "count": 307,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 37.600000000000364,
+              "over50": 0
+            },
+            "exit": {
+              "reveal": 0,
+              "canvas": 0
+            },
+            "overflow": 0,
+            "candidates": 6
+          }
+        ],
+        "errors": [],
+        "isolatedCrafts": 0
+      }
+    ],
+    "analysis": "Actual Windows Node production READ ONLY workshop/CMS service wait is primarily serial database round trips. User query counts remain 17/16 and CMS 16/15. Alternative input lookup is one batched query plus one pity query; no per-item query or new atlas download. Browser results are isolated single samples, headless Chrome/WebKit with touch/device emulation; baseline Git blobs and current checkout have transport/cache/CPU scheduling variation. Frame outliers and existing WebKit ResizeObserver warnings remain. No speed improvement claim. No physical phone or installed launcher measurement."
+  },
+  "safety": {
+    "productionPlayerWrites": 0,
+    "messages": 0,
+    "catalogPowerChanges": 0,
+    "otherRecipesChanged": 0,
+    "newStorageMaintenance": 0,
+    "preexistingReceiptsPreserved": true,
+    "operationReplaySelects": 1,
+    "operationReplayWrites": 0
+  },
+  "history": "preparation.json describes the earlier incomplete draft. requirements.json and this completion supersede it after the user supplied the costs, alternative inputs, repair and ceiling."
+}
