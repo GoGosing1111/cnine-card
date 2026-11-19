@@ -133,12 +133,26 @@ function catalogEntry(suitCode,suitSlug,weaponCode,weapon){
   });
 }
 
-export const ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG=Object.freeze({...Object.fromEntries(
+const BASE_ANIMATION_CATALOG=Object.freeze({...Object.fromEntries(
   Object.entries(SUITS).flatMap(([suitCode,suitSlug])=>Object.entries(WEAPONS).map(([weaponCode,weapon])=>{
     const key=`${suitCode}:${weaponCode}`;
     return [key,catalogEntry(suitCode,suitSlug,weaponCode,weapon)];
   }))
 ),...H_BODY_ANIMATION_CATALOG,...SZ_BODY_ANIMATION_CATALOG});
+
+// P90 uses the approved gold anti-materiel wearing resources through S-BODY.
+// Keep its equipment identity and authoritative combat values independent.
+const P90_RESOURCE_SUIT_CODES=Object.freeze([
+  'BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03','BATTLE_SUIT_H_BODY','BATTLE_SUIT_S_BODY'
+]);
+export const ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG=Object.freeze({
+  ...BASE_ANIMATION_CATALOG,
+  ...Object.fromEntries(P90_RESOURCE_SUIT_CODES.map(suitCode=>[
+    `${suitCode}:EASTERN_WEAPON_DRAFT_01`,
+    Object.freeze({...BASE_ANIMATION_CATALOG[`${suitCode}:EQ_1788486888336`],
+      weaponCode:'EASTERN_WEAPON_DRAFT_01',resourceWeaponCode:'EQ_1788486888336'})
+  ]))
+});
 
 export function resolveAccountBattleSuitAnimation(suitCode,weaponCode){
   const suit=String(suitCode||'').trim().toUpperCase();

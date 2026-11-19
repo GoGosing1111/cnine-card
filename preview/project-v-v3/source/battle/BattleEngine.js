@@ -216,7 +216,8 @@ const ACCOUNT_WEAPON_CUTOUTS=Object.freeze({
   EQ_1785961300455:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png',
   EQ_1786966923833:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png',
   EQ_1788486929132:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-ar-v1.png',
-  EQ_1788486888336:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png'
+  EQ_1788486888336:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png',
+  EASTERN_WEAPON_DRAFT_01:'/assets/ui/project-v/account-battle-suits/weapons/gilded-dragon-antimateriel-v1.png'
 });
 // Presentation-only cadence for the auxiliary PVE unit. These profiles never
 // mutate authoritative HP or the canonical five-card action list. ARs keep a

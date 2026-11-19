@@ -1,0 +1,454 @@
+{
+  "status": "PREPARED_LOCKED",
+  "at": "2026-11-19T04:54:05.321Z",
+  "operation": {
+    "replayed": false,
+    "dryRun": false,
+    "receipt": {
+      "operationKey": "ops:eastern-p90:recipe-preparation:20261119:v1",
+      "status": "PREPARED_LOCKED",
+      "recipe": {
+        "id": "586",
+        "code": "WORKSHOP_EASTERN_P90",
+        "category": "ITEM_SYNTHESIS",
+        "name": "P90 · 동방무기상 제작",
+        "description": "제작 조건 설정 대기. 투입 장비·강화 단계·재료 수량·코인·마스터의 별·천장을 설정한 후 공개합니다. 현재 제작 잠금.",
+        "output_type": "EQUIPMENT",
+        "output_ref": "53",
+        "output_quantity": "1",
+        "payment_mode": "BOTH",
+        "coin_cost": "0",
+        "master_star_cost": "0",
+        "success_rate": 10,
+        "is_featured": "0",
+        "is_active": "0",
+        "is_public": "0",
+        "owner_test_only": "1",
+        "sort_order": "100",
+        "created_at": "2026-11-19 04:47:06",
+        "updated_at": "2026-11-19 04:47:06"
+      },
+      "policy": {
+        "inputEquipmentId": null,
+        "requiredLevel": null,
+        "pityAfter": null,
+        "revision": 0,
+        "successRate": 10,
+        "failureInputPolicy": "CONSUME",
+        "failureRepairable": true
+      },
+      "pendingFields": [
+        "inputEquipmentId",
+        "requiredLevel",
+        "materials",
+        "coinCost",
+        "masterStarCost",
+        "pityAfter"
+      ],
+      "existingRecipeIds": [
+        "526"
+      ],
+      "accountWrites": 0,
+      "messagesSent": 0,
+      "completedAt": "2026-11-19T04:47:08.291Z",
+      "auditId": "64700"
+    },
+    "ms": 1255.1342999999997
+  },
+  "verification": {
+    "at": "2026-11-19T04:47:12.094Z",
+    "readOnly": true,
+    "receipt": {
+      "operationKey": "ops:eastern-p90:recipe-preparation:20261119:v1",
+      "status": "PREPARED_LOCKED",
+      "recipe": {
+        "id": "586",
+        "code": "WORKSHOP_EASTERN_P90",
+        "category": "ITEM_SYNTHESIS",
+        "name": "P90 · 동방무기상 제작",
+        "description": "제작 조건 설정 대기. 투입 장비·강화 단계·재료 수량·코인·마스터의 별·천장을 설정한 후 공개합니다. 현재 제작 잠금.",
+        "output_type": "EQUIPMENT",
+        "output_ref": "53",
+        "output_quantity": "1",
+        "payment_mode": "BOTH",
+        "coin_cost": "0",
+        "master_star_cost": "0",
+        "success_rate": 10,
+        "is_featured": "0",
+        "is_active": "0",
+        "is_public": "0",
+        "owner_test_only": "1",
+        "sort_order": "100",
+        "created_at": "2026-11-19 04:47:06",
+        "updated_at": "2026-11-19 04:47:06"
+      },
+      "policy": {
+        "inputEquipmentId": null,
+        "requiredLevel": null,
+        "pityAfter": null,
+        "revision": 0,
+        "successRate": 10,
+        "failureInputPolicy": "CONSUME",
+        "failureRepairable": true
+      },
+      "pendingFields": [
+        "inputEquipmentId",
+        "requiredLevel",
+        "materials",
+        "coinCost",
+        "masterStarCost",
+        "pityAfter"
+      ],
+      "existingRecipeIds": [
+        "526"
+      ],
+      "accountWrites": 0,
+      "messagesSent": 0,
+      "completedAt": "2026-11-19T04:47:08.291Z",
+      "auditId": "64700"
+    },
+    "replaySelects": 1,
+    "writes": 0,
+    "preservedItemsHash": "2eae23ad9bcebb847d04d08fa486cee3867dd09afc098030bb188965c0be9958",
+    "preservedRecipesHash": "43ddc31700265bfcbf9ba5956ed99bd8adaa6dc2eac969c84817eb2deaf5a85c"
+  },
+  "rehearsal": {
+    "at": "2026-11-19T04:45:30.477Z",
+    "results": [
+      {
+        "stage": "recipe",
+        "rolledBack": true
+      },
+      {
+        "stage": "policy",
+        "rolledBack": true
+      },
+      {
+        "stage": "audit",
+        "rolledBack": true
+      },
+      {
+        "stage": "receipt",
+        "rolledBack": true
+      },
+      {
+        "stage": "complete-dry-run",
+        "rolledBack": true
+      }
+    ]
+  },
+  "power": [
+    {
+      "id": "36",
+      "code": "BATTLE_SUIT_01",
+      "name": "E-BODY",
+      "total": 200000,
+      "pve": 200000,
+      "pvp": 0
+    },
+    {
+      "id": "37",
+      "code": "BATTLE_SUIT_02",
+      "name": "F-BODY",
+      "total": 2500000,
+      "pve": 2500000,
+      "pvp": 0
+    },
+    {
+      "id": "38",
+      "code": "BATTLE_SUIT_03",
+      "name": "G-BODY",
+      "total": 3500000,
+      "pve": 3500000,
+      "pvp": 0
+    },
+    {
+      "id": "40",
+      "code": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상)",
+      "total": 468000,
+      "pve": 421200,
+      "pvp": 46800
+    },
+    {
+      "id": "41",
+      "code": "EQ_1788486929132",
+      "name": "東方軍火商(동방무기상)",
+      "total": 468000,
+      "pve": 421200,
+      "pvp": 46800
+    },
+    {
+      "id": "42",
+      "code": "BATTLE_SUIT_H_BODY",
+      "name": "H-BODY",
+      "total": 7000000,
+      "pve": 7000000,
+      "pvp": 0
+    },
+    {
+      "id": "47",
+      "code": "BATTLE_SUIT_S_BODY",
+      "name": "S-BODY",
+      "total": 12500000,
+      "pve": 12500000,
+      "pvp": 0
+    },
+    {
+      "id": "48",
+      "code": "BATTLE_SUIT_Z_BODY",
+      "name": "Z-BODY",
+      "total": 25000000,
+      "pve": 25000000,
+      "pvp": 0
+    },
+    {
+      "id": "49",
+      "code": "BATTLE_SUIT_X_BODY",
+      "name": "X-BODY",
+      "total": 50000000,
+      "pve": 50000000,
+      "pvp": 0
+    },
+    {
+      "id": "50",
+      "code": "BATTLE_SUIT_OVERLORD",
+      "name": "오버로드",
+      "total": 75000000,
+      "pve": 75000000,
+      "pvp": 0
+    },
+    {
+      "id": "52",
+      "code": "BATTLE_SUIT_SX",
+      "name": "SX슈트",
+      "total": 80000000,
+      "pve": 80000000,
+      "pvp": 0
+    },
+    {
+      "id": "53",
+      "code": "EASTERN_WEAPON_DRAFT_01",
+      "name": "P90 · 東方軍火商(동방무기상)",
+      "total": 910000,
+      "pve": 819000,
+      "pvp": 91000
+    },
+    {
+      "id": "54",
+      "code": "EASTERN_WEAPON_DRAFT_02",
+      "name": "SCAR-東方軍火商(동방무기상)",
+      "total": 910000,
+      "pve": 819000,
+      "pvp": 91000
+    },
+    {
+      "id": "55",
+      "code": "EASTERN_WEAPON_DRAFT_03",
+      "name": "M14-EBR-東方軍火商(동방무기상)",
+      "total": 910000,
+      "pve": 819000,
+      "pvp": 91000
+    }
+  ],
+  "resourceBinding": {
+    "equipmentCode": "EASTERN_WEAPON_DRAFT_01",
+    "resourceEquipmentCode": "EQ_1788486888336",
+    "suits": [
+      "E-BODY",
+      "F-BODY",
+      "G-BODY",
+      "H-BODY",
+      "S-BODY"
+    ],
+    "imagesAdded": 0,
+    "originalArtChanged": false,
+    "serverCombatChanged": false
+  },
+  "services": {
+    "before": {
+      "phase": "before",
+      "at": "2026-11-19T04:43:45.259Z",
+      "condition": "Windows Node actual workshop/CMS services, production PostgreSQL READ ONLY, first/repeat on one connection, network included, no account writes.",
+      "records": [
+        {
+          "entry": "user",
+          "visit": "first",
+          "ms": 1462.6499999999996,
+          "queryCount": 17,
+          "slowest": [
+            {
+              "ms": 157.46249999999964,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            },
+            {
+              "ms": 92.09249999999975,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            },
+            {
+              "ms": 88.16480000000047,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "user",
+          "visit": "repeat",
+          "ms": 1269.9030000000002,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 92.29780000000028,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 81.10760000000028,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            },
+            {
+              "ms": 79.42159999999967,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "cms",
+          "visit": "first",
+          "ms": 1282.9457999999995,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 92.94470000000001,
+              "sql": "SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM equipment_synthesis_logs_v1676 l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN characte"
+            },
+            {
+              "ms": 88.7564999999995,
+              "sql": "SELECT l.*,r.code recipe_code,u.nickname,c.result_json craft_result_json,CASE WHEN UPPER(COALESCE(r.code,''))='WORKSHOP_MYSTIC_ENERGY' THEN 5000000 ELSE 0 END c"
+            },
+            {
+              "ms": 82.77679999999964,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "cms",
+          "visit": "repeat",
+          "ms": 1177.8399000000009,
+          "queryCount": 15,
+          "slowest": [
+            {
+              "ms": 80.94320000000153,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            },
+            {
+              "ms": 79.72639999999956,
+              "sql": "SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM equipment_synthesis_logs_v1676 l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN characte"
+            },
+            {
+              "ms": 79.04370000000017,
+              "sql": "SELECT key,value FROM app_meta WHERE key LIKE 'SYNTHMAT2008:%'"
+            }
+          ],
+          "draftPresent": false
+        }
+      ]
+    },
+    "after": {
+      "phase": "after",
+      "at": "2026-11-19T04:47:20.439Z",
+      "condition": "Windows Node actual workshop/CMS services, production PostgreSQL READ ONLY, first/repeat on one connection, network included, no account writes.",
+      "records": [
+        {
+          "entry": "user",
+          "visit": "first",
+          "ms": 1350.7271000000005,
+          "queryCount": 17,
+          "slowest": [
+            {
+              "ms": 145.5328000000004,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            },
+            {
+              "ms": 83.42889999999989,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            },
+            {
+              "ms": 82.25690000000031,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "user",
+          "visit": "repeat",
+          "ms": 1174.6118999999999,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 79.70290000000023,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            },
+            {
+              "ms": 75.77829999999994,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            },
+            {
+              "ms": 75.22139999999945,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            }
+          ],
+          "draftPresent": false
+        },
+        {
+          "entry": "cms",
+          "visit": "first",
+          "ms": 1266.3615,
+          "queryCount": 16,
+          "slowest": [
+            {
+              "ms": 150.23220000000038,
+              "sql": "SELECT l.*,r.code recipe_code,u.nickname,c.result_json craft_result_json,CASE WHEN UPPER(COALESCE(r.code,''))='WORKSHOP_MYSTIC_ENERGY' THEN 5000000 ELSE 0 END c"
+            },
+            {
+              "ms": 82.33680000000004,
+              "sql": "SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM equipment_synthesis_logs_v1676 l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN characte"
+            },
+            {
+              "ms": 81.91360000000077,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            }
+          ],
+          "draftPresent": true
+        },
+        {
+          "entry": "cms",
+          "visit": "repeat",
+          "ms": 1102.1646999999994,
+          "queryCount": 15,
+          "slowest": [
+            {
+              "ms": 79.66360000000077,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            },
+            {
+              "ms": 75.01029999999992,
+              "sql": "SELECT key,value FROM app_meta WHERE key LIKE 'SYNTHMAT2008:%'"
+            },
+            {
+              "ms": 74.24279999999999,
+              "sql": "SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM equipment_synthesis_logs_v1676 l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN characte"
+            }
+          ],
+          "draftPresent": true
+        }
+      ]
+    }
+  },
+  "sourceBase": "48238db0968ba736350bddd517deb4ee1fc57a71",
+  "productionBase": "ec90144c2603b0edb374bf966be223d1eafae5c5"
+}
