@@ -119,4 +119,4 @@
 }
 
 /* The raid HUD owns boss and party health; keep the V3 floor unobstructed. */
-.nox-combat .v3-hud-boss-health,.nox-combat .battle-v3-header,.nox-combat .pv-battle-status{display:none!important}
+#battleMount .v3-hud-boss-health,#battleMount .battle-v3-header,#battleMount .pv-battle-status{display:none!important}
