@@ -300,7 +300,12 @@ export const withMercenaryBattle=Base=>class extends Base{
  }
  async playMercenaryEvent(event){
   const limitedActor=this.combatantById(event.actorId);
-  if(limitedActor?.cardId===ASTRA_CODE&&event.type===ASTRA_EVENT)return playAstraSkill(this,limitedActor,event);
+  if(limitedActor?.cardId===ASTRA_CODE){
+   if(event.type===ASTRA_EVENT)return playAstraSkill(this,limitedActor,event);
+   // The dedicated strike owns the animation and damage. Lifecycle records
+   // carry Astra-only skill IDs and must not enter the generic skill catalog.
+   if(['MERCENARY_WINDUP','MERCENARY_CAST','MERCENARY_END','MERCENARY_FINISH','MERCENARY_CANCEL'].includes(event.type))return true;
+  }
   if(blueGearProfile(limitedActor?.cardId)){
    if(event.type===BLUE_GEAR_EVENT)return playBlueGearSkill(this,limitedActor,event);
    if(['MERCENARY_WINDUP','MERCENARY_CAST','MERCENARY_END','MERCENARY_FINISH','MERCENARY_CANCEL'].includes(event.type))return true;
