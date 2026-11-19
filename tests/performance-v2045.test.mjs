@@ -29,9 +29,9 @@ test('per-request PostgreSQL proxies reuse completed catalog/schema checks, not 
     await ensureBattleSuitCoreCatalog(env());await ensureClanParticipationSchema(env());
     await ensureUniqueAdvancementPassCatalog(env());await ensureMysticEnergyCatalog(env());
   }
-  // Legacy, S/Z and SX cores have independent markers; each is read once across all requests.
-  assert.equal(queries,5);assert.equal(writes,1);
-  const other=env();other.RUNTIME_DB_CACHE_SCOPE='test:pg:another-db';await ensureClanParticipationSchema(other);assert.equal(queries,6);
+  // Legacy, S/Z, X and SX cores plus clan and mystic-energy markers are each read once.
+  assert.equal(queries,6);assert.equal(writes,1);
+  const other=env();other.RUNTIME_DB_CACHE_SCOPE='test:pg:another-db';await ensureClanParticipationSchema(other);assert.equal(queries,7);
 });
 
 test('failed catalog writes are retried, never cached as success',async()=>{
