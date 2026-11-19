@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "ordinaryGrantDoesNotRestrictCoins": true,
+  "auctionReservedPreserved": true,
+  "sourceMatchesOriginMain": true,
+  "comparison": "CRLF normalized to LF; initial raw byte comparison rejected only line-ending differences",
+  "sourceSha256LF": {
+    "functions/_package_coin_accounting.js": "ca2a84f768720bd9e02de6675d7a01614cbe13578cd436623f000a60b5236bb2",
+    "functions/_postgres_d1_compat.js": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+    "shared/coin-integer-v1.mjs": "f59bb0f6ff40ceabc05d8ed0e2ec04a0a82316934f49f2647b9d97758b254f96"
+  },
+  "relatedIntegerTests": {
+    "passed": 7,
+    "failed": 0,
+    "command": "node --test --test-name-pattern=exact wallet arithmetic|PVE unified grant|PVE ledger failure|PVE proof tests/coin-100quadrillion-20261106.test.mjs"
+  }
+}

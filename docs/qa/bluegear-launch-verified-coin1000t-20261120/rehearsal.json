@@ -1,0 +1,20 @@
+{
+  "at": "2026-11-19T15:25:53.426Z",
+  "partial": [
+    {
+      "step": "wallet",
+      "rolledBack": true
+    },
+    {
+      "step": "ledger",
+      "rolledBack": true
+    },
+    {
+      "step": "receipt",
+      "rolledBack": true
+    }
+  ],
+  "fullRollback": true,
+  "invalidPlanBlocked": true,
+  "preStateHash": "09e6aea6d90530d5e8335a78a29a0609748b574d01ef4f00e10a043d56dbb837"
+}

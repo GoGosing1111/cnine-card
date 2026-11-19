@@ -1,0 +1,397 @@
+{
+  "operationKey": "ops:bluegear-launch:verified-coin1000t:20261120:v1",
+  "title": "블루기어 출시 기념",
+  "authorization": "2차인증 전체유저 1000조 지급해 블루기어 출시기념 사료",
+  "completedAtKST": "2026-11-20 00:25:54",
+  "auditId": "65149",
+  "delivery": "DIRECT_WALLET",
+  "recipients": 282,
+  "amountEach": "1000000000000000",
+  "totalCoins": "282000000000000000",
+  "totalFormatted": "28경 2,000조",
+  "statusCounts": {
+    "ACTIVE": 280,
+    "BANNED": 2
+  },
+  "roleCounts": {
+    "OWNER": 3,
+    "USER": 278,
+    "ADMIN": 1
+  },
+  "providerCounts": {
+    "WAGO": 2,
+    "PLAYDK": 280
+  },
+  "allSecondVerifiedAccountsIncluded": true,
+  "eligibility": "ALL_SECOND_VERIFIED_ACCOUNTS",
+  "eligibilityBasis": "All accounts registered in user_second_verifications, consistent with the latest all-verified direct grant on 2026-11-17. No role/status exclusion or account-status change.",
+  "accountStatusChanged": false,
+  "verification": {
+    "recipients": 282,
+    "coinLogs": 282,
+    "perAccountReceipts": 282,
+    "amountEach": "1000000000000000",
+    "totalCoins": "282000000000000000",
+    "missing": 0,
+    "duplicates": 0,
+    "allCurrentBalancesReconciled": true,
+    "changesAfterGrant": [
+      {
+        "userId": "3",
+        "delta": "-899991000000000"
+      },
+      {
+        "userId": "19",
+        "delta": "910100000"
+      },
+      {
+        "userId": "22",
+        "delta": "24832500000000"
+      },
+      {
+        "userId": "52",
+        "delta": "1284800000"
+      },
+      {
+        "userId": "62",
+        "delta": "10974000000"
+      },
+      {
+        "userId": "164",
+        "delta": "914773534"
+      },
+      {
+        "userId": "216",
+        "delta": "11280060000"
+      },
+      {
+        "userId": "218",
+        "delta": "223300000"
+      },
+      {
+        "userId": "303",
+        "delta": "-499995000000000"
+      },
+      {
+        "userId": "315",
+        "delta": "-299997000000000"
+      },
+      {
+        "userId": "360",
+        "delta": "23733875000000"
+      },
+      {
+        "userId": "364",
+        "delta": "-49999500000000"
+      },
+      {
+        "userId": "493",
+        "delta": "637500000"
+      },
+      {
+        "userId": "1195",
+        "delta": "993000000"
+      },
+      {
+        "userId": "2420",
+        "delta": "948400000"
+      },
+      {
+        "userId": "3867",
+        "delta": "1145000000"
+      },
+      {
+        "userId": "3884",
+        "delta": "7943000000"
+      },
+      {
+        "userId": "4389",
+        "delta": "644611187"
+      },
+      {
+        "userId": "4570",
+        "delta": "19148250000000"
+      },
+      {
+        "userId": "4572",
+        "delta": "-45000000000"
+      },
+      {
+        "userId": "4582",
+        "delta": "35563000000000"
+      },
+      {
+        "userId": "4595",
+        "delta": "532400000"
+      },
+      {
+        "userId": "4597",
+        "delta": "28712200000000"
+      },
+      {
+        "userId": "4610",
+        "delta": "1500000000"
+      },
+      {
+        "userId": "4615",
+        "delta": "18568878000000"
+      },
+      {
+        "userId": "4627",
+        "delta": "2844800000"
+      },
+      {
+        "userId": "4629",
+        "delta": "1271700000"
+      },
+      {
+        "userId": "4705",
+        "delta": "9900000000"
+      },
+      {
+        "userId": "4712",
+        "delta": "-100021500000000"
+      },
+      {
+        "userId": "4772",
+        "delta": "8590734652"
+      },
+      {
+        "userId": "4828",
+        "delta": "1236000000"
+      },
+      {
+        "userId": "4908",
+        "delta": "167400000"
+      },
+      {
+        "userId": "4910",
+        "delta": "223300000"
+      },
+      {
+        "userId": "5008",
+        "delta": "456000000"
+      },
+      {
+        "userId": "5095",
+        "delta": "129600000000"
+      },
+      {
+        "userId": "5147",
+        "delta": "-199998000000000"
+      },
+      {
+        "userId": "5426",
+        "delta": "-22500000000"
+      },
+      {
+        "userId": "5429",
+        "delta": "1090723056"
+      },
+      {
+        "userId": "5877",
+        "delta": "-299997000000000"
+      }
+    ]
+  },
+  "replayWrites": 0,
+  "replayQueries": 1,
+  "locksRemaining": 0,
+  "messagesSent": 0,
+  "previousCampaignsPreserved": 6,
+  "protectedBeforeHash": "713be6743dc15cfa386d5dddc65ae67902746a156c54e83d5795a435d0aaf1df",
+  "protectedAfterHash": "713be6743dc15cfa386d5dddc65ae67902746a156c54e83d5795a435d0aaf1df",
+  "otherCurrenciesPreserved": true,
+  "checks": {
+    "partialFailuresRolledBack": 3,
+    "fullRehearsalRolledBack": true,
+    "invalidPlanBlocked": true,
+    "relatedIntegerTests": {
+      "passed": 7,
+      "failed": 0,
+      "command": "node --test --test-name-pattern=exact wallet arithmetic|PVE unified grant|PVE ledger failure|PVE proof tests/coin-100quadrillion-20261106.test.mjs"
+    },
+    "ordinaryGrantDoesNotRestrictCoins": true,
+    "auctionReservedPreserved": true,
+    "sourceMatchesOriginMain": true,
+    "sourceSha256LF": {
+      "functions/_package_coin_accounting.js": "ca2a84f768720bd9e02de6675d7a01614cbe13578cd436623f000a60b5236bb2",
+      "functions/_postgres_d1_compat.js": "1111070d6b1928ba84308589372c8235fdd0e06e837493af03f7cae473f135ea",
+      "shared/coin-integer-v1.mjs": "f59bb0f6ff40ceabc05d8ed0e2ec04a0a82316934f49f2647b9d97758b254f96"
+    },
+    "independentReadOnly": true,
+    "otherTablesWrites": 0
+  },
+  "performance": {
+    "grantVerifyMs": 3063,
+    "grantVerifyQueries": 20,
+    "independentVerifyMs": 924,
+    "before": {
+      "phase": "before",
+      "at": "2026-11-19T15:24:15.417Z",
+      "userId": "4933",
+      "readOnly": true,
+      "wallet": {
+        "total": "1957710545949421",
+        "restricted": "0",
+        "available": "1957710545949421"
+      },
+      "samples": [
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "ms": 1374.3815,
+          "sql": 4,
+          "queries": [
+            {
+              "statement": "SELECT value FROM app_meta WHERE key=$1",
+              "ms": 85.6248999999998
+            },
+            {
+              "statement": "SELECT CAST(coin AS TEXT) AS coin,(SELECT COALESCE(MAX(id),0) FROM coin_logs WHERE user_id=users.id) AS last_log FROM users WHERE id=$1",
+              "ms": 88.5936999999999
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 1035.1898999999994
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 156.34000000000015
+            }
+          ]
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "ms": 426.9533000000001,
+          "sql": 4,
+          "queries": [
+            {
+              "statement": "SELECT value FROM app_meta WHERE key=$1",
+              "ms": 85.66049999999996
+            },
+            {
+              "statement": "SELECT CAST(coin AS TEXT) AS coin,(SELECT COALESCE(MAX(id),0) FROM coin_logs WHERE user_id=users.id) AS last_log FROM users WHERE id=$1",
+              "ms": 86.03409999999985
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 165.15309999999954
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 85.17169999999987
+            }
+          ]
+        },
+        {
+          "kind": "roster",
+          "visit": "first",
+          "ms": 87.86090000000058,
+          "sql": 1,
+          "recipients": 282
+        },
+        {
+          "kind": "roster",
+          "visit": "repeat",
+          "ms": 90.30020000000059,
+          "sql": 1,
+          "recipients": 282
+        }
+      ],
+      "conditions": "Windows CLI invoking existing production wallet accounting service and complete verified roster on live PostgreSQL. First/repeat on one connection, fresh process per phase, network included, single samples. Data-only grant: no UI/runtime changes, deployment, browser/emulator/physical-device/installed-app loading or FPS measurement."
+    },
+    "after": {
+      "phase": "after",
+      "at": "2026-11-19T15:26:12.880Z",
+      "userId": "4933",
+      "readOnly": true,
+      "wallet": {
+        "total": "2957710545949421",
+        "restricted": "0",
+        "available": "2957710545949421"
+      },
+      "samples": [
+        {
+          "kind": "wallet",
+          "visit": "first",
+          "ms": 565.7705999999998,
+          "sql": 4,
+          "queries": [
+            {
+              "statement": "SELECT value FROM app_meta WHERE key=$1",
+              "ms": 79.1592999999998
+            },
+            {
+              "statement": "SELECT CAST(coin AS TEXT) AS coin,(SELECT COALESCE(MAX(id),0) FROM coin_logs WHERE user_id=users.id) AS last_log FROM users WHERE id=$1",
+              "ms": 78.41260000000011
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 311.36940000000004
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 89.7185999999997
+            }
+          ]
+        },
+        {
+          "kind": "wallet",
+          "visit": "repeat",
+          "ms": 398.30600000000004,
+          "sql": 4,
+          "queries": [
+            {
+              "statement": "SELECT value FROM app_meta WHERE key=$1",
+              "ms": 76.58780000000024
+            },
+            {
+              "statement": "SELECT CAST(coin AS TEXT) AS coin,(SELECT COALESCE(MAX(id),0) FROM coin_logs WHERE user_id=users.id) AS last_log FROM users WHERE id=$1",
+              "ms": 76.20499999999993
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 160.04579999999987
+            },
+            {
+              "statement": "SELECT id,CAST(change_amount AS TEXT) AS change_amount,reason FROM coin_logs WHERE user_id=$1 AND id>$2 AND id<=$3 ORDER BY id LIMIT 2000",
+              "ms": 81.04790000000003
+            }
+          ]
+        },
+        {
+          "kind": "roster",
+          "visit": "first",
+          "ms": 82.3181999999997,
+          "sql": 1,
+          "recipients": 282
+        },
+        {
+          "kind": "roster",
+          "visit": "repeat",
+          "ms": 80.7143000000001,
+          "sql": 1,
+          "recipients": 282
+        }
+      ],
+      "conditions": "Windows CLI invoking existing production wallet accounting service and complete verified roster on live PostgreSQL. First/repeat on one connection, fresh process per phase, network included, single samples. Data-only grant: no UI/runtime changes, deployment, browser/emulator/physical-device/installed-app loading or FPS measurement."
+    },
+    "assessment": "All 282 wallet credits, ledger rows and receipts use bulk statements, avoiding per-account database round trips. Representative wallet reads retain four SQL calls, including two pages of prior coin logs. The measured wait is database/network (first prior-ledger page 1035ms before, 311ms after); cache and live load differ. Single samples do not establish a speed improvement. No runtime/UI changes, so no browser, physical-device or installed-app loading/FPS measurement."
+  },
+  "runtimeChanged": false,
+  "deployed": false,
+  "physicalDeviceMeasured": false,
+  "evidenceDirectory": "operations/bluegear-launch-verified-coin1000t-20261120",
+  "operationScriptSha256": {
+    "common.mjs": "d40414ffbe6de6eb015372f7654e079a4f501e02592a72b5e54e257207b971df",
+    "inspect.mjs": "92b71b3415749ce9e94090e976e6bbc8466164798614a8ac764e460ba7085b40",
+    "prepare.mjs": "7591bb7ca48ccc80f23490a691036b275e1f380b21636c43ad50acd836e2aeb6",
+    "bootstrap.mjs": "1b3c325ca374f38510595b4d7841cda3ceb2e568544fcfe0e5d23d5637904cf8",
+    "grant.mjs": "30563c9b2c3f3377161c884f5e9926c2022119b8b61a46542a9340221806e2b9",
+    "run.mjs": "4f97dfe5ac0dd5ba37644b2af75e01c59ff83a6f39a6cd4526b4cda192ffa352",
+    "service.mjs": "10ab99f0b0704ca077aa0b4ec88bef3fa60bb9bcaa3266343683eed2001ebeaf",
+    "record.mjs": "f187555aece5ea0177dad1c4b45ec05b1e69e45aa1ab57c596d59c149f2e059f"
+  }
+}
