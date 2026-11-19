@@ -90,8 +90,8 @@ export function mercenaryCodexDocument(row){
   }
   for(const card of projection.cards){
     if(card.code!==ZERO_CODE&&card.code!==HAKUYA_ART.code)continue;
-    Object.assign(card,{acquisition:'BLUE_GEAR_PACK',packAcquisitionEnabled:true,acquisitionPackId:'mercenary-blue-gear',acquisitionPackName:'블루기어팩',acquisitionDescription:'11월 20일부터 블루기어팩에서 3장 한정으로 획득합니다.',stockPolicy:'PACK_ONLY',serverLimit:3,releaseStatus:'BATTLE_RELEASED'});
-    card.combatLinkDescription=(card.combatLinkDescription||'').replace(/현재 (일반 )?획득 불가[.。]?/g,'')+' 블루기어팩에서 3장 한정으로 획득합니다.';
+    Object.assign(card,{acquisition:'BLUE_GEAR_PACK',packAcquisitionEnabled:true,acquisitionPackId:'mercenary-blue-gear',acquisitionPackName:'블루기어팩',acquisitionDescription:'블루기어팩에서 한정 발행합니다. 현재 잔여 수량은 상점에서 확인하세요.',stockPolicy:'PACK_ONLY',serverLimit:3,releaseStatus:'BATTLE_RELEASED'});
+    card.combatLinkDescription=(card.combatLinkDescription||'').replace(/현재 (일반 )?획득 불가[.。]?/g,'')+' 블루기어팩에서 한정 발행합니다. 현재 잔여 수량은 상점에서 확인하세요.';
   }
   return projection;
 }

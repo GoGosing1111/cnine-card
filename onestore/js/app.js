@@ -1974,7 +1974,7 @@ function bloodmoonPackHero(pack) {
  const prices=blue||pack.drawEnabled?`<p class="bloodmoon-shop-note"><span>1회 ${Number(pack.prices?.single??pack.price).toLocaleString()} 코인</span><span>10회 ${Number(pack.prices?.ten).toLocaleString()} 코인</span></p>`:'';
  return `<section class="bloodmoon-shop-hero${blue?' blue-gear-skin':''}"><div class="bloodmoon-shop-main"><div class="bloodmoon-shop-copy"><p class="bloodmoon-eyebrow">REVERSE CALL · ${blue?'BLUE GEAR':'BLOODMOON'}</p><h2>${escapeHtml(pack.name)}</h2><p class="bloodmoon-shop-description">${blue?(pack.drawEnabled?'판매 중':'11월 20일 00:00 판매 시작 · 한국시간'):'블러드문의 계약이 깨어나는 밤.'}</p><div class="bloodmoon-shop-facts"><span>${blue?'블루기어':'블러드'} <b>SS ${ssCards.length}종</b></span><span>${blue?'SSS 리미티드':'SSS 리미티드·재료'} <b>${legends.length}종</b></span><span>일반 SSS <b>${unlimited.map(c=>escapeHtml(c.name)).join(' · ')}</b></span></div>${action}${prices}</div><div class="bloodmoon-shop-art">${packResponsiveImage(pack,{hero:true})}</div></div>
  <section class="bloodmoon-shop-collection"><div class="bwp-section-heading"><h3>${blue?'블루기어':'블러드'} 한정 컬렉션</h3><span>SS LIMITED · ${ssCards.length}${blue?' · 각 45장':''}</span></div><div class="bwp-roster">${ssCards.map(portrait).join('')}</div>
- <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>${blue?'SSS 리미티드 · 제로 · 하쿠야 신':'SSS 리미티드 · 프라임 제작 재료'}</h3><span>${blue?'팩 한도 각 3장':'SSS LIMITED · 재료 포함 4종'}</span></div><div class="bwp-sss-roster">${legends.map(portrait).join('')}</div></section>
+ <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>${blue?'SSS 리미티드 · 제로 · 하쿠야 신':'SSS 리미티드 · 프라임 제작 재료'}</h3><span>${blue?'현재 잔여 수량은 카드별 표시':'SSS LIMITED · 재료 포함 4종'}</span></div><div class="bwp-sss-roster">${legends.map(portrait).join('')}</div></section>
  <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bwp-sss-roster">${unlimited.map(portrait).join('')}</div></section></section></section>`;
 }
 
@@ -2019,7 +2019,7 @@ window.addEventListener('blue-gear-pack:stock',event=>{
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=20261120-stock45');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-legend-refill-20261120-v1');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {
