@@ -1,0 +1,326 @@
+{
+  "at": "2026-11-19T15:56:40.354Z",
+  "receipt": {
+    "operationKey": "ops:bluegear:ss-plus20:20261120:v1",
+    "status": "COMPLETED",
+    "completedAt": "2026-11-19T15:56:19.615Z",
+    "completedAtKST": "2026-11-20 00:56:19",
+    "authorization": "블루기어팩 SS리미티드 20장씩 수량추가",
+    "before": {
+      "revision": 4,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 25,
+          "V-702": 25,
+          "V-703": 25,
+          "V-704": 25,
+          "V-705": 25,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "after": {
+      "revision": 5,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 45,
+          "V-702": 45,
+          "V-703": 45,
+          "V-704": 45,
+          "V-705": 45,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "stockBefore": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "25",
+        "issued": "25",
+        "revision": "26",
+        "last_token": "04d3df98-9317-4ce2-afdb-a671a36ccd99"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "25",
+        "issued": "24",
+        "revision": "25",
+        "last_token": "a85c7325-b0d3-46e6-8654-0b3523727862"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "25",
+        "issued": "25",
+        "revision": "26",
+        "last_token": "af74d7f0-9f5c-4735-9db3-27bd8a3481ac"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "25",
+        "issued": "22",
+        "revision": "23",
+        "last_token": "dc6c29a6-6c54-40ec-a683-6660d5ccf08f"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "25",
+        "issued": "25",
+        "revision": "26",
+        "last_token": "a7309ea3-7f45-4c5e-a4ae-c32e5566bb8e"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "7a74fed0-7ded-4c89-9853-6d2b675fb3bd"
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "45",
+        "issued": "25",
+        "revision": "27",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "45",
+        "issued": "24",
+        "revision": "26",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "45",
+        "issued": "25",
+        "revision": "27",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "45",
+        "issued": "22",
+        "revision": "24",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "45",
+        "issued": "25",
+        "revision": "27",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "7a74fed0-7ded-4c89-9853-6d2b675fb3bd"
+      }
+    ],
+    "summary": {
+      "ssLimitBefore": 25,
+      "ssLimitEach": 45,
+      "ssTotalBefore": 125,
+      "ssTotal": 225,
+      "additionalEach": 20,
+      "additionalTotal": 100
+    },
+    "protectedHash": "13a51cfc246b3d1106d3d2f67f9208624cec9a4cb75b6d3a91a9a6c1b4e27468",
+    "existingSerialCount": 123,
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "auditId": "65404"
+  },
+  "currentStock": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "stock_limit": "45",
+      "issued": "25",
+      "revision": "27",
+      "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "stock_limit": "45",
+      "issued": "24",
+      "revision": "26",
+      "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "stock_limit": "45",
+      "issued": "25",
+      "revision": "27",
+      "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "stock_limit": "45",
+      "issued": "22",
+      "revision": "24",
+      "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "stock_limit": "45",
+      "issued": "25",
+      "revision": "27",
+      "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "stock_limit": "3",
+      "issued": "1",
+      "revision": "1",
+      "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "stock_limit": "3",
+      "issued": "1",
+      "revision": "1",
+      "last_token": "7a74fed0-7ded-4c89-9853-6d2b675fb3bd"
+    }
+  ],
+  "existingSerialsPreserved": 123,
+  "subsequentLiveIssues": 0,
+  "readOnly": true,
+  "replayQueries": 1,
+  "replayWrites": 0,
+  "lockReleased": true,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 87.10010000000011
+    },
+    {
+      "statement": "BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY",
+      "ms": 82.14700000000039
+    },
+    {
+      "statement": "SET LOCAL statement_timeout='15s'",
+      "ms": 82.22159999999985
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 82.53470000000016
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 81.86239999999998
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 82.88570000000027
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 164.60860000000002
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 81.53520000000026
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 162.99720000000025
+    },
+    {
+      "statement": "SELECT id::text,action_type,after_data FROM admin_logs WHERE id=$1::bigint",
+      "ms": 81.49950000000035
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 81.1518000000001
+    },
+    {
+      "statement": "SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins+n_tup_upd+n_tup_del>0",
+      "ms": 84.10949999999957
+    },
+    {
+      "statement": "SELECT pg_try_advisory_xact_lock(hashtextextended($1,0)) AS unlocked",
+      "ms": 82.02169999999933
+    },
+    {
+      "statement": "ROLLBACK",
+      "ms": 81.98119999999926
+    }
+  ]
+}

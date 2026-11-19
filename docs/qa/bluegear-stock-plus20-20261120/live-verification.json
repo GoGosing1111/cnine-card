@@ -1,0 +1,143 @@
+{
+  "at": "2026-11-19T16:09:47.665Z",
+  "head": "c1eeeff089bb9dc08b703f5d02ee026cb6bd6034",
+  "pages": {
+    "id": "582b209c-59d8-446a-bf11-f95f78ec40a1",
+    "commit": "c1eeeff089bb9dc08b703f5d02ee026cb6bd6034",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "45fdb01b-435b-44d3-a736-76cdd674aaa1",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "36cb3f85-cdbf-4b7a-b1c3-78fae41d34cb",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "f6aa0d2a1d347e07620b9cb468da6f4462e1b6d181452164c12789d8d25d0b32",
+      "bytes": 46636,
+      "storeTransform": false
+    },
+    {
+      "path": "onestore/index.html",
+      "sha256": "b850ff7f82a542b8e10aad1c10362a07cf2b2c91dbdfb3a2acddea7b84b1753d",
+      "bytes": 46758,
+      "storeTransform": true
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "69369494aa7ff76d2feb074e2fb93f50385cd3ba474863f4c4a84cb56aeda599",
+      "bytes": 833431,
+      "storeTransform": false
+    },
+    {
+      "path": "onestore/js/app.js",
+      "sha256": "bc3696ec9edb60202f962b609fae83942f964c41f79ae74f5e914814bf49de3b",
+      "bytes": 834355,
+      "storeTransform": false
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "767d3f2f2451f0940e77cdb3b4fd3e2cdf204351b86447ae2890db5e330af671",
+      "bytes": 19975,
+      "storeTransform": false
+    },
+    {
+      "path": "shared/mercenary-blue-gear-catalog-v1.mjs",
+      "sha256": "fa7ab570fd1b5e262d7f8a06c14d46d4c6c921f323617313ab374946ab8e101e",
+      "bytes": 1918,
+      "storeTransform": false
+    },
+    {
+      "path": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "sha256": "dafd63e05929a9d1a6e8b9f70e34137c2ca9a91872b7216d8252c08ca3655a6d",
+      "bytes": 192786,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/model.mjs",
+      "sha256": "dcc62067937b786970bb7af78e17f90ae4a1ebf8ab6ffec5e683ded847d67558",
+      "bytes": 18572,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/app.mjs",
+      "sha256": "50c4c456058a41973d8cf22ae879fe0d34240d375bb227832044ae966c0cd330",
+      "bytes": 47381,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/index.html",
+      "sha256": "00900673223447e51fa7d3304811d3b195015c37b01f6bcb3b843728a2105e70",
+      "bytes": 11286,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/shell.mjs",
+      "sha256": "1734714f6f7a306dcf7c2d7e5714d8d848b29c0cf7ee7e825c9e40327020b33f",
+      "bytes": 11418,
+      "storeTransform": false
+    }
+  ],
+  "ss": [
+    {
+      "code": "V-701",
+      "name": "하이희야",
+      "serverLimit": 45,
+      "acquisitionDescription": "블루기어팩에서 종당 45장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-702",
+      "name": "나무늘봉순",
+      "serverLimit": 45,
+      "acquisitionDescription": "블루기어팩에서 종당 45장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-703",
+      "name": "디임",
+      "serverLimit": 45,
+      "acquisitionDescription": "블루기어팩에서 종당 45장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-704",
+      "name": "수댕",
+      "serverLimit": 45,
+      "acquisitionDescription": "블루기어팩에서 종당 45장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-705",
+      "name": "조은",
+      "serverLimit": 45,
+      "acquisitionDescription": "블루기어팩에서 종당 45장 한정으로 획득합니다."
+    }
+  ],
+  "windowsManifest": {
+    "releaseId": "20a29e9f588c1359ce10e5f6e0b8114bf75618e8f7a70efae7a28d29e15ee0db",
+    "checked": [
+      "index.html",
+      "js/app.js",
+      "shared/mercenary-blue-gear-catalog-v1.mjs",
+      "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "mercenary-codex/model.mjs",
+      "mercenary-codex/app.mjs",
+      "mercenary-codex/index.html",
+      "mercenary-codex/shell.mjs"
+    ]
+  },
+  "tests": 30
+}

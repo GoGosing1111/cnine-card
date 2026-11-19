@@ -1,0 +1,41 @@
+{
+  "base": "2170d89b4550440d022c93ee27797d77b4acb34b",
+  "production": {
+    "pages": {
+      "id": "b972f34c-7e90-4d73-9d12-b09f2890cee2",
+      "commit": "2170d89b4550440d022c93ee27797d77b4acb34b",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "3a6e81d4-b5ca-4caf-8407-b8ec6ad88973",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "d51c8576-167b-47db-bcff-7e141fdb0b1d",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/blue-gear-stock45-20261120.test.mjs",
+    "tests/blue-gear-pack-20261113.test.mjs",
+    "tests/blue-gear-8000t-opening20-20261118.test.mjs",
+    "tests/blue-gear-bloodmoon-room-20261113.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "User authorized +20 copies per Blue Gear SS kind (25 to 45). Update stock labels, codex validation and caches while preserving issued serials, prices, probabilities, SSS stock and bulk/replay behavior. Related tests cover restocking an exhausted pool, 45th issuance/46th exclusion, transaction rollback/retry, original 8000T odds, public catalog/room and shell loader. Rebased only three cache-token conflicts onto the already-deployed Astra battle fix; all battle code is unchanged from that deployed base."
+}

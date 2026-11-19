@@ -1,0 +1,778 @@
+{
+  "receipt": {
+    "operationKey": "ops:bluegear:ss-plus20:20261120:v1",
+    "status": "COMPLETED",
+    "completedAt": "2026-11-19T15:56:19.615Z",
+    "completedAtKST": "2026-11-20 00:56:19",
+    "authorization": "블루기어팩 SS리미티드 20장씩 수량추가",
+    "before": {
+      "revision": 4,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 25,
+          "V-702": 25,
+          "V-703": 25,
+          "V-704": 25,
+          "V-705": 25,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "after": {
+      "revision": 5,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 45,
+          "V-702": 45,
+          "V-703": 45,
+          "V-704": 45,
+          "V-705": 45,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "stockBefore": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "25",
+        "issued": "25",
+        "revision": "26",
+        "last_token": "04d3df98-9317-4ce2-afdb-a671a36ccd99"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "25",
+        "issued": "24",
+        "revision": "25",
+        "last_token": "a85c7325-b0d3-46e6-8654-0b3523727862"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "25",
+        "issued": "25",
+        "revision": "26",
+        "last_token": "af74d7f0-9f5c-4735-9db3-27bd8a3481ac"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "25",
+        "issued": "22",
+        "revision": "23",
+        "last_token": "dc6c29a6-6c54-40ec-a683-6660d5ccf08f"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "25",
+        "issued": "25",
+        "revision": "26",
+        "last_token": "a7309ea3-7f45-4c5e-a4ae-c32e5566bb8e"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "7a74fed0-7ded-4c89-9853-6d2b675fb3bd"
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "45",
+        "issued": "25",
+        "revision": "27",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "45",
+        "issued": "24",
+        "revision": "26",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "45",
+        "issued": "25",
+        "revision": "27",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "45",
+        "issued": "22",
+        "revision": "24",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "45",
+        "issued": "25",
+        "revision": "27",
+        "last_token": "ops:bluegear:ss-plus20:20261120:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "1",
+        "revision": "1",
+        "last_token": "7a74fed0-7ded-4c89-9853-6d2b675fb3bd"
+      }
+    ],
+    "summary": {
+      "ssLimitBefore": 25,
+      "ssLimitEach": 45,
+      "ssTotalBefore": 125,
+      "ssTotal": 225,
+      "additionalEach": 20,
+      "additionalTotal": 100
+    },
+    "protectedHash": "13a51cfc246b3d1106d3d2f67f9208624cec9a4cb75b6d3a91a9a6c1b4e27468",
+    "existingSerialCount": 123,
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "auditId": "65404"
+  },
+  "applyMs": 1287,
+  "applyQueries": 16,
+  "failedStagesRolledBack": 4,
+  "fullRehearsalRolledBack": true,
+  "issuedAndOtherLimitsPreserved": true,
+  "accountWrites": 0,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 80.6551999999997
+    },
+    {
+      "statement": "BEGIN",
+      "ms": 77.67409999999973
+    },
+    {
+      "statement": "SET LOCAL statement_timeout='15s'",
+      "ms": 89.14330000000018
+    },
+    {
+      "statement": "SET LOCAL lock_timeout='5s'",
+      "ms": 80.1234999999997
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 78.98790000000008
+    },
+    {
+      "statement": "SELECT value,updated_at FROM app_meta WHERE key=$1 FOR UPDATE",
+      "ms": 78.5902000000001
+    },
+    {
+      "statement": "SELECT code FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR UPDATE",
+      "ms": 79.4061999999999
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 78.54549999999972
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 158.54690000000028
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 77.2856999999999
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 230.85480000000007
+    },
+    {
+      "statement": "SELECT role FROM users WHERE id=1 AND status='ACTIVE'",
+      "ms": 77.27970000000005
+    },
+    {
+      "statement": "SAVEPOINT rehearsal",
+      "ms": 76.29950000000008
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.4425999999994
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1 FOR UPDATE",
+      "ms": 76.43910000000051
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.42230000000018
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 78.08480000000054
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.78899999999976
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 79.97479999999996
+    },
+    {
+      "statement": "SELECT t now,to_char(t AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') kst FROM (SELECT clock_timestamp() t",
+      "ms": 82.23300000000017
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3",
+      "ms": 77.95970000000034
+    },
+    {
+      "statement": "ROLLBACK TO SAVEPOINT rehearsal",
+      "ms": 76.31999999999971
+    },
+    {
+      "statement": "SELECT value,updated_at FROM app_meta WHERE key=$1",
+      "ms": 76.53649999999925
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.51749999999993
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 80.51810000000023
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.77680000000055
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.9974000000002
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.53899999999976
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE target_id=$1",
+      "ms": 322.5652
+    },
+    {
+      "statement": "RELEASE SAVEPOINT rehearsal",
+      "ms": 76.10129999999936
+    },
+    {
+      "statement": "SAVEPOINT rehearsal",
+      "ms": 83.25590000000011
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.84900000000016
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1 FOR UPDATE",
+      "ms": 77.13870000000043
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 77.45600000000013
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 79.45170000000053
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 78.17690000000039
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 79.4389999999994
+    },
+    {
+      "statement": "SELECT t now,to_char(t AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') kst FROM (SELECT clock_timestamp() t",
+      "ms": 76.74389999999948
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3",
+      "ms": 77.48019999999997
+    },
+    {
+      "statement": "UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+20,revision=revision+1,last_token=$1 WHERE code=",
+      "ms": 76.60570000000007
+    },
+    {
+      "statement": "ROLLBACK TO SAVEPOINT rehearsal",
+      "ms": 76.47990000000027
+    },
+    {
+      "statement": "SELECT value,updated_at FROM app_meta WHERE key=$1",
+      "ms": 77.7487000000001
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 78.3184999999994
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.60869999999977
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 77.09460000000036
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.91620000000057
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.30020000000059
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE target_id=$1",
+      "ms": 100.6895999999997
+    },
+    {
+      "statement": "RELEASE SAVEPOINT rehearsal",
+      "ms": 76.12169999999969
+    },
+    {
+      "statement": "SAVEPOINT rehearsal",
+      "ms": 78.65670000000046
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.75470000000041
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1 FOR UPDATE",
+      "ms": 76.39280000000053
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.44769999999971
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.84399999999914
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.55909999999949
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.26869999999963
+    },
+    {
+      "statement": "SELECT t now,to_char(t AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') kst FROM (SELECT clock_timestamp() t",
+      "ms": 76.45889999999963
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3",
+      "ms": 76.77819999999974
+    },
+    {
+      "statement": "UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+20,revision=revision+1,last_token=$1 WHERE code=",
+      "ms": 76.42370000000028
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 77.18700000000081
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.1299999999992
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.63180000000102
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.30309999999918
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'BLUE_GEAR_",
+      "ms": 78.10690000000068
+    },
+    {
+      "statement": "ROLLBACK TO SAVEPOINT rehearsal",
+      "ms": 76.25700000000143
+    },
+    {
+      "statement": "SELECT value,updated_at FROM app_meta WHERE key=$1",
+      "ms": 76.26989999999932
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.3714
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.71010000000024
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.52060000000165
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.1281999999992
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.28880000000026
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE target_id=$1",
+      "ms": 104.96709999999985
+    },
+    {
+      "statement": "RELEASE SAVEPOINT rehearsal",
+      "ms": 76.34660000000076
+    },
+    {
+      "statement": "SAVEPOINT rehearsal",
+      "ms": 76.15579999999864
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.17059999999947
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1 FOR UPDATE",
+      "ms": 77.34920000000056
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.43950000000041
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.51969999999892
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.76749999999993
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 79.46149999999943
+    },
+    {
+      "statement": "SELECT t now,to_char(t AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') kst FROM (SELECT clock_timestamp() t",
+      "ms": 77.03119999999944
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3",
+      "ms": 76.6232
+    },
+    {
+      "statement": "UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+20,revision=revision+1,last_token=$1 WHERE code=",
+      "ms": 76.45429999999942
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.37820000000102
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.18609999999899
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.64500000000044
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.33189999999922
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'BLUE_GEAR_",
+      "ms": 77.11219999999958
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)",
+      "ms": 76.92770000000019
+    },
+    {
+      "statement": "ROLLBACK TO SAVEPOINT rehearsal",
+      "ms": 76.30080000000089
+    },
+    {
+      "statement": "SELECT value,updated_at FROM app_meta WHERE key=$1",
+      "ms": 76.38970000000154
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.35580000000118
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 76.93789999999899
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.872800000001
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.33550000000105
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.15660000000025
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE target_id=$1",
+      "ms": 92.45019999999931
+    },
+    {
+      "statement": "RELEASE SAVEPOINT rehearsal",
+      "ms": 76.94540000000052
+    },
+    {
+      "statement": "SAVEPOINT rehearsal",
+      "ms": 76.00750000000153
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.45100000000093
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1 FOR UPDATE",
+      "ms": 78.12820000000102
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.48960000000079
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.21939999999995
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.58450000000084
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.10120000000097
+    },
+    {
+      "statement": "SELECT t now,to_char(t AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') kst FROM (SELECT clock_timestamp() t",
+      "ms": 76.51679999999942
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3",
+      "ms": 76.80129999999917
+    },
+    {
+      "statement": "UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+20,revision=revision+1,last_token=$1 WHERE code=",
+      "ms": 77.97290000000066
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.47890000000007
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.05289999999877
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.55709999999999
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.19520000000011
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'BLUE_GEAR_",
+      "ms": 76.85260000000017
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)",
+      "ms": 76.92000000000007
+    },
+    {
+      "statement": "ROLLBACK TO SAVEPOINT rehearsal",
+      "ms": 76.24419999999918
+    },
+    {
+      "statement": "SELECT value,updated_at FROM app_meta WHERE key=$1",
+      "ms": 77.55079999999907
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.51339999999982
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.28949999999895
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 78.2601999999988
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.65409999999974
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.40990000000056
+    },
+    {
+      "statement": "SELECT id FROM admin_logs WHERE target_id=$1",
+      "ms": 93.4927000000007
+    },
+    {
+      "statement": "RELEASE SAVEPOINT rehearsal",
+      "ms": 76.1843000000008
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 76.27540000000045
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1 FOR UPDATE",
+      "ms": 76.33290000000125
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.95179999999891
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 76.89319999999861
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.72580000000016
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 78.69510000000082
+    },
+    {
+      "statement": "SELECT t now,to_char(t AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') kst FROM (SELECT clock_timestamp() t",
+      "ms": 85.4346999999998
+    },
+    {
+      "statement": "UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3",
+      "ms": 113.74359999999979
+    },
+    {
+      "statement": "UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+20,revision=revision+1,last_token=$1 WHERE code=",
+      "ms": 76.83780000000115
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code",
+      "ms": 76.3711000000003
+    },
+    {
+      "statement": "SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial",
+      "ms": 77.1815000000006
+    },
+    {
+      "statement": "SELECT code,stock_limit::text FROM mercenary_limited_stock_v1 WHERE code<>ALL($1::text[]) ORDER BY code",
+      "ms": 76.50879999999961
+    },
+    {
+      "statement": "SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key",
+      "ms": 79.73309999999947
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'BLUE_GEAR_",
+      "ms": 77.6851999999999
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)",
+      "ms": 78.08300000000054
+    },
+    {
+      "statement": "SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins+n_tup_upd+n_tup_del>0 AND relname NOT IN ('app_me",
+      "ms": 81.17849999999999
+    },
+    {
+      "statement": "COMMIT",
+      "ms": 77.45529999999962
+    }
+  ]
+}

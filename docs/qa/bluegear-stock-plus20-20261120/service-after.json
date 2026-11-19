@@ -1,0 +1,114 @@
+{
+  "at": "2026-11-19T15:56:40.260Z",
+  "phase": "after",
+  "measurements": [
+    {
+      "visit": "first",
+      "elapsedMs": 323,
+      "sql": 3
+    },
+    {
+      "visit": "repeat",
+      "elapsedMs": 233,
+      "sql": 3
+    }
+  ],
+  "state": {
+    "revision": 5,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "userOpeningEnabled": true,
+    "readiness": {
+      "ready": true,
+      "blockers": []
+    },
+    "stock": [
+      {
+        "code": "V-701",
+        "limit": 45,
+        "issued": 25,
+        "remaining": 20,
+        "prepared": true
+      },
+      {
+        "code": "V-702",
+        "limit": 45,
+        "issued": 24,
+        "remaining": 21,
+        "prepared": true
+      },
+      {
+        "code": "V-703",
+        "limit": 45,
+        "issued": 25,
+        "remaining": 20,
+        "prepared": true
+      },
+      {
+        "code": "V-704",
+        "limit": 45,
+        "issued": 22,
+        "remaining": 23,
+        "prepared": true
+      },
+      {
+        "code": "V-705",
+        "limit": 45,
+        "issued": 25,
+        "remaining": 20,
+        "prepared": true
+      },
+      {
+        "code": "V-976",
+        "limit": 3,
+        "issued": 1,
+        "remaining": 2,
+        "prepared": true
+      },
+      {
+        "code": "V-967",
+        "limit": 3,
+        "issued": 1,
+        "remaining": 2,
+        "prepared": true
+      }
+    ],
+    "effectiveCardPercents": {
+      "V-701": "0.000005625",
+      "V-702": "0.000005625",
+      "V-703": "0.000005625",
+      "V-704": "0.000005625",
+      "V-705": "0.000005625",
+      "V-976": "0.00000008",
+      "V-967": "0.00000008",
+      "V-059": "0.000032"
+    }
+  },
+  "explain": [
+    {
+      "Plan": {
+        "Node Type": "Index Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "app_meta_pkey",
+        "Relation Name": "app_meta",
+        "Alias": "app_meta",
+        "Startup Cost": 0.42,
+        "Total Cost": 8.44,
+        "Plan Rows": 1,
+        "Plan Width": 190,
+        "Actual Startup Time": 0.01,
+        "Actual Total Time": 0.01,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Index Cond": "(key = 'mercenary_blue_gear_pack_v1'::text)",
+        "Rows Removed by Index Recheck": 0
+      },
+      "Planning Time": 0.023,
+      "Triggers": [],
+      "Execution Time": 0.021
+    }
+  ],
+  "readOnly": true,
+  "condition": "Windows CLI, production PostgreSQL through actual Blue Gear feature service, network included, single first/repeat pair; no physical-device timing."
+}

@@ -1,0 +1,27 @@
+{
+  "at": "2026-11-19T16:00:59.589Z",
+  "head": "c1eeeff089bb9dc08b703f5d02ee026cb6bd6034",
+  "base": "2170d89b4550440d022c93ee27797d77b4acb34b",
+  "conflictsResolved": [
+    "index.html",
+    "onestore/index.html",
+    "service-worker.js"
+  ],
+  "policy": "Retain upstream files and all new Astra lifecycle/battle-loader changes; apply only our shell-cache token to the three overlapping cache lines.",
+  "files": [
+    "index.html",
+    "js/app.js",
+    "js/mercenary-blue-gear-pack-live.bundle.mjs",
+    "js/mercenary-blue-gear-pack-live.mjs",
+    "mercenary-codex/app.mjs",
+    "mercenary-codex/index.html",
+    "mercenary-codex/model.mjs",
+    "mercenary-codex/shell.mjs",
+    "onestore/index.html",
+    "onestore/js/app.js",
+    "service-worker.js",
+    "shared/mercenary-blue-gear-catalog-v1.mjs",
+    "tests/blue-gear-pack-20261113.test.mjs",
+    "tests/blue-gear-stock45-20261120.test.mjs"
+  ]
+}

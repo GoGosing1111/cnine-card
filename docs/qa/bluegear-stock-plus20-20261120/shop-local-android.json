@@ -1,0 +1,32 @@
+{
+  "platform": "android",
+  "mode": "local",
+  "emulated": true,
+  "source": "https://cnine-card.pages.dev",
+  "entries": [
+    {
+      "shopMs": 526,
+      "roomMs": 166,
+      "frames": {
+        "p95": 4.300000000000182,
+        "over50": 0
+      },
+      "closed": true,
+      "postCloseFeatureRequests": 0
+    },
+    {
+      "shopMs": 119,
+      "roomMs": 130,
+      "frames": {
+        "p95": 4.300000000000182,
+        "over50": 0
+      },
+      "closed": true,
+      "postCloseFeatureRequests": 0
+    }
+  ],
+  "errors": [],
+  "launchMs": 1306,
+  "simulatedPurchases": 0,
+  "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+}

@@ -1,0 +1,157 @@
+{
+  "operationKey": "ops:bluegear:ss-plus20:20261120:v1",
+  "authorization": "블루기어팩 SS리미티드 20장씩 수량추가",
+  "preparedAt": "2026-11-19T15:49:34.015Z",
+  "beforeRaw": "{\"revision\":4,\"openingAt\":\"2026-11-19T15:00:00.000Z\",\"references\":{\"bloodmoon\":14,\"blackcrown\":11},\"settings\":{\"prices\":{\"single\":2250000000,\"ten\":22500000000},\"missRatePpm\":800000,\"normalRankRatesPpm\":{\"C\":104500,\"B\":30000,\"A\":30000,\"S\":30000,\"SS\":4700,\"SSS\":800},\"cardRatesPpm\":{\"V-701\":70.3125,\"V-702\":70.3125,\"V-703\":70.3125,\"V-704\":70.3125,\"V-705\":70.3125,\"V-976\":1,\"V-967\":1,\"V-059\":400},\"normalSssRatePpm\":999246.4375,\"stockLimits\":{\"V-701\":25,\"V-702\":25,\"V-703\":25,\"V-704\":25,\"V-705\":25,\"V-976\":3,\"V-967\":3}}}",
+  "before": {
+    "revision": 4,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "references": {
+      "bloodmoon": 14,
+      "blackcrown": 11
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 70.3125,
+        "V-702": 70.3125,
+        "V-703": 70.3125,
+        "V-704": 70.3125,
+        "V-705": 70.3125,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 999246.4375,
+      "stockLimits": {
+        "V-701": 25,
+        "V-702": 25,
+        "V-703": 25,
+        "V-704": 25,
+        "V-705": 25,
+        "V-976": 3,
+        "V-967": 3
+      }
+    }
+  },
+  "after": {
+    "revision": 5,
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "references": {
+      "bloodmoon": 14,
+      "blackcrown": 11
+    },
+    "settings": {
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "missRatePpm": 800000,
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 4700,
+        "SSS": 800
+      },
+      "cardRatesPpm": {
+        "V-701": 70.3125,
+        "V-702": 70.3125,
+        "V-703": 70.3125,
+        "V-704": 70.3125,
+        "V-705": 70.3125,
+        "V-976": 1,
+        "V-967": 1,
+        "V-059": 400
+      },
+      "normalSssRatePpm": 999246.4375,
+      "stockLimits": {
+        "V-701": 45,
+        "V-702": 45,
+        "V-703": 45,
+        "V-704": 45,
+        "V-705": 45,
+        "V-976": 3,
+        "V-967": 3
+      }
+    }
+  },
+  "stockObserved": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "stock_limit": "25",
+      "issued": "25",
+      "revision": "26",
+      "last_token": "04d3df98-9317-4ce2-afdb-a671a36ccd99"
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "stock_limit": "25",
+      "issued": "23",
+      "revision": "24",
+      "last_token": "9e46f4c0-2939-4b07-9188-5d80b51af59b"
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "stock_limit": "25",
+      "issued": "25",
+      "revision": "26",
+      "last_token": "af74d7f0-9f5c-4735-9db3-27bd8a3481ac"
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "stock_limit": "25",
+      "issued": "21",
+      "revision": "22",
+      "last_token": "81237935-ab57-413f-b57c-9b3dc5b35110"
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "stock_limit": "25",
+      "issued": "25",
+      "revision": "26",
+      "last_token": "a7309ea3-7f45-4c5e-a4ae-c32e5566bb8e"
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "stock_limit": "3",
+      "issued": "1",
+      "revision": "1",
+      "last_token": "583c82f4-0c99-4d8d-b225-10740833ebd4"
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "stock_limit": "3",
+      "issued": "1",
+      "revision": "1",
+      "last_token": "7a74fed0-7ded-4c89-9853-6d2b675fb3bd"
+    }
+  ],
+  "protectedObservedHash": "635072681113897a28c36c80fb5d524522ea82ad746ce47ce583b029fa0bd3b2",
+  "summary": {
+    "ssLimitBefore": 25,
+    "ssLimitEach": 45,
+    "ssTotalBefore": 125,
+    "ssTotal": 225,
+    "additionalEach": 20,
+    "additionalTotal": 100
+  },
+  "beforeHash": "4bb0a8b4c4cc8145760aafd06776cbefa69c33ef69bf6ded1841edda08ffaa77",
+  "afterHash": "4408aadde9c321191df437ebc8cb6fcd360f5592e9a1869390286f4916fdc778",
+  "issuedPolicy": "Capture current issued counts and existing serials under row locks at apply; add 20 to SS limits only, never reset issued.",
+  "accountWrites": 0,
+  "messagesSent": 0
+}
