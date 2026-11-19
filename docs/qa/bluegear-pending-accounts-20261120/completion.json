@@ -1,0 +1,4672 @@
+{
+  "completedAt": "2026-11-19T15:58:23.557Z",
+  "status": "DEPLOYED_AND_ACCOUNTS_RECOVERED",
+  "cause": {
+    "confirmed": "The shared opening service applied Black Crown one-time reward guards to Blue Gear. Both named accounts have CONSUMED Black Crown records, while Blue Gear intentionally has no onceSnapshot. The guard required those unrelated records to be absent and failed with PostgreSQL23514 before payment or any acquisition.",
+    "earlierFixLimit": "The previous patch repaired the busy recovery-button loop, but did not diagnose this account-specific server guard failure. The current screenshot was reproduced with the same consumed entitlement condition.",
+    "change": "Run blackcrownOnceStatements only when pack.id is BLACKCROWN_PACK.id. Preserve ARMED/CONSUMED Black Crown history and original Black Crown entitlement behavior. Other pack limits, prices, odds, stock, and existing Blue Gear 1000T limit are unchanged."
+  },
+  "deployment": {
+    "checkedAt": "2026-11-19T15:54:52.895Z",
+    "head": "219fb0e4ea03a44f23680335d76401a9cdca460b",
+    "pages": {
+      "id": "8131587e-8b2f-458b-a010-c6acc9e3bbc6",
+      "commit": "219fb0e4ea03a44f23680335d76401a9cdca460b",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "9ee41af0-6e0f-4bab-9bdc-83e38c514bae",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "8c86b923-f6da-43a6-83a6-31b42bbe7a90",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "file": "index.html",
+        "sha256": "e64d989c1bd620d0fcc4feabda3cfcc1648ceed4ff6866de1857d2a00a697734",
+        "localSha256": "e64d989c1bd620d0fcc4feabda3cfcc1648ceed4ff6866de1857d2a00a697734",
+        "normalizedEqual": true
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "6dbf843631413cc0c1fa3e7208d143522b87fb913f967829468d818c3cf27172",
+        "localSha256": "6dbf843631413cc0c1fa3e7208d143522b87fb913f967829468d818c3cf27172",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "531efece29c4a3e3a77dc73a2730983452369c9bbf12f774ad5a16ac6adcf314",
+        "localSha256": "531efece29c4a3e3a77dc73a2730983452369c9bbf12f774ad5a16ac6adcf314",
+        "normalizedEqual": true
+      },
+      {
+        "file": "onestore/js/app.js",
+        "sha256": "46dae5e563009839dcbcba35d25a5e60f303396553689a0c5e9ba3c486706ecc",
+        "localSha256": "46dae5e563009839dcbcba35d25a5e60f303396553689a0c5e9ba3c486706ecc",
+        "normalizedEqual": true
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "4dbbaedfe8242b54f6381d68b4c9cf04ef7b46d7c2781665a1c49e2631848c55",
+        "localSha256": "4dbbaedfe8242b54f6381d68b4c9cf04ef7b46d7c2781665a1c49e2631848c55",
+        "normalizedEqual": true
+      },
+      {
+        "file": "css/blue-gear-pack-v1.css",
+        "sha256": "cf8d5d4a6fecf11f83f6e938893ba5633fc385384dc83fcf5dd4e898682cd4da",
+        "localSha256": "cf8d5d4a6fecf11f83f6e938893ba5633fc385384dc83fcf5dd4e898682cd4da",
+        "normalizedEqual": true
+      },
+      {
+        "file": "shared/mercenary-blue-gear-pack-v1.mjs",
+        "sha256": "be6f8e8dda46184b8de58c4d305e1b3407a107730eb4e2ffa08bbc41d2f96fdc",
+        "localSha256": "be6f8e8dda46184b8de58c4d305e1b3407a107730eb4e2ffa08bbc41d2f96fdc",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/mercenary-bloodmoon-pack-live.mjs",
+        "sha256": "0a149c2b4ca4c44d96a6a1223ba977b5967f8da924effe7afc1b16b8545ece61",
+        "localSha256": "0a149c2b4ca4c44d96a6a1223ba977b5967f8da924effe7afc1b16b8545ece61",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+        "sha256": "0f6d21a5236c59c11f76268996d408a8117b96abcd073c208838698eca281849",
+        "localSha256": "0f6d21a5236c59c11f76268996d408a8117b96abcd073c208838698eca281849",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+        "sha256": "dd419c83caa4e78854a397ee272afa533ca73d8267fb8b24fcdd09b5c7a1288d",
+        "localSha256": "dd419c83caa4e78854a397ee272afa533ca73d8267fb8b24fcdd09b5c7a1288d",
+        "normalizedEqual": true
+      }
+    ],
+    "bundledSources": [
+      "shared/mercenary-blackcrown-bulk-v1.mjs",
+      "shared/mercenary-blackcrown-pack-v1.mjs",
+      "shared/mercenary-blackcrown-session-v2.mjs"
+    ],
+    "sourceDeliveryPolicy": "scripts/blackcrown-authoring-only-20261027.json",
+    "windowsManifest": {
+      "releaseId": "3edccda83ee09ecb2deb9b8cd4b5b7611677dc910a04acd4a2f2b8edecb38a7c",
+      "checked": [
+        "index.html",
+        "js/app.js",
+        "css/blue-gear-pack-v1.css",
+        "shared/mercenary-blue-gear-pack-v1.mjs",
+        "js/mercenary-bloodmoon-pack-live.mjs",
+        "js/mercenary-bloodmoon-presentation-v2.mjs",
+        "js/mercenary-blue-gear-pack-live.bundle.mjs"
+      ]
+    },
+    "feature": {
+      "revision": 4,
+      "unchangedSettings": true,
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "stock": [
+        {
+          "code": "V-701",
+          "limit": 25,
+          "issued": 25,
+          "remaining": 0,
+          "prepared": true
+        },
+        {
+          "code": "V-702",
+          "limit": 25,
+          "issued": 24,
+          "remaining": 1,
+          "prepared": true
+        },
+        {
+          "code": "V-703",
+          "limit": 25,
+          "issued": 25,
+          "remaining": 0,
+          "prepared": true
+        },
+        {
+          "code": "V-704",
+          "limit": 25,
+          "issued": 22,
+          "remaining": 3,
+          "prepared": true
+        },
+        {
+          "code": "V-705",
+          "limit": 25,
+          "issued": 25,
+          "remaining": 0,
+          "prepared": true
+        },
+        {
+          "code": "V-976",
+          "limit": 3,
+          "issued": 1,
+          "remaining": 2,
+          "prepared": true
+        },
+        {
+          "code": "V-967",
+          "limit": 3,
+          "issued": 1,
+          "remaining": 2,
+          "prepared": true
+        }
+      ]
+    },
+    "tests": 31,
+    "blackcrownEntitlementTests": 7,
+    "productionNewPurchases": 0
+  },
+  "tests": {
+    "passed": 31,
+    "newEntitlementAndRecovery": 3,
+    "blackcrownEntitlement": 7,
+    "bulk": 5,
+    "streamer": 16
+  },
+  "recovery": {
+    "at": "2026-11-19T15:55:21.081Z",
+    "committed": true,
+    "receipt": {
+      "operationKey": "ops:bluegear:parksera-eumsuni-pending-recovery:20261120:v1",
+      "completedAt": "2026-11-19T15:55:19.884Z",
+      "source": "219fb0e4ea03a44f23680335d76401a9cdca460b",
+      "coinLogFloor": "106938736",
+      "accounts": [
+        {
+          "userId": 45,
+          "nickname": "박세라-ㅂ-",
+          "requestId": "87fb70a6-8018-4090-86a6-9678f2d8918d",
+          "count": 44444,
+          "coinCost": "99999000000000",
+          "coinBefore": "47958274689865574",
+          "coinAfter": "47858275689865574",
+          "planHash": "7a0264d94e1af8b86ca58c7ffa503a187b21c096c70fa86a3b46463cf27f326d",
+          "blackcrownHistoryHash": "1be1ff3605a4c476fd1da309936e14b9eca1ba6de76eecd60c6e0cd3163747be",
+          "blackcrownHistoryStatus": "CONSUMED",
+          "cancelledRequests": [
+            "f05fd232-a7de-4674-981f-6c830e52f45e",
+            "76ace8a0-4de9-4d12-995b-c50fa59f0fb1"
+          ],
+          "cancelledPlanHashes": {
+            "f05fd232-a7de-4674-981f-6c830e52f45e": "5ee8ecb419d1c6431f88eda07c2fe8bb9c9dfce7e6fb4f0b5db4d31c01fdb291",
+            "76ace8a0-4de9-4d12-995b-c50fa59f0fb1": "70f6ebc3c73d4dc3f49d6bbf5ebb39b5700f50c46278d7747a5f68aec6746e84"
+          },
+          "normalCardTypes": 55,
+          "missCount": 35639,
+          "acquisitions": 55
+        },
+        {
+          "userId": 65,
+          "nickname": "음순이",
+          "requestId": "b071fd52-eefd-4449-8220-09d475b7da84",
+          "count": 44444,
+          "coinCost": "99999000000000",
+          "coinBefore": "4335239238763176",
+          "coinAfter": "4235240238763176",
+          "planHash": "ccfdb94be625aa1d7700bb36b737651d8c301d0a0a53db47e8544c01e5dce22c",
+          "blackcrownHistoryHash": "edcb5f2d538d002afbd7f698137ae60b78c386d31b95acd12142b7cea6ef698b",
+          "blackcrownHistoryStatus": "CONSUMED",
+          "cancelledRequests": [
+            "706f4efd-f346-4e48-989a-98607432d63a"
+          ],
+          "cancelledPlanHashes": {
+            "706f4efd-f346-4e48-989a-98607432d63a": "604abaf5a944c6bee249b5ec1129e7f11abeee113bd1e2d105dedb91bd0fccd7"
+          },
+          "normalCardTypes": 55,
+          "missCount": 35492,
+          "acquisitions": 55
+        }
+      ],
+      "policy": "Resume only the latest original user-authorized 100T request per named account, keep its saved lottery, cancel older unpaid attempts without changing their plans, preserve Black Crown reward records.",
+      "messages": 0,
+      "auditId": "65383"
+    },
+    "checked": [
+      {
+        "userId": 45,
+        "status": "COMPLETED",
+        "singleDebit": true,
+        "planPreserved": true,
+        "blackcrownHistoryPreserved": true,
+        "cancelled": 2
+      },
+      {
+        "userId": 65,
+        "status": "COMPLETED",
+        "singleDebit": true,
+        "planPreserved": true,
+        "blackcrownHistoryPreserved": true,
+        "cancelled": 1
+      }
+    ],
+    "ms": 47583,
+    "timings": [
+      {
+        "statement": "SELECT id FROM users WHERE id=? FOR UPDATE",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN (SELECT COALESCE(SUM",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "SELECT key FROM app_meta WHERE key=? FOR SHARE",
+        "ms": 82
+      },
+      {
+        "statement": "SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE",
+        "ms": 91
+      },
+      {
+        "statement": "SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 170
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 91
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 89
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 89
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 90
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 91
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 87
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 88
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 86
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 92
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 85
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 128
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 92
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 87
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 86
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 89
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 91
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 89
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 89
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 101
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 94
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 96
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 101
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 105
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 125
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 88
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 122
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 99
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 121
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 89
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 87
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 88
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 94
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 110
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 87
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 112
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 380
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 96
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 101
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 99
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 114
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 86
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 106
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 101
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 92
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 93
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 149
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM",
+        "ms": 140
+      },
+      {
+        "statement": "UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?",
+        "ms": 104
+      },
+      {
+        "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM ",
+        "ms": 91
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "UPDATE joint_operations_v1 SET status='COMPLETED',completed_at=? WHERE request_id=? AND us",
+        "ms": 110
+      },
+      {
+        "statement": "UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM joint_operations",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "SELECT id FROM users WHERE id=? FOR UPDATE",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN (SELECT COALESCE(SUM",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "SELECT key FROM app_meta WHERE key=? FOR SHARE",
+        "ms": 82
+      },
+      {
+        "statement": "SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE",
+        "ms": 83
+      },
+      {
+        "statement": "SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE",
+        "ms": 90
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM",
+        "ms": 139
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 118
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 110
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 92
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 114
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 118
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 107
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 94
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 99
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 92
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 88
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 93
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 88
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 86
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 87
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 84
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 84
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 86
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 83
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 95
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 83
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 87
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 86
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 85
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 82
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN NOT EXISTS(SELECT 1 ",
+        "ms": 81
+      },
+      {
+        "statement": "INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,fi",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplic",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM",
+        "ms": 82
+      },
+      {
+        "statement": "UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?",
+        "ms": 82
+      },
+      {
+        "statement": "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM ",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      },
+      {
+        "statement": "UPDATE joint_operations_v1 SET status='COMPLETED',completed_at=? WHERE request_id=? AND us",
+        "ms": 81
+      },
+      {
+        "statement": "UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM joint_operations",
+        "ms": 81
+      },
+      {
+        "statement": "DELETE FROM joint_atomic_guards_v1 WHERE token=?",
+        "ms": 81
+      }
+    ],
+    "leasesReleased": true
+  },
+  "independentReadOnly": {
+    "at": "2026-11-19T15:55:46.034Z",
+    "readOnly": true,
+    "writes": 0,
+    "locksRemaining": 0,
+    "accounts": [
+      {
+        "userId": 45,
+        "nickname": "박세라-ㅂ-",
+        "status": "COMPLETED",
+        "pending": 0,
+        "userOpeningEnabled": true,
+        "checks": [
+          {
+            "visit": "first",
+            "ms": 239,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9682
+          },
+          {
+            "visit": "repeat",
+            "ms": 219,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9682
+          }
+        ],
+        "cancelledReceiptClearsBrowserPending": true
+      },
+      {
+        "userId": 65,
+        "nickname": "음순이",
+        "status": "COMPLETED",
+        "pending": 0,
+        "userOpeningEnabled": true,
+        "checks": [
+          {
+            "visit": "first",
+            "ms": 215,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9900
+          },
+          {
+            "visit": "repeat",
+            "ms": 217,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9900
+          }
+        ],
+        "cancelledReceiptClearsBrowserPending": true
+      }
+    ]
+  },
+  "replayVerification": [
+    {
+      "at": "2026-11-19T15:55:45.722Z",
+      "readOnly": true,
+      "replayed": true,
+      "receipt": {
+        "operationKey": "ops:bluegear:parksera-eumsuni-pending-recovery:20261120:v1",
+        "completedAt": "2026-11-19T15:55:19.884Z",
+        "source": "219fb0e4ea03a44f23680335d76401a9cdca460b",
+        "coinLogFloor": "106938736",
+        "accounts": [
+          {
+            "userId": 45,
+            "nickname": "박세라-ㅂ-",
+            "requestId": "87fb70a6-8018-4090-86a6-9678f2d8918d",
+            "count": 44444,
+            "coinCost": "99999000000000",
+            "coinBefore": "47958274689865574",
+            "coinAfter": "47858275689865574",
+            "planHash": "7a0264d94e1af8b86ca58c7ffa503a187b21c096c70fa86a3b46463cf27f326d",
+            "blackcrownHistoryHash": "1be1ff3605a4c476fd1da309936e14b9eca1ba6de76eecd60c6e0cd3163747be",
+            "blackcrownHistoryStatus": "CONSUMED",
+            "cancelledRequests": [
+              "f05fd232-a7de-4674-981f-6c830e52f45e",
+              "76ace8a0-4de9-4d12-995b-c50fa59f0fb1"
+            ],
+            "cancelledPlanHashes": {
+              "f05fd232-a7de-4674-981f-6c830e52f45e": "5ee8ecb419d1c6431f88eda07c2fe8bb9c9dfce7e6fb4f0b5db4d31c01fdb291",
+              "76ace8a0-4de9-4d12-995b-c50fa59f0fb1": "70f6ebc3c73d4dc3f49d6bbf5ebb39b5700f50c46278d7747a5f68aec6746e84"
+            },
+            "normalCardTypes": 55,
+            "missCount": 35639,
+            "acquisitions": 55
+          },
+          {
+            "userId": 65,
+            "nickname": "음순이",
+            "requestId": "b071fd52-eefd-4449-8220-09d475b7da84",
+            "count": 44444,
+            "coinCost": "99999000000000",
+            "coinBefore": "4335239238763176",
+            "coinAfter": "4235240238763176",
+            "planHash": "ccfdb94be625aa1d7700bb36b737651d8c301d0a0a53db47e8544c01e5dce22c",
+            "blackcrownHistoryHash": "edcb5f2d538d002afbd7f698137ae60b78c386d31b95acd12142b7cea6ef698b",
+            "blackcrownHistoryStatus": "CONSUMED",
+            "cancelledRequests": [
+              "706f4efd-f346-4e48-989a-98607432d63a"
+            ],
+            "cancelledPlanHashes": {
+              "706f4efd-f346-4e48-989a-98607432d63a": "604abaf5a944c6bee249b5ec1129e7f11abeee113bd1e2d105dedb91bd0fccd7"
+            },
+            "normalCardTypes": 55,
+            "missCount": 35492,
+            "acquisitions": 55
+          }
+        ],
+        "policy": "Resume only the latest original user-authorized 100T request per named account, keep its saved lottery, cancel older unpaid attempts without changing their plans, preserve Black Crown reward records.",
+        "messages": 0,
+        "auditId": "65383"
+      },
+      "checked": [
+        {
+          "userId": 45,
+          "status": "COMPLETED",
+          "singleDebit": true,
+          "planPreserved": true,
+          "blackcrownHistoryPreserved": true,
+          "cancelled": 2
+        },
+        {
+          "userId": 65,
+          "status": "COMPLETED",
+          "singleDebit": true,
+          "planPreserved": true,
+          "blackcrownHistoryPreserved": true,
+          "cancelled": 1
+        }
+      ]
+    }
+  ],
+  "rehearsals": [
+    {
+      "file": "rehearsal-1795102962508.json",
+      "at": "2026-11-19T15:42:42.508Z",
+      "productionCommitted": false,
+      "results": [
+        {
+          "nickname": "음순이",
+          "userId": 65,
+          "requestId": "b071fd52-eefd-4449-8220-09d475b7da84",
+          "failedIndex": 2,
+          "source": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN COALESCE((SELECT value FROM app_meta WHERE key=?),'')=? THEN 1 ELSE 0 END",
+          "code": "23514",
+          "error": "new row for relation \"joint_atomic_guards_v1\" violates check constraint \"joint_atomic_guards_v1_verified_check\"",
+          "detail": "Failing row contains (7b960400-8154-46f4-abf9-6de1a08fc9bb, 0).",
+          "constraint": "joint_atomic_guards_v1_verified_check",
+          "ms": 235,
+          "timings": [
+            {
+              "i": 0,
+              "ms": 80
+            },
+            {
+              "i": 1,
+              "ms": 77
+            }
+          ],
+          "rolledBack": true
+        },
+        {
+          "nickname": "박세라-ㅂ-",
+          "userId": 45,
+          "requestId": "87fb70a6-8018-4090-86a6-9678f2d8918d",
+          "failedIndex": 2,
+          "source": "INSERT INTO joint_atomic_guards_v1(token,verified) SELECT ?,CASE WHEN COALESCE((SELECT value FROM app_meta WHERE key=?),'')=? THEN 1 ELSE 0 END",
+          "code": "23514",
+          "error": "new row for relation \"joint_atomic_guards_v1\" violates check constraint \"joint_atomic_guards_v1_verified_check\"",
+          "detail": "Failing row contains (6704ae55-2dc3-4272-bcab-a9d44b6f9d61, 0).",
+          "constraint": "joint_atomic_guards_v1_verified_check",
+          "ms": 228,
+          "timings": [
+            {
+              "i": 0,
+              "ms": 74
+            },
+            {
+              "i": 1,
+              "ms": 76
+            }
+          ],
+          "rolledBack": true
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-after-1795103128909.json",
+      "at": "2026-11-19T15:45:28.909Z",
+      "productionCommitted": false,
+      "results": [
+        {
+          "nickname": "음순이",
+          "userId": 65,
+          "status": "WOULD_COMPLETE",
+          "ms": 19788,
+          "timings": [
+            {
+              "i": 0,
+              "ms": 86
+            },
+            {
+              "i": 1,
+              "ms": 84
+            },
+            {
+              "i": 2,
+              "ms": 84
+            },
+            {
+              "i": 3,
+              "ms": 84
+            },
+            {
+              "i": 4,
+              "ms": 84
+            },
+            {
+              "i": 5,
+              "ms": 82
+            },
+            {
+              "i": 6,
+              "ms": 82
+            },
+            {
+              "i": 7,
+              "ms": 83
+            },
+            {
+              "i": 8,
+              "ms": 82
+            },
+            {
+              "i": 9,
+              "ms": 185
+            },
+            {
+              "i": 10,
+              "ms": 97
+            },
+            {
+              "i": 11,
+              "ms": 82
+            },
+            {
+              "i": 12,
+              "ms": 82
+            },
+            {
+              "i": 13,
+              "ms": 83
+            },
+            {
+              "i": 14,
+              "ms": 83
+            },
+            {
+              "i": 15,
+              "ms": 82
+            },
+            {
+              "i": 16,
+              "ms": 83
+            },
+            {
+              "i": 17,
+              "ms": 84
+            },
+            {
+              "i": 18,
+              "ms": 88
+            },
+            {
+              "i": 19,
+              "ms": 84
+            },
+            {
+              "i": 20,
+              "ms": 82
+            },
+            {
+              "i": 21,
+              "ms": 82
+            },
+            {
+              "i": 22,
+              "ms": 82
+            },
+            {
+              "i": 23,
+              "ms": 82
+            },
+            {
+              "i": 24,
+              "ms": 82
+            },
+            {
+              "i": 25,
+              "ms": 82
+            },
+            {
+              "i": 26,
+              "ms": 82
+            },
+            {
+              "i": 27,
+              "ms": 82
+            },
+            {
+              "i": 28,
+              "ms": 83
+            },
+            {
+              "i": 29,
+              "ms": 83
+            },
+            {
+              "i": 30,
+              "ms": 82
+            },
+            {
+              "i": 31,
+              "ms": 84
+            },
+            {
+              "i": 32,
+              "ms": 84
+            },
+            {
+              "i": 33,
+              "ms": 84
+            },
+            {
+              "i": 34,
+              "ms": 82
+            },
+            {
+              "i": 35,
+              "ms": 82
+            },
+            {
+              "i": 36,
+              "ms": 84
+            },
+            {
+              "i": 37,
+              "ms": 82
+            },
+            {
+              "i": 38,
+              "ms": 82
+            },
+            {
+              "i": 39,
+              "ms": 82
+            },
+            {
+              "i": 40,
+              "ms": 83
+            },
+            {
+              "i": 41,
+              "ms": 84
+            },
+            {
+              "i": 42,
+              "ms": 83
+            },
+            {
+              "i": 43,
+              "ms": 82
+            },
+            {
+              "i": 44,
+              "ms": 82
+            },
+            {
+              "i": 45,
+              "ms": 83
+            },
+            {
+              "i": 46,
+              "ms": 82
+            },
+            {
+              "i": 47,
+              "ms": 81
+            },
+            {
+              "i": 48,
+              "ms": 82
+            },
+            {
+              "i": 49,
+              "ms": 82
+            },
+            {
+              "i": 50,
+              "ms": 82
+            },
+            {
+              "i": 51,
+              "ms": 83
+            },
+            {
+              "i": 52,
+              "ms": 82
+            },
+            {
+              "i": 53,
+              "ms": 82
+            },
+            {
+              "i": 54,
+              "ms": 82
+            },
+            {
+              "i": 55,
+              "ms": 82
+            },
+            {
+              "i": 56,
+              "ms": 82
+            },
+            {
+              "i": 57,
+              "ms": 82
+            },
+            {
+              "i": 58,
+              "ms": 89
+            },
+            {
+              "i": 59,
+              "ms": 82
+            },
+            {
+              "i": 60,
+              "ms": 82
+            },
+            {
+              "i": 61,
+              "ms": 82
+            },
+            {
+              "i": 62,
+              "ms": 82
+            },
+            {
+              "i": 63,
+              "ms": 82
+            },
+            {
+              "i": 64,
+              "ms": 84
+            },
+            {
+              "i": 65,
+              "ms": 83
+            },
+            {
+              "i": 66,
+              "ms": 82
+            },
+            {
+              "i": 67,
+              "ms": 82
+            },
+            {
+              "i": 68,
+              "ms": 82
+            },
+            {
+              "i": 69,
+              "ms": 83
+            },
+            {
+              "i": 70,
+              "ms": 82
+            },
+            {
+              "i": 71,
+              "ms": 85
+            },
+            {
+              "i": 72,
+              "ms": 84
+            },
+            {
+              "i": 73,
+              "ms": 84
+            },
+            {
+              "i": 74,
+              "ms": 82
+            },
+            {
+              "i": 75,
+              "ms": 82
+            },
+            {
+              "i": 76,
+              "ms": 83
+            },
+            {
+              "i": 77,
+              "ms": 82
+            },
+            {
+              "i": 78,
+              "ms": 82
+            },
+            {
+              "i": 79,
+              "ms": 84
+            },
+            {
+              "i": 80,
+              "ms": 83
+            },
+            {
+              "i": 81,
+              "ms": 82
+            },
+            {
+              "i": 82,
+              "ms": 83
+            },
+            {
+              "i": 83,
+              "ms": 82
+            },
+            {
+              "i": 84,
+              "ms": 82
+            },
+            {
+              "i": 85,
+              "ms": 83
+            },
+            {
+              "i": 86,
+              "ms": 82
+            },
+            {
+              "i": 87,
+              "ms": 81
+            },
+            {
+              "i": 88,
+              "ms": 82
+            },
+            {
+              "i": 89,
+              "ms": 82
+            },
+            {
+              "i": 90,
+              "ms": 82
+            },
+            {
+              "i": 91,
+              "ms": 82
+            },
+            {
+              "i": 92,
+              "ms": 84
+            },
+            {
+              "i": 93,
+              "ms": 84
+            },
+            {
+              "i": 94,
+              "ms": 82
+            },
+            {
+              "i": 95,
+              "ms": 81
+            },
+            {
+              "i": 96,
+              "ms": 82
+            },
+            {
+              "i": 97,
+              "ms": 82
+            },
+            {
+              "i": 98,
+              "ms": 82
+            },
+            {
+              "i": 99,
+              "ms": 82
+            },
+            {
+              "i": 100,
+              "ms": 82
+            },
+            {
+              "i": 101,
+              "ms": 82
+            },
+            {
+              "i": 102,
+              "ms": 82
+            },
+            {
+              "i": 103,
+              "ms": 81
+            },
+            {
+              "i": 104,
+              "ms": 82
+            },
+            {
+              "i": 105,
+              "ms": 91
+            },
+            {
+              "i": 106,
+              "ms": 83
+            },
+            {
+              "i": 107,
+              "ms": 82
+            },
+            {
+              "i": 108,
+              "ms": 83
+            },
+            {
+              "i": 109,
+              "ms": 87
+            },
+            {
+              "i": 110,
+              "ms": 82
+            },
+            {
+              "i": 111,
+              "ms": 81
+            },
+            {
+              "i": 112,
+              "ms": 84
+            },
+            {
+              "i": 113,
+              "ms": 83
+            },
+            {
+              "i": 114,
+              "ms": 87
+            },
+            {
+              "i": 115,
+              "ms": 82
+            },
+            {
+              "i": 116,
+              "ms": 82
+            },
+            {
+              "i": 117,
+              "ms": 82
+            },
+            {
+              "i": 118,
+              "ms": 83
+            },
+            {
+              "i": 119,
+              "ms": 82
+            },
+            {
+              "i": 120,
+              "ms": 82
+            },
+            {
+              "i": 121,
+              "ms": 82
+            },
+            {
+              "i": 122,
+              "ms": 82
+            },
+            {
+              "i": 123,
+              "ms": 83
+            },
+            {
+              "i": 124,
+              "ms": 82
+            },
+            {
+              "i": 125,
+              "ms": 82
+            },
+            {
+              "i": 126,
+              "ms": 82
+            },
+            {
+              "i": 127,
+              "ms": 83
+            },
+            {
+              "i": 128,
+              "ms": 84
+            },
+            {
+              "i": 129,
+              "ms": 83
+            },
+            {
+              "i": 130,
+              "ms": 82
+            },
+            {
+              "i": 131,
+              "ms": 83
+            },
+            {
+              "i": 132,
+              "ms": 108
+            },
+            {
+              "i": 133,
+              "ms": 86
+            },
+            {
+              "i": 134,
+              "ms": 93
+            },
+            {
+              "i": 135,
+              "ms": 82
+            },
+            {
+              "i": 136,
+              "ms": 82
+            },
+            {
+              "i": 137,
+              "ms": 82
+            },
+            {
+              "i": 138,
+              "ms": 82
+            },
+            {
+              "i": 139,
+              "ms": 81
+            },
+            {
+              "i": 140,
+              "ms": 82
+            },
+            {
+              "i": 141,
+              "ms": 84
+            },
+            {
+              "i": 142,
+              "ms": 88
+            },
+            {
+              "i": 143,
+              "ms": 86
+            },
+            {
+              "i": 144,
+              "ms": 90
+            },
+            {
+              "i": 145,
+              "ms": 85
+            },
+            {
+              "i": 146,
+              "ms": 83
+            },
+            {
+              "i": 147,
+              "ms": 82
+            },
+            {
+              "i": 148,
+              "ms": 82
+            },
+            {
+              "i": 149,
+              "ms": 82
+            },
+            {
+              "i": 150,
+              "ms": 82
+            },
+            {
+              "i": 151,
+              "ms": 86
+            },
+            {
+              "i": 152,
+              "ms": 90
+            },
+            {
+              "i": 153,
+              "ms": 82
+            },
+            {
+              "i": 154,
+              "ms": 82
+            },
+            {
+              "i": 155,
+              "ms": 87
+            },
+            {
+              "i": 156,
+              "ms": 83
+            },
+            {
+              "i": 157,
+              "ms": 82
+            },
+            {
+              "i": 158,
+              "ms": 82
+            },
+            {
+              "i": 159,
+              "ms": 83
+            },
+            {
+              "i": 160,
+              "ms": 83
+            },
+            {
+              "i": 161,
+              "ms": 83
+            },
+            {
+              "i": 162,
+              "ms": 86
+            },
+            {
+              "i": 163,
+              "ms": 84
+            },
+            {
+              "i": 164,
+              "ms": 87
+            },
+            {
+              "i": 165,
+              "ms": 83
+            },
+            {
+              "i": 166,
+              "ms": 91
+            },
+            {
+              "i": 167,
+              "ms": 82
+            },
+            {
+              "i": 168,
+              "ms": 82
+            },
+            {
+              "i": 169,
+              "ms": 83
+            },
+            {
+              "i": 170,
+              "ms": 92
+            },
+            {
+              "i": 171,
+              "ms": 82
+            },
+            {
+              "i": 172,
+              "ms": 84
+            },
+            {
+              "i": 173,
+              "ms": 84
+            },
+            {
+              "i": 174,
+              "ms": 83
+            },
+            {
+              "i": 175,
+              "ms": 82
+            },
+            {
+              "i": 176,
+              "ms": 82
+            },
+            {
+              "i": 177,
+              "ms": 84
+            },
+            {
+              "i": 178,
+              "ms": 82
+            },
+            {
+              "i": 179,
+              "ms": 82
+            },
+            {
+              "i": 180,
+              "ms": 82
+            },
+            {
+              "i": 181,
+              "ms": 83
+            },
+            {
+              "i": 182,
+              "ms": 83
+            },
+            {
+              "i": 183,
+              "ms": 82
+            },
+            {
+              "i": 184,
+              "ms": 84
+            },
+            {
+              "i": 185,
+              "ms": 88
+            },
+            {
+              "i": 186,
+              "ms": 83
+            },
+            {
+              "i": 187,
+              "ms": 83
+            },
+            {
+              "i": 188,
+              "ms": 83
+            },
+            {
+              "i": 189,
+              "ms": 83
+            },
+            {
+              "i": 190,
+              "ms": 88
+            },
+            {
+              "i": 191,
+              "ms": 83
+            },
+            {
+              "i": 192,
+              "ms": 82
+            },
+            {
+              "i": 193,
+              "ms": 91
+            },
+            {
+              "i": 194,
+              "ms": 82
+            },
+            {
+              "i": 195,
+              "ms": 82
+            },
+            {
+              "i": 196,
+              "ms": 82
+            },
+            {
+              "i": 197,
+              "ms": 84
+            },
+            {
+              "i": 198,
+              "ms": 82
+            },
+            {
+              "i": 199,
+              "ms": 83
+            },
+            {
+              "i": 200,
+              "ms": 84
+            },
+            {
+              "i": 201,
+              "ms": 82
+            },
+            {
+              "i": 202,
+              "ms": 84
+            },
+            {
+              "i": 203,
+              "ms": 82
+            },
+            {
+              "i": 204,
+              "ms": 81
+            },
+            {
+              "i": 205,
+              "ms": 83
+            },
+            {
+              "i": 206,
+              "ms": 82
+            },
+            {
+              "i": 207,
+              "ms": 83
+            },
+            {
+              "i": 208,
+              "ms": 88
+            },
+            {
+              "i": 209,
+              "ms": 83
+            },
+            {
+              "i": 210,
+              "ms": 91
+            },
+            {
+              "i": 211,
+              "ms": 86
+            },
+            {
+              "i": 212,
+              "ms": 83
+            },
+            {
+              "i": 213,
+              "ms": 98
+            },
+            {
+              "i": 214,
+              "ms": 83
+            },
+            {
+              "i": 215,
+              "ms": 87
+            },
+            {
+              "i": 216,
+              "ms": 83
+            },
+            {
+              "i": 217,
+              "ms": 85
+            },
+            {
+              "i": 218,
+              "ms": 82
+            },
+            {
+              "i": 219,
+              "ms": 82
+            },
+            {
+              "i": 220,
+              "ms": 83
+            },
+            {
+              "i": 221,
+              "ms": 83
+            },
+            {
+              "i": 222,
+              "ms": 82
+            },
+            {
+              "i": 223,
+              "ms": 83
+            },
+            {
+              "i": 224,
+              "ms": 82
+            },
+            {
+              "i": 225,
+              "ms": 82
+            },
+            {
+              "i": 226,
+              "ms": 82
+            },
+            {
+              "i": 227,
+              "ms": 83
+            },
+            {
+              "i": 228,
+              "ms": 82
+            },
+            {
+              "i": 229,
+              "ms": 88
+            },
+            {
+              "i": 230,
+              "ms": 93
+            },
+            {
+              "i": 231,
+              "ms": 83
+            },
+            {
+              "i": 232,
+              "ms": 82
+            },
+            {
+              "i": 233,
+              "ms": 82
+            },
+            {
+              "i": 234,
+              "ms": 84
+            },
+            {
+              "i": 235,
+              "ms": 83
+            }
+          ],
+          "rolledBack": true
+        },
+        {
+          "nickname": "박세라-ㅂ-",
+          "userId": 45,
+          "status": "WOULD_COMPLETE",
+          "ms": 20297,
+          "timings": [
+            {
+              "i": 0,
+              "ms": 88
+            },
+            {
+              "i": 1,
+              "ms": 86
+            },
+            {
+              "i": 2,
+              "ms": 83
+            },
+            {
+              "i": 3,
+              "ms": 83
+            },
+            {
+              "i": 4,
+              "ms": 85
+            },
+            {
+              "i": 5,
+              "ms": 84
+            },
+            {
+              "i": 6,
+              "ms": 92
+            },
+            {
+              "i": 7,
+              "ms": 88
+            },
+            {
+              "i": 8,
+              "ms": 82
+            },
+            {
+              "i": 9,
+              "ms": 92
+            },
+            {
+              "i": 10,
+              "ms": 85
+            },
+            {
+              "i": 11,
+              "ms": 130
+            },
+            {
+              "i": 12,
+              "ms": 83
+            },
+            {
+              "i": 13,
+              "ms": 82
+            },
+            {
+              "i": 14,
+              "ms": 82
+            },
+            {
+              "i": 15,
+              "ms": 91
+            },
+            {
+              "i": 16,
+              "ms": 87
+            },
+            {
+              "i": 17,
+              "ms": 83
+            },
+            {
+              "i": 18,
+              "ms": 82
+            },
+            {
+              "i": 19,
+              "ms": 82
+            },
+            {
+              "i": 20,
+              "ms": 82
+            },
+            {
+              "i": 21,
+              "ms": 83
+            },
+            {
+              "i": 22,
+              "ms": 84
+            },
+            {
+              "i": 23,
+              "ms": 82
+            },
+            {
+              "i": 24,
+              "ms": 82
+            },
+            {
+              "i": 25,
+              "ms": 83
+            },
+            {
+              "i": 26,
+              "ms": 83
+            },
+            {
+              "i": 27,
+              "ms": 90
+            },
+            {
+              "i": 28,
+              "ms": 82
+            },
+            {
+              "i": 29,
+              "ms": 90
+            },
+            {
+              "i": 30,
+              "ms": 82
+            },
+            {
+              "i": 31,
+              "ms": 102
+            },
+            {
+              "i": 32,
+              "ms": 89
+            },
+            {
+              "i": 33,
+              "ms": 83
+            },
+            {
+              "i": 34,
+              "ms": 150
+            },
+            {
+              "i": 35,
+              "ms": 178
+            },
+            {
+              "i": 36,
+              "ms": 92
+            },
+            {
+              "i": 37,
+              "ms": 89
+            },
+            {
+              "i": 38,
+              "ms": 116
+            },
+            {
+              "i": 39,
+              "ms": 94
+            },
+            {
+              "i": 40,
+              "ms": 83
+            },
+            {
+              "i": 41,
+              "ms": 83
+            },
+            {
+              "i": 42,
+              "ms": 82
+            },
+            {
+              "i": 43,
+              "ms": 82
+            },
+            {
+              "i": 44,
+              "ms": 90
+            },
+            {
+              "i": 45,
+              "ms": 87
+            },
+            {
+              "i": 46,
+              "ms": 99
+            },
+            {
+              "i": 47,
+              "ms": 122
+            },
+            {
+              "i": 48,
+              "ms": 104
+            },
+            {
+              "i": 49,
+              "ms": 191
+            },
+            {
+              "i": 50,
+              "ms": 89
+            },
+            {
+              "i": 51,
+              "ms": 95
+            },
+            {
+              "i": 52,
+              "ms": 87
+            },
+            {
+              "i": 53,
+              "ms": 98
+            },
+            {
+              "i": 54,
+              "ms": 82
+            },
+            {
+              "i": 55,
+              "ms": 87
+            },
+            {
+              "i": 56,
+              "ms": 84
+            },
+            {
+              "i": 57,
+              "ms": 83
+            },
+            {
+              "i": 58,
+              "ms": 85
+            },
+            {
+              "i": 59,
+              "ms": 82
+            },
+            {
+              "i": 60,
+              "ms": 84
+            },
+            {
+              "i": 61,
+              "ms": 82
+            },
+            {
+              "i": 62,
+              "ms": 82
+            },
+            {
+              "i": 63,
+              "ms": 81
+            },
+            {
+              "i": 64,
+              "ms": 83
+            },
+            {
+              "i": 65,
+              "ms": 84
+            },
+            {
+              "i": 66,
+              "ms": 83
+            },
+            {
+              "i": 67,
+              "ms": 82
+            },
+            {
+              "i": 68,
+              "ms": 84
+            },
+            {
+              "i": 69,
+              "ms": 84
+            },
+            {
+              "i": 70,
+              "ms": 84
+            },
+            {
+              "i": 71,
+              "ms": 88
+            },
+            {
+              "i": 72,
+              "ms": 82
+            },
+            {
+              "i": 73,
+              "ms": 83
+            },
+            {
+              "i": 74,
+              "ms": 82
+            },
+            {
+              "i": 75,
+              "ms": 84
+            },
+            {
+              "i": 76,
+              "ms": 93
+            },
+            {
+              "i": 77,
+              "ms": 95
+            },
+            {
+              "i": 78,
+              "ms": 91
+            },
+            {
+              "i": 79,
+              "ms": 82
+            },
+            {
+              "i": 80,
+              "ms": 82
+            },
+            {
+              "i": 81,
+              "ms": 84
+            },
+            {
+              "i": 82,
+              "ms": 82
+            },
+            {
+              "i": 83,
+              "ms": 82
+            },
+            {
+              "i": 84,
+              "ms": 83
+            },
+            {
+              "i": 85,
+              "ms": 83
+            },
+            {
+              "i": 86,
+              "ms": 82
+            },
+            {
+              "i": 87,
+              "ms": 85
+            },
+            {
+              "i": 88,
+              "ms": 88
+            },
+            {
+              "i": 89,
+              "ms": 96
+            },
+            {
+              "i": 90,
+              "ms": 83
+            },
+            {
+              "i": 91,
+              "ms": 81
+            },
+            {
+              "i": 92,
+              "ms": 82
+            },
+            {
+              "i": 93,
+              "ms": 83
+            },
+            {
+              "i": 94,
+              "ms": 82
+            },
+            {
+              "i": 95,
+              "ms": 83
+            },
+            {
+              "i": 96,
+              "ms": 83
+            },
+            {
+              "i": 97,
+              "ms": 84
+            },
+            {
+              "i": 98,
+              "ms": 90
+            },
+            {
+              "i": 99,
+              "ms": 82
+            },
+            {
+              "i": 100,
+              "ms": 82
+            },
+            {
+              "i": 101,
+              "ms": 82
+            },
+            {
+              "i": 102,
+              "ms": 82
+            },
+            {
+              "i": 103,
+              "ms": 82
+            },
+            {
+              "i": 104,
+              "ms": 82
+            },
+            {
+              "i": 105,
+              "ms": 82
+            },
+            {
+              "i": 106,
+              "ms": 82
+            },
+            {
+              "i": 107,
+              "ms": 81
+            },
+            {
+              "i": 108,
+              "ms": 81
+            },
+            {
+              "i": 109,
+              "ms": 82
+            },
+            {
+              "i": 110,
+              "ms": 88
+            },
+            {
+              "i": 111,
+              "ms": 81
+            },
+            {
+              "i": 112,
+              "ms": 82
+            },
+            {
+              "i": 113,
+              "ms": 82
+            },
+            {
+              "i": 114,
+              "ms": 82
+            },
+            {
+              "i": 115,
+              "ms": 81
+            },
+            {
+              "i": 116,
+              "ms": 81
+            },
+            {
+              "i": 117,
+              "ms": 83
+            },
+            {
+              "i": 118,
+              "ms": 86
+            },
+            {
+              "i": 119,
+              "ms": 82
+            },
+            {
+              "i": 120,
+              "ms": 81
+            },
+            {
+              "i": 121,
+              "ms": 84
+            },
+            {
+              "i": 122,
+              "ms": 82
+            },
+            {
+              "i": 123,
+              "ms": 82
+            },
+            {
+              "i": 124,
+              "ms": 83
+            },
+            {
+              "i": 125,
+              "ms": 82
+            },
+            {
+              "i": 126,
+              "ms": 82
+            },
+            {
+              "i": 127,
+              "ms": 81
+            },
+            {
+              "i": 128,
+              "ms": 82
+            },
+            {
+              "i": 129,
+              "ms": 82
+            },
+            {
+              "i": 130,
+              "ms": 82
+            },
+            {
+              "i": 131,
+              "ms": 99
+            },
+            {
+              "i": 132,
+              "ms": 86
+            },
+            {
+              "i": 133,
+              "ms": 88
+            },
+            {
+              "i": 134,
+              "ms": 82
+            },
+            {
+              "i": 135,
+              "ms": 81
+            },
+            {
+              "i": 136,
+              "ms": 81
+            },
+            {
+              "i": 137,
+              "ms": 91
+            },
+            {
+              "i": 138,
+              "ms": 83
+            },
+            {
+              "i": 139,
+              "ms": 82
+            },
+            {
+              "i": 140,
+              "ms": 82
+            },
+            {
+              "i": 141,
+              "ms": 84
+            },
+            {
+              "i": 142,
+              "ms": 83
+            },
+            {
+              "i": 143,
+              "ms": 83
+            },
+            {
+              "i": 144,
+              "ms": 82
+            },
+            {
+              "i": 145,
+              "ms": 83
+            },
+            {
+              "i": 146,
+              "ms": 86
+            },
+            {
+              "i": 147,
+              "ms": 83
+            },
+            {
+              "i": 148,
+              "ms": 83
+            },
+            {
+              "i": 149,
+              "ms": 83
+            },
+            {
+              "i": 150,
+              "ms": 83
+            },
+            {
+              "i": 151,
+              "ms": 113
+            },
+            {
+              "i": 152,
+              "ms": 95
+            },
+            {
+              "i": 153,
+              "ms": 82
+            },
+            {
+              "i": 154,
+              "ms": 82
+            },
+            {
+              "i": 155,
+              "ms": 83
+            },
+            {
+              "i": 156,
+              "ms": 82
+            },
+            {
+              "i": 157,
+              "ms": 82
+            },
+            {
+              "i": 158,
+              "ms": 89
+            },
+            {
+              "i": 159,
+              "ms": 83
+            },
+            {
+              "i": 160,
+              "ms": 90
+            },
+            {
+              "i": 161,
+              "ms": 93
+            },
+            {
+              "i": 162,
+              "ms": 82
+            },
+            {
+              "i": 163,
+              "ms": 84
+            },
+            {
+              "i": 164,
+              "ms": 83
+            },
+            {
+              "i": 165,
+              "ms": 89
+            },
+            {
+              "i": 166,
+              "ms": 84
+            },
+            {
+              "i": 167,
+              "ms": 85
+            },
+            {
+              "i": 168,
+              "ms": 90
+            },
+            {
+              "i": 169,
+              "ms": 83
+            },
+            {
+              "i": 170,
+              "ms": 82
+            },
+            {
+              "i": 171,
+              "ms": 83
+            },
+            {
+              "i": 172,
+              "ms": 82
+            },
+            {
+              "i": 173,
+              "ms": 82
+            },
+            {
+              "i": 174,
+              "ms": 83
+            },
+            {
+              "i": 175,
+              "ms": 82
+            },
+            {
+              "i": 176,
+              "ms": 82
+            },
+            {
+              "i": 177,
+              "ms": 83
+            },
+            {
+              "i": 178,
+              "ms": 82
+            },
+            {
+              "i": 179,
+              "ms": 81
+            },
+            {
+              "i": 180,
+              "ms": 85
+            },
+            {
+              "i": 181,
+              "ms": 83
+            },
+            {
+              "i": 182,
+              "ms": 84
+            },
+            {
+              "i": 183,
+              "ms": 82
+            },
+            {
+              "i": 184,
+              "ms": 82
+            },
+            {
+              "i": 185,
+              "ms": 82
+            },
+            {
+              "i": 186,
+              "ms": 82
+            },
+            {
+              "i": 187,
+              "ms": 82
+            },
+            {
+              "i": 188,
+              "ms": 82
+            },
+            {
+              "i": 189,
+              "ms": 85
+            },
+            {
+              "i": 190,
+              "ms": 82
+            },
+            {
+              "i": 191,
+              "ms": 81
+            },
+            {
+              "i": 192,
+              "ms": 81
+            },
+            {
+              "i": 193,
+              "ms": 82
+            },
+            {
+              "i": 194,
+              "ms": 82
+            },
+            {
+              "i": 195,
+              "ms": 82
+            },
+            {
+              "i": 196,
+              "ms": 82
+            },
+            {
+              "i": 197,
+              "ms": 82
+            },
+            {
+              "i": 198,
+              "ms": 82
+            },
+            {
+              "i": 199,
+              "ms": 81
+            },
+            {
+              "i": 200,
+              "ms": 82
+            },
+            {
+              "i": 201,
+              "ms": 82
+            },
+            {
+              "i": 202,
+              "ms": 82
+            },
+            {
+              "i": 203,
+              "ms": 81
+            },
+            {
+              "i": 204,
+              "ms": 83
+            },
+            {
+              "i": 205,
+              "ms": 82
+            },
+            {
+              "i": 206,
+              "ms": 84
+            },
+            {
+              "i": 207,
+              "ms": 83
+            },
+            {
+              "i": 208,
+              "ms": 85
+            },
+            {
+              "i": 209,
+              "ms": 82
+            },
+            {
+              "i": 210,
+              "ms": 83
+            },
+            {
+              "i": 211,
+              "ms": 84
+            },
+            {
+              "i": 212,
+              "ms": 88
+            },
+            {
+              "i": 213,
+              "ms": 92
+            },
+            {
+              "i": 214,
+              "ms": 84
+            },
+            {
+              "i": 215,
+              "ms": 82
+            },
+            {
+              "i": 216,
+              "ms": 84
+            },
+            {
+              "i": 217,
+              "ms": 82
+            },
+            {
+              "i": 218,
+              "ms": 82
+            },
+            {
+              "i": 219,
+              "ms": 82
+            },
+            {
+              "i": 220,
+              "ms": 83
+            },
+            {
+              "i": 221,
+              "ms": 82
+            },
+            {
+              "i": 222,
+              "ms": 87
+            },
+            {
+              "i": 223,
+              "ms": 83
+            },
+            {
+              "i": 224,
+              "ms": 83
+            },
+            {
+              "i": 225,
+              "ms": 82
+            },
+            {
+              "i": 226,
+              "ms": 81
+            },
+            {
+              "i": 227,
+              "ms": 81
+            },
+            {
+              "i": 228,
+              "ms": 83
+            },
+            {
+              "i": 229,
+              "ms": 82
+            },
+            {
+              "i": 230,
+              "ms": 82
+            },
+            {
+              "i": 231,
+              "ms": 83
+            },
+            {
+              "i": 232,
+              "ms": 81
+            },
+            {
+              "i": 233,
+              "ms": 82
+            },
+            {
+              "i": 234,
+              "ms": 92
+            },
+            {
+              "i": 235,
+              "ms": 83
+            }
+          ],
+          "rolledBack": true
+        }
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "after-android",
+      "mode": "public",
+      "platform": "android",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 107,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 139,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 8.299999999999727,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 71,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 352,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.400000000000546,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "856eaad5-644f-4979-b7f6-6b04219bf1c7",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 71,
+          "queries": 50,
+          "statements": 32,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "a1654508-2d9b-410c-bb48-f1ea5a45e615",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 166,
+          "queries": 45,
+          "statements": 28,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1542,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, unchanged public assets with account APIs isolated to the legacy/patched Blue Gear service and a consumed Black Crown entitlement; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-desktop-recovery",
+      "mode": "public",
+      "platform": "desktop",
+      "recovery": true,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 130,
+          "sameRequestRecovered": true,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.200000000000728,
+            "max": 16.699999999999818,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "5c73e6ad-1253-46b0-9c62-60f1cc77d32e",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 40,
+          "queries": 42,
+          "statements": 32,
+          "receiptBytes": 973
+        }
+      ],
+      "errors": [],
+      "launchMs": 2495,
+      "posts": 1,
+      "featureReads": 3,
+      "receiptReads": 2,
+      "lateCancelledResponses": 0,
+      "finalCoin": 2900001000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, unchanged public assets with account APIs isolated to the legacy/patched Blue Gear service and a consumed Black Crown entitlement; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-h5",
+      "mode": "public",
+      "platform": "h5",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 403,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 222,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.200000000000728,
+            "max": 4.299999999999727,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 61,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 184,
+          "frames": {
+            "p50": 4.199999999998909,
+            "p95": 4.200000000000728,
+            "max": 4.5,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "2e303147-f563-4dbb-8d0f-16e668bdd62e",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 101,
+          "queries": 50,
+          "statements": 32,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "4dc2fa1c-459c-4b06-8ac2-afb5c6fe2c72",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 103,
+          "queries": 45,
+          "statements": 28,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1959,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, unchanged public assets with account APIs isolated to the legacy/patched Blue Gear service and a consumed Black Crown entitlement; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-ios",
+      "mode": "public",
+      "platform": "ios",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 208,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 1346,
+          "frames": {
+            "p50": 16,
+            "p95": 198,
+            "max": 223,
+            "over50": 5
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 0,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 58,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 1127,
+          "frames": {
+            "p50": 16,
+            "p95": 192,
+            "max": 202,
+            "over50": 3
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 0,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "2e799e85-02ce-4e06-b2be-3b768803e8af",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 116,
+          "queries": 50,
+          "statements": 32,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "1e16e89f-34f1-4c3b-8b0d-3c0bd684bd2f",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 127,
+          "queries": 45,
+          "statements": 28,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "launchMs": 3048,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, unchanged public assets with account APIs isolated to the legacy/patched Blue Gear service and a consumed Black Crown entitlement; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-windows",
+      "mode": "public",
+      "platform": "windows",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 221,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 302,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.400000000000546,
+            "max": 8.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 111,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 266,
+          "frames": {
+            "p50": 4.199999999998909,
+            "p95": 4.300000000001091,
+            "max": 4.300000000001091,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "da970a43-e5db-4246-83e3-513ddd320865",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 143,
+          "queries": 50,
+          "statements": 32,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "bd783fd9-099a-48ae-919c-9518c9483913",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 147,
+          "queries": 45,
+          "statements": 28,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 2482,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, unchanged public assets with account APIs isolated to the legacy/patched Blue Gear service and a consumed Black Crown entitlement; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "before-desktop-recovery",
+      "mode": "public",
+      "platform": "desktop",
+      "recovery": true,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 201,
+          "reproduced": "Consumed Black Crown entitlement blocked Blue Gear settlement; recovery POST failed and same request remained pending.",
+          "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.299999999999272,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [],
+      "errors": [],
+      "launchMs": 1218,
+      "posts": 1,
+      "featureReads": 3,
+      "receiptReads": 4,
+      "lateCancelledResponses": 0,
+      "finalCoin": 3000000000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, unchanged public assets with account APIs isolated to the legacy/patched Blue Gear service and a consumed Black Crown entitlement; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    }
+  ],
+  "performance": {
+    "conditions": "Windows headless Chrome/Android touch/WebKit, Windows URL and H5 host emulation. Browser account APIs were isolated PGlite; public assets unchanged. Production diagnosis/rehearsals/recovery and receipt reads used Windows CLI against the real database. No physical-device, installed-app or authenticated public-browser purchase claim.",
+    "bottleneck": "Confirmed failure at transaction statement index2, the unrelated Black Crown history guard. Removing its guard/end eliminates2 statements (real plans238→236); the old run failed before payment. Successful CLI rehearsals used sequential network round trips (19788/20297ms), so this is not a before/after speed comparison. The production Worker retains its pipeline batch execution.",
+    "receiptReads": [
+      {
+        "userId": 45,
+        "checks": [
+          {
+            "visit": "first",
+            "ms": 239,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9682
+          },
+          {
+            "visit": "repeat",
+            "ms": 219,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9682
+          }
+        ]
+      },
+      {
+        "userId": 65,
+        "checks": [
+          {
+            "visit": "first",
+            "ms": 215,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9900
+          },
+          {
+            "visit": "repeat",
+            "ms": 217,
+            "sql": 3,
+            "count": 44444,
+            "bytes": 9900
+          }
+        ]
+      }
+    ],
+    "frames": "Recorded per browser report. WebKit still has the previously documented ResizeObserver warning, unsupported video playback and long frames; no FPS or loading speed improvement claimed.",
+    "exit": "All measured exits had zero further Blue Gear feature/receipt reads."
+  },
+  "safety": {
+    "originalRequestIdsAndLotteryPreserved": true,
+    "oneOriginalRequestSettledPerNamedAccount": true,
+    "olderUnpaidAttemptsCancelled": 3,
+    "olderPlansRetained": true,
+    "blackcrownHistoryPreserved": true,
+    "stockChanges": 0,
+    "newRandomRolls": 0,
+    "newPurchaseRequests": 0,
+    "messages": 0,
+    "locksRemaining": 0
+  },
+  "reproducibility": {
+    "scriptsRoot": "operations/bluegear-pending-accounts-20261120",
+    "sourceFiles": [
+      "functions/_mercenary_blackcrown_opening.js",
+      "tests/bluegear-blackcrown-entitlement-20261120.test.mjs"
+    ],
+    "cleanDeploymentCheckout": "output/revan-live-20261027/release-checkout"
+  }
+}
