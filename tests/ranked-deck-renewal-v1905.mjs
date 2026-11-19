@@ -110,7 +110,7 @@ test('V1907 match is one centered hero and ranked navigation precedes dynamic co
 test('ranked deck slots follow the server formation instead of a fixed 2/3 split', () => {
   const slots = functionSource('renderPvpDeckSlots');
 
-  assert.match(slots, /rules\s*=\s*normalizeDeckRules\(pvpState\.deckRules\)[\s\S]*front\s*=\s*rules\.formation\.front/, 'slot renderer must read the normalized server front-line count');
+  assert.match(slots, /rules\s*=\s*normalizeDeckRules\(\{\.\.\.pvpState\.deckRules,\s*scope:\s*['"]PVP['"]\}\)[\s\S]*front\s*=\s*rules\.formation\.front/, 'slot renderer must read the normalized server front-line count');
   assert.match(slots, /(?:row|position)\s*=\s*i\s*<\s*front/, 'front/back slot styling must use the server-provided boundary');
   assert.doesNotMatch(slots, /i\s*<\s*2/, 'hard-coded two-card front line must not return');
 });
