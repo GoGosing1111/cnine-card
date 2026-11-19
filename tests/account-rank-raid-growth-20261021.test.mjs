@@ -25,9 +25,9 @@ test('strong growth begins at 185, adds 5 percentage points per level and preser
     previousCost=expected;total+=expected;
   }
   assert.equal(total,1948378);assert.equal(MAX_RANK_TICKS,total*600);
-  assert.equal(SHIRANUI_MIN_RANK_TICKS,1466820*600);
-  assert.equal(levelFromTicks(SHIRANUI_MIN_RANK_TICKS-1),234);
-  assert.equal(levelFromTicks(SHIRANUI_MIN_RANK_TICKS),235);
+  assert.equal(SHIRANUI_MIN_RANK_TICKS,1002076*600);
+  assert.equal(levelFromTicks(SHIRANUI_MIN_RANK_TICKS-1),214);
+  assert.equal(levelFromTicks(SHIRANUI_MIN_RANK_TICKS),215);
   for(let level=1;level<250;level++){
     const oldStart=preGrowthLevelTicks(level),oldRequired=preGrowthLevelTicks(level+1)-oldStart;
     for(const progress of [0,1,Math.floor(oldRequired/3),oldRequired/2,oldRequired-1]){
