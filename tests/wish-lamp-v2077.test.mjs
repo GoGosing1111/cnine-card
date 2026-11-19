@@ -12,5 +12,7 @@ test('retired wish lamp cannot charge, grant, recreate tickets or be turned back
 test('live menu and CMS keep wish lamp retired after its successor event also closes',()=>{
  const nav=read('js/soopketmon-v21-exact-shell-adapter.js');assert(!nav.includes("wishLamp:"));assert.doesNotMatch(nav,/goldenAxe: Object.freeze/);
  assert(!read('admin/index.html').includes('wish-lamp-v2077.js'));assert.match(read('events/wish-lamp/index.html'),/url=\/events\/golden-axe\//);
- assert(!read('functions/_wish_lamp.js').includes('INSERT INTO'));assert(read('functions/api/[[path]].js').includes("i.code NOT IN ('PINGDU_WISH_TICKET','CHUSEOK_COIN')"));
+ assert(!read('functions/_wish_lamp.js').includes('INSERT INTO'));
+ const hiddenItems=read('functions/api/[[path]].js').match(/WHERE i\.is_active=1 AND i\.code NOT IN \(([^)]+)\)/)?.[1].split(',').map(v=>v.trim());
+ for(const code of ['PINGDU_WISH_TICKET','CHUSEOK_COIN'])assert(hiddenItems?.includes(`'${code}'`),`${code} must stay hidden when more retired items are added`);
 });
