@@ -908,7 +908,7 @@
       return alert('재료 제작에 필요한 재료 또는 재화가 부족합니다: ' + info.shortage);
     }
     const outputName = recipe.output_name || '미스틱 에너지';
-    const inputName = info.equipment ? window.WorkshopRecipes.equipmentInputs(recipe.equipmentCraft).find(item => item.id === Number(info.candidates.find(row => row.id === info.instanceId)?.equipmentId))?.name || recipe.equipmentCraft.inputName : '';
+    const inputName = info.equipment ? window.WorkshopRecipes.equipmentInputs(recipe.equipmentCraft).find(item => item.id === Number(info.candidates.find(row => row.id === info.instanceId)?.equipmentId))?.name || recipe.equipmentCraft?.inputName || '대상 장비' : '';
     const prompt = recovering
       ? `${outputName} 제작 결과를 동일 요청번호로 안전하게 재확인합니다.`
       : info.omega ? `각성 오메가 제작\n오메가-X 50장 + 100조 코인\n이번 성공률 ${info.pity.guaranteed?100:10}% · 실패 누적 ${info.pity.failures} / 10회\n10회 연속 실패 후 11회째 확정 성공, 성공 시 누적 초기화.\n성공·실패 모두 카드 50장과 코인이 소모됩니다.${workshopState.awakenedOmegaCraft.quantity===50?' 보유한 오메가-X 50장 전부를 소모합니다.':''} 제작하시겠습니까?`
