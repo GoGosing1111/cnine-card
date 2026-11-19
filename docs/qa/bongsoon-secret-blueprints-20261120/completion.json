@@ -1,0 +1,290 @@
+{
+  "status": "COMPLETE",
+  "at": "2026-11-19T16:47:33.069Z",
+  "request": "나무늘봉순 계정에 비밀무기설계도 1,2,3장 3장씩 지급",
+  "operationKey": "ops:bongsoon:secret-blueprints-3each:20261120:v1",
+  "plan": {
+    "operationKey": "ops:bongsoon:secret-blueprints-3each:20261120:v1",
+    "userId": "5426",
+    "nickname": "나무늘봉순",
+    "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+    "items": [
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "name": "비밀무기 설계도 1장",
+        "quantity": "3"
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "name": "비밀무기 설계도 2장",
+        "quantity": "3"
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "name": "비밀무기 설계도 3장",
+        "quantity": "3"
+      }
+    ],
+    "delivery": "DIRECT",
+    "autoUse": false,
+    "messages": 0
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon:secret-blueprints-3each:20261120:v1",
+    "plan": {
+      "operationKey": "ops:bongsoon:secret-blueprints-3each:20261120:v1",
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+      "items": [
+        {
+          "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "name": "비밀무기 설계도 1장",
+          "quantity": "3"
+        },
+        {
+          "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+          "name": "비밀무기 설계도 2장",
+          "quantity": "3"
+        },
+        {
+          "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+          "name": "비밀무기 설계도 3장",
+          "quantity": "3"
+        }
+      ],
+      "delivery": "DIRECT",
+      "autoUse": false,
+      "messages": 0
+    },
+    "planHash": "a3107effa41eb736f14a0693b5ae5d3da36801ca987b3bf175fae21f97ef0a9b",
+    "completedAt": "2026-11-19T16:46:11.200Z",
+    "completedAtKST": "2026-11-20 01:46:11",
+    "userId": "5426",
+    "nickname": "나무늘봉순",
+    "grants": [
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "name": "비밀무기 설계도 1장",
+        "quantity": "3",
+        "before": "1",
+        "after": "4",
+        "unseenBefore": "0",
+        "unseenAfter": "3",
+        "logId": "90145644"
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "name": "비밀무기 설계도 2장",
+        "quantity": "3",
+        "before": "0",
+        "after": "3",
+        "unseenBefore": "0",
+        "unseenAfter": "3",
+        "logId": "90145645"
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "name": "비밀무기 설계도 3장",
+        "quantity": "3",
+        "before": "0",
+        "after": "3",
+        "unseenBefore": "0",
+        "unseenAfter": "3",
+        "logId": "90145646"
+      }
+    ],
+    "protectedBeforeHash": "c638c1c57f66f905d383732ab45c50a7165203fc925aeb402a9ad23f999a020c",
+    "protectedAfterHash": "c638c1c57f66f905d383732ab45c50a7165203fc925aeb402a9ad23f999a020c",
+    "syncBefore": {
+      "domains": {
+        "pvp": "139908",
+        "wallet": "157156",
+        "loadout": "157153",
+        "messages": "148381",
+        "inventory": "157159",
+        "collection": "156885"
+      },
+      "revision": "157159"
+    },
+    "syncAfter": {
+      "domains": {
+        "pvp": "139908",
+        "wallet": "157156",
+        "loadout": "157153",
+        "messages": "148381",
+        "inventory": "157161",
+        "collection": "156885"
+      },
+      "revision": "157161"
+    },
+    "messages": 0,
+    "autoUse": false,
+    "auditId": "65872"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "at": "2026-11-19T16:46:28.057Z",
+    "operationKey": "ops:bongsoon:secret-blueprints-3each:20261120:v1",
+    "userId": "5426",
+    "nickname": "나무늘봉순",
+    "completedAtKST": "2026-11-20 01:46:11",
+    "auditId": "65872",
+    "grants": [
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "name": "비밀무기 설계도 1장",
+        "quantity": "3",
+        "before": "1",
+        "after": "4",
+        "unseenBefore": "0",
+        "unseenAfter": "3",
+        "logId": "90145644",
+        "current": "4",
+        "subsequentDelta": "0",
+        "subsequentEntries": 0
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "name": "비밀무기 설계도 2장",
+        "quantity": "3",
+        "before": "0",
+        "after": "3",
+        "unseenBefore": "0",
+        "unseenAfter": "3",
+        "logId": "90145645",
+        "current": "3",
+        "subsequentDelta": "0",
+        "subsequentEntries": 0
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "name": "비밀무기 설계도 3장",
+        "quantity": "3",
+        "before": "0",
+        "after": "3",
+        "unseenBefore": "0",
+        "unseenAfter": "3",
+        "logId": "90145646",
+        "current": "3",
+        "subsequentDelta": "0",
+        "subsequentEntries": 0
+      }
+    ],
+    "independentReadOnly": true,
+    "replayQueries": 1,
+    "additionalGrants": 0,
+    "operationLocksRemaining": 0,
+    "inventoryLogs": 3,
+    "audits": 1,
+    "receipt": 1,
+    "protectedAtGrantPreserved": true,
+    "messages": 0,
+    "autoUse": false,
+    "performance": {
+      "conditions": "Windows Node.js CLI on production PostgreSQL; exact inventory SELECT from current service, excluding authentication/catalog bootstrap. Network included; first/repeated reads. Data-only grant: no UI/runtime change, browser/FPS/physical-device measurement or redeployment.",
+      "before": [
+        {
+          "phase": "first",
+          "ms": 149,
+          "sql": 1
+        },
+        {
+          "phase": "repeat",
+          "ms": 76,
+          "sql": 1
+        }
+      ],
+      "after": [
+        {
+          "phase": "first",
+          "ms": 156,
+          "sql": 1
+        },
+        {
+          "phase": "repeat",
+          "ms": 78,
+          "sql": 1
+        }
+      ],
+      "grantMs": 1283,
+      "sqlPerRead": 1,
+      "bottleneck": "Database/network round trip; all three inventory additions are a single upsert and logs are one insert. No full-ledger rescan or N+1 item reads.",
+      "speedImprovementClaimed": false
+    },
+    "failuresRolledBack": [
+      "inventory_logs",
+      "admin_logs",
+      "app_meta",
+      "after_receipt"
+    ],
+    "fullRehearsalRolledBack": true,
+    "onlyExpectedWrites": true
+  },
+  "tests": {
+    "passed": 3,
+    "failed": 0,
+    "log": "operations/bongsoon-secret-blueprints-20261120/tests-final.log"
+  },
+  "transaction": {
+    "atomic": true,
+    "inventoryLogs": 3,
+    "auditRecords": 1,
+    "completionReceipt": 1,
+    "failedStagesRolledBack": [
+      "inventory_logs",
+      "admin_logs",
+      "app_meta",
+      "after_receipt"
+    ],
+    "rehearsalRolledBack": true,
+    "idempotentReplaySelects": 1,
+    "replayWrites": 0,
+    "leasesReleased": true
+  },
+  "performance": {
+    "conditions": "Windows Node.js CLI on production PostgreSQL; exact inventory SELECT from current service, excluding authentication/catalog bootstrap. Network included; first/repeated reads. Data-only grant: no UI/runtime change, browser/FPS/physical-device measurement or redeployment.",
+    "before": [
+      {
+        "phase": "first",
+        "ms": 149,
+        "sql": 1
+      },
+      {
+        "phase": "repeat",
+        "ms": 76,
+        "sql": 1
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 156,
+        "sql": 1
+      },
+      {
+        "phase": "repeat",
+        "ms": 78,
+        "sql": 1
+      }
+    ],
+    "grantMs": 1283,
+    "sqlPerRead": 1,
+    "bottleneck": "Database/network round trip; all three inventory additions are a single upsert and logs are one insert. No full-ledger rescan or N+1 item reads.",
+    "speedImprovementClaimed": false,
+    "logFloor": {
+      "initial": "15s statement timeout before any grant writes because ORDER BY id bound to the text-cast output alias.",
+      "fix": "Qualify ORDER BY i.id / a.id to use native numeric primary-key order. Bound historical duplicate-log checks by user and the three item codes.",
+      "afterMs": 78
+    }
+  },
+  "productionChanges": {
+    "accountInventoryOnly": true,
+    "otherInventoryAndCurrenciesPreserved": true,
+    "codeDeployment": false,
+    "autoUse": false,
+    "messages": 0
+  },
+  "artifactDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\bongsoon-secret-blueprints-20261120"
+}
