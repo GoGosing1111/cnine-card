@@ -1,11 +1,12 @@
-import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,eventTime} from '/js/nox-input-v1.mjs';
-import {NOX_TRACK} from '/shared/nox-raid-chart-v1.mjs';
+import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,eventTime} from '/js/nox-input-v1.mjs?v=20261119-rhythm2';
+import {NOX_TRACK,NOX_RHYTHM_RULES,noxTrack} from '/shared/nox-raid-chart-v1.mjs?v=20261119-rhythm2';
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const roles=['저음','중음','고음'],keys=['D','F','J','K'];
 let token=sessionStorage.getItem('noxLiveRoom')||'',state=null,payload=null,epoch=0,eventSeq=0,pollTimer=0,flushTimer=0,frame=0,toastTimer=0,input=null,layer=null,mounted=false,mountPromise=null,preparing=false,posting=false,seq=0,offset=Date.now()-performance.now(),bestRtt=Infinity,stageId='',localHits=new Set(),outbox=[],nodes=new Map(),hudSignature='',ended=false,requests=new Set(),polling=false,lastPaint=0,frameTimes=[];
 let calibration=Math.max(-150,Math.min(150,Number(localStorage.getItem('noxTimingOffset'))||0));
 const audio=new NoxAudio(),serverNow=()=>performance.now()+offset;
-let chartObserver=null,hitY=1,noteHeight=40,combo=0,floorAbort=null;
+let chartObserver=null,hitY=1,noteHeight=56,combo=0,floorAbort=null;
+const trackUrls=()=>state?.playlist?.length?state.playlist.map(id=>noxTrack(id).source):[NOX_TRACK.source];
 const hitAnimations=new Map();
 function clearHitEffects(){for(const list of hitAnimations.values())for(const animation of list)animation.cancel();hitAnimations.clear();}
 function showHit(lane,judged,at){
@@ -33,7 +34,7 @@ async function api(route,body,{keepalive=false}={}){
   const controller=new AbortController(),started=performance.now(),auth=playerToken();requests.add(controller);const timeout=setTimeout(()=>controller.abort(),7000);
   const kind=route.split('?')[0];let endpoint='/api/raid/nox/'+route;
   if(body===undefined&&token)endpoint+=(endpoint.includes('?')?'&':'?')+'roomId='+encodeURIComponent(token);
-  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:1,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
+  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:2,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
   try{
     let result;
     for(let attempt=0;attempt<2;attempt++){
@@ -71,10 +72,10 @@ async function mountBattle(){
   if(mounted)return;if(mountPromise)return mountPromise;const version=epoch;
   mountPromise=(async()=>{
     if(!payload){const result=await api('state?payload=1');payload=result.payload;render(result);}
-    await loadScript('/raid/nox/battle.bundle.js?easternP90=20261119-v1&ryujin=20261119-v1');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
+    await loadScript('/raid/nox/battle.bundle.js?nox=20261119-rhythm2&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
-    chartObserver=new ResizeObserver(()=>{hitY=Math.max(1,$('chart').clientHeight-26);noteHeight=parseFloat(getComputedStyle($('chart')).getPropertyValue('--note-height'))||40;$('chart').style.setProperty('--hit-y',hitY+'px');});chartObserver.observe($('chart'));
+    chartObserver=new ResizeObserver(()=>{noteHeight=parseFloat(getComputedStyle($('chart')).getPropertyValue('--note-height'))||56;hitY=noxHitY($('chart').clientHeight,noteHeight);$('chart').style.setProperty('--hit-y',hitY+'px');});chartObserver.observe($('chart'));
     const canInput=()=>state?.status==='ACTIVE'&&state.me.hp>0&&!document.hidden&&!$('guideDialog').open&&!$('resultDialog').open;
     input=new NoxInput(layer,press,{active:()=>canInput()&&state.stage!=='MEMORY',onHeld:(lane,held)=>layer?.querySelectorAll(`[data-nox-lane="${lane}"]`).forEach(b=>b.classList.toggle('is-held',held))});
     floorAbort=new AbortController();const floorPress=e=>{const b=e.target.closest('[data-nox-tile]');if(!b||b.disabled||!canInput()||state.stage!=='MEMORY'||e.type==='pointerdown'&&e.button!==0||e.type==='click'&&e.detail!==0)return;e.preventDefault();press(Number(b.dataset.noxTile),eventTime(e));};
@@ -84,9 +85,9 @@ async function mountBattle(){
 }
 async function prepare(){
   if(preparing)return;preparing=true;$('readyButton').disabled=true;$('prepareStatus').textContent='음원과 전장을 준비하고 있습니다…';const version=epoch;
-  try{await audio.unlock();await Promise.all([audio.prepare(NOX_TRACK.source),mountBattle(),prepareRhythmArt()]);if(version!==epoch)return;render(await api('ready',{ready:true}));}
-  catch(error){if(error.name!=='AbortError')toast(error.message);screen(false);}
-  finally{preparing=false;if(state?.status==='LOBBY')render({state});}
+  try{await audio.unlock();await Promise.all([audio.prepareAll(trackUrls()),mountBattle(),prepareRhythmArt()]);if(version!==epoch)return;render(await api('ready',{ready:true}));}
+  catch(error){if(version!==epoch)return;if(error.name!=='AbortError')toast(error.message);screen(false);}
+  finally{if(version===epoch){preparing=false;if(state?.status==='LOBBY')render({state});}}
 }
 function updateMechanic(){
   if(!layer||!state?.challenge)return;const c=state.challenge;
@@ -95,13 +96,14 @@ function updateMechanic(){
     $('mechanicName').textContent=({RHYTHM:'종언의 악보',MEMORY:'잔향의 발판',COOP:'삼중 공명',EXPOSED:'왕관 붕괴'})[c.stage];
     $('mechanicHint').textContent=({RHYTHM:'D · F · J · K  /  정확도 90% · MISS 3 이하',MEMORY:'바닥의 1 → 2 → 3 위치 기억 · 지뢰를 피하세요',COOP:'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
     if(c.stage==='MEMORY')$('floorTargets').innerHTML=c.tiles.map(tile=>`<button type="button" class="nox-floor-target" data-nox-tile="${tile.id}" aria-label="${tile.id+1}번 위치 ${tile.kind==='mine'?'지뢰지대':'안전지대'}"><span></span></button>`).join('');
-    if(c.stage!=='RHYTHM')audio.stop();
+    if(c.stage==='RHYTHM')$('rhythmTrack').textContent=(noxTrack(c.trackId).name||'경매 BGM')+' · '+c.chart.length+' NOTES';
+    else audio.stop();
   }
   for(const id of state.me.hits||[])localHits.add(id);
   $('spectator').hidden=state.me.hp>0||c.stage==='MEMORY';
   if(c.stage==='RHYTHM'&&state.status==='ACTIVE'){
-    audio.schedule(c.musicStartAt,serverNow());$('audioResume').hidden=audio.context?.state==='running';
-    const age=noxRhythmTime(audio.timeAt()??serverNow()-c.musicStartAt,calibration),passed=c.chart.filter(n=>n.at<=age-90).length;$('rhythmScore').textContent=`정확도 ${Math.min(100,Math.round(state.me.score/Math.max(1,passed)*100))}% · ${state.me.hits.length}/${c.chart.length}`;
+    audio.schedule(noxTrack(c.trackId).source,c.musicStartAt,serverNow());$('audioResume').hidden=audio.context?.state==='running'&&!!audio.source;
+    const age=noxRhythmTime(audio.timeAt()??serverNow()-c.musicStartAt,calibration),passed=c.chart.filter(n=>n.at<=age-NOX_RHYTHM_RULES.goodMs).length;$('rhythmScore').textContent=`정확도 ${Math.min(100,Math.round(state.me.score/Math.max(1,passed)*100))}% · ${state.me.hits.length}/${c.chart.length}`;
   }
   if(c.stage==='MEMORY'){
     const showing=serverNow()<c.revealEnd,dead=state.me.hp<=0,complete=state.me.memoryIndex===3;
@@ -125,7 +127,7 @@ function paint(now){
     // RAF's shared timestamp can precede expensive V3 callbacks. Sample when
     // actually drawing, using the same clock/calibration as the input event.
     const age=noxRhythmTime(audio.timeAt()??t-c.musicStartAt,calibration),visible=new Set();
-    for(const n of c.chart){const delta=n.at-age;if(delta>1400||delta< -100||localHits.has(n.id))continue;visible.add(n.id);let el=nodes.get(n.id);if(!el){el=document.createElement('div');el.className='nox-note';el.dataset.noteId=n.id;el.dataset.tone=n.lane===1||n.lane===2?'ivory':'ruby';el.style.setProperty('--lane',n.lane);$('notes').append(el);nodes.set(n.id,el);}el.style.transform=`translateY(${noxNoteY(n.at,age,hitY,noteHeight)}px)`;}
+    for(const n of c.chart){const delta=n.at-age;if(delta>NOX_RHYTHM_RULES.travelMs||delta< -NOX_RHYTHM_RULES.goodMs||localHits.has(n.id))continue;visible.add(n.id);let el=nodes.get(n.id);if(!el){el=document.createElement('div');el.className='nox-note';el.dataset.noteId=n.id;el.dataset.tone=n.lane===1||n.lane===2?'ivory':'ruby';el.style.setProperty('--lane',n.lane);$('notes').append(el);nodes.set(n.id,el);}el.style.transform=`translateY(${noxNoteY(n.at,age,hitY,noteHeight)}px)`;}
     for(const [id,el]of nodes)if(!visible.has(id)){el.remove();nodes.delete(id);}
   }else if(c.stage==='MEMORY'){
     const cue=c.cues?.find(cue=>t>=cue.from&&t<cue.to);const cueId=cue?.tile??null;if(c.cue!==cueId){c.cue=cueId;c.cueStep=cue?.step??null;window.NoxBattle.memoryCue(state);}const showing=t<c.revealEnd;layer.querySelectorAll('.nox-floor-target').forEach(b=>{b.disabled=showing||state.me.hp<=0||state.me.memoryIndex>=3;});window.NoxBattle.placeFloorTargets($('floorTargets'));
@@ -166,7 +168,7 @@ $('leaveButton').onclick=$('lobbyLeave').onclick=()=>void leave();$('retryButton
 $('copyCode').onclick=async()=>{try{await navigator.clipboard.writeText(state.id);toast('공대 코드를 복사했습니다.');}catch{toast('공대 코드: '+state.id);}};
 document.querySelectorAll('[data-guide]').forEach(b=>b.onclick=()=>{input?.reset();$('guideDialog').showModal();});$('closeGuide').onclick=()=>$('guideDialog').close();
 $('calibration').value=calibration;$('calibrationValue').textContent=calibration+' ms';$('calibration').oninput=e=>{calibration=Number(e.target.value);$('calibrationValue').textContent=calibration+' ms';localStorage.setItem('noxTimingOffset',String(calibration));};
-$('audioResume').onclick=async()=>{try{await audio.unlock();await audio.prepare(NOX_TRACK.source);if(state?.challenge.stage==='RHYTHM')audio.schedule(state.challenge.musicStartAt,serverNow());$('audioResume').hidden=true;}catch(error){toast(error.message);}};
+$('audioResume').onclick=async()=>{const version=epoch;try{await audio.unlock();await audio.prepareAll(trackUrls());if(version!==epoch)return;if(state?.challenge?.stage==='RHYTHM')audio.schedule(noxTrack(state.challenge.trackId).source,state.challenge.musicStartAt,serverNow());$('audioResume').hidden=true;}catch(error){if(error.name!=='AbortError')toast(error.message);}};
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopLoops();input?.reset();audio.stop();window.NoxBattle?.visible(false);}else if(token){window.NoxBattle?.visible(true);lastPaint=0;void sync();}});
 window.addEventListener('pagehide',()=>{stopLoops();requests.forEach(c=>c.abort());input?.destroy();floorAbort?.abort();chartObserver?.disconnect();void audio.destroy();window.NoxBattle?.teardown();});
 window.addEventListener('resize',()=>window.NoxBattle?.resize());
@@ -178,5 +180,5 @@ async function boot(){
     const result=await api('deck');$('deckList').innerHTML=result.cards.map(c=>`<figure><img src="${esc(c.image)}" alt="${esc(c.title)}" loading="lazy"><figcaption>${esc(c.title)}</figcaption></figure>`).join('');$('deckNotice').textContent='저장된 PVE 덱으로 출전합니다. · '+result.account.name;token=result.roomId||'';if(token){sessionStorage.setItem('noxLiveRoom',token);await sync();}else sessionStorage.removeItem('noxLiveRoom');$('createButton').disabled=$('joinButton').disabled=false;
   }catch(error){$('deckNotice').textContent=error.message;$('feeDetail').textContent=error.message;token='';}
 }
-window.NoxRaid={sync,leave,diagnostics:()=>({state,mounted,pendingInputs:outbox.length,inflight:requests.size,poll:!!pollTimer,raf:!!frame,held:input?.held.size||0,audio:audio.context?.state,playing:!!audio.source,audioPositionMs:audio.timeAt(),serverNowEstimate:serverNow(),notes:nodes.size,frameTimes:[...frameTimes],battle:window.NoxBattle?.diagnostics()})};
+window.NoxRaid={sync,leave,diagnostics:()=>({state,mounted,pendingInputs:outbox.length,inflight:requests.size,poll:!!pollTimer,raf:!!frame,held:input?.held.size||0,audio:audio.context?.state,playing:!!audio.source,trackUrl:audio.trackUrl,preparedTracks:audio.buffers.size,audioBufferBytes:[...audio.buffers.values()].reduce((n,b)=>n+b.length*b.numberOfChannels*4,0),audioPositionMs:audio.timeAt(),serverNowEstimate:serverNow(),notes:nodes.size,frameTimes:[...frameTimes],battle:window.NoxBattle?.diagnostics()})};
 void boot();

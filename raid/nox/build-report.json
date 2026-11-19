@@ -136,6 +136,7 @@
     "shared/mercenary-ryujin-v1.mjs",
     "preview/project-v-v3/source/battle/hakuya/vendor/spine-pixi-v8-4.3.13.mjs",
     "preview/project-v-v3/source/battle/ryujin/SpineBattleAdapter.mjs",
+    "preview/project-v-v3/source/battle/ryujin/SkillPlacement.mjs",
     "preview/project-v-v3/source/battle/ryujin/DrawnBattleAdapterV3.mjs",
     "preview/project-v-v3/source/battle/ryujin/assets.mjs",
     "preview/project-v-v3/source/battle/ryujin/effects-catalog.json",

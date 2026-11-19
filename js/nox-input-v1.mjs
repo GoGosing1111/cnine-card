@@ -1,3 +1,4 @@
+import {NOX_RHYTHM_RULES,judgeNoxNote} from '../shared/nox-raid-chart-v1.mjs?v=20261119-rhythm2';
 export const NOX_CODES = Object.freeze({KeyD:0,KeyF:1,KeyJ:2,KeyK:3});
 export function eventTime(event,now=performance.now(),origin=performance.timeOrigin){const t=Number(event.timeStamp);if(!Number.isFinite(t)||t<=0)return now;return Math.min(now,t>1e12?t-origin:t);}
 export class NoxInput {
@@ -18,23 +19,39 @@ export class NoxInput {
   reset(){const lanes=new Set(this.held.values());this.held.clear();for(const lane of lanes)this.onHeld(lane,false);}
   destroy(){this.abort.abort();this.reset();}
 }
-export function nearestNoxNote(notes,hits,lane,at,windowMs=90){let best=null,delta=Infinity;for(const note of notes){if(note.lane!==lane||hits.has(note.id))continue;const d=Math.abs(note.at-at);if(d<=windowMs&&d<delta){best=note;delta=d;}}return best?{note:best,delta,grade:delta<=35?'PERFECT':'GOOD'}:null;}
+export const nearestNoxNote=judgeNoxNote;
 // Drawing and judging share this calibrated output clock. A positive offset
 // delays the visible chart as well as its judgment; it never shifts floor QTEs.
 export function noxRhythmTime(audioTime,calibration=0){return audioTime-calibration;}
-export function noxNoteY(noteAt,age,hitY,noteHeight=16){return hitY-(noteAt-age)*hitY/1400-noteHeight/2;}
+export function noxNoteY(noteAt,age,hitY,noteHeight=56){return hitY-(noteAt-age)*hitY/NOX_RHYTHM_RULES.travelMs-noteHeight/2;}
+// Reserve the whole late window below the receptor, including the note body.
+export function noxHitY(height,noteHeight){return Math.max(1,(height-noteHeight/2-6)/(1+NOX_RHYTHM_RULES.goodMs/NOX_RHYTHM_RULES.travelMs));}
 
 export class NoxAudio {
-  constructor(){this.context=null;this.buffer=null;this.loading=null;this.source=null;this.musicStartAt=null;this.startContext=0;this.offset=0;this.abort=null;this.generation=0;}
+  constructor(){this.context=null;this.buffers=new Map();this.loading=new Map();this.source=null;this.trackUrl=null;this.musicStartAt=null;this.startContext=0;this.offset=0;this.abort=new AbortController();this.generation=0;}
   unlock(){const AudioContext=window.AudioContext||window.webkitAudioContext;if(!AudioContext)throw new Error('이 브라우저는 정밀 음원 재생을 지원하지 않습니다. 최신 Chrome 또는 Safari에서 다시 열어 주세요.');this.context??=new AudioContext({latencyHint:'interactive'});return this.context.resume();}
-  async prepare(url){if(this.buffer)return;if(this.loading)return this.loading;this.abort=new AbortController();this.loading=(async()=>{const response=await fetch(url,{signal:this.abort.signal});if(!response.ok)throw new Error('경매 BGM을 불러오지 못했습니다. 다시 준비해 주세요.');const bytes=await response.arrayBuffer();this.buffer=await this.context.decodeAudioData(bytes);})().finally(()=>{this.loading=null;});return this.loading;}
-  schedule(musicStartAt,serverNow){if(this.musicStartAt===musicStartAt&&this.source)return;if(!this.buffer||this.context?.state!=='running')return;this.stop();this.musicStartAt=musicStartAt;const wait=(musicStartAt-serverNow)/1000;this.startContext=this.context.currentTime+Math.max(.08,wait);this.offset=Math.max(0,.08-wait);const source=this.context.createBufferSource(),gain=this.context.createGain();gain.gain.value=.25;source.buffer=this.buffer;source.connect(gain);gain.connect(this.context.destination);this.source=source;this.gain=gain;source.start(this.startContext,Math.min(this.offset,this.buffer.duration-.01));}
+  async prepare(url){
+    if(this.buffers.has(url))return;if(this.loading.has(url))return this.loading.get(url);
+    const generation=this.generation,context=this.context,signal=this.abort.signal;
+    const task=(async()=>{const response=await fetch(url,{signal});if(!response.ok)throw new Error('경매 BGM을 불러오지 못했습니다. 다시 준비해 주세요.');const bytes=await response.arrayBuffer(),decoded=await context.decodeAudioData(bytes);
+      if(generation!==this.generation||signal.aborted)throw new DOMException('Preparation cancelled','AbortError');
+      // Only the 30-second chart and its tail are played. Keep at most three
+      // 31-second buffers instead of retaining three full-length stereo songs.
+      const length=Math.min(decoded.length,Math.ceil(decoded.sampleRate*31)),buffer=context.createBuffer(decoded.numberOfChannels,length,decoded.sampleRate);
+      for(let channel=0;channel<buffer.numberOfChannels;channel++)buffer.copyToChannel(decoded.getChannelData(channel).subarray(0,length),channel);
+      this.buffers.set(url,buffer);
+    })().finally(()=>{if(generation===this.generation)this.loading.delete(url);});
+    this.loading.set(url,task);return task;
+  }
+  async prepareAll(urls){const generation=this.generation;for(const key of this.buffers.keys())if(!urls.includes(key))this.buffers.delete(key);for(const url of new Set(urls)){if(generation!==this.generation)throw new DOMException('Preparation cancelled','AbortError');await this.prepare(url);}}
+  schedule(url,musicStartAt,serverNow){if(this.musicStartAt===musicStartAt&&this.trackUrl===url&&this.source)return;const buffer=this.buffers.get(url);if(!buffer||this.context?.state!=='running')return;this.stop();this.trackUrl=url;this.musicStartAt=musicStartAt;const wait=(musicStartAt-serverNow)/1000;this.startContext=this.context.currentTime+Math.max(.08,wait);this.offset=Math.max(0,.08-wait);const source=this.context.createBufferSource(),gain=this.context.createGain();gain.gain.value=.25;source.buffer=buffer;source.connect(gain);gain.connect(this.context.destination);this.source=source;this.gain=gain;source.start(this.startContext,Math.min(this.offset,buffer.duration-.01));}
   timeAt(perfTime=performance.now()){
     if(!this.context||this.musicStartAt===null)return null;const output=this.context.getOutputTimestamp?.();
     const contextTime=output?.performanceTime>0?output.contextTime+(perfTime-output.performanceTime)/1000:this.context.currentTime+(perfTime-performance.now())/1000-(this.context.outputLatency||this.context.baseLatency||0);
     return (contextTime-this.startContext+this.offset)*1000;
   }
-  stop(){if(this.source){try{this.source.stop();}catch{}this.source.disconnect();this.source=null;this.gain?.disconnect();}this.musicStartAt=null;}
-  async suspend(){this.stop();this.abort?.abort();if(this.context?.state==='running')await this.context.suspend();}
-  async destroy(){this.stop();this.abort?.abort();await this.context?.close();this.context=null;this.buffer=null;}
+  stop(){if(this.source){try{this.source.stop();}catch{}this.source.disconnect();this.source=null;this.gain?.disconnect();}this.musicStartAt=null;this.trackUrl=null;}
+  clear(){this.generation++;this.abort.abort();this.abort=new AbortController();this.loading.clear();this.buffers.clear();}
+  async suspend(){this.stop();this.clear();if(this.context?.state==='running')await this.context.suspend();}
+  async destroy(){this.stop();this.clear();await this.context?.close();this.context=null;}
 }

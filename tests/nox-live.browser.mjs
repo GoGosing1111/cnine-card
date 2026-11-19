@@ -6,6 +6,7 @@ import {chromium,webkit} from 'file:///C:/Users/User/.cache/codex-runtimes/codex
 import {noxFixture} from './helpers/nox-live-fixture.mjs';
 import {handleNoxLive} from '../functions/_raid_nox_live.js';
 import {tickNoxRoom,actNoxRoom,NOX_RULES} from '../functions/_raid_nox.js';
+import {noxTrack} from '../shared/nox-raid-chart-v1.mjs';
 const root=path.resolve(import.meta.dirname,'..'),out=process.env.NOX_QA_OUTPUT||fs.mkdtempSync(path.join(os.tmpdir(),'nox-browser-')),profile=process.argv[2]||'mobile',mobile=['mobile','webkit','h5'].includes(profile);
 const f=await noxFixture(),mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.json':'application/json','.woff2':'font/woff2','.mp3':'audio/mpeg'},requests=[],errors=[],broken=[];
 const user={id:1,serverUserId:1,nickname:'녹스 검수',role:'OWNER',coin:999999999999999999,cardShards:0,masterStars:100,owned:[],quantities:{},breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
@@ -19,7 +20,7 @@ const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,or
     requests.push({endpoint,at:Date.now(),ms:performance.now()-started,status:response.status});res.writeHead(response.status,{'content-type':'application/json','cache-control':'no-store'});res.end(await response.text());return;
   }
   const storeAsset=variantPaths.includes(pathname)||['/h5-policy.js','/h5-sdk.js','/h5.css'].includes(pathname);if(store&&!storeAsset&&!canonicalDocument(url.pathname))throw Error('Unregistered store document');
-  let name=decodeURIComponent(pathname).replace(/^\//,'');if(store&&(storeAsset||pathname==='/'))name='onestore/'+name;if(!name||name.endsWith('/'))name+='index.html';if(name.includes('..'))throw Error('path');let bytes;try{bytes=fs.readFileSync(path.join(root,name));}catch{bytes=execFileSync('git',['show','HEAD:'+name],{cwd:root,maxBuffer:30e6,windowsHide:true,stdio:['ignore','pipe','ignore']});}if(store&&name.endsWith('.html'))bytes=Buffer.from(htmlForStore(bytes.toString(),pathname));res.writeHead(200,{'content-type':mime[path.extname(name)]||'application/octet-stream','cache-control':'public,max-age=600'});res.end(bytes);
+  let name=decodeURIComponent(pathname).replace(/^\//,'');if(store&&(storeAsset||pathname==='/'))name='onestore/'+name;if(!name||name.endsWith('/'))name+='index.html';if(name.includes('..'))throw Error('path');let bytes;if(process.env.NOX_LIVE_ASSETS){const remote=await fetch(process.env.NOX_LIVE_ASSETS+'/'+name.split('/').map(encodeURIComponent).join('/'));if(!remote.ok)throw Error('Public asset '+name+' '+remote.status);bytes=Buffer.from(await remote.arrayBuffer());}else try{bytes=fs.readFileSync(path.join(root,name));}catch{bytes=execFileSync('git',['show','HEAD:'+name],{cwd:root,maxBuffer:30e6,windowsHide:true,stdio:['ignore','pipe','ignore']});}if(store&&name.endsWith('.html')&&!process.env.NOX_LIVE_ASSETS)bytes=Buffer.from(htmlForStore(bytes.toString(),pathname));res.writeHead(200,{'content-type':mime[path.extname(name)]||'application/octet-stream','cache-control':'public,max-age=600'});res.end(bytes);
 }catch(error){res.writeHead(404,{'content-type':'text/plain'});res.end(error.message);}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));origin='http://127.0.0.1:'+server.address().port;
 const browser=await (profile==='webkit'?webkit:chromium).launch(profile==='webkit'?{headless:true,executablePath:'C:/Users/User/AppData/Local/ms-playwright/webkit-2336/Playwright.exe'}:{headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--autoplay-policy=no-user-gesture-required','--mute-audio']});
@@ -55,21 +56,51 @@ try{
     const prepareAt=performance.now();await raid.locator('#readyButton').click();await raid.locator('#startButton').waitFor({state:'visible',timeout:30000});const prepareMs=performance.now()-prepareAt;
     await raid.locator('#startButton').click();await raid.waitForFunction(()=>window.NoxRaid?.diagnostics().state?.status==='ACTIVE');
     await raid.waitForFunction(()=>document.getElementById('rhythm')&&!document.getElementById('rhythm').hidden);
+    // Full feedback run: play the complete chart through the real input listener,
+    // at +110ms without calibration. Only other fixture members are simulated.
+    const full=process.env.NOX_FULL_RHYTHM==='1'&&visit===0&&!mobile;
+    const music=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics();return {trackId:d.state.challenge.trackId,url:d.trackUrl,prepared:d.preparedTracks,bufferBytes:d.audioBufferBytes,calibration:document.getElementById('calibration').value};});
+    assert.equal(music.url,noxTrack(music.trackId).source);assert.equal(music.prepared,3);assert.equal(music.calibration,'0');assert(music.bufferBytes<=3*31*48000*2*4);
     // Drive the real input listener at the audio clock's first eight notes.
-    let hits;if(mobile&&profile!=='webkit'){const notes=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.challenge.chart.slice(0,8));for(const n of notes){const b=await raid.locator('.nox-keys [data-nox-lane="'+n.lane+'"]').boundingBox();await raid.waitForFunction(at=>window.NoxRaid.diagnostics().audioPositionMs>=at-10,n.at,{timeout:15000,polling:'raf'});await page.touchscreen.tap(b.x+b.width/2,b.y+b.height/2);}await page.waitForTimeout(900);hits=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me.hits.length);report.realTouchKeys=true;}else hits=await raid.evaluate(async()=>{const notes=window.NoxRaid.diagnostics().state.challenge.chart.slice(0,8),keys=['KeyD','KeyF','KeyJ','KeyK'];return await new Promise(resolve=>{let next=0;const run=()=>{const d=window.NoxRaid.diagnostics(),age=d.audioPositionMs;if(age!==null)while(next<notes.length&&age>=notes[next].at){const n=notes[next++],k=keys[n.lane];document.dispatchEvent(new KeyboardEvent('keydown',{code:k,key:k.slice(3).toLowerCase(),bubbles:true}));document.dispatchEvent(new KeyboardEvent('keyup',{code:k,key:k.slice(3).toLowerCase(),bubbles:true}));}if(next===notes.length){setTimeout(()=>resolve(window.NoxRaid.diagnostics().state.me.hits.length),900);return;}requestAnimationFrame(run);};run();});});assert(hits>=7,'key inputs should score: '+hits);
+    let hits;
+    if(mobile&&profile!=='webkit'){
+      const notes=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.challenge.chart.slice(0,8));
+      for(const n of notes){const b=await raid.locator('.nox-keys [data-nox-lane="'+n.lane+'"]').boundingBox();await raid.waitForFunction(at=>window.NoxRaid.diagnostics().audioPositionMs>=at-10,n.at,{timeout:15000,polling:'raf'});await page.touchscreen.tap(b.x+b.width/2,b.y+b.height/2);}
+      await page.waitForTimeout(900);hits=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me.hits.length);report.realTouchKeys=true;
+    }else{
+      hits=await raid.evaluate(async full=>{
+        const notes=window.NoxRaid.diagnostics().state.challenge.chart.slice(0,full?undefined:8),keys=['KeyD','KeyF','KeyJ','KeyK'];
+        return new Promise(resolve=>{let next=0;const run=()=>{const age=window.NoxRaid.diagnostics().audioPositionMs;
+          if(age!==null)while(next<notes.length&&age>=notes[next].at+(full?110:0)){const n=notes[next++],code=keys[n.lane];document.dispatchEvent(new KeyboardEvent('keydown',{code,bubbles:true}));document.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));}
+          if(next===notes.length){setTimeout(()=>resolve(window.NoxRaid.diagnostics().state.me.hits.length),600);return;}requestAnimationFrame(run);
+        };run();});
+      },full);
+    }
+    assert(hits>=7,'key inputs should score: '+hits);
+    if(full){const result=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me);assert(result.score/result.hits.length>=.9);report.fullRhythm={hits:result.hits.length,score:result.score,calibration:0,targetDelayMs:110};}
     await page.screenshot({path:path.join(out,profile+'-rhythm-'+visit+'.png')});
     const stats=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics(),a=d.frameTimes.sort((a,b)=>a-b);return {samples:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,over50:a.filter(t=>t>50).length,hits:d.state.me.hits.length,score:d.state.me.score,clockError:d.serverNowEstimate-Date.now(),inflight:d.inflight};});
-    await f.changeRoom(roomId,r=>{for(const m of r.members){m.hits=r.challenge.chart.map(n=>n.id);m.score=r.challenge.chart.length;}r.challenge.deadline=Date.now();tickNoxRoom(r,Date.now());});
-    await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.stage==='MEMORY');await raid.locator('.nox-floor-target').first().waitFor({state:'visible'});assert.equal(await raid.locator('.nox-floor-target').count(),30);
+    await f.changeRoom(roomId,r=>{for(const m of r.members){if(full&&m.id==='1')continue;m.hits=r.challenge.chart.map(n=>n.id);m.score=r.challenge.chart.length;}if(!full){r.challenge.deadline=Date.now();tickNoxRoom(r,Date.now());}});
+    await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.stage==='MEMORY');assert(await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me.hp>0));await raid.locator('.nox-floor-target').first().waitFor({state:'visible'});assert.equal(await raid.locator('.nox-floor-target').count(),30);
     const memory=JSON.parse((await f.one('SELECT state_json FROM raid_nox_rooms_v1 WHERE room_id=$1',[roomId])).state_json).challenge;
     await raid.waitForFunction(()=>!document.querySelector('.nox-floor-target').disabled);
     for(const tile of memory.sequence)await raid.locator('[data-nox-tile="'+tile+'"]').click({force:true});
     await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.me.memoryIndex===3,{},{timeout:5000});
     await page.screenshot({path:path.join(out,profile+'-floor-'+visit+'.png')});
+    if(full){
+      await f.changeRoom(roomId,r=>{for(const m of r.members)if(m.id!=='1')m.memoryIndex=3;});
+      await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.stage==='COOP');
+      await raid.waitForFunction(()=>{const d=window.NoxRaid.diagnostics();return d.serverNowEstimate>=d.state.challenge.targetAt;},{},{polling:'raf'});
+      await raid.evaluate(()=>{const code=['KeyD','KeyF','KeyJ'][window.NoxRaid.diagnostics().state.me.role];document.dispatchEvent(new KeyboardEvent('keydown',{code,bubbles:true}));document.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));});
+      await f.changeRoom(roomId,r=>{for(const m of r.members)if(m.id!=='1'){m.cooperated=true;r.challenge.strikes[m.id]=r.challenge.targetAt;}});
+      await raid.waitForFunction(()=>{const d=window.NoxRaid.diagnostics();return d.state.round===2&&d.state.stage==='RHYTHM'&&d.playing;},{},{timeout:25000});
+      const next=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics();return {trackId:d.state.challenge.trackId,url:d.trackUrl,prepared:d.preparedTracks,hp:d.state.me.hp};});
+      assert.notEqual(next.trackId,music.trackId);assert.equal(next.url,noxTrack(next.trackId).source);assert.equal(next.prepared,3);assert(next.hp>0);report.nextRound=next;
+    }
     await raid.locator('#leaveButton').click();await raid.waitForFunction(()=>!window.NoxRaid.diagnostics().mounted);
-    const exitAt=Date.now();await page.waitForTimeout(650);const cleanup=await raid.evaluate(()=>window.NoxRaid.diagnostics());assert.equal(cleanup.poll,false);assert.equal(cleanup.raf,false);assert.equal(cleanup.playing,false);assert.equal(cleanup.battle.canvases,0);assert.equal(requests.filter(r=>r.at>exitAt&&r.endpoint.startsWith('raid/nox/')).length,0);
+    const exitAt=Date.now();await page.waitForTimeout(650);const cleanup=await raid.evaluate(()=>window.NoxRaid.diagnostics());assert.equal(cleanup.poll,false);assert.equal(cleanup.raf,false);assert.equal(cleanup.playing,false);assert.equal(cleanup.preparedTracks,0);assert.equal(cleanup.battle.canvases,0);assert.equal(requests.filter(r=>r.at>exitAt&&r.endpoint.startsWith('raid/nox/')).length,0);
     for(const id of [2,3])await f.command('leave',{roomId},id);
-    report.visits.push({visit,lobbyMs,prepareMs,viewport,frames:stats,exit:{poll:cleanup.poll,raf:cleanup.raf,playing:cleanup.playing,canvases:cleanup.battle.canvases}});
+    report.visits.push({visit,lobbyMs,prepareMs,viewport,music,frames:stats,exit:{poll:cleanup.poll,raf:cleanup.raf,playing:cleanup.playing,preparedTracks:cleanup.preparedTracks,canvases:cleanup.battle.canvases}});
     await raid.locator('#exitRaid').click();await shell.locator('#noxLiveOverlay').waitFor({state:'detached'});
   }
   report.api={count:requests.filter(r=>r.endpoint.startsWith('raid/nox/')).length,maxMs:Math.max(...requests.filter(r=>r.endpoint.startsWith('raid/nox/')).map(r=>r.ms)),failures:requests.filter(r=>r.endpoint.startsWith('raid/nox/')&&r.status>=400)};assert.equal(report.api.failures.length,0,JSON.stringify(report.api.failures));

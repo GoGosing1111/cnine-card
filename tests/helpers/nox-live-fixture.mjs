@@ -1,6 +1,6 @@
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../../functions/_postgres_d1_compat.js';
-import {handleNoxLive,NOX_SCHEMA,NOX_SETTINGS} from '../../functions/_raid_nox_live.js';
+import {handleNoxLive,NOX_SCHEMA,NOX_SETTINGS,NOX_CLIENT_VERSION} from '../../functions/_raid_nox_live.js';
 import {REVIEW_DECK} from '../../preview/lich-king-raid-v1/fixture.mjs';
 export const NOX_DECK=REVIEW_DECK.map(c=>({...c,power:c.power*6}));
 export async function noxFixture(t,{handler=handleNoxLive,queryDelayMs=0}={}){
@@ -18,7 +18,7 @@ export async function noxFixture(t,{handler=handleNoxLive,queryDelayMs=0}={}){
   const all=async(text,values=[])=>(await pg.query(text,values)).rows;
   const uid=()=>`nox_request_${++serial}`;
   async function call(route,{user=1,body,method=body?'POST':'GET',origin='https://test.invalid'}={}){const path=route.startsWith('admin/')?route:'raid/nox/'+route;const request=new Request('https://test.invalid/api/'+path,{method,headers:{authorization:'Bearer qa-'+user,'content-type':'application/json',origin},...(body?{body:JSON.stringify(body)}:{})});const response=await handler({path:path.split('?')[0],request,env,deps});return {status:response.status,body:await response.json()};}
-  const command=(kind,body={},user=1)=>call(kind,{user,body:{requestId:uid(),clientVersion:1,...body}});
+  const command=(kind,body={},user=1)=>call(kind,{user,body:{requestId:uid(),clientVersion:NOX_CLIENT_VERSION,...body}});
   async function configure(changes={}){const before=await call('admin/raid/nox/settings');const r=await call('admin/raid/nox/settings',{body:{settings:{...before.body.settings,...changes}}});if(r.status!==200)throw Error(JSON.stringify(r));return r;}
   async function party(size=3){const ids=[1,2,3,6,7,8].slice(0,size);const created=await command('create',{size});if(created.status!==200)throw Error(JSON.stringify(created));const roomId=created.body.roomId;for(const id of ids.slice(1)){const r=await command('join',{roomId},id);if(r.status!==200)throw Error(JSON.stringify(r));}for(const id of ids){const r=await command('ready',{roomId,ready:true,acceptedCoins:created.body.state.entryCoins},id);if(r.status!==200)throw Error(JSON.stringify(r));}return {roomId,ids};}
   async function changeRoom(roomId,work){const room=JSON.parse((await one('SELECT state_json FROM raid_nox_rooms_v1 WHERE room_id=$1',[roomId])).state_json);work(room);await pg.query('UPDATE raid_nox_rooms_v1 SET state_json=$1,status=$2,version=version+1 WHERE room_id=$3',[JSON.stringify(room),room.status,roomId]);return room;}
