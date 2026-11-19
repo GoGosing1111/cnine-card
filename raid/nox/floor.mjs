@@ -7,11 +7,14 @@ export class NoxFloor {
     this.engine=engine;this.root=new Container({label:'NoxMemoryFloor'});this.root.depthSortY=-99999;this.root.eventMode='none';engine.combatLayer.addChild(this.root);
     this.tiles=Array.from({length:count},()=>{const art=new Graphics(),label=new Text({text:'',style:{fontFamily:'NoxHUD',fontSize:30,fontWeight:'800',fill:0xffffff}});label.anchor.set(.5);this.root.addChild(art,label);return {art,label,points:[]};});this.signature='';this.layoutKey='';this.targetKey='';this.state=null;this.root.visible=false;this.layoutDirty=true;this.observer=new ResizeObserver(()=>{this.layoutDirty=true;});this.observer.observe(engine.app.canvas);
   }
-  update(state){this.state=state;this.root.visible=state.status==='ACTIVE'&&state.stage==='MEMORY';if(this.root.visible){this.layout();this.draw();}}
+  update(state){this.state=state;this.root.visible=state.status==='ACTIVE'&&state.stage==='MEMORY';if(this.root.visible&&this.layout())this.draw();}
   layout(){
-    if(!this.layoutDirty)return;this.layoutDirty=false;
+    if(!this.layoutDirty)return true;
     const e=this.engine,canvas=e.app.canvas,host=canvas.closest('.battle-v3-canvas-host'),box=canvas.getBoundingClientRect(),dock=Number.parseFloat(getComputedStyle(host).getPropertyValue('--v3-dock-h'))||120;
-    const w=box.width,h=box.height,key=[w,h,dock,e.root.scale.x].join(':');if(key===this.layoutKey)return;this.layoutKey=key;
+    const w=box.width,h=box.height,scale=e.root.scale.x;
+    if(w<2||h<2||!Number.isFinite(scale)||scale<=0)return false;
+    this.layoutDirty=false;
+    const key=[w,h,dock,scale].join(':');if(key===this.layoutKey)return true;this.layoutKey=key;
     const landscape=w>=650&&h<320,portrait=w<650,columns=landscape?3:portrait?6:10,rows=landscape?5:portrait?5:3,bankW=w*.265,cellW=landscape?(bankW-12)/3.5:Math.min(112,(w-20)/(columns+.5)),cellH=landscape?40:portrait?46:52,bottom=h-dock-7;
     const toWorld=(x,y)=>e.stage.toLocal({x:x*e.app.screen.width/w,y:y*e.app.screen.height/h});
     for(let id=0;id<this.tiles.length;id++){
@@ -19,7 +22,7 @@ export class NoxFloor {
       const x=(landscape?(bank?w-bankW:0)+(bankW-totalW)/2:(w-totalW)/2)+cellW/2+col*stepX+(row%2)*cellW*.5,y=(landscape?h-7:bottom)-cellH/2-(rows-1-row)*stepY,tile=this.tiles[id];
       tile.center=toWorld(x,y);tile.points=[[x,y-cellH/2],[x+cellW/2,y],[x,y+cellH/2],[x-cellW/2,y]].map(([a,b])=>toWorld(a,b));tile.label.position.copyFrom(tile.center);tile.label.style.fontSize=(landscape?18:22)/e.root.scale.x;tile.label.scale.y=.88;
     }
-    this.signature='';this.targetKey='';
+    this.signature='';this.targetKey='';return true;
   }
   draw(){
     const {challenge:c,me}=this.state,signature=JSON.stringify([c.id,c.cue,c.cueStep,me.memoryTiles,me.hp]);if(signature===this.signature)return;this.signature=signature;
@@ -33,7 +36,7 @@ export class NoxFloor {
     }
   }
   placeTargets(target){
-    if(!this.root.visible)return;this.layout();this.draw();const e=this.engine,m=e.stage.worldTransform,key=[m.a,m.b,m.c,m.d,m.tx,m.ty,this.layoutKey].join(':');if(key===this.targetKey)return;this.targetKey=key;
+    if(!this.root.visible||!this.layout())return;this.draw();const e=this.engine,m=e.stage.worldTransform,key=[m.a,m.b,m.c,m.d,m.tx,m.ty,this.layoutKey].join(':');if(key===this.targetKey)return;this.targetKey=key;
     for(let id=0;id<this.tiles.length;id++){
       const b=target.children[id];if(!b)continue;const points=this.tiles[id].points.map(p=>e.stage.toGlobal(p)),left=Math.min(...points.map(p=>p.x)),top=Math.min(...points.map(p=>p.y)),width=Math.max(...points.map(p=>p.x))-left,height=Math.max(...points.map(p=>p.y))-top;
       const transform=`translate(${left}px,${top}px)`;if(b.style.transform!==transform)b.style.transform=transform;b.style.width=width+'px';b.style.height=height+'px';b.style.clipPath='polygon('+points.map(p=>`${(p.x-left)/width*100}% ${(p.y-top)/height*100}%`).join(',')+')';

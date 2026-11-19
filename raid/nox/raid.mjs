@@ -60,10 +60,11 @@ function render(result){
     $('prepareStatus').textContent=preparing?'음원과 전장을 준비하고 있습니다…':state.me.ready?`준비 ${state.members.filter(m=>m.ready).length}/${state.size} · 전원 준비 후 출전`:(state.entryCoins==='0'?'무료 TEST · 음원과 전장을 준비하세요.':'출전 시 1인 50조 차감 · 전투 준비로 동의합니다.');return;
   }
   screen(true);if(!mounted){void mountBattle().catch(error=>toast(error.message));return;}
-  window.NoxBattle.update(state,events);
   $('roundLabel').textContent=`${state.size}인 · ${state.round}/3회차`;const pct=Math.max(0,state.bossHp/state.bossMaxHp*100);$('bossPercent').textContent=pct.toFixed(1)+'%';$('bossGauge').style.setProperty('--hp',pct/100);$('bossGauge').setAttribute('aria-valuenow',pct.toFixed(1));
   const sig=JSON.stringify(state.members.map(m=>[m.id,m.hp,m.ready,m.left]));if(sig!==hudSignature){hudSignature=sig;$('partyHud').innerHTML=state.members.map(healthMarkup).join('');}
   updateMechanic();
+  // Apply the stage's layout before V3 projects its floor and click targets.
+  window.NoxBattle.update(state,events);
   const last=events.filter(e=>e.type==='NOX_DEATH'||e.type==='NOX_COOP').at(-1);if(last)$('combatMessage').textContent=last.label;
   if(state.status!=='ACTIVE'&&!ended){ended=true;stopLoops();input?.destroy();input=null;audio.stop();window.NoxBattle.finish(state);$('resultTitle').textContent=state.status==='CLEAR'?'종언의 지휘를 끊었다':'공략 실패';$('resultReason').textContent=state.failure?.reason||'적관의 지휘자 녹스를 쓰러뜨렸습니다.';$('resultDetail').textContent=`${state.round}/3회차 · ${state.members.filter(m=>m.hp>0).length}/${state.size}명 생존`;$('resultDialog').showModal();}
 }
@@ -72,7 +73,7 @@ async function mountBattle(){
   if(mounted)return;if(mountPromise)return mountPromise;const version=epoch;
   mountPromise=(async()=>{
     if(!payload){const result=await api('state?payload=1');payload=result.payload;render(result);}
-    await loadScript('/raid/nox/battle.bundle.js?nox=20261119-rhythm2&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
+    await loadScript('/raid/nox/battle.bundle.js?nox=20261119-memory3&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
     chartObserver=new ResizeObserver(()=>{noteHeight=parseFloat(getComputedStyle($('chart')).getPropertyValue('--note-height'))||56;hitY=noxHitY($('chart').clientHeight,noteHeight);$('chart').style.setProperty('--hit-y',hitY+'px');});chartObserver.observe($('chart'));

@@ -3,13 +3,30 @@ import {mountForBattle,resetSession,setVisible} from '../../preview/project-v-v3
 import {NoxFloor} from './floor.mjs';
 let engine=null,renderer=null,epoch=0,pending=0,queue=Promise.resolve(),snapshot=null,bossId='',lastStage='',seen=0;
 const poses={},fx={},effects=new Set();
-let floor=null;
+let floor=null,viewportObserver=null;
 const base='/assets/ui/raid-nox-v1/';
 async function load(){
   await Promise.all(['idle','anticipation','strike','memory','coop','defeat'].map(async key=>poses[key]??=await Assets.load(base+'boss-'+key+'.webp')));
   await Promise.all(['rhythm','memory','coop'].map(async key=>{if(fx[key])return;const t=await Assets.load(base+'fx-'+key+'.webp');fx[key]=Array.from({length:16},(_,i)=>new Texture({source:t.source,frame:new Rectangle(i%4*t.width/4,Math.floor(i/4)*t.height/4,t.width/4,t.height/4)}));}));
 }
 function pose(key){const actor=engine?.combatantById(bossId);if(actor&&poses[key])actor.useFullBodySprite(poses[key],actor.fullBodyHeight);}
+function resize(){
+  const e=engine;if(!e?.app||!e.host?.isConnected)return false;
+  const w=e.host.clientWidth,h=e.host.clientHeight;
+  // The prepared battlefield is hidden while the party waits. Never derive
+  // camera/floor coordinates from that zero-size surface.
+  if(w<2||h<2)return false;
+  const app=e.app,resolution=app.renderer.resolution;
+  if(app.screen.width!==w||app.screen.height!==h||app.canvas.width!==Math.round(w*resolution)||app.canvas.height!==Math.round(h*resolution))app.renderer.resize(w,h);
+  e.resize();if(floor)floor.layoutDirty=true;return true;
+}
+function reveal(){
+  if(!resize()||document.hidden)return;
+  // Mechanics use a persistent live renderer, not V3's completed-replay state.
+  // Reconnect the ticker and commit a frame before exposing the timed floor.
+  engine.root.visible=true;engine.root.renderable=true;engine.root.alpha=1;
+  void engine.setVisible(true);engine.app.render();
+}
 async function effect(kind,safe=false,position=null){
   const owner=engine,version=epoch;if(!owner||!fx[kind])return;const boss=owner.combatantById(bossId),allies=owner.allies.filter(a=>a.battleActive!==false);if(!boss||!allies.length)return;
   const center={x:allies.reduce((n,a)=>n+a.baseX,0)/allies.length,y:allies.reduce((n,a)=>n+a.baseY,0)/allies.length};
@@ -21,13 +38,16 @@ export async function mount(payload){
   teardown();const version=epoch;bossId=payload.battleV2.teams.B.cards[0].id;window.cnineCardCatalog=()=>payload.cards;
   const api=window.ProjectVPixiBattle,original=api.mountForBattle,originalReset=api.resetSession;
   api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine;};api.resetSession=async(data,host)=>{engine=await resetSession(data,host);return engine;};
-  try{const modal=document.getElementById('battleMount'),prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:'주파수 공대',opponentName:'적관의 지휘자 녹스',autoText:'전장 진입 중'});renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});if(version!==epoch)return;modal.querySelector('.battle-v3-header strong').textContent='종언의 주파수';modal.querySelector('.battle-v3-header small').textContent='적관의 지휘자 녹스';modal.querySelector('.battle-v3-header>b').textContent='공대전';await Promise.all([engine.deployCards({instant:true,force:true}),load()]);pose('idle');}finally{api.mountForBattle=original;api.resetSession=originalReset;}
+  try{const modal=document.getElementById('battleMount'),prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:'주파수 공대',opponentName:'적관의 지휘자 녹스',autoText:'전장 진입 중'});renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});if(version!==epoch)return;modal.querySelector('.battle-v3-header strong').textContent='종언의 주파수';modal.querySelector('.battle-v3-header small').textContent='적관의 지휘자 녹스';modal.querySelector('.battle-v3-header>b').textContent='공대전';await Promise.all([engine.deployCards({instant:true,force:true}),load()]);if(version!==epoch||!engine)return;pose('idle');engine.app.resizeTo=null;viewportObserver=new ResizeObserver(()=>{resize();});viewportObserver.observe(engine.host);}finally{api.mountForBattle=original;api.resetSession=originalReset;}
 }
 function syncPartyStatus(){if(!engine||!snapshot)return;const text=`공대 생존 ${snapshot.members.filter(m=>m.hp>0&&!m.left).length}/${snapshot.size} · ${snapshot.round}회차`;if(document.getElementById('pvBattleStatus')?.textContent!==text)engine.updateStatus(text);}
 function sync(){if(!engine||!snapshot)return;engine.syncFinalState({A:snapshot.fighters,B:[{id:bossId,hp:snapshot.bossHp,maxHp:snapshot.bossMaxHp}]});syncPartyStatus();}
 function update(state,events=[]){
-  if(!engine)return;snapshot=state;if(state.stage==='MEMORY')floor??=new NoxFloor(engine,state.challenge.tiles.length);floor?.update(state);
-  if(state.challenge?.id!==lastStage){lastStage=state.challenge?.id;epoch++;engine.cancelTimelines();for(const s of effects){if(!s.destroyed)s.destroy();}effects.clear();pending=0;queue=Promise.resolve();sync();const kind={RHYTHM:'rhythm',MEMORY:'memory',COOP:'coop'}[state.stage];if(kind)void effect(kind,true);}
+  if(!engine)return;snapshot=state;
+  const changed=state.challenge?.id!==lastStage;
+  if(changed){lastStage=state.challenge?.id;epoch++;engine.cancelTimelines();for(const s of effects){if(!s.destroyed)s.destroy();}effects.clear();pending=0;queue=Promise.resolve();sync();reveal();}
+  if(state.stage==='MEMORY')floor??=new NoxFloor(engine,state.challenge.tiles.length);floor?.update(state);
+  if(changed){engine.app.render();const kind={RHYTHM:'rhythm',MEMORY:'memory',COOP:'coop'}[state.stage];if(kind)void effect(kind,true);}
   const version=epoch,relevant=events.filter(e=>e.seq>seen&&!e.type.startsWith('NOX_')&&e.type!=='RESULT');seen=Math.max(seen,state.eventSeq);
   for(const e of events)if(e.type==='NOX_DEATH'&&e.memberId===state.me.id&&Number.isInteger(e.tile))void effect('memory',false,floor.tiles[e.tile]?.center);
   if(pending>12){epoch++;engine.cancelTimelines();pending=0;queue=Promise.resolve();sync();return;}
@@ -35,6 +55,6 @@ function update(state,events=[]){
   // Party truth is immediate; it must not wait behind actor/effect playback.
   syncPartyStatus();
 }
-function teardown(){epoch++;engine?.cancelTimelines();floor?.destroy();floor=null;for(const s of effects){if(!s.destroyed)s.destroy();}effects.clear();renderer?.destroy();renderer=null;void setVisible(false);engine=null;pending=0;queue=Promise.resolve();snapshot=null;lastStage='';seen=0;}
+function teardown(){epoch++;viewportObserver?.disconnect();viewportObserver=null;engine?.cancelTimelines();floor?.destroy();floor=null;for(const s of effects){if(!s.destroyed)s.destroy();}effects.clear();renderer?.destroy();renderer=null;void setVisible(false);engine=null;pending=0;queue=Promise.resolve();snapshot=null;lastStage='';seen=0;}
 function finish(state){snapshot=state;floor?.update(state);engine?.cancelTimelines();for(const s of effects){if(!s.destroyed)s.destroy();}effects.clear();sync();if(state.status==='CLEAR')pose('defeat');void setVisible(false);}
-window.NoxBattle={mount,update,memoryCue:state=>floor?.update(state),teardown,finish,placeFloorTargets:target=>floor?.placeTargets(target),visible:visible=>setVisible(visible),resize:()=>{engine?.app?.resize();engine?.resize();},diagnostics:()=>({ready:!!engine,pending,effects:effects.size,floor:floor?.diagnostics(),engine:engine?.diagnostics(),canvases:document.querySelectorAll('canvas').length})};
+window.NoxBattle={mount,update,memoryCue:state=>floor?.update(state),teardown,finish,placeFloorTargets:target=>floor?.placeTargets(target),visible:visible=>visible?reveal():setVisible(false),resize,diagnostics:()=>({ready:!!engine,pending,effects:effects.size,viewportObserved:!!viewportObserver,scene:engine?{width:engine.app.screen.width,height:engine.app.screen.height,scale:engine.root.scale.x,ticking:engine.app.ticker.started,contextLost:engine.app.renderer.gl?.isContextLost()??false}:null,floor:floor?.diagnostics(),engine:engine?.diagnostics(),canvases:document.querySelectorAll('canvas').length})};
