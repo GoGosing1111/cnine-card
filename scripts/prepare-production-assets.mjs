@@ -349,6 +349,62 @@ const iphoneBattleAuditOnly=new Set(JSON.parse(readFileSync(new URL('./iphone-ba
 // Keep pet authoring originals, prompt sidecars and local QA in Git. Only runtime assets ship.
 const petGrowthNodeOnly=new Set(JSON.parse(readFileSync(new URL('./pet-growth-node-only-20261114.json',import.meta.url),'utf8')));
 const petGrowthAuthoring=file=>file.startsWith('.impeccable/')||file.startsWith('preview/pet-rework-20261114/')&&file!=='preview/pet-rework-20261114/fx-preview.bundle.mjs'||file.startsWith('assets/ui/pets/rework-20261114/')&&(/-source\.png$|\.webp\.json$/.test(file)||file.endsWith('/manifest.json'));
+// Nox live assets replace publication slots occupied by unreferenced historic
+// operation receipts. Original files remain tracked, byte-for-byte.
+export const noxHistoricalAuditOnly=new Set([
+  "docs/aizen-commenters-plus15-20261006.json",
+  "docs/aizen-ohseunghwan-plus15-20261007.json",
+  "docs/assassin-moag-omega-once-20260928.json",
+  "docs/assassin-recruitment-gift-check-20261002.json",
+  "docs/attendance-top100-gift-20261006.json",
+  "docs/ayoon-pinball-gift-20260928-batch2.json",
+  "docs/ayoon-pinball-gift-20260928-batch3.json",
+  "docs/ayoon-pinball-gift-20260928-batch4.json",
+  "docs/ayoon-pinball-gift-20260928-batch5.json",
+  "docs/ayoon-pinball-gift-20260928-batch6.json",
+  "docs/ayoon-pinball-gift-20260928.json",
+  "docs/ayoon-pinball-gift-current-status-20260928.json",
+  "docs/ayoon-recruitment-gift-20261003.json",
+  "docs/bini-bongsoon-limited-grants-20261013.json",
+  "docs/bini-gift-transfer-20261003.json",
+  "docs/bongsoon-aizen-plus14-upgrade-20261003.json",
+  "docs/bongsoon-overlord-revoke-20261007.json",
+  "docs/bongsoon-recruitment-gift-20261002.json",
+  "docs/bongsoon-x-body-revoke-20261002.json",
+  "docs/chanho-tournament-gift-20260928.json",
+  "docs/diim-mission-gifts-20261014.json",
+  "docs/diim-recruitment-gift-20261001.json",
+  "docs/diim-recruitment-gift-avatar-hold-20261002.json",
+  "docs/diim-sx-revoke-20261008.json",
+  "docs/euak-cryvern-third-once-20260928.json",
+  "docs/euak-valter-chicken-once-20261011.json",
+  "docs/eumsuni-aizen-plus14-20261002.json",
+  "docs/eumsuni-aizen-plus15-20261003.json",
+  "docs/eumsuni-cheetah-plus15-20261002.json",
+  "docs/eumsuni-fur-iyejun-plus15-20261002.json",
+  "docs/funding-gift-art-20260929.json",
+  "docs/ganjang-iyejun-fur-plus15-20261017.json",
+  "docs/hakbeol-hatsi-blackcastle-extra-gift-20261002.json",
+  "docs/heeya-jinmu-revoke-20261015.json",
+  "docs/heeya-room-thanks-gift-20261003.json",
+  "docs/heeya-worm-tournament-gift-20261014.json",
+  "docs/omega-revoked-history-recovery-20261002.json",
+  "docs/orikkung-gift-20261007.json",
+  "docs/orikkung-gift-additional-two-20261007.json",
+  "docs/orikkung-gift-blackcastle-20261007.json",
+  "docs/pet-codex-grants-20261009-release.json",
+  "docs/pinball-gifts-20261010.json",
+  "docs/pingdu-thanks-gift-20261002-art.json",
+  "docs/pingdu-thanks-gift-opening-fix-20261002.json",
+  "docs/pink-valter-chicken-once-20261008.json",
+  "docs/pinklight-fur-plus15-20261002.json",
+  "docs/rafie-goodgun-extra-gift-20261002.json",
+  "docs/recruitment-gift-art-20260929.json",
+  "docs/recruitment-gift-corrections-20261002.json",
+  "docs/saitama-fur-iyejun-plus15-20261007.json"
+]);
+for(const file of noxHistoricalAuditOnly)operationAuditOnly.add(file);
+
 export const isProductionFile=file=>!petGrowthAuthoring(file)&&!petGrowthNodeOnly.has(file)&&file!=='scripts/pet-growth-node-only-20261114.json'&&!iphoneBattleAuditOnly.has(file)&&file!=='scripts/iphone-battle-audit-only-20261114.json'&&file!=='preview/project-v-v3/source/battle/BattleMobileImages.mjs'&&!repositoryReadmeOnly(file)&&!packedNotes.has(file)&&!blueGearBundledOnly(file)&&!mercenaryReviewFile(file)&&!inventoryChoiceNotes.has(file)&&!mercenaryEquipmentArchive.has(file)&&!territoryFrontlineArchive(file)&&!seasonLaunchRepositoryOnly(file)&&!xBodyAssemblyRepositoryOnly.has(file)&&!jinJokroAuditOnly.has(file)&&file!=='scripts/jin-jokro-audit-only-20261106.json'&&!jinJokroBundledOnly(file)&&file!=='assets/ui/project-v/mercenaries/jin-jokro-20261106/manifest.json'&&!apocalypseTrioRepositoryOnly.has(file)&&!apocalypseTrioBundledOnly(file)&&!heliosKingAuditOnly.has(file)&&file!=='scripts/helios-king-audit-only-20261106.json'&&!heliosKingBundledOnly(file)&&file!=='assets/ui/project-v/mercenaries/helios-king-20261106/manifest.json'&&!hakuyaAuditOnly.has(file)&&file!=='scripts/hakuya-audit-only-20261105.json'&&!hakuyaBundledOnly(file)&&file!=='assets/ui/project-v/mercenaries/hakuya-shin-20261105/manifest.json'&&!streamerPackAuthoringOnly(file)&&file!=='docs/pet-codex-grants-20261009.md'&&!cnineStreamerAuthoringOnly(file)&&!file.startsWith('operations/')&&!auctionRepositoryOnly(file)&&!questCommandRepositoryOnly.has(file)&&!tacticalHudRepositoryOnly.has(file)&&!file.startsWith('.impeccable/')&&!novemberArtStudyOnly(file)&&!trophyHistoricalNotesOnly.has(file)&&!file.startsWith('output/announcements/')&&!rankedShopNativeTools.has(file)&&file!=='AGENTS.md'&&file!=='PRODUCT.md'&&!performanceAuditOnly.has(file)&&!tacticalUiAuthoringOnly(file)&&!heukmuAuditOnly.has(file)&&file!=='scripts/heukmu-audit-only-20261029.json'&&!heukmuBundledOnly(file)&&!legionEquipmentAuditOnly.has(file)&&file!=='scripts/legion-equipment-authoring-only-20261029.json'&&!lobbyObservatoryAuthoringOnly(file)&&!iconFourNodeOnly.has(file)&&!file.startsWith('operations/')&&!kamishiroAuditOnly.has(file)&&file!=='scripts/kamishiro-audit-only-20261028.json'&&!kamishiroBundledOnly(file)&&!sssCutinAuthoringOnly(file)&&!cardguAuditOnly.has(file)&&file!=='scripts/cardgu-audit-only-20261027.json'&&!cardguBundledOnly(file)&&!revanAuthoringOnly.has(file)&&!blackcrownLiveNodeOnly.has(file)&&file!=='scripts/blackcrown-live-node-only-20261027.json'&&!blackcrownLiveBundledOnly.has(file)&&!blackcrownCodexNodeOnly.has(file)&&file!=='scripts/blackcrown-codex-node-only-20261027.json'&&!blackcrownAuthoringOnly.has(file)&&file!=='scripts/blackcrown-authoring-only-20261027.json'&&!storePackagingOnly(file)&&!warChatWorkerOnly.has(file)&&!stockScheduleWorkerOnly.has(file)&&!cnineRosterAuthoringOnly.has(file)&&!generalJokGripAuthoringOnly(file)&&!experienceTransferAuthoringOnly.has(file)&&!bloodmoonDeploymentNodeOnly.has(file)&&file!=='scripts/bloodmoon-deployment-node-only-20261025.json'&&file!=='preview/project-v-v3/source/battle/BloodmoonCombatPlayback.js'&&file!=='assets/ui/project-v/mercenaries/bloodmoon-live-20261025/manifest.json'&&!mercenaryAtelierAuthoringOnly(file)&&!awakenedOmegaAuthoringOnly(file)&&!razakNodeOnly.has(file)&&file!=='scripts/razak-node-authoring-only-20261024.json'&&!raidAuditOnly.has(file)&&!blackwingAuthoringOnly(file)&&!postgresCommandOnly.has(file)&&!daengsoryongAuthoringOnly(file)&&!namsudaengNodeOnly.has(file)&&file!=='scripts/namsudaeng-node-authoring-only-20261024.json'&&!growthGuideAuthoringOnly.has(file)&&!file.startsWith('preview/icon-enhancement-20261024/')&&!codexLoadingNodeOnly.has(file)&&file!=='scripts/node-command-authoring-only-20261024.json'&&!trophyNodeQaOnly.has(file)&&!trophyAuthoringOnly(file)&&!pumpkinChoiceAuthoringOnly(file)&&file!=='scripts/preview-node-authoring-only-20261023.json'&&!previewNodeAuthoringOnly.has(file)&&!file.startsWith('preview/mercenary-bloodmoon-battle-20261023-v1/')&&!bloodmoonNodeQaOnly.has(file)&&!pumpkinPetAuthoringOnly.has(file)&&!file.startsWith('preview/sig-hunter-box-20261022/')&&!sigHunterQaOnly.has(file)&&file!=='docs/prime-requiem-pve-entry-20261021.md'&&!towerMonsterQaOnly.has(file)&&!cityDisguiseQaOnly.has(file)&&!sealOrbQaOnly.has(file)&&!towerAuthoringOnly.has(file)&&!sealAuthoringOnly(file)&&!organizationAuthoringOnly(file)&&!grantAuditOnly(file)&&!primeAuthoringOnly(file)&&!diimGrowthQaOnly.has(file)&&!dragonSlayerAuthoringOnly(file)&&!file.startsWith('tests/helpers/')&&!zeroAuthoringOnly(file)&&!rankPotionAuthoringOnly(file)&&!operationAuditOnly.has(file)&&!nodeBuildCommand(file)&&!bathoryAuthoringOnly(file)&&!rankedAuthoringOnly(file)&&!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
 // A sparse checkout deliberately omits tracked files. Only unchanged, regular
 // skip-worktree entries may fall back to HEAD; ordinary missing files and staged
