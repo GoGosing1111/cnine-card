@@ -58,7 +58,8 @@ assert.equal(bundleCache,new URL(bridgeUrl,'https://test.invalid/').searchParams
 assert.equal(bundleCache,new URL(recoveryBundleUrl,'https://test.invalid/').searchParams.get('v'),'reentry must request the same cached bundle as the main loader');
 assert.equal(bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1],sourceRuntime,'shipped bundle must match current runtime source');
 assert.equal(bridge.match(/const BATTLE_RUNTIME\s*=\s*['"]([^'"]+)['"]/)?.[1],sourceRuntime,'bridge must request the current source runtime');
-assert.equal(app.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1],bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)[1]);
+const entryRuntime=app.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1];
+assert.ok(entryRuntime&&(entryRuntime===sourceRuntime||Number(bridge.match(/entryContractVersion:\s*(\d+)/)?.[1])===1&&sourceRuntime.startsWith(entryRuntime+'-')),'the lobby must accept only its exact runtime or a declared compatible additive release');
 assert.equal(new URL(bundleUrl,'https://test.invalid/').searchParams.get('overlord'),'20261005-motion-v4');
 assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');
 assert.match(app,/const resourceTask=ensureFeatureResources\('battleV2'\)[\s\S]*const fightTask=apiRequest\('battle\/fight'[\s\S]*await Promise\.all\(\[resourceTask,fightTask\]\)[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must finish its parallel resource and server work before revealing the ready V3 scene');
