@@ -1,0 +1,1030 @@
+{
+  "operationKey": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+  "status": "COMPLETED",
+  "at": "2026-11-19T11:42:51.143Z",
+  "authorization": "블루기어팩 20일 0시 정각 개봉 / SS리미티드 15장씩 수량 더 늘려",
+  "summary": {
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "openingAtKST": "2026-11-20 00:00:00",
+    "ssLimitEach": 25,
+    "ssTotal": 125,
+    "additionalEach": 15,
+    "additionalTotal": 75,
+    "firstAnySsMeanCoinsJo": 8000
+  },
+  "auditId": "65022",
+  "completedAtKST": "2026-11-19 20:41:02",
+  "settingsRevision": 4,
+  "stock": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "stock_limit": "25",
+      "issued": "0",
+      "revision": "1",
+      "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "stock_limit": "3",
+      "issued": "0",
+      "revision": "0",
+      "last_token": null
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "stock_limit": "3",
+      "issued": "0",
+      "revision": "0",
+      "last_token": null
+    }
+  ],
+  "unchanged": {
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "cardRatesPpm": {
+      "V-701": 70.3125,
+      "V-702": 70.3125,
+      "V-703": 70.3125,
+      "V-704": 70.3125,
+      "V-705": 70.3125,
+      "V-976": 1,
+      "V-967": 1,
+      "V-059": 400
+    },
+    "sssLimits": 3,
+    "issued": true,
+    "otherPacks": true,
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "noticePosted": false
+  },
+  "deployment": {
+    "at": "2026-11-19T11:41:17.754Z",
+    "head": "15e56d83ab3aa10f8593ad354ae2718876c3b4e7",
+    "pages": {
+      "id": "6fa55c99-28b0-426b-bc32-acda85848ba6",
+      "commit": "15e56d83ab3aa10f8593ad354ae2718876c3b4e7",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "09361f8e-7e9c-4112-b97b-39a8ce2f3208",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "b4f5b80b-d0a3-4c74-a923-6e4646beed60",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "e6dfd71b5ea2b0e539ef47f8dafc9d7374c9476531d3ce038de07b99f4f20b32",
+        "bytes": 53534,
+        "storeTransform": false
+      },
+      {
+        "path": "onestore/index.html",
+        "sha256": "47df9b1ed7bead1bc0554c8a33a619a4ed9132d3770dbd4e6468c20bb4e771ee",
+        "bytes": 53375,
+        "storeTransform": true
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "41ecef0660d653518738d69057723d1260d5fcc89c1a766aa484313d90e3e7ba",
+        "bytes": 833407,
+        "storeTransform": false
+      },
+      {
+        "path": "onestore/js/app.js",
+        "sha256": "6ff579af7ed074b243fb05e04e9735b79d265d20c600e8b9a490772b7ce3fd69",
+        "bytes": 827578,
+        "storeTransform": false
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "43bd1cc34d2de0ab140f13a5d75c054546c070988db1eb8daddcbe6b9010b907",
+        "bytes": 26850,
+        "storeTransform": false
+      },
+      {
+        "path": "shared/mercenary-blue-gear-pack-v1.mjs",
+        "sha256": "ac33f3471ba18f617e9a0dd6e4c3101261bb152f0475862b042228ebd76b6bd5",
+        "bytes": 5720,
+        "storeTransform": false
+      },
+      {
+        "path": "shared/mercenary-blue-gear-catalog-v1.mjs",
+        "sha256": "40025f4b05020b31cf1c0614ee9d0b8a3d1be587492e00a7d2c7b9a0724e0f1d",
+        "bytes": 1918,
+        "storeTransform": false
+      },
+      {
+        "path": "shared/mercenary-astra-v1.mjs",
+        "sha256": "c13b63491a8a2d8f8e5c8ffa7463949fafc68b30162529e680ec6b9efd769a0d",
+        "bytes": 4717,
+        "storeTransform": false
+      },
+      {
+        "path": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+        "sha256": "353841febfa5e4f914a550c639bac904cd3fe139229c7e1cbdb185b91041af60",
+        "bytes": 190301,
+        "storeTransform": false
+      },
+      {
+        "path": "mercenary-codex/model.mjs",
+        "sha256": "e8701ea36f1776a10aebcf4f6a29c6ed1adc22e7a6f86822b8bec12a79571035",
+        "bytes": 18572,
+        "storeTransform": false
+      },
+      {
+        "path": "mercenary-codex/app.mjs",
+        "sha256": "95fb379c9eea40779298281e399a9c4f4e3cdb5e2094efe3afcf9757b3983dc5",
+        "bytes": 47381,
+        "storeTransform": false
+      },
+      {
+        "path": "mercenary-codex/index.html",
+        "sha256": "0301659b0b012c9ea4a25b61519010066a8fb1cc724a3828e5b6a4d507788a6a",
+        "bytes": 11286,
+        "storeTransform": false
+      },
+      {
+        "path": "mercenary-codex/shell.mjs",
+        "sha256": "05e66028451578747c16903decddb84a45078e140bb557f5f2ca75db06a9b943",
+        "bytes": 11418,
+        "storeTransform": false
+      }
+    ],
+    "astraAcquisitionDescription": "11월 20일 0시부터 블루기어팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·일반 추첨·합성·제작·기적의 큐브에서는 획득하지 않습니다.",
+    "ss": [
+      {
+        "code": "V-701",
+        "name": "하이희야",
+        "serverLimit": 25,
+        "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+      },
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "serverLimit": 25,
+        "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+      },
+      {
+        "code": "V-703",
+        "name": "디임",
+        "serverLimit": 25,
+        "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+      },
+      {
+        "code": "V-704",
+        "name": "수댕",
+        "serverLimit": 25,
+        "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+      },
+      {
+        "code": "V-705",
+        "name": "조은",
+        "serverLimit": 25,
+        "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "a46ae4d1fbe7ab4192bb34be2cf59e25191894495b1648d166b8d8ecda785f67",
+      "checked": [
+        "index.html",
+        "js/app.js",
+        "shared/mercenary-blue-gear-pack-v1.mjs",
+        "shared/mercenary-blue-gear-catalog-v1.mjs",
+        "shared/mercenary-astra-v1.mjs",
+        "js/mercenary-blue-gear-pack-live.bundle.mjs",
+        "mercenary-codex/model.mjs",
+        "mercenary-codex/app.mjs",
+        "mercenary-codex/index.html",
+        "mercenary-codex/shell.mjs"
+      ]
+    },
+    "tests": 28
+  },
+  "verification": {
+    "tests": 28,
+    "failedStagesRolledBack": 4,
+    "fullRehearsalRolledBack": true,
+    "independentReadOnly": true,
+    "replayQueries": 1,
+    "replayWrites": 0,
+    "lockReleased": true,
+    "preReleaseFinding": {
+      "head": "15e56d83ab3aa10f8593ad354ae2718876c3b4e7",
+      "files": [
+        "mercenary-codex/model.mjs",
+        "mercenary-codex/app.mjs",
+        "mercenary-codex/index.html",
+        "mercenary-codex/shell.mjs"
+      ],
+      "cause": "Codex validates the SS server limit separately; previous value 10 rejected the expanded catalog before any deployment began."
+    },
+    "codex": {
+      "at": "2026-11-19T11:42:44.754Z",
+      "report": [
+        {
+          "platform": "desktop",
+          "elapsedMs": 1824,
+          "errors": [],
+          "limit25Visible": true,
+          "condition": "Public deployed codex entry, headless Chrome desktop/Pixel 7 touch emulation; live public catalog with isolated empty-account GET fixture; all production writes blocked."
+        },
+        {
+          "platform": "android",
+          "elapsedMs": 1650,
+          "errors": [],
+          "limit25Visible": true,
+          "condition": "Public deployed codex entry, headless Chrome desktop/Pixel 7 touch emulation; live public catalog with isolated empty-account GET fixture; all production writes blocked."
+        }
+      ],
+      "fixtureCorrection": "Initial unauthenticated run loaded the valid catalog but timed out looking for stock text in the account-login panel. Used an isolated empty-account GET fixture to inspect the normal acquisition description; no runtime change was required."
+    }
+  },
+  "performance": {
+    "before": {
+      "at": "2026-11-19T11:31:28.826Z",
+      "phase": "before",
+      "measurements": [
+        {
+          "visit": "first",
+          "elapsedMs": 329,
+          "sql": 3
+        },
+        {
+          "visit": "repeat",
+          "elapsedMs": 165,
+          "sql": 3
+        }
+      ],
+      "state": {
+        "revision": 3,
+        "openingAt": "2026-11-20T11:00:00.000Z",
+        "userOpeningEnabled": false,
+        "readiness": {
+          "ready": true,
+          "blockers": []
+        },
+        "stock": [
+          {
+            "code": "V-701",
+            "limit": 10,
+            "issued": 0,
+            "remaining": 10,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "limit": 10,
+            "issued": 0,
+            "remaining": 10,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "limit": 10,
+            "issued": 0,
+            "remaining": 10,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "limit": 10,
+            "issued": 0,
+            "remaining": 10,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "limit": 10,
+            "issued": 0,
+            "remaining": 10,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "limit": 3,
+            "issued": 0,
+            "remaining": 3,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "limit": 3,
+            "issued": 0,
+            "remaining": 3,
+            "prepared": true
+          }
+        ],
+        "effectiveCardPercents": {
+          "V-701": "0.000005625",
+          "V-702": "0.000005625",
+          "V-703": "0.000005625",
+          "V-704": "0.000005625",
+          "V-705": "0.000005625",
+          "V-976": "0.00000008",
+          "V-967": "0.00000008",
+          "V-059": "0.000032"
+        }
+      },
+      "explain": [
+        {
+          "Plan": {
+            "Node Type": "Index Scan",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Scan Direction": "Forward",
+            "Index Name": "app_meta_pkey",
+            "Relation Name": "app_meta",
+            "Alias": "app_meta",
+            "Startup Cost": 0.42,
+            "Total Cost": 8.44,
+            "Plan Rows": 1,
+            "Plan Width": 188,
+            "Actual Startup Time": 0.008,
+            "Actual Total Time": 0.008,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Index Cond": "(key = 'mercenary_blue_gear_pack_v1'::text)",
+            "Rows Removed by Index Recheck": 0
+          },
+          "Planning Time": 0.025,
+          "Triggers": [],
+          "Execution Time": 0.018
+        }
+      ],
+      "readOnly": true,
+      "condition": "Windows CLI, production PostgreSQL through actual Blue Gear feature service, network included, single first/repeat pair; no physical-device timing."
+    },
+    "after": {
+      "at": "2026-11-19T11:41:44.642Z",
+      "phase": "after",
+      "measurements": [
+        {
+          "visit": "first",
+          "elapsedMs": 325,
+          "sql": 3
+        },
+        {
+          "visit": "repeat",
+          "elapsedMs": 160,
+          "sql": 3
+        }
+      ],
+      "state": {
+        "revision": 4,
+        "openingAt": "2026-11-19T15:00:00.000Z",
+        "userOpeningEnabled": false,
+        "readiness": {
+          "ready": true,
+          "blockers": []
+        },
+        "stock": [
+          {
+            "code": "V-701",
+            "limit": 25,
+            "issued": 0,
+            "remaining": 25,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "limit": 25,
+            "issued": 0,
+            "remaining": 25,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "limit": 25,
+            "issued": 0,
+            "remaining": 25,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "limit": 25,
+            "issued": 0,
+            "remaining": 25,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "limit": 25,
+            "issued": 0,
+            "remaining": 25,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "limit": 3,
+            "issued": 0,
+            "remaining": 3,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "limit": 3,
+            "issued": 0,
+            "remaining": 3,
+            "prepared": true
+          }
+        ],
+        "effectiveCardPercents": {
+          "V-701": "0.000005625",
+          "V-702": "0.000005625",
+          "V-703": "0.000005625",
+          "V-704": "0.000005625",
+          "V-705": "0.000005625",
+          "V-976": "0.00000008",
+          "V-967": "0.00000008",
+          "V-059": "0.000032"
+        }
+      },
+      "explain": [
+        {
+          "Plan": {
+            "Node Type": "Index Scan",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Scan Direction": "Forward",
+            "Index Name": "app_meta_pkey",
+            "Relation Name": "app_meta",
+            "Alias": "app_meta",
+            "Startup Cost": 0.42,
+            "Total Cost": 8.44,
+            "Plan Rows": 1,
+            "Plan Width": 188,
+            "Actual Startup Time": 0.01,
+            "Actual Total Time": 0.011,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Index Cond": "(key = 'mercenary_blue_gear_pack_v1'::text)",
+            "Rows Removed by Index Recheck": 0
+          },
+          "Planning Time": 0.022,
+          "Triggers": [],
+          "Execution Time": 0.021
+        }
+      ],
+      "readOnly": true,
+      "condition": "Windows CLI, production PostgreSQL through actual Blue Gear feature service, network included, single first/repeat pair; no physical-device timing."
+    },
+    "ui": [
+      {
+        "platform": "desktop",
+        "before": {
+          "platform": "desktop",
+          "mode": "before",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 397,
+              "roomMs": 94,
+              "frames": {
+                "p95": 4.299999999999727,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 194,
+              "roomMs": 137,
+              "frames": {
+                "p95": 4.200000000000728,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1228,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        },
+        "after": {
+          "platform": "desktop",
+          "mode": "local",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 376,
+              "roomMs": 66,
+              "frames": {
+                "p95": 4.299999999999727,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 194,
+              "roomMs": 104,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1115,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        }
+      },
+      {
+        "platform": "android",
+        "before": {
+          "platform": "android",
+          "mode": "before",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 446,
+              "roomMs": 92,
+              "frames": {
+                "p95": 4.299999999999727,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 249,
+              "roomMs": 53,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1356,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        },
+        "after": {
+          "platform": "android",
+          "mode": "local",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 391,
+              "roomMs": 62,
+              "frames": {
+                "p95": 4.299999999999727,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 117,
+              "roomMs": 50,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1744,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        }
+      },
+      {
+        "platform": "ios",
+        "before": {
+          "platform": "ios",
+          "mode": "before",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 250,
+              "roomMs": 199,
+              "frames": {
+                "p95": 31,
+                "over50": 1
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 73,
+              "roomMs": 163,
+              "frames": {
+                "p95": 156,
+                "over50": 3
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "launchMs": 2290,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        },
+        "after": {
+          "platform": "ios",
+          "mode": "local",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 134,
+              "roomMs": 170,
+              "frames": {
+                "p95": 127,
+                "over50": 2
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 64,
+              "roomMs": 141,
+              "frames": {
+                "p95": 30,
+                "over50": 1
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "launchMs": 1946,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        }
+      },
+      {
+        "platform": "windows",
+        "before": {
+          "platform": "windows",
+          "mode": "before",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 362,
+              "roomMs": 75,
+              "frames": {
+                "p95": 4.299999999999727,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 105,
+              "roomMs": 126,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1164,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        },
+        "after": {
+          "platform": "windows",
+          "mode": "local",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 393,
+              "roomMs": 83,
+              "frames": {
+                "p95": 4.200000000000273,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 153,
+              "roomMs": 52,
+              "frames": {
+                "p95": 4.199999999999818,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1288,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        }
+      },
+      {
+        "platform": "h5",
+        "before": {
+          "platform": "h5",
+          "mode": "before",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 357,
+              "roomMs": 111,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 205,
+              "roomMs": 53,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1324,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        },
+        "after": {
+          "platform": "h5",
+          "mode": "local",
+          "emulated": true,
+          "source": "https://cnine-card.pages.dev",
+          "entries": [
+            {
+              "shopMs": 413,
+              "roomMs": 84,
+              "frames": {
+                "p95": 4.299999999999727,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            },
+            {
+              "shopMs": 196,
+              "roomMs": 39,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "closed": true,
+              "postCloseFeatureRequests": 0
+            }
+          ],
+          "errors": [],
+          "launchMs": 1475,
+          "simulatedPurchases": 0,
+          "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+        }
+      }
+    ],
+    "publicSmoke": {
+      "platform": "desktop",
+      "mode": "public",
+      "emulated": true,
+      "source": "https://cnine-card.pages.dev",
+      "entries": [
+        {
+          "shopMs": 326,
+          "roomMs": 266,
+          "frames": {
+            "p95": 4.200000000000273,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        },
+        {
+          "shopMs": 83,
+          "roomMs": 207,
+          "frames": {
+            "p95": 4.300000000000182,
+            "over50": 0
+          },
+          "closed": true,
+          "postCloseFeatureRequests": 0
+        }
+      ],
+      "errors": [],
+      "launchMs": 1117,
+      "simulatedPurchases": 0,
+      "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+    },
+    "conditions": "Windows CLI against production PostgreSQL for actual feature first/repeat reads. UI uses headless Chrome desktop/Android touch/Windows entry URL/H5 host fixture and WebKit emulation. Frozen before files vs changed source, same read fixtures, external assets from live CDN. No physical device, installed native-app or Safari claim. Single pairs; no loading/FPS improvement claim.",
+    "bottleneck": "Existing feature uses three indexed reads; network/database round trips dominate CLI time. No query, new image, polling or animation added. Existing WebKit warning and long frames recorded in both phases; closed room makes zero further feature requests during the 650 ms observation window."
+  },
+  "artifacts": [
+    {
+      "file": "plan.json",
+      "bytes": 5328,
+      "sha256": "91924e830e1c5672c6f66ca67a51ca433fc3824ec40f0f144900a76eb8ac3701"
+    },
+    {
+      "file": "applied.json",
+      "bytes": 5269,
+      "sha256": "679cfe15a9a7594177ba64a292d6ab338c2460bd619140f28634984bf4eca6cf"
+    },
+    {
+      "file": "verified.json",
+      "bytes": 5285,
+      "sha256": "9c1c90305e85d4aff1a2c340dfe9e4f1bb6dbba28084ceaeda75e3460cbcc1d5"
+    },
+    {
+      "file": "service-before.json",
+      "bytes": 2561,
+      "sha256": "a0682833ab89dd0834eba1158bca3371194c08575491844e8524baae28a42b1f"
+    },
+    {
+      "file": "service-after.json",
+      "bytes": 2559,
+      "sha256": "9c7e24fccc20ef8bb05c7e41a4e0f77578481334020e9e505b2b9b954aa0796f"
+    },
+    {
+      "file": "public-verification.json",
+      "bytes": 10056,
+      "sha256": "e58146ad9aab6ba6f219de8e3bca2922b7b16103145b506eb5594f18c21719f8"
+    },
+    {
+      "file": "live-verification.json",
+      "bytes": 4875,
+      "sha256": "ea39c93cf94ccdf3d317f182e6eda62fc73bb38969f79f9c277e908706def00a"
+    },
+    {
+      "file": "deployment-plan-v2.json",
+      "bytes": 1515,
+      "sha256": "222b08d40e9a4256426afc009c0a840bd7eb44006e00958c8506da67d7fe7a2c"
+    },
+    {
+      "file": "codex-qa.json",
+      "bytes": 939,
+      "sha256": "7d5233dc9f4e6258b779f2b41d51fd2f41d56844fcd9585cdbc3d89b4cde4e49"
+    },
+    {
+      "file": "notice-verified.json",
+      "bytes": 395,
+      "sha256": "c96427be1316baeeb76c517481a51146c7e054c9cae20677e25d91332d8d1410"
+    },
+    {
+      "file": "유저공지.txt",
+      "bytes": 1747,
+      "sha256": "cbef23bb185fcd5b90f0d8c59b206f8f3d8f70e6ae8ead045c198cf09486536b"
+    },
+    {
+      "file": "local-desktop-room.png",
+      "bytes": 1238924,
+      "sha256": "069ad2f555f0722b9a37f9319387d992b823b61e689912c33911a05ca81c3120"
+    },
+    {
+      "file": "local-android-room.png",
+      "bytes": 1094012,
+      "sha256": "0cd6d8712f0b6544c5fb274be1647fbbdcd1b18d574b7451ac574dcef4277925"
+    },
+    {
+      "file": "public-desktop-room.png",
+      "bytes": 1238924,
+      "sha256": "069ad2f555f0722b9a37f9319387d992b823b61e689912c33911a05ca81c3120"
+    },
+    {
+      "file": "codex-desktop.png",
+      "bytes": 339750,
+      "sha256": "dc51c1dd86afdcb526d1738cfe102e62786ba85ce222e66733e569ff3bbce1d4"
+    },
+    {
+      "file": "codex-android.png",
+      "bytes": 747486,
+      "sha256": "96467e5311111a4e23bd5099f0dccec63b7a8a318479738ad9982b0dce4df2ec"
+    },
+    {
+      "file": "shop-before-desktop.json",
+      "bytes": 881,
+      "sha256": "0834113f48e1909c4666de9c41f712f193c3a91a2f85dd7ee926849207fafb0d"
+    },
+    {
+      "file": "shop-local-desktop.json",
+      "bytes": 880,
+      "sha256": "db9de64a151af13067ec108f980de907634908e8d53661b55e873c3d069a2f70"
+    },
+    {
+      "file": "shop-before-android.json",
+      "bytes": 880,
+      "sha256": "cc9ba5e09bd525c36a3d2d9ad1852195723d96a852477784af72d65022c2fd65"
+    },
+    {
+      "file": "shop-local-android.json",
+      "bytes": 879,
+      "sha256": "1f4fdb49bf18832a1d6bb3649a9ec59fb576c4947fec62decea9ebf7731be4d8"
+    },
+    {
+      "file": "shop-before-ios.json",
+      "bytes": 919,
+      "sha256": "b089024792afda354f9bb977f63f2206003bd109ec7f62fbfe3cab96fa5eab1b"
+    },
+    {
+      "file": "shop-local-ios.json",
+      "bytes": 918,
+      "sha256": "386178ba8dcb7040453c860ab4162b8b53ee3b3a75d6f842b3e40382adc5bddc"
+    },
+    {
+      "file": "shop-before-windows.json",
+      "bytes": 881,
+      "sha256": "8afb7a7f0ac4a5add4eeb8ae77f79e159ea8a94a161987142584ea89cc840603"
+    },
+    {
+      "file": "shop-local-windows.json",
+      "bytes": 879,
+      "sha256": "e2ac036e265d265507bace259e0d669d36f813fb615d5dcd45e8ca071bc29128"
+    },
+    {
+      "file": "shop-before-h5.json",
+      "bytes": 876,
+      "sha256": "9391a285d7cf81ed2376f739326d2047cf3085f72e2e64e9e940fe03fb59cc43"
+    },
+    {
+      "file": "shop-local-h5.json",
+      "bytes": 874,
+      "sha256": "cd56775f3714ba26b8799a99038d0dc5be9450805f86fceb8e9563889894ab3c"
+    },
+    {
+      "file": "shop-public-desktop.json",
+      "bytes": 881,
+      "sha256": "72dcb5b086a6440a96bbdb971ca4df4a475ce7af7dd038f470dfc736b65ef4f8"
+    }
+  ]
+}

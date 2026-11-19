@@ -1,0 +1,39 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+export {connect,safe,hash} from '../rap-contest-rewards-20261027/preflight.mjs';
+export {cloud} from '../avatar-santa-joeun-replace-20261116/state.mjs';
+import {blueGearState,BLUE_GEAR_PACK_KEY,BLUE_GEAR_STOCK_PREFIX} from '../coop-pc-performance-20261108/source/shared/mercenary-blue-gear-pack-v1.mjs';
+import {BLUE_GEAR_CODES} from '../coop-pc-performance-20261108/source/shared/mercenary-blue-gear-catalog-v1.mjs';
+export const out=import.meta.dirname,root=path.resolve(out,'../..'),source=path.join(root,'operations/coop-pc-performance-20261108/source');
+export const OP='ops:bluegear:midnight-ss-plus15:20261119:v1',setting=BLUE_GEAR_PACK_KEY,openingAt='2026-11-19T15:00:00.000Z';
+export const ssCodes=BLUE_GEAR_CODES,stockCodes=ssCodes.map(c=>BLUE_GEAR_STOCK_PREFIX+c);
+export const save=(n,x)=>fs.writeFileSync(path.join(out,n+'.json'),JSON.stringify(x,null,2)+'\n',{flag:'wx'});
+export const read=n=>JSON.parse(fs.readFileSync(path.join(out,n+'.json'),'utf8'));
+export const git=(...a)=>execFileSync('git',['-c','gc.auto=0','-c','maintenance.auto=false',...a],{cwd:source,encoding:'utf8',windowsHide:true,maxBuffer:32e6}).trim();
+export function change(doc){
+ assert.equal(doc.revision,3);assert.equal(doc.openingAt,'2026-11-20T11:00:00.000Z');
+ const next=structuredClone(doc);next.revision++;next.openingAt=openingAt;
+ for(const code of ssCodes){assert.equal(next.settings.stockLimits[code],10);next.settings.stockLimits[code]+=15;}
+ validate(next);return next;
+}
+export function validate(doc){
+ assert.equal(doc.openingAt,openingAt);assert.equal(doc.revision,4);
+ assert.deepEqual(doc.settings.prices,{single:2250000000,ten:22500000000});
+ for(const code of ssCodes){assert.equal(doc.settings.stockLimits[code],25);assert.equal(doc.settings.cardRatesPpm[code],70.3125);}
+ for(const code of ['V-976','V-967'])assert.equal(doc.settings.stockLimits[code],3);
+ const stock=Object.entries(doc.settings.stockLimits).map(([code,stock_limit])=>({code:BLUE_GEAR_STOCK_PREFIX+code,stock_limit,issued:0}));
+ const normals=Object.keys(doc.settings.normalRankRatesPpm).map(rank=>({code:'QA-'+rank,rank,weight:1}));
+ const before=blueGearState(doc,stock,normals,'2026-11-19T14:59:59.999Z'),after=blueGearState(doc,stock,normals,openingAt);
+ assert.equal(before.userOpeningEnabled,false);assert.equal(after.userOpeningEnabled,true);
+ for(const code of ssCodes)assert.equal(after.effectiveCardPercents[code],'0.000005625');
+ return {openingAt,openingAtKST:'2026-11-20 00:00:00',ssLimitEach:25,ssTotal:125,additionalEach:15,additionalTotal:75,firstAnySsMeanCoinsJo:8000};
+}
+export async function stockState(db){return(await db.query('SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[[...stockCodes,'BLUE_GEAR:V-976','BLUE_GEAR:V-967']])).rows;}
+export function expectedStock(before){return before.map(row=>stockCodes.includes(row.code)?{...row,stock_limit:'25',revision:String(BigInt(row.revision)+1n),last_token:OP}:row);}
+export async function protectedState(db){
+ return {otherStock:(await db.query('SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[ssCodes])).rows,
+ issues:(await db.query('SELECT * FROM mercenary_limited_issues_v1 WHERE code=ANY($1::text[]) ORDER BY code,serial',[[...stockCodes,'BLUE_GEAR:V-976','BLUE_GEAR:V-967']])).rows,
+ related:(await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key',[['mercenary_blackcrown_ss_pack_v1','mercenary_bloodmoon_pack_v1']])).rows};
+}

@@ -1,0 +1,40 @@
+{
+  "base": "fb2b7dd1944f40e31046e364972b2f4e19a53841",
+  "production": {
+    "pages": {
+      "id": "afeae8dc-f91c-4e87-ba69-5460757d3ca6",
+      "commit": "fb2b7dd1944f40e31046e364972b2f4e19a53841",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "c4416fbf-422b-4649-8394-a78ecd4a894b",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "c9a31df0-f2bc-4a1b-aa91-e39e98de75bf",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "tests": [
+    "tests/blue-gear-8000t-opening20-20261118.test.mjs",
+    "tests/blue-gear-pack-20261113.test.mjs",
+    "tests/blue-gear-bloodmoon-room-20261113.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "reason": "User authorized November 20 00:00 KST opening and 15 additional copies for each of the five Blue Gear SS limited mercenaries (10 to 25). Align shop, contract room, codex, schedule error and shell caches. Preserve prices, exact 8000T first-SS probabilities, ownership exclusions, SSS limits and issued stock. Verify opening boundary, 25th issuance/26th exclusion, stale revision and payment replay, room controls and loader; no battle or other pack changes. Codex static validation and import cache versions also follow the approved 25-copy limit."
+}

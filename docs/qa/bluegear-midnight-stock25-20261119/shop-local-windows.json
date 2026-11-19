@@ -1,0 +1,32 @@
+{
+  "platform": "windows",
+  "mode": "local",
+  "emulated": true,
+  "source": "https://cnine-card.pages.dev",
+  "entries": [
+    {
+      "shopMs": 393,
+      "roomMs": 83,
+      "frames": {
+        "p95": 4.200000000000273,
+        "over50": 0
+      },
+      "closed": true,
+      "postCloseFeatureRequests": 0
+    },
+    {
+      "shopMs": 153,
+      "roomMs": 52,
+      "frames": {
+        "p95": 4.199999999999818,
+        "over50": 0
+      },
+      "closed": true,
+      "postCloseFeatureRequests": 0
+    }
+  ],
+  "errors": [],
+  "launchMs": 1288,
+  "simulatedPurchases": 0,
+  "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+}

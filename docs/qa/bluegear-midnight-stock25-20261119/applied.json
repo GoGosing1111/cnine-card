@@ -1,0 +1,215 @@
+{
+  "receipt": {
+    "operationKey": "ops:bluegear:midnight-ss-plus15:20261119:v1",
+    "status": "COMPLETED",
+    "completedAt": "2026-11-19T11:41:02.437Z",
+    "completedAtKST": "2026-11-19 20:41:02",
+    "authorization": "블루기어팩 20일 0시 정각 개봉 / SS리미티드 15장씩 수량 더 늘려",
+    "before": {
+      "revision": 3,
+      "openingAt": "2026-11-20T11:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 10,
+          "V-702": 10,
+          "V-703": 10,
+          "V-704": 10,
+          "V-705": 10,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "after": {
+      "revision": 4,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 25,
+          "V-702": 25,
+          "V-703": 25,
+          "V-704": 25,
+          "V-705": 25,
+          "V-976": 3,
+          "V-967": 3
+        }
+      }
+    },
+    "stockBefore": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "10",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "BLUE_GEAR:V-701",
+        "stock_limit": "25",
+        "issued": "0",
+        "revision": "1",
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-702",
+        "stock_limit": "25",
+        "issued": "0",
+        "revision": "1",
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-703",
+        "stock_limit": "25",
+        "issued": "0",
+        "revision": "1",
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-704",
+        "stock_limit": "25",
+        "issued": "0",
+        "revision": "1",
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-705",
+        "stock_limit": "25",
+        "issued": "0",
+        "revision": "1",
+        "last_token": "ops:bluegear:midnight-ss-plus15:20261119:v1"
+      },
+      {
+        "code": "BLUE_GEAR:V-967",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      },
+      {
+        "code": "BLUE_GEAR:V-976",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0",
+        "last_token": null
+      }
+    ],
+    "summary": {
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "openingAtKST": "2026-11-20 00:00:00",
+      "ssLimitEach": 25,
+      "ssTotal": 125,
+      "additionalEach": 15,
+      "additionalTotal": 75,
+      "firstAnySsMeanCoinsJo": 8000
+    },
+    "protectedHash": "2cf8c4c5281647d16bd0b029f84cc2b676985b0ecfc2978300f05519ddba6bdb",
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "auditId": "65022"
+  },
+  "applyMs": 1381,
+  "failedStagesRolledBack": 4,
+  "fullRehearsalRolledBack": true,
+  "issuedAndOtherStockPreserved": true,
+  "accountWrites": 0
+}

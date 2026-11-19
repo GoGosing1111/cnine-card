@@ -1,0 +1,45 @@
+import assert from 'node:assert/strict';
+import {connect,safe,hash,save,read,OP,setting,openingAt,stockCodes,change,validate,stockState,expectedStock,protectedState} from './common.mjs';
+const mode=process.argv[2];assert(['apply','verify'].includes(mode));const plan=read('plan'),db=connect();
+const prior=async()=>{const rows=(await db.query('SELECT value FROM app_meta WHERE key=$1',[OP])).rows;return rows.length?JSON.parse(rows[0].value):null;};
+async function perform(failAfter=null){
+ const done=await prior();if(done)return done;
+ const old=(await db.query('SELECT value FROM app_meta WHERE key=$1 FOR UPDATE',[setting])).rows[0];assert.equal(old.value,plan.beforeRaw);assert.deepEqual(change(JSON.parse(old.value)),plan.after);
+ const clock=(await db.query("SELECT t now,to_char(t AT TIME ZONE 'Asia/Seoul','YYYY-MM-DD HH24:MI:SS') kst FROM (SELECT clock_timestamp() t) s")).rows[0];assert(clock.now<Date.parse(openingAt),'Apply before the requested opening boundary');
+ await db.query('SELECT code FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR UPDATE',[stockCodes]);
+ assert.deepEqual(await stockState(db),plan.stockBefore);assert.deepEqual(await protectedState(db),plan.protectedBefore);
+ assert.equal((await db.query("SELECT role FROM users WHERE id=1 AND status='ACTIVE'")).rows[0]?.role,'OWNER');
+ assert.equal((await db.query('UPDATE app_meta SET value=$1,updated_at=CURRENT_TIMESTAMP WHERE key=$2 AND value=$3',[JSON.stringify(plan.after),setting,old.value])).rowCount,1);
+ if(failAfter==='setting')await db.query('SELECT 1/0');
+ assert.equal((await db.query('UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+15,revision=revision+1,last_token=$1 WHERE code=ANY($2::text[]) AND stock_limit=10 AND issued=0',[OP,stockCodes])).rowCount,5);
+ if(failAfter==='stock')await db.query('SELECT 1/0');
+ const receipt={operationKey:OP,status:'COMPLETED',completedAt:clock.now.toISOString(),completedAtKST:clock.kst,authorization:plan.authorization,before:plan.before,after:plan.after,stockBefore:plan.stockBefore,stockAfter:expectedStock(plan.stockBefore),summary:validate(plan.after),protectedHash:hash(plan.protectedBefore),accountWrites:0,messagesSent:0};
+ receipt.auditId=(await db.query("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,'BLUE_GEAR_OPENING_STOCK','SETTING',$1,$2,$3) RETURNING id::text",[OP,JSON.stringify({setting:plan.before,stock:plan.stockBefore}),JSON.stringify(receipt)])).rows[0].id;
+ if(failAfter==='audit')await db.query('SELECT 1/0');
+ await db.query('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3)',[OP,JSON.stringify(receipt),receipt.completedAt]);
+ if(failAfter==='receipt')await db.query('SELECT 1/0');
+ assert.deepEqual(await stockState(db),expectedStock(plan.stockBefore));assert.deepEqual(await protectedState(db),plan.protectedBefore);return receipt;
+}
+try{
+ await db.connect();await db.query(mode==='verify'?'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY':'BEGIN');await db.query("SET LOCAL statement_timeout='15s'");await db.query("SET LOCAL lock_timeout='4s'");
+ if(mode==='verify'){
+  const receipt=await prior();assert(receipt);const doc=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',[setting])).rows[0].value);assert.deepEqual(doc,plan.after);validate(doc);
+  assert.deepEqual(await stockState(db),expectedStock(plan.stockBefore));assert.deepEqual(await protectedState(db),plan.protectedBefore);
+  const audit=(await db.query('SELECT id::text,action_type,after_data FROM admin_logs WHERE id=$1::bigint',[receipt.auditId])).rows;assert.equal(audit.length,1);assert.equal(audit[0].action_type,'BLUE_GEAR_OPENING_STOCK');assert.deepEqual(JSON.parse(audit[0].after_data).stockAfter,receipt.stockAfter);
+  let queries=0;const query=db.query.bind(db);db.query=(sql,args)=>{assert.match(sql,/^SELECT\b/);queries++;return query(sql,args);};assert.deepEqual(await perform(),receipt);db.query=query;assert.equal(queries,1);
+  assert.equal((await db.query('SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins+n_tup_upd+n_tup_del>0')).rowCount,0);
+  assert.equal((await db.query('SELECT pg_try_advisory_xact_lock(hashtextextended($1,0)) AS unlocked',[OP])).rows[0].unlocked,true);
+  await db.query('ROLLBACK');save('verified',{at:new Date().toISOString(),receipt,readOnly:true,replayQueries:queries,replayWrites:0,lockReleased:true,issuedAndOtherStockPreserved:true});console.log(JSON.stringify({verified:true,auditId:receipt.auditId,summary:receipt.summary}));
+ }else{
+  await db.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[OP]);const done=await prior();
+  if(done){await db.query('ROLLBACK');console.log(JSON.stringify({replayed:true,auditId:done.auditId,additionalWrites:0}));}
+  else{
+   const original=(await db.query('SELECT value,updated_at FROM app_meta WHERE key=$1',[setting])).rows;
+   const restored=async()=>{assert.deepEqual((await db.query('SELECT value,updated_at FROM app_meta WHERE key=$1',[setting])).rows,original);assert.deepEqual(await stockState(db),plan.stockBefore);assert.deepEqual(await protectedState(db),plan.protectedBefore);assert.equal(await prior(),null);assert.equal((await db.query('SELECT id FROM admin_logs WHERE target_id=$1',[OP])).rowCount,0);};
+   for(const stage of ['setting','stock','audit','receipt']){await db.query('SAVEPOINT rehearsal');await assert.rejects(perform(stage),/division by zero/);await db.query('ROLLBACK TO SAVEPOINT rehearsal');await restored();}
+   await db.query('SAVEPOINT rehearsal');await perform();await db.query('ROLLBACK TO SAVEPOINT rehearsal');await restored();
+   const start=performance.now(),receipt=await perform();assert.equal((await db.query("SELECT relname FROM pg_stat_xact_user_tables WHERE n_tup_ins+n_tup_upd+n_tup_del>0 AND relname NOT IN ('app_meta','admin_logs','mercenary_limited_stock_v1')")).rowCount,0);
+   const report={receipt,applyMs:Math.round(performance.now()-start),failedStagesRolledBack:4,fullRehearsalRolledBack:true,issuedAndOtherStockPreserved:true,accountWrites:0};save('commit-candidate',report);await db.query('COMMIT');save('applied',report);console.log(JSON.stringify({applied:true,auditId:receipt.auditId,completedAtKST:receipt.completedAtKST,applyMs:report.applyMs}));
+  }
+ }
+}catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(safe(e));console.error(String(e.stack).split('\n').filter(s=>s.trim().startsWith('at ')).slice(0,3).join('\n'));process.exitCode=1;}finally{await db.end();}

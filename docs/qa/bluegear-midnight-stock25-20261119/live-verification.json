@@ -1,0 +1,158 @@
+{
+  "at": "2026-11-19T11:41:17.754Z",
+  "head": "15e56d83ab3aa10f8593ad354ae2718876c3b4e7",
+  "pages": {
+    "id": "6fa55c99-28b0-426b-bc32-acda85848ba6",
+    "commit": "15e56d83ab3aa10f8593ad354ae2718876c3b4e7",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "09361f8e-7e9c-4112-b97b-39a8ce2f3208",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "b4f5b80b-d0a3-4c74-a923-6e4646beed60",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "e6dfd71b5ea2b0e539ef47f8dafc9d7374c9476531d3ce038de07b99f4f20b32",
+      "bytes": 53534,
+      "storeTransform": false
+    },
+    {
+      "path": "onestore/index.html",
+      "sha256": "47df9b1ed7bead1bc0554c8a33a619a4ed9132d3770dbd4e6468c20bb4e771ee",
+      "bytes": 53375,
+      "storeTransform": true
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "41ecef0660d653518738d69057723d1260d5fcc89c1a766aa484313d90e3e7ba",
+      "bytes": 833407,
+      "storeTransform": false
+    },
+    {
+      "path": "onestore/js/app.js",
+      "sha256": "6ff579af7ed074b243fb05e04e9735b79d265d20c600e8b9a490772b7ce3fd69",
+      "bytes": 827578,
+      "storeTransform": false
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "43bd1cc34d2de0ab140f13a5d75c054546c070988db1eb8daddcbe6b9010b907",
+      "bytes": 26850,
+      "storeTransform": false
+    },
+    {
+      "path": "shared/mercenary-blue-gear-pack-v1.mjs",
+      "sha256": "ac33f3471ba18f617e9a0dd6e4c3101261bb152f0475862b042228ebd76b6bd5",
+      "bytes": 5720,
+      "storeTransform": false
+    },
+    {
+      "path": "shared/mercenary-blue-gear-catalog-v1.mjs",
+      "sha256": "40025f4b05020b31cf1c0614ee9d0b8a3d1be587492e00a7d2c7b9a0724e0f1d",
+      "bytes": 1918,
+      "storeTransform": false
+    },
+    {
+      "path": "shared/mercenary-astra-v1.mjs",
+      "sha256": "c13b63491a8a2d8f8e5c8ffa7463949fafc68b30162529e680ec6b9efd769a0d",
+      "bytes": 4717,
+      "storeTransform": false
+    },
+    {
+      "path": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "sha256": "353841febfa5e4f914a550c639bac904cd3fe139229c7e1cbdb185b91041af60",
+      "bytes": 190301,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/model.mjs",
+      "sha256": "e8701ea36f1776a10aebcf4f6a29c6ed1adc22e7a6f86822b8bec12a79571035",
+      "bytes": 18572,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/app.mjs",
+      "sha256": "95fb379c9eea40779298281e399a9c4f4e3cdb5e2094efe3afcf9757b3983dc5",
+      "bytes": 47381,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/index.html",
+      "sha256": "0301659b0b012c9ea4a25b61519010066a8fb1cc724a3828e5b6a4d507788a6a",
+      "bytes": 11286,
+      "storeTransform": false
+    },
+    {
+      "path": "mercenary-codex/shell.mjs",
+      "sha256": "05e66028451578747c16903decddb84a45078e140bb557f5f2ca75db06a9b943",
+      "bytes": 11418,
+      "storeTransform": false
+    }
+  ],
+  "astraAcquisitionDescription": "11월 20일 0시부터 블루기어팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·일반 추첨·합성·제작·기적의 큐브에서는 획득하지 않습니다.",
+  "ss": [
+    {
+      "code": "V-701",
+      "name": "하이희야",
+      "serverLimit": 25,
+      "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-702",
+      "name": "나무늘봉순",
+      "serverLimit": 25,
+      "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-703",
+      "name": "디임",
+      "serverLimit": 25,
+      "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-704",
+      "name": "수댕",
+      "serverLimit": 25,
+      "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+    },
+    {
+      "code": "V-705",
+      "name": "조은",
+      "serverLimit": 25,
+      "acquisitionDescription": "블루기어팩에서 종당 25장 한정으로 획득합니다."
+    }
+  ],
+  "windowsManifest": {
+    "releaseId": "a46ae4d1fbe7ab4192bb34be2cf59e25191894495b1648d166b8d8ecda785f67",
+    "checked": [
+      "index.html",
+      "js/app.js",
+      "shared/mercenary-blue-gear-pack-v1.mjs",
+      "shared/mercenary-blue-gear-catalog-v1.mjs",
+      "shared/mercenary-astra-v1.mjs",
+      "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "mercenary-codex/model.mjs",
+      "mercenary-codex/app.mjs",
+      "mercenary-codex/index.html",
+      "mercenary-codex/shell.mjs"
+    ]
+  },
+  "tests": 28
+}

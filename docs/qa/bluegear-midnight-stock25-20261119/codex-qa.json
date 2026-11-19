@@ -1,0 +1,20 @@
+{
+  "at": "2026-11-19T11:42:44.754Z",
+  "report": [
+    {
+      "platform": "desktop",
+      "elapsedMs": 1824,
+      "errors": [],
+      "limit25Visible": true,
+      "condition": "Public deployed codex entry, headless Chrome desktop/Pixel 7 touch emulation; live public catalog with isolated empty-account GET fixture; all production writes blocked."
+    },
+    {
+      "platform": "android",
+      "elapsedMs": 1650,
+      "errors": [],
+      "limit25Visible": true,
+      "condition": "Public deployed codex entry, headless Chrome desktop/Pixel 7 touch emulation; live public catalog with isolated empty-account GET fixture; all production writes blocked."
+    }
+  ],
+  "fixtureCorrection": "Initial unauthenticated run loaded the valid catalog but timed out looking for stock text in the account-login panel. Used an isolated empty-account GET fixture to inspect the normal acquisition description; no runtime change was required."
+}

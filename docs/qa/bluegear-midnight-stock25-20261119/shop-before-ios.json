@@ -1,0 +1,34 @@
+{
+  "platform": "ios",
+  "mode": "before",
+  "emulated": true,
+  "source": "https://cnine-card.pages.dev",
+  "entries": [
+    {
+      "shopMs": 250,
+      "roomMs": 199,
+      "frames": {
+        "p95": 31,
+        "over50": 1
+      },
+      "closed": true,
+      "postCloseFeatureRequests": 0
+    },
+    {
+      "shopMs": 73,
+      "roomMs": 163,
+      "frames": {
+        "p95": 156,
+        "over50": 3
+      },
+      "closed": true,
+      "postCloseFeatureRequests": 0
+    }
+  ],
+  "errors": [
+    "ResizeObserver loop completed with undelivered notifications."
+  ],
+  "launchMs": 2290,
+  "simulatedPurchases": 0,
+  "condition": "Headless Chrome/WebKit, desktop or touch emulation; Windows entry URL and H5 iframe with mocked host SDK; no physical devices or installed-app claim. Frozen before files vs changed local files, isolated read fixtures; public mode reads live pack APIs; all production writes blocked."
+}
