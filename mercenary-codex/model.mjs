@@ -33,7 +33,7 @@ export function validateCatalog(data,{forDisplay=false}={}){
     if(c.code===ASTRA_CODE&&(c.name!==ASTRA_ART.name||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==1250000||c.acquisition!=='BLUE_GEAR_PACK'||c.stockPolicy!=='UNLIMITED'||!c.deploymentEnabled||c.skills.length!==3||c.skills.some((x,i)=>x.id!==ASTRA_SKILLS[i].id)))throw Error('아스트라의 전투력·기술·블루기어팩 획득을 확인하세요.');
     if(c.code===RAZAK_CODE&&(c.name!=='라자크'||c.rank!=='SSS'||c.edition!=='STANDARD'||c.basePower!==RAZAK_COMBAT.basePower||c.acquisition!=='BLOODMOON_PACK'||c.acquisitionEnabled!==false||c.packAcquisitionEnabled!==true||c.skills.length!==3||c.skills.some((s,i)=>s.id!==RAZAK_SKILLS[i].id)))throw Error('라자크의 승인 등급·전투력·블러드문팩 전용 획득을 확인하세요.');
     if(c.edition==='LIMITED'){
-      const blue=BLUE_GEAR[c.code],blueReady=Boolean(blue)&&c.season==='BLUE_GEAR'&&c.rank==='SS'&&c.basePower===blue.basePower&&c.deploymentEnabled===true&&c.acquisition==='BLUE_GEAR_PACK'&&c.serverLimit===25&&c.skills.length===2&&c.skills.every((skill,i)=>skill.id===blue.skills[i].id&&skill.visualMode===blue.skills[i].visualMode);
+      const blue=BLUE_GEAR[c.code],blueReady=Boolean(blue)&&c.season==='BLUE_GEAR'&&c.rank==='SS'&&c.basePower===blue.basePower&&c.deploymentEnabled===true&&c.acquisition==='BLUE_GEAR_PACK'&&c.serverLimit===45&&c.skills.length===2&&c.skills.every((skill,i)=>skill.id===blue.skills[i].id&&skill.visualMode===blue.skills[i].visualMode);
       if(blue&&!blueReady)throw Error('블루기어의 전투력·기술·발행 한도를 확인하세요.');
       const blueLegend=['V-976',HAKUYA_CODE].includes(c.code)&&c.releaseStatus==='BATTLE_RELEASED'&&c.acquisition==='BLUE_GEAR_PACK'&&c.packAcquisitionEnabled===true&&c.serverLimit===3;
       const blackcrown=BLACKCROWN_CODEX_DETAILS[c.code];
