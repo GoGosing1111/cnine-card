@@ -1,0 +1,2061 @@
+{
+  "completedAt": "2026-11-19T07:35:08.345Z",
+  "title": "리버스콜 · 종언의 주파수 라이브 TEST",
+  "source": "3c46423af6688532db066c267fc8300d31834f53",
+  "pages": {
+    "id": "efc661f3-17ca-4425-ab9e-f93f323cdb89",
+    "commit": "3c46423af6688532db066c267fc8300d31834f53",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "deployments": [
+        {
+          "version_id": "a97a7cbe-41dd-410f-aa8c-da6c11f50ae4",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "deployments": [
+        {
+          "version_id": "9657a7ff-00cf-4e63-982a-4070d5d2cc75",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "operation": {
+    "key": "ops:nox-test-release:1547590:20261119:v1",
+    "auditId": "64691",
+    "appliedAt": "2026-11-19 04:40:04",
+    "mode": "TEST",
+    "revision": 1,
+    "testers": [
+      {
+        "id": 22,
+        "nickname": "커피먹는철구"
+      },
+      {
+        "id": 45,
+        "nickname": "박세라-ㅂ-"
+      },
+      {
+        "id": 88,
+        "nickname": "0수표"
+      },
+      {
+        "id": 218,
+        "nickname": "현하루"
+      },
+      {
+        "id": 295,
+        "nickname": "모래"
+      },
+      {
+        "id": 525,
+        "nickname": "족구조아"
+      },
+      {
+        "id": 787,
+        "nickname": "뚱초환"
+      },
+      {
+        "id": 1195,
+        "nickname": "씨나인택갓"
+      },
+      {
+        "id": 1768,
+        "nickname": "핫시"
+      },
+      {
+        "id": 4199,
+        "nickname": "택신"
+      },
+      {
+        "id": 4391,
+        "nickname": "더듬이구"
+      },
+      {
+        "id": 4570,
+        "nickname": "혜정"
+      },
+      {
+        "id": 4597,
+        "nickname": "찬호"
+      },
+      {
+        "id": 4828,
+        "nickname": "조은홧팅"
+      },
+      {
+        "id": 4917,
+        "nickname": "지엘라"
+      },
+      {
+        "id": 5008,
+        "nickname": "단정한밤"
+      }
+    ],
+    "sourceUrl": "https://www.playdk.kr/board/skm/1547590?category=87",
+    "sourceCutoff": "2026-11-19T04:39:17.850Z",
+    "latestCommentsRecheck": {
+      "at": "2026-11-19T07:32:00.170Z",
+      "total": 19,
+      "selectedAuthors": 16,
+      "newAuthors": []
+    }
+  },
+  "policy": {
+    "test": "Allowlisted verified accounts and OWNER; free",
+    "on": "Public; 50000000000000 coins per participant at all-ready battle start",
+    "off": "Unavailable; leaving remains permitted",
+    "cms": "관리자 → 레이드 → 종언의 주파수 · 녹스 → OFF / TEST / ON → 저장",
+    "modeChanges": "Old lobbies must be recreated after a mode change; no retroactive or surprise charge",
+    "rewardsLocked": true,
+    "partySizes": [
+      3,
+      6
+    ],
+    "bossHp": {
+      "3": 18000000,
+      "6": 12000000
+    },
+    "deck": "saved PVE deck including owned equipment, suit, mercenaries and pet",
+    "rhythm": "D/F/J/K + touch; strict ±35/90 ms; receipt delay grace does not widen judgement",
+    "floor": "30 tiles; 27 mines and 3 ordered safe tiles in the V3 battle floor"
+  },
+  "safety": {
+    "paidStart": "All wallets, ledger, unique entry receipts and room start commit atomically; retries replay the original receipt",
+    "verified": [
+      "TEST access and free entry",
+      "ON fee consent and insufficient balance",
+      "rollback after debit failure",
+      "concurrent and replayed start",
+      "six simultaneous input streams",
+      "mode switch and tester removal",
+      "three full mechanic cycles for 3/6 players",
+      "scheduled floor cues and strict timing"
+    ],
+    "operationRollback": [
+      "schema",
+      "settings",
+      "receipt"
+    ],
+    "independentReadOnly": true,
+    "messagesSent": 0,
+    "operationAccountWrites": 0
+  },
+  "verification": {
+    "gate": {
+      "kind": "full production release gate; 80 sequential stages including the source identity guard",
+      "logs": [
+        {
+          "file": "deploy-full8.log",
+          "sha256": "88c6d2849ec8fdb0a83fa2912684f3ca4c85385ef3ca3a1d9faeb432eacd9599"
+        }
+      ]
+    },
+    "public": {
+      "at": "2026-11-19T07:34:06.837Z",
+      "head": "3c46423af6688532db066c267fc8300d31834f53",
+      "production": {
+        "pages": {
+          "id": "efc661f3-17ca-4425-ab9e-f93f323cdb89",
+          "commit": "3c46423af6688532db066c267fc8300d31834f53",
+          "status": "success"
+        },
+        "workers": [
+          {
+            "name": "cnine-card-api-runtime",
+            "deployments": [
+              {
+                "version_id": "a97a7cbe-41dd-410f-aa8c-da6c11f50ae4",
+                "percentage": 100
+              }
+            ]
+          },
+          {
+            "name": "cnine-card-clan-draft",
+            "deployments": [
+              {
+                "version_id": "9657a7ff-00cf-4e63-982a-4070d5d2cc75",
+                "percentage": 100
+              }
+            ]
+          }
+        ]
+      },
+      "files": [
+        {
+          "file": "admin/index.html",
+          "bytes": 83340,
+          "sha256": "fc031c6ac80456deb3cd65d1028e4e249adfedb7db52051a72d5d688fbaeffd4",
+          "sourceSha256": "fc031c6ac80456deb3cd65d1028e4e249adfedb7db52051a72d5d688fbaeffd4",
+          "transformation": null,
+          "windows": false
+        },
+        {
+          "file": "admin/nox-raid-admin-v1.mjs",
+          "bytes": 4400,
+          "sha256": "a6778f4a104efae107f6ea8fb222665a8fc02bb2f9782fa609278a727aee15c9",
+          "sourceSha256": "a6778f4a104efae107f6ea8fb222665a8fc02bb2f9782fa609278a727aee15c9",
+          "transformation": null,
+          "windows": false
+        },
+        {
+          "file": "admin/workshop-admin-v1668.js",
+          "bytes": 33010,
+          "sha256": "0b8ad539d22d72905cefc3279a99ddf86a84e241880d2dbc8ada01e59bc93638",
+          "sourceSha256": "0b8ad539d22d72905cefc3279a99ddf86a84e241880d2dbc8ada01e59bc93638",
+          "transformation": null,
+          "windows": false
+        },
+        {
+          "file": "assets/fonts/nox/Oxanium-Variable.woff2",
+          "bytes": 18796,
+          "sha256": "95c98732fb7d701b3268434555dd204506d315f2217683d50d452979144f0176",
+          "sourceSha256": "95c98732fb7d701b3268434555dd204506d315f2217683d50d452979144f0176",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/fonts/nox/SUIT-Variable.woff2",
+          "bytes": 624536,
+          "sha256": "aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23",
+          "sourceSha256": "aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/body/crimson-katana-v3.json",
+          "bytes": 76717,
+          "sha256": "deced5e0ef9413d044c70b51c31e4a77aa639cf86fb96f9b93912e3d4e20e6fd",
+          "sourceSha256": "deced5e0ef9413d044c70b51c31e4a77aa639cf86fb96f9b93912e3d4e20e6fd",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/body/crimson-katana.png",
+          "bytes": 7486460,
+          "sha256": "9e011c48640f436948f94447d14f8e30b4e33545f6b59ab127469a50fdcd94fa",
+          "sourceSha256": "9e011c48640f436948f94447d14f8e30b4e33545f6b59ab127469a50fdcd94fa",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/effects/crimson-reference-fx.json",
+          "bytes": 28825,
+          "sha256": "899c16723188afc10ba553db0c44d22a5ba4dd73516dc3bdb9ed88e83fbcb6dd",
+          "sourceSha256": "899c16723188afc10ba553db0c44d22a5ba4dd73516dc3bdb9ed88e83fbcb6dd",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/effects/crimson-reference-fx.png",
+          "bytes": 12664718,
+          "sha256": "253e480460b571f11d2a8dd73ebbe0afbd2187bb0ce26f4b76c6a59e78a06af0",
+          "sourceSha256": "253e480460b571f11d2a8dd73ebbe0afbd2187bb0ce26f4b76c6a59e78a06af0",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/floor/ryujin-floor.json",
+          "bytes": 6635,
+          "sha256": "80a1bc91fbd310c5d93f3ebc757d18c35ac8a5511cfb682fd967cfc83814836c",
+          "sourceSha256": "80a1bc91fbd310c5d93f3ebc757d18c35ac8a5511cfb682fd967cfc83814836c",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/floor/ryujin-floor.png",
+          "bytes": 3299880,
+          "sha256": "51eece273d8b226bcbc11b481aaefefd5c1b515f932fd3cc780de6cf9bc4cfe5",
+          "sourceSha256": "51eece273d8b226bcbc11b481aaefefd5c1b515f932fd3cc780de6cf9bc4cfe5",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/guard.png",
+          "bytes": 803745,
+          "sha256": "6187d84889266b4582027b199d85628a9905df758e6d11b5edd4e3f230946032",
+          "sourceSha256": "6187d84889266b4582027b199d85628a9905df758e6d11b5edd4e3f230946032",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/rear/06.png",
+          "bytes": 1897038,
+          "sha256": "4f6c8764ec454483c6a06ae38f0488e8af89c79f03face1be3d3c89ffe4f8cbb",
+          "sourceSha256": "4f6c8764ec454483c6a06ae38f0488e8af89c79f03face1be3d3c89ffe4f8cbb",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/rear/10.png",
+          "bytes": 1825707,
+          "sha256": "c06b740e63325a42bc0b6200e312d9fa6996c56fa6b809ca760b0d458984e3ce",
+          "sourceSha256": "c06b740e63325a42bc0b6200e312d9fa6996c56fa6b809ca760b0d458984e3ce",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/project-v/mercenaries/ryujin-20261119/source-art-approved.png",
+          "bytes": 2406414,
+          "sha256": "8bced96b9b6d38289062d567cf67b0aaee1d167399faef9bcdfbd359327d1dc9",
+          "sourceSha256": "8bced96b9b6d38289062d567cf67b0aaee1d167399faef9bcdfbd359327d1dc9",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/boss-anticipation.webp",
+          "bytes": 78368,
+          "sha256": "27077c77e14fc484dc9fd120d9455b10df1c8c49c92dbf7d75e48afca4df7574",
+          "sourceSha256": "27077c77e14fc484dc9fd120d9455b10df1c8c49c92dbf7d75e48afca4df7574",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/boss-coop.webp",
+          "bytes": 119400,
+          "sha256": "3fd3b18a1a15bcc4cba1798d072d2327dc68bc3e75a5625337078e472dc4396a",
+          "sourceSha256": "3fd3b18a1a15bcc4cba1798d072d2327dc68bc3e75a5625337078e472dc4396a",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/boss-defeat.webp",
+          "bytes": 74342,
+          "sha256": "25460111db40c865a7b214f991f03e7f1609031f28463b8975c06e27d03c1edf",
+          "sourceSha256": "25460111db40c865a7b214f991f03e7f1609031f28463b8975c06e27d03c1edf",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/boss-idle.webp",
+          "bytes": 52836,
+          "sha256": "22b917f7264777068fa114af14f89f52e590bdce5eb3c07e8395f443a2826f6c",
+          "sourceSha256": "22b917f7264777068fa114af14f89f52e590bdce5eb3c07e8395f443a2826f6c",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/boss-memory.webp",
+          "bytes": 109686,
+          "sha256": "6526970793fac089e3769e14bd40c55c94cf3acd86d8342bd2be42c384900d17",
+          "sourceSha256": "6526970793fac089e3769e14bd40c55c94cf3acd86d8342bd2be42c384900d17",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/boss-portrait.webp",
+          "bytes": 217792,
+          "sha256": "335dd8f962e8bb50011d5e87e624dc24d3c0e0fd0dc73c13a5cddd57f1a983af",
+          "sourceSha256": "335dd8f962e8bb50011d5e87e624dc24d3c0e0fd0dc73c13a5cddd57f1a983af",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/boss-strike.webp",
+          "bytes": 100226,
+          "sha256": "9ccc8c1ccfa5b21f91a924b742e9ba3a46456db25592122b0c58634d56e00657",
+          "sourceSha256": "9ccc8c1ccfa5b21f91a924b742e9ba3a46456db25592122b0c58634d56e00657",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/button.webp",
+          "bytes": 38084,
+          "sha256": "c0f37f6198b76202aeb6d1f12f55d52afe711a916f6d5523bb71b729375c8414",
+          "sourceSha256": "c0f37f6198b76202aeb6d1f12f55d52afe711a916f6d5523bb71b729375c8414",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/fx-coop.webp",
+          "bytes": 668896,
+          "sha256": "19cd4f5c51d6719f85d17f952582aec3ddfe89d76208ac63ace4b27e9640f799",
+          "sourceSha256": "19cd4f5c51d6719f85d17f952582aec3ddfe89d76208ac63ace4b27e9640f799",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/fx-memory.webp",
+          "bytes": 569394,
+          "sha256": "70f8668c46837d4a3f72be72710a4f4163079b0ff6b5560130e63784b5d2b7ec",
+          "sourceSha256": "70f8668c46837d4a3f72be72710a4f4163079b0ff6b5560130e63784b5d2b7ec",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/fx-rhythm.webp",
+          "bytes": 587900,
+          "sha256": "3003d20740ee4051161879e10f8af7a127a604841dd378b160437c4b5f95f365",
+          "sourceSha256": "3003d20740ee4051161879e10f8af7a127a604841dd378b160437c4b5f95f365",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/gauge.webp",
+          "bytes": 29408,
+          "sha256": "916909ee69cebc85fefc1ec56d7512f559a94a9fb2f00e80163b80b856b318db",
+          "sourceSha256": "916909ee69cebc85fefc1ec56d7512f559a94a9fb2f00e80163b80b856b318db",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/pad.webp",
+          "bytes": 51162,
+          "sha256": "02251d57de1114db483679f201849713a156588080ca92c94bc13e2b5fb1b862",
+          "sourceSha256": "02251d57de1114db483679f201849713a156588080ca92c94bc13e2b5fb1b862",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v1/panel.webp",
+          "bytes": 47526,
+          "sha256": "08f7e35ad21d49cf4b91c7dd777a60a4c3f6b633bd190db9273e42887a65d7a4",
+          "sourceSha256": "08f7e35ad21d49cf4b91c7dd777a60a4c3f6b633bd190db9273e42887a65d7a4",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v2/frame.webp",
+          "bytes": 127024,
+          "sha256": "d90195488aba785aefbf801c06e5a31b00db829f9dab6507a7b0ccc6943cff98",
+          "sourceSha256": "d90195488aba785aefbf801c06e5a31b00db829f9dab6507a7b0ccc6943cff98",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v2/impact.webp",
+          "bytes": 95706,
+          "sha256": "577344183d1bfbdca9a919e6ac983ecbe8c54cf8f9eccbe1778848633eb4e965",
+          "sourceSha256": "577344183d1bfbdca9a919e6ac983ecbe8c54cf8f9eccbe1778848633eb4e965",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v2/key.webp",
+          "bytes": 36282,
+          "sha256": "71b10fee25f4a5eddfeffe111f1664b33b93d8c337bade9fdb391a39f953a291",
+          "sourceSha256": "71b10fee25f4a5eddfeffe111f1664b33b93d8c337bade9fdb391a39f953a291",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v2/note.webp",
+          "bytes": 26086,
+          "sha256": "8af4f4123d5a5a2aa09744ba101ee0923e7467ce583b2a0453ee2d821c8f738d",
+          "sourceSha256": "8af4f4123d5a5a2aa09744ba101ee0923e7467ce583b2a0453ee2d821c8f738d",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/ui/raid-nox-v2/surface.webp",
+          "bytes": 4834,
+          "sha256": "5285f03ab417c553ddeb46e4702a5144358d01064d80798bfc68b4f22a92a1b4",
+          "sourceSha256": "5285f03ab417c553ddeb46e4702a5144358d01064d80798bfc68b4f22a92a1b4",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "index.html",
+          "bytes": 53371,
+          "sha256": "0af6767da4d84153a490b92fc859b82420808b740b56f19a238faa204a6cc7e6",
+          "sourceSha256": "0af6767da4d84153a490b92fc859b82420808b740b56f19a238faa204a6cc7e6",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "js/app.js",
+          "bytes": 833381,
+          "sha256": "132fb24b3558f59a2ce0592203f69f0e2d481e5c0630a2997b6e3bae50fe0321",
+          "sourceSha256": "132fb24b3558f59a2ce0592203f69f0e2d481e5c0630a2997b6e3bae50fe0321",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "js/battle-v3-live.js",
+          "bytes": 78813,
+          "sha256": "ea7a8ac232a84cbbc815a9595e549e796f005baf7951a83fb7bf1f51b3115384",
+          "sourceSha256": "ea7a8ac232a84cbbc815a9595e549e796f005baf7951a83fb7bf1f51b3115384",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "js/nox-input-v1.mjs",
+          "bytes": 5632,
+          "sha256": "c974973488b330b4d02c7962472627e96b1212e828f106a41eb8a0e5f27d6abe",
+          "sourceSha256": "c974973488b330b4d02c7962472627e96b1212e828f106a41eb8a0e5f27d6abe",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "js/nox-raid-entry-v1.js",
+          "bytes": 2816,
+          "sha256": "3ad8b5132d5c4ffba4a8374d6c3d1013fc46d2dc3bb3e49e65e9e4a1f92b0972",
+          "sourceSha256": "3ad8b5132d5c4ffba4a8374d6c3d1013fc46d2dc3bb3e49e65e9e4a1f92b0972",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "js/workshop-recipes-v1.js",
+          "bytes": 6143,
+          "sha256": "9da972aacf660f4a0780ee3bbd8960254f58bf7385d91565910ec9eb5349df5e",
+          "sourceSha256": "9da972aacf660f4a0780ee3bbd8960254f58bf7385d91565910ec9eb5349df5e",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "js/workshop-v1881.js",
+          "bytes": 133782,
+          "sha256": "0a2ed58c487dba22ea385309ef66ddd1e335379b95ec0c7c2a2440127c4dd42a",
+          "sourceSha256": "0a2ed58c487dba22ea385309ef66ddd1e335379b95ec0c7c2a2440127c4dd42a",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "mercenary-codex/app.mjs",
+          "bytes": 47373,
+          "sha256": "c167a678161297038e11b48e16aa5f051f9c35bc31903ec64fb03706e4c49717",
+          "sourceSha256": "c167a678161297038e11b48e16aa5f051f9c35bc31903ec64fb03706e4c49717",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "mercenary-codex/index.html",
+          "bytes": 11278,
+          "sha256": "7f7fa66f5f17d2e69fdaf78d5676880e1e263ed1ee9df1deb9c0afa66c988a85",
+          "sourceSha256": "7f7fa66f5f17d2e69fdaf78d5676880e1e263ed1ee9df1deb9c0afa66c988a85",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "mercenary-codex/model.mjs",
+          "bytes": 18572,
+          "sha256": "2200751bfe552e7414832f71fd1697d4e00d564e8d050610807eb06181761f5d",
+          "sourceSha256": "2200751bfe552e7414832f71fd1697d4e00d564e8d050610807eb06181761f5d",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "mercenary-codex/shell.mjs",
+          "bytes": 11410,
+          "sha256": "f84720e76cc5fb6c8a011c84c04bcb8fa73b564f85de0e06cef58f352445d05d",
+          "sourceSha256": "f84720e76cc5fb6c8a011c84c04bcb8fa73b564f85de0e06cef58f352445d05d",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "onestore/index.html",
+          "bytes": 53212,
+          "sha256": "19fa104fcef50c22e4dceb0a5324adc802ed5414b20c95ef6a291799d4ecb945",
+          "sourceSha256": "fbf591f32395483111819dc89a05ee00f0df868d4b11e522affabf1321a4899e",
+          "transformation": "actual htmlForStore(/)",
+          "windows": false
+        },
+        {
+          "file": "onestore/js/app.js",
+          "bytes": 834305,
+          "sha256": "24017054094892191d602686ac187bd50f21380e323a5835c6d35ffe9b64648f",
+          "sourceSha256": "24017054094892191d602686ac187bd50f21380e323a5835c6d35ffe9b64648f",
+          "transformation": null,
+          "windows": false
+        },
+        {
+          "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+          "bytes": 3864486,
+          "sha256": "5ec65f363e4fba819e15d217ceb60ab0b63ba1df7e77cfd12bd216f07b6f2bca",
+          "sourceSha256": "5ec65f363e4fba819e15d217ceb60ab0b63ba1df7e77cfd12bd216f07b6f2bca",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/boss-resources-v2048/lab.bundle.js",
+          "bytes": 3859783,
+          "sha256": "530e90a72cebafdbe61911b2aac335c09e75971ff3ef1414cd10ee7fcd0de213",
+          "sourceSha256": "530e90a72cebafdbe61911b2aac335c09e75971ff3ef1414cd10ee7fcd0de213",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/coop-defense-v1/defense.bundle.js",
+          "bytes": 3996743,
+          "sha256": "9e689cd58a1eb3e94b3b47aaefbe2703b77e2ca058a4161174d981c233f3b3b6",
+          "sourceSha256": "9e689cd58a1eb3e94b3b47aaefbe2703b77e2ca058a4161174d981c233f3b3b6",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/cow-room-v3-v1/battle.bundle.js",
+          "bytes": 3862764,
+          "sha256": "a425a35771f80812353608b665d5326d5ef3fcb77dad794cbf543278b04a04db",
+          "sourceSha256": "a425a35771f80812353608b665d5326d5ef3fcb77dad794cbf543278b04a04db",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+          "bytes": 3862753,
+          "sha256": "8e9f443e008ced4ead3e0c50e0c475db3db3f5a9147d424473b9da22a3ce3c78",
+          "sourceSha256": "8e9f443e008ced4ead3e0c50e0c475db3db3f5a9147d424473b9da22a3ce3c78",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+          "bytes": 3909593,
+          "sha256": "b4f1dac59548576e17ab0e565c2bd4399c81fa15b9a3c56e9be5639c6a9c3966",
+          "sourceSha256": "b4f1dac59548576e17ab0e565c2bd4399c81fa15b9a3c56e9be5639c6a9c3966",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "bytes": 3863138,
+          "sha256": "ae9711689dbf2003f7fa83b8da9e45f62e4e50f4952e402f1eeb37aaaae71837",
+          "sourceSha256": "ae9711689dbf2003f7fa83b8da9e45f62e4e50f4952e402f1eeb37aaaae71837",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
+          "bytes": 16492,
+          "sha256": "22f3ff9b44bc5597eae6ea19cea1b09565a1c9e539b5783ac9f6381eeaa39450",
+          "sourceSha256": "22f3ff9b44bc5597eae6ea19cea1b09565a1c9e539b5783ac9f6381eeaa39450",
+          "transformation": null,
+          "windows": false
+        },
+        {
+          "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+          "bytes": 3862698,
+          "sha256": "3ff3552673c2b56b4754f903a57f7a6a98028e320a5101ff17b4fb9b7c4bad27",
+          "sourceSha256": "3ff3552673c2b56b4754f903a57f7a6a98028e320a5101ff17b4fb9b7c4bad27",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/sustained-hunt-v2/battle.bundle.js",
+          "bytes": 3886829,
+          "sha256": "0d46878a49d75e63d7f484642726e477dc257e03611a36c6978863f126b693ad",
+          "sourceSha256": "0d46878a49d75e63d7f484642726e477dc257e03611a36c6978863f126b693ad",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/v3-wide-grid-v1/app.bundle.js",
+          "bytes": 552769,
+          "sha256": "84d942a5476e046dc23add6df3bdfd7b444f5922660664356e116b6d00d1f529",
+          "sourceSha256": "84d942a5476e046dc23add6df3bdfd7b444f5922660664356e116b6d00d1f529",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+          "bytes": 3866322,
+          "sha256": "60600fcbe033a40019594f6a8d85fc5774bf7c77a3779421d3dfc1069943455f",
+          "sourceSha256": "60600fcbe033a40019594f6a8d85fc5774bf7c77a3779421d3dfc1069943455f",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "pve-v3/battle.bundle.js",
+          "bytes": 3863112,
+          "sha256": "a0b6add5b5624802cb46f9d5294bd678b3f4bf4789cb0366ae2e7c5b3ef909cd",
+          "sourceSha256": "a0b6add5b5624802cb46f9d5294bd678b3f4bf4789cb0366ae2e7c5b3ef909cd",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/battle.bundle.js",
+          "bytes": 3867580,
+          "sha256": "2fa285a51f1b9a96cff83399687488b09a83ad044e91da22bd0c0253b07c39a3",
+          "sourceSha256": "2fa285a51f1b9a96cff83399687488b09a83ad044e91da22bd0c0253b07c39a3",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/battle.src.js",
+          "bytes": 6111,
+          "sha256": "c0a6b01c49484a9714e188db6e607f012fab7a66f25e4ba403ef863de7b47e7b",
+          "sourceSha256": "c0a6b01c49484a9714e188db6e607f012fab7a66f25e4ba403ef863de7b47e7b",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/build-report.json",
+          "bytes": 26423,
+          "sha256": "c209d3123fa2c448e9677a264bb3aa4fba305d2b932f86981d1f62a6c90a9aa6",
+          "sourceSha256": "c209d3123fa2c448e9677a264bb3aa4fba305d2b932f86981d1f62a6c90a9aa6",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/build.mjs",
+          "bytes": 744,
+          "sha256": "e1d476d04aa693d73f82162b0d7daaff6ce0c1f0a6825f9fe876c81f1fbec5c8",
+          "sourceSha256": "e1d476d04aa693d73f82162b0d7daaff6ce0c1f0a6825f9fe876c81f1fbec5c8",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/floor.mjs",
+          "bytes": 5102,
+          "sha256": "d417340fa1c520b3f1e448461d7ad9253a5c36795816865337daba097016e6ff",
+          "sourceSha256": "d417340fa1c520b3f1e448461d7ad9253a5c36795816865337daba097016e6ff",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/index.html",
+          "bytes": 9693,
+          "sha256": "455e05791ff946315d09dc50a112d612c580fe71b74883bbb5389f9c11372e8f",
+          "sourceSha256": "455e05791ff946315d09dc50a112d612c580fe71b74883bbb5389f9c11372e8f",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/raid.css",
+          "bytes": 28889,
+          "sha256": "380a6b8c022009b3b4a3c983b572516d40ce6bb2435c12a917e778640e1e0a22",
+          "sourceSha256": "380a6b8c022009b3b4a3c983b572516d40ce6bb2435c12a917e778640e1e0a22",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "raid/nox/raid.mjs",
+          "bytes": 24323,
+          "sha256": "d413b37b2fdb4ef69d607264fcf9aa75db649fea698e4b6a7923ca3f1efee4b0",
+          "sourceSha256": "d413b37b2fdb4ef69d607264fcf9aa75db649fea698e4b6a7923ca3f1efee4b0",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "service-worker.js",
+          "bytes": 26796,
+          "sha256": "3463180496baa408855a5f7cc757aa48ae665e0504cbe1636e0a091741bd1299",
+          "sourceSha256": "3463180496baa408855a5f7cc757aa48ae665e0504cbe1636e0a091741bd1299",
+          "transformation": null,
+          "windows": false
+        },
+        {
+          "file": "shared/mercenary-acquisition-release-v1.mjs",
+          "bytes": 2112,
+          "sha256": "287fcfc2f8b6ac09eb58d5c4ac27d1052d022117e05011fdcf52a8df42c52356",
+          "sourceSha256": "287fcfc2f8b6ac09eb58d5c4ac27d1052d022117e05011fdcf52a8df42c52356",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/mercenary-combat-link-v2103.mjs",
+          "bytes": 19448,
+          "sha256": "a53bb1367c814ec544084672e2b4c101a77a6990f115c09d396c3cae14632194",
+          "sourceSha256": "a53bb1367c814ec544084672e2b4c101a77a6990f115c09d396c3cae14632194",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/mercenary-level-v1.mjs",
+          "bytes": 18854,
+          "sha256": "1d8499d37a2be73efddce82d1ab6aba15b494f0067d4494eb04d1d353125897f",
+          "sourceSha256": "1d8499d37a2be73efddce82d1ab6aba15b494f0067d4494eb04d1d353125897f",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/mercenary-limited-deployment-v1.mjs",
+          "bytes": 6671,
+          "sha256": "da5589121b5b9c8cfe4e516f98545e081bcb8bc6bfc4bd6478257f272e6eecc0",
+          "sourceSha256": "da5589121b5b9c8cfe4e516f98545e081bcb8bc6bfc4bd6478257f272e6eecc0",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/mercenary-rank-growth-v1.mjs",
+          "bytes": 6597,
+          "sha256": "a1fd80b1b34b9592b6c6e3d73ce75c6644fbce86df34cff81d1485b711178c25",
+          "sourceSha256": "a1fd80b1b34b9592b6c6e3d73ce75c6644fbce86df34cff81d1485b711178c25",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/mercenary-ryujin-v1.mjs",
+          "bytes": 5487,
+          "sha256": "0030930dd7189f364de6438da25c20fd95f7be7d94babd3a255987d7244070a1",
+          "sourceSha256": "0030930dd7189f364de6438da25c20fd95f7be7d94babd3a255987d7244070a1",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/nox-raid-chart-v1.mjs",
+          "bytes": 8195,
+          "sha256": "0fcff7fe6852d9a2053fd24f3ddeaf8abf76d7339b5ae0506be7353fd9121f0f",
+          "sourceSha256": "0fcff7fe6852d9a2053fd24f3ddeaf8abf76d7339b5ae0506be7353fd9121f0f",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/onestore-web-assets-v1.mjs",
+          "bytes": 988,
+          "sha256": "caa9e7642dbff33e6a8d0ef6368bc0ca67a6bbff6bc5b752d111a58b783c8162",
+          "sourceSha256": "caa9e7642dbff33e6a8d0ef6368bc0ca67a6bbff6bc5b752d111a58b783c8162",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "shared/workshop-equipment-craft.mjs",
+          "bytes": 3379,
+          "sha256": "c6a71ed4aaeeaeb07323043244f4de934001e89caceaada033be60551b0082de",
+          "sourceSha256": "c6a71ed4aaeeaeb07323043244f4de934001e89caceaada033be60551b0082de",
+          "transformation": null,
+          "windows": true
+        },
+        {
+          "file": "assets/effects/50000~99999.mp3",
+          "bytes": 1422110,
+          "sha256": "ec45bd32e0088afe3af83a9f2587b8ec648358806514b24c53eb07aa92a62d0c",
+          "sourceSha256": "ec45bd32e0088afe3af83a9f2587b8ec648358806514b24c53eb07aa92a62d0c",
+          "transformation": null,
+          "windows": true
+        }
+      ],
+      "protectedArtifacts": [],
+      "workerChecks": [
+        {
+          "name": "cnine-card-api-runtime",
+          "nox": true,
+          "sha256": "41562fa2ef12795c23a89b59bbfc0f6e2e1f0d4e7e585ead2e15f26c8c796b6d"
+        }
+      ],
+      "unauth": [
+        {
+          "route": "raid/nox/feature",
+          "status": 401
+        },
+        {
+          "route": "raid/nox/state",
+          "status": 401
+        },
+        {
+          "route": "admin/raid/nox/settings",
+          "status": 401
+        }
+      ],
+      "h5": [
+        {
+          "route": "/onestore/",
+          "status": 200
+        },
+        {
+          "route": "/raid/nox/",
+          "status": 200
+        }
+      ],
+      "windowsReleaseId": "4747c6bd5dc67a536ff03667680794b8ed24ac2676d411b70e26555eb35c7371"
+    },
+    "productionAccess": {
+      "at": "2026-11-19T07:32:09.405Z",
+      "readOnly": true,
+      "condition": "Windows CLI through the actual Nox feature handler against production PostgreSQL. Verified accounts supplied from read-only DB lookup; browser session authentication is tested separately. Network included, single first/repeat samples.",
+      "checks": [
+        {
+          "id": 22,
+          "nickname": "커피먹는철구",
+          "accessible": true,
+          "first": {
+            "ms": 97.82320000000072,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 84.13240000000042,
+            "queries": 1
+          }
+        },
+        {
+          "id": 45,
+          "nickname": "박세라-ㅂ-",
+          "accessible": true,
+          "first": {
+            "ms": 76.35210000000006,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 78.6872000000003,
+            "queries": 1
+          }
+        },
+        {
+          "id": 88,
+          "nickname": "0수표",
+          "accessible": true,
+          "first": {
+            "ms": 76.44859999999971,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 76.3110999999999,
+            "queries": 1
+          }
+        },
+        {
+          "id": 218,
+          "nickname": "현하루",
+          "accessible": true,
+          "first": {
+            "ms": 77.09020000000055,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 76.6244000000006,
+            "queries": 1
+          }
+        },
+        {
+          "id": 295,
+          "nickname": "모래",
+          "accessible": true,
+          "first": {
+            "ms": 77.02800000000025,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 76.22699999999986,
+            "queries": 1
+          }
+        },
+        {
+          "id": 525,
+          "nickname": "족구조아",
+          "accessible": true,
+          "first": {
+            "ms": 76.09290000000055,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 76.04779999999937,
+            "queries": 1
+          }
+        },
+        {
+          "id": 787,
+          "nickname": "뚱초환",
+          "accessible": true,
+          "first": {
+            "ms": 75.78939999999966,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 75.84259999999995,
+            "queries": 1
+          }
+        },
+        {
+          "id": 1195,
+          "nickname": "씨나인택갓",
+          "accessible": true,
+          "first": {
+            "ms": 75.85080000000016,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 75.78899999999976,
+            "queries": 1
+          }
+        },
+        {
+          "id": 1768,
+          "nickname": "핫시",
+          "accessible": true,
+          "first": {
+            "ms": 75.98109999999997,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 76.71709999999985,
+            "queries": 1
+          }
+        },
+        {
+          "id": 4199,
+          "nickname": "택신",
+          "accessible": true,
+          "first": {
+            "ms": 76.5619999999999,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 79.34810000000016,
+            "queries": 1
+          }
+        },
+        {
+          "id": 4391,
+          "nickname": "더듬이구",
+          "accessible": true,
+          "first": {
+            "ms": 76.22629999999936,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 76.05609999999979,
+            "queries": 1
+          }
+        },
+        {
+          "id": 4570,
+          "nickname": "혜정",
+          "accessible": true,
+          "first": {
+            "ms": 79.20060000000012,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 75.80779999999868,
+            "queries": 1
+          }
+        },
+        {
+          "id": 4597,
+          "nickname": "찬호",
+          "accessible": true,
+          "first": {
+            "ms": 77.14910000000054,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 80.77179999999862,
+            "queries": 1
+          }
+        },
+        {
+          "id": 4828,
+          "nickname": "조은홧팅",
+          "accessible": true,
+          "first": {
+            "ms": 96.25169999999889,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 77.79830000000038,
+            "queries": 1
+          }
+        },
+        {
+          "id": 4917,
+          "nickname": "지엘라",
+          "accessible": true,
+          "first": {
+            "ms": 76.84159999999974,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 80.2564999999995,
+            "queries": 1
+          }
+        },
+        {
+          "id": 5008,
+          "nickname": "단정한밤",
+          "accessible": true,
+          "first": {
+            "ms": 78.21559999999954,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 111.36110000000008,
+            "queries": 1
+          }
+        },
+        {
+          "id": 3,
+          "nickname": "ε연두з",
+          "accessible": false,
+          "first": {
+            "ms": 78.13799999999901,
+            "queries": 1
+          },
+          "repeat": {
+            "ms": 93.40409999999974,
+            "queries": 1
+          }
+        }
+      ],
+      "fees": {
+        "entries": 0,
+        "paid": 0
+      }
+    },
+    "browsers": {
+      "pc": {
+        "profile": "pc",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 433.57700000000114,
+            "prepareMs": 2881.2276999999995,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.300000000000182,
+              "max": 25,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.75,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 136.47799999999552,
+            "prepareMs": 2613.068100000004,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.300000000000182,
+              "max": 20.799999999999727,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.099853515625,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "shellMs": 5434.2928999999995,
+        "api": {
+          "count": 179,
+          "maxMs": 26.785799999999654,
+          "failures": []
+        },
+        "pass": true,
+        "additionalCondition": "Concurrent with full release gate"
+      },
+      "mobile": {
+        "profile": "mobile",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 117.81790000000001,
+            "prepareMs": 2051.5612999999994,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.300000000000182,
+              "max": 25,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.10009765625,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 87.78600000000006,
+            "prepareMs": 1567.0139999999992,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.299999999999272,
+              "max": 20.90000000000009,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.10009765625,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "shellMs": 1502.5405000000005,
+        "realTouchKeys": true,
+        "api": {
+          "count": 179,
+          "maxMs": 32.59300000000076,
+          "failures": []
+        },
+        "pass": true,
+        "additionalCondition": "Full release gate stopped during this run; prior concurrent automation delay failures retained in mobile-concurrent-input-analysis.json"
+      },
+      "windows": {
+        "profile": "windows",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 104.84330000000045,
+            "prepareMs": 1863.0545000000002,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.299999999999272,
+              "max": 16.700000000000273,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.199951171875,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 86.13190000000031,
+            "prepareMs": 1550.9674000000014,
+            "viewport": {
+              "w": 1440,
+              "h": 900,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 908.546875,
+                "top": 0,
+                "right": 1440,
+                "bottom": 908.546875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.300000000000182,
+              "max": 12.600000000000364,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -1.400146484375,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "shellMs": 1099.2162000000003,
+        "api": {
+          "count": 179,
+          "maxMs": 20.45600000000195,
+          "failures": []
+        },
+        "pass": true,
+        "additionalCondition": "Concurrent with full release gate"
+      },
+      "h5": {
+        "profile": "h5",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "h5Entry": "generated onestore/index.html with actual route allowlist; SDK host emulated",
+        "visits": [
+          {
+            "visit": 0,
+            "lobbyMs": 148.46619999999984,
+            "prepareMs": 2542.491799999999,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.300000000000182,
+              "max": 29.09999999999991,
+              "over50": 0,
+              "hits": 8,
+              "score": 7.75,
+              "clockError": -2.150146484375,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "lobbyMs": 99.39159999999902,
+            "prepareMs": 1052.0193,
+            "viewport": {
+              "w": 390,
+              "h": 844,
+              "root": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 849.796875,
+                "top": 0,
+                "right": 390,
+                "bottom": 849.796875,
+                "left": 0
+              },
+              "fee": "TEST · 지정 참가자 무료"
+            },
+            "frames": {
+              "samples": 2400,
+              "p95": 4.299999999999727,
+              "max": 16.700000000000045,
+              "over50": 0,
+              "hits": 8,
+              "score": 8,
+              "clockError": -0.5,
+              "inflight": 0
+            },
+            "exit": {
+              "poll": false,
+              "raf": false,
+              "playing": false,
+              "canvases": 0
+            }
+          }
+        ],
+        "errors": [],
+        "broken": [],
+        "shellMs": 1542.2658999999999,
+        "realTouchKeys": true,
+        "api": {
+          "count": 179,
+          "maxMs": 22.51680000000124,
+          "failures": []
+        },
+        "pass": true
+      },
+      "admin": {
+        "profile": "admin",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "visits": [],
+        "errors": [
+          "Cannot convert undefined or null to object",
+          "Cannot read properties of undefined (reading 'length')",
+          "Cannot read properties of undefined (reading 'length')"
+        ],
+        "broken": [],
+        "pass": true,
+        "modes": [
+          "TEST",
+          "OFF",
+          "ON",
+          "TEST"
+        ]
+      },
+      "webkit": {
+        "profile": "webkit",
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "visits": [],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "broken": [],
+        "shellMs": 2034.9071000000004,
+        "pass": false,
+        "failure": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#startButton') to be visible\u001b[22m\n\u001b[2m    60 × locator resolved to hidden <button disabled hidden=\"\" id=\"startButton\" class=\"nox-button nox-primary\">전원 출전</button>\u001b[22m\n\n    at C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\nox-test-release-20261119\\browser.mjs:44:117",
+        "failureUi": {
+          "toast": "이 브라우저는 정밀 음원 재생을 지원하지 않습니다. 최신 Chrome 또는 Safari에서 다시 열어 주세요.",
+          "diagnostics": {
+            "state": {
+              "id": "BCBAF133AE",
+              "size": 3,
+              "status": "LOBBY",
+              "stage": "LOBBY",
+              "round": 0,
+              "serverNow": 1795063122788,
+              "revision": 7,
+              "startedAt": null,
+              "endsAt": null,
+              "bossHp": 18000000,
+              "bossMaxHp": 18000000,
+              "challenge": null,
+              "me": {
+                "id": "1",
+                "isHost": true,
+                "role": 0,
+                "hp": 1653912,
+                "maxHp": 1653912,
+                "deathReason": "",
+                "score": 0,
+                "hits": [],
+                "miss": 0,
+                "memoryIndex": 0,
+                "memoryTiles": [],
+                "cooperated": false,
+                "lastSequence": 0,
+                "ready": false
+              },
+              "members": [
+                {
+                  "id": "1",
+                  "name": "검수 공대장",
+                  "role": 0,
+                  "hp": 1653912,
+                  "maxHp": 1653912,
+                  "ready": false,
+                  "left": false,
+                  "bot": false,
+                  "cooperated": false
+                },
+                {
+                  "id": "2",
+                  "name": "테스터2",
+                  "role": 1,
+                  "hp": 1653912,
+                  "maxHp": 1653912,
+                  "ready": true,
+                  "left": false,
+                  "bot": false,
+                  "cooperated": false
+                },
+                {
+                  "id": "3",
+                  "name": "테스터3",
+                  "role": 2,
+                  "hp": 1653912,
+                  "maxHp": 1653912,
+                  "ready": true,
+                  "left": false,
+                  "bot": false,
+                  "cooperated": false
+                }
+              ],
+              "fighters": [
+                {
+                  "id": "A:0:CN-02D9DC1E8A8A4209",
+                  "hp": 348192,
+                  "maxHp": 348192,
+                  "title": "철와대 킴성태"
+                },
+                {
+                  "id": "A:1:CN-0505936A0CBB4E59",
+                  "hp": 325728,
+                  "maxHp": 325728,
+                  "title": "구수댕"
+                },
+                {
+                  "id": "A:2:CN-25F931CE393D474E",
+                  "hp": 314496,
+                  "maxHp": 314496,
+                  "title": "딤우스"
+                },
+                {
+                  "id": "A:3:CN-23EB4B19986D4818",
+                  "hp": 362232,
+                  "maxHp": 362232,
+                  "title": "Lionel Messi"
+                },
+                {
+                  "id": "A:4:CN-519C181C18DF4B8E",
+                  "hp": 303264,
+                  "maxHp": 303264,
+                  "title": "토마토"
+                }
+              ],
+              "failure": null,
+              "events": [],
+              "eventSeq": 0,
+              "release": {
+                "mode": "TEST",
+                "accessible": true,
+                "visible": true,
+                "entryCoins": "0",
+                "openEntryCoins": "50000000000000",
+                "rewardLocked": true,
+                "currentMode": "TEST",
+                "runtimeEnabled": true,
+                "scope": "LIVE"
+              },
+              "entryCoins": "0",
+              "feePaid": false,
+              "lobbyEndsAt": 1795063993352,
+              "responseNow": 1795063122788
+            },
+            "mounted": false,
+            "pendingInputs": 0,
+            "inflight": 0,
+            "poll": true,
+            "raf": false,
+            "held": 0,
+            "playing": false,
+            "audioPositionMs": null,
+            "serverNowEstimate": 1795063123647.5,
+            "notes": 0,
+            "frameTimes": []
+          }
+        }
+      }
+    }
+  },
+  "performance": {
+    "polling": {
+      "condition": "Windows Node + isolated PostgreSQL/PGlite. Fixed 15 ms delay per SQL call, no internet. Same accounts, 3-person lobby, 20 state polls each. Not production latency.",
+      "before": {
+        "firstMs": 128.1903000000002,
+        "repeatMedianMs": 124.32200000000012,
+        "queries": 80,
+        "queriesPerPoll": 4,
+        "writes": 0
+      },
+      "after": {
+        "firstMs": 62.238900000000285,
+        "repeatMedianMs": 62.569799999999304,
+        "queries": 40,
+        "queriesPerPoll": 2,
+        "writes": 0
+      }
+    },
+    "browserCondition": "Windows Chrome headless, loopback PGlite; cold and warm cache, actual menu/Windows URL/H5 iframe; Android touch emulation. Uncapped headless frame timing is not physical FPS.",
+    "mobile": {
+      "profile": "mobile",
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 117.81790000000001,
+          "prepareMs": 2051.5612999999994,
+          "viewport": {
+            "w": 390,
+            "h": 844,
+            "root": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 849.796875,
+              "top": 0,
+              "right": 390,
+              "bottom": 849.796875,
+              "left": 0
+            },
+            "fee": "TEST · 지정 참가자 무료"
+          },
+          "frames": {
+            "samples": 2400,
+            "p95": 4.300000000000182,
+            "max": 25,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.10009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 87.78600000000006,
+          "prepareMs": 1567.0139999999992,
+          "viewport": {
+            "w": 390,
+            "h": 844,
+            "root": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 849.796875,
+              "top": 0,
+              "right": 390,
+              "bottom": 849.796875,
+              "left": 0
+            },
+            "fee": "TEST · 지정 참가자 무료"
+          },
+          "frames": {
+            "samples": 2400,
+            "p95": 4.299999999999272,
+            "max": 20.90000000000009,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.10009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "canvases": 0
+          }
+        }
+      ],
+      "errors": [],
+      "broken": [],
+      "shellMs": 1502.5405000000005,
+      "realTouchKeys": true,
+      "api": {
+        "count": 179,
+        "maxMs": 32.59300000000076,
+        "failures": []
+      },
+      "pass": true,
+      "additionalCondition": "Full release gate stopped during this run; prior concurrent automation delay failures retained in mobile-concurrent-input-analysis.json"
+    },
+    "concurrentTouchInvestigation": {
+      "at": "2026-11-19T06:48:15.473Z",
+      "condition": "Chrome Android touch emulation concurrent with full release gate; external Playwright control commands",
+      "planned": [
+        {
+          "at": 5049,
+          "id": 0,
+          "lane": 0
+        },
+        {
+          "at": 5258,
+          "id": 1,
+          "lane": 2
+        },
+        {
+          "at": 5428,
+          "id": 2,
+          "lane": 1
+        },
+        {
+          "at": 5717,
+          "id": 3,
+          "lane": 3
+        },
+        {
+          "at": 5867,
+          "id": 4,
+          "lane": 2
+        },
+        {
+          "at": 6136,
+          "id": 5,
+          "lane": 0
+        },
+        {
+          "at": 6376,
+          "id": 6,
+          "lane": 1
+        },
+        {
+          "at": 6376,
+          "id": 7,
+          "lane": 3
+        }
+      ],
+      "delivered": [
+        {
+          "lane": 0,
+          "audioMs": 5063.799422517101,
+          "targetMs": 5049,
+          "lateMs": 14.799422517101448,
+          "pointerEventToListenerMs": 7.5999999940395355
+        },
+        {
+          "lane": 2,
+          "audioMs": 5631.899422526039,
+          "targetMs": 5258,
+          "lateMs": 373.8994225260394,
+          "pointerEventToListenerMs": 12.200000002980232
+        },
+        {
+          "lane": 1,
+          "audioMs": 6109.58342252902,
+          "targetMs": 5428,
+          "lateMs": 681.58342252902,
+          "pointerEventToListenerMs": 10.099999994039536
+        },
+        {
+          "lane": 3,
+          "audioMs": 6485.20542252306,
+          "targetMs": 5717,
+          "lateMs": 768.2054225230604,
+          "pointerEventToListenerMs": 10.300000011920929
+        },
+        {
+          "lane": 2,
+          "audioMs": 6660.312422532002,
+          "targetMs": 5867,
+          "lateMs": 793.3124225320016,
+          "pointerEventToListenerMs": 15.700000002980232
+        },
+        {
+          "lane": 0,
+          "audioMs": 6818.3954225260395,
+          "targetMs": 6136,
+          "lateMs": 682.3954225260395,
+          "pointerEventToListenerMs": 10.400000005960464
+        },
+        {
+          "lane": 1,
+          "audioMs": 7136.093422534982,
+          "targetMs": 6376,
+          "lateMs": 760.093422534982,
+          "pointerEventToListenerMs": 12
+        },
+        {
+          "lane": 3,
+          "audioMs": 7351.679422523061,
+          "targetMs": 6376,
+          "lateMs": 975.6794225230606,
+          "pointerEventToListenerMs": 7.399999991059303
+        }
+      ],
+      "actions": [
+        {
+          "status": 200,
+          "serverProcessingMs": 25.072000000000116,
+          "seq": 1,
+          "inputs": [
+            {
+              "lane": 0,
+              "at": 1795070776029.6995,
+              "relativeMs": 5056.699462890625
+            }
+          ]
+        },
+        {
+          "status": 200,
+          "serverProcessingMs": 15.55880000000252,
+          "seq": 2,
+          "inputs": [
+            {
+              "lane": 2,
+              "at": 1795070776593.1995,
+              "relativeMs": 5620.199462890625
+            }
+          ]
+        },
+        {
+          "status": 200,
+          "serverProcessingMs": 15.378099999998085,
+          "seq": 3,
+          "inputs": [
+            {
+              "lane": 1,
+              "at": 1795070777072.6833,
+              "relativeMs": 6099.683349609375
+            }
+          ]
+        },
+        {
+          "status": 200,
+          "serverProcessingMs": 14.293900000000576,
+          "seq": 4,
+          "inputs": [
+            {
+              "lane": 3,
+              "at": 1795070777448.2053,
+              "relativeMs": 6475.205322265625
+            }
+          ]
+        },
+        {
+          "status": 200,
+          "serverProcessingMs": 13.981800000001385,
+          "seq": 5,
+          "inputs": [
+            {
+              "lane": 2,
+              "at": 1795070777617.8125,
+              "relativeMs": 6644.8125
+            }
+          ]
+        },
+        {
+          "status": 200,
+          "serverProcessingMs": 14.48439999999755,
+          "seq": 6,
+          "inputs": [
+            {
+              "lane": 0,
+              "at": 1795070777781.1953,
+              "relativeMs": 6808.1953125
+            }
+          ]
+        },
+        {
+          "status": 200,
+          "serverProcessingMs": 16.21689999999944,
+          "seq": 7,
+          "inputs": [
+            {
+              "lane": 1,
+              "at": 1795070778097.6934,
+              "relativeMs": 7124.693359375
+            }
+          ]
+        },
+        {
+          "status": 200,
+          "serverProcessingMs": 11.927299999999377,
+          "seq": 8,
+          "inputs": [
+            {
+              "lane": 3,
+              "at": 1795070778317.5793,
+              "relativeMs": 7344.579345703125
+            }
+          ]
+        }
+      ],
+      "conclusion": "The external touch commands arrived 15–976 ms after targets; eight action requests received HTTP 200. This is not evidence of dropped input; strict game judgement was unchanged. Repeat in an isolated condition before declaring touch verification passed."
+    },
+    "earlierIsolatedMobile": {
+      "profile": "mobile",
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 129.33460000000014,
+          "prepareMs": 2122.0917,
+          "viewport": {
+            "w": 390,
+            "h": 844,
+            "root": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 849.796875,
+              "top": 0,
+              "right": 390,
+              "bottom": 849.796875,
+              "left": 0
+            },
+            "fee": "TEST · 지정 참가자 무료"
+          },
+          "frames": {
+            "samples": 2400,
+            "p95": 4.299999999999727,
+            "max": 29.09999999999991,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": 0.35009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 94.3360999999968,
+          "prepareMs": 1445.1785999999993,
+          "viewport": {
+            "w": 390,
+            "h": 844,
+            "root": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 849.796875,
+              "top": 0,
+              "right": 390,
+              "bottom": 849.796875,
+              "left": 0
+            },
+            "fee": "TEST · 지정 참가자 무료"
+          },
+          "frames": {
+            "samples": 2400,
+            "p95": 4.299999999999272,
+            "max": 16.700000000000045,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.550048828125,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "canvases": 0
+          }
+        }
+      ],
+      "errors": [],
+      "broken": [],
+      "shellMs": 1167.2358000000004,
+      "realTouchKeys": true,
+      "api": {
+        "count": 178,
+        "maxMs": 19.71310000000085,
+        "failures": []
+      },
+      "pass": true
+    },
+    "productionFeatureCondition": "Windows CLI through the actual Nox feature handler against production PostgreSQL. Verified accounts supplied from read-only DB lookup; browser session authentication is tested separately. Network included, single first/repeat samples.",
+    "limitations": [
+      "No physical phone, installed Windows app or Safari measurement",
+      "Windows Playwright WebKit lacks AudioContext; exact audio preparation is blocked. This is not a Safari pass.",
+      "Other admin panels report three missing-fixture errors; the Nox mode panel itself saves OFF/ON/TEST successfully.",
+      "PC and Windows final Nox browser runs overlap the full release gate; the final H5 run overlaps the focused unit suite. The final Android touch run is isolated with the full gate stopped and passes 8/8 PERFECT on both visits. Earlier concurrent mobile failures are retained: external automation touch commands arrived 15–976 ms late while all eight input requests returned HTTP 200. The game judgement windows were not widened. These timings are not controlled before/after comparisons.",
+      "New live feature has no previous public UI loading baseline. Synthetic SQL-delay improvement is not production latency."
+    ]
+  },
+  "releaseRepairs": {
+    "codexAuthoring": "Added the already-live ryujin=20261119-v1 cache token to mercenary-codex/shell.mjs so regeneration remains byte-identical to public HTML. All eight focused archive tests passed; public HTML and browser behavior were unchanged. A fresh full gate was required and run.",
+    "ryujinBannerParity": "The released V3 bundle contains 84 queued banner calls. The test enumerated 82 before adding the two actual Ryujin adapters; the strict source/bundle equality remains enforced (13 focused tests passed). No gameplay runtime change.",
+    "tests": "Existing stale equipment defense/PVP polish, ranked PVP scope, Shiranui Lv.215, additive V3 entry contract, released banner sources, retired inventory filters, 23-avatar/Santa catalog, six cached core upgrade markers, 110-entry mercenary codex, Blue Gear/Hakuya acquisition and eight suit-core catalog, organization FUR admission cache hash, Miracle/Extreme Apocalypse energy, 41 suit/weapon profiles and current equipment loader version expectations aligned with already-released source policy. Missing VIP ownership/app_meta fixture tables, completed Santa marker in the equipment-only fixture and actual forge/coupon/reroll/PVP policy helper imports supplied to isolated tests; game policy unchanged",
+    "lobby": "Authoring import version synchronized with the unchanged deployed lobby bundle",
+    "v3": "Our grid rebuild synchronized the already-released Blue Gear opening time (00 to 20), preview descriptions and source/output receipts. Subsequent P90 and Ryujin runtime changes were preserved from main. The Nox battle bundle and cache URL were rebuilt against the merged V3 engine; Android and H5 touch runs passed.",
+    "h5": "The generated H5 entry initially lacked Nox. Its strict patch offsets were refreshed without changing exclusion rules; the equivalent generated fix from concurrent main was preserved. The browser fixture now serves actual onestore/index.html and the actual document allowlist. Nox remains an embedded /raid/nox/ document; the public verifier follows this real path, reproduces the actual htmlForStore SDK/path transformation byte-for-byte, respects the actual H5 document/variant allowlist, and follows Windows builder authoring-source exclusions.",
+    "concurrentMain": {
+      "commits": [
+        "b404e41f6",
+        "701bde175",
+        "70556a019",
+        "b2d119343",
+        "de273eaba",
+        "94e879632",
+        "46aa736d3",
+        "59dcdd841",
+        "40a290d04",
+        "95b83f2f0",
+        "8bcb11c6e",
+        "213e11d0b"
+      ],
+      "scope": "P90 crafting and Ryujin registration/runtime from origin/main preserved. Their CMS/acquisition settings were not changed by this task. Nox bundle rebuilt against the merged V3 engine and H5 actual-entry touch run repeated; see docs/qa/eastern-p90-20261119 and docs/qa/ryujin-live-20261119"
+    },
+    "checkout": "Restored existing tracked new-user-gift operation module, Nox files and Ryujin manifest into the sparse checkout for tests; no source content change",
+    "assets": "50 unreferenced historical operation receipt JSONs remain byte-identical in Git and are omitted only from Pages publication to fit the 20,000 asset cap; no storage cleanup"
+  },
+  "preserved": "Approved red-crown boss art, metallic image HUD, 4-key rhythm, 27+3 floor layout, PVE party and root review/history files"
+}
