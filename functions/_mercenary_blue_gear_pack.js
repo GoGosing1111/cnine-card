@@ -33,7 +33,7 @@ export async function readBlueGearPackState(env,{userId=null}={}){
 export function createBlueGearPackService(options={}){
  return createBlackcrownPackService({...options,readState:options.readState||readBlueGearPackState,variant:{
   pack:BLUE_GEAR_PACK,packKey:BLUE_GEAR_PACK_KEY,openKind:'MERCENARY_BLUE_GEAR_OPEN',stockPrefix:BLUE_GEAR_STOCK_PREFIX,
-  drawPolicy:BLUE_GEAR_DRAW_POLICY,fallbackSs:true,validateState(state){if(state.openingScheduled)throw Object.assign(jointError('MERCENARY_BLACKCROWN_CLOSED','11월 20일 20시부터 개봉할 수 있습니다.',423),{terminal:true});}}});
+  drawPolicy:BLUE_GEAR_DRAW_POLICY,fallbackSs:true,validateState(state){if(state.openingScheduled)throw Object.assign(jointError('MERCENARY_BLACKCROWN_CLOSED','11월 20일 0시부터 개봉할 수 있습니다.',423),{terminal:true});}}});
 }
 const service=createBlueGearPackService();
 export async function handleBlueGearPack({path,request,env,deps}){

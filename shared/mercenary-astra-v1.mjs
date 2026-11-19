@@ -20,7 +20,7 @@ export const ASTRA_ART=Object.freeze({code:ASTRA_CODE,name:'아스트라',title:
  position:'MIDDLE',role:'SNIPER',attackStyle:'RANGED',basicTarget:'LOW_HP_ENEMY',artOnly:false,releaseStatus:'OWNER_PACK_CONTROLLED',deploymentEnabled:true,
  nameStatus:'USER_DELEGATED_20261115',rankStatus:'USER_ASSIGNED_RANK',basePower:ASTRA_COMBAT.basePower,
  acquisition:'BLUE_GEAR_PACK',acquisitionEnabled:false,packAcquisitionEnabled:true,acquisitionPackId:'mercenary-blue-gear',acquisitionPackName:'블루기어팩',stockPolicy:'UNLIMITED',
- acquisitionDescription:'11월 20일 20시부터 블루기어팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·일반 추첨·합성·제작·기적의 큐브에서는 획득하지 않습니다.',
+ acquisitionDescription:'11월 20일 0시부터 블루기어팩의 별도 일반 SSS 항목에서 획득합니다. 발행 한도 없음. 다른 팩·일반 추첨·합성·제작·기적의 큐브에서는 획득하지 않습니다.',
  sourceArt:ASTRA_ROOT+'source-art.png',displayArt:ASTRA_ROOT+'art-640.webp',thumbnailArt:ASTRA_ROOT+'art-320.webp',battleSprite:ASTRA_ROOT+'guard.webp',accent:'#59adff',
  skills:ASTRA_SKILLS,specialty:'전방 메카닉 소환 · 장총 협동 사격 · 문장 레일 포격',weakness:'기절·침묵과 집중 공격',combatLinkDescription:ASTRA_DESCRIPTION});
 export const isAstra=a=>a?.isMercenary===true&&(a.code||a.cardId)===ASTRA_CODE;

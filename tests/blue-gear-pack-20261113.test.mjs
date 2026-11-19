@@ -9,9 +9,9 @@ import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-
 const baseline={revision:14,settings:{prices:{single:1500000000,ten:15000000000},missRatePpm:800000,normalRankRatesPpm:{C:104500,B:30000,A:30000,S:30000,SS:4700,SSS:800},cardRatesPpm:{'V-975':1,'V-058':400}}};
 const black={revision:11,settings:{cardRatesPpm:Object.fromEntries(Array.from({length:6},(_,i)=>['V-'+(950+i),5000]))}};
 const config=()=>blueGearRegistration(baseline,black);
-const before='2026-11-20T10:59:59.999Z',after='2026-11-20T11:00:00.000Z';
+const before='2026-11-19T14:59:59.999Z',after='2026-11-19T15:00:00.000Z';
 const stock=doc=>Object.entries(doc.settings.stockLimits).map(([code,stock_limit])=>({code:BLUE_GEAR_STOCK_PREFIX+code,stock_limit,issued:0}));
-test('KST 20:00, original registration odds, price and distinct ownership',()=>{
+test('KST midnight, original registration odds, price and distinct ownership',()=>{
  const doc=config(),rows=stock(doc);
  assert.equal(blueGearCatalog(doc,rows,before).drawEnabled,false);assert.equal(blueGearCatalog(doc,rows,after).drawEnabled,true);
  assert.deepEqual(doc.settings.prices,{single:2250000000,ten:22500000000});
@@ -19,12 +19,12 @@ test('KST 20:00, original registration odds, price and distinct ownership',()=>{
  for(const code of ['V-976','V-967'])assert.equal(s.effectiveCardPercents[code],'0.00000008');
  assert.equal(s.effectiveCardPercents['V-059'],'0.000032');
  assert.equal(s.settings.normalSssRatePpm,997098);
- rows[4].issued=10;const other=blueGearState(doc,rows,[],after,['V-701','V-703']);assert.equal(other.effectiveCardPercents['V-701'],'0');assert.equal(other.effectiveCardPercents['V-702'],'0.00002');assert.equal(other.effectiveCardPercents['V-705'],'0');
+ rows[4].issued=25;const other=blueGearState(doc,rows,[],after,['V-701','V-703']);assert.equal(other.effectiveCardPercents['V-701'],'0');assert.equal(other.effectiveCardPercents['V-702'],'0.00002');assert.equal(other.effectiveCardPercents['V-705'],'0');
  assert.equal(blueGearCatalog(doc,rows.slice(1),after).drawEnabled,false);
 });
 test('ordinary SSS replaces owned and exhausted slots without reroll',()=>{
  const doc=config(),rows=stock(doc),normals=[{code:'V-001',name:'일반',rank:'SSS',weight:1}];
- rows[0].issued=10;
+ rows[0].issued=25;
  const s=blueGearState(doc,rows,normals,after,['V-702']);
  for(const ticket of [0,5000000]){let r=[1992000000,ticket,0];const [d]=pickBlackcrownBatch(s,1,()=>r.shift(),policy);assert.equal(d.mercenaryCode,'V-001');assert.equal(r.length,0);}
 });
@@ -61,6 +61,7 @@ test('codex validates the full live roster and approves all eight pack identitie
  const catalog=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
  const result=validateCatalog(catalog,{forDisplay:true});
  assert.equal(result.cards.filter(c=>c.acquisition==='BLUE_GEAR_PACK').length,8);
+ for(const code of policy.ssCodes){const card=result.cards.find(c=>c.code===code);assert.equal(card.serverLimit,25);assert.match(card.acquisitionDescription,/종당 25장/);}
  const astra=result.cards.find(c=>c.code==='V-059'),others=new Set(result.cards.filter(c=>c.code!=='V-059').flatMap(c=>c.skills.map(s=>s.id)));
  assert(astra.skills.every(s=>!others.has(s.id)));assert.equal(result.cards.find(c=>c.code==='V-976').skills.length,6);
 });

@@ -4,7 +4,7 @@ import {pickBlackcrownBatch} from '../shared/mercenary-blackcrown-pack-v1.mjs';
 import {pickBlackcrownBulk} from '../shared/mercenary-blackcrown-bulk-v1.mjs';
 import {createBlueGearPackService} from '../functions/_mercenary_blue_gear_pack.js';
 import {limitedFixture} from './helpers/limited-pack-fixture.mjs';
-const doc={revision:3,openingAt:'2026-11-20T11:00:00.000Z',settings:{prices:{single:2250000000,ten:22500000000},missRatePpm:800000,normalRankRatesPpm:{C:104500,B:30000,A:30000,S:30000,SS:4700,SSS:800},cardRatesPpm:{'V-701':70.3125,'V-702':70.3125,'V-703':70.3125,'V-704':70.3125,'V-705':70.3125,'V-976':1,'V-967':1,'V-059':400},normalSssRatePpm:999246.4375,stockLimits:{'V-701':10,'V-702':10,'V-703':10,'V-704':10,'V-705':10,'V-976':3,'V-967':3}}};
+const doc={revision:4,openingAt:'2026-11-19T15:00:00.000Z',settings:{prices:{single:2250000000,ten:22500000000},missRatePpm:800000,normalRankRatesPpm:{C:104500,B:30000,A:30000,S:30000,SS:4700,SSS:800},cardRatesPpm:{'V-701':70.3125,'V-702':70.3125,'V-703':70.3125,'V-704':70.3125,'V-705':70.3125,'V-976':1,'V-967':1,'V-059':400},normalSssRatePpm:999246.4375,stockLimits:{'V-701':25,'V-702':25,'V-703':25,'V-704':25,'V-705':25,'V-976':3,'V-967':3}}};
 const stock=()=>Object.entries(doc.settings.stockLimits).map(([code,stock_limit])=>({code:BLUE_GEAR_STOCK_PREFIX+code,stock_limit,issued:0}));
 const normals=Object.keys(doc.settings.normalRankRatesPpm).map(rank=>({code:'QA-'+rank,name:'일반',rank,weight:1}));
 const state=(owned=[],rows=stock(),time=doc.openingAt)=>blueGearState(doc,rows,normals,time,owned);
@@ -24,20 +24,22 @@ test('single and bulk exact integer boundaries, owned exclusion and probability 
   for(const [gate,expected]of [[15,'V-703'],[16,'QA-SSS']]){q=[1992000000,1406250,gate,0];assert.equal(draw(state(['V-701','V-702']),()=>q.shift()).mercenaryCode,expected);}
  }
 });
-test('November 20 at 20:00 KST is the exact opening boundary; previous midnight stays closed',()=>{
- for(const time of ['2026-11-19T15:00:00.000Z','2026-11-20T10:59:59.999Z'])assert.equal(state([],stock(),time).userOpeningEnabled,false);
+test('November 20 midnight KST opens exactly, with each SS stock expanded to 25',()=>{
+ for(const time of ['2026-11-19T14:59:59.000Z','2026-11-19T14:59:59.999Z'])assert.equal(state([],stock(),time).userOpeningEnabled,false);
  assert.equal(state().userOpeningEnabled,true);
- const sold=stock();sold[0].issued=10;assert.equal(state([],sold).effectiveCardPercents['V-701'],'0');assert.equal(state([],sold).effectiveCardPercents['V-702'],'0.000005625');
+ const sold=stock();sold[0].issued=24;assert.equal(state([],sold).stock[0].remaining,1);assert.equal(state([],sold).effectiveCardPercents['V-701'],'0.000005625');sold[0].issued=25;assert.equal(state([],sold).effectiveCardPercents['V-701'],'0');assert.equal(state([],sold).effectiveCardPercents['V-702'],'0.000005625');
 });
 test('production opening service denies old revision and future schedule without debit, then supports idempotent payment',async t=>{
  const f=await limitedFixture(t);await f.configure({enabled:false});await f.setting(BLUE_GEAR_PACK_KEY,{...doc,openingAt:'2199-11-20T11:00:00.000Z'});
  for(const r of stock())await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES(?,?)',r.code,r.stock_limit).run();
- await f.pg.exec('UPDATE users SET coin=3000000000000 WHERE id=1');const initial=await f.coin();
+ await f.pg.exec('UPDATE users SET coin=3000000000000 WHERE id IN (1,2)');const initial=await f.coin();
  let i=0;const svc=createBlueGearPackService({randomInt:n=>n===10000000000?(i++%2===0?1992000000:0):0});
- const body={requestId:crypto.randomUUID(),count:1,expectedRevision:3};
- await assert.rejects(svc.open(f.env,f.user,body),e=>e.code==='MERCENARY_BLACKCROWN_CLOSED'&&e.message.includes('20시'));assert.equal(await f.coin(),initial);
+ const body={requestId:crypto.randomUUID(),count:1,expectedRevision:4};
+ await assert.rejects(svc.open(f.env,f.user,body),e=>e.code==='MERCENARY_BLACKCROWN_CLOSED'&&e.message.includes('0시'));assert.equal(await f.coin(),initial);
  await f.setting(BLUE_GEAR_PACK_KEY,{...doc,openingAt:'2000-11-20T11:00:00.000Z'});
  await assert.rejects(svc.open(f.env,f.user,{...body,requestId:crypto.randomUUID(),expectedRevision:2}),e=>e.code==='MERCENARY_BLACKCROWN_CHANGED');assert.equal(await f.coin(),initial);
- const result=await svc.open(f.env,f.user,body);assert.equal(result.draws[0].mercenaryCode,'V-701');assert.equal(result.coinCost,2250000000);
+ await f.p('UPDATE mercenary_limited_stock_v1 SET issued=24 WHERE code=?',BLUE_GEAR_STOCK_PREFIX+'V-701').run();
+ const result=await svc.open(f.env,f.user,body);assert.equal(result.draws[0].serial,25);assert.equal(result.draws[0].stockLimit,25);assert.equal(result.draws[0].mercenaryCode,'V-701');assert.equal(result.coinCost,2250000000);
  const balance=await f.coin();assert.equal(balance,initial-2250000000);assert.equal((await svc.open(f.env,f.user,body)).replayed,true);assert.equal(await f.coin(),balance);
+ const exhausted=await svc.open(f.env,{...f.user,id:2},{...body,requestId:crypto.randomUUID()});assert.notEqual(exhausted.draws[0].mercenaryCode,'V-701');assert.equal((await f.p('SELECT issued FROM mercenary_limited_stock_v1 WHERE code=?',BLUE_GEAR_STOCK_PREFIX+'V-701').first()).issued,25);
 });
