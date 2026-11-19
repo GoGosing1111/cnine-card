@@ -1,0 +1,1163 @@
+{
+  "completedAt": "2026-11-19T08:15:58.984Z",
+  "request": "첨부한 PVE 월드 레이드 메인 로비의 작은 창 잘림 수정",
+  "sourceCommit": "7e21ca548337d7455a053c8e85e15b4b407835fc",
+  "previousLive": "27c02567d7d9c6410858b878c4e0f6e7546069b8",
+  "deployment": {
+    "pages": {
+      "id": "572a0298-a062-4918-9209-3d49c62807be",
+      "commit": "7e21ca548337d7455a053c8e85e15b4b407835fc",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "93269028-bd46-4243-9ce5-08eed9b38fe2",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "10e5dcda-8c94-4dc6-9dfe-217347dfc2d3",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "changes": [
+    "PC 왼쪽 레이드 선택 목록, 좁은 화면 3열/2열 재배치와 최소 44px 조작 영역",
+    "시간표와 실제 개방/참가 조작 우선; 요일별 작전표는 접기/펼치기",
+    "보스 이미지 크기 제한, 중복 여백과 무관한 전투 횟수 표시 제거",
+    "주간표 펼침/키보드 포커스 보존; 기존 입장 핸들러/숨김 게이트/전투 화면 배치 보존",
+    "웹 및 생성 H5 진입 파일 캐시 갱신"
+  ],
+  "scope": {
+    "files": [
+      "css/combat-lobby-v2110.css",
+      "js/raid-overhaul-v1293.js",
+      "index.html",
+      "onestore/index.html",
+      "packaging/onestore/web-build.json"
+    ],
+    "databaseWrites": 0,
+    "accountWrites": 0,
+    "messages": 0,
+    "battleResourceChanges": 0,
+    "noxInternalLayoutChanges": 0
+  },
+  "uiSkill": {
+    "name": "Impeccable",
+    "source": ".agents/skills/impeccable/SKILL.md",
+    "mechanicalFindings": [],
+    "review": "Independent read-only review caught an initial battle layout spill; all new rules now require the visible raid-hub-home state. Final review found no remaining significant issue."
+  },
+  "validation": {
+    "regressions": 17,
+    "failed": 0,
+    "scopedRelease": true,
+    "publicFiles": [
+      {
+        "file": "index.html",
+        "bytes": 53450,
+        "sha256": "424871825c616c3fd500df5dbb830b693ffc9926502382c1210000451500b0f8",
+        "sourceSha256": "424871825c616c3fd500df5dbb830b693ffc9926502382c1210000451500b0f8",
+        "transformation": null,
+        "windows": true
+      },
+      {
+        "file": "css/combat-lobby-v2110.css",
+        "bytes": 56657,
+        "sha256": "a36e892f90e0ad469b745ba73e4b5e3340388cd660e0401d5e0a658b687b971a",
+        "sourceSha256": "a36e892f90e0ad469b745ba73e4b5e3340388cd660e0401d5e0a658b687b971a",
+        "transformation": null,
+        "windows": true
+      },
+      {
+        "file": "js/raid-overhaul-v1293.js",
+        "bytes": 6590,
+        "sha256": "fd8315a792d92c561c0241c86693da23889b583154d167f8ef5fe480e113c7be",
+        "sourceSha256": "fd8315a792d92c561c0241c86693da23889b583154d167f8ef5fe480e113c7be",
+        "transformation": null,
+        "windows": true
+      },
+      {
+        "file": "onestore/index.html",
+        "bytes": 53291,
+        "sha256": "ab68f114f5400416ea32726ac72524694e5bce2d9e8964ed0c3e9d7afcf11181",
+        "sourceSha256": "20e78a7cc86fbe606da2229291872c8d3ca7d202dfe622d8c045e0afb9bb4208",
+        "transformation": "htmlForStore(/)",
+        "windows": false
+      }
+    ],
+    "windowsReleaseId": "5f86f8088f3d1e1bff6822c368449682635e48f0dbf11ce1d5c02bea2cff2f60",
+    "productionAssetsSmoke": {
+      "completed": true,
+      "viewport": [
+        1024,
+        600
+      ],
+      "api": "All API routes intercepted to isolated local fixtures; production static assets rendered; no account writes",
+      "screenshot": "live-pc-closed-1024x600.png"
+    },
+    "measurements": [
+      {
+        "profile": "pc",
+        "condition": "Windows Chrome headless; actual lobby -> all menu -> world raid route; loopback API fixtures; cold/warm cache. Viewport/touch emulation, no production account writes.",
+        "firstAndRepeatMs": {
+          "before": [
+            1533,
+            140
+          ],
+          "after": [
+            454,
+            183
+          ]
+        },
+        "frames": {
+          "before": [
+            {
+              "samples": 151,
+              "p95": 4.299999999999272,
+              "max": 12.799999999999272,
+              "over50": 0
+            },
+            {
+              "samples": 156,
+              "p95": 4.299999999999272,
+              "max": 8.200000000000728,
+              "over50": 0
+            }
+          ],
+          "after": [
+            {
+              "samples": 154,
+              "p95": 4.299999999999272,
+              "max": 12.599999999998545,
+              "over50": 0
+            },
+            {
+              "samples": 156,
+              "p95": 4.299999999999272,
+              "max": 8.300000000001091,
+              "over50": 0
+            }
+          ]
+        },
+        "layouts": [
+          {
+            "state": "closed",
+            "width": 1792,
+            "height": 1044,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1682,
+            "clientWidth": 1682
+          },
+          {
+            "state": "closed",
+            "width": 1280,
+            "height": 650,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1170,
+            "clientWidth": 1170
+          },
+          {
+            "state": "closed",
+            "width": 1024,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 930,
+            "clientWidth": 930
+          },
+          {
+            "state": "closed",
+            "width": 960,
+            "height": 540,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 866,
+            "clientWidth": 866
+          },
+          {
+            "state": "closed",
+            "width": 800,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 706,
+            "clientWidth": 706
+          },
+          {
+            "state": "closed",
+            "width": 640,
+            "height": 480,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 640,
+            "clientWidth": 640
+          },
+          {
+            "state": "open",
+            "width": 1792,
+            "height": 1044,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1682,
+            "clientWidth": 1682
+          },
+          {
+            "state": "open",
+            "width": 1280,
+            "height": 650,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1170,
+            "clientWidth": 1170
+          },
+          {
+            "state": "open",
+            "width": 1024,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 930,
+            "clientWidth": 930
+          },
+          {
+            "state": "open",
+            "width": 960,
+            "height": 540,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 866,
+            "clientWidth": 866
+          },
+          {
+            "state": "open",
+            "width": 800,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 706,
+            "clientWidth": 706
+          },
+          {
+            "state": "open",
+            "width": 640,
+            "height": 480,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 640,
+            "clientWidth": 640
+          },
+          {
+            "state": "rooms",
+            "width": 1792,
+            "height": 1044,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1682,
+            "clientWidth": 1682
+          },
+          {
+            "state": "rooms",
+            "width": 1280,
+            "height": 650,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1170,
+            "clientWidth": 1170
+          },
+          {
+            "state": "rooms",
+            "width": 1024,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 930,
+            "clientWidth": 930
+          },
+          {
+            "state": "rooms",
+            "width": 960,
+            "height": 540,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 866,
+            "clientWidth": 866
+          },
+          {
+            "state": "rooms",
+            "width": 800,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 706,
+            "clientWidth": 706
+          },
+          {
+            "state": "rooms",
+            "width": 640,
+            "height": 480,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 640,
+            "clientWidth": 640
+          }
+        ],
+        "weekly": {
+          "days": 7,
+          "openPreservedOnRefresh": true,
+          "keyboardFocusPreserved": true
+        },
+        "scope": {
+          "hiddenTabStaysHidden": true,
+          "battleLayout": "block"
+        },
+        "exit": {
+          "worldPollsAfterExit": 0,
+          "canvasCount": 0
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      },
+      {
+        "profile": "mobile",
+        "condition": "Windows Chrome headless; actual lobby -> all menu -> world raid route; loopback API fixtures; cold/warm cache. Viewport/touch emulation, no production account writes.",
+        "firstAndRepeatMs": {
+          "before": [
+            1032,
+            135
+          ],
+          "after": [
+            833,
+            155
+          ]
+        },
+        "frames": {
+          "before": [
+            {
+              "samples": 154,
+              "p95": 4.299999999999272,
+              "max": 16.599999999998545,
+              "over50": 0
+            },
+            {
+              "samples": 156,
+              "p95": 4.299999999999272,
+              "max": 8.399999999999636,
+              "over50": 0
+            }
+          ],
+          "after": [
+            {
+              "samples": 157,
+              "p95": 4.300000000001091,
+              "max": 8.399999999999636,
+              "over50": 0
+            },
+            {
+              "samples": 157,
+              "p95": 4.299999999999272,
+              "max": 4.300000000001091,
+              "over50": 0
+            }
+          ]
+        },
+        "layouts": [
+          {
+            "state": "closed",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "closed",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "closed",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "closed",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          },
+          {
+            "state": "open",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "open",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "open",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "open",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          },
+          {
+            "state": "rooms",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "rooms",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "rooms",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "rooms",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          }
+        ],
+        "weekly": {
+          "days": 7,
+          "openPreservedOnRefresh": true,
+          "keyboardFocusPreserved": true
+        },
+        "scope": {
+          "hiddenTabStaysHidden": true,
+          "battleLayout": "block"
+        },
+        "exit": {
+          "worldPollsAfterExit": 0,
+          "canvasCount": 0
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      },
+      {
+        "profile": "windows",
+        "condition": "Windows Chrome headless; actual lobby -> all menu -> world raid route; loopback API fixtures; cold/warm cache. Viewport/touch emulation, no production account writes.",
+        "firstAndRepeatMs": {
+          "before": [
+            569,
+            164
+          ],
+          "after": [
+            503,
+            182
+          ]
+        },
+        "frames": {
+          "before": [
+            {
+              "samples": 144,
+              "p95": 8.299999999999272,
+              "max": 20.899999999999636,
+              "over50": 0
+            },
+            {
+              "samples": 156,
+              "p95": 4.299999999999272,
+              "max": 8.300000000001091,
+              "over50": 0
+            }
+          ],
+          "after": [
+            {
+              "samples": 155,
+              "p95": 4.300000000001091,
+              "max": 12.399999999999636,
+              "over50": 0
+            },
+            {
+              "samples": 155,
+              "p95": 4.300000000001091,
+              "max": 8.399999999999636,
+              "over50": 0
+            }
+          ]
+        },
+        "layouts": [
+          {
+            "state": "closed",
+            "width": 1792,
+            "height": 1044,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1682,
+            "clientWidth": 1682
+          },
+          {
+            "state": "closed",
+            "width": 1280,
+            "height": 650,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1170,
+            "clientWidth": 1170
+          },
+          {
+            "state": "closed",
+            "width": 1024,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 930,
+            "clientWidth": 930
+          },
+          {
+            "state": "closed",
+            "width": 960,
+            "height": 540,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 866,
+            "clientWidth": 866
+          },
+          {
+            "state": "closed",
+            "width": 800,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 706,
+            "clientWidth": 706
+          },
+          {
+            "state": "closed",
+            "width": 640,
+            "height": 480,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 640,
+            "clientWidth": 640
+          },
+          {
+            "state": "open",
+            "width": 1792,
+            "height": 1044,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1682,
+            "clientWidth": 1682
+          },
+          {
+            "state": "open",
+            "width": 1280,
+            "height": 650,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1170,
+            "clientWidth": 1170
+          },
+          {
+            "state": "open",
+            "width": 1024,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 930,
+            "clientWidth": 930
+          },
+          {
+            "state": "open",
+            "width": 960,
+            "height": 540,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 866,
+            "clientWidth": 866
+          },
+          {
+            "state": "open",
+            "width": 800,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 706,
+            "clientWidth": 706
+          },
+          {
+            "state": "open",
+            "width": 640,
+            "height": 480,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 640,
+            "clientWidth": 640
+          },
+          {
+            "state": "rooms",
+            "width": 1792,
+            "height": 1044,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1682,
+            "clientWidth": 1682
+          },
+          {
+            "state": "rooms",
+            "width": 1280,
+            "height": 650,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 1170,
+            "clientWidth": 1170
+          },
+          {
+            "state": "rooms",
+            "width": 1024,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": true,
+            "scrollWidth": 930,
+            "clientWidth": 930
+          },
+          {
+            "state": "rooms",
+            "width": 960,
+            "height": 540,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 866,
+            "clientWidth": 866
+          },
+          {
+            "state": "rooms",
+            "width": 800,
+            "height": 600,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 706,
+            "clientWidth": 706
+          },
+          {
+            "state": "rooms",
+            "width": 640,
+            "height": 480,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 640,
+            "clientWidth": 640
+          }
+        ],
+        "weekly": {
+          "days": 7,
+          "openPreservedOnRefresh": true,
+          "keyboardFocusPreserved": true
+        },
+        "scope": {
+          "hiddenTabStaysHidden": true,
+          "battleLayout": "block"
+        },
+        "exit": {
+          "worldPollsAfterExit": 0,
+          "canvasCount": 0
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      },
+      {
+        "profile": "h5",
+        "condition": "Windows Chrome headless; actual lobby -> all menu -> world raid route; loopback API fixtures; cold/warm cache. Viewport/touch emulation, no production account writes.",
+        "firstAndRepeatMs": {
+          "before": [
+            635,
+            171
+          ],
+          "after": [
+            559,
+            284
+          ]
+        },
+        "frames": {
+          "before": [
+            {
+              "samples": 152,
+              "p95": 4.299999999999272,
+              "max": 16.600000000000364,
+              "over50": 0
+            },
+            {
+              "samples": 155,
+              "p95": 4.299999999999272,
+              "max": 12.5,
+              "over50": 0
+            }
+          ],
+          "after": [
+            {
+              "samples": 155,
+              "p95": 4.300000000001091,
+              "max": 12.5,
+              "over50": 0
+            },
+            {
+              "samples": 157,
+              "p95": 4.299999999999272,
+              "max": 4.700000000000728,
+              "over50": 0
+            }
+          ]
+        },
+        "layouts": [
+          {
+            "state": "closed",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "closed",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "closed",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "closed",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          },
+          {
+            "state": "open",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "open",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "open",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "open",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          },
+          {
+            "state": "rooms",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "rooms",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "rooms",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "rooms",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          }
+        ],
+        "weekly": {
+          "days": 7,
+          "openPreservedOnRefresh": true,
+          "keyboardFocusPreserved": true
+        },
+        "scope": {
+          "hiddenTabStaysHidden": true,
+          "battleLayout": "block"
+        },
+        "exit": {
+          "worldPollsAfterExit": 0,
+          "canvasCount": 0
+        },
+        "errorsBefore": [],
+        "errorsAfter": []
+      },
+      {
+        "profile": "webkit",
+        "condition": "Windows Chrome headless; actual lobby -> all menu -> world raid route; loopback API fixtures; cold/warm cache. Viewport/touch emulation, no production account writes.",
+        "firstAndRepeatMs": {
+          "before": [
+            773,
+            429
+          ],
+          "after": [
+            965,
+            558
+          ]
+        },
+        "frames": {
+          "before": [
+            {
+              "samples": 11,
+              "p95": 254,
+              "max": 254,
+              "over50": 2
+            },
+            {
+              "samples": 24,
+              "p95": 52,
+              "max": 61,
+              "over50": 2
+            }
+          ],
+          "after": [
+            {
+              "samples": 17,
+              "p95": 166,
+              "max": 166,
+              "over50": 2
+            },
+            {
+              "samples": 27,
+              "p95": 31,
+              "max": 32,
+              "over50": 0
+            }
+          ]
+        },
+        "layouts": [
+          {
+            "state": "closed",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "closed",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "closed",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "closed",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 844,
+            "clientWidth": 844
+          },
+          {
+            "state": "open",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "open",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "open",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "open",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          },
+          {
+            "state": "rooms",
+            "width": 390,
+            "height": 844,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "state": "rooms",
+            "width": 360,
+            "height": 640,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 360,
+            "clientWidth": 360
+          },
+          {
+            "state": "rooms",
+            "width": 320,
+            "height": 568,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          {
+            "state": "rooms",
+            "width": 844,
+            "height": 390,
+            "tabsFit": true,
+            "actionReachable": true,
+            "actionInitiallyVisible": false,
+            "scrollWidth": 750,
+            "clientWidth": 750
+          }
+        ],
+        "weekly": {
+          "days": 7,
+          "openPreservedOnRefresh": true,
+          "keyboardFocusPreserved": true
+        },
+        "scope": {
+          "hiddenTabStaysHidden": true,
+          "battleLayout": "block"
+        },
+        "exit": {
+          "worldPollsAfterExit": 0,
+          "canvasCount": 0
+        },
+        "errorsBefore": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "errorsAfter": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      }
+    ]
+  },
+  "performance": {
+    "pc1024ClosedPrimaryBottomPx": {
+      "before": 2159.15625,
+      "after": 597.046875
+    },
+    "notes": [
+      "Windows headless browsers and local API fixtures; PC/Android touch/WebKit/Windows URL/H5 host emulation. Not physical mobile hardware or an installed Windows app.",
+      "Initial public-shell asset waiting and main-thread long tasks remain; the local API fixture does not measure production DB/network latency. No server code, API request or animation timer added.",
+      "Bounded artwork, collapsed weekly rendering, removal of tab backdrop blur and oversized minimum dimensions reduce layout/paint area. Loading samples are single runs with disk/cache/network variability; no speedup claim.",
+      "Baseline PC/Android frame samples were stationary; final PC/Windows/H5/WebKit samples include scrolling. Do not treat them as a controlled FPS comparison.",
+      "WebKit reproduced the pre-existing ResizeObserver undelivered-notifications warning before and after. Its UI, native disclosure, touch entry and exit assertions passed, but the harness final zero-warning assertion did not. Existing long frames are retained in the evidence.",
+      "After leaving the route, raid polling and canvas count were zero in every measured profile."
+    ]
+  },
+  "evidence": {
+    "privateDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\raid-hub-fit-20261119",
+    "harnessSha256": "4f9e0ad9ceaccb37634914afecd5d37cd6bcfeecd6b6fdba042d5adfe775429d",
+    "resolvedHarnessLimitations": [
+      "Initial H5 harness used the outer frame locator; corrected to the actual H5 frame.",
+      "Mobile WebKit does not support mouse.wheel; recorded programmatic scrolling for that engine.",
+      "Public smoke proxy initially omitted the fixture authorization header; the expected access gate hid Nox. Forwarded only the isolated fixture header and repeated the smoke."
+    ]
+  }
+}
