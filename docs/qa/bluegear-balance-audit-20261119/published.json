@@ -1,0 +1,706 @@
+{
+  "checkedAt": "2026-11-19T14:45:00.222Z",
+  "sourceHead": "21d3208e26e29b92f8db0d2654a98fce9047518b",
+  "production": {
+    "pages": {
+      "id": "a7837b19-9c48-471e-8fa6-af84ef40e3f3",
+      "commit": "29f7da4b1f17b089cc929ea2cfb8c881d9002c91",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "fc13a82f-071b-4aa2-9cbe-286c3512c1ed",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "6c143058-f75d-4dbf-ac38-ac9113f18dc0",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "file": "shared/mercenary-blue-gear-v1.mjs",
+      "publicSHA256": "dd66d810e757f4b66bcfd34981ade93036b5f51d8671390dc123a6a2c4e555bb",
+      "localSHA256": "dd66d810e757f4b66bcfd34981ade93036b5f51d8671390dc123a6a2c4e555bb",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-blue-gear-catalog-v1.mjs",
+      "publicSHA256": "40025f4b05020b31cf1c0614ee9d0b8a3d1be587492e00a7d2c7b9a0724e0f1d",
+      "localSHA256": "40025f4b05020b31cf1c0614ee9d0b8a3d1be587492e00a7d2c7b9a0724e0f1d",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-astra-v1.mjs",
+      "publicSHA256": "c13b63491a8a2d8f8e5c8ffa7463949fafc68b30162529e680ec6b9efd769a0d",
+      "localSHA256": "c13b63491a8a2d8f8e5c8ffa7463949fafc68b30162529e680ec6b9efd769a0d",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-razak-v1.mjs",
+      "publicSHA256": "906e72f2e2aa3894e64a374bc91958dcae7e9ccf67674467a397c1fba962897c",
+      "localSHA256": "906e72f2e2aa3894e64a374bc91958dcae7e9ccf67674467a397c1fba962897c",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-ss-limited-v1.mjs",
+      "publicSHA256": "0361e68d121f270c9c6d1bf274d8f2308c218785724d5240f59a9a2dfe4e7052",
+      "localSHA256": "0361e68d121f270c9c6d1bf274d8f2308c218785724d5240f59a9a2dfe4e7052",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "publicSHA256": "a53bb1367c814ec544084672e2b4c101a77a6990f115c09d396c3cae14632194",
+      "localSHA256": "a53bb1367c814ec544084672e2b4c101a77a6990f115c09d396c3cae14632194",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-growth-review-v2.mjs",
+      "publicSHA256": "331a02c3ee94c8a10589f2b943de96efb6c53892d90d1e93d31e7d59103f2c18",
+      "localSHA256": "331a02c3ee94c8a10589f2b943de96efb6c53892d90d1e93d31e7d59103f2c18",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-rank-growth-v1.mjs",
+      "publicSHA256": "a1fd80b1b34b9592b6c6e3d73ce75c6644fbce86df34cff81d1485b711178c25",
+      "localSHA256": "a1fd80b1b34b9592b6c6e3d73ce75c6644fbce86df34cff81d1485b711178c25",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-zero-v1.mjs",
+      "publicSHA256": "637ecef7412dc451410f9272da8e558e47e49760ee2adbc3c719f00257d458f0",
+      "localSHA256": "637ecef7412dc451410f9272da8e558e47e49760ee2adbc3c719f00257d458f0",
+      "normalizedEqual": true
+    },
+    {
+      "file": "shared/mercenary-hakuya-v1.mjs",
+      "publicSHA256": "b6678317c59b5ab98d368f91c147a808fc54f005519b3c57f8ab3b1dbcaca062",
+      "localSHA256": "b6678317c59b5ab98d368f91c147a808fc54f005519b3c57f8ab3b1dbcaca062",
+      "normalizedEqual": true
+    }
+  ],
+  "catalog": {
+    "cards": [
+      {
+        "code": "V-001",
+        "name": "아우렌",
+        "rank": "S"
+      },
+      {
+        "code": "V-002",
+        "name": "리시아",
+        "rank": "A"
+      },
+      {
+        "code": "V-003",
+        "name": "솔바인",
+        "rank": "S"
+      },
+      {
+        "code": "V-004",
+        "name": "베스페라",
+        "rank": "SS"
+      },
+      {
+        "code": "V-005",
+        "name": "청아",
+        "rank": "S"
+      },
+      {
+        "code": "V-006",
+        "name": "카르시아",
+        "rank": "A"
+      },
+      {
+        "code": "V-007",
+        "name": "서윤",
+        "rank": "A"
+      },
+      {
+        "code": "V-008",
+        "name": "아스텔",
+        "rank": "S"
+      },
+      {
+        "code": "V-009",
+        "name": "련화",
+        "rank": "SS"
+      },
+      {
+        "code": "V-010",
+        "name": "월령",
+        "rank": "SS"
+      },
+      {
+        "code": "V-011",
+        "name": "아르카엘",
+        "rank": "S"
+      },
+      {
+        "code": "V-012",
+        "name": "세리온",
+        "rank": "B"
+      },
+      {
+        "code": "V-013",
+        "name": "라비에나",
+        "rank": "B"
+      },
+      {
+        "code": "V-014",
+        "name": "엘리시아",
+        "rank": "A"
+      },
+      {
+        "code": "V-015",
+        "name": "녹시아",
+        "rank": "A"
+      },
+      {
+        "code": "V-016",
+        "name": "솔레아",
+        "rank": "A"
+      },
+      {
+        "code": "V-017",
+        "name": "마레나",
+        "rank": "C"
+      },
+      {
+        "code": "V-018",
+        "name": "미레시아",
+        "rank": "C"
+      },
+      {
+        "code": "V-019",
+        "name": "아우렐리온",
+        "rank": "A"
+      },
+      {
+        "code": "V-020",
+        "name": "사요",
+        "rank": "C"
+      },
+      {
+        "code": "V-021",
+        "name": "오메가-X",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-022",
+        "name": "엘로디",
+        "rank": "S"
+      },
+      {
+        "code": "V-023",
+        "name": "이안",
+        "rank": "C"
+      },
+      {
+        "code": "V-024",
+        "name": "벨루아",
+        "rank": "B"
+      },
+      {
+        "code": "V-025",
+        "name": "에이라",
+        "rank": "C"
+      },
+      {
+        "code": "V-026",
+        "name": "루카스",
+        "rank": "C"
+      },
+      {
+        "code": "V-027",
+        "name": "케일",
+        "rank": "A"
+      },
+      {
+        "code": "V-028",
+        "name": "연휘",
+        "rank": "C"
+      },
+      {
+        "code": "V-029",
+        "name": "레오나",
+        "rank": "B"
+      },
+      {
+        "code": "V-030",
+        "name": "홍련",
+        "rank": "C"
+      },
+      {
+        "code": "V-031",
+        "name": "루시안",
+        "rank": "C"
+      },
+      {
+        "code": "V-032",
+        "name": "셀레네",
+        "rank": "C"
+      },
+      {
+        "code": "V-033",
+        "name": "로젤",
+        "rank": "C"
+      },
+      {
+        "code": "V-034",
+        "name": "세이지",
+        "rank": "A"
+      },
+      {
+        "code": "V-035",
+        "name": "세라",
+        "rank": "C"
+      },
+      {
+        "code": "V-036",
+        "name": "네레이아",
+        "rank": "SS"
+      },
+      {
+        "code": "V-037",
+        "name": "아델린",
+        "rank": "SS"
+      },
+      {
+        "code": "V-038",
+        "name": "세실리아",
+        "rank": "B"
+      },
+      {
+        "code": "V-039",
+        "name": "로제타",
+        "rank": "C"
+      },
+      {
+        "code": "V-040",
+        "name": "마리엘",
+        "rank": "SS"
+      },
+      {
+        "code": "V-041",
+        "name": "레니아",
+        "rank": "A"
+      },
+      {
+        "code": "V-042",
+        "name": "경찰 조은",
+        "rank": "SS"
+      },
+      {
+        "code": "V-043",
+        "name": "동탄 디임",
+        "rank": "SS"
+      },
+      {
+        "code": "V-044",
+        "name": "하이희야",
+        "rank": "SS"
+      },
+      {
+        "code": "V-045",
+        "name": "망이사",
+        "rank": "SS"
+      },
+      {
+        "code": "V-046",
+        "name": "라그니엘",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-047",
+        "name": "비키니 조은",
+        "rank": "SS"
+      },
+      {
+        "code": "V-048",
+        "name": "흑월",
+        "rank": "SS"
+      },
+      {
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-050",
+        "name": "저격 오리꿍",
+        "rank": "SS"
+      },
+      {
+        "code": "V-051",
+        "name": "디임간호사",
+        "rank": "SS"
+      },
+      {
+        "code": "V-052",
+        "name": "희야 간호사",
+        "rank": "SS"
+      },
+      {
+        "code": "V-053",
+        "name": "조은 간호사",
+        "rank": "SS"
+      },
+      {
+        "code": "V-054",
+        "name": "봉순 간호사",
+        "rank": "SS"
+      },
+      {
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-056",
+        "name": "아잔트",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-057",
+        "name": "신궁 강윤",
+        "rank": "SSS"
+      },
+      {
+        "code": "V-973",
+        "name": "은설",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-974",
+        "name": "제너럴 족",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-975",
+        "name": "프라임 레퀴엠",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-976",
+        "name": "제로",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-987",
+        "name": "시라누이",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-978",
+        "name": "레오넬",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-996",
+        "name": "발테르",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-999",
+        "name": "헬리오스",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-991",
+        "name": "조은",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-992",
+        "name": "이네스",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-993",
+        "name": "오리꿍",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-994",
+        "name": "디임",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-997",
+        "name": "아윤",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-998",
+        "name": "하이희야",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-980",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-981",
+        "name": "조은",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-982",
+        "name": "하이희야",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-983",
+        "name": "오리꿍",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-984",
+        "name": "디임",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-985",
+        "name": "아윤",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-986",
+        "name": "남수댕",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-977",
+        "name": "바토리",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-960",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-961",
+        "name": "조은",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-962",
+        "name": "디임",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-963",
+        "name": "카르베나",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-964",
+        "name": "네베라",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-965",
+        "name": "블러드문 남수댕",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-950",
+        "name": "희야",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-951",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-952",
+        "name": "조은",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-953",
+        "name": "디임",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-954",
+        "name": "수댕",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-955",
+        "name": "오리꿍",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-701",
+        "name": "하이희야",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-702",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-703",
+        "name": "디임",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-704",
+        "name": "수댕",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-705",
+        "name": "조은",
+        "rank": "SS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-989",
+        "name": "천룡검황 진무",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-979",
+        "name": "족로",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-988",
+        "name": "카이론",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-968",
+        "name": "흑무",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-969",
+        "name": "카미시로(神代)",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-970",
+        "name": "카드구",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-959",
+        "name": "진 족로",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-958",
+        "name": "류진",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-966",
+        "name": "헬리오스 킹",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-967",
+        "name": "하쿠야 신",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-971",
+        "name": "레반",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-972",
+        "name": "각성 오메가",
+        "rank": "SSS",
+        "edition": "LIMITED"
+      },
+      {
+        "code": "V-059",
+        "name": "아스트라",
+        "rank": "SSS",
+        "edition": "STANDARD"
+      },
+      {
+        "code": "V-058",
+        "name": "라자크",
+        "rank": "SSS",
+        "edition": "STANDARD"
+      }
+    ]
+  }
+}
