@@ -1,0 +1,45 @@
+{
+  "replayed": false,
+  "rolledBack": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bluegear-opening-coupon:20261119:v1",
+    "authorization": "리버스콜 블루기어 개막전 대형보급 쿠폰 1000조 인원 150명 / 쿠폰 코드 누락 수정",
+    "title": "블루기어 개막전 대형보급 쿠폰",
+    "couponCode": "BLUEGEAR150",
+    "couponId": "5733",
+    "rewardType": "COIN",
+    "coin": "1000000000000000",
+    "maxUses": 150,
+    "perAccount": 1,
+    "expiresAt": null,
+    "completedAt": "2026-11-19T09:53:34.096Z",
+    "generalCmsIssueLimitsUnchanged": true,
+    "accountGrants": 0,
+    "messagesSent": 0,
+    "auditId": "64901"
+  },
+  "writes": [
+    {
+      "relname": "admin_logs",
+      "n_tup_ins": 1,
+      "n_tup_upd": 0,
+      "n_tup_del": 0
+    },
+    {
+      "relname": "app_meta",
+      "n_tup_ins": 1,
+      "n_tup_upd": 0,
+      "n_tup_del": 0
+    },
+    {
+      "relname": "coupons",
+      "n_tup_ins": 1,
+      "n_tup_upd": 0,
+      "n_tup_del": 0
+    }
+  ],
+  "transactionMs": 1339.2,
+  "checkedAt": "2026-11-19T09:53:36.101Z",
+  "sqlCount": 17
+}

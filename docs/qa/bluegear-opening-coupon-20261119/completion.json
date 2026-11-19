@@ -1,0 +1,509 @@
+{
+  "status": "ISSUED_AND_VERIFIED",
+  "operationKey": "ops:bluegear-opening-coupon:20261119:v1",
+  "authorization": "리버스콜 블루기어 개막전 대형보급 쿠폰 1000조 인원 150명 / 쿠폰 코드 누락 수정",
+  "title": "블루기어 개막전 대형보급 쿠폰",
+  "couponCode": "BLUEGEAR150",
+  "couponId": "5733",
+  "rewardType": "COIN",
+  "coin": "1000000000000000",
+  "maxUses": 150,
+  "perAccount": 1,
+  "expiresAt": null,
+  "completedAt": "2026-11-19T09:53:34.096Z",
+  "generalCmsIssueLimitsUnchanged": true,
+  "accountGrants": 0,
+  "messagesSent": 0,
+  "auditId": "64901",
+  "kst": "2026-11-19 18:53:34",
+  "verification": {
+    "readOnly": true,
+    "noWriteReplay": true,
+    "replayQueries": 1,
+    "lockReleased": true,
+    "used": 7,
+    "remaining": 143,
+    "checkedAt": "2026-11-19T09:53:46.931Z"
+  },
+  "checks": {
+    "redemptionTestsPassed": true,
+    "redemptionTests": 5,
+    "browserPathsPassed": true,
+    "paths": [
+      {
+        "device": "pc",
+        "passed": true,
+        "firstMs": 164,
+        "reentryMs": 32,
+        "warnings": [],
+        "longFrames": [
+          0,
+          0
+        ]
+      },
+      {
+        "device": "android",
+        "passed": true,
+        "firstMs": 155,
+        "reentryMs": 31,
+        "warnings": [],
+        "longFrames": [
+          0,
+          0
+        ]
+      },
+      {
+        "device": "windows",
+        "passed": true,
+        "firstMs": 156,
+        "reentryMs": 28,
+        "warnings": [],
+        "longFrames": [
+          0,
+          0
+        ]
+      },
+      {
+        "device": "h5",
+        "passed": true,
+        "firstMs": 150,
+        "reentryMs": 123,
+        "warnings": [],
+        "longFrames": [
+          0,
+          0
+        ]
+      },
+      {
+        "device": "ios",
+        "passed": true,
+        "firstMs": 262,
+        "reentryMs": 58,
+        "warnings": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "longFrames": [
+          0,
+          1
+        ]
+      }
+    ],
+    "art": {
+      "sha256": "340a5b40f99d1ac88ab659e71c163129dfab3f49a5f867dc0bedd6873b0850db",
+      "codeVisuallyVerified": "BLUEGEAR150"
+    },
+    "liveAccountRedemptions": 0,
+    "runtimeChanges": false,
+    "checkedAt": "2026-11-19T09:53:29.642Z",
+    "injectedIssuanceFailureStages": [
+      "coupon",
+      "audit",
+      "receipt"
+    ],
+    "fullRehearsalRollback": true,
+    "messagesSent": 0,
+    "liveAccountTrialRedemptions": 0,
+    "operatorDirectAccountGrants": 0
+  },
+  "performance": {
+    "transactionMs": 1339.2,
+    "isolatedRedemption": {
+      "conditions": "Windows Node / isolated PGlite; actual current COIN redemption route; fixed 6ms delay per SQL. No production account redemption. Runtime unchanged; no before/after improvement claim.",
+      "first": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "rewardType": "COIN",
+          "rewardAmount": 1000000000000000,
+          "rewardLabel": "코인",
+          "rewardCoin": 1000000000000000,
+          "message": "코인 1,000,000,000,000,000개를 받았습니다.",
+          "user": {
+            "id": 20,
+            "coin": "1000000000001234"
+          }
+        },
+        "ms": 219.4,
+        "queries": 11
+      },
+      "repeat": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "rewardType": "COIN",
+          "rewardAmount": 1000000000000000,
+          "rewardLabel": "코인",
+          "rewardCoin": 1000000000000000,
+          "message": "코인 1,000,000,000,000,000개를 받았습니다.",
+          "user": {
+            "id": 21,
+            "coin": "1000000000001234"
+          }
+        },
+        "ms": 171,
+        "queries": 11
+      },
+      "replay": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "replayed": true,
+          "rewardType": "COIN",
+          "rewardAmount": 1000000000000000,
+          "rewardLabel": "코인",
+          "rewardCoin": 1000000000000000,
+          "message": "코인 1,000,000,000,000,000개를 받았습니다.",
+          "user": {
+            "id": 20,
+            "coin": "1000000000001234"
+          }
+        },
+        "ms": 49.4,
+        "queries": 3
+      },
+      "duplicate": {
+        "status": 409,
+        "data": {
+          "error": "이미 사용한 쿠폰입니다."
+        },
+        "ms": 45.1,
+        "queries": 3
+      },
+      "bottleneck": "Database round trips; existing batched transaction retained."
+    },
+    "browser": {
+      "pc": {
+        "mode": "current",
+        "device": "pc",
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+        "rounds": [
+          {
+            "pass": "first",
+            "clickToEditableMs": 164,
+            "frames": {
+              "count": 145,
+              "p95Ms": 4.8,
+              "over50": 0,
+              "maxMs": 30.6
+            },
+            "feedback": "쿠폰 사용 완료! 코인 1,000,000,000,000,000개를 받았습니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          },
+          {
+            "pass": "re-entry",
+            "clickToEditableMs": 32,
+            "frames": {
+              "count": 154,
+              "p95Ms": 5.4,
+              "over50": 0,
+              "maxMs": 8.4
+            },
+            "feedback": "이미 사용한 쿠폰입니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          }
+        ],
+        "api": [
+          {
+            "status": 200,
+            "ms": 57.7,
+            "queries": 11,
+            "label": "코인",
+            "rewardCoin": 1000000000000000
+          },
+          {
+            "status": 409,
+            "ms": 7.9,
+            "queries": 3
+          }
+        ],
+        "errors": [],
+        "coldStartToLobbyMs": 2099
+      },
+      "android": {
+        "mode": "current",
+        "device": "android",
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+        "rounds": [
+          {
+            "pass": "first",
+            "clickToEditableMs": 155,
+            "frames": {
+              "count": 152,
+              "p95Ms": 4.4,
+              "over50": 0,
+              "maxMs": 12.5
+            },
+            "feedback": "쿠폰 사용 완료! 코인 1,000,000,000,000,000개를 받았습니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          },
+          {
+            "pass": "re-entry",
+            "clickToEditableMs": 31,
+            "frames": {
+              "count": 150,
+              "p95Ms": 4.3,
+              "over50": 0,
+              "maxMs": 20.4
+            },
+            "feedback": "이미 사용한 쿠폰입니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          }
+        ],
+        "api": [
+          {
+            "status": 200,
+            "ms": 70.8,
+            "queries": 11,
+            "label": "코인",
+            "rewardCoin": 1000000000000000
+          },
+          {
+            "status": 409,
+            "ms": 4.6,
+            "queries": 3
+          }
+        ],
+        "errors": [],
+        "coldStartToLobbyMs": 1951
+      },
+      "windows": {
+        "mode": "current",
+        "device": "windows",
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+        "rounds": [
+          {
+            "pass": "first",
+            "clickToEditableMs": 156,
+            "frames": {
+              "count": 140,
+              "p95Ms": 4.5,
+              "over50": 0,
+              "maxMs": 24.9
+            },
+            "feedback": "쿠폰 사용 완료! 코인 1,000,000,000,000,000개를 받았습니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          },
+          {
+            "pass": "re-entry",
+            "clickToEditableMs": 28,
+            "frames": {
+              "count": 153,
+              "p95Ms": 4.3,
+              "over50": 0,
+              "maxMs": 8.3
+            },
+            "feedback": "이미 사용한 쿠폰입니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          }
+        ],
+        "api": [
+          {
+            "status": 200,
+            "ms": 82.3,
+            "queries": 11,
+            "label": "코인",
+            "rewardCoin": 1000000000000000
+          },
+          {
+            "status": 409,
+            "ms": 4.1,
+            "queries": 3
+          }
+        ],
+        "errors": [],
+        "coldStartToLobbyMs": 1786
+      },
+      "h5": {
+        "mode": "current",
+        "device": "h5",
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+        "rounds": [
+          {
+            "pass": "first",
+            "clickToEditableMs": 150,
+            "frames": {
+              "count": 147,
+              "p95Ms": 4.5,
+              "over50": 0,
+              "maxMs": 23.5
+            },
+            "feedback": "쿠폰 사용 완료! 코인 1,000,000,000,000,000개를 받았습니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          },
+          {
+            "pass": "re-entry",
+            "clickToEditableMs": 123,
+            "frames": {
+              "count": 148,
+              "p95Ms": 4.4,
+              "over50": 0,
+              "maxMs": 25
+            },
+            "feedback": "이미 사용한 쿠폰입니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          }
+        ],
+        "api": [
+          {
+            "status": 200,
+            "ms": 65.5,
+            "queries": 11,
+            "label": "코인",
+            "rewardCoin": 1000000000000000
+          },
+          {
+            "status": 409,
+            "ms": 6.3,
+            "queries": 3
+          }
+        ],
+        "errors": [],
+        "coldStartToLobbyMs": 1853
+      },
+      "ios": {
+        "mode": "current",
+        "device": "ios",
+        "staticOrigin": "https://cnine-card.pages.dev",
+        "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+        "rounds": [
+          {
+            "pass": "first",
+            "clickToEditableMs": 262,
+            "frames": {
+              "count": 35,
+              "p95Ms": 41,
+              "over50": 0,
+              "maxMs": 42
+            },
+            "feedback": "쿠폰 사용 완료! 코인 1,000,000,000,000,000개를 받았습니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          },
+          {
+            "pass": "re-entry",
+            "clickToEditableMs": 58,
+            "frames": {
+              "count": 29,
+              "p95Ms": 43,
+              "over50": 1,
+              "maxMs": 57
+            },
+            "feedback": "이미 사용한 쿠폰입니다.",
+            "exit": {
+              "forms": 0,
+              "animations": 0,
+              "newCouponRequests": 0
+            }
+          }
+        ],
+        "api": [
+          {
+            "status": 200,
+            "ms": 49.8,
+            "queries": 11,
+            "label": "코인",
+            "rewardCoin": 1000000000000000
+          },
+          {
+            "status": 409,
+            "ms": 3.7,
+            "queries": 3
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "coldStartToLobbyMs": 2345
+      }
+    },
+    "conditions": "Sequential Windows host Chrome/headless and WebKit; desktop, Android touch, Windows-client URL and H5 entry emulation. Real published frontend with isolated API/account responses. Not physical device, installed client or physical Safari testing. No runtime changes; therefore no before/after speed improvement is claimed.",
+    "exit": "All five paths: coupon forms, form animations and new coupon requests after exit = 0.",
+    "bottleneck": "Initial frontend network/main-thread startup; redemption database round trips. Existing batched COIN path and indexed coupon lookup retained."
+  },
+  "runtimeChanges": false,
+  "runtimeRedeployment": false,
+  "art": {
+    "version": 2,
+    "mode": "built-in image_gen.imagegen",
+    "finalFile": "bluegear-opening-banknote-v2.png",
+    "prompt": "prompt-v2.txt",
+    "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1f31a-a0d8-7d33-8264-39e3440cab2c/exec-a48cfcbd-11dc-4924-aa38-8706b653e016.png",
+    "width": 2172,
+    "height": 724,
+    "bytes": 3540507,
+    "sha256": "340a5b40f99d1ac88ab659e71c163129dfab3f49a5f867dc0bedd6873b0850db",
+    "copyVerifiedIdentical": true,
+    "text": [
+      "리버스콜",
+      "블루기어 개막전",
+      "대형보급 쿠폰",
+      "1000조",
+      "쿠폰 코드",
+      "BLUEGEAR150",
+      "인원 150명"
+    ],
+    "visualReview": {
+      "codeCorrectAndProminent": true,
+      "allKoreanTextCorrect": true,
+      "amountAndCountCorrect": true,
+      "allFourEdgesVisible": true,
+      "existingStylePreserved": true
+    },
+    "previousVersion": "bluegear-opening-banknote-v1.png; preserved locally as the missing-code revision",
+    "coupon": {
+      "code": "BLUEGEAR150",
+      "id": "5733",
+      "auditId": "64901",
+      "coin": "1000000000000000",
+      "maxUses": 150,
+      "perAccount": 1,
+      "expiresAt": null,
+      "status": "ISSUED_AND_VERIFIED"
+    },
+    "posting": false
+  },
+  "operationSources": {
+    "issueSHA256": "4b5c0cb21b7053f361ea9e43ceb88dde788ab3faaad55c52dca92630723a70fd",
+    "fixtureSHA256": "b99596a6235f26f47106b1c709ca88f426a7b278fc6958de3605167d4fa8cb65",
+    "testSHA256": "3b1f95dce70ffaef8a1b54cdba2c904016a26feefcc1e997bb2adb0f6af8062f"
+  }
+}

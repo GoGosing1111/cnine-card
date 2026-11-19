@@ -1,0 +1,50 @@
+{
+  "readOnly": true,
+  "gift": {
+    "code": "BLUEGEAR150",
+    "type": "COIN",
+    "coin": "1000000000000000",
+    "maxUses": 150,
+    "title": "블루기어 개막전 대형보급 쿠폰"
+  },
+  "current": {
+    "definitions": [],
+    "receipt": null,
+    "audits": []
+  },
+  "previous": {
+    "definition": {
+      "id": "5687",
+      "code": "REVERSE4M200",
+      "reward_type": "NOVEMBER_GIFT_REVERSECALL_FOUR_MONTH_20261116",
+      "reward_coin": "500000000000000",
+      "reward_amount": "1",
+      "max_uses": 200,
+      "starts_at": null,
+      "ends_at": null,
+      "is_active": 1,
+      "deleted_at": null
+    },
+    "receiptHash": "b3bdb9b911839c53686615b7ee08d0f84fcfbbe8bb900986b70d6177ca70cb5b"
+  },
+  "indexes": [
+    {
+      "tablename": "coupon_redemptions",
+      "indexdef": "CREATE UNIQUE INDEX coupon_redemptions_pkey ON public.coupon_redemptions USING btree (coupon_id, user_id)"
+    },
+    {
+      "tablename": "coupon_redemptions",
+      "indexdef": "CREATE UNIQUE INDEX idx_coupon_redemptions_operation ON public.coupon_redemptions USING btree (operation_key) WHERE (operation_key IS NOT NULL)"
+    },
+    {
+      "tablename": "coupons",
+      "indexdef": "CREATE UNIQUE INDEX coupons_pkey ON public.coupons USING btree (id)"
+    },
+    {
+      "tablename": "coupons",
+      "indexdef": "CREATE UNIQUE INDEX coupons_code_key ON public.coupons USING btree (code)"
+    }
+  ],
+  "checkedAt": "2026-11-19T09:49:56.877Z",
+  "sqlCount": 8
+}

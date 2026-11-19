@@ -1,0 +1,64 @@
+{
+  "conditions": "Windows Node / isolated PGlite; actual current COIN redemption route; fixed 6ms delay per SQL. No production account redemption. Runtime unchanged; no before/after improvement claim.",
+  "first": {
+    "status": 200,
+    "data": {
+      "ok": true,
+      "rewardType": "COIN",
+      "rewardAmount": 1000000000000000,
+      "rewardLabel": "코인",
+      "rewardCoin": 1000000000000000,
+      "message": "코인 1,000,000,000,000,000개를 받았습니다.",
+      "user": {
+        "id": 20,
+        "coin": "1000000000001234"
+      }
+    },
+    "ms": 219.4,
+    "queries": 11
+  },
+  "repeat": {
+    "status": 200,
+    "data": {
+      "ok": true,
+      "rewardType": "COIN",
+      "rewardAmount": 1000000000000000,
+      "rewardLabel": "코인",
+      "rewardCoin": 1000000000000000,
+      "message": "코인 1,000,000,000,000,000개를 받았습니다.",
+      "user": {
+        "id": 21,
+        "coin": "1000000000001234"
+      }
+    },
+    "ms": 171,
+    "queries": 11
+  },
+  "replay": {
+    "status": 200,
+    "data": {
+      "ok": true,
+      "replayed": true,
+      "rewardType": "COIN",
+      "rewardAmount": 1000000000000000,
+      "rewardLabel": "코인",
+      "rewardCoin": 1000000000000000,
+      "message": "코인 1,000,000,000,000,000개를 받았습니다.",
+      "user": {
+        "id": 20,
+        "coin": "1000000000001234"
+      }
+    },
+    "ms": 49.4,
+    "queries": 3
+  },
+  "duplicate": {
+    "status": 409,
+    "data": {
+      "error": "이미 사용한 쿠폰입니다."
+    },
+    "ms": 45.1,
+    "queries": 3
+  },
+  "bottleneck": "Database round trips; existing batched transaction retained."
+}

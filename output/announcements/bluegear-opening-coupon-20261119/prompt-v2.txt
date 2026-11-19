@@ -1,0 +1,13 @@
+Edit the supplied existing Korean Reverse Call BLUE GEAR horizontal banknote coupon. Correct the missing redeemable coupon code.
+Preserve the existing polished 3:1 horizontal banknote style, icy blue/platinum color, ornate fine guilloche border, mechanical gearwork, official violet-blue crystalline R emblem on the left, and the existing top event title. Keep all four edges visible. Do not create a different visual concept.
+Add a prominent, impeccably readable redeem-code panel in the lower center/right. The label must read exactly "쿠폰 코드", and the code must be exactly "BLUEGEAR150" in LARGE, high-contrast, evenly spaced uppercase Latin letters and digits. The ending is the digits 1, 5, 0, not letters. This code is the essential correction, do not omit it or make it small.
+To make room, moderately reduce the height of the large "1000조" denomination while keeping it visually dominant. Place the code below that denomination; put the existing participant count "인원 150명" as a separate neat line immediately under the code. The medallion may remain full height.
+Exact text to retain/add:
+"리버스콜"
+"블루기어 개막전"
+"대형보급 쿠폰"
+"1000조"
+"쿠폰 코드"
+"BLUEGEAR150"
+"인원 150명"
+Check all spelling verbatim. No extra currency, no invented expiry, no additional reward, no QR/barcode, no serials, no new characters. Deliver one finished flat horizontal banknote filling the image. Preserve the source as a reference and produce a separate corrected version.

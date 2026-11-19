@@ -1,0 +1,71 @@
+{
+  "redemptionTestsPassed": true,
+  "redemptionTests": 5,
+  "browserPathsPassed": true,
+  "paths": [
+    {
+      "device": "pc",
+      "passed": true,
+      "firstMs": 164,
+      "reentryMs": 32,
+      "warnings": [],
+      "longFrames": [
+        0,
+        0
+      ]
+    },
+    {
+      "device": "android",
+      "passed": true,
+      "firstMs": 155,
+      "reentryMs": 31,
+      "warnings": [],
+      "longFrames": [
+        0,
+        0
+      ]
+    },
+    {
+      "device": "windows",
+      "passed": true,
+      "firstMs": 156,
+      "reentryMs": 28,
+      "warnings": [],
+      "longFrames": [
+        0,
+        0
+      ]
+    },
+    {
+      "device": "h5",
+      "passed": true,
+      "firstMs": 150,
+      "reentryMs": 123,
+      "warnings": [],
+      "longFrames": [
+        0,
+        0
+      ]
+    },
+    {
+      "device": "ios",
+      "passed": true,
+      "firstMs": 262,
+      "reentryMs": 58,
+      "warnings": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "longFrames": [
+        0,
+        1
+      ]
+    }
+  ],
+  "art": {
+    "sha256": "340a5b40f99d1ac88ab659e71c163129dfab3f49a5f867dc0bedd6873b0850db",
+    "codeVisuallyVerified": "BLUEGEAR150"
+  },
+  "liveAccountRedemptions": 0,
+  "runtimeChanges": false,
+  "checkedAt": "2026-11-19T09:53:29.642Z"
+}

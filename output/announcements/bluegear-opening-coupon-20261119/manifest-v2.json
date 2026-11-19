@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "mode": "built-in image_gen.imagegen",
+  "finalFile": "bluegear-opening-banknote-v2.png",
+  "prompt": "prompt-v2.txt",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a1f31a-a0d8-7d33-8264-39e3440cab2c/exec-a48cfcbd-11dc-4924-aa38-8706b653e016.png",
+  "width": 2172,
+  "height": 724,
+  "bytes": 3540507,
+  "sha256": "340a5b40f99d1ac88ab659e71c163129dfab3f49a5f867dc0bedd6873b0850db",
+  "copyVerifiedIdentical": true,
+  "text": [
+    "리버스콜",
+    "블루기어 개막전",
+    "대형보급 쿠폰",
+    "1000조",
+    "쿠폰 코드",
+    "BLUEGEAR150",
+    "인원 150명"
+  ],
+  "visualReview": {
+    "codeCorrectAndProminent": true,
+    "allKoreanTextCorrect": true,
+    "amountAndCountCorrect": true,
+    "allFourEdgesVisible": true,
+    "existingStylePreserved": true
+  },
+  "previousVersion": "bluegear-opening-banknote-v1.png; preserved locally as the missing-code revision",
+  "coupon": {
+    "code": "BLUEGEAR150",
+    "id": "5733",
+    "auditId": "64901",
+    "coin": "1000000000000000",
+    "maxUses": 150,
+    "perAccount": 1,
+    "expiresAt": null,
+    "status": "ISSUED_AND_VERIFIED"
+  },
+  "posting": false
+}

@@ -1,0 +1,13 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "scope": [
+    "Exact 1000조 grant, normalized code, replay and once per account",
+    "150 recipients and 151st rejection",
+    "Rollback on balance-update failure",
+    "Rollback on coin-ledger failure",
+    "Inactive, missing and unauthenticated rejection"
+  ],
+  "actualCurrentCoinRoute": true,
+  "liveAccountRedemptions": 0
+}
