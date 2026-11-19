@@ -1,0 +1,426 @@
+{
+  "at": "2026-11-19T06:44:15.568Z",
+  "pages": {
+    "id": "013a6f88-87d3-4f3a-83d3-862a32e5f31f",
+    "url": "https://013a6f88.cnine-card.pages.dev",
+    "status": "success",
+    "commit": "94e879632a8b8984eb8f29701fe1ef33de574f01"
+  },
+  "latest": "013a6f88-87d3-4f3a-83d3-862a32e5f31f",
+  "releaseCommit": "94e879632a8b8984eb8f29701fe1ef33de574f01",
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "connected": true,
+      "sha256": "bb022f9378c748f03d0ff3d7d2d1eee2f06937b185bcdb4b58616edabb3856bc",
+      "latestDeployment": {
+        "id": "0ddd5e08-dca5-4bae-9f2d-bcf8cde65ded",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "473402ff-e152-47b9-a5ee-e115a6518ad3",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-19T06:38:45.718588Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "connected": true,
+      "sha256": "6eeed7ed9a38b5e50b433a03dd329a961f238d63fa41688b7f15fded82eb809c",
+      "latestDeployment": {
+        "id": "d6e0eb61-2d19-4556-af7d-960bb6942b9f",
+        "source": "wrangler",
+        "strategy": "percentage",
+        "author_email": "wlgks6344@naver.com",
+        "annotations": {
+          "workers/triggered_by": "deployment"
+        },
+        "versions": [
+          {
+            "version_id": "01ee26a2-7cf3-49b4-99bd-31c275949842",
+            "percentage": 100
+          }
+        ],
+        "created_on": "2026-11-19T06:40:25.492841Z"
+      }
+    }
+  ],
+  "publicFiles": [
+    {
+      "file": "index.html",
+      "bytes": 53090,
+      "sha256": "e35dcca220ff7e6b43e60567057bab20f7a880eddea8e514665fa5cccd8568b9",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 826626,
+      "sha256": "9ac70fc17a1dd121766305768eb2fb8a5485cc33af838f8604bc449e492bee99",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 77578,
+      "sha256": "4a4a83e91175da6a73573b1d18643cba61edcc550b968d80c4e7e0769a718d5d",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 26538,
+      "sha256": "29b78e72bf30ccdecb4f14b0aa596121c307c69d5e64221371effce84c9bed1b",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 3859168,
+      "sha256": "7ad3510b305d8c61cc1b22f93aafc93e903ab305bd12c2eaa59e82ddba93916a",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "bytes": 3858726,
+      "sha256": "988984f4abfc373a54b423aec978a7ccb79842c096e3ea43ee7b8920805c7627",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "bytes": 3858794,
+      "sha256": "1524b5c8434713725d19bd31ad4fef51f2b7c24fa6e59f5722902e523899cecb",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "bytes": 3858783,
+      "sha256": "f71b9d53785c0dd03485b6cf1ebcadb7e053b6209346cd5dd96ccecc8d6a2f90",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "bytes": 3859142,
+      "sha256": "a3f59c5175e68fd392525a8eee6572388e680611e337a8a5057ded09777b1e50",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "bytes": 3862352,
+      "sha256": "b50e276df9113ee2863d044f613fe1049638030d4e921236116c76231429989a",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "bytes": 3855813,
+      "sha256": "a27d826d96796900c813007c1d7d943d084a0373ebb640a0ac57c2257f99a91a",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "bytes": 3860516,
+      "sha256": "5e40a64d9c6865db190e726d056e5250953fbf79937a3df5a7006ac8497353a3",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "bytes": 3905620,
+      "sha256": "46056c735a0b822338d21927b96ff16ed20dc8ac6f13e6c83fa24644c1048dfe",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "bytes": 3992764,
+      "sha256": "7059f2050db4de923d879602beb7803f497f1936b618baff65cd67e7a297edce",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 3882859,
+      "sha256": "c5587f0929ebcc9de27adbccf0aecfd9e17353b755b83bcc2bf7d9df867501e3",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "onestore/js/app.js",
+      "bytes": 827538,
+      "sha256": "799051b666bde04ef5fb58e4341465f31e93855ab25fdf4d98944b149208da1f",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "onestore/index.html",
+      "bytes": 53212,
+      "sha256": "19fa104fcef50c22e4dceb0a5324adc802ed5414b20c95ef6a291799d4ecb945",
+      "comparison": "exact official htmlForStore transformation"
+    },
+    {
+      "file": "shared/mercenary-ryujin-v1.mjs",
+      "bytes": 5472,
+      "sha256": "34ff498981334bf450af378475930721853c5d81bdb988a89725423b17ceb2b4",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "bytes": 18486,
+      "sha256": "0f1d042329dc2d11956d251e215da23736be10a5abe419e37f93e582f21ca00b",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/source-art-approved.png",
+      "bytes": 2406414,
+      "sha256": "8bced96b9b6d38289062d567cf67b0aaee1d167399faef9bcdfbd359327d1dc9",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/guard.png",
+      "bytes": 803745,
+      "sha256": "6187d84889266b4582027b199d85628a9905df758e6d11b5edd4e3f230946032",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/body/crimson-katana-v3.json",
+      "bytes": 76717,
+      "sha256": "deced5e0ef9413d044c70b51c31e4a77aa639cf86fb96f9b93912e3d4e20e6fd",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/body/crimson-katana.atlas",
+      "bytes": 1441,
+      "sha256": "f86638a693bfec9edcb35437cc0babd64f742b471e85482fadb94ecfaa1329f3",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/body/crimson-katana.png",
+      "bytes": 7486460,
+      "sha256": "9e011c48640f436948f94447d14f8e30b4e33545f6b59ab127469a50fdcd94fa",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/effects/crimson-reference-fx.json",
+      "bytes": 28825,
+      "sha256": "899c16723188afc10ba553db0c44d22a5ba4dd73516dc3bdb9ed88e83fbcb6dd",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/effects/crimson-reference-fx.atlas",
+      "bytes": 505,
+      "sha256": "263c108172e473f0b405ee4abda0810a70ab88f199b3b9020f8bf6dcef0bd665",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/effects/crimson-reference-fx.png",
+      "bytes": 12664718,
+      "sha256": "253e480460b571f11d2a8dd73ebbe0afbd2187bb0ce26f4b76c6a59e78a06af0",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/floor/ryujin-floor.json",
+      "bytes": 6635,
+      "sha256": "80a1bc91fbd310c5d93f3ebc757d18c35ac8a5511cfb682fd967cfc83814836c",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/floor/ryujin-floor.atlas",
+      "bytes": 149,
+      "sha256": "a8c1f3c789ef35bc58bfbc7b25a6bbb35f6c1351d821803704fe523a9740a590",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/floor/ryujin-floor.png",
+      "bytes": 3299880,
+      "sha256": "51eece273d8b226bcbc11b481aaefefd5c1b515f932fd3cc780de6cf9bc4cfe5",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/rear/06.png",
+      "bytes": 1897038,
+      "sha256": "4f6c8764ec454483c6a06ae38f0488e8af89c79f03face1be3d3c89ffe4f8cbb",
+      "comparison": "exact bytes or CRLF-normalized source"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/ryujin-20261119/rear/10.png",
+      "bytes": 1825707,
+      "sha256": "c06b740e63325a42bc0b6200e312d9fa6996c56fa6b809ca760b0d458984e3ce",
+      "comparison": "exact bytes or CRLF-normalized source"
+    }
+  ],
+  "windowsFiles": 26,
+  "ryujin": {
+    "code": "V-958",
+    "name": "류진",
+    "title": "",
+    "titleStatus": "DEFERRED_BY_USER",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/ryujin-20261119/source-art-approved.png",
+    "thumbnailArt": "assets/ui/project-v/mercenaries/ryujin-20261119/source-art-approved.png",
+    "battleSprite": "assets/ui/project-v/mercenaries/ryujin-20261119/guard.png",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#ff203a",
+    "basePower": 4000000,
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "craftAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 4,000,000. 전체 용병 최고 기본 전투력. 일반 공격 220%, PVE 검붉은 검압·쌍월 검무·종결의 총 피해는 6,000%·7,200%·8,400%로 생존 적에게 나눠 대상당 한 번 적용합니다. 세 광역기는 에너지 10·공통 재사용 2행동입니다. 자연 행동 속도 5.5배·아군 카드 행동당 추가 행동 5.5회분, 받는 피해 85% 경감·상태이상·반격·중독 보호. PVP는 일반 공격과 기존 최상위 공격·체력·방벽 보정을 사용합니다. 현재 획득 불가. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다.",
+    "skills": [
+      {
+        "key": "basic-slash",
+        "name": "횡베기",
+        "visualMode": "attack_basic",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 2.2,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "id": "MS-1106",
+        "mechanic": "RYUJIN_BASIC_FORM",
+        "ready": true,
+        "effect": "검격으로 일반 공격 220%를 대상 하나에 한 번 적용합니다.",
+        "trigger": "일반 공격 · 횡베기 → 이단 연격 → 혼령 찌르기",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 · 분신과 잔상은 피해를 추가하지 않습니다."
+      },
+      {
+        "key": "basic-double",
+        "name": "이단 연격",
+        "visualMode": "skill_double_cut",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 2.2,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "id": "MS-1107",
+        "mechanic": "RYUJIN_BASIC_FORM",
+        "ready": true,
+        "effect": "검격으로 일반 공격 220%를 대상 하나에 한 번 적용합니다.",
+        "trigger": "일반 공격 · 횡베기 → 이단 연격 → 혼령 찌르기",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 · 분신과 잔상은 피해를 추가하지 않습니다."
+      },
+      {
+        "key": "basic-thrust",
+        "name": "혼령 찌르기",
+        "visualMode": "skill_thrust",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 2.2,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "id": "MS-1108",
+        "mechanic": "RYUJIN_BASIC_FORM",
+        "ready": true,
+        "effect": "검격으로 일반 공격 220%를 대상 하나에 한 번 적용합니다.",
+        "trigger": "일반 공격 · 횡베기 → 이단 연격 → 혼령 찌르기",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 · 분신과 잔상은 피해를 추가하지 않습니다."
+      },
+      {
+        "key": "pressure",
+        "name": "검붉은 검압",
+        "visualMode": "skill_crescent",
+        "damageCapScale": 3.6,
+        "presentationVariants": [
+          "skill_dash",
+          "skill_launch",
+          "skill_return",
+          "skill_wave",
+          "skill_vortex",
+          "skill_helix",
+          "skill_air_slam",
+          "skill_crescent",
+          "skill_return_chase"
+        ],
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "damageRatio": 60,
+          "cooldownTurns": 2,
+          "cost": 10
+        },
+        "id": "MS-1109",
+        "mechanic": "RYUJIN_CRIMSON_DOMAIN",
+        "ready": true,
+        "effect": "총 6,000% 피해를 생존한 적 전체에 나눠 한 번씩 적용합니다.",
+        "trigger": "PVE · 에너지 10 · 광역기 공통 재사용 2행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 · 분신과 잔상은 피해를 추가하지 않습니다."
+      },
+      {
+        "key": "twin-moon",
+        "name": "쌍월 검무",
+        "visualMode": "skill_twin",
+        "damageCapScale": 4.3,
+        "presentationVariants": [
+          "skill_orbit",
+          "skill_twin",
+          "skill_cross"
+        ],
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "damageRatio": 72,
+          "cooldownTurns": 2,
+          "cost": 10
+        },
+        "id": "MS-1110",
+        "mechanic": "RYUJIN_CRIMSON_DOMAIN",
+        "ready": true,
+        "effect": "총 7,200% 피해를 생존한 적 전체에 나눠 한 번씩 적용합니다.",
+        "trigger": "PVE · 에너지 10 · 광역기 공통 재사용 2행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 · 분신과 잔상은 피해를 추가하지 않습니다."
+      },
+      {
+        "key": "finisher",
+        "name": "종결",
+        "visualMode": "skill_finisher",
+        "damageCapScale": 5,
+        "presentationVariants": [
+          "skill_finisher"
+        ],
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "damageRatio": 84,
+          "cooldownTurns": 2,
+          "cost": 10
+        },
+        "id": "MS-1111",
+        "mechanic": "RYUJIN_CRIMSON_DOMAIN",
+        "ready": true,
+        "effect": "총 8,400% 피해를 생존한 적 전체에 나눠 한 번씩 적용합니다.",
+        "trigger": "PVE · 에너지 10 · 광역기 공통 재사용 2행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "대상당 한 번 · 분신과 잔상은 피해를 추가하지 않습니다."
+      }
+    ]
+  },
+  "operationalAccountWrites": 0,
+  "messages": 0
+}
