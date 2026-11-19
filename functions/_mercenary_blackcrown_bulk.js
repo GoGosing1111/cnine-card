@@ -1,4 +1,4 @@
-// Private helpers for Blackcrown only. No schema changes or release overrides.
+// Private helpers for Blackcrown and its pack variants. No schema changes or release overrides.
 import {LIMITED_RATE_TOTAL} from '../shared/mercenary-limited-rates-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
@@ -12,9 +12,9 @@ export function createBlackcrownBulkRandom(fill=words=>crypto.getRandomValues(wo
   return value%max;
  };
 }
-export function blackcrownBulkAcquisitionStatements(DB,{userId,requestId,draw,createdAt,acquisitionIndex=null}){
+export function blackcrownBulkAcquisitionStatements(DB,{userId,requestId,draw,createdAt,acquisitionIndex=null,maxQuantity=100000}){
  const {mercenaryCode:code,quantity}=draw;
- if(!Number.isSafeInteger(quantity)||quantity<1||quantity>100000)throw Error('Invalid Blackcrown quantity');
+ if(!Number.isSafeInteger(quantity)||quantity<1||quantity>maxQuantity)throw Error('Invalid Blackcrown quantity');
  if(acquisitionIndex!==null&&(!Number.isSafeInteger(acquisitionIndex)||acquisitionIndex<0||acquisitionIndex>=10||quantity!==1))throw Error('Invalid Blackcrown acquisition index');
  const p=(sql,...args)=>DB.prepare(sql).bind(...args),token=crypto.randomUUID(),aid=requestId+(acquisitionIndex===null?':bulk:'+code:':'+acquisitionIndex);
  // The caller locks/rechecks the exact CMS and draw-policy revisions in this

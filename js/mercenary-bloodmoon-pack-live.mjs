@@ -22,7 +22,7 @@ export function mountBloodmoonPack(options){
 }
 
 export async function mountContractRoom(profile,{api=jointAccountRequest,getAccountId=currentAccount,accountId=getAccountId(),
- storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
+ storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host),recoverRequested=false}={}){
  if(active)return active;
  const {pack,theme,receiptResults,retryable}=profile;
  if(!document.querySelector('link[href*="css/mercenary-bloodmoon-pack-v2.css"]')){
@@ -31,7 +31,7 @@ export async function mountContractRoom(profile,{api=jointAccountRequest,getAcco
  }
  const previous=document.activeElement,dialog=document.createElement('dialog');
  dialog.className=['bwp-dialog',profile.skin].filter(Boolean).join(' ');active=dialog;
- dialog.setAttribute('aria-labelledby','bwp-title');dialog.innerHTML=bloodmoonRoomMarkup(pack,theme);
+ dialog.setAttribute('aria-labelledby','bwp-title');dialog.innerHTML=bloodmoonRoomMarkup(pack,theme,profile.bulk);
  const $=selector=>dialog.querySelector(selector);let stockTimer=null;let config=null,busy=false,disposed=false,quote=null,paused=false,auto=null,session=null,recovery=null;
  const lifetime=new AbortController(),closed=()=>Object.assign(Error('계약실을 닫았습니다. 이전 결과는 다시 확인할 수 있습니다.'),{code:'BLOODMOON_ROOM_CLOSED'});
  // Retiring a stalled view cancels only its local wait. The durable request ID
@@ -138,7 +138,7 @@ export async function mountContractRoom(profile,{api=jointAccountRequest,getAcco
   try{const q=bloodmoonAutoQuote(config,Number($('[data-bwp-auto-count]').value),Number($('[data-bwp-auto-repeats]').value));$('[data-bwp-auto-quote]').textContent='총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인';}
   catch(e){$('[data-bwp-auto-quote]').textContent=e.message;$('[data-bwp-auto-start]').disabled=true;}
  }
- function readBulkQuote(){const source=bloodmoonBulkPriceSource(config),budget=$('[data-bwp-budget]').value.replaceAll(',','').trim();return {...bloodmoonBulkQuote(source.prices,budget),reference:source.reference};}
+ function readBulkQuote(){const source=bloodmoonBulkPriceSource(config),budget=$('[data-bwp-budget]').value.replaceAll(',','').trim();return {...(profile.bulk?.quote||bloodmoonBulkQuote)(source.prices,budget),reference:source.reference};}
  function updateBulkQuote(){
   const button=$('[data-bwp-bulk-start]');button.disabled=true;
   $('[data-bwp-budget]').disabled=busy;
@@ -194,12 +194,13 @@ export async function mountContractRoom(profile,{api=jointAccountRequest,getAcco
  $('[data-bwp-recover]').onclick=()=>{
   if(busy&&hasPending()){
    close();
-   // Entry performs receipt GETs only, even if the original POST is still running.
-   void mountContractRoom(profile,{api,accountId,getAccountId,storage,lock,videoFactory}).catch(()=>{});
+   // An explicit Blue Gear recovery click may resume the same durable request
+   // after the receipt GET. Ordinary entry and automatic recovery stay read-only.
+   void mountContractRoom(profile,{api,accountId,getAccountId,storage,lock,videoFactory,recoverRequested:profile.manualPendingRecovery===true}).catch(()=>{});
    return;
   }
   say('이전 개봉 결과를 확인하고 있습니다.');
   void run(()=>recover());
  };
- document.body.append(dialog);dialog.showModal();try{await load();if(!disposed&&session.read(session.pendingKey))await run(()=>recover(true));}catch(e){say(e.message,true);if(retryable(e))recovery.request();}return dialog;
+ document.body.append(dialog);dialog.showModal();try{await load();if(!disposed&&session.read(session.pendingKey))await run(()=>recover(!recoverRequested));}catch(e){say(e.message,true);if(retryable(e))recovery.request();}return dialog;
 }

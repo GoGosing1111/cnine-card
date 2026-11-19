@@ -186,3 +186,6 @@
  }
  .blue-gear-skin .bwp-header,.blue-gear-skin .bwp-actions { background:#12263b; }
 }
+
+/* Large bulk counts stay on one line on narrow phones. */
+@media(max-width:600px){.blue-gear-skin .bwp-rank-counts{grid-template-columns:repeat(3,minmax(0,1fr))}.blue-gear-skin .bwp-rank-counts dd{white-space:nowrap;font-size:clamp(14px,4vw,20px)}}

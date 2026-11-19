@@ -45,13 +45,13 @@ async function reconcileBlackcrownStock(DB,userId,requestId,plan,state,randomInt
 }
 // No HTTP release override. Tests use this factory against isolated databases.
 export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN_PACK_RELEASE_ENABLED,randomInt=limitedPackRandomInt,variant={}}={}){
- const {pack=BLACKCROWN_PACK,packKey=BLACKCROWN_PACK_KEY,openKind=BLACKCROWN_OPEN_KIND,stockPrefix='',validateState=()=>{},transactionStatements=()=>[],drawPolicy={},fallbackSs=false}=variant;
+ const {pack=BLACKCROWN_PACK,packKey=BLACKCROWN_PACK_KEY,openKind=BLACKCROWN_OPEN_KIND,stockPrefix='',validateState=()=>{},transactionStatements=()=>[],drawPolicy={},fallbackSs=false,coinDebit=jointCoinDebit}=variant;
  const {isLimited=isBlackcrownLimited,ssCodes=BLACKCROWN_CODES,bulkFormat=BLACKCROWN_BULK_FORMAT}=drawPolicy;
  if(typeof readState!=='function')throw Error('Blackcrown state reader required');
  const stateFor=(env,user)=>readState(env,{releaseEnabled,userId:user.id});
  async function open(env,user,raw){
   if(!releaseEnabled)throw jointError('MERCENARY_BLACKCROWN_CLOSED','블랙크라운팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
-  const {requestId,count,expectedRevision}=validateBlackcrownOpeningBody(raw);
+  const {requestId,count,expectedRevision}=validateBlackcrownOpeningBody(raw,drawPolicy);
   const bulk=Object.hasOwn(raw,'budget'),random=bulk&&randomInt===limitedPackRandomInt?createBlackcrownBulkRandom():randomInt;
   let result;
   // Each stock race replaces at least one still-limited slot. Retry the same
@@ -63,7 +63,7 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
     if(state.settings.mode!=='ON')throw terminal('CLOSED',pack.name+' 개봉이 중지됐습니다.');
     if(state.revision!==expectedRevision)throw terminal('CHANGED','가격·확률이 변경됐습니다. 새 설정을 확인하세요.');
     if(!state.readiness.ready)throw terminal('NOT_READY',state.readiness.blockers.join(' '));
-    const quote=bulk?blackcrownBulkQuote(state.settings.prices,raw.budget):null;
+    const quote=bulk?blackcrownBulkQuote(state.settings.prices,raw.budget,drawPolicy.bulkLimits):null;
     if(quote&&quote.count!==count)throw terminal('INPUT','사용 한도와 개봉 횟수가 일치하지 않습니다.');
     const coinCost=quote?quote.coinCost:blackcrownPackPrice(state.settings,count),wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
     if(!wallet||BigInt(wallet.coin)<BigInt(coinCost))throw terminal('FUNDS','코인이 부족합니다.');
@@ -120,8 +120,8 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
      if(blackcrownUnlimitedDraw(r.mercenaryCode))list.push(...blackcrownBulkAcquisitionStatements(DB,{userId:Number(user.id),requestId,draw:r,createdAt:timestamp,acquisitionIndex:i}));
      else list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:r.mercenaryCode,acquisitionId:requestId+':'+i}));
     });
-    for(const draw of plan.normalDraws||[])list.push(...blackcrownBulkAcquisitionStatements(DB,{userId:Number(user.id),requestId,draw,createdAt:timestamp}));
-    list.push(...jointCoinDebit(DB,user.id,plan.coinCost,pack.name+' '+requestId),jointGuardEnd(DB,token));return list;
+    for(const draw of plan.normalDraws||[])list.push(...blackcrownBulkAcquisitionStatements(DB,{userId:Number(user.id),requestId,draw,createdAt:timestamp,maxQuantity:drawPolicy.bulkLimits?.maxCount}));
+    list.push(...coinDebit(DB,user.id,plan.coinCost,pack.name+' '+requestId),jointGuardEnd(DB,token));return list;
    }
   });break;}catch(error){
    if(error.code==='MERCENARY_BLACKCROWN_PLAN_CONFLICT'&&attempt<(bulk?3:count+1))continue;

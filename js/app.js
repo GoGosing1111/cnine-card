@@ -1985,7 +1985,7 @@ window.addEventListener('blackcrown-pack:stock',event=>{
  for(const label of document.querySelectorAll('.blackcrown-shop-hero:not(.streamer-pack-hero) [data-bcp-stock-code]'))label.textContent=blackcrownShopStockText(pack.previewCards.find(row=>row.code===label.dataset.bcpStockCode));
 });
 function loadBlueGearShopStyle(){
- if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?v=20261113-contract1';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
+ if(!document.querySelector('link[data-blue-gear-style]')){const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?v=20261120-bulk1000';sheet.dataset.blueGearStyle='';document.head.append(sheet);}
 }
 function blueGearChoice(pack){
  loadBlueGearShopStyle();
@@ -2008,7 +2008,7 @@ window.addEventListener('blue-gear-pack:stock',event=>{
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=20261119-midnight25');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-bulk1000-20261120-v1');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {

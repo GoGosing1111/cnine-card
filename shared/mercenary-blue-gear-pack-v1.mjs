@@ -15,8 +15,9 @@ export const BLUE_GEAR_PACK=Object.freeze({id:'mercenary-blue-gear',name:'블루
 export const BLUE_GEAR_LEGENDS=Object.freeze([ZERO_ART,HAKUYA_ART].map(card=>Object.freeze({code:card.code,name:card.name,rank:'SSS',
  group:'SSS_LIMITED',stockPolicy:'PACK_ONLY',serverLimit:3,thumbnailArt:BLUE_GEAR_PACK_ART+card.code+'-320.webp',displayArt:card.sourceArt,sourceArt:card.sourceArt})));
 export const BLUE_GEAR_LIMITED_CARDS=Object.freeze([...BLUE_GEAR_MERCENARIES,...BLUE_GEAR_LEGENDS]);
+export const BLUE_GEAR_BULK_LIMITS=Object.freeze({maxCost:'1000000000000000',maxCount:1000000});
 export const BLUE_GEAR_DRAW_POLICY=Object.freeze({pool:Object.freeze([...BLUE_GEAR_LIMITED_CARDS,Object.freeze({...ASTRA_ART,group:'STANDARD_SSS'})]),
- ssCodes:BLUE_GEAR_CODES,ssEdition:'BLUE_GEAR_LIMITED',outcomePrefix:'BLUE_GEAR',bulkFormat:'BLUE_GEAR_BULK_V1',
+ ssCodes:BLUE_GEAR_CODES,ssEdition:'BLUE_GEAR_LIMITED',outcomePrefix:'BLUE_GEAR',bulkFormat:'BLUE_GEAR_BULK_V1',bulkLimits:BLUE_GEAR_BULK_LIMITS,
  isLimited:code=>BLUE_GEAR_LIMITED_CARDS.some(card=>card.code===code)});
 export function blueGearRegistration(blood,black){
  const rank=blood.settings.normalRankRatesPpm;

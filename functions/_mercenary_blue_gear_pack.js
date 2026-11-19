@@ -5,6 +5,7 @@ import {limitedNormalCards} from '../shared/mercenary-limited-pack-v1.mjs';
 import {validateMercenaryCardRules} from '../shared/mercenary-draw-policy-v1.mjs';
 import {createBlackcrownPackService} from './_mercenary_blackcrown_opening.js';
 import {jointError,jointResponseError,readJointBody} from './_joint_request.js';
+import {blueGearCoinDebit} from './_mercenary_blue_gear_bulk.js';
 
 export async function readBlueGearSnapshot(env){
  const db=env.DB,codes=BLUE_GEAR_LIMITED_CARDS.map(c=>BLUE_GEAR_STOCK_PREFIX+c.code);
@@ -33,7 +34,7 @@ export async function readBlueGearPackState(env,{userId=null}={}){
 export function createBlueGearPackService(options={}){
  return createBlackcrownPackService({...options,readState:options.readState||readBlueGearPackState,variant:{
   pack:BLUE_GEAR_PACK,packKey:BLUE_GEAR_PACK_KEY,openKind:'MERCENARY_BLUE_GEAR_OPEN',stockPrefix:BLUE_GEAR_STOCK_PREFIX,
-  drawPolicy:BLUE_GEAR_DRAW_POLICY,fallbackSs:true,validateState(state){if(state.openingScheduled)throw Object.assign(jointError('MERCENARY_BLACKCROWN_CLOSED','11월 20일 0시부터 개봉할 수 있습니다.',423),{terminal:true});}}});
+  drawPolicy:BLUE_GEAR_DRAW_POLICY,coinDebit:blueGearCoinDebit,fallbackSs:true,validateState(state){if(state.openingScheduled)throw Object.assign(jointError('MERCENARY_BLACKCROWN_CLOSED','11월 20일 0시부터 개봉할 수 있습니다.',423),{terminal:true});}}});
 }
 const service=createBlueGearPackService();
 export async function handleBlueGearPack({path,request,env,deps}){

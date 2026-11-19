@@ -108,10 +108,10 @@ export function blackcrownPackPrice(settings,count){
  const price=count===10?settings.prices.ten:settings.prices.single;
  if(!Number.isSafeInteger(price)||price<1)throw Error('블랙크라운팩 가격이 아직 설정되지 않았습니다.');return price;
 }
-export function validateBlackcrownOpeningBody(body){
+export function validateBlackcrownOpeningBody(body,{bulkLimits={}}={}){
  const bulk=body&&Object.hasOwn(body,'budget');
- if(!exact(body,bulk?['requestId','count','expectedRevision','budget']:['requestId','count','expectedRevision'])||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||(bulk?(!Number.isSafeInteger(body.count)||body.count<1||body.count>BLACKCROWN_BULK_MAX_COUNT):![1,10].includes(body.count))||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1)throw Object.assign(Error('개봉 횟수와 설정 버전을 확인하세요.'),{code:'MERCENARY_BLACKCROWN_INPUT',status:400});
- if(bulk)blackcrownBudget(body.budget);return body;
+ if(!exact(body,bulk?['requestId','count','expectedRevision','budget']:['requestId','count','expectedRevision'])||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||(bulk?(!Number.isSafeInteger(body.count)||body.count<1||body.count>(bulkLimits.maxCount??BLACKCROWN_BULK_MAX_COUNT)):![1,10].includes(body.count))||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1)throw Object.assign(Error('개봉 횟수와 설정 버전을 확인하세요.'),{code:'MERCENARY_BLACKCROWN_INPUT',status:400});
+ if(bulk)blackcrownBudget(body.budget,bulkLimits);return body;
 }
 export function pickBlackcrownNormalCard(state,rank,random){
  const pool=state.normalCards.filter(c=>c.rank===rank&&c.weight>0),weight=pool.reduce((s,c)=>s+c.weight,0);
@@ -156,7 +156,7 @@ export function pickBlackcrownBatch(state,count,random,{firstLimitedCode=null,po
  }
  return draws;
 }
-export function blackcrownReceiptResults(receipt,pack=BLACKCROWN_PACK,{pool=BLACKCROWN_PACK_CARDS,isLimited=isBlackcrownLimited,bulkFormat=BLACKCROWN_BULK_FORMAT}={}){
+export function blackcrownReceiptResults(receipt,pack=BLACKCROWN_PACK,{pool=BLACKCROWN_PACK_CARDS,isLimited=isBlackcrownLimited,bulkFormat=BLACKCROWN_BULK_FORMAT,bulkLimits={}}={}){
  const result=(r,index)=>{
   if((r.kind==='ITEM'||r.itemCode||r.stockCode)&&!isPrimeMaterialDraw(r))throw Error('재료 카드 영수증을 확인하세요.');
   const item=isPrimeMaterialDraw(r),card=pool.find(c=>c.code===bloodmoonDrawCode(r));
@@ -165,7 +165,7 @@ export function blackcrownReceiptResults(receipt,pack=BLACKCROWN_PACK,{pool=BLAC
   return {...r,limited:isLimited(bloodmoonDrawCode(r)),kind:item?'ITEM':r.mercenaryCode?'MERCENARY':'MISS',receiptId:receipt.requestId+':'+index,preview:false,granted:true,artUrl:art?'/'+art:r.mercenaryCode?'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp':null};
  };
  if(receipt?.status==='COMPLETED'&&receipt.packId===pack.id&&receipt.format===bulkFormat){
-  return validateBlackcrownBulkReceipt(receipt,{pool,isLimited,bulkFormat}).map(r=>result(r,r.drawIndex??'bulk:'+r.mercenaryCode));
+  return validateBlackcrownBulkReceipt(receipt,{pool,isLimited,bulkFormat,bulkLimits}).map(r=>result(r,r.drawIndex??'bulk:'+r.mercenaryCode));
  }
  if(receipt?.status!=='COMPLETED'||receipt.packId!==pack.id||![1,10].includes(receipt.count)||receipt.draws?.length!==receipt.count)throw Error('확정된 '+pack.name+' 결과가 필요합니다.');
  return receipt.draws.map(result);

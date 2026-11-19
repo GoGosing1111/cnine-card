@@ -39,7 +39,7 @@ export class BlackcrownOpeningSession{
   this.assertAccount();
   if(!config.userOpeningEnabled)throw fail(this.pack.name+'은 출시 준비 중입니다.','MERCENARY_BLACKCROWN_CLOSED');
   if(this.read(this.pendingKey))throw fail('이전 개봉 결과부터 확인해 주세요.','BLACKCROWN_RECOVERY_REQUIRED');
-  const body=validateBlackcrownOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision,...(budget?{budget}:{})});
+  const body=validateBlackcrownOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision,...(budget?{budget}:{})},this.drawPolicy);
   // Hold the account/tab lock through the opening film. Closing it cancels
   // before any durable request, debit or limited-stock claim is created.
   await this.beforeOpen(body);this.assertAccount();

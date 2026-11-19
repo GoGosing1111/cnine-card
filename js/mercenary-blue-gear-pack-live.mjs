@@ -3,10 +3,12 @@ import {BLUE_GEAR_PACK,BLUE_GEAR_DRAW_POLICY} from '../shared/mercenary-blue-gea
 import {BlackcrownOpeningSession} from '../shared/mercenary-blackcrown-session-v2.mjs';
 import {blackcrownReceiptResults} from '../shared/mercenary-blackcrown-pack-v1.mjs';
 import {BlackcrownReceiptRecovery,blackcrownReceiptRetryable} from '../shared/mercenary-blackcrown-recovery-v1.mjs';
+import {blackcrownBulkQuote} from '../shared/mercenary-blackcrown-bulk-v1.mjs';
 
 const pack={...BLUE_GEAR_PACK,imageSmall:'assets/ui/packs/blue-gear-live-v1/pack-320.webp'};
 const profile={
- pack,skin:'blue-gear-skin',stockEvent:'blue-gear-pack:stock',requireAccount:true,cards:BLUE_GEAR_DRAW_POLICY.pool,
+ pack,skin:'blue-gear-skin',stockEvent:'blue-gear-pack:stock',requireAccount:true,manualPendingRecovery:true,cards:BLUE_GEAR_DRAW_POLICY.pool,
+ bulk:{...BLUE_GEAR_DRAW_POLICY.bulkLimits,presets:['1000000000000','10000000000000','100000000000000','300000000000000','500000000000000','1000000000000000'],quote:(prices,budget)=>blackcrownBulkQuote(prices,budget,BLUE_GEAR_DRAW_POLICY.bulkLimits)},
  theme:{
   brand:'BLUE GEAR',edition:'블루기어',contract:'블루기어의 계약',
   roster:['블루기어 SS 5종 · 각 25장','SSS 리미티드 제로 · 하쿠야 신 · 각 3장','일반 SSS 아스트라 · 한도 없음'],
@@ -21,7 +23,7 @@ const profile={
 };
 export function openBlueGearPack(options){
  if(!document.querySelector('link[data-blue-gear-style]')){
-  const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?v=20261113-contract1';
+  const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='/css/blue-gear-pack-v1.css?v=20261120-bulk1000';
   sheet.dataset.blueGearStyle='';document.head.append(sheet);
  }
  return mountContractRoom(profile,options);
