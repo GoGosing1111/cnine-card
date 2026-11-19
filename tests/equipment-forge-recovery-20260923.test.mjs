@@ -8,6 +8,7 @@ import {forgeQuote,executeForge,forgeReceipt} from '../functions/_equipment_forg
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {forgeQuoteShortages} from '../shared/equipment-forge-resources-v1.mjs';
 import {terminalForgeErrors} from '../equipment-forge/requests.mjs';
+import {polishDisplay,polishMarkHtml,polishDetailsHtml} from '../shared/equipment-polish-display-v1.mjs';
 const rid=()=>crypto.randomUUID();
 const tick=()=>new Promise(resolve=>setTimeout(resolve,5));
 const until=async fn=>{for(let i=0;i<200;i++){if(fn())return;await tick();}assert.fail('condition not reached');};
@@ -105,7 +106,7 @@ async function appFixture(t,handle,{pending=null}={}){
  const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
  class NoFX{async init(){throw Error('canvas intentionally absent in unit test');}destroy(){}}
  const timer=(fn,ms)=>{const id=setTimeout(fn,ms);id.unref();return id;};
- const api=await new AsyncFunction('ForgeFX','forgePower','forgeQuoteShortages','createForgeTransport','createForgeQuoteQueue','readForgePending','terminalForgeErrors','document','window','localStorage','sessionStorage','location','matchMedia','setTimeout',source+'\nreturn {execute,recoverPending,load,select,state:()=>({executing,recovering,quote})};')(NoFX,forgePower,forgeQuoteShortages,()=>transport,(fn)=>createForgeQuoteQueue(fn,{debounceMs:0}),readForgePending,terminalForgeErrors,document,window,storage,{getItem:()=>null},{origin:'https://game.test'},()=>({matches:true}),timer);
+ const api=await new AsyncFunction('ForgeFX','forgePower','forgeQuoteShortages','createForgeTransport','createForgeQuoteQueue','readForgePending','terminalForgeErrors','polishDisplay','polishMarkHtml','polishDetailsHtml','document','window','localStorage','sessionStorage','location','matchMedia','setTimeout',source+'\nreturn {execute,recoverPending,load,select,state:()=>({executing,recovering,quote})};')(NoFX,forgePower,forgeQuoteShortages,()=>transport,(fn)=>createForgeQuoteQueue(fn,{debounceMs:0}),readForgePending,terminalForgeErrors,polishDisplay,polishMarkHtml,polishDetailsHtml,document,window,storage,{getItem:()=>null},{origin:'https://game.test'},()=>({matches:true}),timer);
  t.after(()=>events.pagehide?.());return {api,calls,get,storage,values,pendingKey:'cnine.forge.pending:7'};
 }
 test('real app: failed quote offers enabled retry, and retry never executes enhancement',async t=>{
