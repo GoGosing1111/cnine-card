@@ -100,7 +100,7 @@ test('H-BODY item art and separate V3 fallback are true RGBA with clear margins'
 });
 
 test('six H-BODY profiles bind the real V3 catalog to byte-identical approved preview atlas rows',async()=>{
-  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,36);
+  assert.equal(Object.keys(ACCOUNT_BATTLE_SUIT_ANIMATION_CATALOG).length,41);
   const preview=JSON.parse(await read('preview/battle-suit-prestige-v1/manifest.json'));
   assert.equal(Object.keys(manifest.profiles).length,6);
   for(const entry of manifest.entries){
