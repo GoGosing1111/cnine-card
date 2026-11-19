@@ -60,8 +60,12 @@
   function schedulePoll() {
     stopPoll();
     const root = document.getElementById('pveCoreRaidView');
-    if (busy || activeTab !== 'core' || document.hidden || !root || root.hidden) return;
-    pollTimer = setTimeout(() => load().catch(error => console.warn('[CORE RAID] poll failed', error)), 5000);
+    if (busy || activeTab !== 'core' || document.hidden || !root || root.hidden || !root.getClientRects().length) return;
+    pollTimer = setTimeout(() => {
+      pollTimer = null;
+      if (activeTab === 'core' && !document.hidden && root.isConnected && !root.hidden && root.getClientRects().length)
+        load().catch(error => console.warn('[CORE RAID] poll failed', error));
+    }, 5000);
   }
 
   function setBusy(next) {
@@ -850,7 +854,7 @@
   });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopPoll();
-    else if (activeTab === 'core' && !busy) void load().catch(() => {});
+    else if (activeTab === 'core' && !busy && document.getElementById('pveCoreRaidView')?.getClientRects().length) void load().catch(() => {});
   });
   globalThis.CoreProtocolRaidV1924 = Object.freeze({
     version: VERSION,

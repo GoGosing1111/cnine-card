@@ -502,51 +502,55 @@
 
 /* Raid selection lives in the route's existing vertical scroller. Keep every
    visible raid reachable without the former six 220px-wide tab minimums. */
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) {overflow:visible;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-live-toolbar {
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) {overflow:visible;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-live-toolbar {
   min-height:48px!important;padding:2px 12px!important;gap:12px!important;
 }
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle {font-size:20px;gap:8px;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle img {width:28px;height:28px;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) .pvev2-energy {display:none!important;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-live-toolbar {grid-template-columns:minmax(0,1fr) auto!important;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav {
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) #pveDestinationsTitle {font-size:20px;gap:8px;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) #pveDestinationsTitle img {width:28px;height:28px;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) .pvev2-energy {display:none!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-live-toolbar {grid-template-columns:minmax(0,1fr) auto!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav {
   grid-template-columns:repeat(8,minmax(0,1fr))!important;gap:0 4px!important;
   margin:6px 8px 0!important;padding:0 4px!important;border-width:4px!important;
 }
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn {
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn {
   min-height:44px!important;flex-direction:row!important;gap:5px!important;padding:4px!important;
 }
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > img {width:22px!important;height:22px!important;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > span {flex:1!important;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn b {font-size:12px!important;line-height:1.35!important;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn small {display:none!important;}
-#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) .pvev2-viewport {margin:8px 8px 0;}
-#pveRaidHubView:not([hidden]):has(> #pveRaidView.raid-hub-home:not([hidden])) {
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > img {width:22px!important;height:22px!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > span {flex:1!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn b {font-size:12px!important;line-height:1.35!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn small {display:none!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden])) .pvev2-viewport {margin:8px 8px 0;}
+#pveRaidHubView:not([hidden]) {
   display:grid;grid-template-columns:166px minmax(0,1fr);align-items:start;gap:10px;
   min-height:0;background:transparent;
 }
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs {
+#pveRaidHubView > .raid-content-tabs {
   position:static;display:grid;grid-template-columns:minmax(0,1fr);align-content:start;
   gap:4px;margin:0;padding:0;border:0;background:none;backdrop-filter:none;
 }
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button {
+#pveRaidHubView > .raid-content-tabs > button {
   min-width:0;width:100%;min-height:48px;padding:2px 8px;
   border:5px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;
   border-radius:0;background:none;box-shadow:none;color:var(--command-muted);-webkit-text-fill-color:currentColor;
   font-family:var(--pve-type);white-space:normal;overflow-wrap:anywhere;touch-action:manipulation;
 }
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button.active {
+#pveRaidHubView > .raid-content-tabs > button.active {
   border-image:var(--command-action) 38 fill / 9px stretch;color:#18240a;-webkit-text-fill-color:#18240a;
 }
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button::after {display:none;}
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button :is(small,b) {color:inherit;-webkit-text-fill-color:inherit;}
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button small {font-size:10px;line-height:1.2;letter-spacing:.02em;}
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button b {margin-top:1px;font-size:14px;line-height:1.25;}
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button:hover {filter:brightness(1.12);}
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button:focus-visible,
+#pveRaidHubView > .raid-content-tabs > button::after {display:none;}
+#pveRaidHubView > .raid-content-tabs > button :is(small,b) {color:inherit;-webkit-text-fill-color:inherit;}
+#pveRaidHubView > .raid-content-tabs > button small {font-size:10px;line-height:1.2;letter-spacing:.02em;}
+#pveRaidHubView > .raid-content-tabs > button b {margin-top:1px;font-size:14px;line-height:1.25;}
+#pveRaidHubView > .raid-content-tabs > button:hover {filter:brightness(1.12);}
+#pveRaidHubView > .raid-content-tabs > button:focus-visible,
 #pveRaidView.raid-hub-home :is(summary,button):focus-visible {outline:2px solid var(--combat-accent);outline-offset:2px;}
-#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > :not(.raid-content-tabs) {min-width:0;}
+#pveRaidHubView > :not(.raid-content-tabs) {min-width:0;}
+/* Keep the shared navigation compact for every selected raid, including loading
+   and restored tabs. The world raid battlefield still owns the full width. */
+#pveRaidHubView:has(> #pveRaidView:not([hidden]):not(.raid-hub-home)) {display:block;}
+#pveRaidHubView:has(> #pveRaidView:not([hidden]):not(.raid-hub-home)) > .raid-content-tabs {grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:8px;}
 #pveRaidView.raid-hub-home {min-height:0;padding:0;overflow:visible;}
 #pveRaidView.raid-hub-home > :not(.pvev2-backdrop) {position:relative;z-index:2;}
 #pveRaidView.raid-hub-home > .pvev2-backdrop {border-radius:3px;}
@@ -607,22 +611,68 @@
 #pveRaidView.raid-hub-home .raid-weekly-days article > em {position:static;width:max-content;margin-top:4px;}
 #pveRaidView.raid-hub-home .raid-weekly-days small {font-size:10px;overflow-wrap:anywhere;}
 
+/* Core's hub overview uses the same compact preparation scale. Its separately
+   mounted V3 battlefield and mechanic overlays retain their own dimensions. */
+#pveCoreRaidView {container:raidcore / inline-size;}
+#pveCoreRaidView .core-raid {min-height:0;padding:0 0 16px;}
+#pveCoreRaidView .core-raid-hero {min-height:0;grid-template-columns:minmax(0,1fr) minmax(100px,22%);box-shadow:none;}
+#pveCoreRaidView .core-raid-brief {min-width:0;padding:14px;}
+#pveCoreRaidView .core-raid-brief > small,
+#pveCoreRaidView .core-raid-boss-label small,
+#pveCoreRaidView .core-room-create > small,
+#pveCoreRaidView .core-room-list > header small {display:none;}
+#pveCoreRaidView .core-raid-brief h2 {margin:0 0 8px;font:400 clamp(20px,2.6vw,28px)/1.3 var(--pve-heading);letter-spacing:-.03em;}
+#pveCoreRaidView .core-raid-brief > p {font-size:12px;line-height:1.5;color:var(--combat-muted);}
+#pveCoreRaidView .core-raid-statusline {gap:4px;margin-top:10px;}
+#pveCoreRaidView .core-raid-statusline > span {padding:4px 6px;font-size:10px;letter-spacing:0;}
+#pveCoreRaidView .core-raid-boss {min-height:0;}
+#pveCoreRaidView .core-raid-boss::before,
+#pveCoreRaidView .core-raid-boss::after {display:none;}
+#pveCoreRaidView .core-raid-boss img {width:100%;height:170px;filter:none;}
+#pveCoreRaidView .core-raid-boss-label {left:0;right:0;bottom:0;padding:6px;border:0;}
+#pveCoreRaidView .core-raid-boss-label b {margin:0;font-size:13px;}
+#pveCoreRaidView .core-weekly-reward {flex-wrap:wrap;gap:8px 12px;margin-top:8px;padding:10px 12px;border-left-width:1px;}
+#pveCoreRaidView .core-weekly-count {gap:8px;width:auto;}
+#pveCoreRaidView .core-weekly-count strong {font-size:20px;}
+#pveCoreRaidView .core-weekly-detail {min-width:0;padding-left:12px;}
+#pveCoreRaidView .core-weekly-reward > p {width:auto;margin:0 0 0 auto;padding:0;border:0;font-size:10px;}
+#pveCoreRaidView .core-room-browser {grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:10px;margin-top:10px;}
+#pveCoreRaidView :is(.core-room-create,.core-room-list) {min-width:0;box-shadow:none;}
+#pveCoreRaidView .core-room-create {padding:12px;}
+#pveCoreRaidView .core-room-create h3 {margin:0 0 6px;font-size:18px;}
+#pveCoreRaidView .core-room-list > header {padding:10px;gap:8px;}
+#pveCoreRaidView .core-room-list header b {font-size:15px;}
+#pveCoreRaidView .core-room-empty {padding:24px 12px;line-height:1.6;color:var(--combat-muted);}
+#pveCoreRaidView :is(.core-room-create > button,.core-room-list header button) {min-height:44px;padding:8px 12px;}
+#pveCoreRaidView .core-room-row {gap:8px;padding:12px 10px;}
+@container raidcore (max-width:560px) {
+  #pveCoreRaidView .core-raid-hero {grid-template-columns:minmax(0,1fr) 100px;}
+  #pveCoreRaidView .core-raid-brief {padding:10px;}
+  #pveCoreRaidView .core-raid-boss img {height:150px;}
+  #pveCoreRaidView .core-raid-statusline {grid-column:1 / -1;}
+  #pveCoreRaidView .core-room-browser {grid-template-columns:minmax(0,1fr);}
+  #pveCoreRaidView .core-weekly-detail {padding:0;border:0;}
+  #pveCoreRaidView .core-weekly-reward > p {margin:0;}
+}
+
 @container pvecommand (max-width:800px) {
-  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav {grid-template-columns:repeat(4,minmax(0,1fr))!important;}
-  #pveRaidHubView:not([hidden]):has(> #pveRaidView.raid-hub-home:not([hidden])) {grid-template-columns:minmax(0,1fr);}
-  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs {grid-template-columns:repeat(3,minmax(0,1fr));}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav {grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+  #pveRaidHubView:not([hidden]) {grid-template-columns:minmax(0,1fr);}
+  #pveRaidHubView > .raid-content-tabs {grid-template-columns:repeat(3,minmax(0,1fr));}
+  #pveRaidHubView:has(> #pveRaidView:not([hidden]):not(.raid-hub-home)) > .raid-content-tabs {grid-template-columns:repeat(3,minmax(0,1fr));}
   #pveRaidView.raid-hub-home .raid-weekly-days {grid-template-columns:repeat(4,minmax(0,1fr));}
 }
 @container pvecommand (max-width:420px) {
-  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-live-toolbar {padding-inline:8px!important;}
-  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle {font-size:18px;}
-  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle img {display:none;}
-  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn {flex-direction:column!important;gap:2px!important;}
-  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > span {flex:none!important;}
-  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn b {font-size:11px!important;}
-  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs {grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;}
-  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button {min-height:52px;padding-inline:5px;}
-  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button b {font-size:13px;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-live-toolbar {padding-inline:8px!important;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden])) #pveDestinationsTitle {font-size:18px;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden])) #pveDestinationsTitle img {display:none;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn {flex-direction:column!important;gap:2px!important;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > span {flex:none!important;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden])) > .pvev2-mode-nav .pve-mode-btn b {font-size:11px!important;}
+  #pveRaidHubView > .raid-content-tabs {grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;}
+  #pveRaidHubView:has(> #pveRaidView:not([hidden]):not(.raid-hub-home)) > .raid-content-tabs {grid-template-columns:repeat(2,minmax(0,1fr));}
+  #pveRaidHubView > .raid-content-tabs > button {min-height:52px;padding-inline:5px;}
+  #pveRaidHubView > .raid-content-tabs > button b {font-size:13px;}
   #pveRaidView.raid-hub-home :is(.raid-empty,.raid-room-browser) {padding:12px;}
   #pveRaidView.raid-hub-home .raid-v1293-slot {padding:7px;}
   #pveRaidView.raid-hub-home .raid-v1293-slot header {flex-wrap:wrap;}
