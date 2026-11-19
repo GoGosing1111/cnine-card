@@ -9,8 +9,8 @@ const root=new URL('../',import.meta.url);
 const read=path=>readCommittedAssetSync(new URL(path,root),'utf8');
 
 test('SUT 원본은 보존하고 슈트 코어 1·2·3을 투명 RGBA PNG로 등록한다',()=>{
-  assert.deepEqual(BATTLE_SUIT_CORE_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SUIT_CORE_7']);
-  assert.deepEqual(BATTLE_SUIT_CORE_CATALOG.map(item=>item.name),['슈트 코어 1','슈트 코어 2','슈트 코어 3','슈트 코어 4','슈트 코어 5','슈트 코어 6','슈트 코어 7']);
+  assert.deepEqual(BATTLE_SUIT_CORE_CODES,['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SUIT_CORE_7','SUIT_CORE_8']);
+  assert.deepEqual(BATTLE_SUIT_CORE_CATALOG.map(item=>item.name),['슈트 코어 1','슈트 코어 2','슈트 코어 3','슈트 코어 4','슈트 코어 5','슈트 코어 6','슈트 코어 7','슈트 코어 8']);
   for(let index=1;index<=3;index++){
     assert.ok(existsCommittedAssetSync(new URL(`assets/items/SUT${index}.jpeg`,root)),`SUT${index}.jpeg source must remain`);
     const url=new URL(`assets/items/suit-core-${index}-v2004.png`,root),png=readCommittedAssetSync(url);
@@ -29,8 +29,11 @@ test('슈트 코어와 기존 차량 부품은 MATERIAL 카테고리로 안전�
     async batch(statements){batched.push(...statements);return []}
   };
   await ensureBattleSuitCoreCatalog({DB});
-  assert.equal(batched.length,11);
-  assert.equal(batched.filter(row=>/INSERT INTO inventory_items/.test(row.sql)).length,7);
+  assert.equal(batched.length,13);
+  const materials=batched.filter(row=>/INSERT INTO inventory_items/.test(row.sql));
+  assert.equal(materials.length,8);
+  assert.deepEqual(materials.map(row=>row.values[0]),BATTLE_SUIT_CORE_CODES);
+  assert.match(materials.find(row=>row.values[0]==='SUIT_CORE_8').sql,/ON CONFLICT\(code\) DO NOTHING/,'SX catalog registration preserves existing CMS edits');
   assert.ok(batched.every(row=>!/CREATE TABLE|ALTER TABLE/i.test(row.sql)));
   assert.match(batched[4].sql,/VEHICLE_PART_TIRE/);
   assert.match(batched[4].sql,/category='MATERIAL'/);

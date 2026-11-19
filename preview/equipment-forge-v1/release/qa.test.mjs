@@ -137,6 +137,7 @@ test('PostgreSQL inventory pages keep duplicates separate, isolate owners and pr
   try {
     await pg.exec(`
       CREATE TABLE users(id BIGINT PRIMARY KEY,coin BIGINT);
+      CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT);
       CREATE TABLE character_equipment_items(id BIGINT PRIMARY KEY,code TEXT,name TEXT,slot TEXT,subtype TEXT,rarity TEXT,image_url TEXT,total_power BIGINT,pve_power BIGINT,pvp_power BIGINT,is_active INTEGER,is_public INTEGER);
       CREATE TABLE user_equipment_instances(id BIGINT PRIMARY KEY,user_id BIGINT,equipment_id BIGINT,acquired_at TEXT);
       CREATE TABLE user_equipment_loadout(user_id BIGINT,slot TEXT,instance_id BIGINT UNIQUE);
