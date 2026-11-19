@@ -499,3 +499,135 @@
   .ranked-live-v2 .ranked-deck-builder-v1907 .ranked-preset-command {padding:12px!important;}
   .ranked-live-v2 .ranked-deck-builder-v1907 .ranked-preset-card>small {font-size:10px!important;}
 }
+
+/* Raid selection lives in the route's existing vertical scroller. Keep every
+   visible raid reachable without the former six 220px-wide tab minimums. */
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) {overflow:visible;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-live-toolbar {
+  min-height:48px!important;padding:2px 12px!important;gap:12px!important;
+}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle {font-size:20px;gap:8px;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle img {width:28px;height:28px;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) .pvev2-energy {display:none!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-live-toolbar {grid-template-columns:minmax(0,1fr) auto!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav {
+  grid-template-columns:repeat(8,minmax(0,1fr))!important;gap:0 4px!important;
+  margin:6px 8px 0!important;padding:0 4px!important;border-width:4px!important;
+}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn {
+  min-height:44px!important;flex-direction:row!important;gap:5px!important;padding:4px!important;
+}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > img {width:22px!important;height:22px!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > span {flex:1!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn b {font-size:12px!important;line-height:1.35!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn small {display:none!important;}
+#pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) .pvev2-viewport {margin:8px 8px 0;}
+#pveRaidHubView:not([hidden]):has(> #pveRaidView.raid-hub-home:not([hidden])) {
+  display:grid;grid-template-columns:166px minmax(0,1fr);align-items:start;gap:10px;
+  min-height:0;background:transparent;
+}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs {
+  position:static;display:grid;grid-template-columns:minmax(0,1fr);align-content:start;
+  gap:4px;margin:0;padding:0;border:0;background:none;backdrop-filter:none;
+}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button {
+  min-width:0;width:100%;min-height:48px;padding:2px 8px;
+  border:5px solid transparent;border-image:var(--command-panel) 48 fill / 16px stretch;
+  border-radius:0;background:none;box-shadow:none;color:var(--command-muted);-webkit-text-fill-color:currentColor;
+  font-family:var(--pve-type);white-space:normal;overflow-wrap:anywhere;touch-action:manipulation;
+}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button.active {
+  border-image:var(--command-action) 38 fill / 9px stretch;color:#18240a;-webkit-text-fill-color:#18240a;
+}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button::after {display:none;}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button :is(small,b) {color:inherit;-webkit-text-fill-color:inherit;}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button small {font-size:10px;line-height:1.2;letter-spacing:.02em;}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button b {margin-top:1px;font-size:14px;line-height:1.25;}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button:hover {filter:brightness(1.12);}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button:focus-visible,
+#pveRaidView.raid-hub-home :is(summary,button):focus-visible {outline:2px solid var(--combat-accent);outline-offset:2px;}
+#pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > :not(.raid-content-tabs) {min-width:0;}
+#pveRaidView.raid-hub-home {min-height:0;padding:0;overflow:visible;}
+#pveRaidView.raid-hub-home > :not(.pvev2-backdrop) {position:relative;z-index:2;}
+#pveRaidView.raid-hub-home > .pvev2-backdrop {border-radius:3px;}
+#pveRaidView.raid-hub-home .raid-v1293-schedule {gap:8px;margin:0 0 8px;grid-template-columns:repeat(2,minmax(0,1fr));}
+#pveRaidView.raid-hub-home .raid-v1293-slot {padding:6px 10px;border-radius:3px;box-shadow:none;background:#102333;}
+#pveRaidView.raid-hub-home .raid-v1293-slot::before {display:none;}
+#pveRaidView.raid-hub-home .raid-v1293-slot header {gap:4px;}
+#pveRaidView.raid-hub-home .raid-v1293-slot header b {font-size:13px;}
+#pveRaidView.raid-hub-home .raid-v1293-slot header span {font-size:10px;letter-spacing:0;color:var(--combat-muted);}
+#pveRaidView.raid-hub-home .raid-v1293-slot p {margin:4px 0 0;font-size:12px;line-height:1.4;color:var(--combat-muted);font-variant-numeric:tabular-nums;}
+#pveRaidView.raid-hub-home :is(.raid-empty,.raid-room-browser) {padding:10px 16px;text-align:left;box-shadow:none;}
+#pveRaidView.raid-hub-home :is(.raid-empty,.raid-room-browser) .eyebrow {display:none;}
+#pveRaidView.raid-hub-home :is(.raid-empty,.raid-room-browser) h2 {margin:0;font:400 23px/1.3 var(--pve-heading);}
+#pveRaidView.raid-hub-home .raid-empty > p {margin:5px 0;color:var(--combat-muted);font-size:13px;line-height:1.5;}
+#pveRaidView.raid-hub-home .raid-next-open {display:flex;flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin:6px 0;padding:0;border:0;background:none;font-size:12px;color:var(--combat-muted);}
+#pveRaidView.raid-hub-home .raid-next-open strong {font-size:13px;}
+#pveRaidView.raid-hub-home .raid-next-open span {opacity:1;}
+#pveRaidView.raid-hub-home .raid-open-boss-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:16px;margin-top:6px;}
+#pveRaidView.raid-hub-home .raid-open-boss {
+  display:grid;grid-template-columns:120px minmax(0,1fr);align-items:center;column-gap:16px;
+  padding:10px 0 0;border:0;border-top:1px solid var(--combat-line);background:none;text-align:left;
+}
+#pveRaidView.raid-hub-home .raid-open-boss > img {grid-column:1;grid-row:1/7;align-self:center;width:120px;height:142px;object-fit:contain;}
+#pveRaidView.raid-hub-home .raid-open-boss > :not(img) {grid-column:2;min-width:0;}
+#pveRaidView.raid-hub-home .raid-open-boss > small {display:none;}
+#pveRaidView.raid-hub-home .raid-open-boss h3 {margin:0 0 4px;font-size:20px;line-height:1.2;}
+#pveRaidView.raid-hub-home .raid-open-boss p {margin:2px 0;font-size:12px;line-height:1.4;color:var(--combat-muted);}
+#pveRaidView.raid-hub-home .raid-open-boss p b {color:var(--combat-ink);}
+#pveRaidView.raid-hub-home .raid-open-boss .btn {min-height:44px;padding:8px 12px;margin:8px 0 0;width:100%;font-size:14px;}
+#pveRaidView.raid-hub-home .raid-open-boss .btn:disabled {opacity:.65;cursor:not-allowed;}
+#pveRaidView.raid-hub-home .raid-room-browser > .panel-title {flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+#pveRaidView.raid-hub-home .raid-room-browser > .panel-title p {margin:4px 0;font-size:12px;}
+#pveRaidView.raid-hub-home .raid-room-browser > .panel-title > strong {font-size:12px;}
+#pveRaidView.raid-hub-home .raid-room-grid {grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:10px;}
+#pveRaidView.raid-hub-home .raid-room-card {grid-template-columns:76px minmax(0,1fr);gap:10px;padding:10px;}
+#pveRaidView.raid-hub-home .raid-room-card > img {width:76px;height:114px;min-height:0;object-fit:contain;}
+#pveRaidView.raid-hub-home .raid-room-card > div {position:relative;}
+#pveRaidView.raid-hub-home .raid-room-slot-badge {position:absolute;top:0;right:0;margin:0;padding:2px 6px;line-height:1.2;}
+#pveRaidView.raid-hub-home .raid-room-card h3 {font-size:18px;margin:4px 0;}
+#pveRaidView.raid-hub-home .raid-room-card p {font-size:12px;margin:4px 0;}
+#pveRaidView.raid-hub-home .raid-room-card .btn {min-height:44px;padding:8px 12px;}
+#pveRaidView.raid-hub-home .raid-room-create {margin-top:12px;padding-top:10px;}
+#pveRaidView.raid-hub-home .raid-room-create h3 {font-size:14px;margin:0 0 6px;}
+#pveRaidView.raid-hub-home .raid-weekly-details {margin-top:10px;border:1px solid var(--combat-line);background:#102333;color:var(--combat-ink);}
+#pveRaidView.raid-hub-home .raid-weekly-details > summary {display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 12px;cursor:pointer;list-style:none;}
+#pveRaidView.raid-hub-home .raid-weekly-details > summary::-webkit-details-marker {display:none;}
+#pveRaidView.raid-hub-home .raid-weekly-details > summary::after {content:'';width:7px;height:7px;flex:none;margin-left:auto;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(45deg) translateY(-2px);}
+#pveRaidView.raid-hub-home .raid-weekly-details[open] > summary::after {transform:rotate(225deg);}
+#pveRaidView.raid-hub-home .raid-weekly-details > summary b {font-size:13px;}
+#pveRaidView.raid-hub-home .raid-weekly-details > summary span {font-size:12px;color:var(--combat-muted);}
+#pveRaidView.raid-hub-home .raid-weekly-roster {margin:0;padding:10px;border:0;border-top:1px solid var(--combat-line);box-shadow:none;background:none;}
+#pveRaidView.raid-hub-home .raid-weekly-roster::before,
+#pveRaidView.raid-hub-home .raid-weekly-roster > header {display:none;}
+#pveRaidView.raid-hub-home .raid-weekly-days {display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;overflow:visible;padding:0;}
+#pveRaidView.raid-hub-home .raid-weekly-days article {padding:6px;grid-template-rows:auto 62px auto;}
+#pveRaidView.raid-hub-home .raid-weekly-days img {height:62px;}
+#pveRaidView.raid-hub-home .raid-weekly-days article.today {transform:none;box-shadow:none;}
+#pveRaidView.raid-hub-home .raid-weekly-days article > em {position:static;width:max-content;margin-top:4px;}
+#pveRaidView.raid-hub-home .raid-weekly-days small {font-size:10px;overflow-wrap:anywhere;}
+
+@container pvecommand (max-width:800px) {
+  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav {grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+  #pveRaidHubView:not([hidden]):has(> #pveRaidView.raid-hub-home:not([hidden])) {grid-template-columns:minmax(0,1fr);}
+  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs {grid-template-columns:repeat(3,minmax(0,1fr));}
+  #pveRaidView.raid-hub-home .raid-weekly-days {grid-template-columns:repeat(4,minmax(0,1fr));}
+}
+@container pvecommand (max-width:420px) {
+  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-live-toolbar {padding-inline:8px!important;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle {font-size:18px;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) #pveDestinationsTitle img {display:none;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn {flex-direction:column!important;gap:2px!important;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn > span {flex:none!important;}
+  #pveCommandV2:has(#pveRaidHubView:not([hidden]) > #pveRaidView.raid-hub-home:not([hidden])) > .pvev2-mode-nav .pve-mode-btn b {font-size:11px!important;}
+  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs {grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;}
+  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button {min-height:52px;padding-inline:5px;}
+  #pveRaidHubView:has(> #pveRaidView.raid-hub-home:not([hidden])) > .raid-content-tabs > button b {font-size:13px;}
+  #pveRaidView.raid-hub-home :is(.raid-empty,.raid-room-browser) {padding:12px;}
+  #pveRaidView.raid-hub-home .raid-v1293-slot {padding:7px;}
+  #pveRaidView.raid-hub-home .raid-v1293-slot header {flex-wrap:wrap;}
+  #pveRaidView.raid-hub-home .raid-open-boss {grid-template-columns:80px minmax(0,1fr);column-gap:10px;}
+  #pveRaidView.raid-hub-home .raid-open-boss > img {width:80px;height:138px;}
+  #pveRaidView.raid-hub-home .raid-weekly-details > summary {flex-wrap:wrap;gap:4px 8px;}
+  #pveRaidView.raid-hub-home .raid-weekly-days {grid-template-columns:repeat(3,minmax(0,1fr));}
+}

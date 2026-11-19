@@ -5,16 +5,33 @@
   const esc=value=>typeof escapeHtml==='function'?escapeHtml(String(value??'')):String(value??'');
   const labels={EQUIPMENT_SUPPLY_BOX:'장비 보급상자',MAGIC_CARD_PACK:'마법카드 팩',MASTER_STAR:'마스터의 별'};
   function scheduleHtml(data){const slots=Array.isArray(data?.settings?.timeSlots)?data.settings.timeSlots:[],current=String(data?.schedule?.currentSlot?.id||''),entries=Array.isArray(data?.slotEntries)?data.slotEntries:[],entryMap=Object.fromEntries(entries.map(row=>[String(row.id),row]));if(!slots.length)return '';return `<section class="raid-v1293-schedule">${slots.slice(0,2).map(slot=>{const active=current===String(slot.id),entry=entryMap[String(slot.id)]||null,count=Number(entry?.count||0),limit=Number(entry?.limit||slot.entriesPerSlot||1);return `<article class="raid-v1293-slot ${slot.enabled===false?'disabled':''} ${active?'active':''}"><header><b>${esc(slot.label||slot.id)}</b><span>${slot.enabled===false?'운영 중지':active?'NOW OPEN':'SCHEDULED'}</span></header><p><strong>${esc(slot.openTime)} ~ ${esc(slot.closeTime)}</strong> · ${count}/${limit}회 사용${Number(slot.bossId||0)>0?' · 지정 보스':''}</p></article>`}).join('')}</section>`}
-  function decorate(data){const box=document.getElementById('pveRaidView');if(!box)return;const current=data?.current;
-    if(data?.ownerTestMode&&box.firstElementChild&&!box.querySelector('.raid-v1294-owner-test'))box.firstElementChild.insertAdjacentHTML('afterbegin','<div class="raid-v1294-owner-test"><b>OWNER TEST MODE</b><span>활성 보스 전체 노출 · 단독 전투 허용 · 입장 횟수 미소모</span></div>');
-    if(!current||current.status==='LOBBY'){const schedule=scheduleHtml(data),target=box.firstElementChild;if(schedule&&target&&!target.querySelector('.raid-v1293-schedule'))target.insertAdjacentHTML('afterbegin',schedule)}
+  function decorate(data,weeklyState){const box=document.getElementById('pveRaidView');if(!box)return;const current=data?.current;
+    const home=!current||current.status==='LOBBY';
+    box.classList.toggle('raid-hub-home',home);
+    if(home){
+      const weekly=box.querySelector(':scope > .raid-weekly-roster');
+      if(weekly){
+        const details=document.createElement('details'),summary=document.createElement('summary');
+        details.className='raid-weekly-details';details.open=Boolean(weeklyState?.open);
+        const title=document.createElement('b');title.textContent='요일별 레이드 작전표';summary.append(title);
+        if(data?.todayBoss?.name){const today=document.createElement('span');today.textContent=`오늘 · ${data.todayBoss.name}`;summary.append(today);}
+        details.append(summary,weekly);box.append(details);
+        if(weeklyState?.focused)summary.focus({preventScroll:true});
+      }
+      const schedule=scheduleHtml(data);if(schedule)box.insertAdjacentHTML('afterbegin',schedule);
+    }
+    if(data?.ownerTestMode&&!box.querySelector('.raid-v1294-owner-test'))(home?box:box.firstElementChild)?.insertAdjacentHTML('afterbegin','<div class="raid-v1294-owner-test"><b>OWNER TEST MODE</b><span>활성 보스 전체 노출 · 단독 전투 허용 · 입장 횟수 미소모</span></div>');
     (data?.rooms||[]).forEach(room=>{const button=box.querySelector(`[data-room-id="${Number(room.id)}"]`),card=button?.closest('.raid-room-card');if(card&&!card.querySelector('.raid-room-slot-badge'))card.querySelector('div')?.insertAdjacentHTML('afterbegin',`<span class="raid-room-slot-badge">${esc(room.slotLabel||room.slotId||'레이드')}</span>`) });
     if(current?.status==='BATTLE')decorateBattle(box,current);
     if(current?.status==='ENDED')decorateResult(box,data);
   }
   function decorateBattle(box,current){const stage=box.querySelector('.raid-battle-stage');if(!stage)return;const phase=Math.max(1,Math.min(3,Number(current.phase||1)));if(!stage.querySelector('.raid-v1293-phasebar')){const header=stage.querySelector('.raid-stage-header');header?.insertAdjacentHTML('afterend',`<div class="raid-v1293-phasebar"><span class="${phase===1?'active':''}">Ⅰ 돌입</span><span class="${phase===2?'active':''}">Ⅱ 브레이크</span><span class="${phase===3?'active':''}">Ⅲ 광폭화</span></div>`)}if(phase===2&&Number(current.shieldMaxHp||0)>0){const pct=Math.max(0,Math.min(100,Number(current.breakProgress||0)*100));const phasebar=stage.querySelector('.raid-v1293-phasebar');phasebar?.insertAdjacentHTML('afterend',`<div class="raid-v1293-break"><header><b>${current.shieldBroken?'BREAK SUCCESS':'BOSS SHIELD'}</b><span>${Number(current.shieldHp||0).toLocaleString()} / ${Number(current.shieldMaxHp||0).toLocaleString()}</span></header><div class="raid-v1293-break-track"><i style="width:${pct}%"></i></div></div>`)}}
   function decorateResult(box,data){const reward=data?.claimableReward,result=box.querySelector('.raid-result-screen');if(!reward||!result||result.querySelector('.raid-v1293-result-rewards'))return;const stats=result.querySelectorAll('.raid-result-stats>div b');if(stats[0])stats[0].textContent=Number(reward.finalDamage||0).toLocaleString();if(stats[1])stats[1].textContent=Number(reward.finalRank||0)>0?`${Number(reward.finalRank)}위`:'-';const legacyBreakdown=result.querySelector('.raid-reward-breakdown'),legacyNote=result.querySelector('.raid-result-note');if(legacyBreakdown)legacyBreakdown.textContent='개인 누적 피해·최종 순위·보스 처치·희귀 드롭을 서버에서 최종 확정했습니다.';if(legacyNote)legacyNote.textContent=reward.cleared?'참여 보상과 보스 처치 보상에 피해·순위·희귀 드롭 보상이 합산됩니다.':'보스 처치 보상만 제외되며 참여·피해·순위·희귀 드롭 보상은 정상 판정됩니다.';const items=Array.isArray(reward.inventoryRewards)?reward.inventoryRewards:[],entries=Array.isArray(reward.entries)?reward.entries:[],rare=Array.isArray(reward.rareDrops)?reward.rareDrops.filter(x=>x.won):[];const html=`<div class="raid-v1293-result-rewards">${items.map(x=>`<article class="raid-v1293-reward-item"><small>${esc(labels[x.itemCode||x.type]||x.label||x.type)}</small><b>+${Number(x.amount||0).toLocaleString()}</b></article>`).join('')}${rare.map(x=>`<article class="raid-v1293-reward-item raid-v1293-rare-win"><small>희귀 드롭 성공</small><b>${esc(labels[x.type]||x.type)} +${Number(x.amount||0)}</b></article>`).join('')}</div><div class="raid-v1293-reward-sources">${[...new Set(entries.map(x=>x.source).filter(Boolean))].map(x=>`<span>${esc(x)}</span>`).join('')}</div>`;const claim=result.querySelector('#raidClaim');claim?.insertAdjacentHTML('beforebegin',html)}
-  renderRaidView=function(data){legacyRender(data);decorate(data)};
+  renderRaidView=function(data){
+    const weekly=document.querySelector('#pveRaidView > .raid-weekly-details');
+    const weeklyState={open:weekly?.open,focused:weekly?.querySelector('summary')===document.activeElement};
+    legacyRender(data);decorate(data,weeklyState);
+  };
   // V1308: 정산 요청/재시도/화면 이탈 처리는 app.js 한 곳에서만 관리한다.
   // 중복 override가 오래된 재시도 타이머를 다시 살리는 회귀를 만들 수 있어 제거했다.
 
