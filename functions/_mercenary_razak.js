@@ -1,6 +1,6 @@
 import {isAstra,ASTRA_SKILLS,ASTRA_MECHANIC,ASTRA_EVENT} from '../shared/mercenary-astra-v1.mjs';
 import {isRazak,RAZAK_SKILLS,RAZAK_EVENT} from '../shared/mercenary-razak-v1.mjs';
-import {BLUE_GEAR_EVENT,BLUE_GEAR_MECHANIC,blueGearProfile,blueGearSkills,isBlueGear} from '../shared/mercenary-blue-gear-v1.mjs';
+import {BLUE_GEAR_EVENT,BLUE_GEAR_MECHANIC,blueGearProfile,blueGearSkills,isBlueGear,blueJoeunPveSkillGrowth} from '../shared/mercenary-blue-gear-v1.mjs';
 function approvedStrike(actor,skill){
  const trusted=isAstra(actor)?ASTRA_SKILLS:isRazak(actor)?RAZAK_SKILLS:isBlueGear(actor)?blueGearSkills(blueGearProfile(actor.code||actor.cardId),actor.battleMode):[];
  return trusted.find(s=>s.id===skill.id&&s.mechanic===skill.mechanic&&(!s.pveOnly||actor.battleMode==='PVE'));
@@ -19,7 +19,7 @@ export function resolveRazakCast({actor,skill,targets,hit,damage,knockout,emit,d
  const fixed=razakTargets(actor,skill,targets);if(!fixed.length)return [];
  const approved=approvedStrike(actor,skill),share=1/fixed.length,hits=[];
  for(const target of fixed){
-  const result=hit(actor,target,approved.balance.damageRatio*share*damageScale,{castShare:share,capScale:share*capActions});
+  const result=hit(actor,target,approved.balance.damageRatio*share*damageScale*blueJoeunPveSkillGrowth(actor),{castShare:share,capScale:share*capActions});
   const outcome=result.dodge?{hpDamage:0,absorbed:0}:damage(target,Math.max(0,result.damage));
   actor.damageDealt+=outcome.hpDamage+outcome.absorbed;
   hits.push({targetId:target.id,damage:outcome.hpDamage,absorbed:outcome.absorbed,dodge:!!result.dodge,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield||0,targetMaxShield:target.maxShield||0});
