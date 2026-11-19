@@ -1,0 +1,25 @@
+{
+  "operationKey": "ops:pingdu:ryujin-one:20261119:v1",
+  "authorization": "핑크빛유두 류진 지급",
+  "target": {
+    "id": "1",
+    "nickname": "핑크빛유두",
+    "role": "OWNER",
+    "status": "ACTIVE",
+    "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+  },
+  "mercenary": {
+    "code": "V-958",
+    "name": "류진",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "basePower": 4000000,
+    "quantity": 1,
+    "levelPolicy": "PRESERVE_EXISTING_DEFAULT_ONE",
+    "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION"
+  },
+  "delivery": "DIRECT",
+  "cost": 0,
+  "autoEquip": false,
+  "messagesSent": 0
+}

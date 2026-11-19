@@ -1,0 +1,89 @@
+{
+  "checkedAt": "2026-11-19T06:54:47.194Z",
+  "target": {
+    "id": "1",
+    "nickname": "핑크빛유두",
+    "role": "OWNER",
+    "status": "ACTIVE",
+    "verified_at": null,
+    "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+  },
+  "state": {
+    "sync": [
+      {
+        "domains": {
+          "pvp": "3728",
+          "wallet": "4461",
+          "loadout": "4063",
+          "messages": "4476",
+          "inventory": "4441",
+          "collection": "4196"
+        },
+        "user_id": "1",
+        "revision": "4476"
+      }
+    ],
+    "stock": [],
+    "issues": [],
+    "ranked": [],
+    "holding": [],
+    "pigHash": "d130dacc7ebb59458cce44e4bf376be7",
+    "metaHash": "19fd666f88673200eb9b4a63cefd9beb",
+    "userHash": "89228716189bf14d51890ca2437ee5f5",
+    "forgeHash": "23d6ddef21668a18be72c0fe675d2714",
+    "growthHash": "d751713988987e9331980363e24189ce",
+    "levelsHash": "cca98a75b0fcd5a4bf9914fc2a953a1e",
+    "loadoutHash": "e856a532a9de8d5335185a69ba80769e",
+    "inventoryHash": "5bd1b8517f07175be08e59c130b978a9",
+    "otherCardsHash": "a9aa3db02eb45d7a808efee3bf085458",
+    "equipmentCountsHash": "862c4a4ec4a4afc7a355276a5f50a63f",
+    "equipmentLoadoutHash": "0168d1bb63587417ff639ab3dc4adfb2",
+    "equipmentInstancesHash": "0f7d5afdb6b9602d40d10b6549061ec7"
+  },
+  "prior": {
+    "receipt": null,
+    "audit": [],
+    "acquisitions": []
+  },
+  "planHash": "91eeb4830cb3d36ab21335da8a6572379721879658e7cb38e03240b4c8d7ef5b",
+  "runtime": {
+    "samples": [
+      {
+        "phase": "first",
+        "ms": 1192,
+        "sql": 13,
+        "queryRoundTripMs": 1084
+      },
+      {
+        "phase": "repeat",
+        "ms": 963,
+        "sql": 13,
+        "queryRoundTripMs": 946
+      }
+    ],
+    "owned": [],
+    "slowestQueries": [
+      {
+        "ms": 214,
+        "statement": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+      },
+      {
+        "ms": 78,
+        "statement": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),"
+      },
+      {
+        "ms": 77,
+        "statement": "SELECT u.id AS user_id FROM users u WHERE u.id IN ($1) AND (EXISTS (SELECT 1 FROM account_rank_progress_v1 r WHERE r.user_id=u.id AND r.total_ticks>=$2) OR EXIS"
+      },
+      {
+        "ms": 75,
+        "statement": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),"
+      },
+      {
+        "ms": 74,
+        "statement": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until FROM user_mercenary_levels_v1 p WHERE NO"
+      }
+    ],
+    "environment": "Windows CLI; actual production mercenaryAccountState service via PostgreSQL; network included; not browser or physical-device measurement"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "status": "VERIFIED",
+  "auditId": "64726",
+  "userId": "1",
+  "nickname": "핑크빛유두",
+  "code": "V-958",
+  "name": "류진",
+  "quantityGranted": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "currentCopies": 1,
+  "acquisitionRecords": 1,
+  "auditRecords": 1,
+  "protectedStatePreservedAtGrant": true,
+  "publicStockUnchanged": true,
+  "operationKey": "ops:pingdu:ryujin-one:20261119:v1",
+  "completedAt": "2026-11-19T06:57:03.023Z",
+  "completedAtKST": "2026-11-19 15:57:03",
+  "verifiedAt": "2026-11-19T06:57:21.630Z",
+  "target": {
+    "id": "1",
+    "nickname": "핑크빛유두"
+  },
+  "mercenary": {
+    "code": "V-958",
+    "name": "류진",
+    "totalCopies": 1,
+    "duplicateCount": 0,
+    "level": 1,
+    "loanUntil": null,
+    "canDeploy": true,
+    "basePower": 4000000
+  },
+  "permanent": true,
+  "partialFailureRollbacks": 2,
+  "fullRehearsalRolledBack": true,
+  "independentReadOnly": true,
+  "replayQueries": 1,
+  "additionalWritesOnReplay": 0,
+  "onlyExpectedWrites": true,
+  "operationLocksRemaining": 0,
+  "unrelatedAccountStateStillSame": true,
+  "messagesSent": 0,
+  "autoEquip": false,
+  "performance": {
+    "conditions": "Windows CLI; production mercenaryAccountState with actual PostgreSQL and network; first/repeated service entry. Data-only grant; no UI/runtime change or deployment, no browser/physical-device FPS measurement.",
+    "before": [
+      {
+        "phase": "first",
+        "ms": 1192,
+        "sql": 13,
+        "queryRoundTripMs": 1084
+      },
+      {
+        "phase": "repeat",
+        "ms": 963,
+        "sql": 13,
+        "queryRoundTripMs": 946
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 1185,
+        "sql": 13,
+        "queryRoundTripMs": 1083
+      },
+      {
+        "phase": "repeat",
+        "ms": 962,
+        "sql": 13,
+        "queryRoundTripMs": 949
+      }
+    ],
+    "grantMs": 1439,
+    "bottleneck": "Sequential database round trips dominate service wait; bounded single-row ownership insert and one acquisition in one transaction, no per-card write loop.",
+    "improvementClaimed": false
+  },
+  "runtime": {
+    "samples": [
+      {
+        "phase": "first",
+        "ms": 1185,
+        "sql": 13,
+        "queryRoundTripMs": 1083
+      },
+      {
+        "phase": "repeat",
+        "ms": 962,
+        "sql": 13,
+        "queryRoundTripMs": 949
+      }
+    ],
+    "owned": [
+      {
+        "code": "V-958",
+        "name": "류진",
+        "totalCopies": 1,
+        "duplicateCount": 0,
+        "level": 1,
+        "loanUntil": null,
+        "canDeploy": true,
+        "basePower": 4000000
+      }
+    ],
+    "slowestQueries": [
+      {
+        "ms": 214,
+        "statement": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+      },
+      {
+        "ms": 80,
+        "statement": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),"
+      },
+      {
+        "ms": 76,
+        "statement": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),"
+      },
+      {
+        "ms": 76,
+        "statement": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3)"
+      },
+      {
+        "ms": 74,
+        "statement": "SELECT value FROM app_meta WHERE key=$1"
+      }
+    ],
+    "environment": "Windows CLI; actual production mercenaryAccountState service via PostgreSQL; network included; not browser or physical-device measurement"
+  }
+}

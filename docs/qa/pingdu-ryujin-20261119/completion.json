@@ -1,0 +1,257 @@
+{
+  "status": "COMPLETE",
+  "operationKey": "ops:pingdu:ryujin-one:20261119:v1",
+  "request": "핑크빛유두 류진 지급",
+  "completedAt": "2026-11-19T06:57:03.023Z",
+  "completedAtKST": "2026-11-19 15:57:03",
+  "auditId": "64726",
+  "plan": {
+    "operationKey": "ops:pingdu:ryujin-one:20261119:v1",
+    "authorization": "핑크빛유두 류진 지급",
+    "target": {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "status": "ACTIVE",
+      "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+    },
+    "mercenary": {
+      "code": "V-958",
+      "name": "류진",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "basePower": 4000000,
+      "quantity": 1,
+      "levelPolicy": "PRESERVE_EXISTING_DEFAULT_ONE",
+      "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION"
+    },
+    "delivery": "DIRECT",
+    "cost": 0,
+    "autoEquip": false,
+    "messagesSent": 0
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:pingdu:ryujin-one:20261119:v1",
+    "planHash": "91eeb4830cb3d36ab21335da8a6572379721879658e7cb38e03240b4c8d7ef5b",
+    "plan": {
+      "operationKey": "ops:pingdu:ryujin-one:20261119:v1",
+      "authorization": "핑크빛유두 류진 지급",
+      "target": {
+        "id": "1",
+        "nickname": "핑크빛유두",
+        "role": "OWNER",
+        "status": "ACTIVE",
+        "identityHash": "4e20330d91fbd5e52c5a21fa720d69468fcf0d7952b847d8787df45edf81c305"
+      },
+      "mercenary": {
+        "code": "V-958",
+        "name": "류진",
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "basePower": 4000000,
+        "quantity": 1,
+        "levelPolicy": "PRESERVE_EXISTING_DEFAULT_ONE",
+        "stockPolicy": "DIRECT_NO_PUBLIC_ACQUISITION"
+      },
+      "delivery": "DIRECT",
+      "cost": 0,
+      "autoEquip": false,
+      "messagesSent": 0
+    },
+    "userId": "1",
+    "nickname": "핑크빛유두",
+    "code": "V-958",
+    "name": "류진",
+    "basePower": 4000000,
+    "quantity": 1,
+    "permanent": true,
+    "acquisitionId": "ops:pingdu:ryujin-one:20261119:v1:1:V-958:1",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "duplicatesAfter": 0,
+    "holdingBefore": [],
+    "holdingAfter": [
+      {
+        "user_id": 1,
+        "total_copies": 1,
+        "mercenary_code": "V-958",
+        "duplicate_count": 0,
+        "last_obtained_at": "2026-11-19T06:57:03.023Z",
+        "first_obtained_at": "2026-11-19T06:57:03.023Z"
+      }
+    ],
+    "stockBefore": [],
+    "stockAfter": [],
+    "issuesBefore": [],
+    "issuesAfter": [],
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "3728",
+          "wallet": "4461",
+          "loadout": "4063",
+          "messages": "4476",
+          "inventory": "4441",
+          "collection": "4196"
+        },
+        "user_id": "1",
+        "revision": "4476"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "3728",
+          "wallet": "4461",
+          "loadout": "4063",
+          "messages": "4476",
+          "inventory": "4441",
+          "collection": "4477"
+        },
+        "user_id": "1",
+        "revision": "4477"
+      }
+    ],
+    "rankedBefore": [],
+    "rankedAfter": [],
+    "protectedBeforeHash": "726c81fc1564e28b618efc8a46a98f19384576895331d56ee7f793f924013151",
+    "protectedAfterHash": "726c81fc1564e28b618efc8a46a98f19384576895331d56ee7f793f924013151",
+    "levelChanges": 0,
+    "autoEquip": false,
+    "messagesSent": 0,
+    "completedAt": "2026-11-19T06:57:03.023Z",
+    "completedAtKST": "2026-11-19 15:57:03",
+    "auditId": "64726"
+  },
+  "verification": {
+    "independentReadOnly": true,
+    "actualMercenaryService": {
+      "code": "V-958",
+      "name": "류진",
+      "totalCopies": 1,
+      "duplicateCount": 0,
+      "level": 1,
+      "loanUntil": null,
+      "canDeploy": true,
+      "basePower": 4000000
+    },
+    "acquisitionRecords": 1,
+    "auditRecords": 1,
+    "operationLocksRemaining": 0,
+    "replaySelects": 1,
+    "additionalWritesOnReplay": 0,
+    "onlyExpectedWrites": true,
+    "unrelatedAccountStateStillSame": true
+  },
+  "rollback": {
+    "partialFailureRollbacks": 2,
+    "phases": [
+      "after ownership insert",
+      "after saved receipt"
+    ],
+    "fullRehearsalRolledBack": true,
+    "actualRuntimeVerifiedInRehearsal": [
+      {
+        "code": "V-958",
+        "name": "류진",
+        "totalCopies": 1,
+        "duplicateCount": 0,
+        "level": 1,
+        "loanUntil": null,
+        "canDeploy": true,
+        "basePower": 4000000
+      }
+    ]
+  },
+  "preserved": {
+    "currency": true,
+    "inventory": true,
+    "otherMercenaries": true,
+    "levelsAndGrowth": true,
+    "equipmentInstancesEnhancementAndLoadouts": true,
+    "petsAndPackageMeta": true,
+    "publicAcquisitionLocked": true,
+    "publicStockAndIssueHistory": true
+  },
+  "automaticallyEquipped": false,
+  "messagesSent": 0,
+  "performance": {
+    "conditions": "Windows CLI; production mercenaryAccountState with actual PostgreSQL and network; first/repeated service entry. Data-only grant; no UI/runtime change or deployment, no browser/physical-device FPS measurement.",
+    "before": [
+      {
+        "phase": "first",
+        "ms": 1192,
+        "sql": 13,
+        "queryRoundTripMs": 1084
+      },
+      {
+        "phase": "repeat",
+        "ms": 963,
+        "sql": 13,
+        "queryRoundTripMs": 946
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 1185,
+        "sql": 13,
+        "queryRoundTripMs": 1083
+      },
+      {
+        "phase": "repeat",
+        "ms": 962,
+        "sql": 13,
+        "queryRoundTripMs": 949
+      }
+    ],
+    "grantMs": 1439,
+    "bottleneck": "Sequential database round trips dominate service wait; bounded single-row ownership insert and one acquisition in one transaction, no per-card write loop.",
+    "improvementClaimed": false
+  },
+  "validation": {
+    "realProductionTransaction": true,
+    "protectedStateHashMatched": true,
+    "receiptMatchesAuditAndAcquisition": true,
+    "preflightCorrection": "The OWNER account has no verified_at timestamp; exact nickname, immutable account ID, OWNER/ACTIVE state and pinned provider identity hash match. Removed a nonessential verified_at presence assertion before any grant writes; identity checks remained intact."
+  },
+  "deployment": {
+    "required": false,
+    "runtimeChanged": false,
+    "reason": "Direct account ownership grant through existing production mercenary tables and collection invalidation triggers."
+  },
+  "sourceForValidation": "95b83f2f035a4c1814d1af15243a4e902d3c87b0",
+  "operatorScripts": [
+    {
+      "path": "operations/pingdu-ryujin-20261119/common.mjs",
+      "sha256": "65f95ec86d873cae5fcb1a688dfbaebaa8ac35e84ef820599f2de30efedf1ba9"
+    },
+    {
+      "path": "operations/pingdu-ryujin-20261119/runtime.mjs",
+      "sha256": "0575af5e3a5da46c61e1d720f68ee111687d033fdaa9e0bf9a6ab31aeb7fc50d"
+    },
+    {
+      "path": "operations/pingdu-ryujin-20261119/prepare.mjs",
+      "sha256": "f8a80e0551b3743c6e9ee5201f7e4bdfe6a307a52d6a475d7d54cdbdbee1190e"
+    },
+    {
+      "path": "operations/pingdu-ryujin-20261119/grant.mjs",
+      "sha256": "3fd9e40bf3f9fa66c9bf24d4101cf311970ecd200c7871dae5f4d740e7f36e5c"
+    },
+    {
+      "path": "operations/pingdu-ryujin-20261119/run.mjs",
+      "sha256": "e1bd0860159b508181523082fffaf466dc340112264dc10312258dda7fa2c8fd"
+    },
+    {
+      "path": "operations/pingdu-ryujin-20261119/verify.mjs",
+      "sha256": "302e77eaaf7c27ad03206607a0240b7222699c6a8a193c8d17a35c0023687459"
+    },
+    {
+      "path": "operations/pingdu-ryujin-20261119/record.mjs",
+      "sha256": "82409c99710575abc4c86020a01d01798dd00971970d2aa4cb7cb24b267f58e3"
+    }
+  ],
+  "idempotency": "Inspect this exact completed operation receipt for the same request; do not mint a new operation key or grant again."
+}

@@ -1,0 +1,50 @@
+{
+  "partialFailureRollbacks": 2,
+  "fullRehearsalRolledBack": true,
+  "noWriteReplay": true,
+  "runtime": {
+    "samples": [
+      {
+        "phase": "first",
+        "ms": 1191,
+        "sql": 13,
+        "queryRoundTripMs": 1085
+      }
+    ],
+    "owned": [
+      {
+        "code": "V-958",
+        "name": "류진",
+        "totalCopies": 1,
+        "duplicateCount": 0,
+        "level": 1,
+        "loanUntil": null,
+        "canDeploy": true,
+        "basePower": 4000000
+      }
+    ],
+    "slowestQueries": [
+      {
+        "ms": 215,
+        "statement": "SELECT payload_json,revision FROM mercenary_cms_documents_v1 WHERE doc_key='config'"
+      },
+      {
+        "ms": 77,
+        "statement": "SELECT * FROM (SELECT p.user_id,p.mercenary_code,p.level,p.experience,p.breakthrough_mask,p.revision,NULL AS loan_until FROM user_mercenary_levels_v1 p WHERE NO"
+      },
+      {
+        "ms": 75,
+        "statement": "WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES (CAST($1 AS BIGINT),CAST($2 AS TEXT),CAST($3 AS TEXT),CAST($4 AS BIGINT)),(CAST($5 AS BIGINT),"
+      },
+      {
+        "ms": 73,
+        "statement": "SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM (SELECT c.user_id,c.mercenary_code"
+      },
+      {
+        "ms": 72,
+        "statement": "SELECT value FROM app_meta WHERE key=$1"
+      }
+    ],
+    "environment": "Windows CLI; actual production mercenaryAccountState service via PostgreSQL; network included; not browser or physical-device measurement"
+  }
+}
