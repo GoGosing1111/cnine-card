@@ -151,6 +151,7 @@ import { handleEscortOperation } from '../_escort_operation.js';
 import { handleLichRaid,ensureLichLive,LICH_TICKET } from '../_raid_lich_live.js';
 import {handleMadaraRaid,ensureMadaraLive,MADARA_TICKET} from '../_raid_madara_live.js';
 import {handleBlackwingRaid} from '../_raid_blackwing_live.js';
+import {handleNoxLive} from '../_raid_nox_live.js';
 import { handleRaidCoreProtocol } from '../_raid_core_protocol.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
@@ -5248,6 +5249,7 @@ async function handleRequest(context){
     const revealResponse=await handleRewardReveal({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(revealResponse)return revealResponse;
     const defenseResponse=await handleMonsterDefense({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,withUserMutationLock:withJointUserMutationLock}});if(defenseResponse)return defenseResponse;
     const cooperativeResponse=await handleCooperative({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,userEquipmentBonuses,withUserMutationLock:withJointUserMutationLock}});if(cooperativeResponse)return cooperativeResponse;
+  {const response=await handleNoxLive({path,request,env,deps:{authenticate,json,pveDeckCards,raidDeckPower}});if(response)return response;}
     const blackwingRaidResponse=await handleBlackwingRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(blackwingRaidResponse)return blackwingRaidResponse;
     const madaraRaidResponse=await handleMadaraRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(madaraRaidResponse)return madaraRaidResponse;
     const lichRaidResponse=await handleLichRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(lichRaidResponse)return lichRaidResponse;

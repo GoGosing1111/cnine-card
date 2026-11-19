@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>리버스콜 · 종언의 주파수 · 적관의 지휘자 녹스</title><link rel="icon" href="data:,">
+<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/card.css"><link rel="stylesheet" href="/css/card-unique-battle-fx-v1174.css"><link rel="stylesheet" href="/css/battle-v3-live.css"><link rel="stylesheet" href="/css/zenith-v1.css"><link rel="stylesheet" href="/css/superstar-v1.css"><link rel="stylesheet" href="/css/faker-card-v1.css"><link rel="stylesheet" href="/css/no-light-beams-v1789.css"><link rel="stylesheet" href="/css/breakthrough-tier-v1802.css"><link rel="stylesheet" href="raid.css"><link rel="preload" as="font" href="/assets/fonts/nox/SUIT-Variable.woff2" type="font/woff2" crossorigin>
+<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script><script type="module" src="raid.mjs"></script>
+</head><body>
+<main id="lobby" class="nox-lobby">
+  <img class="nox-keyart" src="/assets/ui/raid-nox-v1/boss-portrait.webp" alt="붉은 왕관과 검은 날개를 지닌 적관의 지휘자 녹스" fetchpriority="high">
+  <header class="nox-lobby-top"><a href="/" id="exitRaid" class="nox-brand">리버스콜 <span>로비로 돌아가기</span></a><button type="button" class="nox-quiet" data-guide>공략 보기</button></header>
+  <section class="nox-lobby-content" aria-labelledby="raidTitle">
+    <h1 id="raidTitle">종언의<br>주파수</h1><p class="nox-boss-name">적관의 지휘자 녹스</p>
+    <p class="nox-intro">박자를 놓치면, 왕관이 너를 기억한다.<br>끝까지 살아남아 그의 지휘를 끊어라.</p>
+    <div class="nox-difficulty"><strong>매우 어려움</strong><span>3·6인 협동 · PVE 덱 출전</span></div>
+    <form id="createForm" class="nox-console">
+      <fieldset class="nox-size"><legend>공대 인원</legend><label><input type="radio" name="size" value="6" checked><span>6인 공대<small>보스 HP 1,200만</small></span></label><label><input type="radio" name="size" value="3"><span>3인 도전<small>보스 HP 1,800만 · 더 어려움</small></span></label></fieldset>
+      <button class="nox-button nox-primary" type="submit" id="createButton" disabled>공대 만들기</button>
+      <div class="nox-join"><input id="joinCode" aria-label="참가할 공대 코드" placeholder="공대 코드 10자리" maxlength="10" autocomplete="off"><button id="joinButton" disabled class="nox-button" type="button">참가</button></div>
+    </form>
+    <section id="assembly" class="nox-console" hidden aria-label="공대 집결">
+      <div class="nox-code">공대 코드 <strong id="roomCode"></strong><button type="button" id="copyCode" class="nox-quiet">복사</button></div><ul id="memberList"></ul>
+      <p id="prepareStatus" role="status">음원과 전장을 준비하세요.</p><div class="nox-assembly-actions"><button id="readyButton" class="nox-button nox-primary">전투 준비</button><button id="startButton" class="nox-button nox-primary" hidden>전원 출전</button><button id="lobbyLeave" class="nox-quiet">공대 나가기</button></div>
+    </section>
+    <details class="nox-deck"><summary>출전 PVE 덱 확인 <span>5장</span></summary><div id="deckList"></div><p id="deckNotice">저장된 덱을 확인하고 있습니다.</p></details>
+    <div class="nox-review-note"><strong id="feeMode">입장 권한 확인 중</strong><p id="feeDetail" role="status">운영 상태를 불러오고 있습니다.</p></div>
+  </section>
+</main>
+<main id="combat" class="nox-combat" hidden>
+  <header class="nox-toolbar"><div><strong>종언의 주파수</strong><span id="roundLabel">전장 준비</span></div><time id="enrageClock">03:30</time><button type="button" class="nox-quiet" data-guide>공략</button><button type="button" id="audioResume" class="nox-quiet" hidden>소리 재개</button><button id="leaveButton" class="nox-quiet" type="button">나가기</button></header>
+  <section class="nox-raid-hud" aria-label="공대 생존 현황"><div class="nox-boss-health"><div><strong>적관의 지휘자 녹스</strong><span id="bossPercent">100%</span></div><div class="nox-gauge" role="progressbar" aria-label="보스 HP" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" id="bossGauge"><div class="nox-gauge-trail"></div><div class="nox-gauge-fill"></div></div></div><div id="partyHud" class="nox-party"></div></section>
+  <section class="nox-battle-pane" aria-label="V3 전투"><div id="battleMount"></div></section>
+</main>
+<template id="mechanicTemplate"><section class="nox-mechanic-layer">
+  <div class="nox-mechanic-title"><h2 id="mechanicName">전장 준비</h2><p id="mechanicHint">공대 집결을 기다리고 있습니다.</p><strong id="mechanicClock"></strong></div>
+  <section id="rhythm" class="nox-rhythm" hidden aria-label="4키 리듬 기믹">
+    <header class="nox-track-heading"><strong>종언의 악보</strong><span id="rhythmClock"></span><small>D · F · J · K / 정확도 90% · MISS 3 이하</small></header>
+    <div class="nox-rhythm-readout"><span id="rhythmScore">정확도 100%</span><div class="nox-judgement"><output id="judgement" aria-live="off">READY</output><span id="timingDetail">노트 중앙을 판정선에 맞추세요</span></div><strong id="rhythmCombo"></strong></div>
+    <div class="nox-chart" id="chart"><div class="nox-chart-columns"><i></i><i></i><i></i><i></i></div><div id="notes"></div><div class="nox-hit-line"><i></i><i></i><i></i><i></i></div><div class="nox-hit-effects" aria-hidden="true"><i class="nox-hit-fx" data-hit-lane="0" style="--lane:0"></i><i class="nox-hit-fx" data-hit-lane="1" style="--lane:1"></i><i class="nox-hit-fx" data-hit-lane="2" style="--lane:2"></i><i class="nox-hit-fx" data-hit-lane="3" style="--lane:3"></i></div></div>
+    <div class="nox-keys"><button data-nox-lane="0" aria-label="D 첫 번째 레인">D</button><button data-nox-lane="1" aria-label="F 두 번째 레인">F</button><button data-nox-lane="2" aria-label="J 세 번째 레인">J</button><button data-nox-lane="3" aria-label="K 네 번째 레인">K</button></div>
+  </section>
+  <section id="memory" class="nox-memory" hidden aria-label="전장 바닥 안전지대와 지뢰"><div class="nox-memory-guide"><output id="memoryCue" aria-live="off">안전 경로 기억</output><span id="memoryProgress">바닥의 1 → 2 → 3 위치를 기억하세요</span></div><div id="floorTargets"></div></section>
+  <section id="coop" class="nox-coop" hidden aria-label="협동 주파수 공명"><p id="coopRole"></p><div class="nox-sync-track"><i id="syncNeedle"></i><b></b></div><div class="nox-frequency-buttons"><button data-nox-lane="0">저음 <small>D</small></button><button data-nox-lane="1">중음 <small>F</small></button><button data-nox-lane="2">고음 <small>J</small></button></div><span id="coopStatus">같은 박자에 각자 공명하세요</span></section>
+  <div id="spectator" class="nox-spectator" hidden><strong>전투 불능</strong><span>남은 공대원의 전투를 관전합니다.</span></div>
+  <div id="combatMessage" class="nox-combat-message" role="status"></div>
+</section></template>
+<dialog id="guideDialog" class="nox-dialog"><button id="closeGuide" class="nox-close" aria-label="공략 닫기">닫기</button><h2>세 번의 시험</h2><ol><li><strong>종언의 악보</strong><p>D·F·J·K 또는 화면의 4개 키를 누르세요. 판정선 도달 ±35ms는 PERFECT, ±90ms는 GOOD. 121개 노트의 정확도 90% 이상, 놓친 노트 3개 이하여야 생존합니다. 빈 레인 연타는 감점됩니다.</p></li><li><strong>잔향의 발판</strong><p>V3 전장 바닥에 청록색 정답 발판 3개와 붉은 지뢰 27개, 총 30개가 섞여 나타납니다. 안전지대에 빠르게 표시되는 1→2→3 위치를 기억하고, 공개가 끝난 뒤 그 순서대로 바닥을 클릭하거나 터치하세요. 지뢰를 누르면 즉사합니다. 순서 오류 또는 2.2초 안에 입력하지 않으면 즉사합니다.</p></li><li><strong>삼중 공명</strong><p>각자 저음·중음·고음 중 한 주파수를 맡습니다. 바늘이 중앙에 닿는 순간 자기 주파수를 누르세요. 생존자 전원이 ±225ms 안에 맞춰야 합니다. 세 주파수 중 담당자가 모두 사망한 주파수가 있으면 공략 실패입니다.</p></li></ol><p>공명 성공 뒤 15초간 PVE 덱이 자동 집중 공격합니다. 세 회차를 210초 안에 끝내세요. 3인 공대는 보스 총 HP가 50% 더 높습니다.</p><label class="nox-field">입력 보정 <input id="calibration" type="range" min="-150" max="150" step="5" value="0"><output id="calibrationValue">0 ms</output></label><p class="nox-small">음악보다 늦게 누르는 편이면 양수로 조절하세요. 노트와 판정이 함께 이동하며, 발판·협동 입력에는 적용되지 않습니다. 기본값은 0ms입니다. 전투 중 공략을 열어도 공대 시간은 계속 흐릅니다.</p></dialog>
+<dialog id="resultDialog" class="nox-dialog nox-result"><h2 id="resultTitle"></h2><p id="resultReason"></p><p id="resultDetail"></p><button id="retryButton" class="nox-button nox-primary">로비로 돌아가기</button></dialog>
+<div id="toast" class="nox-toast" role="status" hidden></div>
+</body></html>
