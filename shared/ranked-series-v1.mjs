@@ -2,6 +2,9 @@ import {COMPANION_RELEASE,COMPANION_PREPARATION_REVIEW,validatePreparedMercenari
 import {isBlackcrownLimited} from './mercenary-blackcrown-pool-v3.mjs';
 import {isBloodmoonLimited} from './mercenary-bloodmoon-pool-v3.mjs';
 import {isHalloweenMercenary} from './mercenary-halloween-catalog-v1.mjs';
+import {BLUE_GEAR_DRAW_POLICY} from './mercenary-blue-gear-pack-v1.mjs';
+
+const blueGearCards=new Map(BLUE_GEAR_DRAW_POLICY.pool.map(card=>[card.code,card]));
 
 export const RANKED_SINGLE_SERIES_RULES=Object.freeze({version:'ranked-series-20261019',mercenariesPerRound:1,rosterSize:3,rounds:3});
 export const RANKED_DUAL_SERIES_RULES=Object.freeze({version:'ranked-series-pairs-20261028',mercenariesPerRound:2,rosterSize:6,rounds:3});
@@ -24,8 +27,10 @@ export function rankedSeriesRoster(rows,rules=RANKED_SERIES_RULES){
 }
 export const rankedPublicMercenary=({code,name,rank,edition,sourceArt,battleSprite})=>{
   // Resolve collection from the canonical limited pools, never a name or code prefix.
-  const collection=isBlackcrownLimited(code)?'블랙크라운':isBloodmoonLimited(code)?'블러드문':isHalloweenMercenary(code)?'할로윈':'';
-  const identityLabel=[collection,rank,collection||edition==='LIMITED'?'리미티드':''].filter(Boolean).join(' ');
+  const blueGear=blueGearCards.get(code);
+  const collection=blueGear?'블루기어':isBlackcrownLimited(code)?'블랙크라운':isBloodmoonLimited(code)?'블러드문':isHalloweenMercenary(code)?'할로윈':'';
+  const limited=blueGear?BLUE_GEAR_DRAW_POLICY.isLimited(code):Boolean(collection)||edition==='LIMITED';
+  const identityLabel=[collection,rank,limited?'리미티드':''].filter(Boolean).join(' ');
   return {code,name,rank,sourceArt,battleSprite,identityLabel};
 };
 // Public selection is sorted by code. Never leak the opponent's saved order.
