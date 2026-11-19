@@ -1,0 +1,218 @@
+{
+  "operationKey": "ops:pingdu:verification-month2:20261119:v1",
+  "authorization": "핑크빛유두 2차인증 된거로 처리하고 시즌패스2달차 지급해",
+  "status": "production-verified",
+  "user": {
+    "id": "1",
+    "nickname": "핑크빛유두"
+  },
+  "processedAt": "2026-11-19 17:25:50 KST",
+  "verification": {
+    "status": "VERIFIED",
+    "provider": "WAGO",
+    "method": "Administrator approval of the existing request using the same update and database trigger as admin/wago-verifications APPROVE",
+    "auditId": "64773",
+    "externalIdentityReplaced": false,
+    "externalChallengeClaimed": false
+  },
+  "seasonPass": {
+    "month": 2,
+    "durationDays": 30,
+    "startsAt": 1795076750550,
+    "expiresAt": 1797668750550,
+    "expiresKst": "2026-12-19 17:25:50 KST",
+    "auditId": "64774",
+    "active": true,
+    "claimedCount": 0,
+    "claimableCount": 12,
+    "rewardCalendarStart": "2026-11-08",
+    "rewardCalendarEnd": "2026-12-07",
+    "firstMonthPreserved": true,
+    "activationPetsGranted": 0,
+    "autoClaimed": false,
+    "actualChargeWon": 0
+  },
+  "preservation": {
+    "protectedBeforeHash": "4093d2b77513dad4fe7be1c1dbdb26ab60a7fd154c45dc3b3812d125ddb7763b",
+    "protectedAfterHash": "4093d2b77513dad4fe7be1c1dbdb26ab60a7fd154c45dc3b3812d125ddb7763b",
+    "firstTerm": {
+      "startsAt": 1792464165619,
+      "endsAt": 1795056165619,
+      "revokedAt": null
+    },
+    "existingPetsInventoryMercenaryGrowthAndEquipmentPreserved": true,
+    "normalPassSalesRemainClosed": true
+  },
+  "validation": {
+    "tests": 8,
+    "failures": 0,
+    "partialFailureRollback": [
+      "after-verification",
+      "after-pass",
+      "after-receipt"
+    ],
+    "fullRehearsalRollback": true,
+    "independentReadOnly": true,
+    "verification": {
+      "secondaryVerified": true,
+      "provider": "WAGO",
+      "passActive": true,
+      "firstMonthPreserved": true,
+      "standardReceipts": 1,
+      "operationReceipts": 1,
+      "audits": 2,
+      "duplicateProviderLinks": 0
+    },
+    "replaySelects": 1,
+    "replayWrites": 0,
+    "locksReleased": true,
+    "operationLocksRemaining": 0
+  },
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "verificationMs": 76,
+        "passMs": 76,
+        "verificationQueries": 1,
+        "passQueries": 1,
+        "totalQueries": 3,
+        "calls": [
+          {
+            "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at,h.value AS pass_hold_raw FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN app_met",
+            "ms": 73
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 73
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 73
+          }
+        ],
+        "verified": false,
+        "eligible": false,
+        "purchased": false,
+        "active": false,
+        "expiresAt": 0,
+        "claimedCount": 0,
+        "claimableCount": 0,
+        "startDate": "2026-11-08",
+        "endDate": "2026-12-07"
+      },
+      {
+        "phase": "repeat",
+        "verificationMs": 76,
+        "passMs": 74,
+        "verificationQueries": 1,
+        "passQueries": 1,
+        "totalQueries": 3,
+        "calls": [
+          {
+            "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at,h.value AS pass_hold_raw FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN app_met",
+            "ms": 75
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 73
+          }
+        ],
+        "verified": false,
+        "eligible": false,
+        "purchased": false,
+        "active": false,
+        "expiresAt": 0,
+        "claimedCount": 0,
+        "claimableCount": 0,
+        "startDate": "2026-11-08",
+        "endDate": "2026-12-07"
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "verificationMs": 79,
+        "passMs": 155,
+        "verificationQueries": 1,
+        "passQueries": 2,
+        "totalQueries": 4,
+        "calls": [
+          {
+            "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at,h.value AS pass_hold_raw FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN app_met",
+            "ms": 76
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 76
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+            "ms": 76
+          }
+        ],
+        "verified": true,
+        "eligible": true,
+        "purchased": true,
+        "active": true,
+        "expiresAt": 1797668750550,
+        "claimedCount": 0,
+        "claimableCount": 12,
+        "startDate": "2026-11-08",
+        "endDate": "2026-12-07"
+      },
+      {
+        "phase": "repeat",
+        "verificationMs": 77,
+        "passMs": 152,
+        "verificationQueries": 1,
+        "passQueries": 2,
+        "totalQueries": 4,
+        "calls": [
+          {
+            "sql": "SELECT u.id,u.nickname,u.status,u.created_at,s.verified_at,h.value AS pass_hold_raw FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN app_met",
+            "ms": 77
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 76
+          },
+          {
+            "sql": "SELECT value FROM app_meta WHERE key=$1",
+            "ms": 76
+          },
+          {
+            "sql": "SELECT key,value FROM app_meta WHERE key>=$1 AND key<$2 ORDER BY key",
+            "ms": 76
+          }
+        ],
+        "verified": true,
+        "eligible": true,
+        "purchased": true,
+        "active": true,
+        "expiresAt": 1797668750550,
+        "claimedCount": 0,
+        "claimableCount": 12,
+        "startDate": "2026-11-08",
+        "endDate": "2026-12-07"
+      }
+    ],
+    "operationMs": 2549,
+    "condition": "Windows CLI, actual service reads on production PostgreSQL; first/repeat, network included; no browser or physical-device FPS measurement.",
+    "loadingImprovementClaim": false,
+    "explanation": "Network/database round trips dominate. Verification remains one indexed account query. Pass reads increase from one to two queries after activation to load claim history. Existing production account-lock helper and one transaction are reused. Data-only operation: no UI/rendering change, no browser/emulator/physical-device FPS or entry measurements."
+  },
+  "sourceCommit": "28c15f863dba93eeddc2faffd755c67248f1bad3",
+  "rawOperationDirectory": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\pingdu-verification-month2-20261119",
+  "messagesSent": 0,
+  "runtimeChanges": 0,
+  "deployments": 0
+}
