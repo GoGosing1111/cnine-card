@@ -1,3 +1,4 @@
+import {p90Fixture} from './eastern-p90-20261119.mjs';
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -12,7 +13,8 @@ import {readJointBody} from '../../functions/_joint_request.js';
 import {configureArdenFixture} from './arden-craft-fixture.mjs';
 const root=path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 let f;
-async function reset(mode="default"){if(f)await f.close();f=await equipmentFixture();
+async function reset(mode="default"){if(f)await f.close();f=mode==='p90'?await p90Fixture():await equipmentFixture();
+  if(mode==='p90'){await f.pg.exec('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT');return;}
   await f.p('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT').run();
   for(const key of ['safe_runtime_upgrade_v1678_synthesis_rate_scrapyard_rewards','safe_runtime_upgrade_v1933_workshop_material_craft_no_schema_change','safe_runtime_upgrade_v2004_battle_suit_workshop','safe_runtime_upgrade_v2066_battle_suit_core_catalog','safe_runtime_upgrade_v2124_battle_suit_core_5_6'])await f.p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',key,'1').run();
   await f.p("UPDATE character_equipment_items SET name=CASE id WHEN 101 THEN '금룡 돌격소총' WHEN 102 THEN '인피니티 AK' ELSE name END").run();

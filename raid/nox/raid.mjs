@@ -71,7 +71,7 @@ async function mountBattle(){
   if(mounted)return;if(mountPromise)return mountPromise;const version=epoch;
   mountPromise=(async()=>{
     if(!payload){const result=await api('state?payload=1');payload=result.payload;render(result);}
-    await loadScript('/raid/nox/battle.bundle.js');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
+    await loadScript('/raid/nox/battle.bundle.js?easternP90=20261119-v1');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
     chartObserver=new ResizeObserver(()=>{hitY=Math.max(1,$('chart').clientHeight-26);noteHeight=parseFloat(getComputedStyle($('chart')).getPropertyValue('--note-height'))||40;$('chart').style.setProperty('--hit-y',hitY+'px');});chartObserver.observe($('chart'));

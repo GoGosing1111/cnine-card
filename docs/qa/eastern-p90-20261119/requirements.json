@@ -1,0 +1,208 @@
+{
+  "at": "2026-11-19T05:18:33.964Z",
+  "requested": {
+    "inputChoice": "+15 gold anti-materiel or gold rifle, one item",
+    "blueprintChapters": [
+      1,
+      2,
+      3
+    ],
+    "quantityEach": 1,
+    "coin": "500000000000000",
+    "masterStars": 1000000000,
+    "pity": "5 failures then sixth guaranteed",
+    "successRate": 10,
+    "failure": "destroy selected weapon; repair allowed",
+    "release": "prepared OFF/private/OWNER-only"
+  },
+  "operation": {
+    "at": "2026-11-19T05:17:05.821Z",
+    "readOnly": true,
+    "receipt": {
+      "operationKey": "ops:eastern-p90:requirements:20261119:v1",
+      "status": "CONFIGURED_LOCKED",
+      "recipe": {
+        "id": "586",
+        "code": "WORKSHOP_EASTERN_P90",
+        "category": "ITEM_SYNTHESIS",
+        "name": "P90 · 동방무기상 제작",
+        "description": "금룡 대물저격 또는 금룡 대물소총 +15 중 1개 선택. 비밀무기 설계도 1장·2장·3장 각 1개, 코인 500조, 마스터의 별 10억 소모. 성공률 10%. 5회 실패 누적 후 6번째 확정 성공. 실패 시 무기 파괴, 리페어 가능. 공개 준비 중.",
+        "output_type": "EQUIPMENT",
+        "output_ref": "53",
+        "output_quantity": "1",
+        "payment_mode": "BOTH",
+        "coin_cost": "500000000000000",
+        "master_star_cost": "1000000000",
+        "success_rate": 10,
+        "is_featured": "0",
+        "is_active": "0",
+        "is_public": "0",
+        "owner_test_only": "1",
+        "sort_order": "100",
+        "created_at": "2026-11-19 04:47:06",
+        "updated_at": "2026-11-19 05:16:52.126366+00"
+      },
+      "policy": {
+        "inputEquipmentId": 40,
+        "inputEquipmentIds": [
+          40,
+          41
+        ],
+        "pityAfter": 5,
+        "revision": 1,
+        "requiredLevel": 15,
+        "successRate": 10,
+        "failureInputPolicy": "CONSUME",
+        "failureRepairable": true,
+        "inputName": "금룡 대물저격",
+        "inputImage": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+        "inputRarity": "MYTHIC",
+        "inputOptions": [
+          {
+            "id": 40,
+            "name": "금룡 대물저격",
+            "image": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+            "rarity": "MYTHIC"
+          },
+          {
+            "id": 41,
+            "name": "금룡 대물소총",
+            "image": "/assets\\items\\gilded-dragon-ar-mythic-v1.png",
+            "rarity": "MYTHIC"
+          }
+        ]
+      },
+      "materials": [
+        {
+          "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "quantity": 1,
+          "sort": 10
+        },
+        {
+          "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+          "quantity": 1,
+          "sort": 20
+        },
+        {
+          "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+          "quantity": 1,
+          "sort": 30
+        }
+      ],
+      "pendingFields": [],
+      "accountWrites": 0,
+      "messagesSent": 0,
+      "completedAt": "2026-11-19T05:16:55.147Z",
+      "auditId": "64705"
+    },
+    "materials": [
+      {
+        "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "quantity": "1",
+        "sort_order": "10"
+      },
+      {
+        "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "quantity": "1",
+        "sort_order": "20"
+      },
+      {
+        "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "quantity": "1",
+        "sort_order": "30"
+      }
+    ],
+    "itemsPreserved": 3,
+    "itemsHash": "d4037e85d70878bda28d87b0c8d01507b50f33fa9e4fda24768d91abde3fab2e",
+    "replaySelects": 1,
+    "writes": 0
+  },
+  "rehearsal": [
+    {
+      "stage": "recipe",
+      "rolledBack": true
+    },
+    {
+      "stage": "materials",
+      "rolledBack": true
+    },
+    {
+      "stage": "policy",
+      "rolledBack": true
+    },
+    {
+      "stage": "audit",
+      "rolledBack": true
+    },
+    {
+      "stage": "receipt",
+      "rolledBack": true
+    },
+    {
+      "stage": "complete",
+      "rolledBack": true
+    }
+  ],
+  "power": {
+    "at": "2026-11-19T05:16:55.343Z",
+    "forgePolicyRevision": 3,
+    "powers": [
+      {
+        "id": "40",
+        "code": "EQ_1788486888336",
+        "name": "東方軍火商(동방무기상)",
+        "base": {
+          "total": 468000,
+          "pve": 421200,
+          "pvp": 46800
+        },
+        "plus15": {
+          "total": 2574000,
+          "pve": 2316600,
+          "pvp": 257400
+        }
+      },
+      {
+        "id": "41",
+        "code": "EQ_1788486929132",
+        "name": "東方軍火商(동방무기상)",
+        "base": {
+          "total": 468000,
+          "pve": 421200,
+          "pvp": 46800
+        },
+        "plus15": {
+          "total": 2574000,
+          "pve": 2316600,
+          "pvp": 257400
+        }
+      },
+      {
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "base": {
+          "total": 12500000,
+          "pve": 12500000,
+          "pvp": 0
+        }
+      },
+      {
+        "id": "53",
+        "code": "EASTERN_WEAPON_DRAFT_01",
+        "name": "P90 · 東方軍火商(동방무기상)",
+        "base": {
+          "total": 910000,
+          "pve": 819000,
+          "pvp": 91000
+        },
+        "plus15": {
+          "total": 5005000,
+          "pve": 4504500,
+          "pvp": 500500
+        }
+      }
+    ]
+  },
+  "scope": "Same P90 id 53 and recipe id 586. No player-account writes, power edits, new artwork or other recipe updates."
+}

@@ -29,12 +29,19 @@
       stars: ['MASTER_STAR','BOTH'].includes(type) ? Number(recipe.master_star_cost || 0) : 0,
       shards: type === 'COIN_AND_CARD_SHARD' ? Number(recipe.card_shard_cost || 0) : 0};
   }
+  function equipmentInputs(policy) {
+    const ids=Array.isArray(policy?.inputEquipmentIds)?policy.inputEquipmentIds:[policy?.inputEquipmentId];
+    return ids.map(Number).filter(id=>Number.isSafeInteger(id)&&id>0).map(id=>{
+      const item=policy?.inputOptions?.find(row=>Number(row.id)===id);
+      return item||{id,name:policy?.inputName||'대상 장비',image:policy?.inputImage};
+    });
+  }
   function requirements(recipe, state, choice, attempts = 1) {
     const cost = paymentFor(recipe, choice), rows = [];
     if (recipe.category === 'ITEM_SYNTHESIS' && recipe.output_type === 'EQUIPMENT') {
-      const policy = recipe.equipmentCraft;
-      rows.push({code:'EQUIPMENT', name:'+' + Number(policy?.requiredLevel??10) + ' ' + (policy?.inputName || '대상 장비'), image:policy?.inputImage,
-        owned:(state.equipmentCraft?.instances || []).filter(row => Number(row.equipmentId) === Number(policy?.inputEquipmentId) && Number(row.level??10) === Number(policy?.requiredLevel??10)).length, required:1});
+      const policy = recipe.equipmentCraft, choices=equipmentInputs(policy);
+      rows.push({code:'EQUIPMENT', name:'+' + Number(policy?.requiredLevel??10) + ' ' + (choices.map(row=>row.name).join(' 또는 ') || '대상 장비'), image:policy?.inputImage,
+        owned:(state.equipmentCraft?.instances || []).filter(row => choices.some(item=>item.id===Number(row.equipmentId)) && Number(row.level??10) === Number(policy?.requiredLevel??10)).length, required:1});
     }
     for (const material of recipe.materials || []) {
       const code = material.item_code, item = state.inventory?.[code] || {};
@@ -63,5 +70,5 @@
     const normalize = value => String(value || '').normalize('NFKC').toLowerCase().replace(/\s+/g, '');
     return normalize([recipe.name, recipe.output_name, recipe.output_rarity, recipe.code, ...(recipe.materials || []).map(row => row.item_name || row.item_code)].join(' ')).includes(normalize(query));
   }
-  window.WorkshopRecipes = Object.freeze({paymentFor, requirements, describe, costRows, matches, image, formatAmount});
+  window.WorkshopRecipes = Object.freeze({equipmentInputs,paymentFor, requirements, describe, costRows, matches, image, formatAmount});
 })();

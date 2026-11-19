@@ -21,9 +21,9 @@ test('repairability is explicit, boolean and valid only with failed input consum
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
   async function fixture(t){const f=await equipmentFixture(t,postgres);await enableEquipmentRepairFixture(f);await saveEquipmentCraftRecipe(f.env,f.user,repairDraft(f));return f;}
-  test(`${dialect}: CMS accepts 20 million stars and charges that exact amount; above-cap saves fail without clamping`,async t=>{
+  test(`${dialect}: CMS preserves 20 million star costs within the expanded 1 billion cap`,async t=>{
     const f=await equipmentFixture(t,postgres),draft={...repairDraft(f),masterStarCost:20000000};
-    await assert.rejects(saveEquipmentCraftRecipe(f.env,f.user,{...draft,masterStarCost:20000001}),/20,000,000/);
+    await assert.rejects(saveEquipmentCraftRecipe(f.env,f.user,{...draft,masterStarCost:1000000001}),/1,000,000,000/);
     assert.equal(Number((await f.recipes())[0].master_star_cost),20);
     await saveEquipmentCraftRecipe(f.env,f.user,draft);assert.equal(Number((await f.recipes())[0].master_star_cost),20000000);
     await f.p("UPDATE cnine_user_inventory SET quantity=20000001,unseen_quantity=20000001 WHERE user_id=7 AND item_code='MASTER_STAR'").run();
