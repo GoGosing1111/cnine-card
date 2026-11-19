@@ -1,0 +1,1029 @@
+{
+  "at": "2026-11-19T07:03:25.247Z",
+  "status": "PUBLIC_ON",
+  "authorization": "사용자: 제작연출 금룡대물저격처럼 연결되있는거임? 공개반영해",
+  "operation": {
+    "operationKey": "ops:eastern-p90:public:20261119:v1",
+    "status": "PUBLIC_ON",
+    "recipe": {
+      "id": "586",
+      "code": "WORKSHOP_EASTERN_P90",
+      "category": "ITEM_SYNTHESIS",
+      "name": "P90 · 동방무기상 제작",
+      "description": "금룡 대물저격 또는 금룡 대물소총 +15 중 1개 선택. 비밀무기 설계도 1장·2장·3장 각 1개, 코인 500조, 마스터의 별 10억 소모. 성공률 10%. 5회 실패 누적 후 6번째 확정 성공. 실패 시 무기 파괴, 리페어 가능.",
+      "output_type": "EQUIPMENT",
+      "output_ref": "53",
+      "output_quantity": "1",
+      "payment_mode": "BOTH",
+      "coin_cost": "500000000000000",
+      "master_star_cost": "1000000000",
+      "success_rate": 10,
+      "is_featured": "0",
+      "is_active": "1",
+      "is_public": "1",
+      "owner_test_only": "0",
+      "sort_order": "100",
+      "created_at": "2026-11-19 04:47:06",
+      "updated_at": "2026-11-19 07:01:55.894079+00"
+    },
+    "policy": {
+      "inputEquipmentId": 40,
+      "inputEquipmentIds": [
+        40,
+        41
+      ],
+      "pityAfter": 5,
+      "revision": 1,
+      "requiredLevel": 15,
+      "successRate": 10,
+      "failureInputPolicy": "CONSUME",
+      "failureRepairable": true,
+      "inputName": "금룡 대물저격",
+      "inputImage": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+      "inputRarity": "MYTHIC",
+      "inputOptions": [
+        {
+          "id": 40,
+          "name": "금룡 대물저격",
+          "image": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+          "rarity": "MYTHIC"
+        },
+        {
+          "id": 41,
+          "name": "금룡 대물소총",
+          "image": "/assets\\items\\gilded-dragon-ar-mythic-v1.png",
+          "rarity": "MYTHIC"
+        }
+      ]
+    },
+    "materials": [
+      {
+        "recipe_id": "586",
+        "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "quantity": "1",
+        "sort_order": "10",
+        "created_at": "2026-11-19 05:16:52",
+        "updated_at": "2026-11-19 05:16:52"
+      },
+      {
+        "recipe_id": "586",
+        "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "quantity": "1",
+        "sort_order": "20",
+        "created_at": "2026-11-19 05:16:52",
+        "updated_at": "2026-11-19 05:16:52"
+      },
+      {
+        "recipe_id": "586",
+        "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "quantity": "1",
+        "sort_order": "30",
+        "created_at": "2026-11-19 05:16:52",
+        "updated_at": "2026-11-19 05:16:52"
+      }
+    ],
+    "accountWrites": 0,
+    "messagesSent": 0,
+    "completedAt": "2026-11-19T07:01:58.376Z",
+    "auditId": "64728"
+  },
+  "configurationReadOnlyVerification": {
+    "at": "2026-11-19T07:02:03.329Z",
+    "readOnly": true,
+    "receipt": {
+      "operationKey": "ops:eastern-p90:public:20261119:v1",
+      "status": "PUBLIC_ON",
+      "recipe": {
+        "id": "586",
+        "code": "WORKSHOP_EASTERN_P90",
+        "category": "ITEM_SYNTHESIS",
+        "name": "P90 · 동방무기상 제작",
+        "description": "금룡 대물저격 또는 금룡 대물소총 +15 중 1개 선택. 비밀무기 설계도 1장·2장·3장 각 1개, 코인 500조, 마스터의 별 10억 소모. 성공률 10%. 5회 실패 누적 후 6번째 확정 성공. 실패 시 무기 파괴, 리페어 가능.",
+        "output_type": "EQUIPMENT",
+        "output_ref": "53",
+        "output_quantity": "1",
+        "payment_mode": "BOTH",
+        "coin_cost": "500000000000000",
+        "master_star_cost": "1000000000",
+        "success_rate": 10,
+        "is_featured": "0",
+        "is_active": "1",
+        "is_public": "1",
+        "owner_test_only": "0",
+        "sort_order": "100",
+        "created_at": "2026-11-19 04:47:06",
+        "updated_at": "2026-11-19 07:01:55.894079+00"
+      },
+      "policy": {
+        "inputEquipmentId": 40,
+        "inputEquipmentIds": [
+          40,
+          41
+        ],
+        "pityAfter": 5,
+        "revision": 1,
+        "requiredLevel": 15,
+        "successRate": 10,
+        "failureInputPolicy": "CONSUME",
+        "failureRepairable": true,
+        "inputName": "금룡 대물저격",
+        "inputImage": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+        "inputRarity": "MYTHIC",
+        "inputOptions": [
+          {
+            "id": 40,
+            "name": "금룡 대물저격",
+            "image": "/assets\\items\\gilded-dragon-antimateriel-rifle-mythic-v1.png",
+            "rarity": "MYTHIC"
+          },
+          {
+            "id": 41,
+            "name": "금룡 대물소총",
+            "image": "/assets\\items\\gilded-dragon-ar-mythic-v1.png",
+            "rarity": "MYTHIC"
+          }
+        ]
+      },
+      "materials": [
+        {
+          "recipe_id": "586",
+          "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "quantity": "1",
+          "sort_order": "10",
+          "created_at": "2026-11-19 05:16:52",
+          "updated_at": "2026-11-19 05:16:52"
+        },
+        {
+          "recipe_id": "586",
+          "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+          "quantity": "1",
+          "sort_order": "20",
+          "created_at": "2026-11-19 05:16:52",
+          "updated_at": "2026-11-19 05:16:52"
+        },
+        {
+          "recipe_id": "586",
+          "item_code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+          "quantity": "1",
+          "sort_order": "30",
+          "created_at": "2026-11-19 05:16:52",
+          "updated_at": "2026-11-19 05:16:52"
+        }
+      ],
+      "accountWrites": 0,
+      "messagesSent": 0,
+      "completedAt": "2026-11-19T07:01:58.376Z",
+      "auditId": "64728"
+    },
+    "previousReceiptHash": "a04bbee0f2ca025fd90fabf80b35f61896ebf0f00831a8285611b308a2986558",
+    "replaySelects": 1,
+    "writes": 0
+  },
+  "rollback": [
+    {
+      "stage": "recipe",
+      "rolledBack": true
+    },
+    {
+      "stage": "audit",
+      "rolledBack": true
+    },
+    {
+      "stage": "receipt",
+      "rolledBack": true
+    },
+    {
+      "stage": "complete",
+      "rolledBack": true
+    }
+  ],
+  "ordinaryUserRead": {
+    "at": "2026-11-19T07:02:10.276Z",
+    "phase": "after",
+    "readOnly": true,
+    "role": "USER",
+    "condition": "Actual regular USER workshop service, production PostgreSQL READ ONLY, Windows Node first/repeat on one connection; includes network. No account writes.",
+    "records": [
+      {
+        "visit": "first",
+        "ms": 1656.0255000000002,
+        "queryCount": 17,
+        "visible": true,
+        "slowest": [
+          {
+            "ms": 245.97059999999965,
+            "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+          },
+          {
+            "ms": 170.37400000000025,
+            "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+          },
+          {
+            "ms": 97.54770000000008,
+            "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+          }
+        ]
+      },
+      {
+        "visit": "repeat",
+        "ms": 1290.8818,
+        "queryCount": 16,
+        "visible": true,
+        "slowest": [
+          {
+            "ms": 93.31970000000001,
+            "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+          },
+          {
+            "ms": 83.8185999999996,
+            "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+          },
+          {
+            "ms": 83.58359999999993,
+            "sql": "SELECT i.code,i.name,i.category,i.rarity,replace(i.image_url,chr(92),'/') image_url,i.is_active,COALESCE(ui.quantity,0) owned_quantity FROM inventory_items i LE"
+          }
+        ]
+      }
+    ]
+  },
+  "production": {
+    "at": "2026-11-19T07:01:34.130Z",
+    "sourceCommit": "8bcb11c6eaf81bc87db976aebf707a863cccfcce",
+    "pages": {
+      "id": "a0164047-a44b-47a2-b126-1613f9709585",
+      "commit": "8bcb11c6eaf81bc87db976aebf707a863cccfcce",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "b236ce57-8954-4946-a302-2007ef977464",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "8f8ee871-f44c-4a7b-ba32-d5348860f5d5",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "0af6767da4d84153a490b92fc859b82420808b740b56f19a238faa204a6cc7e6",
+        "bytes": 53371
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "132fb24b3558f59a2ce0592203f69f0e2d481e5c0630a2997b6e3bae50fe0321",
+        "bytes": 833381
+      },
+      {
+        "path": "js/workshop-v1881.js",
+        "sha256": "0a2ed58c487dba22ea385309ef66ddd1e335379b95ec0c7c2a2440127c4dd42a",
+        "bytes": 133782
+      },
+      {
+        "path": "js/workshop-recipes-v1.js",
+        "sha256": "9da972aacf660f4a0780ee3bbd8960254f58bf7385d91565910ec9eb5349df5e",
+        "bytes": 6143
+      },
+      {
+        "path": "js/equipment-craft-reveal-v1.js",
+        "sha256": "2e193f312ba2906c29022e767ce1458fd4df86d1104fbce15819fe7123d850ae",
+        "bytes": 13877
+      },
+      {
+        "path": "css/equipment-craft-reveal-v1.css",
+        "sha256": "358383b44bc6b396f63a50e50049a942324ff1ac58e4d38283ba872aed9c4cb0",
+        "bytes": 13680
+      },
+      {
+        "path": "assets/ui/workshop/emperor-seal-v1.webp",
+        "sha256": "95440e518d52683668de1fc4d8c9174f5e4de86b09fc673ed4d5a30e14260aba",
+        "bytes": 441090
+      },
+      {
+        "path": "onestore/js/app.js",
+        "sha256": "0f488a4423433e0af0d60c615896521324f43ab510aba57cdcf5ef85cd4b1f9d",
+        "bytes": 827552
+      }
+    ],
+    "sharedReveal": [
+      {
+        "path": "js/equipment-craft-reveal-v1.js",
+        "unchangedFromGoldRecipe": true,
+        "sha256": "2406d0c41858becd659da11a5e02e306d18018a0c2e3d38878acdab7ee490314"
+      },
+      {
+        "path": "css/equipment-craft-reveal-v1.css",
+        "unchangedFromGoldRecipe": true,
+        "sha256": "358383b44bc6b396f63a50e50049a942324ff1ac58e4d38283ba872aed9c4cb0"
+      },
+      {
+        "path": "assets/ui/workshop/emperor-seal-v1.webp",
+        "unchangedFromGoldRecipe": true,
+        "sha256": "95440e518d52683668de1fc4d8c9174f5e4de86b09fc673ed4d5a30e14260aba"
+      }
+    ],
+    "tests": 94,
+    "windowsManifest": {
+      "releaseId": "4ebfe49b29abdaaf0f4614df8db1d2811ffda2efa8acde0a4485c276785944c3",
+      "verified": 7
+    }
+  },
+  "presentation": {
+    "originalGoldRecipe": {
+      "id": "526",
+      "code": "WORKSHOP_ITEM_SYNTHESIS_1790598488947",
+      "category": "ITEM_SYNTHESIS",
+      "name": "동방무기상 제작",
+      "output_type": "EQUIPMENT",
+      "output_ref": "40",
+      "is_active": "1",
+      "is_public": "1",
+      "owner_test_only": "0"
+    },
+    "renderer": "EquipmentCraftReveal.play",
+    "phases": [
+      "sealed",
+      "opening",
+      "result"
+    ],
+    "slide": true,
+    "success": "P90 +0",
+    "failure": "선택 무기 파괴·실제 종류 리페어 링크·공유 실패 누적",
+    "originalRendererAndResourcesPreserved": true,
+    "confirmationFix": "선택 인스턴스의 실제 금룡 무기 종류를 확인창에 표시하고 웹/H5 로딩 URL을 갱신"
+  },
+  "performance": {
+    "serviceBefore": {
+      "at": "2026-11-19T06:41:53.698Z",
+      "phase": "before",
+      "readOnly": true,
+      "role": "USER",
+      "condition": "Actual regular USER workshop service, production PostgreSQL READ ONLY, Windows Node first/repeat on one connection; includes network. No account writes.",
+      "records": [
+        {
+          "visit": "first",
+          "ms": 1691.5101000000004,
+          "queryCount": 17,
+          "visible": false,
+          "slowest": [
+            {
+              "ms": 377.28350000000046,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 148.44929999999977,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            },
+            {
+              "ms": 104.28889999999956,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            }
+          ]
+        },
+        {
+          "visit": "repeat",
+          "ms": 1199.1319000000003,
+          "queryCount": 16,
+          "visible": false,
+          "slowest": [
+            {
+              "ms": 93.86530000000039,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 76.08379999999943,
+              "sql": "SELECT key,value FROM app_meta WHERE key IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)"
+            },
+            {
+              "ms": 75.69420000000082,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            }
+          ]
+        }
+      ]
+    },
+    "serviceAfter": {
+      "at": "2026-11-19T07:02:10.276Z",
+      "phase": "after",
+      "readOnly": true,
+      "role": "USER",
+      "condition": "Actual regular USER workshop service, production PostgreSQL READ ONLY, Windows Node first/repeat on one connection; includes network. No account writes.",
+      "records": [
+        {
+          "visit": "first",
+          "ms": 1656.0255000000002,
+          "queryCount": 17,
+          "visible": true,
+          "slowest": [
+            {
+              "ms": 245.97059999999965,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 170.37400000000025,
+              "sql": "SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),chr(92),'/') output_image,COALESCE(g.rarit"
+            },
+            {
+              "ms": 97.54770000000008,
+              "sql": "SELECT r.code,COALESCE(SUM(l.output_quantity),0) crafted FROM workshop_recipes_v1668 r JOIN workshop_craft_logs_v1668 l ON l.recipe_id=r.id AND l.output_ref=r.o"
+            }
+          ]
+        },
+        {
+          "visit": "repeat",
+          "ms": 1290.8818,
+          "queryCount": 16,
+          "visible": true,
+          "slowest": [
+            {
+              "ms": 93.31970000000001,
+              "sql": "SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public"
+            },
+            {
+              "ms": 83.8185999999996,
+              "sql": "WITH growth AS MATERIALIZED (SELECT instance_id,user_id,level FROM equipment_forge_states_v1 WHERE user_id=$1 AND level IN ($2,$3)) SELECT CAST(x.id AS TEXT) id"
+            },
+            {
+              "ms": 83.58359999999993,
+              "sql": "SELECT i.code,i.name,i.category,i.rarity,replace(i.image_url,chr(92),'/') image_url,i.is_active,COALESCE(ui.quantity,0) owned_quantity FROM inventory_items i LE"
+            }
+          ]
+        }
+      ]
+    },
+    "ui": [
+      {
+        "source": "ui-pc-before.json",
+        "device": "pc",
+        "phase": "before",
+        "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+        "firstLaunchMs": 1462.7999999970198,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 667,
+            "frames": {
+              "count": 746,
+              "p95Ms": 4.800000000000182,
+              "maxMs": 187.5,
+              "over50": 4
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 285,
+            "frames": {
+              "count": 99,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 8.199999999999818,
+              "over50": 0
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          }
+        ],
+        "errors": [],
+        "crafts": [
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "5",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 362,
+            "resultMs": 3076,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          }
+        ]
+      },
+      {
+        "source": "ui-pc-after.json",
+        "device": "pc",
+        "phase": "after",
+        "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+        "firstLaunchMs": 1222.7000000029802,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 592,
+            "frames": {
+              "count": 3335,
+              "p95Ms": 4.300000000001091,
+              "maxMs": 175,
+              "over50": 2
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 238,
+            "frames": {
+              "count": 104,
+              "p95Ms": 4.30000000000291,
+              "maxMs": 5.200000000000728,
+              "over50": 0
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          }
+        ],
+        "errors": [],
+        "crafts": [
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "5",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 291,
+            "resultMs": 2821,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          },
+          {
+            "input": "금룡 대물저격",
+            "selectedInstance": "1",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 162,
+            "resultMs": 2077,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 1 / 5회\n투입 장비 #1 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          },
+          {
+            "input": "금룡 대물저격",
+            "selectedInstance": "7",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 230,
+            "resultMs": 2168,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 2 / 5회\n투입 장비 #7 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          },
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "8",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 190,
+            "resultMs": 2158,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 3 / 5회\n투입 장비 #8 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          },
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "9",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 157,
+            "resultMs": 2056,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 4 / 5회\n투입 장비 #9 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          },
+          {
+            "input": "금룡 대물저격",
+            "selectedInstance": "2",
+            "success": true,
+            "guaranteed": true,
+            "repairable": false,
+            "sealedMs": 142,
+            "resultMs": 2069,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 100% · 실패 누적 5 / 5회\n투입 장비 #2 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          }
+        ]
+      },
+      {
+        "source": "ui-android-before.json",
+        "device": "android",
+        "phase": "before",
+        "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+        "firstLaunchMs": 1963.7999999970198,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 987,
+            "frames": {
+              "count": 707,
+              "p95Ms": 8.300000000000182,
+              "maxMs": 183.30000000000018,
+              "over50": 2
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 378,
+            "frames": {
+              "count": 100,
+              "p95Ms": 4.399999999999636,
+              "maxMs": 4.599999999998545,
+              "over50": 0
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          }
+        ],
+        "errors": [],
+        "crafts": [
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "5",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 558,
+            "resultMs": 2988,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          }
+        ]
+      },
+      {
+        "source": "ui-android-after.json",
+        "device": "android",
+        "phase": "after",
+        "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+        "firstLaunchMs": 1204.8999999910593,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 827,
+            "frames": {
+              "count": 618,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 154.20000000000027,
+              "over50": 2
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 272,
+            "frames": {
+              "count": 101,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 4.399999999999636,
+              "over50": 0
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          }
+        ],
+        "errors": [],
+        "crafts": [
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "5",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 279,
+            "resultMs": 2511,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          }
+        ]
+      },
+      {
+        "source": "ui-ios-after.json",
+        "device": "ios",
+        "phase": "after",
+        "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+        "firstLaunchMs": 2127,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 1357,
+            "frames": {
+              "count": 57,
+              "p95Ms": 434,
+              "maxMs": 994,
+              "over50": 27
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 1088,
+            "frames": {
+              "count": 22,
+              "p95Ms": 31,
+              "maxMs": 51,
+              "over50": 1
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "crafts": [
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "5",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 557,
+            "resultMs": 3813,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          }
+        ]
+      },
+      {
+        "source": "ui-windows-after.json",
+        "device": "windows",
+        "phase": "after",
+        "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+        "firstLaunchMs": 1542.2999999970198,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 633,
+            "frames": {
+              "count": 750,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 166.5999999999999,
+              "over50": 2
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 217,
+            "frames": {
+              "count": 98,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 4.300000000000182,
+              "over50": 0
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          }
+        ],
+        "errors": [],
+        "crafts": [
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "5",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 325,
+            "resultMs": 2832,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          }
+        ]
+      },
+      {
+        "source": "ui-h5-after.json",
+        "device": "h5",
+        "phase": "after",
+        "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+        "firstLaunchMs": 1087.3999999910593,
+        "rounds": [
+          {
+            "visit": "first",
+            "readyMs": 571,
+            "frames": {
+              "count": 610,
+              "p95Ms": 4.300000000000182,
+              "maxMs": 145.9000000000001,
+              "over50": 2
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 165,
+            "frames": {
+              "count": 100,
+              "p95Ms": 4.199999999999818,
+              "maxMs": 4.300000000000182,
+              "over50": 0
+            },
+            "overflow": 0,
+            "exit": {
+              "reveal": 0,
+              "canvas": 0,
+              "frames": 0,
+              "intervals": 0
+            }
+          }
+        ],
+        "errors": [],
+        "crafts": [
+          {
+            "input": "금룡 대물소총",
+            "selectedInstance": "5",
+            "success": false,
+            "guaranteed": false,
+            "repairable": true,
+            "sealedMs": 289,
+            "resultMs": 2463,
+            "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+          }
+        ]
+      }
+    ],
+    "productionFilesSmoke": {
+      "source": "ui-pc-live.json",
+      "device": "pc",
+      "phase": "live",
+      "condition": "Windows headless browser, actual lobby menu to workshop, isolated PostgreSQL. Mobile touch emulation, Windows entry URL, actual H5 variant files inside mock host. No physical device or installed Windows client; no production writes.",
+      "firstLaunchMs": 1254.5,
+      "rounds": [
+        {
+          "visit": "first",
+          "readyMs": 578,
+          "frames": {
+            "count": 3583,
+            "p95Ms": 4.300000000000182,
+            "maxMs": 141.5999999999999,
+            "over50": 2
+          },
+          "overflow": 0,
+          "exit": {
+            "reveal": 0,
+            "canvas": 0,
+            "frames": 0,
+            "intervals": 0
+          }
+        },
+        {
+          "visit": "reentry",
+          "readyMs": 174,
+          "frames": {
+            "count": 98,
+            "p95Ms": 4.30000000000291,
+            "maxMs": 4.5,
+            "over50": 0
+          },
+          "overflow": 0,
+          "exit": {
+            "reveal": 0,
+            "canvas": 0,
+            "frames": 0,
+            "intervals": 0
+          }
+        }
+      ],
+      "errors": [],
+      "crafts": [
+        {
+          "input": "금룡 대물소총",
+          "selectedInstance": "5",
+          "success": false,
+          "guaranteed": false,
+          "repairable": true,
+          "sealedMs": 296,
+          "resultMs": 2648,
+          "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 0 / 5회\n투입 장비 #5 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+        },
+        {
+          "input": "금룡 대물저격",
+          "selectedInstance": "1",
+          "success": false,
+          "guaranteed": false,
+          "repairable": true,
+          "sealedMs": 155,
+          "resultMs": 2520,
+          "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 1 / 5회\n투입 장비 #1 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+        },
+        {
+          "input": "금룡 대물저격",
+          "selectedInstance": "7",
+          "success": false,
+          "guaranteed": false,
+          "repairable": true,
+          "sealedMs": 171,
+          "resultMs": 2059,
+          "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 2 / 5회\n투입 장비 #7 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+        },
+        {
+          "input": "금룡 대물소총",
+          "selectedInstance": "8",
+          "success": false,
+          "guaranteed": false,
+          "repairable": true,
+          "sealedMs": 148,
+          "resultMs": 2044,
+          "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 3 / 5회\n투입 장비 #8 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+        },
+        {
+          "input": "금룡 대물소총",
+          "selectedInstance": "9",
+          "success": false,
+          "guaranteed": false,
+          "repairable": true,
+          "sealedMs": 158,
+          "resultMs": 2523,
+          "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 10% · 실패 누적 4 / 5회\n투입 장비 #9 · +15 금룡 대물소총\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+        },
+        {
+          "input": "금룡 대물저격",
+          "selectedInstance": "2",
+          "success": true,
+          "guaranteed": true,
+          "repairable": false,
+          "sealedMs": 142,
+          "resultMs": 2507,
+          "confirmation": "P90 · 東方軍火商(동방무기상) 장비 제작\n이번 성공 확률 100% · 실패 누적 5 / 5회\n투입 장비 #2 · +15 금룡 대물저격\n비밀무기 설계도 1장 1 + 비밀무기 설계도 2장 1 + 비밀무기 설계도 3장 1 + 코인 500조 + 마스터의 별 10억\n실패하면 투입한 +15 장비가 소모되며 리페어권으로 복구할 수 있습니다. 복구 비용은 강화 센터에서 확인하세요. 제작 재료·재화는 반환되지 않습니다. 성공 시 투입 장비를 소모하고 결과 장비 +0을 획득합니다.\n제작하시겠습니까?"
+        }
+      ]
+    },
+    "analysis": "Windows CLI production READ ONLY: serial DB round trips dominate. Input choices remain batched with no equipment-per-query lookup. Same-condition Android before/after uses one failed attempt per visit sequence; PC after includes five failures and a sixth guaranteed success, unlike one failure in PC before, so its reentry population and whole-run frame totals differ. Entry timings are single samples with network/cache and concurrent host-load variation. The result timings include screenshot capture before sliding. No speed improvement claim; existing WebKit ResizeObserver warning/long frames recorded. Headless/emulated, not physical phones or an installed Windows client. H5 uses generated H5 files and the production HTML transform with a mock SDK host."
+  },
+  "safety": {
+    "productionAccountWrites": 0,
+    "productionCrafts": 0,
+    "messages": 0,
+    "priorReceiptPreserved": true,
+    "otherRecipeWrites": 0,
+    "newArtwork": 0,
+    "storageMaintenance": 0
+  },
+  "history": "The earlier preparation receipts remain unchanged. This explicit public release supersedes the old OFF/private state."
+}
