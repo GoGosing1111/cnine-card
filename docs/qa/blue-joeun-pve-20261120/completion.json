@@ -1,0 +1,1498 @@
+{
+  "completedAt": "2026-11-19T18:44:32.515Z",
+  "scope": "Blue Gear Joeun V-705 PVE only",
+  "authorization": "[C9]가시,PVE상향해 그럼",
+  "deployment": {
+    "at": "2026-11-19T18:44:05.696Z",
+    "head": "761712dc11b71d89b94eaa51d58c35a7fa20c4b5",
+    "pages": {
+      "id": "05eecbf4-12eb-48f6-b68e-d0c868155cbf",
+      "commit": "761712dc11b71d89b94eaa51d58c35a7fa20c4b5",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "7b7aa7d8-d737-4422-8faa-0e44031eb8bf",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "a8b19800-e4e5-49f0-b16d-13bf562f61d0",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "testsPassed": 43,
+    "files": [
+      {
+        "file": "index.html",
+        "sha256": "2a4a37560d16ee193fe0bc00e7c9d89d3cf8eb8d5621417d6649917130766784",
+        "sourceSha256": "2a4a37560d16ee193fe0bc00e7c9d89d3cf8eb8d5621417d6649917130766784",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "378af8ec3b3158d5c6a2a0d16aad64313bad6845e2de6a9779586851a3968e64",
+        "sourceSha256": "6cc575d51bf7b6440cc39389551c98d67423bd2058cf888301c25a187e757d64",
+        "transformation": "canonical htmlForStore at /",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "85ef8f1e1974bfb8aad4e6a8dfaf70f48a6891e2c7efe711ed2ce1edcb839062",
+        "sourceSha256": "85ef8f1e1974bfb8aad4e6a8dfaf70f48a6891e2c7efe711ed2ce1edcb839062",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "onestore/js/app.js",
+        "sha256": "53e20957b3636bd3453177af5cfd10fb98af139149288623a1c49552448b4d79",
+        "sourceSha256": "53e20957b3636bd3453177af5cfd10fb98af139149288623a1c49552448b4d79",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "sha256": "8138f86c66604757ab4be29e2eecaf80e24d3392640146da15dd79411e45ca73",
+        "sourceSha256": "8138f86c66604757ab4be29e2eecaf80e24d3392640146da15dd79411e45ca73",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "7309c2b5273562b27cbc49fe724c62e2919218c5dafa96329a0fbe6c71e28897",
+        "sourceSha256": "7309c2b5273562b27cbc49fe724c62e2919218c5dafa96329a0fbe6c71e28897",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "shared/mercenary-blue-gear-v1.mjs",
+        "sha256": "7a2e2030f1555f7e60468311ada2d29a9fa6da87065dcb1aebaaf4438344bae7",
+        "sourceSha256": "7a2e2030f1555f7e60468311ada2d29a9fa6da87065dcb1aebaaf4438344bae7",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "shared/mercenary-blue-gear-catalog-v1.mjs",
+        "sha256": "40df21787a419a0ffbe74d2373b1065f367743a40005af66a2445a1190460d8a",
+        "sourceSha256": "40df21787a419a0ffbe74d2373b1065f367743a40005af66a2445a1190460d8a",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "shared/mercenary-ss-limited-v1.mjs",
+        "sha256": "0f92f1d68e8ba6a93dbb357dc10caf022694809c306787820f80321237b7041b",
+        "sourceSha256": "0f92f1d68e8ba6a93dbb357dc10caf022694809c306787820f80321237b7041b",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "63358c199b12c8c4373b8d80e35d24757d681034c4d3afed8c2f7ef2da6b6c65",
+        "sourceSha256": "63358c199b12c8c4373b8d80e35d24757d681034c4d3afed8c2f7ef2da6b6c65",
+        "transformation": null,
+        "normalizedEqual": true
+      },
+      {
+        "file": "raid/nox/battle.bundle.js",
+        "sha256": "8d113e155c95b2a3b981f02671f05ad842a057e8ad62553e49c28c8729819489",
+        "sourceSha256": "8d113e155c95b2a3b981f02671f05ad842a057e8ad62553e49c28c8729819489",
+        "transformation": null,
+        "normalizedEqual": true
+      }
+    ],
+    "codex": {
+      "revision": 61,
+      "joeun": {
+        "code": "V-705",
+        "description": "기본 전투력 100만. 고유·장비 능력치 2.4배, 자연 행동 속도 4배, 아군 카드 행동당 추가 행동 4회, 받는 피해 60% 경감. PvE 기술 기본 피해는 프리즘 관통사격 880%, 오로라 좌표포격 총 1,386.67%이며 돌파의 기술 피해 보너스를 추가 적용합니다. 두 기술은 에너지 20·공통 재사용 2행동입니다. 좌표포격의 총 피해는 살아 있는 적 전체에 나눠 적용합니다. PvP는 기존 피해·에너지 25·공통 재사용 3행동을 유지합니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다.",
+        "skills": [
+          {
+            "id": "MS-709",
+            "name": "프리즘 관통사격",
+            "visualMode": "refraction",
+            "mechanic": "BLUE_GEAR_STRIKE",
+            "ready": true,
+            "targetRule": "weakest",
+            "targetCount": 1,
+            "target": "약화된 적 하나",
+            "balance": {
+              "damageRatio": 4.4,
+              "cooldownTurns": 3,
+              "cost": 25
+            },
+            "pveBalance": {
+              "damageRatio": 8.8,
+              "cooldownTurns": 2,
+              "cost": 20
+            },
+            "effect": "프리즘 관통사격 · 약화된 적 하나 공격 · PvE 기본 피해 880%",
+            "trigger": "PvE 에너지 20 · 공통 재사용 2행동 / PvP 에너지 25 · 공통 재사용 3행동",
+            "counterplay": "방어·보호막 적용",
+            "bossRule": "서버 전투 규칙 적용",
+            "procRule": "대상당 1회"
+          },
+          {
+            "id": "MS-710",
+            "name": "오로라 좌표포격",
+            "visualMode": "skyline",
+            "mechanic": "BLUE_GEAR_STRIKE",
+            "ready": true,
+            "targetRule": "back",
+            "targetCount": 1,
+            "target": "후열 우선 적 하나",
+            "balance": {
+              "damageRatio": 5.6,
+              "cooldownTurns": 3,
+              "cost": 25
+            },
+            "pveBalance": {
+              "damageRatio": 13.866666666666667,
+              "cooldownTurns": 2,
+              "cost": 20
+            },
+            "effect": "오로라 좌표포격 · 후열 우선 적 하나 공격 · PvE 기본 피해 1,386.67%를 적 전체에 분배",
+            "trigger": "PvE 에너지 20 · 공통 재사용 2행동 / PvP 에너지 25 · 공통 재사용 3행동",
+            "counterplay": "방어·보호막 적용",
+            "bossRule": "서버 전투 규칙 적용",
+            "procRule": "대상당 1회"
+          }
+        ]
+      },
+      "otherFourUnchanged": true
+    },
+    "windowsManifest": {
+      "releaseId": "a2c2016647ce5e4679e6eae3cebc8134298fe94366862d759e01e710c0c1c8c3",
+      "files": [
+        "index.html",
+        "js/app.js",
+        "js/battle-v3-live.js",
+        "shared/mercenary-blue-gear-v1.mjs",
+        "shared/mercenary-blue-gear-catalog-v1.mjs",
+        "shared/mercenary-ss-limited-v1.mjs",
+        "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "raid/nox/battle.bundle.js"
+      ]
+    },
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "productionHistory": {
+    "account": "[C9]가시",
+    "id": 4866,
+    "joeun": {
+      "jokroLevel": 21,
+      "joeunLevel": 21,
+      "claimedWins": 3,
+      "claimedLosses": 5
+    },
+    "nevera": {
+      "jokroLevel": 20,
+      "neveraLevel": 21,
+      "claimedWins": 6,
+      "combatWinButAbandoned": 1
+    },
+    "sameSecondMercenaryEquipmentPower": 1623600,
+    "jokroEquipmentPower": 3375900,
+    "comment": "The four equipment items were moved from Nevera to Blue Gear Joeun. User recollection of Jokro21 in the earlier party differs from the stored snapshot (20)."
+  },
+  "change": {
+    "baseSkillDamageMultiplier": 2,
+    "learnedSkillBonus": "Apply canonical V2 breakthrough skillPowerPercent once for Joeun PvE. Level 21 is +20%, making the same uncapped skill hit 2.4x the previous implementation.",
+    "skills": [
+      {
+        "id": "MS-709",
+        "name": "프리즘 관통사격",
+        "basePercent": 880,
+        "level21Percent": 1056
+      },
+      {
+        "id": "MS-710",
+        "name": "오로라 좌표포격",
+        "baseTotalPercent": 1386.666666666667,
+        "level21TotalPercent": 1664,
+        "splitAmongLivingTargets": true
+      }
+    ],
+    "sharedCooldownActions": {
+      "before": 3,
+      "after": 2
+    },
+    "energy": {
+      "before": 25,
+      "after": 20
+    },
+    "unchanged": [
+      "PvP damage/cooldown/energy",
+      "other four Blue Gear SS",
+      "basic attacks",
+      "MIDDLE position",
+      "entry power and gear",
+      "fourfold speed/action credit",
+      "60% incoming damage reduction",
+      "bosses and rewards",
+      "account ownership, growth and equipped inventory"
+    ]
+  },
+  "comparison": {
+    "conditions": "Gasi saved opening reconstructed; same gear/levels/ordinary cards/support/pet opening and seeds, current production four bosses. Saved timeline/magic are unavailable, so this is controlled comparison, not exact past battle replay.",
+    "seeds": "1..256 shared between builds",
+    "bosses": [
+      {
+        "id": 80,
+        "name": "사현",
+        "beforeWins": 256,
+        "afterWins": 256,
+        "total": 256
+      },
+      {
+        "id": 81,
+        "name": "카르겐",
+        "beforeWins": 74,
+        "afterWins": 255,
+        "total": 256
+      },
+      {
+        "id": 82,
+        "name": "발카르",
+        "beforeWins": 2,
+        "afterWins": 116,
+        "total": 256
+      },
+      {
+        "id": 83,
+        "name": "모르가스",
+        "beforeWins": 0,
+        "afterWins": 7,
+        "total": 256
+      }
+    ],
+    "pvpBattlesUnchanged": 768,
+    "otherMercenaryPveBattlesUnchanged": 336,
+    "hashExclusion": "Only combatLinkDescription text is excluded; all numerical input, skills, targets, timeline events, and final outcomes are compared.",
+    "actualSavedReplayLimitation": "Saved timeline/magic/RNG state are incomplete. Original exact-replay calibration matched 5 of 8 Blue Joeun outcomes; these are reconstructed controlled tests, not a promise to convert every historical loss. Original failed calibration is preserved in operations.",
+    "guaranteedWin": false
+  },
+  "verification": {
+    "relatedTests": 43,
+    "newFocusedTests": 5,
+    "pvpUi": {
+      "match": true,
+      "battle": true,
+      "result": true,
+      "return": true,
+      "errors": [],
+      "productionWrites": 0
+    },
+    "browser": [
+      {
+        "label": "before-pc-v2",
+        "conditions": "Windows headless Chrome; touch emulation on mobile; canonical shell and V3 bundle; reconstructed saved party; isolated SQLite API, no production writes; 20-second real-time render samples",
+        "errors": [],
+        "reports": [
+          {
+            "visit": "first",
+            "inputMs": 4629.0245,
+            "readyMs": 8500.4827,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1172,
+              "p50": 16.69999998807907,
+              "p95": 20.900000005960464,
+              "p99": 24,
+              "longFrames50": 1,
+              "maxFrame": 69.19999998807907,
+              "longTasks": [
+                {
+                  "start": 1445.199999988079,
+                  "duration": 214
+                },
+                {
+                  "start": 2027.800000011921,
+                  "duration": 129
+                },
+                {
+                  "start": 4242.300000011921,
+                  "duration": 346
+                },
+                {
+                  "start": 4747.800000011921,
+                  "duration": 61
+                },
+                {
+                  "start": 4894.699999988079,
+                  "duration": 69
+                },
+                {
+                  "start": 5803.5,
+                  "duration": 68
+                },
+                {
+                  "start": 9548.40000000596,
+                  "duration": 98
+                },
+                {
+                  "start": 11559.699999988079,
+                  "duration": 57
+                },
+                {
+                  "start": 11629.09999999404,
+                  "duration": 74
+                },
+                {
+                  "start": 20589.80000001192,
+                  "duration": 69
+                }
+              ],
+              "elapsed": 20051.30000001192,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false
+            },
+            "settlement": "representative playback then navigation cancellation",
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          },
+          {
+            "visit": "repeat",
+            "inputMs": 518.8982000000033,
+            "readyMs": 2128.748599999999,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1175,
+              "p50": 16.700000017881393,
+              "p95": 21.80000001192093,
+              "p99": 30.200000017881393,
+              "longFrames50": 1,
+              "maxFrame": 54.5,
+              "longTasks": [
+                {
+                  "start": 1445.199999988079,
+                  "duration": 214
+                },
+                {
+                  "start": 2027.800000011921,
+                  "duration": 129
+                },
+                {
+                  "start": 4242.300000011921,
+                  "duration": 346
+                },
+                {
+                  "start": 4747.800000011921,
+                  "duration": 61
+                },
+                {
+                  "start": 4894.699999988079,
+                  "duration": 69
+                },
+                {
+                  "start": 5803.5,
+                  "duration": 68
+                },
+                {
+                  "start": 9548.40000000596,
+                  "duration": 98
+                },
+                {
+                  "start": 11559.699999988079,
+                  "duration": 57
+                },
+                {
+                  "start": 11629.09999999404,
+                  "duration": 74
+                },
+                {
+                  "start": 20589.80000001192,
+                  "duration": 69
+                },
+                {
+                  "start": 33780.80000001192,
+                  "duration": 110
+                },
+                {
+                  "start": 33891.59999999404,
+                  "duration": 92
+                },
+                {
+                  "start": 36238.5,
+                  "duration": 66
+                },
+                {
+                  "start": 36923.90000000596,
+                  "duration": 155
+                },
+                {
+                  "start": 37676.80000001192,
+                  "duration": 65
+                },
+                {
+                  "start": 45623.69999998808,
+                  "duration": 52
+                }
+              ],
+              "elapsed": 20123.40000000596,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false
+            },
+            "settlement": "representative playback then navigation cancellation",
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          }
+        ],
+        "staticPreparation": {
+          "totalMs": 10403.619900000003,
+          "slowest": [
+            {
+              "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+              "ms": 290.558,
+              "size": 3860532
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-wake-atlas.png",
+              "ms": 240.35120000000097,
+              "size": 1229940
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-thunder-v3/blade-atlas.png",
+              "ms": 230.96539999999914,
+              "size": 1332531
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-dash-v2/wake-atlas.png",
+              "ms": 226.22159999999894,
+              "size": 1579242
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-sword-v1/attack-atlas.png",
+              "ms": 207.11260000000038,
+              "size": 6342903
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-impact-atlas.png",
+              "ms": 198.1221000000005,
+              "size": 1675542
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-surge-atlas.png",
+              "ms": 192.8073999999997,
+              "size": 3034386
+            },
+            {
+              "file": "js/battle-v3-live.js",
+              "ms": 190.6327999999994,
+              "size": 78465
+            }
+          ]
+        }
+      },
+      {
+        "label": "after-pc",
+        "conditions": "Windows headless Chrome; touch emulation on mobile; canonical shell and V3 bundle; reconstructed saved party; isolated SQLite API, no production writes; 20-second real-time render samples",
+        "errors": [],
+        "reports": [
+          {
+            "visit": "first",
+            "inputMs": 4157.9256000000005,
+            "readyMs": 7767.7852,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1171,
+              "p50": 16.69999998807907,
+              "p95": 20.799999982118607,
+              "p99": 22,
+              "longFrames50": 2,
+              "maxFrame": 91,
+              "longTasks": [
+                {
+                  "start": 1380.2999999821186,
+                  "duration": 151
+                },
+                {
+                  "start": 1594.3999999761581,
+                  "duration": 99
+                },
+                {
+                  "start": 3423.399999976158,
+                  "duration": 66
+                },
+                {
+                  "start": 3714.399999976158,
+                  "duration": 398
+                },
+                {
+                  "start": 4266.799999982119,
+                  "duration": 66
+                },
+                {
+                  "start": 4421.699999988079,
+                  "duration": 85
+                },
+                {
+                  "start": 5332.799999982119,
+                  "duration": 62
+                },
+                {
+                  "start": 8343.399999976158,
+                  "duration": 82
+                },
+                {
+                  "start": 9981,
+                  "duration": 60
+                },
+                {
+                  "start": 10056.199999988079,
+                  "duration": 72
+                },
+                {
+                  "start": 11470.09999999404,
+                  "duration": 57
+                },
+                {
+                  "start": 18363.09999999404,
+                  "duration": 50
+                },
+                {
+                  "start": 19300.69999998808,
+                  "duration": 91
+                }
+              ],
+              "elapsed": 20046,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false
+            },
+            "settlement": {
+              "status": "CLAIMED",
+              "result": "WIN"
+            },
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          },
+          {
+            "visit": "repeat",
+            "inputMs": 415.03210000001127,
+            "readyMs": 1481.941399999996,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1045,
+              "p50": 15.699999988079071,
+              "p95": 30.19999998807907,
+              "p99": 59.30000001192093,
+              "longFrames50": 16,
+              "maxFrame": 369.69999998807907,
+              "longTasks": [
+                {
+                  "start": 1380.2999999821186,
+                  "duration": 151
+                },
+                {
+                  "start": 1594.3999999761581,
+                  "duration": 99
+                },
+                {
+                  "start": 3423.399999976158,
+                  "duration": 66
+                },
+                {
+                  "start": 3714.399999976158,
+                  "duration": 398
+                },
+                {
+                  "start": 4266.799999982119,
+                  "duration": 66
+                },
+                {
+                  "start": 4421.699999988079,
+                  "duration": 85
+                },
+                {
+                  "start": 5332.799999982119,
+                  "duration": 62
+                },
+                {
+                  "start": 8343.399999976158,
+                  "duration": 82
+                },
+                {
+                  "start": 9981,
+                  "duration": 60
+                },
+                {
+                  "start": 10056.199999988079,
+                  "duration": 72
+                },
+                {
+                  "start": 11470.09999999404,
+                  "duration": 57
+                },
+                {
+                  "start": 18363.09999999404,
+                  "duration": 50
+                },
+                {
+                  "start": 19300.69999998808,
+                  "duration": 91
+                },
+                {
+                  "start": 87429.59999999404,
+                  "duration": 99
+                },
+                {
+                  "start": 89804.69999998808,
+                  "duration": 59
+                },
+                {
+                  "start": 90279.89999997616,
+                  "duration": 77
+                },
+                {
+                  "start": 90696.69999998808,
+                  "duration": 71
+                },
+                {
+                  "start": 90881.89999997616,
+                  "duration": 77
+                },
+                {
+                  "start": 96395.59999999404,
+                  "duration": 51
+                },
+                {
+                  "start": 96615,
+                  "duration": 57
+                },
+                {
+                  "start": 96856.09999999404,
+                  "duration": 180
+                },
+                {
+                  "start": 97788.69999998808,
+                  "duration": 55
+                },
+                {
+                  "start": 98721.19999998808,
+                  "duration": 112
+                },
+                {
+                  "start": 98841,
+                  "duration": 85
+                }
+              ],
+              "elapsed": 20088,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false
+            },
+            "settlement": "representative playback then navigation cancellation",
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          }
+        ],
+        "staticPreparation": {
+          "totalMs": 9384.759100000014,
+          "slowest": [
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-thunder-v3/ground-atlas.png",
+              "ms": 175.8246999999992,
+              "size": 1291008
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-sword-v1/blade-atlas.png",
+              "ms": 168.66109999999935,
+              "size": 2151378
+            },
+            {
+              "file": "assets/ui/tactical-20261030/panel-flat.webp",
+              "ms": 160.16039999999975,
+              "size": 40384
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-sword-v1/cast-atlas.png",
+              "ms": 159.60460000000057,
+              "size": 5496827
+            },
+            {
+              "file": "assets/ui/pets/buffs-v1/attack-atlas.webp",
+              "ms": 155.97890000000007,
+              "size": 285612
+            },
+            {
+              "file": "assets/ui/mercenary-advancement-v1/avenger.webp",
+              "ms": 146.0627999999997,
+              "size": 417142
+            },
+            {
+              "file": "assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 140.8788999999997,
+              "size": 1173656
+            },
+            {
+              "file": "assets/ui/pets/buffs-v1/vitality-atlas.webp",
+              "ms": 131.8778999999995,
+              "size": 193454
+            }
+          ]
+        }
+      },
+      {
+        "label": "before-mobile-v2",
+        "conditions": "Windows headless Chrome; touch emulation on mobile; canonical shell and V3 bundle; reconstructed saved party; isolated SQLite API, no production writes; 20-second real-time render samples",
+        "errors": [],
+        "reports": [
+          {
+            "visit": "first",
+            "inputMs": 3073.9922,
+            "readyMs": 5491.8311,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1155,
+              "p50": 14.199999988079071,
+              "p95": 27.80000001192093,
+              "p99": 31,
+              "longFrames50": 1,
+              "maxFrame": 66.80000001192093,
+              "longTasks": [
+                {
+                  "start": 1181.800000011921,
+                  "duration": 138
+                },
+                {
+                  "start": 1370.5999999940395,
+                  "duration": 77
+                },
+                {
+                  "start": 2658.699999988079,
+                  "duration": 297
+                },
+                {
+                  "start": 3241.800000011921,
+                  "duration": 77
+                },
+                {
+                  "start": 6181.9000000059605,
+                  "duration": 90
+                },
+                {
+                  "start": 7346.5,
+                  "duration": 65
+                },
+                {
+                  "start": 16280.800000011921,
+                  "duration": 59
+                }
+              ],
+              "elapsed": 20092.5,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false,
+              "visualCasts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                },
+                {
+                  "skill": "MS-710",
+                  "hits": 1,
+                  "damage": 0
+                }
+              ]
+            },
+            "settlement": "representative playback then navigation cancellation",
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          },
+          {
+            "visit": "repeat",
+            "inputMs": 413.041999999994,
+            "readyMs": 1425.4522999999972,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1076,
+              "p50": 16,
+              "p95": 30.30000001192093,
+              "p99": 47.19999998807907,
+              "longFrames50": 9,
+              "maxFrame": 124,
+              "longTasks": [
+                {
+                  "start": 1181.800000011921,
+                  "duration": 138
+                },
+                {
+                  "start": 1370.5999999940395,
+                  "duration": 77
+                },
+                {
+                  "start": 2658.699999988079,
+                  "duration": 297
+                },
+                {
+                  "start": 3241.800000011921,
+                  "duration": 77
+                },
+                {
+                  "start": 6181.9000000059605,
+                  "duration": 90
+                },
+                {
+                  "start": 7346.5,
+                  "duration": 65
+                },
+                {
+                  "start": 16280.800000011921,
+                  "duration": 59
+                },
+                {
+                  "start": 48753.19999998808,
+                  "duration": 61
+                },
+                {
+                  "start": 51409.69999998808,
+                  "duration": 71
+                },
+                {
+                  "start": 51742.90000000596,
+                  "duration": 52
+                },
+                {
+                  "start": 51863.19999998808,
+                  "duration": 61
+                },
+                {
+                  "start": 59687.09999999404,
+                  "duration": 57
+                },
+                {
+                  "start": 59749.40000000596,
+                  "duration": 126
+                },
+                {
+                  "start": 61453.5,
+                  "duration": 56
+                },
+                {
+                  "start": 69623.59999999404,
+                  "duration": 79
+                }
+              ],
+              "elapsed": 20061.40000000596,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false,
+              "visualCasts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                },
+                {
+                  "skill": "MS-710",
+                  "hits": 1,
+                  "damage": 0
+                }
+              ]
+            },
+            "settlement": "representative playback then navigation cancellation",
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          }
+        ],
+        "staticPreparation": {
+          "totalMs": 6871.387599999987,
+          "slowest": [
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-dash-v2/wake-atlas.png",
+              "ms": 153.8083000000006,
+              "size": 1579242
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-sword-v1/attack-atlas.png",
+              "ms": 122.6869999999999,
+              "size": 6342903
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-sword-v1/cast-atlas.png",
+              "ms": 116.58020000000033,
+              "size": 5496827
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-sword-v1/blade-atlas.png",
+              "ms": 109.55229999999938,
+              "size": 2151378
+            },
+            {
+              "file": "assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+              "ms": 107.11849999999959,
+              "size": 126178
+            },
+            {
+              "file": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+              "ms": 105.01829999999973,
+              "size": 1270373
+            },
+            {
+              "file": "assets/ui/pets/buffs-v1/vitality-atlas.webp",
+              "ms": 104.40380000000005,
+              "size": 193454
+            },
+            {
+              "file": "assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp",
+              "ms": 99.87430000000131,
+              "size": 1106818
+            }
+          ]
+        }
+      },
+      {
+        "label": "after-mobile",
+        "conditions": "Windows headless Chrome; touch emulation on mobile; canonical shell and V3 bundle; reconstructed saved party; isolated SQLite API, no production writes; 20-second real-time render samples",
+        "errors": [],
+        "reports": [
+          {
+            "visit": "first",
+            "inputMs": 2802.5246999999995,
+            "readyMs": 7066.8371,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1147,
+              "p50": 14.400000005960464,
+              "p95": 27.69999998807907,
+              "p99": 31.799999982118607,
+              "longFrames50": 1,
+              "maxFrame": 83.09999999403954,
+              "longTasks": [
+                {
+                  "start": 1071.8999999761581,
+                  "duration": 128
+                },
+                {
+                  "start": 1264.8999999761581,
+                  "duration": 94
+                },
+                {
+                  "start": 2901.699999988079,
+                  "duration": 384
+                },
+                {
+                  "start": 3572.699999988079,
+                  "duration": 93
+                },
+                {
+                  "start": 4261.899999976158,
+                  "duration": 57
+                },
+                {
+                  "start": 6914.299999982119,
+                  "duration": 89
+                },
+                {
+                  "start": 8244.5,
+                  "duration": 86
+                },
+                {
+                  "start": 17513.79999998212,
+                  "duration": 70
+                }
+              ],
+              "elapsed": 20068.20000001788,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false,
+              "visualCasts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                },
+                {
+                  "skill": "MS-710",
+                  "hits": 1,
+                  "damage": 0
+                }
+              ]
+            },
+            "settlement": "representative playback then navigation cancellation",
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          },
+          {
+            "visit": "repeat",
+            "inputMs": 385.1322,
+            "readyMs": 1388.476300000002,
+            "observation": {
+              "casts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                }
+              ],
+              "frameCount": 1124,
+              "p50": 14.699999988079071,
+              "p95": 28.599999994039536,
+              "p99": 36.80000001192093,
+              "longFrames50": 5,
+              "maxFrame": 96.09999999403954,
+              "longTasks": [
+                {
+                  "start": 1071.8999999761581,
+                  "duration": 128
+                },
+                {
+                  "start": 1264.8999999761581,
+                  "duration": 94
+                },
+                {
+                  "start": 2901.699999988079,
+                  "duration": 384
+                },
+                {
+                  "start": 3572.699999988079,
+                  "duration": 93
+                },
+                {
+                  "start": 4261.899999976158,
+                  "duration": 57
+                },
+                {
+                  "start": 6914.299999982119,
+                  "duration": 89
+                },
+                {
+                  "start": 8244.5,
+                  "duration": 86
+                },
+                {
+                  "start": 17513.79999998212,
+                  "duration": 70
+                },
+                {
+                  "start": 49993,
+                  "duration": 59
+                },
+                {
+                  "start": 50148.79999998212,
+                  "duration": 54
+                },
+                {
+                  "start": 52654,
+                  "duration": 62
+                },
+                {
+                  "start": 53089,
+                  "duration": 70
+                },
+                {
+                  "start": 53884.69999998808,
+                  "duration": 59
+                },
+                {
+                  "start": 58695.29999998212,
+                  "duration": 50
+                },
+                {
+                  "start": 60830.5,
+                  "duration": 56
+                },
+                {
+                  "start": 60890.39999997616,
+                  "duration": 66
+                }
+              ],
+              "elapsed": 20066.29999998212,
+              "phase": "전멸기 · 충격파 회피",
+              "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-bathory-live-20261019-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-valter-helios-parity-20261021-v1-tower-abyss-ui-20261021-v1-seal-dragon-20261022-v1-prime-pve-fx-cadence-20261022-v1-tower-status-expiry-20261022-v1-eunseol-live-20261023-v1-bloodmoon-namsudaeng-20261024-v1-mobile-memory-20261024-v1-octa-contact-20261024-v1-razak-20261024-v1-awakened-omega-20261024-v1-bloodmoon-owned-battle-20261025-v1-bloodmoon-status-playback-20261025-v2-prime-zero-priority-20261026-v1-three-skills-20261026-v1-razak-priority-20261026-v5-jokro-power-2200000-20261025-v1-heukgu-large-head-20261025-v3-jokro-manifest-bundled-20261027-v1-blackcrown-live-20261027-v1-revan-general-jok-20261027-v2-bloodmoon-balance-20261027-v2-cardgu-live-20261027-v1-classic-colosseum-20261027-v1-dual-mercenary-content-audit-20261028-v1-sss-area-cutin-once-20261028-v1-kamishiro-live-20261028-v1-damage-hp-sync-20261029-v1-icon-diim-front-20261029-v1-limited-220-balance-20261029-v1-omega-craft-20261029-v1-heukmu-live-20261029-v1-heukmu-swing-fx-20261029-v2-bloodmoon-bongsoon-size-20261031-v1-blackcrown-balance-60-20261031-v1-ios-safari-memory-20261031-v1-iphone-bitmap-20261102-v1-pet-pepegu-20261101-v1-tactical-hud-20261102-v1-hakuya-live-20261105-v1-helios-king-live-20261106-v1-jin-jokro-live-20261106-v1-suit-drain-progress-20261106-v1-apocalypse-trio-live-20261106-v1-apocalypse-facing-balance-20261106-v2-morgas-body-20261109-v1-coop-summon-slot-20261110-v1-mercenary-advancement-20261113-v1-blue-gear-20261113-v1-pet-growth-20261114-v1-iphone-combat-20261114-v1-zero-awakening-20261115-v1-astra-20261115-v1-citadel-clean-attack-20261117-v1-sx-ground-fixed-20261117-v1-eastern-p90-20261119-v1-ryujin-live-20261119-v1-camera-fixed-v3-approach-astra-lifecycle-20261120-v1",
+              "canvas": 1,
+              "overflow": false,
+              "visualCasts": [
+                {
+                  "skill": "MS-709",
+                  "hits": 1,
+                  "damage": 431210656
+                },
+                {
+                  "skill": "MS-710",
+                  "hits": 1,
+                  "damage": 0
+                }
+              ]
+            },
+            "settlement": "representative playback then navigation cancellation",
+            "cleanupStart": {
+              "disposed": true,
+              "appPresent": false,
+              "activeFx": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "cleanup": {
+              "disposed": true,
+              "appPresent": false,
+              "blueActors": 0,
+              "canvases": 0
+            },
+            "residual": []
+          }
+        ],
+        "staticPreparation": {
+          "totalMs": 7802.2033999999785,
+          "slowest": [
+            {
+              "file": "assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp",
+              "ms": 165.11290000000008,
+              "size": 1106818
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-wake-atlas.png",
+              "ms": 145.27819999999883,
+              "size": 1229940
+            },
+            {
+              "file": "preview/battle-suit-octaseeker-v1/assets/textures/impact-atlas.webp",
+              "ms": 137.15810000000056,
+              "size": 1058516
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-normal-lightning-v3/normal-lightning-slash-atlas.png",
+              "ms": 133.8793999999998,
+              "size": 1729736
+            },
+            {
+              "file": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+              "ms": 133.67510000000038,
+              "size": 1270373
+            },
+            {
+              "file": "assets/ui/project-v/mercenaries/blue-gear-live-v1/actors/joeun/runtime/joeun-f4a5fee985ec.webp",
+              "ms": 133.53529999999955,
+              "size": 363948
+            },
+            {
+              "file": "assets/ui/loading/reverse-call-purple-20261024/scene-mobile.webp",
+              "ms": 120.42979999999989,
+              "size": 77160
+            },
+            {
+              "file": "assets/ui/project-v/account-battle-suits/z-sword-v1/attack-atlas.png",
+              "ms": 120.0635000000002,
+              "size": 6342903
+            }
+          ]
+        }
+      }
+    ],
+    "publicCodexUi": {
+      "conditions": "Windows Chrome headless PC / mobile touch emulation; public GET-only codex; no account or message write",
+      "rows": [
+        {
+          "width": 1440,
+          "text": "전투 성능 · 행동 주기\n기본 전투력 100만. 고유·장비 능력치 2.4배, 자연 행동 속도 4배, 아군 카드 행동당 추가 행동 4회, 받는 피해 60% 경감. PvE 기술 기본 피해는 프리즘 관통사격 880%, 오로라 좌표포격 총 1,386.67%이며 돌파의 기술 피해 보너스를 추가 적용합니다. 두 기술은 에너지 20·공통 재사용 2행동입니다. 좌표포격의 총 피해는 살아 있는 적 전체에 나눠 적용합니다. PvP는 기존 피해·에너지 25·공통 재사용 3행동을 유지합니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다.",
+          "layout": {
+            "width": 647,
+            "contentWidth": 647,
+            "viewport": 1440,
+            "pageWidth": 1440
+          },
+          "errors": []
+        },
+        {
+          "width": 390,
+          "text": "전투 성능 · 행동 주기\n기본 전투력 100만. 고유·장비 능력치 2.4배, 자연 행동 속도 4배, 아군 카드 행동당 추가 행동 4회, 받는 피해 60% 경감. PvE 기술 기본 피해는 프리즘 관통사격 880%, 오로라 좌표포격 총 1,386.67%이며 돌파의 기술 피해 보너스를 추가 적용합니다. 두 기술은 에너지 20·공통 재사용 2행동입니다. 좌표포격의 총 피해는 살아 있는 적 전체에 나눠 적용합니다. PvP는 기존 피해·에너지 25·공통 재사용 3행동을 유지합니다. 용병 성장 V2가 적용된 PVP에서는 기본 공격 피해 상한에 성장 공격력 배율의 제곱근을 별도로 곱합니다(최대 4배). 고레벨 성장과 마지막 돌파도 이 배율에 반영됩니다. 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눕니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않으며 자연 행동은 100을 소모합니다. 스킬의 고유 상한 배율과 PVE 계산은 유지합니다. PVP 성장 전투는 C·B·A·S·SS·SSS·SSS 리미티드 순으로 등급 우위를 적용합니다. SS 리미티드는 기존 일반 SSS 전투 등급을 유지합니다. 상대 전원의 등급보다 높으면 같은 레벨 기준 단계당 공격·피해 상한 +100%, 체력·방벽 +500%의 추가 보정을 적용합니다. 상위 등급의 레벨이 낮으면 1레벨 차이마다 이 추가 보정과 성장 격차 보완을 10%씩 줄이며, 10레벨 이상 뒤처지면 적용하지 않습니다. 상위 등급을 향한 경감 관통·행동 대응의 등급 감쇠도 같은 비율로 줄어 10레벨 이상 높은 용병은 배운 숙련을 온전히 사용합니다. 원래 레벨 능력치·평타 성장·추가 행동 숙련은 유지합니다. 듀오는 상대 최고 등급과 가장 큰 레벨 격차를 기준으로 하며, 같은 전투 등급·PVE·기존 개별 용병 상성 정책은 유지합니다.",
+          "layout": {
+            "width": 354,
+            "contentWidth": 354,
+            "viewport": 390,
+            "pageWidth": 390
+          },
+          "errors": []
+        }
+      ]
+    },
+    "failedHarnessRuns": [
+      "Initial full-battle hash detected only four copies of changed combatLinkDescription on Joeun; corrected presentation-only exclusion, then all 1104 combat hashes matched.",
+      "Initial proposed 256/256 assertion was too strong; final observed Kargen result is 255/256 and is reported unchanged.",
+      "PC repeat initially met optional SOOP notice in isolated fixture; fixture notice acknowledgement supplied.",
+      "Mobile initially targeted hidden PC monster buttons; switched to existing mobile select control.",
+      "Public ONE store HTML comparison initially used raw source; its existing server htmlForStore transform was then applied and all delivery hashes matched. No delivery/game code was changed for these fixture corrections."
+    ],
+    "newProductionBattles": 0,
+    "productionAccountWrites": 0,
+    "messagesSent": 0
+  },
+  "performance": {
+    "conditions": "Windows headless Chrome PC 1440x1000 / Android touch emulation 390x844; no physical device or installed app. Isolated API and real canonical V3 graphics; 20s actual Pixi ticker samples. Fresh browser first entry, same tab reentry.",
+    "pcRepeatCaveat": "Before PC first battle was cancelled after the sample; after PC first battle ran through victory. Reentry history differs, so PC repeat durations are descriptive, not a speed comparison. Mobile before/after both exit after both Joeun skill visuals.",
+    "selectedSnapshot": {
+      "before": [
+        {
+          "visit": "first",
+          "other": "V-964",
+          "ms": 1249.4728000000032,
+          "sql": 16
+        },
+        {
+          "visit": "first",
+          "other": "V-705",
+          "ms": 1182.2967000000026,
+          "sql": 16
+        },
+        {
+          "visit": "repeat",
+          "other": "V-964",
+          "ms": 1177.5090000000018,
+          "sql": 16
+        },
+        {
+          "visit": "repeat",
+          "other": "V-705",
+          "ms": 1175.1537000000026,
+          "sql": 16
+        }
+      ],
+      "after": [
+        {
+          "visit": "first",
+          "other": "V-964",
+          "ms": 1186.1698999999971,
+          "sql": 16
+        },
+        {
+          "visit": "first",
+          "other": "V-705",
+          "ms": 1163.7028000000028,
+          "sql": 16
+        },
+        {
+          "visit": "repeat",
+          "other": "V-964",
+          "ms": 1164.652900000001,
+          "sql": 16
+        },
+        {
+          "visit": "repeat",
+          "other": "V-705",
+          "ms": 1161.2323999999971,
+          "sql": 16
+        }
+      ],
+      "sqlCount": 16,
+      "bottleneck": "Sequential DB/network round trips dominate the selected-mercenary service. No new query, asset, per-frame animation or timer was added."
+    },
+    "simulation": {
+      "before": {
+        "first": 32.08549999999991,
+        "repeat": 8.584299999999985,
+        "average": 6.066177148437491
+      },
+      "after": {
+        "first": 31.011699999999962,
+        "repeat": 6.040900000000022,
+        "average": 5.180571289062495
+      }
+    },
+    "limitations": "Single samples include cache, operating-system, network and shared workload variance. Long frames remain (including a 369.7ms PC reentry frame after the longer complete battle); no loading/FPS improvement claim."
+  },
+  "evidence": [
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/after-live.json",
+      "sha256": "c98c9e12f5259548609b3f514229f6d62178220e58f99d59a0372cc76f0af18a"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/before-live.json",
+      "sha256": "76fb440bf6da8d537c584264a72a1cb6f078c9f270030acf5781e16bec41d20f"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-after-mobile-0.json",
+      "sha256": "66fe2fcbb757910640df1342e3936b1c43be664eb0a45e73c0abd06fd3158a33"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-after-mobile-1.json",
+      "sha256": "2358409daf5b95dc5cfe534d3f59028a27f0c7bf794f4f6840849e2f8c513495"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-after-pc-0.json",
+      "sha256": "e03f5d5ecdeb3d5e1dddae840ef18f0b90e5b1c1daa5dda40af303defbc47f71"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-after-pc-1.json",
+      "sha256": "fc09198a060f6848d5bcccc0357df5bd773638f4be4e3e2d0b03cef4acfec799"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-before-mobile-v2-0.json",
+      "sha256": "6bf2fae9c4e5eb3ab24065f23de7b0f0304e045d68dcc7e7d0dee2d5b2fbdbb2"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-before-mobile-v2-1.json",
+      "sha256": "e6f5491b21cce960c5260173997facf9a918082e8b1380eadc840b2a495e05b1"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-before-pc-0.json",
+      "sha256": "de1f8547f63339dc4957fe3e32a04cf18e1a5011ae56041109aca50056a97dfd"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-before-pc-v2-0.json",
+      "sha256": "8825f9e56811c97f275f471348b17765644dcc1af7dcbcef4218413c29c4d3e4"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/browser-before-pc-v2-1.json",
+      "sha256": "8b0c4b57e4525e600d2432dd49332525cd06aa42471b24e1e8be54723674b7be"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/replay-before.json",
+      "sha256": "6584e60e8d6dc51fe72a2daa4c1929002a4863b4879ba35ea72c1ba9c12f6f41"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/verify-after-v2.json",
+      "sha256": "ed1e0b027376e508341379c27c0be1768398c794f51ceb7251471483e43a78f7"
+    },
+    {
+      "file": "operations/blue-joeun-pve-buff-20261120/verify-before-v2.json",
+      "sha256": "bdbc23d189e920af21b41553abd209f90cd95e36f9f384d551996c19a65f27e6"
+    }
+  ]
+}
