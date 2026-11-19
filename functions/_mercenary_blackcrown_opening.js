@@ -95,7 +95,9 @@ export function createBlackcrownPackService({readState,releaseEnabled=BLACKCROWN
      else if(r.mercenaryCode&&!ordinaryAllowed(state,r,drawPolicy.pool))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
     for(const r of plan.normalDraws||[])if(!ordinaryAllowed(state,r,drawPolicy.pool))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
-    const list=[...transactionStatements(DB,user,plan),...blackcrownOnceStatements(DB,user.id,requestId,plan)];
+    // This entitlement belongs only to Black Crown. Other packs must neither
+    // require its absence nor consume an existing ARMED/CONSUMED record.
+    const list=[...transactionStatements(DB,user,plan),...(pack.id===BLACKCROWN_PACK.id?blackcrownOnceStatements(DB,user.id,requestId,plan):[])];
     for(const [index,snapshot] of (plan.policySnapshots||[]).entries()){
      if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',snapshot.key));
      list.push(jointGuard(DB,token+':source:'+index,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[snapshot.key,snapshot.value]),jointGuardEnd(DB,token+':source:'+index));
