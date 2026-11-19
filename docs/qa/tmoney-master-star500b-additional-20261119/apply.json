@@ -1,0 +1,635 @@
+{
+  "status": "COMMITTED",
+  "receipt": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:tmoney:master-star500b-additional:20261119:v1",
+    "planHash": "aca153055c94a77c50295f070f23d0d0ac07bbf868be4012b77e7934af8014b6",
+    "plan": {
+      "operationKey": "ops:tmoney:master-star500b-additional:20261119:v1",
+      "itemCode": "MASTER_STAR",
+      "delivery": "DIRECT",
+      "sendMessages": false,
+      "requestedParts": [
+        {
+          "amount": "500000000000",
+          "instruction": "마별 5000억 지급"
+        }
+      ],
+      "previousReceipt": {
+        "key": "ops:tmoney:master-star60b:20261119:v1",
+        "hash": "a68820700d5124d333055b48a4d8aaf23d0fefc8315aa4b31ab0baba84a66768",
+        "auditId": "65070",
+        "amount": "60000000000"
+      },
+      "amount": "500000000000",
+      "recipientCount": 1,
+      "recipients": [
+        {
+          "userId": "5147",
+          "nickname": "T-Money™",
+          "status": "ACTIVE",
+          "role": "USER",
+          "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+        }
+      ],
+      "logFloor": {
+        "inventory": "90127080",
+        "audit": "65070"
+      },
+      "authorization": "마별 5000억 지급 (직전 대화의 T-Money™에게 추가 지급)"
+    },
+    "completedAt": "2026-11-19T14:28:18.990Z",
+    "grants": [
+      {
+        "userId": "5147",
+        "nickname": "T-Money™",
+        "amount": "500000000000",
+        "before": "113153727492",
+        "after": "613153727492",
+        "unseenBefore": "0",
+        "unseenAfter": "500000000000",
+        "logId": "90127188"
+      }
+    ],
+    "protectedBeforeHash": "32d561aac874af0314e8d1c34ff01818edd02bbfdf2a99d5f7249ee68f8613af",
+    "protectedAfterHash": "32d561aac874af0314e8d1c34ff01818edd02bbfdf2a99d5f7249ee68f8613af",
+    "syncBefore": [
+      {
+        "domains": {
+          "pvp": "306172",
+          "wallet": "306816",
+          "loadout": "305127",
+          "messages": "306826",
+          "inventory": "306830",
+          "collection": "305660"
+        },
+        "user_id": "5147",
+        "revision": "306830"
+      }
+    ],
+    "syncAfter": [
+      {
+        "domains": {
+          "pvp": "306172",
+          "wallet": "306816",
+          "loadout": "305127",
+          "messages": "306826",
+          "inventory": "306831",
+          "collection": "305660"
+        },
+        "user_id": "5147",
+        "revision": "306831"
+      }
+    ],
+    "messagesSent": 0,
+    "auditId": "65073"
+  },
+  "checked": {
+    "verified": true,
+    "recipients": 1,
+    "itemCode": "MASTER_STAR",
+    "amount": "500000000000",
+    "inventoryLogs": 1,
+    "auditRecords": 1,
+    "auditId": "65073",
+    "completedAt": "2026-11-19T14:28:18.990Z"
+  },
+  "grantVerifyMs": 2959,
+  "grantVerifySql": 29,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "otherTablesWrites": 0,
+  "previous600EokPreserved": true,
+  "leasesReleased": true,
+  "queryTimings": [
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 75.96250000000055
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 345.191499999999
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 74.0648000000001
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 73.64849999999933
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 72.79510000000118
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.91690000000017
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 72.84050000000025
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.3739999999998
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 72.16229999999996
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 72.19540000000052
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 73.76540000000023
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 71.93999999999869
+    },
+    {
+      "statement": "SELECT user_id FROM cnine_user_inventory WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,item_code FOR UPDATE",
+      "ms": 72.67420000000129
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 139.21339999999873
+    },
+    {
+      "statement": "SELECT id::text FROM users WHERE nickname=$1",
+      "ms": 73.67519999999968
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 71.91560000000027
+    },
+    {
+      "statement": "SELECT code FROM inventory_items WHERE code='MASTER_STAR' AND name='마스터의 별' AND is_active=1 FOR SHARE",
+      "ms": 72.02630000000136
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.33719999999994
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.30190000000039
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 71.89849999999933
+    },
+    {
+      "statement": "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES($1,'",
+      "ms": 74.4989000000005
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 218.8780000000006
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 77.16040000000066
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 78.18950000000041
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 73.30500000000029
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.06940000000031
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 72.85120000000097
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 73.40899999999965
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 74.19590000000062
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 72.43049999999857
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 71.92610000000059
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 72.21079999999893
+    },
+    {
+      "statement": "SELECT user_id FROM cnine_user_inventory WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,item_code FOR UPDATE",
+      "ms": 73.65790000000015
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 140.23649999999907
+    },
+    {
+      "statement": "SELECT id::text FROM users WHERE nickname=$1",
+      "ms": 72.5038999999997
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 71.72220000000016
+    },
+    {
+      "statement": "SELECT code FROM inventory_items WHERE code='MASTER_STAR' AND name='마스터의 별' AND is_active=1 FOR SHARE",
+      "ms": 73.52430000000095
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.9328000000005
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 73.6281999999992
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 71.78299999999945
+    },
+    {
+      "statement": "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES($1,'",
+      "ms": 72.37660000000142
+    },
+    {
+      "statement": "INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,ad",
+      "ms": 73.74250000000029
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 146.39949999999953
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.13780000000042
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.30169999999998
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 72.1826000000001
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.79489999999896
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 72.34270000000106
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.884399999999
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 73.08699999999772
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 72.01959999999963
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 71.86939999999959
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 71.88420000000042
+    },
+    {
+      "statement": "SELECT user_id FROM cnine_user_inventory WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,item_code FOR UPDATE",
+      "ms": 73.47290000000066
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 165.3194999999978
+    },
+    {
+      "statement": "SELECT id::text FROM users WHERE nickname=$1",
+      "ms": 75.6027000000031
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 71.73400000000038
+    },
+    {
+      "statement": "SELECT code FROM inventory_items WHERE code='MASTER_STAR' AND name='마스터의 별' AND is_active=1 FOR SHARE",
+      "ms": 71.85420000000158
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.20700000000215
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.22009999999864
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 78.51629999999932
+    },
+    {
+      "statement": "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES($1,'",
+      "ms": 72.83940000000075
+    },
+    {
+      "statement": "INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,ad",
+      "ms": 73.62749999999869
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 199.89930000000095
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALUES(1,",
+      "ms": 72.77289999999994
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key",
+      "ms": 72.49799999999959
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 174.01250000000073
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 75.72060000000056
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.03129999999874
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 71.75740000000224
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.24859999999899
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 72.74789999999848
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 74.15680000000066
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 79.4442999999992
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 74.16469999999754
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 73.45650000000023
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 72.66959999999744
+    },
+    {
+      "statement": "SELECT user_id FROM cnine_user_inventory WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,item_code FOR UPDATE",
+      "ms": 74.64449999999852
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 137.64930000000095
+    },
+    {
+      "statement": "SELECT id::text FROM users WHERE nickname=$1",
+      "ms": 74.57690000000002
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 71.68369999999777
+    },
+    {
+      "statement": "SELECT code FROM inventory_items WHERE code='MASTER_STAR' AND name='마스터의 별' AND is_active=1 FOR SHARE",
+      "ms": 71.68839999999909
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 73.30049999999756
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 71.84570000000167
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 71.79249999999956
+    },
+    {
+      "statement": "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES($1,'",
+      "ms": 72.51299999999901
+    },
+    {
+      "statement": "INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,ad",
+      "ms": 72.672300000002
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 164.29360000000088
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALUES(1,",
+      "ms": 72.48619999999937
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key",
+      "ms": 74.37389999999868
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 78.59269999999742
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.98700000000099
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.40690000000177
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 71.95869999999923
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 210.78390000000218
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 73.52919999999722
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.04219999999987
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 72.0689999999995
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 150.9522999999972
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 139.48709999999846
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.95179999999891
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.6778000000013
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 71.76469999999972
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.72010000000228
+    },
+    {
+      "statement": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      "ms": 71.74279999999999
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.66419999999925
+    },
+    {
+      "statement": "SELECT user_id FROM account_sync_versions_v1 WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR UPDATE",
+      "ms": 71.8859999999986
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE",
+      "ms": 71.88999999999942
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 72.3302999999978
+    },
+    {
+      "statement": "SELECT user_id FROM user_second_verifications WHERE user_id=ANY($1::bigint[]) ORDER BY user_id FOR SHARE",
+      "ms": 72.78420000000187
+    },
+    {
+      "statement": "SELECT user_id FROM cnine_user_inventory WHERE user_id=ANY($1::bigint[]) ORDER BY user_id,item_code FOR UPDATE",
+      "ms": 72.12420000000202
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 186.97850000000108
+    },
+    {
+      "statement": "SELECT id::text FROM users WHERE nickname=$1",
+      "ms": 72.83810000000085
+    },
+    {
+      "statement": "SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'",
+      "ms": 72.10489999999845
+    },
+    {
+      "statement": "SELECT code FROM inventory_items WHERE code='MASTER_STAR' AND name='마스터의 별' AND is_active=1 FOR SHARE",
+      "ms": 71.80739999999787
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 73.50009999999747
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 71.99669999999969
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 71.87609999999768
+    },
+    {
+      "statement": "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES($1,'",
+      "ms": 73.23590000000331
+    },
+    {
+      "statement": "INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,ad",
+      "ms": 71.94290000000183
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 165.1301999999996
+    },
+    {
+      "statement": "INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data,created_at) VALUES(1,",
+      "ms": 72.27210000000196
+    },
+    {
+      "statement": "INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,$3) RETURNING key",
+      "ms": 73.31489999999758
+    },
+    {
+      "statement": "SELECT user_id FROM user_mutation_locks_v1520 WHERE user_id=ANY($1::bigint[]) AND token=$2 AND action_path=$3 ",
+      "ms": 71.84289999999964
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 71.97909999999683
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.03930000000037
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 72.0496000000021
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 198.16769999999815
+    },
+    {
+      "statement": "SELECT value FROM app_meta WHERE key=$1",
+      "ms": 72.04019999999946
+    },
+    {
+      "statement": "SELECT id::text,user_id::text,item_code,change_amount::text,balance_after::text,reason,reference_type,referenc",
+      "ms": 72.47989999999845
+    },
+    {
+      "statement": "SELECT id::text,admin_id::text,after_data FROM admin_logs WHERE id>$1::bigint AND action_type=$2 AND target_id",
+      "ms": 72.64949999999953
+    },
+    {
+      "statement": "SELECT jsonb_build_object('users',COALESCE((SELECT jsonb_agg(t) FROM (SELECT u.id::text,u.nickname,u.role,u.st",
+      "ms": 143.2979000000014
+    }
+  ]
+}

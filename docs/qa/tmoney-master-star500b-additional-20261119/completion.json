@@ -1,0 +1,93 @@
+{
+  "status": "COMPLETED_AND_INDEPENDENTLY_VERIFIED",
+  "operationKey": "ops:tmoney:master-star500b-additional:20261119:v1",
+  "authorization": "마별 5000억 지급 (직전 대화의 T-Money™에게 추가 지급)",
+  "requestedParts": [
+    {
+      "amount": "500000000000",
+      "instruction": "마별 5000억 지급"
+    }
+  ],
+  "previousReceipt": {
+    "key": "ops:tmoney:master-star60b:20261119:v1",
+    "hash": "a68820700d5124d333055b48a4d8aaf23d0fefc8315aa4b31ab0baba84a66768",
+    "auditId": "65070",
+    "amount": "60000000000"
+  },
+  "previous600EokPreserved": true,
+  "totalMasterStarsAdded": "500000000000",
+  "userId": "5147",
+  "nickname": "T-Money™",
+  "before": "113153727492",
+  "after": "613153727492",
+  "inventoryLogId": "90127188",
+  "auditId": "65073",
+  "completedAt": "2026-11-19T14:28:18.990Z",
+  "completedAtKST": "2026-11-19 23:28:18 KST",
+  "planHash": "aca153055c94a77c50295f070f23d0d0ac07bbf868be4012b77e7934af8014b6",
+  "testsPassed": 5,
+  "partialFailuresRolledBack": 3,
+  "fullRehearsalRolledBack": true,
+  "atomicInventoryLedgerAuditReceipt": true,
+  "inventorySyncUpdated": true,
+  "independentReadOnlyVerified": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "leasesReleased": true,
+  "subsequentActivity": {
+    "count": 0,
+    "amount": "0"
+  },
+  "currentAtVerification": "613153727492",
+  "preservedOtherStateHash": "32d561aac874af0314e8d1c34ff01818edd02bbfdf2a99d5f7249ee68f8613af",
+  "messagesSent": 0,
+  "runtimeChanged": false,
+  "gameRedeployed": false,
+  "performance": {
+    "before": {
+      "at": "2026-11-19T14:27:08.091Z",
+      "phase": "before",
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "masterStars": "113153727492",
+      "measurements": [
+        {
+          "visit": "first",
+          "elapsedMs": 102,
+          "sql": 4
+        },
+        {
+          "visit": "repeat",
+          "elapsedMs": 81,
+          "sql": 4
+        }
+      ],
+      "readOnly": true,
+      "condition": "Windows CLI actual Master Star mine balance service against production PostgreSQL. Network included; first/repeat within one connection. No UI/runtime changes, browser or physical-device FPS measurement; no speed improvement claim."
+    },
+    "after": {
+      "at": "2026-11-19T14:28:31.868Z",
+      "phase": "after",
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "masterStars": "613153727492",
+      "measurements": [
+        {
+          "visit": "first",
+          "elapsedMs": 82,
+          "sql": 4
+        },
+        {
+          "visit": "repeat",
+          "elapsedMs": 74,
+          "sql": 4
+        }
+      ],
+      "readOnly": true,
+      "condition": "Windows CLI actual Master Star mine balance service against production PostgreSQL. Network included; first/repeat within one connection. No UI/runtime changes, browser or physical-device FPS measurement; no speed improvement claim."
+    },
+    "grantVerifyMs": 2959,
+    "grantVerifySql": 29,
+    "condition": "Windows CLI, actual production PostgreSQL and Master Star balance service; first/repeat once, network included. Existing parallel read service and primary-key inventory update; 4 SQL unchanged. Database round trips are the primary wait. No UI/runtime changes, browser/device FPS measurement or speed-improvement claim."
+  }
+}

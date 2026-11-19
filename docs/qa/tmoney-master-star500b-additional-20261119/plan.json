@@ -1,0 +1,34 @@
+{
+  "operationKey": "ops:tmoney:master-star500b-additional:20261119:v1",
+  "itemCode": "MASTER_STAR",
+  "delivery": "DIRECT",
+  "sendMessages": false,
+  "requestedParts": [
+    {
+      "amount": "500000000000",
+      "instruction": "마별 5000억 지급"
+    }
+  ],
+  "previousReceipt": {
+    "key": "ops:tmoney:master-star60b:20261119:v1",
+    "hash": "a68820700d5124d333055b48a4d8aaf23d0fefc8315aa4b31ab0baba84a66768",
+    "auditId": "65070",
+    "amount": "60000000000"
+  },
+  "amount": "500000000000",
+  "recipientCount": 1,
+  "recipients": [
+    {
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "status": "ACTIVE",
+      "role": "USER",
+      "identityHash": "35fe97106d5fff7ffeeb25a7c64196327dedda8f907ffd336af1f0baa5d75fed"
+    }
+  ],
+  "logFloor": {
+    "inventory": "90127080",
+    "audit": "65070"
+  },
+  "authorization": "마별 5000억 지급 (직전 대화의 T-Money™에게 추가 지급)"
+}
