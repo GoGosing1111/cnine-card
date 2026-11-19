@@ -79,7 +79,7 @@ assert.match(appSource,/apocalypseEnergy/);
 assert.doesNotMatch(appSource,/battleState\.apocalypseEnergy\|\|battleState\.energy/,'the client must never substitute standard PVE energy for Apocalypse energy');
 assert.match(appSource,/const APOCALYPSE_ENERGY_MAX=5/,'the client-side Apocalypse cap must stay independent from normal PVE and Burning');
 assert.match(appSource,/function selectedPveIsApocalypse\(\)\{const selected=selectedPveMonster\(\);if\(selected\)return pveResolvedMonsterTab\(selected\)==='APOCALYPSE'/,'the selected monster must take precedence over a stale saved PVE tab');
-assert.match(appSource,/maxEnergy=miracle\?10:APOCALYPSE_ENERGY_MAX/,'only a live server Miracle marker can expand the dedicated Apocalypse pool');
+assert.match(appSource,/const boosted=\['MIRACLE','EXTREME'\]\.includes\(state\.burningMode\)&&Date\.parse\(String\(state\.burningEndsAt\|\|''\)\)>burningClientNow\(\),maxEnergy=boosted\?10:APOCALYPSE_ENERGY_MAX/,'only a live server Miracle or Extreme marker can expand the dedicated Apocalypse pool');
 assert.match(appSource,/label\.textContent=apocalypse\?'아포칼립스 행동력':'⚔ 전투 횟수'/,'the Apocalypse counter must have its own explicit user-facing label');
 assert.match(appSource,/버닝 미적용 · 최대 5회 · 충전 완료/,'the Apocalypse counter must explain that Burning does not change it');
 assert.match(pveCommandSource,/const source = apocalypse \? normalizeApocalypseEnergyClient\(battleState\.apocalypseEnergy\) : battleState\.energy/,'the live PVE override must select and normalize the dedicated Apocalypse pool');
