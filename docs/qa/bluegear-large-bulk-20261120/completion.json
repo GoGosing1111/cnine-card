@@ -1,0 +1,1138 @@
+{
+  "completedAt": "2026-11-19T15:31:23.893Z",
+  "status": "DEPLOYED_VERIFIED",
+  "summary": {
+    "maxBudget": "1000000000000000",
+    "maxBudgetKo": "1,000조",
+    "maxDrawsAtCurrentPrice": 444444,
+    "presetsKo": [
+      "1조",
+      "10조",
+      "100조",
+      "300조",
+      "500조",
+      "1,000조"
+    ],
+    "examples": [
+      {
+        "budgetJo": 300,
+        "count": 133333
+      },
+      {
+        "budgetJo": 500,
+        "count": 222222
+      },
+      {
+        "budgetJo": 1000,
+        "count": 444444
+      }
+    ],
+    "presentation": "Existing Bloodmoon shared opening, quantity summary, upper-rank portraits, SS/SSS films and skip controls; Blue Gear skin retained.",
+    "recovery": "Explicit Blue Gear recovery clicks during an outstanding receipt read reopen and check the same receipt, then resume that original durable request if needed. Ordinary entry and automatic retries remain receipt-only.",
+    "productionAccountWrites": 0,
+    "messages": 0,
+    "pricesOddsStockPoliciesUnchanged": true
+  },
+  "deployment": {
+    "checkedAt": "2026-11-19T15:31:19.298Z",
+    "head": "0ca3ce896a9fed426ee36d42e39d107982452d70",
+    "pages": {
+      "id": "cd0e70f5-a588-41f2-80d9-f47f6ee4ee68",
+      "commit": "0ca3ce896a9fed426ee36d42e39d107982452d70",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "91a2ee7d-c9cc-460e-a6ec-ddd0628999ca",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "c7ebd372-2c5a-4c02-a8fe-2841f22e7fc3",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "file": "index.html",
+        "sha256": "e64d989c1bd620d0fcc4feabda3cfcc1648ceed4ff6866de1857d2a00a697734",
+        "localSha256": "e64d989c1bd620d0fcc4feabda3cfcc1648ceed4ff6866de1857d2a00a697734",
+        "normalizedEqual": true
+      },
+      {
+        "file": "onestore/index.html",
+        "sha256": "052974d1d7fc62c6b8cef3b0671e6dc566232426dfad326e80280e1d24557a0b",
+        "localSha256": "052974d1d7fc62c6b8cef3b0671e6dc566232426dfad326e80280e1d24557a0b",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/app.js",
+        "sha256": "531efece29c4a3e3a77dc73a2730983452369c9bbf12f774ad5a16ac6adcf314",
+        "localSha256": "531efece29c4a3e3a77dc73a2730983452369c9bbf12f774ad5a16ac6adcf314",
+        "normalizedEqual": true
+      },
+      {
+        "file": "onestore/js/app.js",
+        "sha256": "69b1e0ca9d669cbd152b191b61048ee436dcf3344235edf931d17b97056c966e",
+        "localSha256": "69b1e0ca9d669cbd152b191b61048ee436dcf3344235edf931d17b97056c966e",
+        "normalizedEqual": true
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "4dbbaedfe8242b54f6381d68b4c9cf04ef7b46d7c2781665a1c49e2631848c55",
+        "localSha256": "4dbbaedfe8242b54f6381d68b4c9cf04ef7b46d7c2781665a1c49e2631848c55",
+        "normalizedEqual": true
+      },
+      {
+        "file": "css/blue-gear-pack-v1.css",
+        "sha256": "39ed6fb550d7defa3dab7136fe4564ef3066d60abc96ca9019ae24cc44aefb0a",
+        "localSha256": "39ed6fb550d7defa3dab7136fe4564ef3066d60abc96ca9019ae24cc44aefb0a",
+        "normalizedEqual": true
+      },
+      {
+        "file": "shared/mercenary-blue-gear-pack-v1.mjs",
+        "sha256": "be6f8e8dda46184b8de58c4d305e1b3407a107730eb4e2ffa08bbc41d2f96fdc",
+        "localSha256": "be6f8e8dda46184b8de58c4d305e1b3407a107730eb4e2ffa08bbc41d2f96fdc",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/mercenary-bloodmoon-pack-live.mjs",
+        "sha256": "0b67cbc8933e2464a6b96cb1b786cd497c416de8d140478592a04ea3691ba5bf",
+        "localSha256": "0b67cbc8933e2464a6b96cb1b786cd497c416de8d140478592a04ea3691ba5bf",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+        "sha256": "e2e24ac115ab03da4f8ca6e9809e0ac81b32437b62445b48d99c61adfe7be8ed",
+        "localSha256": "e2e24ac115ab03da4f8ca6e9809e0ac81b32437b62445b48d99c61adfe7be8ed",
+        "normalizedEqual": true
+      },
+      {
+        "file": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+        "sha256": "6c3bd736a9c2a133d8ee60b3b73eb721fd3202d08bec0dcb4c80c4c13c0f6da0",
+        "localSha256": "6c3bd736a9c2a133d8ee60b3b73eb721fd3202d08bec0dcb4c80c4c13c0f6da0",
+        "normalizedEqual": true
+      }
+    ],
+    "bundledSources": [
+      "shared/mercenary-blackcrown-bulk-v1.mjs",
+      "shared/mercenary-blackcrown-pack-v1.mjs",
+      "shared/mercenary-blackcrown-session-v2.mjs"
+    ],
+    "sourceDeliveryPolicy": "scripts/blackcrown-authoring-only-20261027.json",
+    "windowsManifest": {
+      "releaseId": "ee93c21f0ce09ca22f908b168c6b75691288d3db89959b0d022ed81914ed7172",
+      "checked": [
+        "index.html",
+        "js/app.js",
+        "css/blue-gear-pack-v1.css",
+        "shared/mercenary-blue-gear-pack-v1.mjs",
+        "js/mercenary-bloodmoon-pack-live.mjs",
+        "js/mercenary-bloodmoon-presentation-v2.mjs",
+        "js/mercenary-blue-gear-pack-live.bundle.mjs"
+      ]
+    },
+    "feature": {
+      "revision": 4,
+      "unchangedSettings": true,
+      "prices": {
+        "single": 2250000000,
+        "ten": 22500000000
+      },
+      "stock": [
+        {
+          "code": "V-701",
+          "limit": 25,
+          "issued": 21,
+          "remaining": 4,
+          "prepared": true
+        },
+        {
+          "code": "V-702",
+          "limit": 25,
+          "issued": 19,
+          "remaining": 6,
+          "prepared": true
+        },
+        {
+          "code": "V-703",
+          "limit": 25,
+          "issued": 25,
+          "remaining": 0,
+          "prepared": true
+        },
+        {
+          "code": "V-704",
+          "limit": 25,
+          "issued": 19,
+          "remaining": 6,
+          "prepared": true
+        },
+        {
+          "code": "V-705",
+          "limit": 25,
+          "issued": 25,
+          "remaining": 0,
+          "prepared": true
+        },
+        {
+          "code": "V-976",
+          "limit": 3,
+          "issued": 1,
+          "remaining": 2,
+          "prepared": true
+        },
+        {
+          "code": "V-967",
+          "limit": 3,
+          "issued": 1,
+          "remaining": 2,
+          "prepared": true
+        }
+      ]
+    },
+    "tests": 38,
+    "legacyBlackcrownTests": 6,
+    "productionPurchases": 0
+  },
+  "tests": {
+    "scoped": 38,
+    "legacyBlackcrown": 6,
+    "rollbackAndReplay": "Large grant fault rolls back debit, ownership and limited serials. Same ID retains lottery and recovers after lost commit acknowledgement/POST response. Bounds, count/budget mismatch, funds and foreign receipt tested."
+  },
+  "browser": [
+    {
+      "name": "after-android-fit",
+      "mode": "after",
+      "platform": "android",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 133,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 138,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 126,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 145,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 8.300000000000182,
+            "max": 12.5,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "e2a6e4f0-4323-4761-a679-ac99c7967487",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 73,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "134f381b-8756-4461-a9c6-dcb057a082eb",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 91,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1929,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-android",
+      "mode": "after",
+      "platform": "android",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 68,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 135,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 8.400000000000091,
+            "max": 12.599999999999909,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 106,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 134,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.399999999999636,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "b455b8f8-d330-4b0b-9a88-0f2ed3a7b564",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 72,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "1c868cfb-8a07-4f9b-b8f6-1abc7a5364e4",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 80,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1073,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-desktop-recovery",
+      "mode": "after",
+      "platform": "desktop",
+      "recovery": true,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 89,
+          "sameRequestRecovered": true,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "53b0b2ae-4a82-4b34-8c3c-b6652218e64c",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 35,
+          "queries": 44,
+          "statements": 34,
+          "receiptBytes": 973
+        }
+      ],
+      "errors": [],
+      "launchMs": 1090,
+      "posts": 1,
+      "featureReads": 3,
+      "receiptReads": 2,
+      "lateCancelledResponses": 0,
+      "finalCoin": 2900001000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-desktop",
+      "mode": "after",
+      "platform": "desktop",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 74,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 156,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.299999999999727,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 128,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 197,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 12.5,
+            "max": 16.599999999999454,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "7d322420-cd1b-44b0-a5eb-9b5fd401e70a",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 63,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "058104d4-92eb-47c2-9e72-370d51481dba",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 96,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1211,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-h5",
+      "mode": "after",
+      "platform": "h5",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 179,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 164,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 101,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 129,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 8.199999999999818,
+            "max": 8.299999999999272,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "30ed8de3-ce7a-4874-bb1e-f50152200dff",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 79,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "18753028-d43e-4efb-9d75-03de9282a960",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 69,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1378,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-ios",
+      "mode": "after",
+      "platform": "ios",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 114,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 678,
+          "frames": {
+            "p50": 15,
+            "p95": 126,
+            "max": 135,
+            "over50": 3
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 0,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 49,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 889,
+          "frames": {
+            "p50": 15,
+            "p95": 123,
+            "max": 149,
+            "over50": 3
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 0,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "adcedde1-beb7-4ef9-b98f-fb962e031e54",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 66,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "ba428b4b-d576-4a91-8d51-f005c7a07091",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 86,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "launchMs": 1529,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "after-windows",
+      "mode": "after",
+      "platform": "windows",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 80,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 172,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 8.400000000000091,
+            "max": 12.5,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 135,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 206,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "177906c3-27e5-4bf2-999c-5e2f0ef56a83",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 73,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "83ec7936-3e72-4a8f-b197-b839979c0fa8",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 102,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1017,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "before-android",
+      "mode": "before",
+      "platform": "android",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 69,
+          "blocked500T": true,
+          "confirmation": "44,444회 일괄 개봉 · 99조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 118,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.200000000000273,
+            "max": 12.5,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 115,
+          "blocked500T": true,
+          "confirmation": "44,444회 일괄 개봉 · 99조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 112,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "a06ba83c-16a7-4e01-be58-21cda56e3005",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 57,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 973
+        },
+        {
+          "requestId": "11bc3564-97cb-4f86-90b2-199e983c2b65",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 46,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 902
+        }
+      ],
+      "errors": [],
+      "launchMs": 997,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 2800002000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "before-desktop-recovery",
+      "mode": "before",
+      "platform": "desktop",
+      "recovery": true,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 74,
+          "reproduced": "Busy recovery click only reopened receipt reads; pending operation remained stuck.",
+          "status": "이전 개봉 결과를 다시 확인하고 있습니다.",
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [],
+      "errors": [],
+      "launchMs": 974,
+      "posts": 0,
+      "featureReads": 3,
+      "receiptReads": 3,
+      "lateCancelledResponses": 0,
+      "finalCoin": 3000000000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "before-desktop",
+      "mode": "before",
+      "platform": "desktop",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 97,
+          "blocked500T": true,
+          "confirmation": "44,444회 일괄 개봉 · 99조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 143,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 8.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 166,
+          "blocked500T": true,
+          "confirmation": "44,444회 일괄 개봉 · 99조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 196,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "c8a7de80-a907-4158-9f28-5ede1c43198b",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 57,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 973
+        },
+        {
+          "requestId": "f9f10f9d-0945-4bf7-bb59-353359a2104e",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 73,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 902
+        }
+      ],
+      "errors": [],
+      "launchMs": 1064,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 2800002000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "before-ios",
+      "mode": "before",
+      "platform": "ios",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 232,
+          "blocked500T": true,
+          "confirmation": "44,444회 일괄 개봉 · 99조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 928,
+          "frames": {
+            "p50": 15,
+            "p95": 185,
+            "max": 187,
+            "over50": 4
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 0,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 69,
+          "blocked500T": true,
+          "confirmation": "44,444회 일괄 개봉 · 99조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 920,
+          "frames": {
+            "p50": 15,
+            "p95": 142,
+            "max": 152,
+            "over50": 4
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 0,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "939860ef-fb4e-4369-9242-79456ccef9ac",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 67,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 973
+        },
+        {
+          "requestId": "9b8fe656-d26e-4bd7-8905-184451e5012e",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 47,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 902
+        }
+      ],
+      "errors": [
+        "ResizeObserver loop completed with undelivered notifications."
+      ],
+      "launchMs": 2427,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 2800002000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "public-android",
+      "mode": "public",
+      "platform": "android",
+      "recovery": false,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 86,
+          "confirmation": "222,222회 일괄 개봉 · 499조 9,995억 코인을 사용합니다.",
+          "resultReadyMs": 113,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.300000000000182,
+            "max": 8.400000000000091,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        },
+        {
+          "visit": "repeat",
+          "roomMs": 97,
+          "confirmation": "444,444회 일괄 개봉 · 999조 9,990억 코인을 사용합니다.",
+          "resultReadyMs": 131,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.199999999999818,
+            "max": 4.299999999999272,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 1,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "175ac103-9156-4617-8e81-d9ceb9ab15d0",
+          "count": 222222,
+          "coinCost": 499999500000000,
+          "ms": 60,
+          "queries": 52,
+          "statements": 34,
+          "receiptBytes": 978
+        },
+        {
+          "requestId": "262f529a-5b04-47ad-b62d-c5ee1e5d0be9",
+          "count": 444444,
+          "coinCost": 999999000000000,
+          "ms": 80,
+          "queries": 47,
+          "statements": 30,
+          "receiptBytes": 908
+        }
+      ],
+      "errors": [],
+      "launchMs": 1052,
+      "posts": 2,
+      "featureReads": 4,
+      "receiptReads": 0,
+      "lateCancelledResponses": 0,
+      "finalCoin": 1500001500000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    },
+    {
+      "name": "public-desktop-recovery",
+      "mode": "public",
+      "platform": "desktop",
+      "recovery": true,
+      "emulated": true,
+      "entries": [
+        {
+          "visit": "first",
+          "roomMs": 133,
+          "sameRequestRecovered": true,
+          "frames": {
+            "p50": 4.199999999999818,
+            "p95": 4.299999999999727,
+            "max": 4.300000000000182,
+            "over50": 0
+          },
+          "horizontalOverflow": false,
+          "skippedFilms": 2,
+          "afterCloseReads": 0
+        }
+      ],
+      "transactions": [
+        {
+          "requestId": "e4bba809-60c0-456c-9917-736181d091ed",
+          "count": 44444,
+          "coinCost": 99999000000000,
+          "ms": 36,
+          "queries": 44,
+          "statements": 34,
+          "receiptBytes": 973
+        }
+      ],
+      "errors": [],
+      "launchMs": 1069,
+      "posts": 1,
+      "featureReads": 3,
+      "receiptReads": 2,
+      "lateCancelledResponses": 0,
+      "finalCoin": 2900001000000000,
+      "conditions": "Actual lobby → shop → Blue Gear room route, public assets plus baseline/patched local module overrides; all account APIs isolated to PGlite; headless Chrome/WebKit/touch/Windows URL/H5 host emulation, no physical device or installed-app claim. No production purchases."
+    }
+  ],
+  "performance": {
+    "conditions": "Windows headless Chrome/Android touch/WebKit, Windows entry URL and H5 host emulation; actual lobby → shop → Blue Gear. Account APIs use isolated PGlite. No physical phone, installed-client or production purchase performance claim.",
+    "scope": "Before UI was capped at100T; same room first/reentry measured. After draws are500T/1000T, so result timing is not a same-volume speed improvement comparison.",
+    "boundedWork": "Existing lottery stays in memory; ordinary acquisitions aggregate by mercenary type and the same transaction contains one debit/coin log. Fixture 44,444/222,222 opening uses34 transaction statements; repeat openings use30 because the SS is already owned. Rendered DOM grows with card types, not draw count.",
+    "productionReadOnly": [
+      {
+        "request": "2a697d04",
+        "visit": "first",
+        "ms": 229,
+        "sql": 3,
+        "status": "COMPLETED",
+        "count": 44444,
+        "bytes": 10250
+      },
+      {
+        "request": "2a697d04",
+        "visit": "repeat",
+        "ms": 221,
+        "sql": 3,
+        "status": "COMPLETED",
+        "count": 44444,
+        "bytes": 10250
+      },
+      {
+        "request": "7c9b274c",
+        "visit": "first",
+        "ms": 221,
+        "sql": 3,
+        "status": "COMPLETED",
+        "count": 44444,
+        "bytes": 9850
+      },
+      {
+        "request": "7c9b274c",
+        "visit": "repeat",
+        "ms": 221,
+        "sql": 3,
+        "status": "COMPLETED",
+        "count": 44444,
+        "bytes": 9850
+      },
+      {
+        "request": "3410b777",
+        "visit": "first",
+        "ms": 220,
+        "sql": 3,
+        "status": "COMPLETED",
+        "count": 10,
+        "bytes": 1049
+      },
+      {
+        "request": "3410b777",
+        "visit": "repeat",
+        "ms": 219,
+        "sql": 3,
+        "status": "COMPLETED",
+        "count": 10,
+        "bytes": 1049
+      }
+    ],
+    "webkit": "Existing ResizeObserver loop warning and long frames occurred before and after; videos are unsupported by this Windows WebKit emulation. Do not claim physical Safari validation or FPS improvement.",
+    "afterClose": "Every tested room exit had zero further Blue Gear feature/receipt requests."
+  },
+  "incident": {
+    "screenshot": "User reported previous opening unconfirmed message.",
+    "confirmed": "Reproduced the busy manual-recovery loop on the old UI: no POST, original operation stays PENDING. Patched UI resumes the same request once and preserves single debit.",
+    "readOnlySample": [
+      {
+        "statusAndCount": "PENDING:44444",
+        "n": 3
+      },
+      {
+        "statusAndCount": "COMPLETED:44444",
+        "n": 2538
+      },
+      {
+        "statusAndCount": "COMPLETED:10",
+        "n": 378
+      },
+      {
+        "statusAndCount": "COMPLETED:444",
+        "n": 19
+      },
+      {
+        "statusAndCount": "COMPLETED:4444",
+        "n": 16
+      },
+      {
+        "statusAndCount": "COMPLETED:22222",
+        "n": 41
+      },
+      {
+        "statusAndCount": "COMPLETED:44",
+        "n": 4
+      },
+      {
+        "statusAndCount": "COMPLETED:15111",
+        "n": 1
+      }
+    ],
+    "limitations": "The screenshot contains no account/request ID. The first transport or server interruption for that specific customer is not established, and the physical-page database sample is not a complete global pending count. No production request was forcibly resumed, cancelled or rerolled."
+  },
+  "reproducibility": {
+    "scriptsRoot": "operations/bluegear-large-bulk-20261120",
+    "sourceFiles": [
+      "css/blue-gear-pack-v1.css",
+      "functions/_mercenary_blackcrown_bulk.js",
+      "functions/_mercenary_blackcrown_opening.js",
+      "functions/_mercenary_blue_gear_bulk.js",
+      "functions/_mercenary_blue_gear_pack.js",
+      "shared/mercenary-blackcrown-bulk-v1.mjs",
+      "shared/mercenary-blackcrown-pack-v1.mjs",
+      "shared/mercenary-blackcrown-session-v2.mjs",
+      "shared/mercenary-blue-gear-pack-v1.mjs",
+      "js/mercenary-blue-gear-pack-live.mjs",
+      "js/mercenary-blue-gear-pack-live.bundle.mjs",
+      "js/mercenary-bloodmoon-pack-live.mjs",
+      "js/mercenary-bloodmoon-presentation-v2.mjs",
+      "js/app.js",
+      "onestore/js/app.js",
+      "index.html",
+      "onestore/index.html",
+      "service-worker.js",
+      "tests/bluegear-large-bulk-20261120.test.mjs",
+      "tests/helpers/bluegear-large-bulk-fixture.mjs"
+    ],
+    "instructions": "Reload once after the update; use Previous result recovery for an existing pending request."
+  }
+}
