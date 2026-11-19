@@ -48,3 +48,14 @@ test('approved illustration, body and all shipped resources match the release ma
  const m=JSON.parse(readCommittedAssetSync(root+'manifest.json'));for(const f of m.files)assert.equal(f.canonicalTextSha256?createHash('sha256').update(readCommittedAssetSync(root+f.path).toString('utf8').replaceAll('\r\n','\n')).digest('hex'):hash(root+f.path),f.canonicalTextSha256||f.sha256,f.path);
  assert.equal(m.illustrationApproved,true);assert.equal(m.runtimeVersion,'4.3.13');
 });
+
+
+test('all Ryujin runtime assets ship while bundled source stays outside the Pages file cap',async()=>{
+ const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
+ const prefix='assets/ui/project-v/mercenaries/ryujin-20261119/',manifest=JSON.parse(readCommittedAssetSync(prefix+'manifest.json'));
+ for(const row of manifest.files)assert.equal(isProductionFile(prefix+row.path),true,row.path);
+ for(const path of ['shared/mercenary-ryujin-v1.mjs',...JSON.parse(readCommittedAssetSync('preview/project-v-v3/grid-build-report.json')).outputs.map(row=>row.file)])assert.equal(isProductionFile(path),true,path);
+ assert.equal(isProductionFile('preview/project-v-v3/source/battle/RyujinCombatPlayback.js'),false);
+ assert.equal(isProductionFile('preview/project-v-v3/source/battle/ryujin/frames.json'),false);
+ assert.equal(isProductionFile(prefix+'manifest.json'),false);
+});
