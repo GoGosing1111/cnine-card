@@ -41,9 +41,9 @@ async function longExpedition(t,postgres){
 }
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: a >850KB encounter keeps every event, rolls rewards back and resumes exactly once`,async t=>{
-  const f=await longExpedition(t,postgres),coin=await f.coin();
+  const f=await longExpedition(t,postgres),coin=await f.coin(),tickets=await f.ticket();
   f.fail('INSERT INTO scrapyard_runs_v1676');assert.equal((await f.run()).code,'SCRAPYARD_V3_SETTLEMENT_PENDING');
-  assert.equal(await f.ticket(),4);assert.equal(await f.coin(),coin);
+  assert.equal(await f.ticket(),tickets);assert.equal(await f.coin(),coin);
   const op=await f.p('SELECT * FROM scrapyard_v3_operations_v1').first(),saved=await decodeScrapyardRecord(op.battle_json);
   assert.equal(JSON.parse(op.battle_json).recordEncoding,'SCRAPYARD_GZIP_V1');
   assert.ok(Buffer.byteLength(op.snapshot_json+op.battle_json+op.drop_plan_json)<700000);
@@ -57,10 +57,10 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: a >8
   assert.deepEqual((await f.p(refundQuery,f.user.id).all()).results,[],'legacy stale recovery must not refund a compressed V3 reservation');
   f.fail('');f.settings.mode='OFF';f.deps.raidDeckPower=async()=>{throw Error('must resume the frozen battle');};
   const result=await f.run();assert.equal(result.status,'COMPLETED');assert.equal(result.success,true);assert.deepEqual(result.battleV2,f.expected.battleV2);
-  assert.equal(await f.ticket(),4);assert.equal(await f.coin(),coin+300000000);
+  assert.equal(await f.ticket(),tickets);assert.equal(await f.coin(),coin+300000000);
   const replay=await f.run(),lookup=await scrapyardV3Result(f.env,f.user,f.body.requestId);
   assert.deepEqual(replay,{...result,replayed:true});assert.deepEqual(lookup,replay);
-  assert.equal(await f.ticket(),4);assert.equal(await f.coin(),coin+300000000);
+  assert.equal(await f.ticket(),tickets);assert.equal(await f.coin(),coin+300000000);
   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM scrapyard_runs_v1676').first()).n),1);
   assert.equal((await scrapyardV3RecoveryStatus(f.env,f.user)).status,'IDLE');
 });

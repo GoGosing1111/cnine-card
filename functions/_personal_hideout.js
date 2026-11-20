@@ -53,7 +53,7 @@ export function hideoutAwardStatements(env,event,{guard='1=1',values=[],now=Date
   p(env,'UPDATE app_meta SET value='+expression+',updated_at=CURRENT_TIMESTAMP WHERE key=? AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',key,receipt,raw),
   p(env,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',JSON.stringify({version:1,source:event.source,eventId:event.eventId,gains,applied:true}),receipt,raw)
  ];
- writes.hideoutAward=gains;return writes;
+ writes.hideoutAward=gains;writes.hideoutReceipt=receipt;return writes;
 }
 export async function mutateHideout(env,uid,action,body){
  if(!hideoutEnabled(env))throw Object.assign(Error('은신처를 준비하고 있습니다.'),{code:'HIDEOUT_CLOSED',status:423});

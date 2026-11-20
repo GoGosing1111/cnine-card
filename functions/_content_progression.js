@@ -5,6 +5,6 @@ import {hideoutAwardStatements} from './_personal_hideout.js';
 export async function contentProgressionStatements(env,event,options={}){
  const season=await seasonStatements(env,event,options),hideout=hideoutAwardStatements(env,event,options);
  const writes=[...season,...hideout];
- writes.award=season.award;writes.hideoutAward=hideout.hideoutAward;
+ writes.award=season.award;writes.hideoutAward=hideout.hideoutAward;writes.hideoutReceipt=hideout.hideoutReceipt;
  return writes;
 }

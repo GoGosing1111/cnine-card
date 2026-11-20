@@ -1,5 +1,4 @@
 import {cowTicketAward} from './_legion_cow_tickets.js';
-const cowRankSources=new Set(['ESCORT','SEAL','RIFT','SCRAPYARD','RAID','CORE_RAID_WEEKLY','LICH_RAID_WEEKLY','MADARA_RAID_WEEKLY','BLACKWING_RAID_WEEKLY']);
 import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {readCollectionBonuses} from './_collection_bonuses.js';
 import {rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
@@ -9,6 +8,8 @@ import {shiranuiRankRewardStatements,shiranuiRankRewardKey} from './_account_ran
 import {rankAwardBoosts} from './_avatar_santa_rank.js';
 import {MAX_RANK_TICKS,levelFromTicks,rankLevelTicks,rankNextTicks} from './_account_rank_curve.js';
 export {MAX_RANK_TICKS,RANK_XP_MULTIPLIER,levelFromTicks} from './_account_rank_curve.js';
+
+const cowRankSources=new Set(['ESCORT','SEAL','RIFT','SCRAPYARD','RAID','CORE_RAID_WEEKLY','LICH_RAID_WEEKLY','MADARA_RAID_WEEKLY','BLACKWING_RAID_WEEKLY']);
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
 const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:100,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
@@ -129,8 +130,22 @@ export async function settleRankedHunt(env,userId,source,eventId,coin,reason,sea
   const progression=await seasonAwardStatements(env,{userId,eventId,source:season.source||'HUNT',won:true,monsterId:season.monsterId},{guard,values:[writes.token]});
   writes.push(...progression);
   const cow=await cowTicketAward(env,userId,season.sweep?'PVE_SWEEP':'PVE_HUNT',eventId,{guard,values:[writes.token]});
-  await env.DB.batch([...writes,...cow.statements]);
-  return {cowTicket:cow.ticket,hideoutReward:progression.hideoutAward||null};
+  const results=await env.DB.batch([...writes,...cow.statements]);
+  let cowTicket=cow.ticket,hideoutReward=progression.hideoutAward||null;
+  const checkTicket=cowTicket&&Number(results[writes.length]?.meta?.changes)===0;
+  // The last progression statement seals the salvage receipt. Only replays need a read.
+  const checkParts=hideoutReward&&Number(results[writes.length-1]?.meta?.changes)===0;
+  if(checkTicket||checkParts){
+    const rows=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?)')
+      .bind(checkTicket?cowTicket.acquisitionId:null,checkParts?progression.hideoutReceipt:null).all();
+    const receipts=new Map(rows.results.map(row=>[row.key,row.value]));
+    if(checkTicket&&!receipts.get(cowTicket.acquisitionId)?.startsWith(cowTicket.code+'/'))cowTicket=null;
+    if(checkParts){
+      const saved=JSON.parse(receipts.get(progression.hideoutReceipt)||'null');
+      hideoutReward=saved?.applied?saved.gains:null;
+    }
+  }
+  return {cowTicket,hideoutReward};
 }
 
 export async function accountRankIdleSettlement(){
