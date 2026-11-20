@@ -1,0 +1,834 @@
+{
+  "변경": "일반 랭크전 챌린저 전체 매칭과 상위권 추격 승점",
+  "운영반영": {
+    "source": "49c43fe39593b993873d20451afb7a4e42f6b9f6",
+    "이전배포": "a438681668745a6b8fd7b325d2b655a565eacaae",
+    "작업완료": "2026-11-20 23:17:49 KST",
+    "공개검증": "2026-11-20 23:18:13 KST",
+    "pages": {
+      "id": "c355bd54-0d4a-497c-9a91-575062065e03",
+      "commit": "49c43fe39593b993873d20451afb7a4e42f6b9f6",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "580f5168-bcc0-482a-b37a-7f8fcdc99dc0",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "e47ecd3e-57b3-4704-9f78-acafc561e0fa",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "공개모듈SHA256": {
+      "ranked-matchmaking-v2.mjs": "ba0327428a956e7926907735be35f12e0a06cfbcc2853485e4566643740c32af",
+      "ranked-reform-v1.mjs": "cbf9e247d3d9a56b27223b954d1e5c93a7621903deb4e80625bcc40206aa0924",
+      "martial-law-v1.mjs": "85ad690a1495ef90022b948d80c3d4afa5e533b9d10c8a2662b4e8466761dde9"
+    },
+    "서버번들SHA256": "c5106c15364a371c1169a9a2ad74595783e7887b51f20ba6b3128d7812c63f36",
+    "서버경로확인": [
+      "pvpChallengerStandings",
+      "challengerPair",
+      "catchUpWinPoints",
+      "searchForPayingPeer"
+    ]
+  },
+  "적용규칙": {
+    "챌린저": "일반 랭크전 매칭권을 새로 발급할 때 공개 순위 상위 20명을 조회한다. 양쪽 모두 챌린저이면 순위·시즌 점수·편성 전투력의 차이에 상한을 두지 않는다. 서로 다른 유효 계정, 기존 방어 덱과 실제 보유한 용병의 저장 편성이 필요하다.",
+    "다양성": "최근 8경기에 없는 챌린저를 우선한다. 최근 20경기의 만난 횟수를 가중치에 반영한다. 순위, 점수 차, 전투력 차는 챌린저끼리의 추첨 가중치에 반영하지 않는다. 챌린저 후보가 부족하면 일반 후보와 기존 재대결 규칙을 사용한다.",
+    "추격": "자신보다 시즌 점수가 높은 공개 랭커가 있는 다이아 이상 또는 챌린저가 대상이다. 승급전이 아니고 최근 상대를 포함한 유효 후보 모두의 기본 승리 점수가 0점일 때만 승리당 12점을 지급한다. 1점 이상 주는 상대가 있으면 원래 상대별 점수를 적용한다.",
+    "정산": "새 매칭권에 승리 시 추격 점수와 챌린저 매칭 여부를 저장한다. 재접속·경기 전 점수·경기 정산에 같은 값을 사용한다. 승급전, 패배, 기존 매칭권 및 완료 경기에는 기존 기준을 적용한다."
+  },
+  "문의재현": {
+    "계정": "T-Money™",
+    "측정시각": "2026-11-20 23:07:00 KST",
+    "순위": 4,
+    "점수": 2569,
+    "당시3위점수": 3854,
+    "유효편성수": 145,
+    "고정편성추첨및승점": {
+      "before": {
+        "eligible": 5,
+        "eligibleChallengerRanks": [
+          5,
+          6,
+          8,
+          13,
+          17
+        ],
+        "possibleNextRanksGivenHistory": [
+          13
+        ],
+        "possibleFreshPoolRanks": [
+          5
+        ],
+        "topThree": [],
+        "canPassThird": false,
+        "maximumScore": 3297
+      },
+      "after": {
+        "eligible": 19,
+        "eligibleChallengerRanks": [
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "possibleNextRanksGivenHistory": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10,
+          11,
+          12,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20
+        ],
+        "possibleFreshPoolRanks": [
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "topThree": [
+          {
+            "rank": 1,
+            "score": 4145,
+            "powerGapPercent": 35.9,
+            "promotion": null,
+            "expectedWin": 48,
+            "expectedLoss": 0
+          },
+          {
+            "rank": 2,
+            "score": 4102,
+            "powerGapPercent": 23.6,
+            "promotion": null,
+            "expectedWin": 48,
+            "expectedLoss": 0
+          },
+          {
+            "rank": 3,
+            "score": 3854,
+            "powerGapPercent": 23.6,
+            "promotion": null,
+            "expectedWin": 48,
+            "expectedLoss": 0
+          }
+        ],
+        "canPassThird": true,
+        "allWinsToPassThird": {
+          "min": 152,
+          "median": 173,
+          "max": 208
+        },
+        "isolatedZeroPoolForecast": {
+          "promotion": null,
+          "expectedWin": 12,
+          "expectedLoss": 48
+        }
+      }
+    },
+    "조건": "점수·편성을 고정한 100개의 난수 시드로 모두 승리한다고 가정한 표본이다. 상대의 실제 활동과 승패에 따라 필요한 경기 수는 달라진다.",
+    "배포직후직접도전읽기": {
+      "sinceUtc": "2026-11-20T14:17:49.176Z",
+      "checkedUtc": "2026-11-20T14:18:12.242Z",
+      "rank": 4,
+      "score": 2569,
+      "third": 3854,
+      "completedNaturalMatches": 0,
+      "changes": []
+    }
+  },
+  "검증": {
+    "배포시관련검사": 86,
+    "실행": "Windows CLI, Node.js, SQLite 및 PGlite. 실제 티켓 저장·재조회와 승패 정산 경로를 포함한다.",
+    "경계": [
+      "1위와 20위의 양방향 선택 및 21위 일반 매칭",
+      "3,800점 및 600% 전투력 차",
+      "근접 후보 790명 가운데 먼 챌린저 우선 포함",
+      "8회 회피 및 실패한 편성 제외",
+      "모든 후보 0점/일부 +1점 이상/공동 1위/운영자/승급전/패배",
+      "기존 티켓·동시 발급·정산 실패와 재시도·중복 정산"
+    ],
+    "공개재현": "공개 Pages에서 받은 매칭·승점 모듈로 같은 운영 표본의 후보, 상위 3인 예상 점수, 전승 추격, 단독 0점 상대의 +12점 결과가 로컬과 일치했다.",
+    "운영계정으로실행한시험경기": 0
+  },
+  "성능": {
+    "서버조건": "Windows CLI에서 운영 PostgreSQL과 네트워크를 통해 같은 23:07 KST 자료로 패치 전후의 매칭권 생성 경로를 실행했다. 전투·편성과 후보의 실제 조회를 포함하고 쓰기와 상대 공개는 격리했다. 첫 진입·반복 각 1회.",
+    "운영읽기": [
+      {
+        "label": "before",
+        "visit": 0,
+        "ms": 3281,
+        "sql": 42,
+        "rank": 13,
+        "expectedWin": 0,
+        "expectedLoss": 48
+      },
+      {
+        "label": "before",
+        "visit": 1,
+        "ms": 3191,
+        "sql": 41,
+        "rank": 13,
+        "expectedWin": 0,
+        "expectedLoss": 48
+      },
+      {
+        "label": "after",
+        "visit": 0,
+        "ms": 3195,
+        "sql": 41,
+        "rank": 16,
+        "expectedWin": 0,
+        "expectedLoss": 48
+      },
+      {
+        "label": "after",
+        "visit": 1,
+        "ms": 3197,
+        "sql": 41,
+        "rank": 16,
+        "expectedWin": 0,
+        "expectedLoss": 48
+      }
+    ],
+    "병목": "편성의 DB 조회와 네트워크 왕복이 대부분의 대기다. 순위와 점수는 한 번에 조회하고, 유효 챌린저를 첫 후보 묶음에 포함한다. 첫 요청 42→41 SQL, 반복 41→41 SQL.",
+    "화면조건": "Windows headless PC Chrome, Android 터치, iOS WebKit, Windows 실행 URL, H5 iframe 에뮬레이션. 공개 게임의 로비 → 전체 메뉴 → 일반 랭크전 → 매칭 → 상대 공개 → 전투 진입 경계를 사용했다. 격리 API 25ms, 첫 진입과 재입장 각 1회. 실기기·설치앱은 측정하지 않았다.",
+    "화면표본": "첫 진입은 문의 계정 편성으로 상위 랭커와 만나는 경우, 재입장은 3,297점 대 2,505점의 0점 후보만 있는 별도 조건이다. readyMs는 메뉴 선택부터 매칭 버튼 활성화까지, visibleMs는 매칭 신청부터 상대 공개까지다. 프레임 단위 ms, 긴 프레임은 50ms 초과.",
+    "브라우저": [
+      {
+        "platform": "desktop",
+        "phase": "before",
+        "launchMs": 1042,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 179,
+            "visibleMs": 278,
+            "quote": {
+              "scarce": false,
+              "rank": 13,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 102,
+              "p50": 4.199999999999818,
+              "p95": 20.800000000000182,
+              "max": 170.80000000000018,
+              "over50": 1
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 75,
+            "visibleMs": 57,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 119,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 12.5,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "desktop",
+        "phase": "after",
+        "launchMs": 1233,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 197,
+            "visibleMs": 102,
+            "quote": {
+              "scarce": false,
+              "rank": 3,
+              "win": 48,
+              "loss": 0
+            },
+            "frames": {
+              "count": 76,
+              "p50": 4.199999999999818,
+              "p95": 20.800000000000182,
+              "max": 87.5,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 122,
+            "visibleMs": 79,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 12,
+              "loss": 48
+            },
+            "frames": {
+              "count": 124,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 16.800000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "android",
+        "phase": "before",
+        "launchMs": 1093,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 162,
+            "visibleMs": 63,
+            "quote": {
+              "scarce": false,
+              "rank": 13,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 57,
+              "p50": 4.199999999999818,
+              "p95": 20.800000000000182,
+              "max": 95.80000000000018,
+              "over50": 1
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 85,
+            "visibleMs": 59,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 120,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 12.5,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "android",
+        "phase": "after",
+        "launchMs": 1240,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 205,
+            "visibleMs": 98,
+            "quote": {
+              "scarce": false,
+              "rank": 3,
+              "win": 48,
+              "loss": 0
+            },
+            "frames": {
+              "count": 72,
+              "p50": 4.199999999999818,
+              "p95": 20.90000000000009,
+              "max": 95.70000000000027,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 78,
+            "visibleMs": 69,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 12,
+              "loss": 48
+            },
+            "frames": {
+              "count": 114,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 20.800000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "ios",
+        "phase": "before",
+        "launchMs": 1401,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 212,
+            "visibleMs": 202,
+            "quote": {
+              "scarce": false,
+              "rank": 13,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 20,
+              "p50": 15,
+              "p95": 459,
+              "max": 459,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 74,
+            "visibleMs": 189,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 19,
+              "p50": 15,
+              "p95": 208,
+              "max": 208,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 1,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "platform": "ios",
+        "phase": "after",
+        "launchMs": 1800,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 436,
+            "visibleMs": 218,
+            "quote": {
+              "scarce": false,
+              "rank": 3,
+              "win": 48,
+              "loss": 0
+            },
+            "frames": {
+              "count": 2,
+              "p50": 528,
+              "p95": 528,
+              "max": 528,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 72,
+            "visibleMs": 266,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 12,
+              "loss": 48
+            },
+            "frames": {
+              "count": 17,
+              "p50": 15,
+              "p95": 259,
+              "max": 259,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 1,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "platform": "windows",
+        "phase": "before",
+        "launchMs": 1502,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 194,
+            "visibleMs": 161,
+            "quote": {
+              "scarce": false,
+              "rank": 13,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 99,
+              "p50": 4.199999999999818,
+              "p95": 12.599999999999909,
+              "max": 70.90000000000009,
+              "over50": 1
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 317,
+            "visibleMs": 64,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 122,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 16.800000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "windows",
+        "phase": "after",
+        "launchMs": 1178,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 154,
+            "visibleMs": 134,
+            "quote": {
+              "scarce": false,
+              "rank": 3,
+              "win": 48,
+              "loss": 0
+            },
+            "frames": {
+              "count": 83,
+              "p50": 4.199999999999818,
+              "p95": 16.59999999999991,
+              "max": 54.30000000000018,
+              "over50": 1
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 248,
+            "visibleMs": 59,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 12,
+              "loss": 48
+            },
+            "frames": {
+              "count": 119,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 12.300000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "h5",
+        "phase": "before",
+        "launchMs": 1399,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 176,
+            "visibleMs": 71,
+            "quote": {
+              "scarce": false,
+              "rank": 13,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 42,
+              "p50": 4.200000000000273,
+              "p95": 62.40000000000009,
+              "max": 146,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 81,
+            "visibleMs": 56,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 0,
+              "loss": 48
+            },
+            "frames": {
+              "count": 113,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 20.800000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "h5",
+        "phase": "after",
+        "launchMs": 1428,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 166,
+            "visibleMs": 86,
+            "quote": {
+              "scarce": false,
+              "rank": 3,
+              "win": 48,
+              "loss": 0
+            },
+            "frames": {
+              "count": 64,
+              "p50": 4.199999999999818,
+              "p95": 29.200000000000273,
+              "max": 125.09999999999991,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 139,
+            "visibleMs": 64,
+            "quote": {
+              "scarce": true,
+              "rank": 5,
+              "win": 12,
+              "loss": 48
+            },
+            "frames": {
+              "count": 114,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 25,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "관찰": "일부 첫 진입 및 WebKit 양쪽에서 긴 프레임이 나타났다. WebKit에서 기존 ResizeObserver 경고도 관찰됐다. 모든 첫 진입·재입장에서 화면을 떠난 뒤 랭크 조회, 추가 매칭, 상대창, 전투 캔버스는 0건이었다. 단회 에뮬레이션 결과로 속도 개선을 단정하지 않는다."
+  }
+}
