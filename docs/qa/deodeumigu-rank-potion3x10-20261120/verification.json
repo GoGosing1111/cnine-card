@@ -1,0 +1,40 @@
+{
+  "operationKey": "ops:deodeumigu:rank-exp-potion3x10:20261120:v1",
+  "auditId": "67163",
+  "inventoryLogId": "90185352",
+  "check": {
+    "inventoryLogs": 1,
+    "auditRecords": 1,
+    "grantAmount": 10,
+    "currentQuantity": "21",
+    "subsequentInventoryDelta": "0",
+    "duplicates": 0
+  },
+  "protectedBeforeHash": "e7ff92663948f9befc26616628f645dc04d22c4bba32dec281ed8141d13ed968",
+  "protectedAfterHash": "e7ff92663948f9befc26616628f645dc04d22c4bba32dec281ed8141d13ed968",
+  "previousReceiptHash": "142648d27a745e613d1d8757210a4d97e04ffe5ec9493b225e36b594b74b9791",
+  "partialFailures": [
+    "inventory",
+    "ledger",
+    "receipt"
+  ],
+  "fullRehearsalRolledBack": true,
+  "independentReadOnly": true,
+  "replaySelects": 1,
+  "replayWrites": 0,
+  "leasesReleased": true,
+  "evidenceSha256": {
+    "common.mjs": "e2df1dd7c7a38acccb43a55ab119382a07813eece0671ec43eaffa35f1543d4f",
+    "grant.mjs": "85f706961f3dbc7f136fd9d5540f492e23ef5894ea67512fcb53e39acda6b3b7",
+    "run.mjs": "279fc3f667631069df6cff95124f089f422fa552a157025d8b4950fe13a63e09",
+    "plan.json": "b09094ebe209b8b207c9fabc0822d436756a427bbe45dea569677119832ab5ad",
+    "tests.json": "0aca31cb3005f832959d91f6a13fbb38bb8954bf0ec96916b42ced64f27eb4a4",
+    "tests-initial-missing-source.json": "61810f16b5bb2403c878c84af6286752310ae1a73203889fe4541ac31dd33117",
+    "sparse-test-source.json": "e178a68898a1d5e7f59a9ce20000b9c0b974eef52c51c4e425355b81b310ab8a",
+    "rehearsal.json": "931423ec03a6f69275385be2dd7f48d8abfff6303c2a97505f9e21d78c85b7b2",
+    "apply.json": "67f6b20b17a0f2def5fd4bbc1556a37a1be747bed570cd192f330cd2cb9f6f5c",
+    "verify.json": "b99a89828a00ca53917b170fd6c6cd537208c43dc160ecf99537a0003d4ce43e",
+    "service-before.json": "2f50af49645a733bc13d78120c0f19787ee0871d43895995c10781d63653796b",
+    "lookup-explain.json": "a1196005bf9587f58cc334734bfdb7c9cb1cd4d2ff298476256bebe1415e00d3"
+  }
+}

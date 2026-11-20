@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: bounded delivery retains runtime potion art and keeps only its authoring sources in Git
+ok 1 - bounded delivery retains runtime potion art and keeps only its authoring sources in Git
+  ---
+  duration_ms: 2.5393
+  type: 'test'
+  ...
+# Subtest: 60 minutes, extension, replacement in both directions, exact expiry and malformed/future state
+ok 2 - 60 minutes, extension, replacement in both directions, exact expiry and malformed/future state
+  ---
+  duration_ms: 1.4796
+  type: 'test'
+  ...
+# Subtest: SQLite: consume, extend, replace, stale confirmation, ownership and replay
+ok 3 - SQLite: consume, extend, replace, stale confirmation, ownership and replay
+  ---
+  duration_ms: 27.4732
+  type: 'test'
+  ...
+# Subtest: SQLite: rollback, delayed recovery starts a full hour, disabled stock and superseded plans
+ok 4 - SQLite: rollback, delayed recovery starts a full hour, disabled stock and superseded plans
+  ---
+  duration_ms: 10.8703
+  type: 'test'
+  ...
+# Subtest: SQLite: all existing rank sources multiply once, expire precisely and preserve level cap
+ok 5 - SQLite: all existing rank sources multiply once, expire precisely and preserve level cap
+  ---
+  duration_ms: 17.0401
+  type: 'test'
+  ...
+# Subtest: SQLite: multiplier includes equipped pet and earned trophy XP bonuses
+ok 6 - SQLite: multiplier includes equipped pet and earned trophy XP bonuses
+  ---
+  duration_ms: 12.3175
+  type: 'test'
+  ...
+# Subtest: SQLite: season pass catalog, claim, use both potions and inactive item rejection
+ok 7 - SQLite: season pass catalog, claim, use both potions and inactive item rejection
+  ---
+  duration_ms: 49.4237
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: consume, extend, replace, stale confirmation, ownership and replay
+ok 8 - PostgreSQL: consume, extend, replace, stale confirmation, ownership and replay
+  ---
+  duration_ms: 2047.362
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: rollback, delayed recovery starts a full hour, disabled stock and superseded plans
+ok 9 - PostgreSQL: rollback, delayed recovery starts a full hour, disabled stock and superseded plans
+  ---
+  duration_ms: 1599.1209
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: all existing rank sources multiply once, expire precisely and preserve level cap
+ok 10 - PostgreSQL: all existing rank sources multiply once, expire precisely and preserve level cap
+  ---
+  duration_ms: 1846.9668
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: multiplier includes equipped pet and earned trophy XP bonuses
+ok 11 - PostgreSQL: multiplier includes equipped pet and earned trophy XP bonuses
+  ---
+  duration_ms: 1588.6315
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: season pass catalog, claim, use both potions and inactive item rejection
+ok 12 - PostgreSQL: season pass catalog, claim, use both potions and inactive item rejection
+  ---
+  duration_ms: 1603.3762
+  type: 'test'
+  ...
+# Subtest: routes authenticate, validate input/origin, isolate private status and serialize same/different requests
+ok 13 - routes authenticate, validate input/origin, isolate private status and serialize same/different requests
+  ---
+  duration_ms: 25.1317
+  type: 'test'
+  ...
+# Subtest: lost commit acknowledgement returns saved result without extending or consuming twice
+ok 14 - lost commit acknowledgement returns saved result without extending or consuming twice
+  ---
+  duration_ms: 7.0336
+  type: 'test'
+  ...
+# Subtest: one-time registration is atomic, does not grant or rewrite pass and preserves later CMS edits
+ok 15 - one-time registration is atomic, does not grant or rewrite pass and preserves later CMS edits
+  ---
+  duration_ms: 1287.865
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10867.912
