@@ -160,5 +160,11 @@
     "portrait": "/assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-portrait.webp",
     "source": "assets/ui/pets/ddung-joeun-20261116/pet-ddung-joeun-approved.png",
     "sourceSha256": "588115c8b50ad377901e74c02df2b0768e0975ba6d25268879c428c09c34c7e4"
+  },
+  "PET-HEEYA-TOGETHER": {
+    "thumb": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-thumb.webp",
+    "portrait": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+    "source": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-approved.png",
+    "sourceSha256": "b80807ede3f6e42b635d945637dea0eb8f5d9a001aac9300e790fd00aac2ee06"
   }
 }
