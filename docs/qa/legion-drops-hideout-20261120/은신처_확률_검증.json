@@ -1,12 +1,16 @@
 {
-  "at": "2026-11-20T11:28:05.671Z",
-  "baseline": "e25d84de53867a2ffe13ee2d37854e49ca9fea26",
-  "candidate": "fb67044212f7b542db9d0f4c5fd7858ed0772d11",
+  "at": "2026-11-20T11:46:21.330Z",
+  "baseline": "a5388b7a121b948f57ab92e658ad9ccb7f4b5fea",
+  "previousPercent": 30,
+  "winningTickets": 250,
+  "totalTickets": 10000,
+  "atLeastOnePerRaidPercent": 7.3140625,
+  "candidate": "9f4881797e163920dcaca0c2008332227537a809",
   "baseMain": "d203fd7091c4dfd4bc781aed0d0ba99e4e335796",
   "branch": "codex/hideout-growth-integration-20261120",
   "published": false,
   "production": {
-    "at": "2026-11-20T11:24:16.511Z",
+    "at": "2026-11-20T11:45:32.962Z",
     "destination": "https://cnine-card.pages.dev",
     "readOnly": true,
     "status": [
@@ -22,33 +26,33 @@
     ]
   },
   "release": {
-    "gate": "[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=fb67044212f7b542db9d0f4c5fd7858ed0772d11 origin/main=d203fd7091c4dfd4bc781aed0d0ba99e4e335796",
+    "gate": "[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=9f4881797e163920dcaca0c2008332227537a809 origin/main=d203fd7091c4dfd4bc781aed0d0ba99e4e335796",
     "assets": 19989,
     "workerSyntax": true,
     "h5GeneratedFilesVerified": 14
   },
   "tests": [
     {
-      "name": "core-chance-tests",
+      "name": "core-2p5-tests",
       "pass": 30
     },
     {
-      "name": "core-chance-regressions",
+      "name": "core-2p5-regressions",
       "pass": 65
     }
   ],
   "math": {
     "assumptions": "Start from zero materials, free shanty, no spending on furnishings or workbench discounts. Only eligible victories of the named activity; each roll is independent.",
     "policy": {
-      "percent": 30,
+      "percent": 2.5,
       "legionRolls": 1,
       "raidRolls": 3
     },
     "raidDropPercent": [
-      34.3,
-      44.1,
-      18.9,
-      2.7
+      92.6859375,
+      7.1296875,
+      0.1828125,
+      0.0015625
     ],
     "paths": {
       "LEGION": [
@@ -57,18 +61,18 @@
           "additionalCore": 18,
           "cumulativeCore": 18,
           "otherMaterialsFloor": 30,
-          "meanClears": 60.0007,
-          "p10": 46,
-          "median": 59,
-          "p90": 76,
-          "meanDaysAtFourWinsPerDay": 15.38,
+          "meanClears": 720,
+          "p10": 515,
+          "median": 707,
+          "p90": 941,
+          "meanDaysAtFourWinsPerDay": 180.37,
           "simulation": {
             "sampleSize": 16000,
-            "mean": 59.967,
+            "mean": 719.697,
             "quantiles": [
-              46,
-              59,
-              76
+              515,
+              705,
+              944
             ]
           }
         },
@@ -77,18 +81,18 @@
           "additionalCore": 42,
           "cumulativeCore": 60,
           "otherMaterialsFloor": 100,
-          "meanClears": 200,
-          "p10": 173,
-          "median": 199,
-          "p90": 228,
-          "meanDaysAtFourWinsPerDay": 50.38,
+          "meanClears": 2400,
+          "p10": 2017,
+          "median": 2387,
+          "p90": 2800,
+          "meanDaysAtFourWinsPerDay": 600.37,
           "simulation": {
             "sampleSize": 16000,
-            "mean": 200.066,
+            "mean": 2399.249,
             "quantiles": [
-              173,
-              199,
-              228
+              2015,
+              2386,
+              2800
             ]
           }
         },
@@ -97,18 +101,18 @@
           "additionalCore": 78,
           "cumulativeCore": 138,
           "otherMaterialsFloor": 230,
-          "meanClears": 460,
-          "p10": 419,
-          "median": 459,
-          "p90": 503,
-          "meanDaysAtFourWinsPerDay": 115.37,
+          "meanClears": 5520,
+          "p10": 4934,
+          "median": 5507,
+          "p90": 6122,
+          "meanDaysAtFourWinsPerDay": 1380.37,
           "simulation": {
             "sampleSize": 16000,
-            "mean": 459.926,
+            "mean": 5517.262,
             "quantiles": [
-              419,
-              459,
-              502
+              4925,
+              5503,
+              6121
             ]
           }
         }
@@ -119,18 +123,18 @@
           "additionalCore": 18,
           "cumulativeCore": 18,
           "otherMaterialsFloor": 13,
-          "meanClears": 20.3462,
-          "p10": 16,
-          "median": 20,
-          "p90": 26,
-          "meanDaysAtFourWinsPerDay": 5.47,
+          "meanClears": 240.3333,
+          "p10": 172,
+          "median": 236,
+          "p90": 314,
+          "meanDaysAtFourWinsPerDay": 60.46,
           "simulation": {
             "sampleSize": 16000,
-            "mean": 20.322,
+            "mean": 240.177,
             "quantiles": [
-              16,
-              20,
-              25
+              172,
+              236,
+              313
             ]
           }
         },
@@ -139,18 +143,18 @@
           "additionalCore": 42,
           "cumulativeCore": 60,
           "otherMaterialsFloor": 42,
-          "meanClears": 67,
-          "p10": 58,
-          "median": 67,
-          "p90": 76,
-          "meanDaysAtFourWinsPerDay": 17.13,
+          "meanClears": 800.3333,
+          "p10": 673,
+          "median": 796,
+          "p90": 934,
+          "meanDaysAtFourWinsPerDay": 200.46,
           "simulation": {
             "sampleSize": 16000,
-            "mean": 66.997,
+            "mean": 800.607,
             "quantiles": [
-              58,
-              67,
-              76
+              672,
+              797,
+              935
             ]
           }
         },
@@ -159,18 +163,18 @@
           "additionalCore": 78,
           "cumulativeCore": 138,
           "otherMaterialsFloor": 96,
-          "meanClears": 153.6667,
-          "p10": 140,
-          "median": 153,
-          "p90": 168,
-          "meanDaysAtFourWinsPerDay": 38.79,
+          "meanClears": 1840.3333,
+          "p10": 1645,
+          "median": 1836,
+          "p90": 2041,
+          "meanDaysAtFourWinsPerDay": 460.46,
           "simulation": {
             "sampleSize": 16000,
-            "mean": 153.647,
+            "mean": 1839.449,
             "quantiles": [
-              140,
-              153,
-              168
+              1642,
+              1835,
+              2043
             ]
           }
         }
@@ -178,96 +182,96 @@
     }
   },
   "bench": {
-    "at": "2026-11-20T11:23:28.741Z",
+    "at": "2026-11-20T11:44:55.662Z",
     "windowsNode": "v24.18.0",
-    "conditions": "Local in-memory SQLite/PGlite on Windows, same fixture including 35 legacy dates, three alternating pairs, real GET handler and batched server-side legion reward path, 160 distinct clears per series. Network omitted; earlier version always awards a core and newer version samples server RNG.",
+    "conditions": "Local in-memory SQLite/PGlite on Windows, same fixture including 35 legacy dates, three alternating pairs, real GET handler and batched server-side legion reward path, 160 distinct clears per series. Network omitted; both revisions use server RNG, before 30% and after 2.5% per independent draw.",
     "arr": [
       {
         "dialect": "SQLite",
         "variants": {
           "before": {
             "entryMedianMs": [
-              0.72,
-              0.56
+              0.918,
+              0.859
             ],
-            "settlementMedianMs": 0.119,
-            "batchTotalMedianMs": 20.537
+            "settlementMedianMs": 0.187,
+            "batchTotalMedianMs": 32.897
           },
           "after": {
             "entryMedianMs": [
-              0.689,
-              0.407
+              0.801,
+              0.534
             ],
-            "settlementMedianMs": 0.096,
-            "batchTotalMedianMs": 19.51
+            "settlementMedianMs": 0.159,
+            "batchTotalMedianMs": 35.642
           }
         },
         "rows": [
           {
             "key": "before",
             "entryMs": [
-              18.406,
-              0.579
+              30.396,
+              0.987
             ],
-            "settlementMedianMs": 0.148,
-            "settlementTotalMs": 25.632,
-            "settlements": 160,
-            "cores": 160
-          },
-          {
-            "key": "after",
-            "entryMs": [
-              1.444,
-              0.612
-            ],
-            "settlementMedianMs": 0.103,
-            "settlementTotalMs": 18.443,
+            "settlementMedianMs": 0.186,
+            "settlementTotalMs": 33.707,
             "settlements": 160,
             "cores": 49
           },
           {
             "key": "after",
             "entryMs": [
-              0.689,
-              0.407
+              2.563,
+              0.84
             ],
-            "settlementMedianMs": 0.096,
-            "settlementTotalMs": 19.51,
+            "settlementMedianMs": 0.205,
+            "settlementTotalMs": 40.994,
             "settlements": 160,
-            "cores": 40
-          },
-          {
-            "key": "before",
-            "entryMs": [
-              0.682,
-              0.442
-            ],
-            "settlementMedianMs": 0.119,
-            "settlementTotalMs": 20.148,
-            "settlements": 160,
-            "cores": 160
-          },
-          {
-            "key": "before",
-            "entryMs": [
-              0.72,
-              0.56
-            ],
-            "settlementMedianMs": 0.118,
-            "settlementTotalMs": 20.537,
-            "settlements": 160,
-            "cores": 160
+            "cores": 3
           },
           {
             "key": "after",
             "entryMs": [
-              0.484,
-              0.341
+              0.801,
+              0.534
             ],
-            "settlementMedianMs": 0.095,
-            "settlementTotalMs": 21.531,
+            "settlementMedianMs": 0.158,
+            "settlementTotalMs": 35.642,
             "settlements": 160,
-            "cores": 50
+            "cores": 5
+          },
+          {
+            "key": "before",
+            "entryMs": [
+              0.671,
+              0.471
+            ],
+            "settlementMedianMs": 0.187,
+            "settlementTotalMs": 31.348,
+            "settlements": 160,
+            "cores": 47
+          },
+          {
+            "key": "before",
+            "entryMs": [
+              0.918,
+              0.859
+            ],
+            "settlementMedianMs": 0.202,
+            "settlementTotalMs": 32.897,
+            "settlements": 160,
+            "cores": 52
+          },
+          {
+            "key": "after",
+            "entryMs": [
+              0.645,
+              0.405
+            ],
+            "settlementMedianMs": 0.159,
+            "settlementTotalMs": 27.954,
+            "settlements": 160,
+            "cores": 6
           }
         ],
         "entrySelects": 1,
@@ -278,87 +282,87 @@
         "variants": {
           "before": {
             "entryMedianMs": [
-              0.956,
-              0.78
+              1.026,
+              0.97
             ],
-            "settlementMedianMs": 2.607,
-            "batchTotalMedianMs": 435.488
+            "settlementMedianMs": 3.18,
+            "batchTotalMedianMs": 506.658
           },
           "after": {
             "entryMedianMs": [
-              0.903,
-              0.606
+              1.304,
+              0.88
             ],
-            "settlementMedianMs": 2.57,
-            "batchTotalMedianMs": 412.334
+            "settlementMedianMs": 3.168,
+            "batchTotalMedianMs": 504.202
           }
         },
         "rows": [
           {
             "key": "before",
             "entryMs": [
-              2.246,
-              0.905
+              3.059,
+              1.085
             ],
-            "settlementMedianMs": 2.553,
-            "settlementTotalMs": 435.488,
+            "settlementMedianMs": 3.746,
+            "settlementTotalMs": 648.678,
             "settlements": 160,
-            "cores": 160
+            "cores": 50
           },
           {
             "key": "after",
             "entryMs": [
-              1.047,
-              0.606
+              1.656,
+              0.762
             ],
-            "settlementMedianMs": 2.423,
-            "settlementTotalMs": 407.032,
+            "settlementMedianMs": 3.371,
+            "settlementTotalMs": 546.695,
             "settlements": 160,
-            "cores": 53
+            "cores": 4
           },
           {
             "key": "after",
             "entryMs": [
-              0.903,
-              0.744
+              1.304,
+              1.04
             ],
-            "settlementMedianMs": 2.672,
-            "settlementTotalMs": 428.996,
+            "settlementMedianMs": 2.969,
+            "settlementTotalMs": 482.179,
             "settlements": 160,
-            "cores": 54
+            "cores": 6
           },
           {
             "key": "before",
             "entryMs": [
-              0.956,
-              0.78
+              0.969,
+              0.783
             ],
-            "settlementMedianMs": 2.607,
-            "settlementTotalMs": 431.361,
+            "settlementMedianMs": 3.18,
+            "settlementTotalMs": 506.658,
             "settlements": 160,
-            "cores": 160
+            "cores": 57
           },
           {
             "key": "before",
             "entryMs": [
-              0.787,
-              0.612
+              1.026,
+              0.97
             ],
-            "settlementMedianMs": 2.852,
-            "settlementTotalMs": 454.408,
+            "settlementMedianMs": 3.148,
+            "settlementTotalMs": 502.705,
             "settlements": 160,
-            "cores": 160
+            "cores": 42
           },
           {
             "key": "after",
             "entryMs": [
-              0.726,
-              0.561
+              1.15,
+              0.88
             ],
-            "settlementMedianMs": 2.57,
-            "settlementTotalMs": 412.334,
+            "settlementMedianMs": 3.168,
+            "settlementTotalMs": 504.202,
             "settlements": 160,
-            "cores": 49
+            "cores": 3
           }
         ],
         "entrySelects": 1,
@@ -369,169 +373,6 @@
   "uiEnvironment": "Windows host, headless Chromium/WebKit, Android/iPhone and H5 emulation, Windows Electron offscreen. Actual lobby route with an isolated local SQLite API. One sample per profile per revision; cold device and installed mobile app unmeasured.",
   "ui": {
     "before": {
-      "errors": [
-        {
-          "profile": "iphone-webkit-emulated",
-          "variant": "after",
-          "error": "ResizeObserver loop completed with undelivered notifications."
-        },
-        {
-          "profile": "iphone-webkit-emulated",
-          "variant": "after",
-          "error": "ResizeObserver loop completed with undelivered notifications."
-        }
-      ],
-      "missingAssets": 0,
-      "profiles": [
-        {
-          "profile": "pc",
-          "firstMs": 125,
-          "reentryMs": 59,
-          "afterExitRequests": 0,
-          "overflow": false,
-          "frames": {
-            "idle": {
-              "msP95": 4.3,
-              "msMax": 20.8,
-              "over50": 0
-            },
-            "pan": {
-              "msP95": 12.4,
-              "msMax": 20.8,
-              "over50": 0
-            },
-            "drag": {
-              "msP95": 4.3,
-              "msMax": 12.4,
-              "over50": 0
-            },
-            "cabinet": {
-              "msP95": 4.3,
-              "msMax": 8.4,
-              "over50": 0
-            }
-          },
-          "longTasks": [],
-          "firstApiMs": 9
-        },
-        {
-          "profile": "android-emulated",
-          "firstMs": 198,
-          "reentryMs": 85,
-          "afterExitRequests": 0,
-          "overflow": false,
-          "frames": {
-            "idle": {
-              "msP95": 4.3,
-              "msMax": 4.3,
-              "over50": 0
-            },
-            "pan": {
-              "msP95": 8.4,
-              "msMax": 20.8,
-              "over50": 0
-            },
-            "drag": {
-              "msP95": 4.3,
-              "msMax": 8.4,
-              "over50": 0
-            },
-            "cabinet": {
-              "msP95": 4.3,
-              "msMax": 4.4,
-              "over50": 0
-            }
-          },
-          "longTasks": [],
-          "firstApiMs": 6
-        },
-        {
-          "profile": "iphone-webkit-emulated",
-          "firstMs": 537,
-          "reentryMs": 208,
-          "afterExitRequests": 0,
-          "overflow": false,
-          "frames": {
-            "idle": {
-              "msP95": 30,
-              "msMax": 30,
-              "over50": 0
-            },
-            "pan": {
-              "msP95": 30,
-              "msMax": 31,
-              "over50": 0
-            },
-            "drag": {
-              "msP95": 31,
-              "msMax": 32,
-              "over50": 0
-            },
-            "cabinet": {
-              "msP95": 29,
-              "msMax": 37,
-              "over50": 0
-            }
-          },
-          "longTasks": [],
-          "firstApiMs": 3
-        },
-        {
-          "profile": "onestore-h5-emulated",
-          "firstMs": 312,
-          "reentryMs": 68,
-          "afterExitRequests": 0,
-          "overflow": false,
-          "frames": {
-            "idle": {
-              "msP95": 4.2,
-              "msMax": 8.2,
-              "over50": 0
-            },
-            "pan": {
-              "msP95": 8.4,
-              "msMax": 16.7,
-              "over50": 0
-            },
-            "drag": {
-              "msP95": 4.3,
-              "msMax": 8.4,
-              "over50": 0
-            },
-            "cabinet": {
-              "msP95": 4.3,
-              "msMax": 8.3,
-              "over50": 0
-            }
-          },
-          "longTasks": [],
-          "firstApiMs": 9
-        },
-        {
-          "profile": "Windows Electron offscreen",
-          "coldLobbyMs": 2461,
-          "firstMs": 176,
-          "reentryMs": 70,
-          "frames": {
-            "pan": {
-              "msP95": 16.8,
-              "msMax": 16.8,
-              "over50": 0
-            }
-          },
-          "afterExitRequests": [
-            0,
-            0
-          ],
-          "afterExitObservers": [
-            0,
-            0
-          ],
-          "errors": []
-        }
-      ]
-    },
-    "after": {
       "errors": [
         {
           "profile": "iphone-webkit-emulated",
@@ -678,6 +519,174 @@
           "frames": {
             "pan": {
               "msP95": 16.7,
+              "msMax": 16.8,
+              "over50": 0
+            }
+          },
+          "afterExitRequests": [
+            0,
+            0
+          ],
+          "afterExitObservers": [
+            0,
+            0
+          ],
+          "errors": []
+        }
+      ]
+    },
+    "after": {
+      "errors": [
+        {
+          "profile": "iphone-webkit-emulated",
+          "variant": "after",
+          "error": "ResizeObserver loop completed with undelivered notifications."
+        },
+        {
+          "profile": "iphone-webkit-emulated",
+          "variant": "after",
+          "error": "ResizeObserver loop completed with undelivered notifications."
+        }
+      ],
+      "missingAssets": 0,
+      "profiles": [
+        {
+          "profile": "pc",
+          "firstMs": 381,
+          "reentryMs": 59,
+          "afterExitRequests": 0,
+          "overflow": false,
+          "frames": {
+            "idle": {
+              "msP95": 4.2,
+              "msMax": 4.3,
+              "over50": 0
+            },
+            "pan": {
+              "msP95": 16.6,
+              "msMax": 20.9,
+              "over50": 0
+            },
+            "drag": {
+              "msP95": 8.2,
+              "msMax": 12.6,
+              "over50": 0
+            },
+            "cabinet": {
+              "msP95": 4.3,
+              "msMax": 12.5,
+              "over50": 0
+            }
+          },
+          "longTasks": [],
+          "firstApiMs": 16
+        },
+        {
+          "profile": "android-emulated",
+          "firstMs": 315,
+          "reentryMs": 62,
+          "afterExitRequests": 0,
+          "overflow": false,
+          "frames": {
+            "idle": {
+              "msP95": 4.3,
+              "msMax": 16.7,
+              "over50": 0
+            },
+            "pan": {
+              "msP95": 12.5,
+              "msMax": 25.1,
+              "over50": 0
+            },
+            "drag": {
+              "msP95": 4.5,
+              "msMax": 12.5,
+              "over50": 0
+            },
+            "cabinet": {
+              "msP95": 4.3,
+              "msMax": 12.5,
+              "over50": 0
+            }
+          },
+          "longTasks": [],
+          "firstApiMs": 8
+        },
+        {
+          "profile": "iphone-webkit-emulated",
+          "firstMs": 373,
+          "reentryMs": 225,
+          "afterExitRequests": 0,
+          "overflow": false,
+          "frames": {
+            "idle": {
+              "msP95": 30,
+              "msMax": 31,
+              "over50": 0
+            },
+            "pan": {
+              "msP95": 31,
+              "msMax": 34,
+              "over50": 0
+            },
+            "drag": {
+              "msP95": 30,
+              "msMax": 32,
+              "over50": 0
+            },
+            "cabinet": {
+              "msP95": 30,
+              "msMax": 48,
+              "over50": 0
+            }
+          },
+          "longTasks": [],
+          "firstApiMs": 4
+        },
+        {
+          "profile": "onestore-h5-emulated",
+          "firstMs": 269,
+          "reentryMs": 91,
+          "afterExitRequests": 0,
+          "overflow": false,
+          "frames": {
+            "idle": {
+              "msP95": 4.3,
+              "msMax": 24.9,
+              "over50": 0
+            },
+            "pan": {
+              "msP95": 12.5,
+              "msMax": 33.4,
+              "over50": 0
+            },
+            "drag": {
+              "msP95": 4.3,
+              "msMax": 16.7,
+              "over50": 0
+            },
+            "cabinet": {
+              "msP95": 4.3,
+              "msMax": 16.7,
+              "over50": 0
+            }
+          },
+          "longTasks": [
+            {
+              "startTime": 3147.60000000149,
+              "duration": 75
+            }
+          ],
+          "firstApiMs": 51
+        },
+        {
+          "profile": "Windows Electron offscreen",
+          "coldLobbyMs": 4054,
+          "firstMs": 273,
+          "reentryMs": 79,
+          "frames": {
+            "pan": {
+              "msP95": 16.8,
               "msMax": 16.8,
               "over50": 0
             }
