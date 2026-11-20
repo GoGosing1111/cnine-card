@@ -14,7 +14,7 @@ export function rankedMatchPower(formationPower,mercenaryPower=0){
  return Math.max(0,total-mercenary);
 }
 
-// All searches, including a rematch fallback, share these score and power caps.
+// These bands also govern rematches outside the shared Challenger pool.
 export function rankedMatchBands(settings,lowerScore){
  const score=Number(settings.matchSeasonRange??300),power=Number(settings.matchCardRange??15);
  const bands=[[0,0],[100,10],[250,20]].map(([extraScore,extraPower])=>({
@@ -41,6 +41,7 @@ export function rankedMatchScoreBounds(score,settings){
 
 export function rankedMatchBand(row,settings){
  if(!Number.isFinite(row.scoreDiff)||row.scoreDiff<0||!Number.isFinite(row.powerDiff)||row.powerDiff<0)return -1;
+ if(row.challengerPair===true)return 0;
  return rankedMatchBands(settings,row.lowerScore).findIndex(band=>rankedCandidateAllowed(row,band));
 }
 
@@ -63,15 +64,19 @@ export function selectRankedCandidate(rows,settings,{recentOpponentIds=[],random
    if(index>oldestIndex){oldestIndex=index;oldest={...row,matchStage};}
    continue;
   }
-  if(matchStage>nearestFreshStage)continue;
-  if(matchStage<nearestFreshStage){nearestFreshStage=matchStage;pool.length=0;}
+  const priority=row.challengerPair===true?-1:matchStage;
+  if(priority>nearestFreshStage)continue;
+  if(priority<nearestFreshStage){nearestFreshStage=priority;pool.length=0;}
   pool.push({...row,matchStage});
  }
  if(!pool.length)return oldest;
  if(pool.length===1)return pool[0];
  const scoreScale=Math.max(1,Number(settings.matchSeasonRange??300)*0.8),powerScale=Math.max(1,Number(settings.matchCardRange??15));
  // Relative weights keep a valid draw even with a zero-point CMS base range.
- const costs=pool.map(row=>row.scoreDiff/scoreScale+row.powerDiff/powerScale+2*Math.log1p(counts.get(Number(row.id))||0));
+ const costs=pool.map(row=>{
+  const distance=row.challengerPair===true?0:row.scoreDiff/scoreScale+row.powerDiff/powerScale;
+  return distance+2*Math.log1p(counts.get(Number(row.id))||0);
+ });
  const minimum=Math.min(...costs);
  const weights=costs.map(cost=>Math.exp(minimum-cost));
  const draw=random();if(!Number.isFinite(draw)||draw<0||draw>=1)throw new RangeError('Invalid ranked matchmaking random value');

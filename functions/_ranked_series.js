@@ -69,9 +69,11 @@ export async function saveRankedRoster(env,user,body,rules=RANKED_SERIES_RULES){
   return {...rankedRosterPublic(current),codes,revision:current.revision+1,ready:true};
 }
 // The payload is bounded to one per attacker and committed atomically with its ticket.
-export async function saveRankedSeriesTicket(env,{insert,ticket,attacker,defender,rosters,scoringTier},rules=RANKED_SERIES_RULES){
+export async function saveRankedSeriesTicket(env,{insert,ticket,attacker,defender,rosters,scoringTier,catchUpWinPoints,challengerPair},rules=RANKED_SERIES_RULES){
   const a=rosters.get(Number(attacker)),b=rosters.get(Number(defender));if(!a?.ready||!b?.ready||a.version!==rules.version||b.version!==rules.version)throw fail(`서로 다른 용병 ${rules.rosterSize}종을 편성하고 저장하세요.`);
   const payload={version:rules.version,token:ticket.token,attacker:Number(attacker),defender:Number(defender),scoringTier,A:a.codes,B:b.codes},guard=crypto.randomUUID();
+  if(catchUpWinPoints>0)payload.catchUpWinPoints=catchUpWinPoints;
+  if(challengerPair===true)payload.challengerPair=true;
   const rows=await env.DB.batch([
     ...(env.DB.dialect==='postgres'?[env.DB.prepare('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR SHARE').bind(rosterKey(attacker,rules),rosterKey(defender,rules))]:[]),
     jointGuard(env.DB,guard,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[rosterKey(attacker,rules),a.raw,rosterKey(defender,rules),b.raw]),

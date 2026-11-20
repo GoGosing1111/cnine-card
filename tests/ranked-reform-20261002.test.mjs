@@ -73,6 +73,15 @@ test('match limits are hard, symmetric, and independent of available candidate c
  assert.equal(rankedCandidateAllowed({powerDiff:0,scoreDiff:251},cfg),false);
 });
 
+test('the catch-up quote affects only an otherwise zero-point ordinary win and respects promotion games',()=>{
+ const profile={season_score:3297,highest_score:3297},tier='challenger';
+ assert.deepEqual(rankedMatchForecast(profile,2505,[],'s',tier,12),{promotion:null,expectedWin:12,expectedLoss:48});
+ assert.equal(rankedLadderGame(true,3296,2505,null,tier,12).scoreAfter,3297,'a normal one-point win is not topped up');
+ assert.equal(rankedLadderGame(true,3297,2505,null,tier).scoreAfter,3297);
+ const run={status:'ACTIVE',wins:0,losses:0,targetScore:3298,retryScore:3274};
+ const result=rankedLadderGame(true,3297,2505,run,tier,12);assert.equal(result.scoreAfter,3297);assert.equal(result.promotion.wins,1);
+});
+
 const tiers=[{id:'bronze',name:'브론즈',min:250},{id:'silver',name:'실버',min:500},{id:'gold',name:'골드',min:750}];
 const seasonKey='시즌 19|2026-10-01 15:00:00|2026-10-06 15:00:00';
 function game(profile,won,season=seasonKey,tierId=profile.season_score>=500?'silver':'bronze'){

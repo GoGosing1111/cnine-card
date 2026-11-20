@@ -19,6 +19,15 @@ test('equally suitable opponents are all selectable without a fixed ID preferenc
  for(const count of counts.values())assert(count>=99&&count<=101);
 });
 
+test('all fresh Challengers have equal rank-independent odds and recent opponents rotate before repeats',()=>{
+ const rows=Array.from({length:19},(_,i)=>({...candidate(i+1,i*850,i*95),challengerPair:true}));
+ const draws=distribution([...rows,candidate(99)]);
+ assert.equal(draws.size,19);for(const row of rows)assert(draws.get(row.id)>=104&&draws.get(row.id)<=106);
+ const chosen=selectRankedCandidate(rows,settings,{recentOpponentIds:[1,2,3,4,5,6,7,8],random:()=>0});assert.equal(chosen.id,9);
+ const fresh=selectRankedCandidate([rows[0],candidate(99)],settings,{recentOpponentIds:[1]});assert.equal(fresh.id,99);
+ assert.equal(rankedMatchBand({...rows[0],powerDiff:Infinity},settings),-1);
+});
+
 test('recent eight are avoided before weighting; recent twenty penalize repeated meetings',()=>{
  const rows=Array.from({length:11},(_,i)=>candidate(i+1));
  const counts=distribution(rows,{recentOpponentIds:[1,2,3,4,5,6,7,8]});

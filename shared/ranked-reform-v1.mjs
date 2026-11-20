@@ -3,6 +3,7 @@ export const RANKED_REFORM_VERSION='20261002';
 export const rankedUtcMs=value=>Date.parse(/[zZ]|[+-]\d\d:\d\d$/.test(String(value||''))?value:String(value||'').replace(' ','T')+'Z');
 export const rankedSqlUtc=ms=>new Date(ms).toISOString().replace('T',' ').slice(0,19);
 
+export const RANKED_CATCH_UP_WIN_POINTS=12;
 const highTierPoints=Object.freeze({win:24,loss:24});
 const climbPoints=new Map([
  ['bronze',{win:30,loss:14}],['silver',{win:28,loss:16}],
@@ -45,8 +46,12 @@ export function rankedPromotionStatus(profile,tiers,seasonKey,tierId){
  return {...progress,status:'CLIMBING',wins:0,losses:0};
 }
 
-export function rankedLadderGame(isWin,score,opponentScore,progress,tierId){
+export function rankedLadderGame(isWin,score,opponentScore,progress,tierId,catchUpWinPoints=0){
  const base=rankedScoreAdjustment(isWin,score,opponentScore,tierId);
+ if(isWin&&base.change===0&&Number.isSafeInteger(catchUpWinPoints)&&catchUpWinPoints>0&&progress?.status!=='ACTIVE'){
+  base.change=catchUpWinPoints;
+  base.label='상위권 추격 승점';
+ }
  let scoreAfter=score+(isWin?base.change:-base.change),promotion=null;
  if(progress?.status==='ACTIVE'){
   const wins=progress.wins+Number(isWin),losses=progress.losses+Number(!isWin);
@@ -61,9 +66,9 @@ export function rankedLadderGame(isWin,score,opponentScore,progress,tierId){
  return {scoreAfter,adjustment,promotion};
 }
 
-export function rankedMatchForecast(profile,opponentScore,tiers,seasonKey,tierId){
+export function rankedMatchForecast(profile,opponentScore,tiers,seasonKey,tierId,catchUpWinPoints=0){
  const score=Number(profile.season_score),promotion=rankedPromotionStatus(profile,tiers,seasonKey,tierId);
- const win=rankedLadderGame(true,score,opponentScore,promotion,tierId),loss=rankedLadderGame(false,score,opponentScore,promotion,tierId);
+ const win=rankedLadderGame(true,score,opponentScore,promotion,tierId,catchUpWinPoints),loss=rankedLadderGame(false,score,opponentScore,promotion,tierId);
  return {promotion,expectedWin:win.scoreAfter-score,expectedLoss:score-loss.scoreAfter};
 }
 
