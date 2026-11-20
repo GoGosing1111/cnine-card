@@ -28,7 +28,7 @@ export async function rankedFightReceipt(env,userId,requestId,matchToken){
 
 // Energy, ticket, attacker score, history, coins, audit and receipt commit together.
 // Defense neither changes score nor tie-breaking win/loss counts.
-export async function commitRankedFight(env,{user,settings,ticket,requestId,energy,beforeScore,profile,writes,response,now=Date.now()}){
+export async function commitRankedFight(env,{user,settings,ticket,requestId,energy,beforeScore,profile,keepPromotionRetry=false,writes,response,now=Date.now()}){
  const q=p(env),token=crypto.randomUUID(),field=name=>env.DB.dialect==='postgres'?`value::jsonb->>'${name}'`:`CAST(json_extract(value,'$.${name}') AS TEXT)`;
  const truth=env.DB.dialect==='postgres'?'true':'1';
  const predicate=`EXISTS(SELECT 1 FROM app_meta WHERE key='pvp_settings_v1' AND COALESCE(${field('enabled')},?)=? AND ${field('seasonName')}=? AND ${field('startsAt')}=? AND ${field('endsAt')}=?)
@@ -45,11 +45,11 @@ export async function commitRankedFight(env,{user,settings,ticket,requestId,ener
   // the personal best under the profile lock, including a missing initial run.
   extra+=" AND EXISTS(SELECT 1 FROM pvp_profiles WHERE user_id=? AND highest_score=?) AND COALESCE((SELECT value FROM app_meta WHERE key=?),'')=?";
   args.push(user.id,Number(profile.highest_score),key,previous??'');
-  if(progress?.status==='STARTED'||progress?.status==='ACTIVE'){
-   const {targetId,targetScore,retryScore,wins,losses}=progress;
-   const next=JSON.stringify({seasonKey:ticket.season_key,targetId,targetScore,retryScore,wins,losses});
+  if(progress?.status==='STARTED'||progress?.status==='ACTIVE'||(progress?.status==='FAILED'&&Number.isSafeInteger(progress.seriesScore))){
+   const {targetId,targetScore,retryScore,wins,losses,seriesScore}=progress;
+   const next=JSON.stringify({seasonKey:ticket.season_key,targetId,targetScore,retryScore,wins,losses,seriesScore});
    promotionWrites.push(q('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',key,next));
-  }else if(previous!==null){
+  }else if(previous!==null&&!keepPromotionRetry){
    promotionWrites.push(q('DELETE FROM app_meta WHERE key=?',key));
   }
  }

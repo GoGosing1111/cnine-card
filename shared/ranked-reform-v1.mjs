@@ -4,6 +4,7 @@ export const rankedUtcMs=value=>Date.parse(/[zZ]|[+-]\d\d:\d\d$/.test(String(val
 export const rankedSqlUtc=ms=>new Date(ms).toISOString().replace('T',' ').slice(0,19);
 
 export const RANKED_CATCH_UP_WIN_POINTS=12;
+export const RANKED_CHALLENGER_WIN_FLOOR=8;
 const highTierPoints=Object.freeze({win:24,loss:24});
 const climbPoints=new Map([
  ['bronze',{win:30,loss:14}],['silver',{win:28,loss:16}],
@@ -27,15 +28,22 @@ export function rankedScoreAdjustment(isWin,myScore,opponentScore,tierId){
 export function rankedPromotionStatus(profile,tiers,seasonKey,tierId){
  const score=Number(profile.season_score),best=Math.max(score,Number(profile.highest_score??score));
  const ladder=(tiers||[]).filter(tier=>!tier.rankingBased&&tier.id!=='challenger');
- const index=ladder.findIndex((tier,i)=>i>0&&tier.min>best);
+ let run;
+ if(profile.promotion_state)try{run=JSON.parse(profile.promotion_state);}catch{/* Discard obsolete progress. */}
+ const currentRun=run!=null&&run.seasonKey===seasonKey;
+ // Points earned in a Challenger duel can take the displayed score above the
+ // gate before the best-of-five is complete. Keep its original target on retry.
+ const trackedIndex=currentRun&&Number.isSafeInteger(run.seriesScore)&&
+   (run.losses===3?score<run.targetScore:run.seriesScore===score)
+   ?ladder.findIndex((tier,i)=>i>0&&tier.id===run.targetId&&Number(tier.min)===run.targetScore):-1;
+ const index=trackedIndex>0?trackedIndex:ladder.findIndex((tier,i)=>i>0&&tier.min>best);
  if(index<0)return null;
  const target=ladder[index],gate=Number(target.min)-1;
  const floor=Number(ladder[index-1].min),retryScore=Math.max(floor,gate-rankedEqualPoints(tierId).loss);
  const progress={targetId:target.id,targetName:target.name,targetScore:Number(target.min),retryScore};
- if(score===gate&&profile.promotion_state){
-  let run;
-  try{run=JSON.parse(profile.promotion_state);}catch{/* Discard obsolete progress on the next settlement. */}
-  if(run?.seasonKey===seasonKey&&run?.targetId===target.id&&run.targetScore===progress.targetScore&&
+ if(trackedIndex>0)progress.seriesScore=score;
+ if(currentRun&&(score===gate||trackedIndex>0)){
+  if(run.targetId===target.id&&run.targetScore===progress.targetScore&&
      [run.wins,run.losses].every(n=>Number.isInteger(n)&&n>=0&&n<3)){
    // The retry score is quoted when the run opens, including for a player
    // who enters or leaves the top twenty while the run is in progress.
@@ -46,29 +54,40 @@ export function rankedPromotionStatus(profile,tiers,seasonKey,tierId){
  return {...progress,status:'CLIMBING',wins:0,losses:0};
 }
 
-export function rankedLadderGame(isWin,score,opponentScore,progress,tierId,catchUpWinPoints=0){
+export function rankedLadderGame(isWin,score,opponentScore,progress,tierId,catchUpWinPoints=0,challengerWinFloor=0){
  const base=rankedScoreAdjustment(isWin,score,opponentScore,tierId);
  if(isWin&&base.change===0&&Number.isSafeInteger(catchUpWinPoints)&&catchUpWinPoints>0&&progress?.status!=='ACTIVE'){
   base.change=catchUpWinPoints;
   base.label='상위권 추격 승점';
+ }
+ const minimum=isWin&&tierId==='challenger'&&Number.isSafeInteger(challengerWinFloor)?Math.max(0,challengerWinFloor):0;
+ if(base.change<minimum){
+  base.change=minimum;
+  base.label='챌린저 최소 승점';
  }
  let scoreAfter=score+(isWin?base.change:-base.change),promotion=null;
  if(progress?.status==='ACTIVE'){
   const wins=progress.wins+Number(isWin),losses=progress.losses+Number(!isWin);
   const status=wins===3?'PROMOTED':losses===3?'FAILED':'ACTIVE';
   promotion={...progress,status,wins,losses};
-  scoreAfter=status==='PROMOTED'?progress.targetScore:status==='FAILED'?progress.retryScore:score;
+  scoreAfter=status==='PROMOTED'?Math.max(progress.targetScore,score+1):status==='FAILED'?progress.retryScore:score;
  }else if(isWin&&progress&&scoreAfter>=progress.targetScore){
   promotion={...progress,status:'STARTED'};
   scoreAfter=progress.targetScore-1;
+ }
+ if(promotion){
+  if(minimum>0)scoreAfter=Math.max(scoreAfter,score+minimum);
+  if(progress.seriesScore!==undefined||(minimum>0&&scoreAfter>=progress.targetScore)){
+   promotion.seriesScore=scoreAfter;
+  }
  }
  const adjustment=promotion?{...base,change:Math.abs(scoreAfter-score),label:'승급전'}:base;
  return {scoreAfter,adjustment,promotion};
 }
 
-export function rankedMatchForecast(profile,opponentScore,tiers,seasonKey,tierId,catchUpWinPoints=0){
+export function rankedMatchForecast(profile,opponentScore,tiers,seasonKey,tierId,catchUpWinPoints=0,challengerWinFloor=0){
  const score=Number(profile.season_score),promotion=rankedPromotionStatus(profile,tiers,seasonKey,tierId);
- const win=rankedLadderGame(true,score,opponentScore,promotion,tierId,catchUpWinPoints),loss=rankedLadderGame(false,score,opponentScore,promotion,tierId);
+ const win=rankedLadderGame(true,score,opponentScore,promotion,tierId,catchUpWinPoints,challengerWinFloor),loss=rankedLadderGame(false,score,opponentScore,promotion,tierId);
  return {promotion,expectedWin:win.scoreAfter-score,expectedLoss:score-loss.scoreAfter};
 }
 

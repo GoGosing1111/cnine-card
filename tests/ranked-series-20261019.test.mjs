@@ -19,7 +19,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: the 
  const token='catchup-proof',rosters=await readRankedRosters(env,[1,2],rules);
  const options={ticket:{token},attacker:1,defender:2,rosters,scoringTier:'challenger',catchUpWinPoints:12,challengerPair:true,
   insert:q('INSERT OR IGNORE INTO pvp_ranked_match_tickets_v1671 VALUES(?,?,?,NULL,?)',token,1,2,'2039-01-01 00:00:00')};
- const saved=await saveRankedSeriesTicket(env,options,rules);assert.equal(saved.catchUpWinPoints,12);assert.equal(saved.challengerPair,true);
+ const saved=await saveRankedSeriesTicket(env,options,rules);assert.equal(saved.catchUpWinPoints,12);assert.equal(saved.challengerPair,true);assert.equal(saved.challengerWinFloor,8);
  const reopened=await readRankedSeriesTicket(env,token,1,2,rules);assert.deepEqual(reopened,saved);
  assert.equal(await readRankedSeriesTicket(env,token,2,1,rules),null);
 });

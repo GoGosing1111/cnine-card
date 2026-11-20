@@ -8,7 +8,7 @@ import {createPvpTimings} from '../functions/_pvp_performance.js';
 
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const fight=source.slice(source.indexOf("if(path==='pvp/fight'&&request.method==='POST')"),source.indexOf("if(path==='pvp/history')"));
-function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=false,mercenaryPowers={},invalidRoster=false,missingSeries=false,outcomes=null,myScore=1000,theirScore=1000,scoringTier='bronze',catchUpWinPoints}={}){
+function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=false,mercenaryPowers={},invalidRoster=false,missingSeries=false,outcomes=null,myScore=1000,theirScore=1000,scoringTier='bronze',catchUpWinPoints,challengerWinFloor}={}){
   const users={1:{id:1,nickname:'a',role:'USER',coin:300},2:{id:2,nickname:'b',role:'USER',coin:900}};
   const profiles={1:{season_score:myScore,highest_score:myScore,wins:0,losses:0},2:{season_score:theirScore,highest_score:theirScore,wins:0,losses:0}};
   let energy=5,claimed=false,receipt=null;const effects=[],queries=[],combatInputs=[],settings={enabled:true,winCoin:50,loseCoin:25};
@@ -27,9 +27,9 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
   const reward=name=>async()=>{effects.push(name);return null;};
   const selectedCodes=['V-001','V-002','V-003','V-004','V-005','V-006'];
   const deps={rankedPromotionStatus,rankedLadderGame,seasonBonus,seasonAwardStatements,simulateRankedSeries,rankedSeriesReceipt,rankedOwnershipGuard:()=>[],
-    readRankedSeriesTicket:async()=>missingSeries?null:{scoringTier,catchUpWinPoints,A:selectedCodes,B:[...selectedCodes].reverse()},
+    readRankedSeriesTicket:async()=>missingSeries?null:{scoringTier,catchUpWinPoints,challengerWinFloor,A:selectedCodes,B:[...selectedCodes].reverse()},
     rankedSelectedMercenaries:async(_,selections)=>{if(invalidRoster)throw Object.assign(Error('ownership changed'),{status:409});return new Map([...selections].map(([id,codes])=>[id,codes.map(code=>({code,rank:Number(code.slice(2))%2?'SSS':'SS',basePower:mercenaryPowers[id]||100}))]));},
-    ensureRankedPvpFoundation:async()=>{},rankedFightReceipt:async()=>receipt?{...receipt,replayed:true}:null,utcMs:()=>0,authenticate:async()=>users[1],readBody:async()=>({requestId:'ranked-performance-request',matchToken:'ticket',catchUpWinPoints:99}),
+    ensureRankedPvpFoundation:async()=>{},rankedFightReceipt:async()=>receipt?{...receipt,replayed:true}:null,utcMs:()=>0,authenticate:async()=>users[1],readBody:async()=>({requestId:'ranked-performance-request',matchToken:'ticket',catchUpWinPoints:99,challengerWinFloor:99}),
     advancePvpSeasonLifecycle:async()=>({settings,settling:false}),burningEventSettings:async()=>({}),applyBurningPvpSettings:s=>s,isAdminRole:()=>false,
     claimRankedMatchTicket:async()=>{if(claimed||invalidTicket)throw Object.assign(Error('invalid or used'),{status:409});claimed=true;return {token:'ticket',defender_id:2,attacker_score:stale?myScore-1:myScore,defender_score:theirScore,attacker_power:500,defender_power:500};},
     ensurePvpProfile:async(_,user)=>({...profiles[user.id]}),
@@ -73,8 +73,8 @@ test('stale scores and incomplete decks still stop before energy, scoring and re
 });
 
 test('ranked fight and replay use the server ticket quote on wins, leaving losses and defender scores intact',async()=>{
- for(const [win,catchUpWinPoints,expected] of [[true,12,12],[false,12,-48],[true,undefined,0]]){
-  const f=fixture({win,myScore:3297,theirScore:2505,scoringTier:'challenger',catchUpWinPoints});
+ for(const [win,catchUpWinPoints,challengerWinFloor,expected] of [[true,12,8,12],[true,0,8,8],[false,0,8,-48],[true,12,undefined,12],[false,12,undefined,-48],[true,undefined,undefined,0]]){
+  const f=fixture({win,myScore:3297,theirScore:2505,scoringTier:'challenger',catchUpWinPoints,challengerWinFloor});
   const result=await f.call();assert.equal(result.status,200);assert.equal(result.data.scoreChange,expected);
   assert.equal(f.profiles[1].season_score,3297+expected);assert.equal(f.profiles[2].season_score,2505);
   const replay=await f.call();assert.equal(replay.data.replayed,true);assert.equal(replay.data.scoreChange,expected);

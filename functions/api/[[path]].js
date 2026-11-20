@@ -1249,7 +1249,7 @@ async function createRankedMatchTicket(env,user,settings){
     if(!seriesTicket?.scoringTier){await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND used_at IS NULL').bind(existing.token).run();return createRankedMatchTicket(env,user,settings)}
     const scoreDiff=Math.abs(Number(existing.defender_score)-Number(existing.attacker_score)),powerDiff=rankedPowerDifference(existing.attacker_power,existing.defender_power);
     if(rankedMatchBand({scoreDiff,powerDiff,lowerScore:Math.min(Number(existing.attacker_score),Number(existing.defender_score)),challengerPair:seriesTicket.challengerPair},settings)<0){await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND used_at IS NULL').bind(existing.token).run();return createRankedMatchTicket(env,user,settings)}
-    const {promotion,expectedWin,expectedLoss}=rankedMatchForecast({...existing,season_score:existing.attacker_score},existing.defender_score,settings.tiers,seasonKey,seriesTicket.scoringTier,seriesTicket.catchUpWinPoints);
+    const {promotion,expectedWin,expectedLoss}=rankedMatchForecast({...existing,season_score:existing.attacker_score},existing.defender_score,settings.tiers,seasonKey,seriesTicket.scoringTier,seriesTicket.catchUpWinPoints,seriesTicket.challengerWinFloor);
     return {token:existing.token,expiresAt:existing.expires_at,reused:true,promotion,series:await rankedTicketPreview(env,seriesTicket),opponent:{id:Number(existing.defender_id),nickname:existing.nickname,season_score:Number(existing.defender_score),wins:Number(existing.wins||0),losses:Number(existing.losses||0),title:titleMap[String(existing.defender_id)]||null,tier:resolvePvpTier(Number(existing.defender_score),settings,await pvpChallengerRank(env,existing.defender_id)),expectedWin,expectedLoss,balance:{tierDistance:Math.abs(pvpTierIndex(existing.defender_score,settings.tiers)-pvpTierIndex(existing.attacker_score,settings.tiers)),scoreDifference:scoreDiff,powerDifferencePercent:Math.round(powerDiff*10)/10}}};
   }
   const [mine,battle,standings]=await Promise.all([ensurePvpProfile(env,user,settings,true),battleSettings(env),pvpChallengerStandings(env,{fresh:true})]),myFormation=await pvpFormationPower(env,user.id,battle);
@@ -1334,7 +1334,7 @@ async function createRankedMatchTicket(env,user,settings){
   const seriesTicket=await saveRankedSeriesTicket(env,{insert,ticket:{token},attacker:user.id,defender:selected.id,rosters:seriesRosters,scoringTier,catchUpWinPoints,challengerPair:selected.challengerPair});
   if(!seriesTicket)return createRankedMatchTicket(env,user,settings);
   const titleMap=await publicEquippedTitleMap(env,[selected.id]);
-  const {promotion,expectedWin,expectedLoss}=rankedMatchForecast(mine,selected.season_score,settings.tiers,seasonKey,seriesTicket.scoringTier,seriesTicket.catchUpWinPoints);
+  const {promotion,expectedWin,expectedLoss}=rankedMatchForecast(mine,selected.season_score,settings.tiers,seasonKey,seriesTicket.scoringTier,seriesTicket.catchUpWinPoints,seriesTicket.challengerWinFloor);
   return {token,expiresAt,promotion,series:await rankedTicketPreview(env,seriesTicket),opponent:{id:Number(selected.id),nickname:selected.nickname,season_score:Number(selected.season_score),wins:Number(selected.wins||0),losses:Number(selected.losses||0),title:titleMap[String(selected.id)]||null,tier:resolvePvpTier(Number(selected.season_score),settings,ranks.get(Number(selected.id))||0),expectedWin,expectedLoss,balance:{tierDistance:selected.tierDistance,scoreDifference:selected.scoreDiff,powerDifferencePercent:Math.round(selected.powerDiff*10)/10}}};
 }
 async function claimRankedMatchTicket(env,userId,token,settings){
@@ -7204,7 +7204,7 @@ async function handleRequest(context){
       const aPower=engineState.active?Number(battleV2.teams.A.summary.power||legacyAPower):legacyAPower,dPower=engineState.active?Number(battleV2.teams.B.summary.power||legacyDPower):legacyDPower;
       const winnerId=attackerWin?user.id:defenderId,aBefore=Number(attacker.season_score),dBefore=Number(defender.season_score);
       const progress=rankedPromotionStatus(attacker,settings.tiers,rankedTicket.season_key,seriesTicket.scoringTier);
-      const {scoreAfter:aAfter,adjustment:aAdj,promotion}=rankedLadderGame(attackerWin,aBefore,dBefore,progress,seriesTicket.scoringTier,seriesTicket.catchUpWinPoints);
+      const {scoreAfter:aAfter,adjustment:aAdj,promotion}=rankedLadderGame(attackerWin,aBefore,dBefore,progress,seriesTicket.scoringTier,seriesTicket.catchUpWinPoints,seriesTicket.challengerWinFloor);
       if(promotion)rankedSeries.promotion=promotion;
       const dAdj={change:0,label:'방어전 점수 미반영'},change=aAdj.change,dAfter=dBefore,aCard=0,dCard=0;
       const energyPlan=await consumePvpEnergy(env,user,settings);let pvpEnergy=energyPlan.state;
@@ -7230,7 +7230,7 @@ async function handleRequest(context){
       ));
       if(attackerCoinReward>0)matchWrites.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PVP_ATTACK_BATTLE' FROM users WHERE id=?").bind(attackerCoinReward,user.id));
       try{
-        const committed=await commitRankedFight(env,{user,settings,ticket:rankedTicket,requestId,energy:energyPlan,beforeScore:aBefore,profile:attacker,writes:matchWrites,response:{rankedSeries:rankedSeriesReceipt(rankedSeries),result:attackerWin?'WIN':'LOSE',scoreChange:aAfter-aBefore,scoreAfter:aAfter,coinReward:attackerCoinReward,attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,rewardRecipient:'ATTACKER'}});
+        const committed=await commitRankedFight(env,{user,settings,ticket:rankedTicket,requestId,energy:energyPlan,beforeScore:aBefore,profile:attacker,keepPromotionRetry:progress?.status==='CLIMBING'&&Number.isSafeInteger(progress.seriesScore),writes:matchWrites,response:{rankedSeries:rankedSeriesReceipt(rankedSeries),result:attackerWin?'WIN':'LOSE',scoreChange:aAfter-aBefore,scoreAfter:aAfter,coinReward:attackerCoinReward,attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,rewardRecipient:'ATTACKER'}});
         pvpEnergy=committed.energy;
       }catch(error){
         const receipt=await rankedFightReceipt(env,user.id,requestId,String(body.matchToken||''));if(receipt)return json(receipt);

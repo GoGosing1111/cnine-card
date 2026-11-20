@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {RANKED_CATCH_UP_WIN_POINTS,rankedPowerDifference,rankedMatchForecast,rankedScoreAdjustment,rankedPromotionStatus} from '../shared/ranked-reform-v1.mjs';
+import {RANKED_CATCH_UP_WIN_POINTS,RANKED_CHALLENGER_WIN_FLOOR,rankedPowerDifference,rankedMatchForecast,rankedScoreAdjustment,rankedPromotionStatus} from '../shared/ranked-reform-v1.mjs';
 import {rankedRosterPrefix} from '../functions/_ranked_series.js';
 import {rankedPromotionKey} from '../functions/_ranked_reform.js';
 import {pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE} from '../functions/_pvp_deck_policy.js';
@@ -46,7 +46,7 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
   pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE,pvpDeckSnapshot:async(_,id)=>blockedDecks.has(Number(id))?[]:['FUR','FUR','ZENITH','SUPERSTAR','ICON'].map((rarity,i)=>({id:String(i),rarity})),
   readRankedCandidateRosters:(_,batch)=>{const ids=batch.map(row=>row.id);rosterChecks.push(ids);return deps.readRankedRosters(_,ids);},
   readRankedRosters:async(_,ids)=>new Map(ids.map(id=>[Number(id),{ready:rows.find(row=>row.id===Number(id))?.rosterReady!==false,codes:rosterCodes}])),
-  saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender,scoringTier,catchUpWinPoints,challengerPair})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,scoringTier,catchUpWinPoints,challengerPair,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
+  saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender,scoringTier,catchUpWinPoints,challengerPair})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,scoringTier,catchUpWinPoints,challengerPair,challengerWinFloor:challengerPair?RANKED_CHALLENGER_WIN_FLOOR:undefined,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
   readRankedSeriesTicket:async(_,token)=>ticketPayloads.get(token)||null,
   rankedTicketPreview:async()=>({opponentOrderHidden:true,attacker:[],opponent:[]}),
   RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,RANKED_MATCH_RECENT_AVOID,rankedMatchPower,rankedMatchScoreBounds,rankedMatchBand,
@@ -88,6 +88,8 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: a ch
  await f.db.prepare('UPDATE pvp_profiles SET season_score=2500 WHERE user_id=3').run();
  const refresh=await f.call();assert.equal(refresh.token,ticket.token);assert.equal(refresh.opponent.expectedWin,12);
  assert.equal(f.queries.filter(q=>q.sql.includes('LIMIT 20')).length,1);
+ delete f.ticketPayloads.get(ticket.token).challengerWinFloor;
+ assert.equal((await f.call()).opponent.expectedWin,12,'previous catch-up quotes still apply');
  delete f.ticketPayloads.get(ticket.token).catchUpWinPoints;
  assert.equal((await f.call()).opponent.expectedWin,0,'legacy tickets retain their original quote');
 });
@@ -95,9 +97,9 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: a ch
 test('a recent scoring peer prevents the floor; a tied leader, excluded leaders and a lower-tier player get no catch-up',async t=>{
  const rows=[{id:2,score:2505,power:110},{id:3,score:3854,power:124}];
  const normal=await fixture(t,{myScore:3357,rows,recent:[3],matchSettings:upperSettings,realStandings:true});normal.setTier('challenger');
- const next=await normal.call();assert.equal(next.opponent.id,2);assert.equal(next.opponent.expectedWin,0);
+ const next=await normal.call();assert.equal(next.opponent.id,2);assert.equal(next.opponent.expectedWin,8);assert.equal(normal.ticketPayloads.get(next.token).catchUpWinPoints,0);
  const lone=await fixture(t,{myScore:3297,matchSettings:upperSettings,realStandings:true,rows:[rows[0],{id:3,score:3950,role:'OWNER'},{id:4,score:3951,status:'SUSPENDED'},{id:5,score:3952,bannedUntil:'2999-01-01'},{id:6,score:3297,saved:false}]});
- assert.equal((await lone.call()).opponent.expectedWin,0);
+ lone.setTier('challenger');const tied=await lone.call();assert.equal(tied.opponent.expectedWin,8);assert.equal(lone.ticketPayloads.get(tied.token).catchUpWinPoints,0);
  const owner=await fixture(t,{myScore:3297,myRole:'OWNER',matchSettings:upperSettings,realStandings:true,rows:[rows[0],{...rows[1],saved:false}]});
  assert.equal((await owner.call()).opponent.expectedWin,0);
  const lower=await fixture(t,{myScore:1250,matchSettings:{...upperSettings,matchSeasonRange:1000},standings:[{id:3,season_score:2500}],rows:[{id:2,score:400,power:100},{id:3,score:2500,saved:false}]});
@@ -118,12 +120,14 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: firs
  const middle=Array.from({length:18},(_,i)=>({id:i+2,score:3000+i,saved:false}));
  const rows=[...middle,{id:20,score:1200,power:700},{id:21,score:1199,power:100}];
  const top=await fixture(t,{postgres,myScore:5000,rows,matchSettings:upperSettings,realStandings:true});
- top.setTier('challenger');const first=await top.call();assert.equal(first.opponent.id,20);assert.equal(first.opponent.expectedWin,0);
+ top.setTier('challenger');const first=await top.call();assert.equal(first.opponent.id,20);assert.equal(first.opponent.expectedWin,8);
  assert.equal(first.opponent.balance.scoreDifference,3800);assert.equal(first.opponent.balance.powerDifferencePercent,600);
- assert.equal(top.ticketPayloads.get(first.token).challengerPair,true);assert.deepEqual(top.batches,[[20]]);
+ assert.equal(top.ticketPayloads.get(first.token).challengerPair,true);assert.equal(top.ticketPayloads.get(first.token).challengerWinFloor,8);assert.deepEqual(top.batches,[[20]]);
  // A third player's score can change the standings without changing either quoted participant.
  await top.db.prepare('UPDATE pvp_profiles SET season_score=1900 WHERE user_id=21').run();
- assert.equal((await top.call()).token,first.token);
+ const reused=await top.call();assert.equal(reused.token,first.token);assert.equal(reused.opponent.expectedWin,8);
+ delete top.ticketPayloads.get(first.token).challengerWinFloor;
+ assert.equal((await top.call()).opponent.expectedWin,0,'a pre-floor Challenger ticket keeps its original quote');
  const reverse=await fixture(t,{postgres,myScore:1200,rows:[...middle,{id:20,score:5000,power:700},{id:21,score:1199,power:100}],matchSettings:upperSettings,realStandings:true});
  reverse.setTier('challenger');const ticket=await reverse.call();assert.equal(ticket.opponent.id,20);assert.equal(ticket.opponent.expectedWin,48);
  const outside=await fixture(t,{postgres,myScore:1198,realStandings:true,matchSettings:upperSettings,rows:[...middle,{id:20,score:5000,power:700},{id:21,score:2000,saved:false}]});

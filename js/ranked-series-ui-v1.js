@@ -85,7 +85,7 @@
         break;
       case 'PROMOTED':
         heading=`${name} 승급 성공 · ${run.wins}승 ${run.losses}패`;
-        detail=`시즌 점수 ${score}점. 이번 시즌에는 이 티어에 다시 오를 때 승급전이 면제됩니다.`;
+        detail=`시즌 점수 ${Number(run.seriesScore??run.targetScore).toLocaleString()}점. 이번 시즌에는 이 티어에 다시 오를 때 승급전이 면제됩니다.`;
         break;
       case 'FAILED':
         heading=`${name} 승급 실패 · ${run.wins}승 ${run.losses}패`;
@@ -93,7 +93,7 @@
         break;
       default:
         heading=`${name} 승급전${run.status==='STARTED'?' 시작':''} · ${run.wins}승 ${run.losses}패`;
-        detail=`현재 ${(run.targetScore-1).toLocaleString()}점 · 5전 3선승. 앞으로 ${3-run.wins}승이면 승급하고, 3패 시 ${retry}점으로 돌아갑니다.`;
+        detail=`현재 ${Number(run.seriesScore??(run.targetScore-1)).toLocaleString()}점 · 5전 3선승. 앞으로 ${3-run.wins}승이면 승급하고, 3패 시 ${retry}점으로 돌아갑니다.`;
     }
     return `<div class="rs-promotion" role="status"><strong>${heading}</strong><span>${detail}</span></div>`;
   }
