@@ -1,3 +1,4 @@
+import {COW_AREA,COW_PARTY_CAP,COW_DROP_FACTOR} from '../shared/legion-cow-room.mjs';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {ascendantBossPercent,legionDropPercent,readRegionPolicy,regionAccess} from './_legion_regions.js';
@@ -150,7 +151,8 @@ async function activeCatalogRows(db,select,codes){
  return (await Promise.all(queries)).flatMap(page=>page.results);
 }
 export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,tier=FIRST_TIER,area=null){
- const itemMultiplier=area===DOCKYARD.id?DOCKYARD.itemMultiplier:CITADEL_ITEM_MULTIPLIER;
+ const cow=area===COW_AREA;
+ const itemMultiplier=cow?CITADEL_ITEM_MULTIPLIER*COW_DROP_FACTOR:area===DOCKYARD.id?DOCKYARD.itemMultiplier:CITADEL_ITEM_MULTIPLIER;
  const configured=new Map(drops.supplies.map(v=>[v.code,v]));
  const codes=[...new Set([...configured.keys(),POLISH_ITEM_CODE])];
  const [inventory,region,bonuses,miracle]=await Promise.all([
@@ -187,8 +189,8 @@ export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,t
   const {revision,cap,referenceUnits,multiplier}=createLegionCoins('coast','calamity',{bonusPercent:coinPercent});
   return {...parties[i],itemMultiplier,supplyDropMultiplier:miracle===100?2:1,rates:{normalPercent,elitePercent,bossPercent,bossMultiplier},
    calamity:regions.length?calamityPartyDrops(regions,calamity,ascendant,gear,material(stoneRow),base=>legionDropPercent(base,miracle,dropPercent),itemMultiplier):null,
-   unique:uniquePools.map(row=>({pieces:row.seats[i],percent:Math.min(100,uniqueBase/row.divisor*(area===DOCKYARD.id?DOCKYARD.itemMultiplier:1))})),
-   coins:{revision,cap,referenceUnits,multiplier,huntDurationMs:regionalDifficulty('calamity').huntDurationMs,partyMultiplier:CITADEL_COIN_MULTIPLIER}};
+   unique:uniquePools.map(row=>({pieces:row.seats[i],percent:Math.min(100,uniqueBase/row.divisor*(cow?COW_DROP_FACTOR:area===DOCKYARD.id?DOCKYARD.itemMultiplier:1))})),
+   coins:{revision,cap:cow?COW_PARTY_CAP:cap,referenceUnits,multiplier,huntDurationMs:regionalDifficulty('calamity').huntDurationMs,partyMultiplier:cow?1:CITADEL_COIN_MULTIPLIER}};
  });
 }
 export async function citadelGrantStatements(env,user,id,items,policyLive,coins=0,regional=false){

@@ -30,7 +30,7 @@ for(const postgres of [false,true]){
   await f.setting('expedition_v3_cow_room',policy);await f.p("UPDATE cow_room_portal_rolls_v1 SET state='MISSED' WHERE state='OPEN'").run();
   const result=await runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps);assert.equal(result.budget.coin,3000000000);assert.equal(await f.coin(),3009750000);
  });
- test(`${label}: five scrapyard tiers settle their full rewards once with shared tickets and attempts`,async t=>{
+ test(`${label}: five scrapyard tiers settle their full rewards once with free daily attempts`,async t=>{
   const f=await jointFixture(t,{postgres});f.setPower(500000000);f.deps.readSettings=env=>readScrapyardSettings(env,{fresh:true});
   await f.setting('scrapyard_settings_v1676',{mode:'ON',dailyRuns:30,difficulties:SCRAPYARD_REFORM_DIFFICULTIES});
   const settings=await readScrapyardSettings(f.env,{fresh:true});assert.equal(settings.difficulties.length,5);
@@ -38,6 +38,6 @@ for(const postgres of [false,true]){
    const body={difficulty:d.id,requestId:'reform-scrap-'+i};const r=await runScrapyardV3(f.env,f.user,body,f.deps);assert.equal(r.success,true);expected+=d.clearCoin;
    assert.equal(await f.coin(),expected);assert.equal((await runScrapyardV3(f.env,f.user,body,f.deps)).replayed,true);assert.equal(await f.coin(),expected);
   }
-  assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='SCRAPYARD_ENTRY_TICKET' AND user_id=7").first()).quantity),0);
+  assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='SCRAPYARD_ENTRY_TICKET' AND user_id=7").first()).quantity),5);
  });
 }

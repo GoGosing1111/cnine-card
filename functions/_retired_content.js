@@ -5,6 +5,7 @@ export function retiredContentResponse(path,json){
   const matches=prefix=>key===prefix||key.startsWith(prefix+'/');
   // Previously earned prize vouchers still redeem from inventory.
   const axeVoucher=['events/golden-axe/item-options','events/golden-axe/use-item','events/golden-axe/receipt'].includes(key);
+  if(matches('cow-room'))return json({ok:false,retired:true,enabled:false,code:'COW_PVE_RETIRED',error:'카우방은 군단토벌 지역에서 입장하세요.'},410);
   const content=matches('coin-prediction')||matches('admin/coin-prediction')
     ?{code:'COIN_PREDICTION_RETIRED',name:'승부예측'}
     :matches('prison-camp')||matches('admin/prison-camp')

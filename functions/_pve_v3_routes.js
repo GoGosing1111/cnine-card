@@ -7,12 +7,9 @@ import {runTowerV3,towerV3Status,towerV3Result} from './_tower_v3_runs.js';
 import {loadTowerV3Legacy} from './_tower_v3_legacy.js';
 import {readTowerV3Settings,saveTowerV3Draft} from './_tower_v3_settings.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
-import {runExpeditionV3,expeditionV3Status,expeditionV3Result} from './_expedition_v3_runs.js';
-import {readExpeditionPolicy,saveExpeditionDraft} from './_expedition_v3_settings.js';
 import {retiredContentResponse} from './_retired_content.js';
-import {cowPortalStatus,COW_PORTAL_POLICY} from './_cow_room_portal.js';
 
-export const PVE_V3_PREFIXES=Object.freeze(['tower/v3/','scrapyard/v3/','cow-room/v3/']);
+export const PVE_V3_PREFIXES=Object.freeze(['tower/v3/','scrapyard/v3/']);
 export const isPveV3Path=path=>PVE_V3_PREFIXES.some(prefix=>path.startsWith(prefix));
 const failHeld=json=>json({ok:false,code:'PVE_V3_RELEASE_HELD',error:'공동 업데이트를 준비 중입니다.',enabled:false},423);
 
@@ -42,15 +39,14 @@ export async function handlePveV3Ready({path,request,env,deps}){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.',code:'PVE_V3_AUTH'},401);
     if(path==='admin/pve-v3'){
       if(user.role!=='OWNER')return json({error:'OWNER만 개편 설정을 관리할 수 있습니다.'},403);
-      if(request.method==='GET')return json({release:v3JointReleaseState(),tower:await readTowerV3Settings(env,{draft:true}),cow:await readExpeditionPolicy(env,'COW_ROOM',{draft:true}),cowPortal:COW_PORTAL_POLICY});
+      if(request.method==='GET')return json({release:v3JointReleaseState(),tower:await readTowerV3Settings(env,{draft:true})});
       if(request.method!=='PATCH')return json({error:'지원하지 않는 요청입니다.'},405);
       const body=await readJointBody(request,{maxBytes:32000,fields:['content','revision','config','economy']});
-      if(!['TOWER','COW_ROOM'].includes(body.content))throw jointError('PVE_V3_CONTENT','콘텐츠를 확인하세요.');
+      if(body.content!=='TOWER')throw jointError('PVE_V3_CONTENT','콘텐츠를 확인하세요.');
       if(typeof withUserMutationLock!=='function')throw jointError('PVE_V3_LOCK','계정 잠금 서비스를 확인하세요.',503);
-      return json(await withUserMutationLock(env,user.id,path,()=>body.content==='TOWER'?saveTowerV3Draft(env,user,body):saveExpeditionDraft(env,user,body.content,body)));
+      return json(await withUserMutationLock(env,user.id,path,()=>saveTowerV3Draft(env,user,body)));
     }
-    if(path==='cow-room/v3/portals')return request.method==='GET'?json({ok:true,accountId:Number(user.id),portals:await cowPortalStatus(env,user)}):json({error:'GET 요청이 필요합니다.'},405);
-    const match=/^(tower|scrapyard|cow-room)\/v3\/(state|status|result|run)$/.exec(path);
+    const match=/^(tower|scrapyard)\/v3\/(state|status|result|run)$/.exec(path);
     if(!match)return json({error:'원정 경로를 찾을 수 없습니다.'},404);
     const [,content,action]=match,query=new URL(request.url).searchParams;
     if(action==='run'){
@@ -59,8 +55,7 @@ export async function handlePveV3Ready({path,request,env,deps}){
       if(typeof withUserMutationLock!=='function')throw jointError('PVE_V3_LOCK','계정 잠금 서비스를 확인하세요.',503);
       return await withUserMutationLock(env,user.id,path,async()=>{
         if(content==='tower')return json(await runTowerV3(env,user,body,towerDependencies(env,deps)));
-        if(content==='scrapyard')return json(await runScrapyardV3(env,user,body,{...deps,readSettings:env=>readScrapyardSettings(env,{fresh:true})}));
-        return json(await runExpeditionV3(env,user,'COW_ROOM',body,deps));
+        return json(await runScrapyardV3(env,user,body,{...deps,readSettings:env=>readScrapyardSettings(env,{fresh:true})}));
       });
     }
     if(request.method!=='GET')return json({error:'GET 요청이 필요합니다.'},405);
@@ -72,11 +67,8 @@ export async function handlePveV3Ready({path,request,env,deps}){
       const records=(await env.DB.prepare('SELECT tier,best_combat_ms,achieved_at FROM tower_v3_records_v1 WHERE user_id=? AND rules_version=? ORDER BY tier DESC LIMIT 40').bind(user.id,config.rulesVersion).all()).results;
       return json({...status,accountId:Number(user.id),config,economy,records});
     }
-    if(content==='scrapyard'){
-      if(action==='result')return json(await scrapyardV3Result(env,user,query.get('requestId')));
-      const recovery=await scrapyardV3RecoveryStatus(env,user);if(action==='status')return json(recovery);
-      return json({...await readScrapyardStatus(env,user,deps.raidDeckPower),...recovery,accountId:Number(user.id)});
-    }
-    return json(action==='result'?await expeditionV3Result(env,user,'COW_ROOM',query.get('requestId')):await expeditionV3Status(env,user,'COW_ROOM',deps));
+    if(action==='result')return json(await scrapyardV3Result(env,user,query.get('requestId')));
+    const recovery=await scrapyardV3RecoveryStatus(env,user);if(action==='status')return json(recovery);
+    return json({...await readScrapyardStatus(env,user,deps.raidDeckPower),...recovery,accountId:Number(user.id)});
   }catch(error){return jointResponseError(error,json);}
 }

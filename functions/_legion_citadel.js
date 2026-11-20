@@ -1,3 +1,5 @@
+import {COW_AREA} from '../shared/legion-cow-room.mjs';
+import {cowTicketCount,requireCowTicket,spendCowTicket,cowTicketOutcome} from './_legion_cow_tickets.js';
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {canAccessLegionHunt,readLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from './_legion_hunt_settings.js';
@@ -61,7 +63,7 @@ function guard(db,...snapshots){
  });
  return [jointGuard(db,token,conditions.join(' AND '),values),jointGuardEnd(db,token)];
 }
-const listPrefix=scope=>scope?.clanId?P+'clan:'+scope.roundId+':'+scope.clanId+':open:':P+'open:';
+const listPrefix=scope=>scope?.area===COW_AREA?P+'cow:open:':scope?.clanId?P+'clan:'+scope.roundId+':'+scope.clanId+':open:':P+'open:';
 const listKey=r=>listPrefix(r)+String(r.expiresAt).padStart(16,'0')+':'+r.id;
 const phase=(r,at)=>r.phase==='ACTIVE'&&at>=r.startsAt+r.duration?(r.won?'VICTORY':'DEFEAT'):['LOBBY','LOADING'].includes(r.phase)&&at>=r.expiresAt?'CANCELLED':r.phase;
 function needsSeasonResult(env,r,at){
@@ -79,7 +81,7 @@ function view(r,user,at){
   units+=kind===2?5:kind===1?3:1;killTime=time;
  }
  const coins=m.coins?m.coins.partyMultiplier*earnedLegionCoins(m.coins,units,killTime,m.coins.huntDurationMs):0;
- return {id:r.id,status,area:r.area||'public',tier:r.tier??FIRST_TIER,tierName:r.area===DOCKYARD.id?DOCKYARD.name:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt==null?null:entryDeadline(String(m.nextEntryAt)),duration:r.duration||0,
+ return {id:r.id,status,area:r.area||'public',tier:r.tier??FIRST_TIER,tierName:r.area===COW_AREA?'카우방':r.area===DOCKYARD.id?DOCKYARD.name:tierById(r.tier??FIRST_TIER).name,you:m.id,hostId:r.hostId,serverNow:at,expiresAt:r.expiresAt,startsAt:r.startsAt||null,nextEntryAt:m.nextEntryAt==null?null:entryDeadline(String(m.nextEntryAt)),duration:r.duration||0,
   members:r.members.map(({id,name,ready,loaded,summary})=>({id,name,ready:!!ready,loaded:!!loaded,summary:summary||null})),selection:m.selection||null,
   ...(status==='DEFEAT'&&r.resultReason?{resultReason:r.resultReason}:{}),kills,bosses,coins,drops:[],ground:[],claimed:!!m.claimed,canClaim:false,test:!r.paying};
 }
@@ -91,6 +93,8 @@ async function present(db,r,user,at){
  const f=JSON.parse(entry.value);if(!f)fail('FARM','개인 전리품을 읽지 못했습니다.',503);
  if(state.nextEntryAt!==null)state.nextEntryAt=entryDeadline(entry.deadline);
  const earned=farmView(f,Math.min(r.duration,at-r.startsAt),state.status==='ACTIVE');
+ const ticket=r.members.find(m=>m.id===Number(user.id)).cowTicket;
+ if(ticket&&['VICTORY','DEFEAT'].includes(state.status))earned.drops.push({type:'INVENTORY_ITEM',ref:ticket.code,name:ticket.name,image:'/'+ticket.image,quantity:1});
  return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.drops.length>0||state.coins>0)&&!state.claimed};
 }
 const emptyMember=u=>({id:Number(u.id),name:String(u.nickname||'토벌대원').slice(0,64),ready:false,loaded:false});
@@ -135,13 +139,18 @@ async function eligibleUsers(env,r,policy){
  const users=r.members.map(m=>rows.find(u=>Number(u.id)===m.id));if(users.some(u=>!canAccessLegionHunt(policy,u)))fail('CLOSED','두 참가자 모두 군단토벌 이용이 가능해야 합니다.',403);
  return users;
 }
-async function paidEntryStatements(env,users,members,at,nextEntryAt,deps){
+async function paidEntryStatements(env,users,members,at,nextEntryAt,deps,cowHost=null,roomId=null){
  const db=env.DB;
  const balances=await Promise.all(users.map(async (u,index)=>{
   const k='legion_hunt_owner_session_v1:'+u.id;
   const {value:old,deadline,storedDeadline,pulses,pulseRaw}=await readWithEntry(db,k,u.id);
   const solo=old?JSON.parse(old):{};
   if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO',u.nickname+'님의 개인 군단토벌을 종료한 뒤 출전하세요.');
+  if(cowHost!==null){
+   const writes=guard(db,[k,old]);
+   if(Number(u.id)===cowHost){await requireCowTicket(db,u.id,'party');writes.push(...spendCowTicket(db,u.id,'party',roomId));}
+   return writes;
+  }
   if(u.role!=='OWNER'){
    requireEntry(deadline,at,u.nickname);
    members[index].nextEntryAt=nextEntryAt;
@@ -161,7 +170,8 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  const db=env.DB,uid=Number(user.id),now=deps.now||Date.now;
  const who=userKey(uid),at=now();let id=b.id,prior;
  if(action==='create'){
-  if(b.area!==undefined&&!['public',DOCKYARD.id].includes(b.area))fail('AREA','토벌 전장을 확인하세요.',400);
+  if(b.area!==undefined&&!['public',DOCKYARD.id,COW_AREA].includes(b.area))fail('AREA','토벌 전장을 확인하세요.',400);
+  if(b.area===COW_AREA&&b.tier!=='throne')fail('TIER','카우방은 파티 최고 난이도로 출전합니다.',400);
   if(b.area===DOCKYARD.id&&(b.tier??FIRST_TIER)!==FIRST_TIER)fail('TIER','클랜 원정 난이도를 확인하세요.',400);
   if(!tierById(Object.hasOwn(b,'tier')?b.tier:FIRST_TIER))fail('TIER','성채 난이도를 선택하세요.',400);
   if(typeof b.requestId!=='string'||!/^[a-zA-Z0-9_-]{12,80}$/.test(b.requestId))fail('INPUT','파티 개설 요청을 다시 보내세요.',400);
@@ -169,7 +179,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  }else if(!idOK(id))fail('INPUT','파티 번호를 확인하세요.',400);
  const key=roomKey(id),old=await raw(db,key),r=old&&JSON.parse(old);
  const admission=entryActions.has(action);
- const area=action==='create'?(b.area??'public'):(r?.area||'public'),privateRaid=area===DOCKYARD.id;
+ const area=action==='create'?(b.area??'public'):(r?.area||'public'),privateRaid=area===DOCKYARD.id,cow=area===COW_AREA;
  const entering=admission&&!(action==='loaded'&&r&&['ACTIVE','VICTORY','DEFEAT'].includes(phase(r,at)));
  let clan=null;
  const out=[],check=[];
@@ -180,7 +190,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
    const ids=r&&['join','start','loaded'].includes(action)?[...new Set([uid,...r.members.map(m=>m.id)])]:[uid];
    await Promise.all(ids.filter(id=>id!==uid).map(id=>requireClanHideout(env,id,DOCKYARD.stage,clan)));
    check.push(...clanEntryGuards(db,ids,DOCKYARD.stage,clan));
-  }else requireOpen(citadel.policy);
+  }else{requireOpen(citadel.policy);if(cow&&policy.mode!=='ON')fail('CLOSED','정식 군단토벌 운영 중에 카우방에 입장할 수 있습니다.',403);}
  }
  const pointer=['join','create','leave'].includes(action)?await current(db,uid):null;
  if(action==='create'||action==='join'){
@@ -192,8 +202,9 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  let room=r;
  if(action==='create'){
   if(r){if((r.area||'public')!==area||r.hostId!==uid||phase(r,at)!=='LOBBY'||pointer.ptr!==id||(r.tier??FIRST_TIER)!==(b.tier??FIRST_TIER))fail('OLD','이미 사용한 개설 요청입니다. 파티를 새로 만드세요.');return present(db,r,user,at);}
-  if(policy.mode==='ON'&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
-  room={id,...(clan?{area,clanId:clan.clanId,roundId:clan.roundId}:{}),hostId:uid,tier:b.tier??FIRST_TIER,phase:'LOBBY',expiresAt:at+900000,paying:policy.mode==='ON',members:[emptyMember(user)]};
+  if(cow)await requireCowTicket(db,uid,'party');
+  else if(policy.mode==='ON'&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
+  room={id,...(cow?{area}:{}),...(clan?{area,clanId:clan.clanId,roundId:clan.roundId}:{}),hostId:uid,tier:b.tier??FIRST_TIER,phase:'LOBBY',expiresAt:at+900000,paying:policy.mode==='ON',members:[emptyMember(user)]};
  }else{
   if(!r){if(action==='claim'){const receipt=await raw(db,receiptKey(id,uid));if(receipt)return {...JSON.parse(receipt),serverNow:at};}fail('MISSING','파티가 종료되었거나 존재하지 않습니다.',404);}
   const status=phase(r,at),idx=r.members.findIndex(m=>m.id===uid),me=r.members[idx];
@@ -201,7 +212,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
    if(status!=='LOBBY')fail('CLOSED','모집이 종료됐습니다.');
    if(!me){
     if(r.members.length!==1)fail('FULL','두 명이 모두 입장했습니다.');
-    if(r.paying&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
+    if(!cow&&r.paying&&user.role!=='OWNER')requireEntry(pointer.deadline,at,user.nickname);
     r.members.push(emptyMember(user));
    }
    else if(pointer.ptr===id)return present(db,r,user,at);
@@ -219,13 +230,14 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     if(status==='LOADING')return present(db,r,user,at);
     const us=await eligibleUsers(env,r,policy);
     const tier=r.tier??FIRST_TIER,drops=citadel.policy.tierDrops[tier]??citadel.policy.drops;
-    const [squads,loot]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier,area)]);
+    const [squads,loot,tickets]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier,area),r.paying?Promise.all(us.map(u=>cowTicketOutcome(env,u.id,'LEGION_PARTY',id))):[]]);
     const built=buildCitadelBattle(squads,crypto.getRandomValues(new Uint32Array(1))[0],tier,area);
     const replayParts=[['header',built.replay],...built.chunks.map((v,i)=>[i,v])];
     for(const [part,v] of replayParts)out.push(put(db,replayKey(r.hostId)+':'+part,await saveReplay(v,id)));
     out.push(del(db,listKey(r)));
     for(let i=0;i<2;i++){
      r.members[i].coins=loot[i].coins;
+     if(tickets[i])r.members[i].cowTicket=tickets[i];
      r.members[i].calamity=!!loot[i].calamity;
      out.push(put(db,farmKey(r.id,us[i].id),JSON.stringify(personalFarm(loot[i],built.kills,squads[i].pet?.magnet===true))));
     }
@@ -240,7 +252,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
      if(r.paying&&policy.mode!=='ON')fail('PAUSED','군단토벌 운영이 일시 중지됐습니다.',423);
      const confirmedAt=now();
      r.startsAt=confirmedAt+1200;
-     if(r.paying)out.push(...await paidEntryStatements(env,us,r.members,confirmedAt,r.startsAt+PARTY_ENTRY_INTERVAL_MS,deps));
+     if(r.paying)out.push(...await paidEntryStatements(env,us,r.members,confirmedAt,r.startsAt+PARTY_ENTRY_INTERVAL_MS,deps,cow?r.hostId:null,id));
      r.phase='ACTIVE';
     }
    }else if(action==='pickup'){
@@ -327,13 +339,14 @@ export async function handleLegionCitadel({path,request,env,deps}){
   const resultState=r=>needsSeasonResult(env,r,at)&&r.members.some(m=>m.id===Number(user.id))?mutate('season',{id:r.id}):present(DB,r,user,at);
   if(request.method==='GET'){
    if(action==='lobby'){
-    const [here,list,hideout]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[],clanHideout(env,user.id)]);
+    const cowOpen=open&&policy.mode==='ON';
+    const [here,list,hideout,cowRooms,cowTickets]=await Promise.all([current(DB,user.id),open?rooms(DB,at):[],clanHideout(env,user.id),cowOpen?rooms(DB,at,{area:COW_AREA}):[],cowOpen?cowTicketCount(DB,user.id,'party'):0]);
     const clanOpen=policy.mode==='ON'&&hideout.seasonOpen&&hideout.stage>=DOCKYARD.stage;
     const clanRooms=clanOpen?await rooms(DB,at,hideout):[];
     const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
     const unlimited=user.role==='OWNER';
     const nextEntryAt=!unlimited&&policy.mode==='ON'?entryDeadline(here.deadline):null;
-    return reply({ok:true,open,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:legionRechargeMs(PARTY_ENTRY_INTERVAL_MS,at)/3600000,recoveryEvent:legionRecoveryNotice(at)?LEGION_RECOVERY_EVENT:null,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
+    return reply({ok:true,open,cowOpen,cowRooms,cowTickets,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:legionRechargeMs(PARTY_ENTRY_INTERVAL_MS,at)/3600000,recoveryEvent:legionRecoveryNotice(at)?LEGION_RECOVERY_EVENT:null,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
    }
    if(action==='options'){
      if(new URL(request.url).searchParams.get('area')===DOCKYARD.id){if(policy.mode!=='ON')fail('CLOSED','군단토벌 일시 중지',403);await requireClanHideout(env,user.id,DOCKYARD.stage);}
@@ -353,6 +366,6 @@ export async function handleLegionCitadel({path,request,env,deps}){
   if(request.method!=='POST'||!Object.hasOwn(fields,action))fail('METHOD','지원하지 않는 요청입니다.',405);
   const b=await readJointBody(request,{fields:fields[action],maxBytes:2048});
   return reply({ok:true,open,state:await mutate(action,b)});
- }catch(err){const known=/^(CITADEL|CLAN|MERCENARY|COOP_SELECTION|JOINT)_?/.test(err.code||'');if(!known)console.error('[legion citadel]',err.name,err.code||'storage');return reply({ok:false,code:known?err.code:'CITADEL_RETRY',error:known?err.message:'파티 정보를 저장하거나 읽지 못했습니다. 같은 화면에서 다시 시도하세요.'},known?(err.status||400):503);}
+ }catch(err){const known=/^(CITADEL|HUNT_COW_TICKET|CLAN|MERCENARY|COOP_SELECTION|JOINT)_?/.test(err.code||'');if(!known)console.error('[legion citadel]',err.name,err.code||'storage');return reply({ok:false,code:known?err.code:'CITADEL_RETRY',error:known?err.message:'파티 정보를 저장하거나 읽지 못했습니다. 같은 화면에서 다시 시도하세요.'},known?(err.status||400):503);}
 }
 

@@ -5,9 +5,6 @@ import {loadScrapyardV3Snapshot, buildScrapyardV3Battle, validateScrapyardV3Conf
 import {planUnifiedDropRoll, prepareUnifiedDropGrant} from './_drop_pool.js';
 import {encodeScrapyardRecord,decodeScrapyardRecord} from './_scrapyard_v3_record.js';
 
-// No HTTP registration: this is exercised with local databases only until the
-// whole PVE overhaul is ready. The future route must retain the shared user
-// mutation lock used by the existing scrapyard/run route.
 export const SCRAPYARD_V3_OPERATION_TABLE = 'scrapyard_v3_operations_v1';
 const OPS = SCRAPYARD_V3_OPERATION_TABLE;
 const RECEIPTS = 'scrapyard_run_receipts_v1676', RUNS = 'scrapyard_runs_v1676';
@@ -57,7 +54,7 @@ function kstRange(at) {
 }
 function encoded(value) {
   const json = JSON.stringify(value);
-  if (new TextEncoder().encode(json).byteLength > MAX_CHECKPOINT_BYTES) throw error('SCRAPYARD_V3_PAYLOAD', '원정 기록이 허용 크기를 초과했습니다. 입장권은 사용하지 않았습니다.');
+  if (new TextEncoder().encode(json).byteLength > MAX_CHECKPOINT_BYTES) throw error('SCRAPYARD_V3_PAYLOAD', '원정 기록이 허용 크기를 초과했습니다.');
   return json;
 }
 
@@ -69,29 +66,21 @@ async function claim(env, uid, rid, token, at) {
 
 async function reserve(env, user, rid, difficulty, cfg, snapshot, battle, plan, seed, token, at) {
   const uid = Number(user.id), day = kstRange(at), owner = String(user.role).toUpperCase() === 'OWNER';
-  const snapshotJson = encoded(snapshot), battleJson = await encodeScrapyardRecord({...battle, difficulty}), planJson = encoded(plan);
+  const snapshotJson = encoded(snapshot), battleJson = await encodeScrapyardRecord({...battle, difficulty, freeEntry:true}), planJson = encoded(plan);
   // Keep headroom for presented rewards and per-row limits across backends.
-  if (new TextEncoder().encode(snapshotJson+battleJson+planJson).byteLength > 700000) throw error('SCRAPYARD_V3_PAYLOAD','원정 기록이 너무 큽니다. 입장권은 사용하지 않았습니다.');
+  if (new TextEncoder().encode(snapshotJson+battleJson+planJson).byteLength > 700000) throw error('SCRAPYARD_V3_PAYLOAD','원정 기록이 너무 큽니다.');
   // A partial unique index allows only one unfinished expedition per account.
   // Every economic write shares this transaction with its frozen result.
   const stmts = [
     p(env, `INSERT INTO ${OPS}(request_id,user_id,seed,snapshot_json,battle_json,drop_plan_json,lease_token,lease_until)
-      SELECT ?,?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1)
-      AND (?=1 OR (SELECT COUNT(*) FROM ${RUNS} WHERE user_id=? AND created_at>=? AND created_at<?)<?)`,
-    rid,uid,seed,snapshotJson,battleJson,planJson,token,at+LEASE_MS,uid,ITEM,owner?1:0,uid,day.start,day.end,cfg.dailyRuns),
+      SELECT ?,?,?,?,?,?,?,? WHERE (?=1 OR (SELECT COUNT(*) FROM ${RUNS} WHERE user_id=? AND created_at>=? AND created_at<?)<?)`,
+    rid,uid,seed,snapshotJson,battleJson,planJson,token,at+LEASE_MS,owner?1:0,uid,day.start,day.end,cfg.dailyRuns),
     p(env, `INSERT INTO ${RECEIPTS}(request_id,user_id,difficulty,status,ticket_consumed,response_json)
-      SELECT ?,?,?,'PENDING',1,? WHERE ${ownedSql}`,rid,uid,difficulty.id,battleJson,rid,uid,token),
-    // Do not silently succeed on zero stock; the NOT NULL guard below rolls
-    // back the complete reservation if this subtraction could go negative.
-    p(env, `UPDATE cnine_user_inventory SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND ${ownedSql}`,uid,ITEM,rid,uid,token),
-    p(env, `UPDATE ${OPS} SET integrity=CASE WHEN EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=0) THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,uid,ITEM,rid,uid,token),
-    p(env, `INSERT INTO ${TICKETS}(request_id,user_id,item_code,status) SELECT ?,?,?,'RESERVED' WHERE ${ownedSql}`,rid,uid,ITEM,rid,uid,token),
-    p(env, `INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
-      SELECT ?,?,-1,quantity,'폐차장 입장','SCRAPYARD_ENTRY',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${ownedSql}`,uid,ITEM,rid,uid,ITEM,rid,uid,token)
+      SELECT ?,?,?,'PENDING',0,? WHERE ${ownedSql}`,rid,uid,difficulty.id,battleJson,rid,uid,token)
   ];
   await env.DB.batch(stmts);
   const op = await operation(env,uid,rid);
-  if (!op) throw error('SCRAPYARD_V3_ENTRY_UNAVAILABLE', '폐차장 입장권 또는 오늘 남은 입장 횟수를 확인하세요.');
+  if (!op) throw error('SCRAPYARD_V3_ENTRY_UNAVAILABLE', '오늘 폐차장 입장 횟수를 모두 사용했습니다.');
   return op;
 }
 
@@ -102,9 +91,9 @@ async function settle(env, user, op, token) {
   const grants = await prepareUnifiedDropGrant(env,plan);
   const clearCoin = saved.success ? rankCoin(Number(saved.difficulty.clearCoin),await accountRankBenefits(env,uid,'SCRAPYARD')) : 0;
   const rewards = [...(clearCoin > 0 ? [{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}] : []), ...grants.rewards];
-  const inventory = await p(env,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',uid,ITEM).first();
+  const inventory = saved.freeEntry ? null : await p(env,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',uid,ITEM).first();
   const response = {...saved, ok:true, status:'COMPLETED', requestId:rid, rewards, partDropped:grants.rewards.length>0,
-    entryTicket:{code:ITEM,consumed:1,remaining:Number(inventory?.quantity || 0)}, refreshAccount:true};
+    entryTicket:saved.freeEntry ? {code:ITEM,consumed:0} : {code:ITEM,consumed:1,remaining:Number(inventory?.quantity || 0)}, refreshAccount:true};
   const responseJson = await encodeScrapyardRecord(response);
   const proofs = grants.proofs.length ? grants.proofs.map(proof => `(${proof.sql})`).join(' AND ') : '1=1';
   const proofValues = grants.proofs.flatMap(proof => proof.values);
@@ -127,7 +116,7 @@ async function settle(env, user, op, token) {
     p(env, `INSERT INTO ${DROPS}(request_id,user_id,source_type,source_id,trigger_type,status,result_json)
       VALUES(?,?,'SCRAPYARD',?,'CLEAR','COMPLETED',?)`,plan.requestId,uid,plan.sourceId,encoded({ok:true,rewards:grants.rewards,pools:plan.pools})),
     p(env, `INSERT INTO ${RUNS}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json) VALUES(?,?,?,?,?,?,?,?)`,rid,uid,saved.difficulty.id,saved.deckPower,saved.wavesTotal,saved.wavesCleared,saved.success?1:0,JSON.stringify(rewards)),
-    p(env, `UPDATE ${TICKETS} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`,rid,uid),
+    ...(saved.freeEntry ? [] : [p(env, `UPDATE ${TICKETS} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`,rid,uid)]),
     p(env, `UPDATE ${RECEIPTS} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`,responseJson,rid,uid),
     p(env, `UPDATE ${OPS} SET state='COMPLETED',lease_token=NULL,lease_until=0,last_error=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND lease_token=?`,rid,uid,token)
   ]);

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {COW_AREA} from '../shared/legion-cow-room.mjs';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {handleLegionHunt} from '../functions/_legion_hunt.js';
@@ -34,7 +35,7 @@ test('lobby portraits preserve the operating HTTPS card source as well as local 
 });
 function entry(options){
   const source=entrySource.slice(entrySource.indexOf('export function createHuntEntry'),entrySource.indexOf('let active=null;')).replace('export function','function');
-  return vm.runInNewContext(source+';createHuntEntry(options)',{options});
+  return vm.runInNewContext(source+';createHuntEntry(options)',{options,COW_AREA});
 }
 const lobbyData={difficulties:[{id:'normal'},{id:'hard'},{id:'inferno'}],loadout:{cards:[1,2,3,4,5],mercenary:{code:'V-050'}}};
 test('opening recovers an interrupted run before reading the loadout; explicit entry runs once and never on refresh',async()=>{

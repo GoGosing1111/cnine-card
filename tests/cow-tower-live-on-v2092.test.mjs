@@ -11,11 +11,12 @@ import {TOWER_LIVE_URL} from '../shared/pve-public-release-v2092.mjs';
 const origin='https://game.example';
 const request=(path,body,method)=>new Request(origin+'/api/'+path,{method:method||(body?'POST':'GET'),headers:{authorization:'Bearer local-account-7',origin,'content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
-test('public release opens cow and legacy tower while new tower economy and other launches stay held',async()=>{
- const state=v3JointReleaseState();assert.equal(state.enabled,false);assert.equal(state.publicContent.COW_ROOM.enabled,true);assert.equal(state.publicContent.TOWER.policy,'LEGACY');assert.equal(state.publicContent.TOWER.reAscentEnabled,false);assert.equal(state.connections.TOWER.run,'tower/start');assert.equal(state.connections.TOWER.url,TOWER_LIVE_URL);
+test('public release retires the old cow portal and opens legacy tower while new tower economy and other launches stay held',async()=>{
+ const state=v3JointReleaseState();assert.equal(state.enabled,false);assert.equal(state.publicContent.COW_ROOM.enabled,false);assert.equal(state.publicContent.TOWER.policy,'LEGACY');assert.equal(state.publicContent.TOWER.reAscentEnabled,false);assert.equal(state.connections.TOWER.run,'tower/start');assert.equal(state.connections.TOWER.url,TOWER_LIVE_URL);
  const deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate:async()=>null},env={get DB(){throw Error('No anonymous DB access');}};
- for(const path of ['cow-room/v3/state','cow-room/v3/run','cow-room/v3/portals','scrapyard/v3/state','scrapyard/v3/run'])assert.equal((await handlePveV3({path,request:request(path),env,deps})).status,401);
+ for(const path of ['scrapyard/v3/state','scrapyard/v3/run'])assert.equal((await handlePveV3({path,request:request(path),env,deps})).status,401);
  assert.equal((await handlePveV3({path:'tower/v3/run',request:request('tower/v3/run'),env,deps})).status,423);
+ for(const path of ['cow-room/v3/state','cow-room/v3/run','cow-room/v3/portals'])assert.equal((await handlePveV3({path,request:request(path),env,deps})).status,410);
  const retired=await handlePveV3({path:'idle-dungeon/v3/run',request:request('idle-dungeon/v3/run'),env,deps});
  assert.equal(retired.status,410);assert.equal((await retired.json()).code,'IDLE_DUNGEON_RETIRED');
  assert.match(read('pve-v3/entry.mjs'),/location.replace\(TOWER_LIVE_URL\)/);
@@ -31,32 +32,22 @@ test('completed weekly tower shows the next Monday reset without an immediate fi
  assert.match(source,/playTowerBattleV3Live/);assert.match(source,/apiRequest\('tower\/start'/);
 });
 for(const postgres of [false,true]){
- test(`${postgres?'PostgreSQL':'SQLite'}: ordinary user scrapyard admission uses one ticket and recovers the same receipt`,async t=>{
+ test(`${postgres?'PostgreSQL':'SQLite'}: ordinary user scrapyard admission is free and recovers the same receipt`,async t=>{
   const f=await jointFixture(t,{postgres}),deps={...f.deps,authenticate:async()=>({...f.user,role:'USER'})};
   const body={requestId:'public-scrapyard-once',difficulty:'OUTER'},call=()=>handlePveV3({path:'scrapyard/v3/run',request:request('scrapyard/v3/run',body),env:f.env,deps});
   const first=await call();assert.equal(first.status,200,await first.clone().text());const result=await first.json();assert.equal(result.success,true);
   const balance=await f.coin();assert.equal((await(await call()).json()).replayed,true);assert.equal(await f.coin(),balance);
-  assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='SCRAPYARD_ENTRY_TICKET'").first()).quantity),4);
+  assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='SCRAPYARD_ENTRY_TICKET'").first()).quantity),5);
   assert.doesNotMatch(read('js/workshop-v1881.js'),/PveV3Runtime\?\.tryOpen\('scrapyard'\)/);
  });
- test(`${postgres?'PostgreSQL':'SQLite'}: OWNER enables cow, ordinary user enters, exact reward and six-run cap survive replay`,async t=>{
-  const f=await jointFixture(t,{postgres}),policy=await readExpeditionPolicy(f.env,'COW_ROOM');
-  const enable={content:'COW_ROOM',revision:policy.revision,economy:{...policy,mode:'ON',approved:false}};
-  const userDeps={...f.deps,authenticate:async r=>r.headers.get('authorization')==='Bearer local-account-7'?{...f.user,role:'USER'}:null};
-  const call=(path,body,deps=userDeps,method)=>handlePveV3({path,request:request(path,body,method),env:f.env,deps});
-  assert.equal((await call('admin/pve-v3',enable,userDeps,'PATCH')).status,403);
-  const saved=await call('admin/pve-v3',enable,f.deps,'PATCH');assert.equal(saved.status,200);assert.equal((await saved.json()).approved,true);
-  const coinsBefore=await f.coin();
-  for(let i=1;i<=6;i++){
-   const body={requestId:`user-cow-${i}`,difficulty:'PASTURE'},response=await call('cow-room/v3/run',body);
-   assert.equal(response.status,200,await response.clone().text());const result=await response.json();assert.equal(result.success,true);assert.equal(result.rewards.find(r=>r.rewardType==='COIN').quantity,500000000);
-   assert.equal((await(await call('cow-room/v3/run',body)).json()).replayed,true);
+ test(`${postgres?'PostgreSQL':'SQLite'}: owner settings cannot reopen the retired cow-room routes`,async t=>{
+  const f=await jointFixture(t,{postgres}),policy=await readExpeditionPolicy(f.env,'COW_ROOM'),before=await f.coin();
+  const path='admin/pve-v3',body={content:'COW_ROOM',revision:policy.revision,economy:{...policy,mode:'ON'}};
+  assert.equal((await handlePveV3({path,request:request(path,body,'PATCH'),env:f.env,deps:f.deps})).status,400);
+  for(const route of ['cow-room/v3/state','cow-room/v3/portals','cow-room/v3/run','cow-room/v3/result']){
+    const reply=await handlePveV3({path:route,request:request(route),env:f.env,deps:f.deps});
+    assert.equal(reply.status,410);assert.equal((await reply.json()).code,'COW_PVE_RETIRED');
   }
-  assert.equal(await f.coin(),coinsBefore+3000000000-6*250000);assert.equal((await cowPortalStatus(f.env,f.user)).available,0);
-  assert.equal((await call('cow-room/v3/run',{requestId:'user-cow-seven',difficulty:'PASTURE'})).status,409);
-  const current=await readExpeditionPolicy(f.env,'COW_ROOM');await call('admin/pve-v3',{content:'COW_ROOM',revision:current.revision,economy:{...current,mode:'OFF'}},f.deps,'PATCH');
-  assert.equal(await discoverCowPortal(f.env,f.user,{battleMode:'PVE',sourceType:'HUNT',sourceRef:'closed-event',result:'WIN'}),null);
-  const restored=await call('cow-room/v3/run',{requestId:'user-cow-one-after-off',difficulty:'PASTURE'});assert.equal(restored.status,423);
-  assert.equal((await(await call('cow-room/v3/run',{requestId:'user-cow-6',difficulty:'PASTURE'})).json()).replayed,true,'CMS stop preserves settled result recovery');
+  assert.equal(await f.coin(),before);assert.deepEqual(await readExpeditionPolicy(f.env,'COW_ROOM'),policy);
  });
 }

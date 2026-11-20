@@ -1,3 +1,4 @@
+import {cowTicketOutcome} from './_legion_cow_tickets.js';
 import {withoutHyperTickets,isRetiredHyperReward} from './_hyper_ticket_retirement.js';
 import {seasonAwardStatements} from './_season_s1.js';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
@@ -26,6 +27,10 @@ export async function claimLegionHuntReward(env,user,{key,before,run,policyRaw,r
 
 export async function settleLegionHuntRewards(env,user,{key,before,run,policyRaw,regionPolicyRaw=null}){
   const result=run.state.receipt;
+  if(run.liveRewards&&Number.isFinite(run.state.startedAt)&&['CLEAR','DEFEAT','TIME_LIMIT'].includes(result.reason)){
+    const ticket=await cowTicketOutcome(env,user.id,'LEGION_SOLO',run.state.id);
+    if(ticket)result.inventory=[...result.inventory,{type:'INVENTORY_ITEM',code:'INVENTORY_ITEM:'+ticket.code,ref:ticket.code,name:ticket.name,image:'/'+ticket.image,quantity:1}];
+  }
   run.rewardStatus='SETTLED';
   return commitHuntRewards(env,user,{key,before,run,policyRaw,regionPolicyRaw,result,items:result.inventory,requestId:`LEGION_HUNT:${run.state.id}:FINISH`});
 }

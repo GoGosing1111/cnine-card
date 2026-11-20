@@ -2,6 +2,6 @@ import {TOWER_LIVE_URL,TOWER_LIVE_POLICY} from '../shared/pve-public-release-v20
 const content=new URL(location.href).searchParams.get('content')||'tower';
 if(content==='idle-dungeon')location.replace('/?screen=battle');
 else if(content==='tower'&&TOWER_LIVE_POLICY==='LEGACY')location.replace(TOWER_LIVE_URL);
-else if(content==='cow-room')location.replace('/?screen=battle&pve=cow-room'+(new URL(location.href).searchParams.get('enter')==='1'?'&enter=1':''));
+else if(content==='cow-room')location.replace('/?screen=battle');
 else if(content==='scrapyard')location.replace('/?screen=scrapyard');
-else await import('./app.mjs?v=2096-combat-flow&retired=20261001');
+else await import('./app.mjs?v=20261120-legion-cow&retired=20261001');

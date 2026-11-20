@@ -1,3 +1,4 @@
+import {cowTicketAward} from './_legion_cow_tickets.js';
 import {seasonAwardStatements} from './_season_s1.js';
 import {ensureTowerWeek,towerWeek,towerWeekMatches,towerSeasonLock,towerFloorRewardRef} from './_tower_weekly.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -110,6 +111,7 @@ export async function towerAbyssFinish(env,user,body,deps,{now=Date.now}={}){
     p(env,'UPDATE tower_user_progress SET current_floor=?,highest_floor=?,highest_reached_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?',floor+1,floor,plan.seasonId,uid),
     ...await accountRankAward(env,uid,'TOWER',towerFloorRewardRef(plan)),...forge.statements,...reroll.statements);
   }
+  const cow=await cowTicketAward(env,uid,'TOWER',rid);writes.push(...cow.statements);if(cow.ticket)plan.response.cowTicket=cow.ticket;
   const seasonWrites=await seasonAwardStatements(env,{userId:uid,eventId:rid,source:'TOWER',won:win,floor,startedAt:plan.startedAt,seasonReplay:!!plan.seasonReplay});writes.push(...seasonWrites);plan.response.seasonReward=seasonWrites.award||null;
   if(!plan.seasonReplay)writes.push(p(env,'INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)',plan.seasonId,uid,floor,plan.response.playerPower,plan.response.monsterPower,plan.response.result));
   writes.push(p(env,"UPDATE joint_operations_v1 SET status='COMPLETED',plan_json=?,completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'",await encodePlan(plan),new Date(now()).toISOString(),rid,uid),jointGuardEnd(DB,token));

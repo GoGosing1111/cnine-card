@@ -1,3 +1,5 @@
+import {cowTicketAward} from './_legion_cow_tickets.js';
+const cowRankSources=new Set(['ESCORT','SEAL','RIFT','SCRAPYARD','RAID','CORE_RAID_WEEKLY','LICH_RAID_WEEKLY','MADARA_RAID_WEEKLY','BLACKWING_RAID_WEEKLY']);
 import {seasonAwardStatements} from './_season_s1.js';
 import {readCollectionBonuses} from './_collection_bonuses.js';
 import {rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
@@ -63,6 +65,7 @@ export async function accountRankAward(env,userId,source,eventId,{quantity=1,tic
     env.DB.prepare(`UPDATE ${PROGRESS} SET total_ticks=MIN(?,total_ticks+?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM ${LEDGER} WHERE token=?)`).bind(MAX_RANK_TICKS,amount,userId,token),
     ...shiranuiRankRewardStatements(env.DB,userId,SHIRANUI_MIN_RANK_TICKS,{guard:`EXISTS(SELECT 1 FROM ${LEDGER} WHERE token=?)`,values:[token]})
   ];
+  if(cowRankSources.has(source))statements.push(...(await cowTicketAward(env,userId,source,eventId,{guard:`EXISTS(SELECT 1 FROM ${LEDGER} WHERE token=?)`,values:[token]})).statements);
   statements.token=token;
   return statements;
 }
@@ -124,7 +127,8 @@ export async function settleRankedHunt(env,userId,source,eventId,coin,reason,sea
   writes.push(env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=? AND ${guard}`).bind(coin,userId,writes.token),
     env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=? AND ${guard}`).bind(coin,reason,userId,writes.token));
   writes.push(...await seasonAwardStatements(env,{userId,eventId,source:season.source||'HUNT',won:true,monsterId:season.monsterId},{guard,values:[writes.token]}));
-  return env.DB.batch(writes);
+  const cow=await cowTicketAward(env,userId,season.sweep?'PVE_SWEEP':'PVE_HUNT',eventId,{guard,values:[writes.token]});
+  await env.DB.batch([...writes,...cow.statements]);return cow.ticket;
 }
 
 export async function accountRankIdleSettlement(){
