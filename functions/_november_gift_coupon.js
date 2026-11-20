@@ -47,7 +47,15 @@ export const REVERSECALL_FOUR_MONTH_COUPON=Object.freeze({
   Object.freeze({code:'ARMOR_ENHANCEMENT_SCROLL',name:'방어구 강화주문서',amount:5})
  ])
 });
-const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON,CNINE_CHEER_COUPON,REVERSECALL_FOUR_MONTH_COUPON].map(gift=>[gift.code,gift]));
+export const CNINE_BOWLING_COUPON=Object.freeze({
+ code:'CNINEBOWL150',type:'NOVEMBER_GIFT_CNINE_BOWLING_20261121',maxUses:150,coin:1_000_000_000_000_000,
+ label:'씨나인 볼링대회 기념 쿠폰',message:'코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.',
+ items:Object.freeze([
+  Object.freeze({code:'MASTER_STAR',name:'마스터의 별',amount:1_000_000_000}),
+  Object.freeze({code:'ARDEN_ENERGY',name:'아르덴 에너지',amount:10})
+ ])
+});
+const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON,CNINE_CHEER_COUPON,REVERSECALL_FOUR_MONTH_COUPON,CNINE_BOWLING_COUPON].map(gift=>[gift.code,gift]));
 class GiftCouponError extends Error{constructor(message,status=409){super(message);this.status=status;}}
 const fail=(message,status)=>{throw new GiftCouponError(message,status);};
 const changed=(rows,message)=>{if(rows.length!==1)fail(message);return rows[0];};
