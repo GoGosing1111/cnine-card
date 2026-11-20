@@ -1,0 +1,161 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:prime-armory:exclude-recent-avatars:20261120:v1",
+  "appliedAtKST": "2026-11-20 09:56:16",
+  "auditId": "66920",
+  "authorization": "프라임아머리 상자에 최근에 추가된 아바타 안나오게 설정해",
+  "result": {
+    "avatars": [
+      {
+        "code": "SANTA_BONGSOON",
+        "name": "산타걸 나무늘봉순",
+        "drawWeight": 0
+      },
+      {
+        "code": "SANTA_HIHEEYA",
+        "name": "산타걸 하이희야",
+        "drawWeight": 0
+      },
+      {
+        "code": "SANTA_JOEUN",
+        "name": "산타걸 오조은",
+        "drawWeight": 0
+      },
+      {
+        "code": "SANTA_SUDAENG",
+        "name": "딜러 남수댕",
+        "drawWeight": 0
+      }
+    ],
+    "previouslyInDrawPool": false,
+    "explicitZeroAssignments": 4,
+    "activePoolEntries": 43,
+    "activePoolWeight": 100.00000000000003,
+    "existingFiveAvatarsPreserved": true,
+    "otherRewardsAndWeightsPreserved": true,
+    "accountWrites": 0,
+    "messages": 0
+  },
+  "validation": {
+    "tests": 25,
+    "files": [
+      "tests/prime-draw-live-v1985.test.mjs",
+      "tests/prime-draw-skill-chips.test.mjs"
+    ],
+    "failureRollback": [
+      "admin_logs",
+      "app_meta",
+      "after_receipt"
+    ],
+    "fullRehearsalRollback": true,
+    "independentReadOnly": true,
+    "replayQueries": 1,
+    "replayWrites": 0,
+    "remainingLocks": 0
+  },
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "ms": 91,
+        "sql": 1
+      },
+      {
+        "phase": "repeat",
+        "ms": 81,
+        "sql": 1
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 95,
+        "sql": 1
+      },
+      {
+        "phase": "repeat",
+        "ms": 81,
+        "sql": 1
+      }
+    ],
+    "updateMs": 885,
+    "condition": "Production read-only draw and public/CMS pool services; excludes authentication/foundation and network UI; Windows CLI, not browser/device FPS",
+    "bottleneck": "Database/network round trip; one fresh draw-pool SQL unchanged. Four configuration rows inserted together.",
+    "speedImprovementClaim": false,
+    "frameMeasurement": "Not performed: configuration-only operation, no rendering or runtime code changes."
+  },
+  "deployment": {
+    "runtimeChanges": 0,
+    "redeployRequired": false,
+    "reason": "Existing fresh draw/public pool service excludes zero weights. Active public pool is identical before and after; no cache invalidation needed."
+  },
+  "evidenceDirectory": "operations/prime-armory-avatar-exclude-20261120",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:prime-armory:exclude-recent-avatars:20261120:v1",
+    "planHash": "31c9e602756d659192176e7247578deabc68504a026f8db464531911a852541c",
+    "plan": {
+      "operationKey": "ops:prime-armory:exclude-recent-avatars:20261120:v1",
+      "kind": "equipment",
+      "avatars": [
+        {
+          "code": "SANTA_BONGSOON",
+          "name": "산타걸 나무늘봉순",
+          "drawWeight": 0
+        },
+        {
+          "code": "SANTA_HIHEEYA",
+          "name": "산타걸 하이희야",
+          "drawWeight": 0
+        },
+        {
+          "code": "SANTA_JOEUN",
+          "name": "산타걸 오조은",
+          "drawWeight": 0
+        },
+        {
+          "code": "SANTA_SUDAENG",
+          "name": "딜러 남수댕",
+          "drawWeight": 0
+        }
+      ],
+      "existingRewards": "UNCHANGED",
+      "avatarOwnership": "UNCHANGED",
+      "messages": 0
+    },
+    "completedAt": "2026-11-20T00:56:16.819Z",
+    "completedAtKST": "2026-11-20 09:56:16",
+    "added": [
+      {
+        "product_kind": "equipment",
+        "reward_type": "AVATAR",
+        "reward_ref": "SANTA_BONGSOON",
+        "draw_weight": 0
+      },
+      {
+        "product_kind": "equipment",
+        "reward_type": "AVATAR",
+        "reward_ref": "SANTA_HIHEEYA",
+        "draw_weight": 0
+      },
+      {
+        "product_kind": "equipment",
+        "reward_type": "AVATAR",
+        "reward_ref": "SANTA_JOEUN",
+        "draw_weight": 0
+      },
+      {
+        "product_kind": "equipment",
+        "reward_type": "AVATAR",
+        "reward_ref": "SANTA_SUDAENG",
+        "draw_weight": 0
+      }
+    ],
+    "previouslyAssigned": false,
+    "protectedBeforeHash": "b1dac0be26e73da9a7bc7f7e2b5473ab4075e0eb913125a8bd37638ca3a28ab9",
+    "protectedAfterHash": "b1dac0be26e73da9a7bc7f7e2b5473ab4075e0eb913125a8bd37638ca3a28ab9",
+    "accountWrites": 0,
+    "messages": 0,
+    "auditId": "66920"
+  }
+}

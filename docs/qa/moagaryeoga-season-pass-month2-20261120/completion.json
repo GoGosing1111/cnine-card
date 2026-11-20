@@ -1,0 +1,150 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:moagaryeoga:season-pass-month2:20261120:v1",
+  "userId": "2505",
+  "nickname": "모아가려아가",
+  "authorization": "https://www.playdk.kr/user/04fa1e36 모아가려아가 2차시즌패스 적용",
+  "identityMatch": {
+    "provider": "PLAYDK",
+    "profilePrefix": "04fa1e36",
+    "nicknameMatched": true,
+    "verifiedDatabaseLinkMatched": true,
+    "publicProfileFetch": "Web fetch unavailable; authenticated database provider link was used."
+  },
+  "appliedAtKST": "2026-11-20 12:06:17",
+  "expiresAtKST": "2026-12-20 12:06:17",
+  "auditId": "67067",
+  "result": {
+    "month": 2,
+    "durationDays": 30,
+    "firstMonthPurchased": false,
+    "actualChargeWon": 0,
+    "autoClaim": false,
+    "claimableDays": 13,
+    "claimableFrom": "2026-11-08",
+    "claimableTo": "2026-11-20",
+    "additionalPets": 0,
+    "messages": 0,
+    "otherAccountStatePreserved": true,
+    "globalSalesStillOff": true
+  },
+  "validation": {
+    "tests": 10,
+    "files": [
+      "tests/supporter-pass-months-20261107.test.mjs",
+      "tests/season-pass-month2-sale-control-20261114.test.mjs"
+    ],
+    "failureRollback": [
+      "after-pass",
+      "after-standard-receipt",
+      "after-operation-receipt"
+    ],
+    "fullRehearsalRollback": true,
+    "independentReadOnly": true,
+    "replayQueries": 1,
+    "replayWrites": 0,
+    "leasesReleased": true,
+    "operationLocksRemaining": 0
+  },
+  "performance": {
+    "before": [
+      {
+        "phase": "first",
+        "ms": 81,
+        "sql": 1
+      },
+      {
+        "phase": "repeat",
+        "ms": 79,
+        "sql": 1
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 147,
+        "sql": 2
+      },
+      {
+        "phase": "repeat",
+        "ms": 143,
+        "sql": 2
+      }
+    ],
+    "grantMs": 1064,
+    "condition": "Windows CLI production season-pass service first/repeat; network included; no browser/device FPS or speed improvement claim",
+    "bottleneck": "Database/network round trips. Active season pass reads an additional claim ledger query (1 to 2 SQL).",
+    "preflightFix": {
+      "firstAttempt": "15-second timeout before changing the pass; transaction rolled back and lease released.",
+      "cause": "Whole equipment ownership serialization and sort; planner estimated 3,351,886 equipment rows. Broad prefix join also planned a global metadata scan.",
+      "change": "Removed unrelated equipment read; prove equipment preservation with the SQL write allowlist and transaction table-write statistics. Split claim prefixes into indexed ranges.",
+      "boundedSnapshotMs": 161
+    },
+    "speedImprovementClaim": false,
+    "frameMeasurement": "Not performed: account-data operation with no UI/runtime code change."
+  },
+  "deployment": {
+    "runtimeChanges": 0,
+    "redeployRequired": false
+  },
+  "evidenceDirectory": "operations/moagaryeoga-season-pass-month2-20261120",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:moagaryeoga:season-pass-month2:20261120:v1",
+    "planHash": "21c9665e88ff70784830521f7297f1a05826c2649bd7422aefc8b80c2091aa54",
+    "userId": "2505",
+    "nickname": "모아가려아가",
+    "month": 2,
+    "durationDays": 30,
+    "completedAt": "2026-11-20T03:06:17.317Z",
+    "auditId": "67067",
+    "payload": "[1,2505,\"GRANT\",0,\"사용자 요청: 모아가려아가 2개월차 시즌패스 30일 적용 (실결제 차감 없음)\",2]",
+    "result": {
+      "ok": true,
+      "requestId": "ops_moagaryeoga_month2_20261120_v1",
+      "action": "GRANT",
+      "month": 2,
+      "target": {
+        "id": 2505,
+        "nickname": "모아가려아가"
+      },
+      "amountWon": 0,
+      "actualChargeWon": 0,
+      "note": "사용자 요청: 모아가려아가 2개월차 시즌패스 30일 적용 (실결제 차감 없음)",
+      "processedAt": 1795143977317,
+      "subscription": {
+        "version": 1,
+        "revision": 1,
+        "startsAt": 1795143977317,
+        "endsAt": 1797735977317,
+        "magnetPetCode": null,
+        "revokedAt": null,
+        "passTerms": {
+          "2": {
+            "calendarStartsAt": 1795143977317,
+            "startsAt": 1795143977317,
+            "endsAt": 1797735977317,
+            "revokedAt": null
+          }
+        },
+        "active": true,
+        "extraLegionEntries": 3
+      },
+      "replayed": false,
+      "petReward": {
+        "petCode": "PET-HEADSET-SHIBA",
+        "quantity": 0,
+        "alreadyOwned": true
+      },
+      "operationKey": "ops:moagaryeoga:season-pass-month2:20261120:v1",
+      "source": "OPERATOR_DIRECT_LINK",
+      "normalApplicationSalesUnchanged": true
+    },
+    "actualChargeWon": 0,
+    "autoClaim": false,
+    "messagesSent": 0,
+    "activationPetsGranted": 0,
+    "protectedBeforeHash": "b9bc3761246ee1ed3d55d6c38503bba584efe6eedb350b818bf0eca111655729",
+    "protectedAfterHash": "b9bc3761246ee1ed3d55d6c38503bba584efe6eedb350b818bf0eca111655729"
+  }
+}
