@@ -328,7 +328,7 @@ function finder({open,tiers,selectedTier,rooms,tierLabel,waiting,test,nextEntryA
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?v=9');
+ style('/css/legion-citadel-v1.css?v=20261120-board');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
@@ -367,11 +367,12 @@ export function openCitadel(trigger,firstRead=null){
   clearTimeout(energyTimer);
   if(closed||document.hidden||!resolved)return;
   rechargeHours=legionRechargeMs(LEGION_PARTY_BASE_RECHARGE_MS,clock.now())/3600000;
-  const recovery=legionRecoveryNotice(clock.now()),notice=$('[data-party-recovery-notice]');notice.hidden=!recovery;txt(notice,recovery);
+  const recovery=legionRecoveryNotice(clock.now()),notice=$('[data-party-recovery-notice]');if(notice.hidden!==!recovery)notice.hidden=!recovery;txt(notice,recovery);
   const hours=$('[data-party-recharge-hours]');if(hours)txt(hours,String(rechargeHours));
   const remaining=nextEntryAt?Math.max(0,nextEntryAt-clock.now()):0;
   const seconds=Math.ceil(remaining/1000);
-  energyHud.dataset.charge=displayTest?'test':unlimited?'unlimited':seconds?'charging':'ready';
+  const charge=displayTest?'test':unlimited?'unlimited':seconds?'charging':'ready';
+  if(energyHud.dataset.charge!==charge)energyHud.dataset.charge=charge;
   txt(energyValue,displayTest?'테스트':unlimited?'무제한':seconds?'0 / 1':'1 / 1');
   txt(chargeLabel,displayTest?'테스트 입장':unlimited?'출전 조건':seconds?'다음 충전':'일반 · 클랜 공용');
   txt(chargeTime,displayTest?'소모 없음':unlimited?'2명 모두 준비':seconds?[

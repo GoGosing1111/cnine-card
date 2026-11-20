@@ -8,7 +8,7 @@ import {calamityMaterialCodes,calamityPartyDrops} from './_legion_citadel_calami
 import {legionRewardAvailable} from './_legion_hunt_rewards.js';
 import {UNIQUE_MERCENARY_EQUIPMENT} from '../shared/mercenary-unique-equipment-v1.mjs';
 import {createLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
-import {readCollectionBonuses} from './_collection_bonuses.js';
+import {readCitadelBonuses} from './_legion_citadel_bonuses.js';
 import {readMiracleDropPercent} from './_miracle_burning.js';
 import {DOCKYARD,FIRST_TIER,tierById,CITADEL_ITEM_MULTIPLIER,CITADEL_COIN_MULTIPLIER,CITADEL_UNIQUE_REWARDS} from './_legion_citadel_tiers.js';
 import {jointError} from './_joint_request.js';
@@ -155,7 +155,7 @@ export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,t
  const codes=[...new Set([...configured.keys(),POLISH_ITEM_CODE])];
  const [inventory,region,bonuses,miracle]=await Promise.all([
   activeCatalogRows(env.DB,'SELECT code,name,image_url FROM inventory_items WHERE is_active=1',codes),
-  readRegionPolicy(env),Promise.all(users.map(u=>readCollectionBonuses(env,u.id))),readMiracleDropPercent(env)
+  readRegionPolicy(env),readCitadelBonuses(env,users),readMiracleDropPercent(env)
  ]);
  const material=row=>({ref:row.code,type:'INVENTORY_ITEM',name:row.name,image:row.image_url});
  const supply=inventory.filter(r=>configured.has(r.code)).map(r=>({...material(r),quantity:configured.get(r.code).quantity,weight:configured.get(r.code).weight}));

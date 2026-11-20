@@ -260,3 +260,9 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 
 .ct-hit-layer>canvas{display:block;width:100%;height:100%}
 .ct-light-field .ct-lite>canvas,.ct-light-field .ct-hit-layer{transform:translateZ(0)}
+@media (max-width:700px){
+ .citadel[open]:not(.in-battle){box-shadow:none}
+ .citadel:not(.in-battle)::backdrop{background:#11131a}
+ .citadel:not(.in-battle) :is(.ct-panel,.ct-tier-face,.ct-hero){box-shadow:none}
+ .citadel [data-charge-time]{display:inline-block;min-width:8ch;font-variant-numeric:tabular-nums;contain:layout paint}
+}
