@@ -1,6 +1,7 @@
-import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,eventTime} from '/js/nox-input-v1.mjs?v=20261119-rhythm2';
-import {NOX_TRACK,NOX_RHYTHM_RULES,noxTrack} from '/shared/nox-raid-chart-v1.mjs?v=20261119-rhythm2';
+import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,noxNoteStart,eventTime} from '/js/nox-input-v1.mjs?v=20261120-full1';
+import {NOX_TRACK,NOX_RHYTHM_RULES,noxTrack} from '/shared/nox-raid-chart-v1.mjs?v=20261120-full1';
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clockText=(id,value)=>{const el=$(id);if(el.textContent!==value)el.textContent=value;};
 const roles=['저음','중음','고음'],keys=['D','F','J','K'];
 let token=sessionStorage.getItem('noxLiveRoom')||'',state=null,payload=null,epoch=0,eventSeq=0,pollTimer=0,flushTimer=0,frame=0,toastTimer=0,input=null,layer=null,mounted=false,mountPromise=null,preparing=false,seq=0,offset=Date.now()-performance.now(),bestRtt=Infinity,stageId='',localHits=new Set(),outbox=[],nodes=new Map(),hudSignature='',ended=false,requests=new Set(),polling=false,lastPaint=0,frameTimes=[];
 const posts=new Map(),sentPackets=new Map();
@@ -9,18 +10,27 @@ let calibration=Math.max(-150,Math.min(150,Number(localStorage.getItem('noxTimin
 const audio=new NoxAudio(),serverNow=()=>performance.now()+offset;
 let chartObserver=null,hitY=1,noteHeight=56,combo=0,floorAbort=null;
 const trackUrls=()=>state?.playlist?.length?state.playlist.map(id=>noxTrack(id).source):[NOX_TRACK.source];
+let frameSummary={count:0,total:0,max:0,over50:0};
 const hitAnimations=new Map();
 function clearHitEffects(){for(const list of hitAnimations.values())for(const animation of list)animation.cancel();hitAnimations.clear();}
 function showHit(lane,judged,at){
   const grade=judged?.grade||'EMPTY';$('judgement').textContent=grade;$('judgement').dataset.grade=grade;
   const delta=judged?at-judged.note.at:0;$('timingDetail').textContent=judged?(Math.abs(delta)<12?'정확한 타이밍':`${delta<0?'빠름':'늦음'} ${Math.round(Math.abs(delta))}ms`):'노트가 없는 입력';
   combo=judged?combo+1:0;$('rhythmCombo').textContent=combo?combo+' COMBO':'';
-  const effect=layer.querySelector(`[data-hit-lane="${lane}"]`),column=layer.querySelectorAll('.nox-chart-columns i')[lane];
+  const effect=layer.querySelector(`[data-hit-lane="${lane}"]`),column=layer.querySelectorAll('.nox-chart-columns i')[lane],key=layer.querySelector(`.nox-keys [data-nox-lane="${lane}"]`),receptor=layer.querySelectorAll('.nox-hit-line i')[lane];
   for(const animation of hitAnimations.get(lane)||[])animation.cancel();
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,options={duration:reduced?160:300,easing:'cubic-bezier(.16,1,.3,1)'};
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,perfect=grade==='PERFECT',options={duration:reduced?120:320,easing:'cubic-bezier(.16,1,.3,1)'};
   effect.dataset.grade=grade;
-  const animations=[effect.animate([{opacity:judged?1:.18,transform:'scale(.72)'},{opacity:0,transform:`scale(${reduced?1:1.7})`}],options),column.animate([{backgroundColor:judged?'#ffd99d26':'#ec283d33'},{backgroundColor:'transparent'}],{duration:180})];
+  const animations=[column.animate([{backgroundColor:judged?'#ffd99d1a':'#ec283d22'},{backgroundColor:'transparent'}],{duration:140})];
+  if(judged){
+    audio.hit(grade);
+    animations.push(effect.animate([{opacity:1,transform:reduced?'none':'scale(.65,.7)'},{opacity:perfect?1:.8,transform:reduced?'none':'scale(1.12,1)',offset:.18},{opacity:0,transform:reduced?'none':`scale(${perfect?1.55:1.3},1.2)`}],options));
+    animations.push(key.animate(reduced?[{filter:'brightness(1.8)'},{filter:'brightness(1)'}]:[{transform:'translateY(3px) scale(.97,.92)',filter:'brightness(2)'},{transform:'translateY(-1px) scale(1.015,1.04)',filter:'brightness(1.3)',offset:.45},{transform:'none',filter:'brightness(1)'}],{duration:reduced?100:190,easing:'ease-out'}));
+    animations.push(receptor.animate([{filter:`grayscale(0) brightness(${perfect?2.5:1.8})`},{filter:'grayscale(1) brightness(.75)'}],{duration:180}));
+  }
   hitAnimations.set(lane,animations);
+  for(const animation of hitAnimations.get('readout')||[])animation.cancel();
+  hitAnimations.set('readout',judged?[$('judgement').animate(reduced?[{opacity:1},{opacity:1}]:[{transform:`scale(${perfect?1.16:1.08})`,textShadow:'0 0 18px #ffc980'},{transform:'scale(1)',textShadow:'0 2px 3px #000'}],{duration:190,easing:'ease-out'}),$('rhythmCombo').animate([{transform:reduced?'none':`scale(${combo%10===0?1.22:1.08})`,color:'#fff4ce'},{transform:'none',color:'#ffca9b'}],{duration:220})]:[]);
 }
 const fmt=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');};
 let rhythmArtPromise=null;
@@ -36,7 +46,7 @@ async function api(route,body,{keepalive=false,controller=new AbortController()}
   const auth=playerToken();requests.add(controller);const timeout=setTimeout(()=>controller.abort(),7000);
   const kind=route.split('?')[0];let endpoint='/api/raid/nox/'+route;
   if(body===undefined&&token)endpoint+=(endpoint.includes('?')?'&':'?')+'roomId='+encodeURIComponent(token);
-  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:3,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
+  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:4,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
   try{
     let result;
     for(let attempt=0;attempt<2;attempt++){
@@ -127,14 +137,14 @@ function updateMechanic(){
 }
 function paint(now){
   frame=0;if(!state||state.status!=='ACTIVE'||!mounted||document.hidden)return;
-  if(lastPaint&&frameTimes.length<2400)frameTimes.push(now-lastPaint);lastPaint=now;
-  const c=state.challenge,t=serverNow();$('enrageClock').textContent=fmt(state.endsAt-t);$('mechanicClock').textContent=t<c.startsAt?`시작까지 ${Math.ceil((c.startsAt-t)/1000)}`:c.stage==='EXPOSED'?fmt(c.deadline-t):c.stage==='MEMORY'?`${Math.max(0,(c.deadline-t)/1000).toFixed(1)}초`:c.stage==='COOP'?`${Math.max(0,(c.targetAt-t)/1000).toFixed(2)}초`:'';
+  if(lastPaint){const dt=now-lastPaint;if(frameTimes.length<2400)frameTimes.push(dt);frameSummary.count++;frameSummary.total+=dt;frameSummary.max=Math.max(frameSummary.max,dt);if(dt>50)frameSummary.over50++;}lastPaint=now;
+  const c=state.challenge,t=serverNow();clockText('enrageClock',fmt(state.endsAt-t));clockText('mechanicClock',t<c.startsAt?`시작까지 ${Math.ceil((c.startsAt-t)/1000)}`:c.stage==='EXPOSED'?fmt(c.deadline-t):c.stage==='MEMORY'?`${Math.max(0,(c.deadline-t)/1000).toFixed(1)}초`:c.stage==='COOP'?`${Math.max(0,(c.targetAt-t)/1000).toFixed(2)}초`:'');
   if(c.stage==='RHYTHM'){
-    $('rhythmClock').textContent=$('mechanicClock').textContent;
+    clockText('rhythmClock',t<c.startsAt?$('mechanicClock').textContent:fmt(noxTrack(c.trackId).chartEndMs-(audio.timeAt()??t-c.musicStartAt)));
     // RAF's shared timestamp can precede expensive V3 callbacks. Sample when
     // actually drawing, using the same clock/calibration as the input event.
     const age=noxRhythmTime(audio.timeAt()??t-c.musicStartAt,calibration),visible=new Set();
-    for(const n of c.chart){const delta=n.at-age;if(delta>NOX_RHYTHM_RULES.travelMs||delta< -NOX_RHYTHM_RULES.goodMs||localHits.has(n.id))continue;visible.add(n.id);let el=nodes.get(n.id);if(!el){el=document.createElement('div');el.className='nox-note';el.dataset.noteId=n.id;el.dataset.tone=n.lane===1||n.lane===2?'ivory':'ruby';el.style.setProperty('--lane',n.lane);$('notes').append(el);nodes.set(n.id,el);}el.style.transform=`translateY(${noxNoteY(n.at,age,hitY,noteHeight)}px)`;}
+    for(let i=noxNoteStart(c.chart,age-NOX_RHYTHM_RULES.goodMs);i<c.chart.length;i++){const n=c.chart[i];if(n.at>age+NOX_RHYTHM_RULES.travelMs)break;if(localHits.has(n.id))continue;visible.add(n.id);let el=nodes.get(n.id);if(!el){el=document.createElement('div');el.className='nox-note';el.dataset.noteId=n.id;el.dataset.tone=n.lane===1||n.lane===2?'ivory':'ruby';el.style.setProperty('--lane',n.lane);$('notes').append(el);nodes.set(n.id,el);}el.style.transform=`translateY(${noxNoteY(n.at,age,hitY,noteHeight)}px)`;}
     for(const [id,el]of nodes)if(!visible.has(id)){el.remove();nodes.delete(id);}
   }else if(c.stage==='MEMORY'){
     const cue=c.cues?.find(cue=>t>=cue.from&&t<cue.to);const cueId=cue?.tile??null;if(c.cue!==cueId){c.cue=cueId;c.cueStep=cue?.step??null;window.NoxBattle.memoryCue(state);}const showing=t<c.revealEnd;layer.querySelectorAll('.nox-floor-target').forEach(b=>{b.disabled=showing||state.me.hp<=0||state.me.memoryIndex>=3;});window.NoxBattle.placeFloorTargets($('floorTargets'));
@@ -173,7 +183,7 @@ function stopLoops(){clearTimeout(pollTimer);clearTimeout(flushTimer);cancelAnim
 function schedulePoll(){clearTimeout(pollTimer);if(!token||ended||document.hidden)return;pollTimer=setTimeout(()=>void sync(),state?.status==='ACTIVE'?200:1500);}
 async function sync(){if(!token||polling)return;polling=true;const version=epoch;try{const result=await api('state?since='+eventSeq+(!payload?'&payload=1':''));if(version===epoch){render(result);if(state?.status!=='LOBBY'&&!mounted)await mountBattle();}}catch(error){if(version===epoch&&error.name!=='AbortError'){toast(error.message);if(error.status===401||error.status===403||error.status===404||error.status===423)await leave(false);}}finally{polling=false;if(version===epoch)schedulePoll();}}
 async function leave(notify=true){
-  const oldToken=token;epoch++;stopLoops();requests.forEach(c=>c.abort());requests.clear();posts.clear();sentPackets.clear();retryAt=0;retryDelay=250;input?.destroy();input=null;floorAbort?.abort();chartObserver?.disconnect();await audio.suspend();window.NoxBattle?.teardown();mounted=false;mountPromise=null;layer?.remove();layer=null;nodes.clear();outbox=[];stageId='';token='';sessionStorage.removeItem('noxLiveRoom');state=null;payload=null;eventSeq=0;seq=0;ended=false;preparing=false;hudSignature='';bestRtt=Infinity;frameTimes=[];screen(false);$('createForm').hidden=false;$('assembly').hidden=true;$('createButton').disabled=false;$('audioResume').hidden=true;
+  const oldToken=token;epoch++;stopLoops();requests.forEach(c=>c.abort());requests.clear();posts.clear();sentPackets.clear();retryAt=0;retryDelay=250;input?.destroy();input=null;floorAbort?.abort();chartObserver?.disconnect();await audio.suspend();window.NoxBattle?.teardown();mounted=false;mountPromise=null;layer?.remove();layer=null;nodes.clear();outbox=[];stageId='';token='';sessionStorage.removeItem('noxLiveRoom');state=null;payload=null;eventSeq=0;seq=0;ended=false;preparing=false;hudSignature='';bestRtt=Infinity;frameTimes=[];frameSummary={count:0,total:0,max:0,over50:0};screen(false);$('createForm').hidden=false;$('assembly').hidden=true;$('createButton').disabled=false;$('audioResume').hidden=true;
   if(notify&&oldToken)try{await api('leave',{roomId:oldToken},{keepalive:true});}catch(error){toast(error.message);}
 }
 async function establish(action,body){$('createButton').disabled=true;$('joinButton').disabled=true;try{await leave();const result=await api(action,body);token=result.roomId;sessionStorage.setItem('noxLiveRoom',token);render(result);schedulePoll();}catch(error){toast(error.message);}finally{$('createButton').disabled=false;$('joinButton').disabled=false;}}
@@ -196,5 +206,5 @@ async function boot(){
     const result=await api('deck');$('deckList').innerHTML=result.cards.map(c=>`<figure><img src="${esc(c.image)}" alt="${esc(c.title)}" loading="lazy"><figcaption>${esc(c.title)}</figcaption></figure>`).join('');$('deckNotice').textContent='저장된 PVE 덱으로 출전합니다. · '+result.account.name;token=result.roomId||'';if(token){sessionStorage.setItem('noxLiveRoom',token);await sync();}else sessionStorage.removeItem('noxLiveRoom');$('createButton').disabled=$('joinButton').disabled=false;
   }catch(error){$('deckNotice').textContent=error.message;$('feeDetail').textContent=error.message;token='';}
 }
-window.NoxRaid={sync,leave,diagnostics:()=>({state,mounted,pendingInputs:outbox.length,inputRequests:posts.size,inputPackets:sentPackets.size,inflight:requests.size,poll:!!pollTimer,raf:!!frame,held:input?.held.size||0,audio:audio.context?.state,playing:!!audio.source,trackUrl:audio.trackUrl,preparedTracks:audio.buffers.size,audioBufferBytes:[...audio.buffers.values()].reduce((n,b)=>n+b.length*b.numberOfChannels*4,0),audioPositionMs:audio.timeAt(),serverNowEstimate:serverNow(),notes:nodes.size,frameTimes:[...frameTimes],battle:window.NoxBattle?.diagnostics()})};
+window.NoxRaid={sync,leave,diagnostics:()=>({state,mounted,pendingInputs:outbox.length,inputRequests:posts.size,inputPackets:sentPackets.size,inflight:requests.size,poll:!!pollTimer,raf:!!frame,held:input?.held.size||0,audio:audio.context?.state,playing:!!audio.source,trackUrl:audio.trackUrl,hitVoices:audio.hitVoices.size,hitAnimations:[...hitAnimations.values()].flat().filter(a=>a.playState==='running').length,preparedTracks:audio.buffers.size,audioBufferBytes:[...audio.buffers.values()].reduce((n,b)=>n+b.length*b.numberOfChannels*4,0),audioPositionMs:audio.timeAt(),serverNowEstimate:serverNow(),notes:nodes.size,frameTimes:[...frameTimes],frameSummary:{...frameSummary},battle:window.NoxBattle?.diagnostics()})};
 void boot();

@@ -16,7 +16,7 @@ test('early/late edge judgments agree, including key event queued behind a long 
 test('every measured auction song has a distinct chart; all members receive one nonrepeating playlist',()=>{
  assert.equal(NOX_TRACKS.length,61);assert.equal(new Set(NOX_TRACKS.map(t=>t.sha256)).size,61);
  const selected=new Set();for(let seed=0;seed<1000;seed++){const p=noxPlaylist(seed);assert.equal(new Set(p).size,3);assert.deepEqual(p,noxPlaylist(seed));p.forEach(id=>selected.add(id));}assert.equal(selected.size,61);
- for(const t of NOX_TRACKS){assert(t.notes.length>=48);assert(t.durationMs>=31000);assert.equal(t.chartEndMs,30000);assert.equal(new Set(t.notes.map(n=>n.id)).size,t.notes.length);for(let i=0;i<t.notes.length;i++){const n=t.notes[i];assert(n.lane>=0&&n.lane<=3);assert(n.at>=5000&&n.at<=29000);if(i)assert(t.notes[i-1].at<=n.at);assert(t.notes.filter(other=>other.lane===n.lane&&Math.abs(other.at-n.at)<320).length===1);}}
+ for(const t of NOX_TRACKS){assert(t.notes.length>=48);assert(t.durationMs>=31000);assert.equal(t.chartEndMs,t.durationMs);assert.equal(new Set(t.notes.map(n=>n.id)).size,t.notes.length);for(let i=0;i<t.notes.length;i++){const n=t.notes[i];assert(n.lane>=0&&n.lane<=3);assert(n.at>=5000&&n.at<=t.durationMs-160);if(i)assert(t.notes[i-1].at<=n.at);assert(t.notes.filter(other=>other.lane===n.lane&&Math.abs(other.at-n.at)<320).length===1);}}
  const r=party();for(const m of r.members)assert.deepEqual(noxView(r,m.id).playlist,r.playlist);assert.equal(r.challenge.trackId,r.playlist[0]);assert.deepEqual(r.challenge.chart,noxTrack(r.challenge.trackId).notes);
 });
 test('all 61 charts survive on GOOD with three misses and reach the real memory stage',()=>{
@@ -42,9 +42,9 @@ test('audio caches by URL, schedules the selected track and discards unfinished 
  const sample=(value,length=1600)=>({length,numberOfChannels:1,sampleRate:40,duration:length/40,getChannelData:()=>new Float32Array(length).fill(value)});
  const ctx={state:'running',currentTime:10,destination:{},getOutputTimestamp:()=>({contextTime:9.9,performanceTime:1000}),decodeAudioData:async bytes=>delayed?await new Promise(r=>resolveDecode=r):sample(new Uint8Array(bytes)[0]),createBuffer:(_channels,length,rate)=>({length,sampleRate:rate,numberOfChannels:1,duration:length/rate,copyToChannel(data){this.first=data[0];}}),createBufferSource:()=>({connect(){},disconnect(){},start(...args){this.started=args;},stop(){}}),createGain:()=>({gain:{},connect(){},disconnect(){}}),suspend:async()=>{ctx.state='suspended';}};
  globalThis.fetch=async url=>{downloads++;return {ok:true,arrayBuffer:async()=>Uint8Array.of(url==='/a'?1:2).buffer};};t.after(()=>globalThis.fetch=previous);
- const a=new NoxAudio();a.context=ctx;await a.prepareAll(['/a','/b','/a']);assert.equal(downloads,2);assert.equal(a.buffers.size,2);assert.equal(a.buffers.get('/a').length,1240);
- a.schedule('/a',20000,19000);assert.equal(a.source.buffer.first,1);assert.deepEqual(a.source.started,[11,0]);assert(Math.abs(a.timeAt(2100))<1e-7);
- a.schedule('/b',20000,19000);assert.equal(a.source.buffer.first,2);assert.equal(a.trackUrl,'/b');
+ const a=new NoxAudio();a.context=ctx;await a.prepareAll(['/a','/b','/a']);assert.equal(downloads,2);assert.equal(a.buffers.size,2);assert.equal(a.buffers.get('/a').length,1600);
+ a.schedule('/a',20000,19000);assert.equal(a.source.buffer.getChannelData(0)[0],1);assert.deepEqual(a.source.started,[11,0]);assert(Math.abs(a.timeAt(2100))<1e-7);
+ a.schedule('/b',20000,19000);assert.equal(a.source.buffer.getChannelData(0)[0],2);assert.equal(a.trackUrl,'/b');
  delayed=true;const pending=a.prepare('/c');await new Promise(r=>setTimeout(r,0));await a.suspend();resolveDecode(sample(3));await assert.rejects(pending,{name:'AbortError'});assert.equal(a.buffers.size,0);assert.equal(a.loading.size,0);assert.equal(a.source,null);
 });
 test('Nox battle bundle carries the shared renderer runtime instead of loading a second engine',()=>{

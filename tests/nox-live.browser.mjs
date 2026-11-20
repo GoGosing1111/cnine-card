@@ -1,14 +1,16 @@
 import {variantPaths} from '../shared/onestore-web-assets-v1.mjs';
 import {htmlForStore} from '../functions/_onestore_web.js';
 import {canonicalDocument} from '../shared/onestore-web-v1.mjs';
-import fs from 'node:fs';import os from 'node:os';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';import path from 'node:path';import http from 'node:http';import assert from 'node:assert/strict';
+import fs from 'node:fs';import os from 'node:os';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';import path from 'node:path';import {pathToFileURL} from 'node:url';import http from 'node:http';import assert from 'node:assert/strict';
 import {chromium,webkit} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
-import {noxFixture} from './helpers/nox-live-fixture.mjs';
-import {handleNoxLive} from '../functions/_raid_nox_live.js';
-import {tickNoxRoom,actNoxRoom,NOX_RULES,noxView,noxBattlePayload} from '../functions/_raid_nox.js';
-import {noxTrack} from '../shared/nox-raid-chart-v1.mjs';
+const sourceRoot=process.env.NOX_QA_SOURCE||path.resolve(import.meta.dirname,'..');
+const sourceImport=file=>import(pathToFileURL(path.join(sourceRoot,file)));
+const {noxFixture}=await sourceImport('tests/helpers/nox-live-fixture.mjs');
+const {handleNoxLive}=await sourceImport('functions/_raid_nox_live.js');
+const {tickNoxRoom,actNoxRoom,NOX_RULES,noxView,noxBattlePayload}=await sourceImport('functions/_raid_nox.js');
+const {noxTrack,NOX_TRACKS}=await sourceImport('shared/nox-raid-chart-v1.mjs');
 import sharp from 'sharp';
-const root=path.resolve(import.meta.dirname,'..'),out=process.env.NOX_QA_OUTPUT||fs.mkdtempSync(path.join(os.tmpdir(),'nox-browser-')),profile=process.argv[2]||'mobile',mobile=['mobile','webkit','h5'].includes(profile);
+const root=sourceRoot,out=process.env.NOX_QA_OUTPUT||fs.mkdtempSync(path.join(os.tmpdir(),'nox-browser-')),profile=process.argv[2]||'mobile',mobile=['mobile','webkit','h5'].includes(profile);
 const f=await noxFixture(),mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.json':'application/json','.woff2':'font/woff2','.mp3':'audio/mpeg'},requests=[],errors=[],broken=[];
 const user={id:1,serverUserId:1,nickname:'녹스 검수',role:'OWNER',coin:999999999999999999,cardShards:0,masterStars:100,owned:[],quantities:{},breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
 let origin,actionResponses=0;
@@ -21,22 +23,29 @@ const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,or
     let response=await handleNoxLive({path:endpoint,request,env:f.env,deps});
     if(!response){const data={'admin/dashboard':{role:'OWNER',admin:user,stats:{users:8,cards:5,totalCoin:0,draws24h:0},recentUsers:[],recentLogs:[],logs:[],recent:[]},'service/status':{maintenance:{active:false}},'me/summary':{user,prison:{incarcerated:false}},me:{user},cards:{cards:[]},packs:{packs:[]},messages:{messages:[],unread:0},'chief/status':{chief:{active:false}},'shell/summary':{inventory:{},messages:{unread:0},avatarFeature:{visible:false},alchemyFeature:{visible:false}},'live-operations':{serverNow:new Date().toISOString(),items:[]}}[endpoint]||{ok:true,visible:false,accessible:false,enabled:false,items:[],profiles:[],cards:[],loadouts:[],rooms:[],settings:{}};response=Response.json(data);}
     if(replayMembers&&['raid/nox/create','raid/nox/ready'].includes(endpoint)&&response.ok){const result=await response.json();await replayParty(result.roomId);const room=JSON.parse((await f.one('SELECT state_json FROM raid_nox_rooms_v1 WHERE room_id=$1',[result.roomId])).state_json),release=result.state.release;result.state={...result.state,...noxView(room,'1'),release};result.payload={...noxBattlePayload(room,'1'),reviewOnly:false};response=Response.json(result);}
+    if(process.env.NOX_FIXED_PLAYLIST==='1'&&endpoint==='raid/nox/create'&&response.ok){const result=await response.json();const playlist=NOX_TRACKS.slice(0,3).map(t=>t.id);await f.changeRoom(result.roomId,r=>{r.playlist=playlist;});result.state.playlist=playlist;response=Response.json(result);}
     const injected=!!(packet&&response.ok&&process.env.NOX_LOST_ACK==='1'&&actionResponses++===0);
     if(injected){const result=await response.json();response=Response.json({error:'검수: 처리 후 응답 유실',code:'NOX_RETRYABLE',serverNow:result.serverNow,serverReceivedAt:result.serverReceivedAt},{status:503});}
     requests.push({endpoint,at:receivedAt,ms:performance.now()-started,status:response.status,cancelled:res.destroyed,...(packet?{seq:packet.seq,stream:packet.stream,oldestInputAgeMs:receivedAt-packet.inputs[0].at,newestInputAgeMs:receivedAt-packet.inputs.at(-1).at}:{}),...(injected?{injected:true}:{})});if(packet&&process.env.NOX_ACTION_RESPONSE_DELAY_MS)await new Promise(r=>setTimeout(r,Number(process.env.NOX_ACTION_RESPONSE_DELAY_MS)));res.writeHead(response.status,{'content-type':'application/json','cache-control':'no-store'});res.end(await response.text());return;
   }
   const storeAsset=variantPaths.includes(pathname)||['/h5-policy.js','/h5-sdk.js','/h5.css'].includes(pathname);if(store&&!storeAsset&&!canonicalDocument(url.pathname))throw Error('Unregistered store document');
-  let name=decodeURIComponent(pathname).replace(/^\//,'');if(store&&(storeAsset||pathname==='/'))name='onestore/'+name;if(!name||name.endsWith('/'))name+='index.html';if(name.includes('..'))throw Error('path');let bytes;if(process.env.NOX_LIVE_ASSETS){const remote=await fetch(process.env.NOX_LIVE_ASSETS+'/'+name.split('/').map(encodeURIComponent).join('/'));if(!remote.ok)throw Error('Public asset '+name+' '+remote.status);bytes=Buffer.from(await remote.arrayBuffer());}else try{bytes=fs.readFileSync(path.join(root,name));}catch{bytes=execFileSync('git',['show','HEAD:'+name],{cwd:root,maxBuffer:30e6,windowsHide:true,stdio:['ignore','pipe','ignore']});}if(store&&name.endsWith('.html')&&!process.env.NOX_LIVE_ASSETS)bytes=Buffer.from(htmlForStore(bytes.toString(),pathname));res.writeHead(200,{'content-type':mime[path.extname(name)]||'application/octet-stream','cache-control':'public,max-age=600'});res.end(bytes);
+  let name=decodeURIComponent(pathname).replace(/^\//,'');if(store&&(storeAsset||pathname==='/'))name='onestore/'+name;if(!name||name.endsWith('/'))name+='index.html';if(name.includes('..'))throw Error('path');let bytes;if(process.env.NOX_LIVE_ASSETS){const remote=await fetch(process.env.NOX_LIVE_ASSETS+'/'+name.split('/').map(encodeURIComponent).join('/'));if(!remote.ok)throw Error('Public asset '+name+' '+remote.status);bytes=Buffer.from(await remote.arrayBuffer());}else try{const changed=new Set(['js/nox-input-v1.mjs','shared/nox-raid-chart-v1.mjs','raid/nox/index.html','raid/nox/raid.css','raid/nox/raid.mjs']);const localRoot=process.env.NOX_QA_UNCHANGED_ROOT&&!changed.has(name)?process.env.NOX_QA_UNCHANGED_ROOT:root;bytes=fs.readFileSync(path.join(localRoot,name));}catch{bytes=execFileSync('git',['show','HEAD:'+name],{cwd:root,maxBuffer:30e6,windowsHide:true,stdio:['ignore','pipe','ignore']});}if(store&&name.endsWith('.html')&&!process.env.NOX_LIVE_ASSETS)bytes=Buffer.from(htmlForStore(bytes.toString(),pathname));res.writeHead(200,{'content-type':mime[path.extname(name)]||'application/octet-stream','cache-control':'public,max-age=600'});res.end(bytes);
 }catch(error){res.writeHead(404,{'content-type':'text/plain'});res.end(error.message);}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));origin='http://127.0.0.1:'+server.address().port;
 const browser=await (profile==='webkit'?webkit:chromium).launch(profile==='webkit'?{headless:true,executablePath:'C:/Users/User/AppData/Local/ms-playwright/webkit-2336/Playwright.exe'}:{headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--autoplay-policy=no-user-gesture-required','--mute-audio']});
 const context=await browser.newContext({viewport:process.env.NOX_VIEWPORT?JSON.parse(process.env.NOX_VIEWPORT):mobile?{width:390,height:844}:{width:1440,height:900},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:1,serviceWorkers:'block'});
 await context.addInitScript(user=>{window.ONEstoreH5={on:()=>{},off:()=>{},onBackPressed:()=>{},openDeeplink:async()=>{},initializeAsync:async()=>({playerId:'isolated',safeArea:{},ringerSilent:true}),setLoadingProgress:()=>{},startGameAsync:async()=>{},getUserIdAsync:async()=>({userId:'isolated'})};localStorage.setItem('cnine_card_api_token','qa-1');localStorage.setItem('cnine_admin_token','qa-1');localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_soop_watch_notice:20261026-v1:1','shown');},user);
 await context.route('https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js',route=>route.fulfill({contentType:'text/javascript',body:'export function createSDK(){return window.ONEstoreH5;}'}));
+await context.addInitScript(()=>{
+ if(!location.pathname.includes('/raid/nox/'))return;
+ window.__noxPerf={decodes:[],longTasks:[]};try{new PerformanceObserver(list=>{for(const e of list.getEntries())if(window.__noxPerf.longTasks.length<200)window.__noxPerf.longTasks.push({start:e.startTime,ms:e.duration});}).observe({type:'longtask',buffered:true});}catch{}
+ const proto=(window.AudioContext||window.webkitAudioContext)?.prototype,decode=proto?.decodeAudioData;if(decode)proto.decodeAudioData=function(...args){const started=performance.now();return decode.apply(this,args).then(buffer=>{window.__noxPerf.decodes.push({ms:performance.now()-started,duration:buffer.duration,bytes:buffer.length*buffer.numberOfChannels*4});return buffer;});};
+});
 const warnings=[];
 const page=await context.newPage();page.on('console',m=>{if(['error','warning'].includes(m.type()))warnings.push({type:m.type(),text:m.text()});});page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&!r.url().includes('/api/'))broken.push({url:r.url().replace(origin,''),status:r.status()});});
 await page.addLocatorHandler(page.locator('.soop-consent-dialog[open]'),d=>d.locator('[data-soop-close]').first().click());
-const report={profile,emulation:true,physicalDevice:false,network:'Windows loopback / PGlite; browser cache cold then warm',...(profile==='h5'?{h5Entry:'generated onestore/index.html with actual route allowlist; SDK host emulated'}:{}),visits:[],errors,broken,warnings};
+if(profile==='h5')await page.addLocatorHandler(page.frameLocator('iframe').locator('.soop-consent-dialog[open]'),d=>d.locator('[data-soop-close]').first().click());
+const report={profile,sourceRoot,unchangedFilesRoot:process.env.NOX_QA_UNCHANGED_ROOT||sourceRoot,fixedPlaylist:process.env.NOX_FIXED_PLAYLIST==='1',emulation:true,physicalDevice:false,network:'Windows loopback / PGlite; browser cache cold then warm',...(profile==='h5'?{h5Entry:'generated onestore/index.html with actual route allowlist; SDK host emulated'}:{}),visits:[],errors,broken,warnings};
 const captureStages=process.env.NOX_CAPTURE_STAGES==='1';
 const replayMembers=process.env.NOX_REPLAY_FILE?JSON.parse(fs.readFileSync(process.env.NOX_REPLAY_FILE,'utf8')).rooms.find(r=>r.stage==='MEMORY').members:null;
 async function replayParty(roomId){if(!replayMembers)return;await f.changeRoom(roomId,r=>{r.members.forEach((m,i)=>{const source=replayMembers[i%replayMembers.length];for(const key of ['cards','fighters','supports','pet'])m[key]=structuredClone(source[key]);for(const actor of [...m.fighters,...(m.supports||[])]){actor.hp=actor.maxHp;actor.alive=true;actor.memberName='검수 공대원';}m.maxHp=m.hp=m.fighters.reduce((n,a)=>n+a.maxHp,0);});});}
@@ -101,7 +110,8 @@ try{
     for(const id of [2,3]){assert.equal((await f.command('join',{roomId},id)).status,200);assert.equal((await f.command('ready',{roomId,ready:true,acceptedCoins:'0'},id)).status,200);}
     await replayParty(roomId);
     const prepareAt=performance.now();await raid.locator('#readyButton').click();await raid.locator('#startButton').waitFor({state:'visible',timeout:30000});const prepareMs=performance.now()-prepareAt;
-    (report.loading??=[]).push({visit,lobbyMs,prepareMs});
+    const preparation=await raid.evaluate(()=>({...window.__noxPerf,slowResources:performance.getEntriesByType('resource').sort((a,b)=>b.duration-a.duration).slice(0,10).map(r=>({file:new URL(r.name).pathname,ms:r.duration,bytes:r.transferSize}))}));
+    (report.loading??=[]).push({visit,lobbyMs,prepareMs,...preparation});
     await replayParty(roomId);
     if(process.env.NOX_RESIZE_WAITING==='1'){
       const box=page.viewportSize();await page.setViewportSize({width:box.width-24,height:box.height-24});await page.waitForTimeout(500);await page.setViewportSize(box);await page.waitForTimeout(500);
@@ -110,9 +120,11 @@ try{
     await raid.waitForFunction(()=>document.getElementById('rhythm')&&!document.getElementById('rhythm').hidden);
     // Full feedback run: play the complete chart through the real input listener,
     // at +110ms without calibration. Only other fixture members are simulated.
+    if(process.env.NOX_CAPTURE_HIT==='1')await raid.evaluate(()=>{const s=document.getElementById('judgement');window.__noxHitObserver=new MutationObserver(()=>{if(!['PERFECT','GOOD'].includes(s.textContent))return;window.__noxHitSample={grade:s.textContent,at:performance.now(),voices:window.NoxRaid.diagnostics().hitVoices,animations:document.getAnimations().filter(a=>a.playState==='running').length};});window.__noxHitObserver.observe(s,{childList:true});});
+    const captureHit=process.env.NOX_CAPTURE_HIT==='1'?raid.waitForFunction(()=>window.__noxHitSample?.voices>0).then(async()=>{report.hitFeedback=await raid.evaluate(()=>window.__noxHitSample);await page.screenshot({path:path.join(out,profile+'-hit-'+visit+'.png')});}):Promise.resolve();
     const full=process.env.NOX_FULL_RHYTHM==='1'&&visit===0&&!mobile;
-    const music=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics();return {trackId:d.state.challenge.trackId,url:d.trackUrl,prepared:d.preparedTracks,bufferBytes:d.audioBufferBytes,calibration:document.getElementById('calibration').value};});
-    assert.equal(music.url,noxTrack(music.trackId).source);assert.equal(music.prepared,3);assert.equal(music.calibration,'0');assert(music.bufferBytes<=3*31*48000*2*4);
+    const music=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics();return {playlist:d.state.playlist,trackId:d.state.challenge.trackId,url:d.trackUrl,prepared:d.preparedTracks,bufferBytes:d.audioBufferBytes,calibration:document.getElementById('calibration').value};});
+    assert.equal(music.url,noxTrack(music.trackId).source);assert.equal(music.prepared,3);assert.equal(music.calibration,'0');assert(music.bufferBytes<=3*68*48000*2*4);
     // Drive the real input listener at the audio clock's first eight notes.
     let hits;
     if(mobile&&profile!=='webkit'){
@@ -128,11 +140,12 @@ try{
         };run();});
       },{full,delay:Number(process.env.NOX_INPUT_DELAY_MS??110)});
     }
+    await captureHit;
     if(process.env.NOX_ACTION_RESPONSE_DELAY_MS||process.env.NOX_ACTION_PROCESS_DELAY_MS){await page.waitForTimeout(Math.max(Number(process.env.NOX_ACTION_RESPONSE_DELAY_MS||0),Number(process.env.NOX_ACTION_PROCESS_DELAY_MS||0))*2+300);hits=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me.hits.length);}
     assert(hits>=(process.env.NOX_ACTION_RESPONSE_DELAY_MS||process.env.NOX_ACTION_PROCESS_DELAY_MS?8:7),'key inputs should score: '+hits);
-    if(full){const result=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me);assert(result.score/result.hits.length>=.9);report.fullRhythm={hits:result.hits.length,score:result.score,calibration:0,targetDelayMs:Number(process.env.NOX_INPUT_DELAY_MS??110)};}
+    if(full){const result=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me);assert(result.score/result.hits.length>=.9);assert.equal(result.hits.length,noxTrack(music.trackId).notes.length);report.fullRhythm={hits:result.hits.length,score:result.score,totalNotes:noxTrack(music.trackId).notes.length,durationMs:noxTrack(music.trackId).durationMs,lastNoteAt:noxTrack(music.trackId).notes.at(-1).at,calibration:0,targetDelayMs:Number(process.env.NOX_INPUT_DELAY_MS??110)};}
     await page.screenshot({path:path.join(out,profile+'-rhythm-'+visit+'.png')});
-    const stats=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics(),a=d.frameTimes.sort((a,b)=>a-b);return {samples:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,over50:a.filter(t=>t>50).length,hits:d.state.me.hits.length,score:d.state.me.score,clockError:d.serverNowEstimate-Date.now(),inflight:d.inflight};});
+    const stats=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics(),a=d.frameTimes.sort((a,b)=>a-b);return {wholeRun:d.frameSummary,samples:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,over50:a.filter(t=>t>50).length,hits:d.state.me.hits.length,score:d.state.me.score,clockError:d.serverNowEstimate-Date.now(),inflight:d.inflight};});
     if(process.env.NOX_INTERRUPTED_RENDERER==='1'){
       await raid.evaluate(async()=>{await window.NoxBattle.visible(false);const c=document.querySelector('canvas');c.width=c.width;});
     }
@@ -167,7 +180,7 @@ try{
       await raid.locator('#resultDialog').waitFor({state:'visible'});await raid.locator('#retryButton').click();
     }else await raid.locator('#leaveButton').click();
     await raid.waitForFunction(()=>!window.NoxRaid.diagnostics().mounted);
-    const exitAt=Date.now();await page.waitForTimeout(Math.max(650,Number(process.env.NOX_ACTION_PROCESS_DELAY_MS||0)+100));const cleanup=await raid.evaluate(()=>window.NoxRaid.diagnostics());assert.equal(cleanup.poll,false);assert.equal(cleanup.raf,false);assert.equal(cleanup.playing,false);assert.equal(cleanup.preparedTracks,0);assert.equal(cleanup.inputRequests,0);assert.equal(cleanup.inputPackets,0);assert.equal(cleanup.battle.canvases,0);assert.equal(cleanup.battle.viewportObserved,false);assert.deepEqual(cleanup.battle.art,{poses:0,fxFrames:0,invalid:0});assert.equal(requests.filter(r=>r.at>exitAt&&r.endpoint.startsWith('raid/nox/')).length,0);
+    const exitAt=Date.now();await page.waitForTimeout(Math.max(650,Number(process.env.NOX_ACTION_PROCESS_DELAY_MS||0)+100));const cleanup=await raid.evaluate(()=>{window.__noxHitObserver?.disconnect();return window.NoxRaid.diagnostics();});assert.equal(cleanup.poll,false);assert.equal(cleanup.raf,false);assert.equal(cleanup.playing,false);assert.equal(cleanup.preparedTracks,0);assert.equal(cleanup.hitVoices||0,0);assert.equal(cleanup.hitAnimations||0,0);assert.equal(cleanup.inputRequests,0);assert.equal(cleanup.inputPackets,0);assert.equal(cleanup.battle.canvases,0);assert.equal(cleanup.battle.viewportObserved,false);assert.deepEqual(cleanup.battle.art,{poses:0,fxFrames:0,invalid:0});assert.equal(requests.filter(r=>r.at>exitAt&&r.endpoint.startsWith('raid/nox/')).length,0);
     for(const id of [2,3])await f.command('leave',{roomId},id);
     report.visits.push({visit,lobbyMs,prepareMs,viewport,music,frames:stats,exit:{poll:cleanup.poll,raf:cleanup.raf,playing:cleanup.playing,preparedTracks:cleanup.preparedTracks,canvases:cleanup.battle.canvases}});
     if(!retainedRaid||visit===Number(process.env.NOX_QA_VISITS||2)-1){await raid.locator('#exitRaid').click();await shell.locator('#noxLiveOverlay').waitFor({state:'detached'});}

@@ -120,3 +120,14 @@
 
 /* The raid HUD owns boss and party health; keep the V3 floor unobstructed. */
 #battleMount .v3-hud-boss-health,#battleMount .battle-v3-header,#battleMount .pv-battle-status{display:none!important}
+
+/* Impact light remains below the approaching notes. The authored metal/glass
+   burst, receptor and pressure key respond together without moving the chart. */
+.nox-hit-fx{height:96px;top:calc(var(--hit-y, 1px) - 48px);transform-origin:center;mix-blend-mode:screen}
+.nox-hit-fx[data-grade="PERFECT"]{filter:brightness(1.4)}
+.nox-hit-fx b{display:block;position:absolute;inset:auto 22% 42%;height:clamp(55px,15vh,130px);background:linear-gradient(to top,#fff0bda6,#ffc56c24 40%,transparent);box-shadow:none;clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);pointer-events:none}
+.nox-hit-fx em{display:block;position:absolute;inset:-12px 4%;border:0;background:url('/assets/ui/raid-nox-v2/impact.webp') center/100% 100% no-repeat;opacity:.55;transform:scale(.6,1.5);pointer-events:none}
+.nox-hit-fx[data-grade="GOOD"] b{opacity:.55}.nox-hit-fx[data-grade="GOOD"] em{opacity:.25}
+#judgement[data-grade="PERFECT"]{color:#fff1bd}#judgement[data-grade="GOOD"]{color:#9feaff}#judgement[data-grade="EMPTY"]{color:#dc8b96}
+.nox-keys button{transform-origin:center bottom;-webkit-tap-highlight-color:transparent}
+@media(prefers-reduced-motion:reduce){.nox-hit-fx b,.nox-hit-fx em{display:none}}

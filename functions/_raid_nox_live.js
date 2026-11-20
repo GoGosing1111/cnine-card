@@ -1,7 +1,7 @@
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,leaveNoxRoom,tickNoxRoom,actNoxRoom,noxView,noxBattlePayload,loadNoxPveDeck} from './_raid_nox.js';
 import {readJointBody,jointError} from './_joint_request.js';
 
-export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CLIENT_VERSION=3;
+export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CLIENT_VERSION=4;
 export const NOX_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS raid_nox_rooms_v1(room_id TEXT PRIMARY KEY,state_json TEXT NOT NULL,version BIGINT NOT NULL DEFAULT 0,status TEXT NOT NULL,expires_at BIGINT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS raid_nox_active_v1(user_id BIGINT PRIMARY KEY,room_id TEXT NOT NULL)`,

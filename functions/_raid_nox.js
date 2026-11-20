@@ -10,6 +10,9 @@ export const NOX_BOSS = Object.freeze({ id:'NOX_RED_CROWN', name:NOX_RULES.bossN
 const copy=x=>structuredClone(x);
 const fail=(code,message,status=409)=>{throw Object.assign(new Error(message),{code,status});};
 const live=room=>room.members.filter(m=>m.hp>0&&!m.left);
+// Preserve the original non-music allowance. Longer selected songs extend the
+// raid clock by exactly their added duration, not the floor/co-op/DPS windows.
+export const noxEnrageMs=playlist=>NOX_RULES.enrageMs+(playlist||[]).reduce((sum,id)=>sum+Math.max(0,noxTrack(id).chartEndMs-30000),0);
 function event(room,type,label,extra={}){room.events.push({...extra,type,label,at:room.clock,seq:++room.eventSeq});if(room.events.length>240)room.events.splice(0,room.events.length-240);}
 function finish(room,status,code,reason){if(room.status!=='ACTIVE')return;room.status=status;room.finishedAt=room.clock;room.failure=status==='FAILED'?{code,reason}:null;event(room,'RESULT',reason,{winner:status==='CLEAR'?'A':'B'});}
 function kill(room,m,reason,extra={}){if(m.hp<=0)return;m.hp=0;m.deathReason=reason;for(const f of m.fighters){f.hp=0;f.alive=false;}event(room,'NOX_DEATH',m.name+' · '+reason,{...extra,memberId:m.id,stage:room.stage});if(!live(room).length)finish(room,'FAILED','PARTY_DEAD','공대 전원 사망');}
@@ -56,7 +59,7 @@ export function startNoxRoom(room,id,now=room.clock){
   if(room.status!=='LOBBY')return room;
   if(room.members.length!==room.size||room.members.some(m=>!m.ready))fail('NOT_READY','정원 전원이 음원과 전장 준비를 마쳐야 합니다.');
   for(const m of room.members){applyMercenaryCombatLink([m.fighters]);const opening=applyPetOpeningBuff(m.fighters,m.pet,'A','PVE');if(opening)event(room,'PET_OPENING_BUFF',opening.label,{...opening,memberId:m.id});m.maxHp=m.fighters.reduce((n,f)=>n+f.maxHp,0);m.hp=m.maxHp;}
-  room.clock=Math.max(now,room.clock);room.status='ACTIVE';room.startedAt=room.clock+5000;room.endsAt=room.startedAt+NOX_RULES.enrageMs;room.round=1;openStage(room,'RHYTHM',room.startedAt);room.revision++;return room;
+  room.clock=Math.max(now,room.clock);room.status='ACTIVE';room.startedAt=room.clock+5000;room.endsAt=room.startedAt+noxEnrageMs(room.playlist);room.round=1;openStage(room,'RHYTHM',room.startedAt);room.revision++;return room;
 }
 function attacks(room,at){
   const floor=room.round===3?0:Math.ceil(room.boss.maxHp*(1-room.round/3));
@@ -70,7 +73,7 @@ function attacks(room,at){
 export function tickNoxRoom(room,now){
   if(!Number.isFinite(now)||now<room.clock)fail('CLOCK','잘못된 서버 시간입니다.',400);room.clock=now;
   if(room.status!=='ACTIVE')return room;
-  if(now>=room.endsAt){finish(room,'FAILED','ENRAGE','210초 광폭화 · 종언의 주파수');return room;}
+  if(now>=room.endsAt){finish(room,'FAILED','ENRAGE',Math.ceil((room.endsAt-room.startedAt)/1000)+'초 광폭화 · 종언의 주파수');return room;}
   const c=room.challenge;
   if(room.stage==='EXPOSED'){
     for(let t=room.lastAttackAt+1000;t<=Math.min(now,c.deadline)&&room.status==='ACTIVE'&&room.stage==='EXPOSED';t+=1000){room.lastAttackAt=t;attacks(room,t);}
