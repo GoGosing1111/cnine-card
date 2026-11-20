@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {COW_AREA} from '../shared/legion-cow-room.mjs';
 import {contentEnergyView,CONTENT_ENERGY_RECHARGE_MS as H} from '../shared/content-energy-v1.mjs';
 import {legionHuntEnergyView,legionHuntEnergyText} from '../shared/legion-hunt-energy-v1.mjs';
 import {legionHuntEnergy,legionHuntEntries} from '../functions/_legion_hunt.js';
@@ -54,7 +55,7 @@ test('an open lobby enables entry at Korean midnight without refresh and respect
   const source=fs.readFileSync('js/legion-hunt-entry-v1.mjs','utf8');
   let now=midnight-1000;const entered=[];
   const options={request:async()=>({difficulties:[{id:'normal'}],loadout:{},entries:{...old,remaining:0,limit:13,serverNow:now}}),render(){},enter:id=>entered.push(id),dispose(){}};
-  const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options,Date:{now:()=>now},legionHuntEnergyView});
+  const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options,COW_AREA,Date:{now:()=>now},legionHuntEnergyView});
   await controller.refresh();controller.enter();assert.equal(entered.length,0);
   now=midnight;assert.equal(controller.energy().current,13);
   controller.enter();controller.enter();assert.deepEqual(entered,['normal']);

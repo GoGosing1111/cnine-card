@@ -1,5 +1,4 @@
 import {cowTicketAward} from './_legion_cow_tickets.js';
-const cowRankSources=new Set(['ESCORT','SEAL','RIFT','SCRAPYARD','RAID','CORE_RAID_WEEKLY','LICH_RAID_WEEKLY','MADARA_RAID_WEEKLY','BLACKWING_RAID_WEEKLY']);
 import {seasonAwardStatements} from './_season_s1.js';
 import {readCollectionBonuses} from './_collection_bonuses.js';
 import {rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
@@ -9,6 +8,8 @@ import {shiranuiRankRewardStatements,shiranuiRankRewardKey} from './_account_ran
 import {rankAwardBoosts} from './_avatar_santa_rank.js';
 import {MAX_RANK_TICKS,levelFromTicks,rankLevelTicks,rankNextTicks} from './_account_rank_curve.js';
 export {MAX_RANK_TICKS,RANK_XP_MULTIPLIER,levelFromTicks} from './_account_rank_curve.js';
+
+const cowRankSources=new Set(['ESCORT','SEAL','RIFT','SCRAPYARD','RAID','CORE_RAID_WEEKLY','LICH_RAID_WEEKLY','MADARA_RAID_WEEKLY','BLACKWING_RAID_WEEKLY']);
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
 const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:100,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
@@ -128,7 +129,11 @@ export async function settleRankedHunt(env,userId,source,eventId,coin,reason,sea
     env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=? AND ${guard}`).bind(coin,reason,userId,writes.token));
   writes.push(...await seasonAwardStatements(env,{userId,eventId,source:season.source||'HUNT',won:true,monsterId:season.monsterId},{guard,values:[writes.token]}));
   const cow=await cowTicketAward(env,userId,season.sweep?'PVE_SWEEP':'PVE_HUNT',eventId,{guard,values:[writes.token]});
-  await env.DB.batch([...writes,...cow.statements]);return cow.ticket;
+  const results=await env.DB.batch([...writes,...cow.statements]);
+  if(!cow.ticket||Number(results[writes.length]?.meta?.changes)>0)return cow.ticket;
+  // A completed hunt from before the renewal can have XP but no ticket receipt.
+  const receipt=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(cow.ticket.acquisitionId).first();
+  return receipt?.value.startsWith(cow.ticket.code+'/')?cow.ticket:null;
 }
 
 export async function accountRankIdleSettlement(){

@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHmac} from 'node:crypto';
+import {jointFixture} from './helpers/joint-db.mjs';
+import {accountRankAward,settleRankedHunt} from '../functions/_account_rank.js';
+import {prepareApocalypseRewards} from '../functions/_apocalypse_rewards.js';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {citadelFixture,veteranCitadelSquads} from './helpers/legion-citadel-fixture.mjs';
 import {seedRegionalCatalog} from './helpers/legion-regions-fixture.mjs';
@@ -9,6 +12,12 @@ import {COW_AREA,COW_REGION,COW_SOLO_CAP,COW_PARTY_CAP,COW_TICKETS} from '../sha
 import {cowTicketAward,cowTicketOutcome,cowTicketCount,COW_DRAW_KEY} from '../functions/_legion_cow_tickets.js';
 import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
 
+function winningId(user,source,kind,seed){
+  for(let i=0;;i++){
+    const id='qa-cow-'+i,value=createHmac('sha256',seed).update(JSON.stringify([user,source,id])).digest().readUInt32BE();
+    if(value<4294967200&&value%400===kind)return id;
+  }
+}
 const ok=r=>{assert.equal(r.status,200,JSON.stringify(r.body));return r.body;};
 const exec=(f,s,...args)=>f.DB.prepare(s).bind(...args).run();
 const saved=async(f,key)=>JSON.parse((await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first()).value);
@@ -56,12 +65,30 @@ for(const postgres of [false,true]){
   const cow=spawns(COW_AREA,{sourceRegionId:source}),normal=spawns(source,{});
   const placement=payload=>payload.continuousEncounter.instances.map(({slot,boss,elite,maxHp})=>[slot,boss,elite,maxHp]);
   assert.deepEqual(placement(cow),placement(normal));assert.equal(cow.battlefieldBackground,COW_REGION.background);
+  const regional=await saved(f,LEGION_REGIONS_KEY);
+  await exec(f,'UPDATE app_meta SET value=? WHERE key=?',JSON.stringify({...regional,mode:'OFF'}),LEGION_REGIONS_KEY);
+  assert.equal((await f.call('legion-hunt/begin',{id})).status,423);assert.equal(await cowTicketCount(f.DB,2,'solo'),1);
+  await exec(f,'UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(regional),LEGION_REGIONS_KEY);
   assert.equal(await cowTicketCount(f.DB,2,'solo'),1);f.fail('INSERT INTO inventory_logs');
   assert((await f.call('legion-hunt/begin',{id})).status>=400);f.fail('');assert.equal(await cowTicketCount(f.DB,2,'solo'),1);
   ok(await f.call('legion-hunt/begin',{id}));ok(await f.call('legion-hunt/begin',{id}));assert.equal(await cowTicketCount(f.DB,2,'solo'),0);
   assert.equal((await saved(f,key)).energy.current,run.energy.current);
  });
 }
+test('hunt, sweep and Apocalypse results present only tickets the account actually received',async t=>{
+ const f=await jointFixture(t,{postgres:true}),seed='server-only-fixture';
+ await exec(f,'INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,seed);
+ const hunt=winningId(7,'PVE_HUNT',0,seed),sweep=winningId(7,'PVE_SWEEP',1,seed);
+ await f.DB.batch(await accountRankAward(f.env,7,'HUNT',hunt));
+ assert.equal(await settleRankedHunt(f.env,7,'HUNT',hunt,100,'old result'),null);
+ assert.equal(await cowTicketCount(f.DB,7,'solo'),0);
+ const roll=()=>settleRankedHunt(f.env,7,'HUNT',sweep,100,'sweep',{sweep:true});
+ const first=await roll();assert.equal(first.code,COW_TICKETS.party.code);assert.deepEqual(await roll(),first);
+ assert.equal(await cowTicketCount(f.DB,7,'party'),1);
+ const state={requestId:hunt,won:false,plan:{bonuses:{}},monsterId:1};
+ const apo=await prepareApocalypseRewards(f.env,f.user,state);await f.DB.batch(apo.statements);
+ assert.equal(apo.patch.cowTicket.code,COW_TICKETS.solo.code);assert.equal(await cowTicketCount(f.DB,7,'solo'),1);
+});
 test('party highest-tier formation, 10조 per player; one host ticket only once after both load',async t=>{
  const f=await citadelFixture({postgres:true,squads:veteranCitadelSquads()});t.after(f.close);await regions(f);
  const call=async(u,path,body)=>ok(await f.action(u,path,body)),opts={area:COW_AREA,tier:'throne',requestId:'party-cow-20261120'};

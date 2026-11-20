@@ -13,7 +13,7 @@ import {legionHuntEnergyView,legionHuntEnergyBalance as contentEnergy} from '../
 import {legionRechargeLabel} from '../shared/legion-hunt-energy-v1.mjs';
 import {readMiracleDropPercent} from './_miracle_burning.js';
 import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent,legionDropPercent} from './_legion_regions.js';
-import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
+import {LEGION_REGIONS_KEY,regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {SUPPORT_PLAN} from '../shared/server-support-v1.mjs';
 import {LEGION_COIN_CAPS,createLegionCoins,legionCoinSummary} from '../shared/legion-hunt-coins-v1.mjs';
@@ -251,13 +251,15 @@ export async function handleLegionHunt({path,request,env,deps}){
       }
       if(before.run.interruption||before.run.expiresAt<=now())throw jointError('HUNT_SESSION_EXPIRED','원정이 중단됐습니다. 입장 화면에서 행동력을 복구해 주세요.',409);
       const session=restoreHuntSession(before.run.state,{now});
-      let result,chargeCow=false;
+      let result,chargeCow=false,cowRegionRaw;
       if(action==='begin'){
         if(before.run.state.startedAt===null&&!before.run.state.ended){
           chargeCow=before.run.state.policy.regionId===COW_AREA;
           if(chargeCow){
             if(!access.liveRewards||!before.run.liveRewards)throw jointError('HUNT_REGION_CLOSED','카우방 입장이 일시 중지됐습니다.',423);
-            await requireCowTicket(env.DB,user.id,'solo');
+            const [regional]=await Promise.all([readRegionPolicy(env),requireCowTicket(env.DB,user.id,'solo')]);
+            if(regional.policy.mode!=='ON'||!regional.policy.regions.some(r=>r.enabled&&r.id===before.run.state.policy.sourceRegionId))throw jointError('HUNT_REGION_CLOSED','카우방 입장이 일시 중지됐습니다.',423);
+            cowRegionRaw=regional.raw;
           }else requireEntry(entries);
           const balance=legionHuntEnergy(before.run,now(),support,user);
           const coinEligible=!!(before.run.coins?.live&&access.liveRewards&&(chargeCow||balance.current>0));
@@ -303,7 +305,7 @@ export async function handleLegionHunt({path,request,env,deps}){
         try{await db.batch([
           ...(db.dialect==='postgres'?[db.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id)]:[]),
           db.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,key,before.raw),
-          jointGuard(db,tag,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,raw,LEGION_HUNT_SETTINGS_KEY,policyRaw]),
+          jointGuard(db,tag,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,raw,LEGION_HUNT_SETTINGS_KEY,policyRaw,LEGION_REGIONS_KEY,cowRegionRaw]),
           ...spendCowTicket(db,user.id,'solo',body.id),jointGuardEnd(db,tag)
         ]);}catch{throw jointError('HUNT_COW_ENTRY_RETRY','입장 상태를 다시 확인해 주세요.',409);}
       }else await saveRun(env,key,before.raw,next,action==='begin'?pulseRaw:undefined);

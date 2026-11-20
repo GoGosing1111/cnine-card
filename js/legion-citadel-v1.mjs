@@ -430,7 +430,7 @@ export function openCitadel(trigger,firstRead=null){
    if(!available())return;await ensureCitadelRenderer();if(!available())return;
    if(!document.hidden&&!navigator.connection?.saveData){
     const compact=matchMedia('(pointer:coarse), (max-width:860px)').matches||navigator.deviceMemory<=4;
-    preparation=window.ProjectVPixiBattle?.prepareCooperativeRoom?.(root+(compact?'720':'1440')+'.webp');
+    preparation=window.ProjectVPixiBattle?.prepareCooperativeRoom?.(cowSelected()?COW_REGION.background:root+(compact?'720':'1440')+'.webp');
     warmSelectedMercenaries();
    }
   })().catch(e=>{prewarm=null;throw e;});return prewarm;

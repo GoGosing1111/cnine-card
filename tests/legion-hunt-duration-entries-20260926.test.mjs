@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {COW_AREA} from '../shared/legion-cow-room.mjs';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {legionHuntEntries} from '../functions/_legion_hunt.js';
 import {createHuntSession,restoreHuntSession,DIFFICULTIES} from '../preview/sustained-hunt-v2/session.mjs';
@@ -171,13 +172,13 @@ test('entry controller blocks an exhausted account; refresh alone cannot spend a
   const source=fs.readFileSync('js/legion-hunt-entry-v1.mjs','utf8');
   const calls=[],entered=[];
   const options={request:async path=>{calls.push(path);return {difficulties:[{id:'normal'}],loadout:{},entries:{remaining:0,limit:2}};},render(){},enter:x=>entered.push(x),dispose(){}};
-  const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options});
+  const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options,COW_AREA});
   await controller.refresh();controller.enter();assert.equal(entered.length,0);assert.deepEqual(calls,['legion-hunt/recover','legion-hunt/bootstrap']);
 });
 
 test('entry controller accepts the server unlimited allowance even with a previously exhausted counter',async()=>{
   const source=fs.readFileSync('js/legion-hunt-entry-v1.mjs','utf8'),entered=[];
   const options={request:async()=>({difficulties:[{id:'normal'}],loadout:{},entries:{unlimited:true,used:2,remaining:null,limit:null}}),render(){},enter:x=>entered.push(x),dispose(){}};
-  const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options});
+  const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options,COW_AREA});
   await controller.refresh();controller.enter();controller.enter();assert.deepEqual(entered,['normal']);
 });
