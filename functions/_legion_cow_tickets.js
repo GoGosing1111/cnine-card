@@ -1,4 +1,3 @@
-import {createHmac,createHash,randomUUID} from 'node:crypto';
 import {COW_TICKETS} from '../shared/legion-cow-room.mjs';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {jointError} from './_joint_request.js';
@@ -6,6 +5,13 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
 export const COW_DRAW_KEY='legion_cow_draw_seed_v1';
 const sql=(db,query,...args)=>db.prepare(query).bind(...args);
+const utf8=new TextEncoder();
+let lastSeed,signingKey;
+async function drawKey(seed){
+  if(seed===lastSeed)return signingKey;
+  const key=await crypto.subtle.importKey('raw',utf8.encode(seed),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  lastSeed=seed;signingKey=key;return key;
+}
 
 // A keyed draw stays identical across retries. Misses need no per-battle row.
 // Only the server's settled battle identity enters the draw.
@@ -17,10 +23,10 @@ export async function cowTicketOutcome(env,userId,source,eventId){
   }
   if(!seed)return null;
   const identity=JSON.stringify([Number(userId),source,String(eventId)]);
-  const hash=createHmac('sha256',seed).update(identity).digest();
+  const hash=new DataView(await crypto.subtle.sign('HMAC',await drawKey(seed),utf8.encode(identity)));
   // Each ticket has exactly one winning bucket in 400; discard the uneven tail.
-  for(let i=0;i<hash.length;i+=4){
-    const value=hash.readUInt32BE(i);
+  for(let i=0;i<hash.byteLength;i+=4){
+    const value=hash.getUint32(i);
     if(value>=4294967200)continue;
     const bucket=value%400;
     return bucket<2?COW_TICKETS[bucket?'party':'solo']:null;
@@ -31,8 +37,9 @@ export async function cowTicketOutcome(env,userId,source,eventId){
 export async function cowTicketAward(env,userId,source,eventId,{guard='1=1',values=[]}={}){
   const ticket=await cowTicketOutcome(env,userId,source,eventId);
   if(!ticket)return {ticket:null,statements:[]};
-  const db=env.DB,token=randomUUID();
-  const key='legion-cow:drop:'+userId+':'+source+':'+createHash('sha256').update(String(eventId)).digest('hex');
+  const db=env.DB,token=crypto.randomUUID();
+  const digest=await crypto.subtle.digest('SHA-256',utf8.encode(String(eventId)));
+  const key='legion-cow:drop:'+userId+':'+source+':'+Array.from(new Uint8Array(digest),n=>n.toString(16).padStart(2,'0')).join('');
   const receipt=ticket.code+'/'+token,won='EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)';
   return {ticket:{...ticket,acquisitionId:key},statements:[
     sql(db,'INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,CURRENT_TIMESTAMP WHERE '+guard+' ON CONFLICT(key) DO NOTHING',key,receipt,...values),
@@ -50,7 +57,7 @@ export async function requireCowTicket(db,userId,kind){
 }
 // Called in the same guarded transaction as the transition to active combat.
 export function spendCowTicket(db,userId,kind,runId){
-  const {code}=COW_TICKETS[kind],token=randomUUID();
+  const {code}=COW_TICKETS[kind],token=crypto.randomUUID();
   return [
     jointGuard(db,token,'EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1)',[userId,code]),
     sql(db,'UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=MIN(unseen_quantity,quantity-1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=1',userId,code),
