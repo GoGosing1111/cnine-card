@@ -16,7 +16,7 @@ async function fixture(t,postgres=false){
  t.after(()=>pg?pg.close():DB.sql.close());const env={DB,PERSONAL_HIDEOUT_ENABLED:'1'};
  return {env,DB,fail:s=>{failure=s;DB.failAt=s;},state:async()=>(await readHideout(env,7)).state,seed:async state=>DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(HIDEOUT_KEY(7),JSON.stringify(state)).run()};
 }
-const funded=()=>{const s=emptyHideout();for(const c of Object.keys(s.parts))s.parts[c]=10000;return s;};
+const funded=()=>{const s=emptyHideout();s.activityDates=Array.from({length:42},(_,i)=>20000+i);for(const c of Object.keys(s.parts))s.parts[c]=10000;return s;};
 const event=(eventId,source='HUNT')=>({userId:7,eventId,source,won:true});
 const body=(revision,extra={})=>({requestId:crypto.randomUUID(),revision,...extra});
 
@@ -134,3 +134,32 @@ test('four residences expand continuous space while preserving furniture, trophi
  const legacy={...structuredClone(s),version:1,level:5};assert.equal(hideoutState(legacy).level,4);assert.equal(hideoutState(legacy).version,2);assert.deepEqual(hideoutState(legacy).placements,s.placements);assert.deepEqual(hideoutState(legacy).parts,s.parts);assert.equal(hideoutState(legacy).facilities.workbench,5);
  assert.throws(()=>hideoutState({...emptyHideout(),facilities:{workbench:1}}),/시설/);
 });
+
+for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' counts eligible combat days in Korea once alongside settlement and caps the list',async t=>{
+ const f=await fixture(t,postgres);
+ const midnight=Date.parse('2026-11-21T00:00:00+09:00');
+ const commit=(id,at)=>f.DB.batch(hideoutAwardStatements(f.env,event(id),{now:at}));
+ await commit('first',midnight-1);await commit('another',midnight-1);
+ await commit('first',midnight); // replay across the date boundary
+ assert.equal((await f.state()).activityDates.length,1);
+ await commit('new-day',midnight);await commit('previous-day',midnight-2);
+ assert.equal((await f.state()).activityDates.length,2);
+ const state=await f.state();state.activityDates=Array.from({length:41},(_,i)=>19000+i);await f.seed(state);
+ await commit('cap',midnight+86400000);await commit('beyond-cap',midnight+2*86400000);
+ const final=await f.state();assert.equal(final.activityDates.length,42);assert.equal(final.parts.STEEL,12);
+});
+
+test('residence progression requires earned days as well as full materials without resetting missed days',()=>{
+ let state=changeHideout({...funded(),activityDates:[]},'upgrade',{revision:0,target:'room'});
+ for(const [required,steel] of [[7,240],[21,560],[42,1040]]){
+  state.activityDates=Array.from({length:required-1},(_,i)=>20000+2*i);
+  const upgrade=()=>changeHideout(state,'upgrade',{target:'room',revision:state.revision});
+  assert.equal(hideoutCost(state,'room').STEEL,steel);
+  assert.throws(upgrade,e=>e.code==='HIDEOUT_ACTIVITY');
+  state.activityDates.push(22000);const before=state.parts.STEEL;
+  state.parts.STEEL=steel-1;assert.throws(upgrade,e=>e.code==='HIDEOUT_PARTS');
+  state.parts.STEEL=before;state=upgrade();
+ }
+ assert.equal(state.level,4);
+});
+

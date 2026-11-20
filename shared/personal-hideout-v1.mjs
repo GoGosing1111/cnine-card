@@ -3,10 +3,10 @@ export const HIDEOUT_KEY=id=>'personal_hideout_v1:'+Number(id);
 export const HIDEOUT_MAX_LEVEL=4;
 export const HIDEOUT_MAX_FACILITY_LEVEL=5;
 export const HIDEOUT_STAGES=Object.freeze([
- {level:1,code:'shanty',name:'판자촌',description:'회수한 자재로 세운 첫 보금자리',width:2400,facilityLevel:1},
- {level:2,code:'apartment',name:'일반 아파트',description:'생활과 작업 공간을 갖춘 내 집',width:3200,facilityLevel:2},
- {level:3,code:'luxury',name:'고급 아파트',description:'넓은 거실과 전용 전시 공간',width:4000,facilityLevel:4},
- {level:4,code:'penthouse',name:'펜트하우스',description:'도시를 내려다보는 가장 넓은 은신처',width:4800,facilityLevel:5}
+ {level:1,code:'shanty',name:'판자촌',description:'회수한 자재로 세운 첫 보금자리',width:2400,facilityLevel:1,activeDays:0,cost:{}},
+ {level:2,code:'apartment',name:'일반 아파트',description:'생활과 작업 공간을 갖춘 내 집',width:3200,facilityLevel:2,activeDays:7,cost:{STEEL:240,WIRE:150,CIRCUIT:60,COOLANT:48,DRIVE:30,CORE:18}},
+ {level:3,code:'luxury',name:'고급 아파트',description:'넓은 거실과 전용 전시 공간',width:4000,facilityLevel:4,activeDays:21,cost:{STEEL:560,WIRE:350,CIRCUIT:140,COOLANT:112,DRIVE:70,CORE:42}},
+ {level:4,code:'penthouse',name:'펜트하우스',description:'도시를 내려다보는 가장 넓은 은신처',width:4800,facilityLevel:5,activeDays:42,cost:{STEEL:1040,WIRE:650,CIRCUIT:260,COOLANT:208,DRIVE:130,CORE:78}}
 ].map(stage=>Object.freeze({...stage,image:HIDEOUT_ART+'residence-'+stage.code+'.webp'})));
 export const hideoutFacilityLimit=level=>level>0?(HIDEOUT_STAGES[level-1]?.facilityLevel||0):0;
 export function hideoutSpace(raw){
@@ -43,7 +43,7 @@ export const HIDEOUT_DECOR=Object.freeze([
  {code:'trophy',name:'대형 트로피 진열장',image:HIDEOUT_ART+'trophy-stand.webp',cost:{STEEL:8,WIRE:4,CIRCUIT:2}}
 ]);
 export const HIDEOUT_TROPHY_SLOTS=6;
-export const emptyHideout=()=>({version:2,revision:0,level:0,facilities:Object.fromEntries(codes.map(c=>[c,0])),rooms:[],placements:[],parts:Object.fromEntries(HIDEOUT_PARTS.map(p=>[p.code,0]))});
+export const emptyHideout=()=>({version:2,revision:0,level:0,activityDates:[],facilities:Object.fromEntries(codes.map(c=>[c,0])),rooms:[],placements:[],parts:Object.fromEntries(HIDEOUT_PARTS.map(p=>[p.code,0]))});
 const fail=(message,code='HIDEOUT_INPUT',status=400)=>{throw Object.assign(Error(message),{code,status});};
 export function hideoutState(raw){
  if(raw==null)return emptyHideout();
@@ -51,6 +51,8 @@ export function hideoutState(raw){
  // V1 had five house levels. Preserve every part, facility and placement when
  // reading it into the four residence tiers; facility growth still reaches 5.
  if(out.version===1&&Number.isInteger(out.level)&&out.level>=0&&out.level<=5){out.level=Math.min(out.level,HIDEOUT_MAX_LEVEL);out.version=2;}
+ out.activityDates??=[];
+ if(!Array.isArray(out.activityDates)||out.activityDates.length>HIDEOUT_STAGES.at(-1).activeDays||new Set(out.activityDates).size!==out.activityDates.length||out.activityDates.some(day=>!Number.isSafeInteger(day)||day<0))fail('전투 활동일 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
  out.facilities={...defaults.facilities,...out.facilities};out.parts={...defaults.parts,...out.parts};
  if(out.version!==2||!Number.isSafeInteger(out.revision)||out.revision<0||!Number.isInteger(out.level)||out.level<0||out.level>HIDEOUT_MAX_LEVEL)fail('은신처 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
  if(!out.facilities||codes.some(c=>!Number.isInteger(out.facilities[c])||out.facilities[c]<0||out.facilities[c]>hideoutFacilityLimit(out.level))||!out.parts||HIDEOUT_PARTS.some(p=>!Number.isSafeInteger(out.parts[p.code])||out.parts[p.code]<0||out.parts[p.code]>1000000000))fail('시설·부품 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
@@ -77,10 +79,11 @@ export function hideoutCost(raw,target){
  if(!room&&!codes.includes(target))fail('시설을 선택하세요.');
  if(level>(room?HIDEOUT_MAX_LEVEL:HIDEOUT_MAX_FACILITY_LEVEL))return null;
  if(room&&level===1)return {};
- const base=room?{STEEL:40*level,WIRE:24*level,CIRCUIT:8*(level-1),COOLANT:4*(level-1),DRIVE:4*(level-1),CORE:2*(level-1)}:
+ const base=room?HIDEOUT_STAGES[level-1].cost:
   {STEEL:12*level,WIRE:8*level,...(level>1?{CIRCUIT:3*level}:{}),...(level>2?{COOLANT:2*level,DRIVE:2*level}:{}),...(level>3?{CORE:level}:{})};
- const discount=target==='workbench'?0:hideoutBenefits(s).materialDiscountPercent;
- return Object.fromEntries(Object.entries(base).map(([c,n])=>[c,Math.ceil(n*(100-discount)/100)]));
+ const scale=room?1:[1,2,4,7,12][level-1];
+ const discount=target==='workbench'?0:s.facilities.workbench*3;
+ return Object.fromEntries(Object.entries(base).map(([c,n])=>[c,Math.ceil(n*scale*(100-discount)/100)]));
 }
 export function changeHideout(raw,action,body,{newId,ownedTrophies=[]}={}){
  const s=hideoutState(raw);
@@ -107,6 +110,7 @@ export function changeHideout(raw,action,body,{newId,ownedTrophies=[]}={}){
  }else if(action==='upgrade'){
   const target=body.target,room=target==='room',cost=hideoutCost(s,target);
   if(!cost)fail('최대 레벨에 도달했습니다.');
+  if(room&&s.activityDates.length<HIDEOUT_STAGES[s.level].activeDays)fail('다음 거주지에 필요한 전투 활동일이 부족합니다.','HIDEOUT_ACTIVITY',409);
   if(!room&&(!s.level||s.facilities[target]>=hideoutFacilityLimit(s.level)))fail('은신처 레벨을 먼저 올리세요.');
   if(!room&&s.facilities[target]===0&&s.placements.length>=120)fail('가구 보유 한도는 120개입니다.','HIDEOUT_CAPACITY',409);
   spend(cost);

@@ -1,4 +1,4 @@
-import {HIDEOUT_KEY,emptyHideout,hideoutState,hideoutBenefits,hideoutAward,publicHideout,changeHideout} from '../shared/personal-hideout-v1.mjs';
+import {HIDEOUT_KEY,HIDEOUT_STAGES,emptyHideout,hideoutState,hideoutBenefits,hideoutAward,publicHideout,changeHideout} from '../shared/personal-hideout-v1.mjs';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {jointHash} from './_joint_transactions.js';
 import {readJointBody} from './_joint_request.js';
@@ -20,20 +20,32 @@ export async function hideoutTrophies(env,uid){
 // Server-confirmed events only. These statements join the original reward
 // transaction; an event receipt and the material delta can never commit apart.
 // SQL applies deltas to the latest JSON row, without a read per swept battle.
-export function hideoutAwardStatements(env,event,{guard='1=1',values=[]}={}){
+export function hideoutAwardStatements(env,event,{guard='1=1',values=[],now=Date.now()}={}){
  const gains=hideoutEnabled(env)?hideoutAward(event):null;if(!gains)return [];
  const uid=Number(event.userId);
  if(!Number.isSafeInteger(uid)||uid<1||typeof event.eventId!=='string'||!event.eventId||event.eventId.length>220)throw Error('Invalid hideout combat event');
  const key=HIDEOUT_KEY(uid),receipt='personal_hideout_reward_v1:'+uid+':'+event.source+':'+event.eventId;
  const token=crypto.randomUUID(),raw=JSON.stringify({version:1,token,source:event.source,eventId:event.eventId,gains});
  const entries=Object.entries(gains),pg=env.DB.dialect==='postgres';
+ // A day counts at the original server settlement, in the same conditional
+ // update as its salvage. A replay cannot add a new day even after midnight.
+ const day=Math.floor((now+9*3600000)/86400000);
+ if(!Number.isSafeInteger(day)||day<0)throw Error('Invalid settlement date');
+ const dayLimit=HIDEOUT_STAGES.at(-1).activeDays;
  let expression;
  if(pg){
   const json='CAST(value AS JSONB)';
   const parts=entries.map(([code,amount])=>"'"+code+"',LEAST(1000000000,COALESCE(CAST("+json+" #>> '{parts,"+code+"}' AS BIGINT),0)+"+amount+')').join(',');
-  expression="CAST(jsonb_set(jsonb_set("+json+",'{parts}',("+json+"->'parts') || jsonb_build_object("+parts+")),'{revision}',to_jsonb(CAST("+json+"->>'revision' AS BIGINT)+1)) AS TEXT)";
+  expression="jsonb_set(jsonb_set("+json+",'{parts}',("+json+"->'parts') || jsonb_build_object("+parts+")),'{revision}',to_jsonb(CAST("+json+"->>'revision' AS BIGINT)+1))";
+  const dates="COALESCE("+json+"->'activityDates','[]'::jsonb)";
+  const updated="CASE WHEN jsonb_array_length("+dates+")<"+dayLimit+" AND NOT ("+dates+" @> jsonb_build_array("+day+")) THEN "+dates+" || jsonb_build_array("+day+") ELSE "+dates+" END";
+  expression="CAST(jsonb_set("+expression+",'{activityDates}',"+updated+") AS TEXT)";
  }else{
   expression="json_set(value,'$.revision',json_extract(value,'$.revision')+1,"+entries.map(([code,amount])=>"'$.parts."+code+"',MIN(1000000000,COALESCE(json_extract(value,'$.parts."+code+"'),0)+"+amount+')').join(',')+')';
+
+  const dates="COALESCE(json_extract(app_meta.value,'$.activityDates'),'[]')";
+  const updated="CASE WHEN json_array_length("+dates+")<"+dayLimit+" AND NOT EXISTS(SELECT 1 FROM json_each("+dates+") AS days WHERE days.value="+day+") THEN json_insert("+dates+",'$[#]',"+day+") ELSE "+dates+" END";
+  expression="json_set("+expression+",'$.activityDates',json("+updated+"))";
  }
  const writes=[
   p(env,'INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,CURRENT_TIMESTAMP WHERE '+guard+' ON CONFLICT(key) DO NOTHING',key,JSON.stringify(emptyHideout()),...values),
