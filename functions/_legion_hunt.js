@@ -1,7 +1,11 @@
+import {randomInt} from 'node:crypto';
+import {COW_AREA,COW_REGION,COW_DROP_FACTOR,COW_SOLO_CAP} from '../shared/legion-cow-room.mjs';
+import {cowTicketCount,requireCowTicket,spendCowTicket} from './_legion_cow_tickets.js';
+import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readCollectionBonuses} from './_collection_bonuses.js';
 import {createHuntSession,restoreHuntSession,DIFFICULTIES} from '../preview/sustained-hunt-v2/session.mjs';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
-import {legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUsers,searchLegionHuntTestUsers,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
+import {LEGION_HUNT_SETTINGS_KEY,legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUsers,searchLegionHuntTestUsers,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
 import {claimLegionHuntReward,settleLegionHuntRewards} from './_legion_hunt_rewards.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {LEGION_ENERGY_MAXIMUM,CONTENT_ENERGY_RECHARGE_MS} from '../shared/content-energy-v1.mjs';
@@ -121,7 +125,7 @@ async function recoverRun(env,user,{key,before,policyRaw,access,at,support}){
   const energyRefund=!hasCoins&&(run.entry?.energyCharged??(charged||run.entry?.coinCharged));
   const energy=contentEnergy({...balance,current:Math.min(balance.maximum,balance.current+(energyRefund?1:0))},{at,maximum:balance.maximum});
   const interruption={id:state.id,kind:'INTERRUPTED',at,refunded:!!energyRefund,day,...legionCoinSummary(run.coins)};
-  const saved=await saveRun(env,key,before.raw,{...run,daily,coinDaily,energy,entry:{...run.entry,charged:!!charged,day,status:hasCoins?'CONSUMED':'REFUNDED'},interruption,state:{...state,ended:true}});
+  const saved=await saveRun(env,key,before.raw,{...run,daily,coinDaily,energy,entry:{...run.entry,charged:!!charged,day,status:hasCoins||run.entry?.cowTicket?'CONSUMED':'REFUNDED'},interruption,state:{...state,ended:true}});
   return {saved,recovery:interruption};
 }
 export async function handleLegionHunt({path,request,env,deps}){
@@ -170,13 +174,16 @@ export async function handleLegionHunt({path,request,env,deps}){
       });
       let loadout=null,loadoutError=null;
       try{loadout=await accountSnapshot(env,user,deps);}catch(error){if(error.code!=='HUNT_DECK')throw error;loadoutError=error.message;}
-      const regional=await readRegionPolicy(env);
-      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]),entries:legionHuntEntries(saved.run,now(),user,support),coinEntries:coinEntries(saved.run,now(),support,user),coinCaps:LEGION_COIN_CAPS,loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
+      const [regional,cowTickets]=await Promise.all([readRegionPolicy(env),cowTicketCount(env.DB,user.id,'solo')]);
+      const expansion=regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]);
+      if(expansion?.regions.length&&access.liveRewards&&regional.policy.mode==='ON')expansion.regions.push(COW_REGION);
+      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:expansion,cowTickets,cowCoinCap:COW_SOLO_CAP,entries:legionHuntEntries(saved.run,now(),user,support),coinEntries:coinEntries(saved.run,now(),support,user),coinCaps:LEGION_COIN_CAPS,loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
     }
     if(!Object.hasOwn(ACTIONS,action))return json({error:'군단토벌 경로를 확인하세요.'},404);
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
     const body=await readJointBody(request,{maxBytes:4096,fields:ACTIONS[action]});
-    if(action==='start'&&!(body.regionId?regionById(body.regionId)&&regionalDifficulty(body.difficulty):DIFFICULTIES.some(d=>d.id===body.difficulty)))throw jointError('HUNT_SELECTION','지역과 난이도를 선택하세요.');
+    const cow=body.regionId===COW_AREA;
+    if(action==='start'&&!(cow?body.difficulty==='calamity':body.regionId?regionById(body.regionId)&&regionalDifficulty(body.difficulty):DIFFICULTIES.some(d=>d.id===body.difficulty)))throw jointError('HUNT_SELECTION','지역과 난이도를 선택하세요.');
     if(action==='start'&&!(body.regionId?body.version===5:[4,5].includes(body.version)))throw jointError('HUNT_CLIENT_UPDATE','군단토벌이 개선됐습니다. 게임을 새로고침한 뒤 입장하세요.',409);
     if(!['start','recover'].includes(action)&&!idValid(body.id))throw jointError('HUNT_SESSION','원정 번호를 확인하세요.');
     return json(await deps.withUserMutationLock(env,user.id,path,async()=>{
@@ -195,24 +202,34 @@ export async function handleLegionHunt({path,request,env,deps}){
       const entries=legionHuntEntries(before.run,now(),user,support);
       if(action==='recover')return {ok:true,recovery,entries};
       if(action==='start'){
-        requireEntry(entries);
-        let regionPolicy=null,regionDifficulty=null;
-        if(body.regionId){regionPolicy=(await readRegionPolicy(env)).policy;if(!regionAccess(regionPolicy,user)||!regionPolicy.regions.find(r=>r.id===body.regionId)?.enabled)throw jointError('HUNT_REGION_CLOSED','선택한 지역은 현재 이용할 수 없습니다.',403);regionDifficulty=regionPolicy.difficulties.find(d=>d.id===body.difficulty);}
+        if(cow)await requireCowTicket(env.DB,user.id,'solo');else requireEntry(entries);
+        let regionPolicy=null,regionDifficulty=null,sourceRegionId=body.regionId;
+        if(body.regionId){
+          regionPolicy=(await readRegionPolicy(env)).policy;
+          const enabled=regionPolicy.regions.filter(r=>r.enabled);
+          if(cow&&enabled.length)sourceRegionId=enabled[randomInt(enabled.length)].id;
+          if(!regionAccess(regionPolicy,user)||!enabled.some(r=>r.id===sourceRegionId)||cow&&(!access.liveRewards||regionPolicy.mode!=='ON'))
+            throw jointError('HUNT_REGION_CLOSED','선택한 지역은 현재 이용할 수 없습니다.',403);
+          regionDifficulty=regionPolicy.difficulties.find(d=>d.id===body.difficulty);
+        }
         const d=regionDifficulty||policy.difficulties.find(r=>r.id===body.difficulty);
         if(!d)throw jointError('HUNT_POLICY_UNAVAILABLE','난이도별 드랍 설정을 확인하세요.',503);
         const snapshot=await accountSnapshot(env,user,deps);
         const [miracleDropPercent,collection]=await Promise.all([readMiracleDropPercent(env),readCollectionBonuses(env,user.id)]);
         const collectionPercent=collection.totals.dropPercent;
-        const boosted=(base,equipment=false)=>legionDropPercent(base,miracleDropPercent,collectionPercent+(equipment?(collection.hideout?.mercenaryEquipmentPercent||0):0));
+        const scale=pct=>cow?Math.min(100,pct*COW_DROP_FACTOR):pct;
+        const boosted=(base,equipment=false)=>scale(legionDropPercent(base,miracleDropPercent,collectionPercent+(equipment?(collection.hideout?.mercenaryEquipmentPercent||0):0)));
         const paying=access.liveRewards&&(!regionPolicy||regionPolicy.mode==='ON');
-        const coins=createLegionCoins(body.regionId,body.difficulty,{live:paying,bonusPercent:collection.totals.coinPercent});
+        const coins=createLegionCoins(sourceRegionId,body.difficulty,{live:paying,bonusPercent:collection.totals.coinPercent});
+        if(cow)coins.cap=COW_SOLO_CAP;
         const regionLoot=regionDifficulty?{...regionDifficulty.loot}:null;
         if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=boosted(regionLoot[key],['eliteSetPercent','bossSetPercent','bossUniquePercent'].includes(key));
         const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying,ascendant:regionPolicy.ascendantDrops?.enabled===true})}:{dropChance:boosted(d.dropPercent)/100,bossDropChance:boosted(d.bossDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
         if(regionPolicy?.ascendantDrops?.enabled){
-          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent+(collection.hideout?.mercenaryEquipmentPercent||0))}));
+          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:scale(ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent+(collection.hideout?.mercenaryEquipmentPercent||0)))}));
         }
-        const fieldDrops=regionPolicy?.regions.find(r=>r.id===body.regionId)?.fieldDrops;
+        if(cow)dropPolicy.sourceRegionId=sourceRegionId;
+        const fieldDrops=regionPolicy?.regions.find(r=>r.id===sourceRegionId)?.fieldDrops;
         if(fieldDrops){
           const field=fieldDrops.difficulties.find(r=>r.id===body.difficulty);
           dropPolicy.fieldDrops={items:fieldDrops.items,dropChance:boosted(field.dropPercent)/100,bossDropChance:boosted(field.bossDropPercent)/100};
@@ -234,15 +251,19 @@ export async function handleLegionHunt({path,request,env,deps}){
       }
       if(before.run.interruption||before.run.expiresAt<=now())throw jointError('HUNT_SESSION_EXPIRED','원정이 중단됐습니다. 입장 화면에서 행동력을 복구해 주세요.',409);
       const session=restoreHuntSession(before.run.state,{now});
-      let result;
+      let result,chargeCow=false;
       if(action==='begin'){
         if(before.run.state.startedAt===null&&!before.run.state.ended){
-          requireEntry(entries);
+          chargeCow=before.run.state.policy.regionId===COW_AREA;
+          if(chargeCow){
+            if(!access.liveRewards||!before.run.liveRewards)throw jointError('HUNT_REGION_CLOSED','카우방 입장이 일시 중지됐습니다.',423);
+            await requireCowTicket(env.DB,user.id,'solo');
+          }else requireEntry(entries);
           const balance=legionHuntEnergy(before.run,now(),support,user);
-          const coinEligible=!!(before.run.coins?.live&&access.liveRewards&&balance.current>0);
-          const charged=!entries.unlimited||coinEligible;
+          const coinEligible=!!(before.run.coins?.live&&access.liveRewards&&(chargeCow||balance.current>0));
+          const charged=!chargeCow&&(!entries.unlimited||coinEligible);
           before.run.energy=contentEnergy({...balance,current:balance.current-(charged?1:0)},{at:now(),maximum:balance.maximum});
-          before.run.entry={charged:!entries.unlimited,energyCharged:charged,status:'RESERVED'};
+          before.run.entry={charged:!chargeCow&&!entries.unlimited,energyCharged:charged,status:'RESERVED',...(chargeCow?{cowTicket:true}:{})};
           if(before.run.coins)before.run.coins.eligible=coinEligible;
         }
         result={...session.begin(),entries:legionHuntEntries(before.run,now(),user,support),...legionCoinSummary(before.run.coins)};
@@ -277,6 +298,14 @@ export async function handleLegionHunt({path,request,env,deps}){
       if(action==='reveal'||action==='finish'){
         const credited=await saveLegionCoinProgress(env,user,{key,before:before.raw,run:next,policyRaw,access,saveRun});
         Object.assign(result,credited.summary);
+      }else if(chargeCow){
+        const db=env.DB,tag=crypto.randomUUID(),raw=JSON.stringify({...next,writeToken:tag});
+        try{await db.batch([
+          ...(db.dialect==='postgres'?[db.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id)]:[]),
+          db.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,key,before.raw),
+          jointGuard(db,tag,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,raw,LEGION_HUNT_SETTINGS_KEY,policyRaw]),
+          ...spendCowTicket(db,user.id,'solo',body.id),jointGuardEnd(db,tag)
+        ]);}catch{throw jointError('HUNT_COW_ENTRY_RETRY','입장 상태를 다시 확인해 주세요.',409);}
       }else await saveRun(env,key,before.raw,next,action==='begin'?pulseRaw:undefined);
       return result;
     }));

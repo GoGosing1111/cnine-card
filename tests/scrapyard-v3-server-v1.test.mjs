@@ -47,7 +47,7 @@ class SQLiteDB{
       const r=this.sql.prepare(s.source).run(...s.values);return {meta:{changes:Number(r.changes),last_row_id:Number(r.lastInsertRowid)}};});this.sql.exec('COMMIT');}
     catch(e){this.sql.exec('ROLLBACK');throw e;}
     if(this.throwAfterCommit&&statements.some(s=>s.source.includes("SET state='COMPLETED'"))){this.throwAfterCommit=false;throw new Error('RESPONSE_LOST_AFTER_COMMIT');}
-    if(this.throwAfterReservation&&statements.some(s=>s.source.includes("'SCRAPYARD_ENTRY'"))){this.throwAfterReservation=false;throw new Error('RESERVATION_RESPONSE_LOST');}
+    if(this.throwAfterReservation&&statements.some(s=>s.source.includes('INSERT INTO scrapyard_v3_operations_v1(request_id,user_id,seed,snapshot_json,battle_json,drop_plan_json,lease_token,lease_until)'))){this.throwAfterReservation=false;throw new Error('RESERVATION_RESPONSE_LOST');}
     return results;
   }
 }
@@ -101,7 +101,7 @@ test('public scrapyard wiring preserves unreleased routes and legacy reward sepa
   assert.equal(PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED,false);
   assert.match(read('functions/_pve_v3_routes.js'),/if\(!V3_JOINT_RELEASE_ENABLED&&!isPvePublicPath\(path\)&&path!==/);
   assert.equal(isPvePublicPath('scrapyard/v3/run'),true);
-  assert.equal(isPvePublicPath('cow-room/v3/run'),true);
+  assert.equal(isPvePublicPath('cow-room/v3/run'),false);
   assert.equal(isPvePublicPath('tower/v3/run'),false);
   assert.equal(isPvePublicPath('idle-dungeon/v3/state'),false);
   assert.match(read('shared/v3-joint-release-v1.mjs'),/V3_JOINT_RELEASE_ENABLED = false/);
@@ -177,19 +177,19 @@ for(const postgres of [false,true]){
   test(`${backend}: approved protection drop and pooled parts settle atomically with their own ledgers`,async t=>{
     const f=await fixture(t,postgres);await enableProtection(f,t);
     const result=await f.run('qa-protection-mixed');
-    assert.equal(result.status,'COMPLETED');assert.equal(await f.ticket(),4);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);
+    assert.equal(result.status,'COMPLETED');assert.equal(await f.ticket(),5);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);
     assert.equal(result.rewards.find(r=>r.rewardRef==='EQUIPMENT_PROTECTION_TICKET').quantity,1);
     assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='EQUIPMENT_PROTECTION_TICKET'").first()).quantity),1);
     assert.equal(await f.count('unified_drop_ledger_v1667'),1,'pooled parts retain their ledger; direct protection has no invented pool ID');
     assert.equal(Number((await f.p("SELECT COUNT(*) n FROM inventory_logs WHERE item_code='EQUIPMENT_PROTECTION_TICKET' AND reference_id='SCRAPYARD:qa-protection-mixed'").first()).n),1);
     assert.equal((await f.run('qa-protection-mixed')).replayed,true);
-    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);assert.equal(await f.count('inventory_logs'),3);
+    assert.equal(await f.ticket(),5);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);assert.equal(await f.count('inventory_logs'),2);
   });
   test(`${backend}: frozen pending protection result recovers after rollback without another entry or roll`,async t=>{
     const f=await fixture(t,postgres);await enableProtection(f,t);f.fail('INSERT INTO scrapyard_runs_v1676');
     assert.equal((await f.run('qa-protection-resume')).code,'SCRAPYARD_V3_SETTLEMENT_PENDING');
     const saved=await f.p('SELECT battle_json,drop_plan_json FROM scrapyard_v3_operations_v1').first();
-    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);
+    assert.equal(await f.ticket(),5);assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);
     assert.equal(await f.count('unified_drop_ledger_v1667'),0);assert.equal(await f.count('unified_drop_receipts_v1667'),0);
     assert.equal(await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='EQUIPMENT_PROTECTION_TICKET'").first(),null);
     await f.p("UPDATE app_meta SET value=? WHERE key='equipment_forge_public_settings_v1'",JSON.stringify({schemaVersion:1,revision:2,publicVisible:true,executionMode:'OFF',notice:'LOCAL QA'})).run();
@@ -197,9 +197,9 @@ for(const postgres of [false,true]){
     const recovered=await f.run('qa-protection-resume');assert.equal(recovered.status,'COMPLETED');assert.equal(f.reads,reads);
     assert.deepEqual(recovered.battleV2,JSON.parse(saved.battle_json).battleV2);
     assert.deepEqual((await f.p('SELECT battle_json,drop_plan_json FROM scrapyard_v3_operations_v1').first()),saved);
-    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);
+    assert.equal(await f.ticket(),5);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);
     assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='EQUIPMENT_PROTECTION_TICKET'").first()).quantity),1);
-    await f.run('qa-protection-resume');assert.equal(await f.count('scrapyard_runs_v1676'),1);assert.equal(await f.count('inventory_logs'),3);
+    await f.run('qa-protection-resume');assert.equal(await f.count('scrapyard_runs_v1676'),1);assert.equal(await f.count('inventory_logs'),2);
   });
   test(`${backend}: avatar bonus is frozen with the expedition and survives expiry/CMS changes without reroll`,async t=>{
     const f=await fixture(t,postgres);
@@ -217,64 +217,64 @@ for(const postgres of [false,true]){
     assert.equal((await plan(requestId)).rewards[0].quantity,2,'100% bonus doubles 50% chance without multiplying the item quantity');
     f.fail('INSERT INTO scrapyard_runs_v1676');
     assert.equal((await f.run(requestId)).code,'SCRAPYARD_V3_SETTLEMENT_PENDING');
-    assert.equal(await f.ticket(),4);assert.equal(await f.parts(),0);
+    assert.equal(await f.ticket(),5);assert.equal(await f.parts(),0);
     await f.p('UPDATE app_meta SET value=?',JSON.stringify({mode:'OFF'})).run();
     await f.p("UPDATE avatar_user_ownership_v1 SET expires_at='2000-01-01 00:00:00'").run();
     await f.p('UPDATE unified_drop_entries_v1667 SET chance_percent=0').run();invalidateUnifiedDropPoolCache();
     assert.equal((await plan(requestId)).rewards.length,0,'a fresh roll sees the changed settings');
     f.fail('');const recovered=await f.run(requestId);
-    assert.equal(recovered.status,'COMPLETED');assert.equal(await f.parts(),2);assert.equal(await f.ticket(),4);
+    assert.equal(recovered.status,'COMPLETED');assert.equal(await f.parts(),2);assert.equal(await f.ticket(),5);
     await f.run(requestId);assert.equal(await f.parts(),2);assert.equal(await f.count('unified_drop_receipts_v1667'),1);
   });
-  test(`${backend}: one ticket / old coin / one independent drop; same ID never recharges or rerolls`,async t=>{
+  test(`${backend}: free entry / clear coin / one independent drop; same ID never recharges or rerolls`,async t=>{
     const f=await fixture(t,postgres),r=await f.run('qa-once',{cards:[{power:9e15}],seed:0,result:'WIN',clearCoin:9e15});
-    assert.equal(r.status,'COMPLETED');assert.equal(r.success,true);assert.equal(await f.ticket(),4);
+    assert.equal(r.status,'COMPLETED');assert.equal(r.success,true);assert.equal(await f.ticket(),5);
     assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);
     const reads=f.reads;f.setDeck(deck(100));const again=await f.run('qa-once',{difficulty:'FURNACE'});
     assert.equal(again.replayed,true);assert.equal(again.difficulty.id,'OUTER');assert.equal(f.reads,reads);
-    assert.deepEqual(again.battleV2,r.battleV2);assert.equal(await f.ticket(),4);assert.equal(await f.parts(),2);
+    assert.deepEqual(again.battleV2,r.battleV2);assert.equal(await f.ticket(),5);assert.equal(await f.parts(),2);
     assert.equal(await f.count('scrapyard_runs_v1676'),1);assert.equal(await f.count('unified_drop_receipts_v1667'),1);
     assert.equal((await scrapyardV3RecoveryStatus(f.env,user)).status,'IDLE');
   });
   test(`${backend}: final grant failure rolls back all prizes; saved battle survives deck/CMS changes`,async t=>{
     const f=await fixture(t,postgres);f.fail('INSERT INTO scrapyard_runs_v1676');
     const r=await f.run('qa-crash');assert.equal(r.code,'SCRAPYARD_V3_SETTLEMENT_PENDING');
-    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);assert.equal(await f.count('unified_drop_receipts_v1667'),0);
+    assert.equal(await f.ticket(),5);assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);assert.equal(await f.count('unified_drop_receipts_v1667'),0);
     const op=await f.p('SELECT * FROM scrapyard_v3_operations_v1 WHERE request_id=?','qa-crash').first(),reads=f.reads;
     f.setDeck(deck(100));f.setSettings({...settings(),mode:'OFF'});await f.p('UPDATE unified_drop_entries_v1667 SET chance_percent=0').run();invalidateUnifiedDropPoolCache();
     f.fail('');const recovered=await f.run('qa-crash');assert.equal(recovered.status,'COMPLETED');assert.equal(f.reads,reads);
-    assert.deepEqual(recovered.battleV2,JSON.parse(op.battle_json).battleV2);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);assert.equal(await f.ticket(),4);
+    assert.deepEqual(recovered.battleV2,JSON.parse(op.battle_json).battleV2);assert.equal(await f.coin(),100010);assert.equal(await f.parts(),2);assert.equal(await f.ticket(),5);
   });
   test(`${backend}: concurrent requests cannot create two active expeditions or duplicate a completed reward`,async t=>{
     const f=await fixture(t,postgres);f.fail('INSERT INTO scrapyard_runs_v1676');
     const results=await Promise.all([f.run('qa-a'),f.run('qa-b'),f.run('qa-a')]);
-    assert.equal(await f.count('scrapyard_v3_operations_v1'),1);assert.equal(await f.ticket(),4);
+    assert.equal(await f.count('scrapyard_v3_operations_v1'),1);assert.equal(await f.ticket(),5);
     assert.ok(results.every(r=>r.status==='RUNNING'));
     const active=await scrapyardV3RecoveryStatus(f.env,user);f.fail('');
     const completed=await f.run(active.requestId);assert.equal(completed.status,'COMPLETED');assert.equal(await f.parts(),2);
-    assert.equal(await f.count('inventory_logs'),2);
+    assert.equal(await f.count('inventory_logs'),1);
   });
   test(`${backend}: expired worker lease resumes same frozen run; fresh lease returns status, not an error`,async t=>{
     const f=await fixture(t,postgres);f.fail('INSERT INTO scrapyard_runs_v1676');await f.run('qa-lease');f.fail('');
     await f.p("UPDATE scrapyard_v3_operations_v1 SET lease_token='old-worker',lease_until=?",Date.now()+120000).run();
-    assert.equal((await f.run('qa-lease')).code,'SCRAPYARD_V3_RUNNING');assert.equal(await f.ticket(),4);
+    assert.equal((await f.run('qa-lease')).code,'SCRAPYARD_V3_RUNNING');assert.equal(await f.ticket(),5);
     await f.p('UPDATE scrapyard_v3_operations_v1 SET lease_until=0').run();
     assert.equal((await f.run('qa-lease')).status,'COMPLETED');assert.equal(await f.parts(),2);
   });
-  test(`${backend}: zero ticket, daily limit, closed access and invalid deck do not spend or award`,async t=>{
+  test(`${backend}: zero tickets permit free entry while daily limits, closed access and invalid decks still block`,async t=>{
     const f=await fixture(t,postgres);
     await f.p("UPDATE cnine_user_inventory SET quantity=0 WHERE item_code='SCRAPYARD_ENTRY_TICKET'").run();
-    await assert.rejects(()=>f.run('qa-empty'),/입장권|횟수/);assert.equal(await f.count('scrapyard_v3_operations_v1'),0);
+    const free=await f.run('qa-empty');assert.equal(free.status,'COMPLETED');assert.equal(free.entryTicket.consumed,0);assert.equal(await f.ticket(),0);assert.equal(await f.count('scrapyard_ticket_reservations_v1680'),0);
     await f.p("UPDATE cnine_user_inventory SET quantity=5 WHERE item_code='SCRAPYARD_ENTRY_TICKET'").run();
-    f.setSettings({...settings(),dailyRuns:1});await f.run('qa-first');await assert.rejects(()=>f.run('qa-limit'),/입장권|횟수/);
+    f.setSettings({...settings(),dailyRuns:1});await assert.rejects(()=>f.run('qa-limit'),/입장권|횟수/);
     f.setSettings({...settings(),mode:'OFF'});await assert.rejects(()=>f.run('qa-closed'),/잠겨/);
     f.setSettings(settings());const invalid=deck();invalid.ids.pop();f.setDeck(invalid);await assert.rejects(()=>f.run('qa-deck'),/덱 5장/);
-    assert.equal(await f.ticket(),4);assert.equal(await f.parts(),2);
+    assert.equal(await f.ticket(),5);assert.equal(await f.parts(),2);
   });
-  test(`${backend}: failure is saved, costs one entry, and has no completion rewards`,async t=>{
+  test(`${backend}: failure is saved, counts one daily attempt, and has no completion rewards`,async t=>{
     const f=await fixture(t,postgres),weak=deck(100);weak.characterBonus={pve:0};f.setDeck(weak);
     const r=await f.run('qa-loss');assert.equal(r.success,false);assert.equal(r.status,'COMPLETED');assert.equal(r.rewards.length,0);
-    assert.equal(await f.ticket(),4);assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);
+    assert.equal(await f.ticket(),5);assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);
     assert.ok(['ELIMINATION','ACTION_LIMIT','TIME_LIMIT'].includes(r.failureReason));
   });
   test(`${backend}: empty drop plan is frozen even if CMS rates increase during a retry`,async t=>{
@@ -288,10 +288,10 @@ for(const postgres of [false,true]){
     const f=await fixture(t,postgres);await f.p("UPDATE unified_drop_entries_v1667 SET reward_type='EQUIPMENT',reward_ref='42',min_quantity=1,max_quantity=1").run();invalidateUnifiedDropPoolCache();
     if(postgres)await f.pg.exec("CREATE FUNCTION skip_equipment() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RETURN NULL; END $$; CREATE TRIGGER skip_equipment BEFORE INSERT ON user_equipment_instances FOR EACH ROW EXECUTE FUNCTION skip_equipment();");
     else f.DB.sql.exec("CREATE TRIGGER skip_equipment BEFORE INSERT ON user_equipment_instances BEGIN SELECT RAISE(IGNORE); END;");
-    const r=await f.run('qa-no-row');assert.equal(r.code,'SCRAPYARD_V3_SETTLEMENT_PENDING');assert.equal(await f.ticket(),4);assert.equal(await f.coin(),10);
+    const r=await f.run('qa-no-row');assert.equal(r.code,'SCRAPYARD_V3_SETTLEMENT_PENDING');assert.equal(await f.ticket(),5);assert.equal(await f.coin(),10);
     assert.equal(await f.count('unified_drop_receipts_v1667'),0);assert.equal(await f.count('user_equipment_instances'),0);
     if(postgres)await f.pg.exec('DROP TRIGGER skip_equipment ON user_equipment_instances');else f.DB.sql.exec('DROP TRIGGER skip_equipment');
-    const recovered=await f.run('qa-no-row');assert.equal(recovered.status,'COMPLETED');assert.equal(await f.ticket(),4);assert.equal(await f.count('user_equipment_instances'),1);
+    const recovered=await f.run('qa-no-row');assert.equal(recovered.status,'COMPLETED');assert.equal(await f.ticket(),5);assert.equal(await f.count('user_equipment_instances'),1);
   });
   test(`${backend}: skipped guaranteed-coin update cannot complete an unpaid expedition`,async t=>{
     const f=await fixture(t,postgres);
@@ -300,21 +300,21 @@ for(const postgres of [false,true]){
     assert.equal((await f.run('qa-no-coin')).code,'SCRAPYARD_V3_SETTLEMENT_PENDING');
     assert.equal(await f.coin(),10);assert.equal(await f.parts(),0);assert.equal(await f.count('scrapyard_runs_v1676'),0);
     if(postgres)await f.pg.exec('DROP TRIGGER skip_coin ON users');else f.DB.sql.exec('DROP TRIGGER skip_coin');
-    assert.equal((await f.run('qa-no-coin')).status,'COMPLETED');assert.equal(await f.coin(),100010);assert.equal(await f.ticket(),4);
+    assert.equal((await f.run('qa-no-coin')).status,'COMPLETED');assert.equal(await f.coin(),100010);assert.equal(await f.ticket(),5);
   });
 }
 
 test('response lost after final COMMIT returns the persisted receipt, with no second reward',async t=>{
   const f=await fixture(t);f.DB.throwAfterCommit=true;
   const r=await f.run('qa-response-lost');assert.equal(r.status,'COMPLETED');assert.equal(r.replayed,true);
-  assert.equal(await f.ticket(),4);assert.equal(await f.parts(),2);assert.equal(await f.coin(),100010);
+  assert.equal(await f.ticket(),5);assert.equal(await f.parts(),2);assert.equal(await f.coin(),100010);
 });
 
 test('reservation response lost after COMMIT settles immediately with its original lease',async t=>{
   const f=await fixture(t);f.DB.throwAfterReservation=true;
   const r=await f.run('qa-reservation-lost');
-  assert.equal(r.status,'COMPLETED');assert.equal(await f.ticket(),4);assert.equal(await f.parts(),2);
-  assert.equal(await f.count('scrapyard_v3_operations_v1'),1);assert.equal(await f.count('inventory_logs'),2);
+  assert.equal(r.status,'COMPLETED');assert.equal(await f.ticket(),5);assert.equal(await f.parts(),2);
+  assert.equal(await f.count('scrapyard_v3_operations_v1'),1);assert.equal(await f.count('inventory_logs'),1);
 });
 
 test('a missing or stolen operation at the grant boundary cannot bypass the transaction guard',async t=>{
@@ -333,6 +333,6 @@ test('PostgreSQL actual scrapyard completes at 10경 plus one and replays withou
  const result=await f.run('qa-10g');assert.equal(result.status,'COMPLETED');assert.equal(result.success,true);
  const exact=(await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7').first()).coin;
  const rewarded=result.rewards.filter(r=>r.rewardType==='COIN').reduce((n,r)=>n+BigInt(r.quantity),0n);
- assert.equal(exact,(100000000000000001n+rewarded).toString());assert.equal(await f.ticket(),4);
- await f.run('qa-10g');assert.equal(await f.ticket(),4);assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7').first()).coin,exact);
+ assert.equal(exact,(100000000000000001n+rewarded).toString());assert.equal(await f.ticket(),5);
+ await f.run('qa-10g');assert.equal(await f.ticket(),5);assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7').first()).coin,exact);
 });

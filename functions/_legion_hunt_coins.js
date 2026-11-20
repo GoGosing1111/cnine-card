@@ -17,7 +17,7 @@ export async function saveLegionCoinProgress(env,user,{key,before,run,policyRaw,
   let regionRaw=null;
   if(run.state.policy.regionId){
     const current=await readRegionPolicy(env);
-    if(current.policy.mode!=='ON'||!current.policy.regions.find(r=>r.id===run.state.policy.regionId)?.enabled)throw jointError('HUNT_REWARD_PAUSED','해당 지역의 보상 지급이 일시 중지됐습니다.',423);
+    if(current.policy.mode!=='ON'||!current.policy.regions.find(r=>r.id===(run.state.policy.sourceRegionId||run.state.policy.regionId))?.enabled)throw jointError('HUNT_REWARD_PAUSED','해당 지역의 보상 지급이 일시 중지됐습니다.',423);
     regionRaw=current.raw;
   }
   const DB=env.DB,token='hunt-coin:'+crypto.randomUUID(),raw=JSON.stringify({...run,writeToken:token});

@@ -12,11 +12,11 @@ const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const clean=f=>f.p('DELETE FROM cow_room_portal_rolls_v1').run();
 const grant=(f,ref,roll=0,source='HUNT',apocalypse=false,result='WIN')=>discoverCowPortalReady(f.env,f.user,event(ref,source,apocalypse,result),{randomInt:()=>roll});
 
-test('closed cow CMS blocks discovery; public portal inspection requires login',async()=>{
+test('closed cow CMS blocks discovery; public portal inspection is retired for all users',async()=>{
   const env={DB:{prepare(){return {bind(){return {first:async()=>null};}};}}};
   assert.equal(await discoverCowPortal(env,{id:7},event('held')),null);
   const response=await handlePveV3({path:'cow-room/v3/portals',request:new Request(origin+'/api/cow-room/v3/portals'),env,deps:{json:(b,s)=>Response.json(b,{status:s}),authenticate:async()=>null}});
-  assert.equal(response.status,401);
+  assert.equal(response.status,410);
   assert.equal(cowPortalRate({isApocalypse:false}),0.5);assert.equal(cowPortalRate({isApocalypse:true}),0.5);
 });
 
@@ -64,28 +64,24 @@ for(const postgres of[false,true]){
     f.fail('');assert.equal((await runExpeditionV3(f.env,f.user,'COW_ROOM',body,f.deps)).status,'COMPLETED');
     assert.equal(await f.coin(),509750000);
   });
-  test(`${backend}: authenticated concurrent entry cannot use one portal twice or another account's portal`,async t=>{
+  test(`${backend}: authenticated concurrent and foreign requests cannot enter the retired portal`,async t=>{
     const f=await jointFixture(t,{postgres});await clean(f);await grant(f,'concurrent-portal');
     const run=(id,user=7)=>handlePveV3Ready({path:'cow-room/v3/run',env:f.env,deps:f.deps,request:new Request(origin+'/api/cow-room/v3/run',{method:'POST',headers:{authorization:`Bearer local-account-${user}`,'content-type':'application/json',origin},body:JSON.stringify({requestId:id,difficulty:'PASTURE'})})});
-    assert.equal((await run('foreign-request',8)).status,409);
+    assert.equal((await run('foreign-request',8)).status,410);
     const responses=await Promise.all([run('concurrent-a'),run('concurrent-b')]);
-    assert.deepEqual(responses.map(r=>r.status).sort(),[200,409]);
-    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM expedition_v3_runs_v1').first()).n),1);
+    assert.deepEqual(responses.map(r=>r.status).sort(),[410,410]);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM expedition_v3_runs_v1').first()).n),0);
   });
 }
 
-test('sweep result aggregation retains every unique portal and both real result paths await the prompt',()=>{
+test('sweep aggregation preserves independently awarded tickets and actual battle and sweep results show acquisitions',()=>{
   const source=read('js/app.js'),start=source.indexOf('function pveSweepFirstResult('),end=source.indexOf('function pveSweepLootRows(',start);
   const context=vm.createContext({});vm.runInContext(source.slice(start,end),context);
-  const a={id:'a',state:'OPEN'},b={id:'b',state:'OPEN'};
-  const first=context.pveSweepFirstResult({result:'WIN',cowPortal:a});
-  const merged=context.mergePveSweepResults(first,{battles:2,wins:2,cowPortals:[a,b]});
-  assert.equal(JSON.stringify(merged.cowPortals),JSON.stringify([a,b]));
-  assert.ok(source.includes('await window.CowRoomPortal?.offer(summary.cowPortals,{mode:\'PVE\'})'));
-  assert.ok(read('js/battle-v2-live.js').includes('await window.CowRoomPortal?.offer([data.cowPortal],{mode:data.difficulty?.isApocalypse?\'APOCALYPSE\':\'PVE\'})'));
-  const api=read('functions/api/[[path]].js');
-  assert.ok(api.includes("sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result"));
-  assert.ok(api.includes("sourceType:'SWEEP',sourceRef:dropRequestId,isApocalypse:difficulty.isApocalypse,result"));
-  assert.ok(api.includes('if(one.cowPortal)cowPortals.push(one.cowPortal)'));
-  assert.ok(read('index.html').includes('cowPortal=20260913'));
+  const a={acquisitionId:'a',code:'LEGION_COW_SOLO_TICKET'},b={acquisitionId:'b',code:'LEGION_COW_PARTY_TICKET'};
+  const first=context.pveSweepFirstResult({result:'WIN',cowTicket:a});
+  const merged=context.mergePveSweepResults(first,{battles:2,wins:2,cowTickets:[b]});
+  assert.equal(JSON.stringify(merged.cowTickets),JSON.stringify([a,b]));
+  assert.match(source,/showCowTicketAcquisition\?\.\(summary\.cowTickets/);
+  assert.match(read('js/battle-v2-live.js'),/showCowTicketAcquisition\?\.\(data\.cowTicket/);
+  assert.match(read('functions/api/[[path]].js'),/if\(one\.cowTicket\)cowTickets\.push\(one\.cowTicket\)/);
 });

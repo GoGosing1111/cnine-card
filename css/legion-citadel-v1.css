@@ -208,6 +208,7 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .citadel .ct-areas button[aria-pressed="true"]{background:#3e3229;border-color:#bc945c;color:#ffe2ad}
 .ct-areas .ct-tactical,.ct-areas .ct-glyph{width:21px;height:21px;object-fit:contain}
 .ct-areas small{font-size:11px;color:#d6b47f}
+.ct-lite.ct-cow-room{background-image:linear-gradient(#10162233,#10131e80),url('/assets/ui/legion-cow-room/pasture.webp')}
 .ct-lite.ct-dockyard{background-image:linear-gradient(#10162233,#10131e80),url('/assets/ui/organization/hunts-20261023/stage3-dockyard.webp')}
 @media(max-width:530px){.citadel .ct-areas{gap:5px;padding:6px}.citadel .ct-areas button{flex:1;justify-content:center;flex-wrap:wrap;gap:2px 5px;padding:5px;font-size:12px}.ct-areas small{font-size:10px}}
 

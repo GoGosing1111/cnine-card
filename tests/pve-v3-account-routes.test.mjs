@@ -27,18 +27,13 @@ for(const postgres of [false,true]){
     const denied={...f.deps,authenticate:async()=>({...f.user,role:'USER'})};
     assert.equal((await call(null,denied)).status,403);
     const initial=await (await call()).json();assert.equal(initial.release.enabled,false);
-    for(const [content,source] of [['TOWER',initial.tower],['COW_ROOM',initial.cow]]){
-      const body={content,revision:source.revision,...(content==='TOWER'?{config:source.config,economy:{...source.economy,approved:true}}:{economy:{...source,approved:true}})};
-      assert.equal((await call(body,denied)).status,403);
-      const saved=await call(body),value=await saved.json();assert.equal(saved.status,200,JSON.stringify(value));
-      assert.equal(content==='TOWER'?value.economy.approved:value.approved,false);
-      assert.ok((await call(body)).status>=400,'stale revision must fail');
-      const enable={...body,revision:value.revision,...(content==='TOWER'?{config:{...value.config,mode:'ON'},economy:value.economy}:{economy:{...value,ok:undefined,content:undefined,mode:'ON'}})};
-      if(content==='COW_ROOM'){delete enable.economy.ok;delete enable.economy.content;}
-      const activated=await call(enable);
-      if(content==='COW_ROOM'){assert.equal(activated.status,200);assert.equal((await activated.json()).approved,true);}
-      else assert.ok(activated.status>=400,'tower re-ascent draft cannot activate');
-    }
+    assert.equal(initial.cow,undefined);
+    const source=initial.tower,body={content:'TOWER',revision:source.revision,config:source.config,economy:{...source.economy,approved:true}};
+    assert.equal((await call(body,denied)).status,403);
+    const saved=await call(body),value=await saved.json();assert.equal(saved.status,200,JSON.stringify(value));assert.equal(value.economy.approved,false);
+    assert.ok((await call(body)).status>=400,'stale revision must fail');
+    assert.ok((await call({...body,revision:value.revision,config:{...value.config,mode:'ON'},economy:value.economy})).status>=400);
+    assert.equal((await call({...body,content:'COW_ROOM'})).status,400);
     assert.equal(await f.coin(),10000000);
   });
   test(`${db}: retired idle blocks status, starts and claims while preserving old records`,async t=>{
@@ -58,9 +53,9 @@ for(const postgres of [false,true]){
     assert.equal(await f.coin(),10000000);assert.equal(Number((await f.p('SELECT pending_coin FROM idle_dungeon_progress WHERE user_id=7').first()).pending_coin),5000);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM idle_dungeon_claim_receipts').first()).n),0);
   });
-  test(`${db}: actual authenticated tower/scrapyard/cow handlers use owned snapshots, lock and durable result`,async t=>{
+  test(`${db}: actual authenticated tower/scrapyard handlers use owned snapshots, lock and durable result`,async t=>{
     const f=await jointFixture(t,{postgres});
-    for(const [content,selection] of [['tower',{tier:1}],['scrapyard',{difficulty:'OUTER'}],['cow-room',{difficulty:'PASTURE'}]]){
+    for(const [content,selection] of [['tower',{tier:1}],['scrapyard',{difficulty:'OUTER'}]]){
       const path=`${content}/v3/run`,body={requestId:`route-${content}`, ...selection};
       const call=(req,deps=f.deps)=>handlePveV3Ready({path,request:req,env:f.env,deps});
       assert.equal((await call(request(path,body,9))).status,401);

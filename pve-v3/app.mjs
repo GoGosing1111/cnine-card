@@ -7,8 +7,7 @@ if(nativeContent==='idle-dungeon'){
  location.replace('/?screen=battle');
 }else if(['cow-room','scrapyard'].includes(nativeContent)){
  document.documentElement.style.visibility='hidden';
- const enter=new URL(location.href).searchParams.get('enter')==='1';
- location.replace(nativeContent==='scrapyard'?'/?screen=scrapyard':'/?screen=battle&pve=cow-room'+(enter?'&enter=1':''));
+ location.replace(nativeContent==='scrapyard'?'/?screen=scrapyard':'/?screen=battle');
 }else{
 const labels={tower:['무한의탑','끝을 넘어서는 도전','해금한 층에 다시 도전하고, 더 높은 기록을 남기세요.'],scrapyard:['폐차장','폐허 속에서 되찾는 가능성','전선을 돌파하고 차량 제작에 필요한 부품을 회수하세요.'],'cow-room':['카우방','붉은 목초지의 지배자','도끼병과 정예를 넘어, 카우 킹에게 도전하세요.'],'idle-dungeon':['자동 원정','끝나지 않는 원정대의 여정','접속하지 않아도 원정과 코인 적립은 계속됩니다.']};
 const raw=new URL(location.href).searchParams.get('content'),content=Object.hasOwn(labels,raw)?raw:'tower',isIdle=content==='idle-dungeon',isTower=content==='tower',base=`${content}/v3/`;

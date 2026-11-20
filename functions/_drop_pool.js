@@ -5,6 +5,7 @@ import {ensurePetPotentialItem} from './_pet_potential.js';
 import { applyAvatarDropRate,avatarDropIncreasePercent,miracleDropIncreasePercent,rankDropIncreasePercent } from './_avatar_drop.js';
 import { applyMiracleDropChance } from './_miracle_burning.js';
 import {guardForgeProtectionGrant} from './_forge_protection_drop.js';
+import {hideoutEnabled} from './_personal_hideout.js';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
 
 const POOL_TABLE='unified_drop_pools_v1667';
@@ -276,7 +277,7 @@ export async function planUnifiedDropRoll(env,{userId,requestId,sourceType,sourc
     rewards.push(...rollPool(fixedScrapyard?{...pool,roll_mode:'INDEPENDENT',rolls:1,no_drop_weight:0}:pool,entries,
       fixedScrapyard?{...context,rollsMultiplier:1}:context,seededRandom(`${uid}:${rid}:${pool.id}:${pool.config_version}`)));
   }
-  if(/^PVE(?:_|$)/.test(source))rewards=rewards.filter(r=>r.rewardType!=='CARD');
+  if(hideoutEnabled(env)&&/^PVE(?:_|$)/.test(source))rewards=rewards.filter(r=>r.rewardType!=='CARD');
   rewards=await applyDailyLimits(env,uid,rewards);
   return {userId:uid,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,
     pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards};
@@ -330,7 +331,7 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
     const random=seededRandom(`${uid}:${rid}:${pool.id}:${pool.config_version}`);
     rewards.push(...rollPool(effectivePool,entries,effectiveContext,random));
   }
-  if(/^PVE(?:_|$)/.test(source))rewards=rewards.filter(r=>r.rewardType!=='CARD');
+  if(hideoutEnabled(env)&&/^PVE(?:_|$)/.test(source))rewards=rewards.filter(r=>r.rewardType!=='CARD');
   rewards=await applyDailyLimits(env,uid,rewards);
   // 미획득까지 영수증으로 쓰면 자동 PVE에서 D1이 불필요하게 팽창한다. 요청별 결정론적 난수로 재시도 결과를 고정하고 미획득은 무기록 반환한다.
   if(!rewards.length)return {ok:true,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards:[],balances:null,skipped:'NO_REWARD'};

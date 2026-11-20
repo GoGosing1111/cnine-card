@@ -1,3 +1,4 @@
+import {COW_AREA,COW_REGION} from '../shared/legion-cow-room.mjs';
 import {buildMonsterFighter,publicFighter} from './_battle_v2_preview.js';
 import {createCooperativeBattle} from './_cooperative_battle.js';
 import {regionalDifficulty} from '../shared/legion-regions-v1.mjs';
@@ -20,7 +21,8 @@ export function citadelEnemies(tierId=FIRST_TIER,area=null){
  if(!profile)throw Error('Invalid citadel difficulty');
  const tier=area===DOCKYARD.id?DOCKYARD.combat:profile;
  const dockyard=[['철사갈퀴 추적자',DOCKYARD.art+'stage3-monster.webp'],['항만 감시병',artRoot+'ember-watcher.webp'],['창고 철갑병',artRoot+'black-iron-guard.webp'],['부두 파수병',artRoot+'furnace-warden.webp'],['철갑 집행자',DOCKYARD.art+'stage3-boss.webp']];
- const roster=area===DOCKYARD.id?species.map(([code,,, ...stats],i)=>[code,...dockyard[i],...stats]):species;
+ const cows=[...COW_REGION.monsters,{...COW_REGION.monsters[0],name:'젖소 파수병'},COW_REGION.boss];
+ const roster=area===COW_AREA?species.map(([code,,, ...stats],i)=>[code,cows[i].name,cows[i].sprite,...stats]):area===DOCKYARD.id?species.map(([code,,, ...stats],i)=>[code,...dockyard[i],...stats]):species;
  const monsters=roster.map(([code,name,art,power,hp,attack,shield],i)=>({id:'CITADEL_'+code,name,isBoss:i===4,
   battle_power:Math.round(power*(i===4?tier.boss:tier.power)),pve_hp_percent:hp,pve_attack_percent:Math.round(attack*tier.attack),
   pve_defense_percent:tier.defense,pve_speed_percent:tier.speed,pve_shield_percent:shield+tier.shield,pve_attack_count:i===4?tier.repeat:1,pve_forced_action_every:3,
@@ -33,7 +35,8 @@ export function citadelEnemies(tierId=FIRST_TIER,area=null){
 export function buildCitadelBattle(squads,seed,tierId=FIRST_TIER,area=null){
  if(squads.length!==2||squads.some(s=>s.cards.length!==2||s.cards.some(c=>(c.grade||c.rarity)!=='ICON')||s.mercenaries.length!==2))throw Error('Invalid citadel squads');
  const field=citadelEnemies(tierId,area),{payload,states}=createCooperativeBattle({squads,seed,difficulty:{id:'CITADEL',forcedEvery:3},combat:{maxBattleSeconds:HUNT_DURATION_MS/1000,difficulties:[]},citadelEnemies:field});
- payload.sceneAssetKey=area===DOCKYARD.id?'CLAN_DOCKYARD':'LEGION_BURNING_CITADEL';payload.accountNickname=area===DOCKYARD.id?'클랜 항만 토벌대':'성채 토벌대';
+ if(area===COW_AREA)payload.legionCowRoom=true;
+ payload.sceneAssetKey=area===DOCKYARD.id?'CLAN_DOCKYARD':'LEGION_BURNING_CITADEL';payload.accountNickname=area===COW_AREA?'카우방 토벌대':area===DOCKYARD.id?'클랜 항만 토벌대':'성채 토벌대';
  const result=payload.battleV2.result,elapsed=result.timeline.at(-1).combatAtMs;
  const survived=elapsed>=HUNT_DURATION_MS&&result.final.A.concat(result.final.mercenaries.A).some(f=>f.hp>0);
  const duration=Math.min(HUNT_DURATION_MS,Math.max(1000,Math.round(elapsed)));

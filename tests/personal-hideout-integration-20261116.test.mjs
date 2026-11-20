@@ -2,6 +2,9 @@ import test from 'node:test';
 import {prepareApiRuntimeRequest,openApiRuntimeRequest} from '../functions/_api_runtime_transport.js';
 import assert from 'node:assert/strict';
 import {citadelFixture} from './helpers/legion-citadel-fixture.mjs';
+import {jointFixture} from './helpers/joint-db.mjs';
+import {settleRankedHunt} from '../functions/_account_rank.js';
+import {COW_DRAW_KEY,cowTicketCount} from '../functions/_legion_cow_tickets.js';
 import {collectionFixture} from './helpers/collection-bonuses-fixture.mjs';
 import {emptyHideout,HIDEOUT_KEY,hideoutBenefits} from '../shared/personal-hideout-v1.mjs';
 import {hideoutTrophies,mutateHideout,readHideout} from '../functions/_personal_hideout.js';
@@ -14,6 +17,28 @@ import {createUltimateBulkService} from '../functions/_ultimate_pack_bulk.js';
 import {ultimateBulkDependencies} from '../functions/api/[[path]].js';
 const unlocked=()=>({...emptyHideout(),level:1,revision:1,rooms:['main']});
 for(const postgres of [false,true]){
+ test((postgres?'PostgreSQL':'SQLite')+' hunt and sweep settle hideout salvage, coin and cow tickets together',async t=>{
+  const f=await jointFixture(t,{postgres});
+  f.env.PERSONAL_HIDEOUT_ENABLED='1';
+  await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,'hideout-local-qa').run();
+  const before=await f.coin();
+  const settle=(id,sweep)=>settleRankedHunt(f.env,7,'HUNT',id,100,'QA',{source:'HUNT',sweep});
+  f.fail('INSERT INTO inventory_logs');
+  await assert.rejects(settle('fixture-hunt-72',false));
+  f.fail('');
+  assert.equal((await readHideout(f.env,7)).state.parts.STEEL,0);
+  assert.equal(await f.coin(),before);
+  for(const [id,sweep] of [['fixture-hunt-72',false],['fixture-hunt-63',true]]){
+   const earned=await settle(id,sweep);
+   assert.equal(earned.cowTicket.code,'LEGION_COW_SOLO_TICKET');
+   assert.deepEqual(earned.hideoutReward,{STEEL:2,WIRE:1});
+   await settle(id,sweep);
+  }
+  const home=(await readHideout(f.env,7)).state;
+  assert.equal(home.parts.STEEL,4);assert.equal(home.parts.WIRE,2);
+  assert.equal(home.activityDates.length,1);assert.equal(await cowTicketCount(f.env.DB,7,'solo'),2);
+  assert.equal(await f.coin(),before+200);
+ });
  test((postgres?'PostgreSQL':'SQLite')+' party consumes expanded personal energy once and settles parts without a season',async t=>{
   const f=await citadelFixture({postgres});t.after(()=>f.close());f.env.PERSONAL_HIDEOUT_ENABLED='1';
   f.clock.now=Date.parse('2026-11-17T12:00:00+09:00');
@@ -47,6 +72,8 @@ for(const postgres of [false,true]){
   for(const source of ['PVE','PVE_NIGHTMARE','PVE_APOCALYPSE']){
    await f.p("INSERT INTO unified_drop_bindings_v1667(source_type,trigger_type,pool_id) VALUES(?,'WIN',5502)",source).run();
    const args={userId:7,requestId:'hideout-pool-'+source,sourceType:source,triggerType:'WIN'};
+   const closedPlan=await planUnifiedDropRoll({...f.env,PERSONAL_HIDEOUT_ENABLED:'0'},args);
+   assert.equal(closedPlan.rewards.filter(r=>r.rewardType==='CARD').length,1);
    const plan=await planUnifiedDropRoll(f.env,args);assert.equal(plan.rewards.filter(r=>r.rewardType==='CARD').length,0);assert.equal(plan.rewards.filter(r=>r.rewardType==='COIN').length,1);
    const reward=await resolveUnifiedDrops(f.env,args);assert.equal(reward.rewards.length,1);assert.equal(Number((await f.p("SELECT COUNT(*) n FROM unified_drop_ledger_v1667 WHERE reward_type='CARD'").first()).n),0);
   }

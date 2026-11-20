@@ -416,6 +416,7 @@
     battleSfx(win ? 'victory' : 'defeat');
     // 소탕은 첫 전투의 개별 드랍 팝업도 잠시 보류했다가, 잔여 회차와 함께
     // 하나의 합산 결과 화면으로 보여준다. 수동 1회 전투의 기존 획득 연출은 유지한다.
+    if (!sweeping && data.cowTicket) window.showCowTicketAcquisition?.(data.cowTicket, data.apocalypseChallenge || data.difficulty?.isApocalypse ? 'APOCALYPSE' : 'MONSTER_HUNT');
     if (!sweeping && data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
     if (!sweeping && data.unifiedDrop?.rewards?.length && window.showUnifiedDropAcquisition) { try { await window.showUnifiedDropAcquisition(data.unifiedDrop); } catch (error) { console.warn(error); } }
     const playerPower = Number(data.playerPower || data.battleV2?.teams?.A?.summary?.power || 0);
@@ -459,7 +460,7 @@
       modal.onclick=null;
       const confirm=msg.querySelector('#pveResultConfirm');
       if(confirm){confirm.onclick=event=>{event.stopPropagation();close()};confirm.focus({preventScroll:true})}
-      if(data.cowPortal)await window.CowRoomPortal?.offer([data.cowPortal],{mode:data.difficulty?.isApocalypse?'APOCALYPSE':'PVE'});
+      if(data.cowTicket){const item=document.createElement('p');item.textContent=data.cowTicket.name+' 1장 획득';confirm?.before(item);}
     }
   }
 

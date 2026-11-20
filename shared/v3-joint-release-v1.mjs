@@ -5,7 +5,7 @@ import {mercenaryDeploymentState} from './mercenary-public-release-v2097.mjs';
 // A CMS value, request field or environment override cannot open this gate.
 export const V3_JOINT_RELEASE_ENABLED = false;
 export const V3_JOINT_RELEASE_VERSION = '20260913-joint1';
-export const V3_JOINT_COMPONENTS = Object.freeze(['TOWER','SCRAPYARD','COW_ROOM','IDLE','MERCENARY','EQUIPMENT_FORGE']);
+export const V3_JOINT_COMPONENTS = Object.freeze(['TOWER','SCRAPYARD','IDLE','MERCENARY','EQUIPMENT_FORGE']);
 export function v3JointReleaseState(){
   return {version:V3_JOINT_RELEASE_VERSION,enabled:V3_JOINT_RELEASE_ENABLED,components:[...V3_JOINT_COMPONENTS],connected:true,connections:V3_LIVE_CONNECTIONS,publicContent:{...pvePublicContentState(),MERCENARY:mercenaryDeploymentState()}};
 }

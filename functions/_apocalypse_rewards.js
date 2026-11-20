@@ -3,6 +3,7 @@ import {supplyBoxSettings} from './_equipment.js';
 import {blackMiracleSettings} from './_black_miracle_pack.js';
 import {resolveAvatarDropRate} from './_avatar_drop.js';
 import {planUnifiedDropRoll,prepareUnifiedDropGrant,applyDailyLimits} from './_drop_pool.js';
+import {cowTicketAward} from './_legion_cow_tickets.js';
 import {accountRankAward} from './_account_rank.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
@@ -56,6 +57,7 @@ function inventoryWrites(env,userId,code,quantity,requestId){
 export async function prepareApocalypseRewards(env,user,state,now=Date.now()){
   const plan=state.plan,requestId=state.requestId,statements=[],patch={result:state.won?'WIN':'LOSE',reward:state.won?plan.reward:0,cardReward:null,magicReward:null,equipmentReward:null,blackMiracleReward:null,unifiedDrop:null,apocalypseBonus:{rewards:plan.bonuses}};
   const seasonWrites=await seasonAwardStatements(env,{userId:user.id,eventId:requestId,source:'APOCALYPSE',won:state.won,monsterId:state.monsterId,startedAt:state.createdAt});statements.push(...seasonWrites);patch.seasonReward=seasonWrites.award||null;patch.hideoutReward=seasonWrites.hideoutAward||null;
+  const cow=await cowTicketAward(env,user.id,'PVE_HUNT',requestId);statements.push(...cow.statements);patch.cowTicket=cow.ticket;
   if(!state.won)return {statements,patch};
   if(plan.unified?.rewards?.length){
     const drop={...plan.unified,rewards:await applyDailyLimits(env,user.id,plan.unified.rewards)};

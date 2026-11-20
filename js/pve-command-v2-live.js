@@ -21,14 +21,12 @@
     legion: ['군단토벌', '잊혀진 섬'],
     citadel: ['군단토벌 파티', '불타는 성채 · 2인'],
     seal: ['봉인전', '봉인 던전'],
-    tower: ['무한의 탑', '층별 도전'],
-    'cow-room': ['카우방', '포탈 입장', 'magic']
+    tower: ['무한의 탑', '층별 도전']
   });
 
   const lobbyIcon = key => window.SoopTacticalIcons?.html(key) || '';
 
   function navKey(button) {
-    if (button.hasAttribute('data-v3-cow-entry')) return 'cow-room';
     if (button.hasAttribute('data-legion-hunt-entry')) return 'legion';
     if (button.hasAttribute('data-legion-citadel')) return 'citadel';
     if (button.dataset.sealBattleMode) return 'seal';

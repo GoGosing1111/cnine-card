@@ -9,7 +9,7 @@ import {COW_ROOM_REWARD_COIN_LIMIT} from '../shared/cow-room-economy-v1.mjs';
 
 for(const postgres of [false,true]){
   const backend=postgres?'PostgreSQL':'SQLite';
-  test(`${backend}: OWNER CMS saves rewards through 10 billion and rejects out-of-range or fractional amounts`,async t=>{
+  test(`${backend}: archive validates historic reward limits and OWNER cannot change the retired economy`,async t=>{
     const f=await jointFixture(t,{postgres}),original=await readExpeditionPolicy(f.env,'COW_ROOM');
     assert.equal(COW_ROOM_REWARD_COIN_LIMIT,10000000000);
     const next={...original,clearCoin:[10000000000],dailyCoinCap:10000000000};
@@ -19,10 +19,8 @@ for(const postgres of [false,true]){
     }
     const request=new Request('https://game.example/api/admin/pve-v3',{method:'PATCH',headers:{authorization:'Bearer local-account-7',origin:'https://game.example','content-type':'application/json'},body:JSON.stringify({content:'COW_ROOM',revision:original.revision,economy:next})});
     const response=await handlePveV3({path:'admin/pve-v3',request,env:f.env,deps:f.deps});
-    assert.equal(response.status,200,await response.clone().text());
-    const saved=await readExpeditionPolicy(f.env,'COW_ROOM');
-    assert.equal(saved.clearCoin[0],10000000000);assert.equal(saved.dailyCoinCap,10000000000);
-    assert.equal(saved.approved,false);assert.equal(saved.mode,'TEST');assert.equal(saved.revision,original.revision+1);
+    assert.equal(response.status,400);
+    assert.deepEqual(await readExpeditionPolicy(f.env,'COW_ROOM'),original);
     assert.equal(await f.coin(),10000000,'saving a draft does not pay rewards');
   });
   test(`${backend}: six clears pay 500 million each, persist a 3 billion daily total, and support the 10 billion ceiling`,async t=>{

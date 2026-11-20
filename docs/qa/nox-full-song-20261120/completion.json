@@ -1,0 +1,3513 @@
+{
+  "at": "2026-11-20T09:29:18.234Z",
+  "sourceCommit": "44474d8a6cf925ed484b9f74c33cbbd2a8302b4a",
+  "production": {
+    "pages": {
+      "id": "403c746f-ed29-4d37-879d-31285ac4b97b",
+      "commit": "44474d8a6cf925ed484b9f74c33cbbd2a8302b4a",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "3513aac5-2f2e-4c8a-9a59-4ffee5e613be",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "c6e10527-2c9b-4641-bb02-b24d5e504a64",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "request": "노래 끝까지 노트, 노트 수 증가, 조금 빠른 낙하, DJ MAX처럼 성공 타격감 강화",
+  "findings": {
+    "cutoff": "61 auction charts ended at 30s regardless of the 34.765–67.453s original songs; audio retained only 31s.",
+    "timer": "Keeping the fixed 210s enrage would make longer three-song playlists run out of time.",
+    "packaging": "Tracked chart authoring helper initially raised public asset count to 20,001. Preserve it in Git and exclude only its unused public copy."
+  },
+  "changes": {
+    "chart": {
+      "tracks": 61,
+      "oldNotes": [
+        81,
+        104
+      ],
+      "notes": [
+        149,
+        324
+      ],
+      "densityIncrease": 0.25562983814215334,
+      "travelMsBefore": 1400,
+      "travelMsAfter": 1250,
+      "speedIncrease": 0.1200000000000001,
+      "loopVisits": {
+        "before": 1311228,
+        "after": 31372,
+        "comparison": "same longest chart, one frame every 16.67ms; excludes binary-search comparisons; algorithm count, not measured browser speed"
+      }
+    },
+    "fullSong": "RMS onset anchors across every complete MP3; measured-pulse continuation through rests/fades, two-key accents distributed through the song, same-lane separation >=330ms. Last note 200–483ms before actual end.",
+    "feedback": "Existing approved impact artwork with lane light, brighter receptor, short pressure/rebound of the pressed key, PERFECT/GOOD readout and combo emphasis; quiet 110ms percussive hit audio. Empty input has no success burst/sound; reduced motion removes recoil/beam. No new image downloads.",
+    "enrage": "Original 210s plus the three songs’ duration beyond their old 30s segments; floor, co-op, attack and transition windows unchanged.",
+    "compatibility": "Full-song track IDs end in -full1. All 61 legacy charts and the original fixed chart are byte-for-byte data equivalent. Version 4 required to create/join/ready/start; already active legacy rooms retain their charts/deadlines.",
+    "performance": "Binary-search visible note range; reuse decoded complete audio buffers directly; only the three chosen songs retained; six simultaneous hit voices maximum; timers update text only when it changes; stop all voices/animations and free song buffers on exit."
+  },
+  "preserved": {
+    "mode": "TEST",
+    "testers": 16,
+    "testEntryCoins": "0",
+    "onEntryCoins": "50000000000000",
+    "rewardLocked": true,
+    "partySizes": [
+      3,
+      6
+    ],
+    "bossHp": {
+      "three": 18000000,
+      "six": 12000000
+    },
+    "deck": "saved PVE",
+    "rhythm": {
+      "perfectMs": 80,
+      "goodMs": 160,
+      "goodScore": 0.95,
+      "accuracy": 0.9,
+      "maxMiss": 3,
+      "receiptGraceMs": 1500
+    },
+    "memory": {
+      "safe": 3,
+      "mines": 27
+    },
+    "cooperation": "unchanged",
+    "auctionCatalogUnchanged": true,
+    "settingsUnchanged": true,
+    "productionAccountWrites": 0,
+    "messages": 0
+  },
+  "verification": {
+    "tests": "34 focused tests including full 61-song timing/spacing, longest three-song playlists in 3/6 players, legacy compatibility, input streams, fees/rollback, floor/art lifetime, bounded hit audio and packaging; Worker syntax.",
+    "baseline": {
+      "artifact": "before-fixed/browser-pc.json",
+      "sha256": "76adfa148449bd2576c0fb0f72fe082ef787e6133580c4256d0ccecbd6f7f22e",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 266.3850000000002,
+          "prepareMs": 3621.9176000000007,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175",
+              "bgm-1612d7a2fa66",
+              "bgm-ec45bd32e008"
+            ],
+            "trackId": "bgm-4458d601c175",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 35712000,
+            "calibration": "0"
+          },
+          "frames": {
+            "samples": 704,
+            "p95": 35.600000000000364,
+            "max": 58,
+            "over50": 3,
+            "hits": 8,
+            "score": 8,
+            "clockError": 0.89990234375,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 279.65610000000015,
+          "prepareMs": 3519.0790000000015,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175",
+              "bgm-1612d7a2fa66",
+              "bgm-ec45bd32e008"
+            ],
+            "trackId": "bgm-4458d601c175",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 35712000,
+            "calibration": "0"
+          },
+          "frames": {
+            "samples": 848,
+            "p95": 35.100000000000364,
+            "max": 49,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.10009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 188,
+        "maxMs": 31.34349999999904,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12755/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:12755/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12755/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12755/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12755/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12755/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12755/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 266.3850000000002,
+          "prepareMs": 3621.9176000000007
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 279.65610000000015,
+          "prepareMs": 3519.0790000000015
+        }
+      ]
+    },
+    "matchedFinal": {
+      "artifact": "final-comparable/browser-pc.json",
+      "sha256": "b47a7b56a7519c5e819dd2f579c9bb8847b27f76c94f26c96ac3e040c68210e6",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 808.0096000000003,
+          "prepareMs": 4285.158299999999,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 882,
+              "total": 12428.599999999999,
+              "max": 51,
+              "over50": 2
+            },
+            "samples": 882,
+            "p95": 25.099999999999454,
+            "max": 51,
+            "over50": 2,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.050048828125,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 95.28629999999976,
+          "prepareMs": 4680.060300000005,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 1106,
+              "total": 12382.400000000001,
+              "max": 55.69999999999891,
+              "over50": 1
+            },
+            "samples": 1106,
+            "p95": 26.799999999999272,
+            "max": 55.69999999999891,
+            "over50": 1,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 183,
+        "maxMs": 30.9913000000015,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1970/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:1970/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1970/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1970/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1970/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1970/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1970/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 808.0096000000003,
+          "prepareMs": 4285.158299999999,
+          "decodes": [
+            {
+              "ms": 661.7999999988824,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 201,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 189.80000000074506,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 1702.4000000003725,
+              "ms": 70
+            },
+            {
+              "start": 2179.2000000011176,
+              "ms": 489
+            },
+            {
+              "start": 2866.9000000003725,
+              "ms": 141
+            },
+            {
+              "start": 3810.300000000745,
+              "ms": 60
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/ui/project-v/fallback/manifest-v1.json",
+              "ms": 1320.800000000745,
+              "bytes": 1608
+            },
+            {
+              "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 420.5,
+              "bytes": 1173956
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 405.5,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 403.90000000037253,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 402.7000000011176,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 400.40000000037253,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 371.19999999925494,
+              "bytes": 1422410
+            },
+            {
+              "file": "/js/project-v-unassigned-battle-fallback-v1.js",
+              "ms": 355.90000000037253,
+              "bytes": 4385
+            },
+            {
+              "file": "/js/project-v-monster-battle-art-adapter-v1.js",
+              "ms": 350.19999999925494,
+              "bytes": 8875
+            },
+            {
+              "file": "/js/project-v-tier-battle-art-adapter-v1.js",
+              "ms": 347.90000000037253,
+              "bytes": 7624
+            }
+          ]
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 95.28629999999976,
+          "prepareMs": 4680.060300000005,
+          "decodes": [
+            {
+              "ms": 146.7999999988824,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 90.5,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 309.09999999962747,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 301.5,
+              "ms": 68
+            },
+            {
+              "start": 371.19999999925494,
+              "ms": 97
+            },
+            {
+              "start": 1538.3999999985099,
+              "ms": 92
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/ui/project-v/fallback/manifest-v1.json",
+              "ms": 1806.5999999996275,
+              "bytes": 1608
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 1629.0999999996275,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/ui/project-v/characters/icon/manifest-v1.json",
+              "ms": 991.8000000007451,
+              "bytes": 6358
+            },
+            {
+              "file": "/assets/ui/raid-nox-v1/button.webp",
+              "ms": 880.3000000007451,
+              "bytes": 38384
+            },
+            {
+              "file": "/assets/ui/raid-nox-v1/panel.webp",
+              "ms": 877.5,
+              "bytes": 47826
+            },
+            {
+              "file": "/assets/ui/project-v/characters/superstar/manifest-v1.json",
+              "ms": 637.5,
+              "bytes": 3647
+            },
+            {
+              "file": "/assets/ui/project-v/characters/prestige/manifest-v1.json",
+              "ms": 618.4000000003725,
+              "bytes": 8483
+            },
+            {
+              "file": "/assets/ui/project-v/characters/fur/manifest-v2.json",
+              "ms": 616.4000000003725,
+              "bytes": 5917
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 400.09999999962747,
+              "bytes": 599276
+            },
+            {
+              "file": "/assets/ui/project-v/characters/zenith/manifest-v1.json",
+              "ms": 318.59999999962747,
+              "bytes": 70842
+            }
+          ]
+        }
+      ]
+    },
+    "fullSongFinal": {
+      "artifact": "final-pc/browser-pc.json",
+      "sha256": "84e44bda530e6c5dc558ee29a47a3c1280eae03c52bc8c37c95c8da0b20d8ed6",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 167.78319999999985,
+          "prepareMs": 3077.4555,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 2910,
+              "total": 46790.7,
+              "max": 100.40000000000146,
+              "over50": 4
+            },
+            "samples": 2400,
+            "p95": 31,
+            "max": 61.29999999999927,
+            "over50": 1,
+            "hits": 189,
+            "score": 179.54999999999964,
+            "clockError": -1.449951171875,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 2.8717000000033295,
+          "prepareMs": 1272.8044999999984,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 896,
+              "total": 12371.199999999997,
+              "max": 59.80000000000291,
+              "over50": 1
+            },
+            "samples": 896,
+            "p95": 24.30000000000291,
+            "max": 59.80000000000291,
+            "over50": 1,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.800048828125,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "fullRhythm": {
+        "hits": 189,
+        "score": 179.54999999999964,
+        "totalNotes": 189,
+        "durationMs": 40981,
+        "lastNoteAt": 40618,
+        "calibration": 0,
+        "targetDelayMs": 110
+      },
+      "nextRound": {
+        "trackId": "bgm-1612d7a2fa66-full1",
+        "url": "/assets/effects/10060.mp3",
+        "prepared": 3,
+        "hp": 1653912
+      },
+      "hitFeedback": {
+        "grade": "GOOD",
+        "at": 49615.90000000037,
+        "voices": 1,
+        "animations": 8
+      },
+      "timeOrigins": [
+        1795165932024,
+        1795165932024
+      ],
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 554,
+        "maxMs": 44.45530000000144,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:6047/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:6047/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 167.78319999999985,
+          "prepareMs": 3077.4555,
+          "decodes": [
+            {
+              "ms": 102.90000000037253,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 151.09999999962747,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 245.69999999925494,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 716.9000000003725,
+              "ms": 50
+            },
+            {
+              "start": 1040.5999999996275,
+              "ms": 357
+            },
+            {
+              "start": 1413.5,
+              "ms": 128
+            },
+            {
+              "start": 2306.4000000003725,
+              "ms": 65
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 357.59999999962747,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 295,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 290.5,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 289.40000000037253,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 287.40000000037253,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/ui/project-v/fallback/manifest-v1.json",
+              "ms": 260.2999999988824,
+              "bytes": 1608
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 181.40000000037253,
+              "bytes": 39424
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 144.90000000037253,
+              "bytes": 599276
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 138.90000000037253,
+              "bytes": 177649
+            },
+            {
+              "file": "/raid/nox/battle.bundle.js",
+              "ms": 138,
+              "bytes": 3876645
+            }
+          ]
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 2.8717000000033295,
+          "prepareMs": 1272.8044999999984,
+          "decodes": [
+            {
+              "ms": 102.90000000037253,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 151.09999999962747,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 245.69999999925494,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            },
+            {
+              "ms": 4.900000000372529,
+              "duration": 0.92,
+              "bytes": 353280
+            },
+            {
+              "ms": 5.199999999254942,
+              "duration": 1.2,
+              "bytes": 460800
+            },
+            {
+              "ms": 6.299999998882413,
+              "duration": 1.3,
+              "bytes": 499200
+            },
+            {
+              "ms": 7.5,
+              "duration": 1.68,
+              "bytes": 645120
+            },
+            {
+              "ms": 69.40000000037253,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 126.90000000037253,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 134.69999999925494,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 716.9000000003725,
+              "ms": 50
+            },
+            {
+              "start": 1040.5999999996275,
+              "ms": 357
+            },
+            {
+              "start": 1413.5,
+              "ms": 128
+            },
+            {
+              "start": 2306.4000000003725,
+              "ms": 65
+            },
+            {
+              "start": 67736,
+              "ms": 66
+            },
+            {
+              "start": 68704.69999999925,
+              "ms": 59
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 357.59999999962747,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 295,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 290.5,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 289.40000000037253,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 287.40000000037253,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/ui/project-v/fallback/manifest-v1.json",
+              "ms": 260.2999999988824,
+              "bytes": 1608
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 181.40000000037253,
+              "bytes": 39424
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 144.90000000037253,
+              "bytes": 599276
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 138.90000000037253,
+              "bytes": 177649
+            },
+            {
+              "file": "/raid/nox/battle.bundle.js",
+              "ms": 138,
+              "bytes": 3876645
+            }
+          ]
+        }
+      ]
+    },
+    "threeRetries": {
+      "artifact": "full-retry/browser-pc.json",
+      "sha256": "73db57173014273fe308cf5d8b5bbcad5d31181ab92d0627ab316e9f96459050",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 626.5768999999991,
+          "prepareMs": 6721.849,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 10492,
+              "total": 46680.100000000006,
+              "max": 41.70000000000073,
+              "over50": 0
+            },
+            "samples": 2400,
+            "p95": 4.300000000001091,
+            "max": 29.100000000000364,
+            "over50": 0,
+            "hits": 189,
+            "score": 179.54999999999964,
+            "clockError": -1.10009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 2.5614000000059605,
+          "prepareMs": 3487.699299999993,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 2929,
+              "total": 12312.699999999997,
+              "max": 16.60000000000582,
+              "over50": 0
+            },
+            "samples": 2400,
+            "p95": 4.30000000000291,
+            "max": 8.5,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.75,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 2,
+          "lobbyMs": 2.6300999999948544,
+          "prepareMs": 7859.685299999997,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 2873,
+              "total": 12383.300000000003,
+              "max": 20.90000000000873,
+              "over50": 0
+            },
+            "samples": 2400,
+            "p95": 4.399999999994179,
+            "max": 20.90000000000873,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -3.85009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "fullRhythm": {
+        "hits": 189,
+        "score": 179.54999999999964,
+        "totalNotes": 189,
+        "durationMs": 40981,
+        "lastNoteAt": 40618,
+        "calibration": 0,
+        "targetDelayMs": 110
+      },
+      "nextRound": {
+        "trackId": "bgm-1612d7a2fa66-full1",
+        "url": "/assets/effects/10060.mp3",
+        "prepared": 3,
+        "hp": 1653912
+      },
+      "hitFeedback": {
+        "grade": "PERFECT",
+        "at": 88597.90000000037,
+        "voices": 1,
+        "animations": 7
+      },
+      "timeOrigins": [
+        1795165499261.2,
+        1795165499261.2,
+        1795165499261.2
+      ],
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 628,
+        "maxMs": 186.11239999999816,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:5367/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:5367/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 626.5768999999991,
+          "prepareMs": 6721.849,
+          "decodes": [
+            {
+              "ms": 105.70000000111759,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 238.39999999850988,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 154.90000000037253,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 1397.0999999996275,
+              "ms": 377
+            },
+            {
+              "start": 2108.5999999996275,
+              "ms": 146
+            },
+            {
+              "start": 4944.800000000745,
+              "ms": 60
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 1292.9000000003725,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 1191.2000000011176,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 1174.0999999996275,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 1062.5,
+              "bytes": 322537
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 979.7000000011176,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 836,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 810.7000000011176,
+              "bytes": 39424
+            },
+            {
+              "file": "/assets/ui/raid-nox-v2/surface.webp",
+              "ms": 800.0999999996275,
+              "bytes": 5134
+            },
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 720.8999999985099,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 720.2000000011176,
+              "bytes": 177649
+            }
+          ]
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 2.5614000000059605,
+          "prepareMs": 3487.699299999993,
+          "decodes": [
+            {
+              "ms": 105.70000000111759,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 238.39999999850988,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 154.90000000037253,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            },
+            {
+              "ms": 5,
+              "duration": 0.92,
+              "bytes": 353280
+            },
+            {
+              "ms": 5.599999999627471,
+              "duration": 1.2,
+              "bytes": 460800
+            },
+            {
+              "ms": 7.299999998882413,
+              "duration": 1.3,
+              "bytes": 499200
+            },
+            {
+              "ms": 8.099999999627471,
+              "duration": 1.68,
+              "bytes": 645120
+            },
+            {
+              "ms": 102.60000000149012,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 94.90000000037253,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 159.69999999925494,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 1397.0999999996275,
+              "ms": 377
+            },
+            {
+              "start": 2108.5999999996275,
+              "ms": 146
+            },
+            {
+              "start": 4944.800000000745,
+              "ms": 60
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 1292.9000000003725,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 1191.2000000011176,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 1174.0999999996275,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 1062.5,
+              "bytes": 322537
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 979.7000000011176,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 836,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 810.7000000011176,
+              "bytes": 39424
+            },
+            {
+              "file": "/assets/ui/raid-nox-v2/surface.webp",
+              "ms": 800.0999999996275,
+              "bytes": 5134
+            },
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 720.8999999985099,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 720.2000000011176,
+              "bytes": 177649
+            }
+          ]
+        },
+        {
+          "visit": 2,
+          "lobbyMs": 2.6300999999948544,
+          "prepareMs": 7859.685299999997,
+          "decodes": [
+            {
+              "ms": 105.70000000111759,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 238.39999999850988,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 154.90000000037253,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            },
+            {
+              "ms": 5,
+              "duration": 0.92,
+              "bytes": 353280
+            },
+            {
+              "ms": 5.599999999627471,
+              "duration": 1.2,
+              "bytes": 460800
+            },
+            {
+              "ms": 7.299999998882413,
+              "duration": 1.3,
+              "bytes": 499200
+            },
+            {
+              "ms": 8.099999999627471,
+              "duration": 1.68,
+              "bytes": 645120
+            },
+            {
+              "ms": 102.60000000149012,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 94.90000000037253,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 159.69999999925494,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            },
+            {
+              "ms": 6.800000000745058,
+              "duration": 0.92,
+              "bytes": 353280
+            },
+            {
+              "ms": 6.900000000372529,
+              "duration": 1.2,
+              "bytes": 460800
+            },
+            {
+              "ms": 8.599999999627471,
+              "duration": 1.3,
+              "bytes": 499200
+            },
+            {
+              "ms": 10.5,
+              "duration": 1.68,
+              "bytes": 645120
+            },
+            {
+              "ms": 141.59999999962747,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 146.19999999925494,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 251.59999999962747,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 1397.0999999996275,
+              "ms": 377
+            },
+            {
+              "start": 2108.5999999996275,
+              "ms": 146
+            },
+            {
+              "start": 4944.800000000745,
+              "ms": 60
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 1292.9000000003725,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 1191.2000000011176,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 1174.0999999996275,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 1062.5,
+              "bytes": 322537
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 979.7000000011176,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 836,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 810.7000000011176,
+              "bytes": 39424
+            },
+            {
+              "file": "/assets/ui/raid-nox-v2/surface.webp",
+              "ms": 800.0999999996275,
+              "bytes": 5134
+            },
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 720.8999999985099,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 720.2000000011176,
+              "bytes": 177649
+            }
+          ]
+        }
+      ]
+    },
+    "mobileFinal": {
+      "artifact": "final-mobile/browser-mobile.json",
+      "sha256": "e3eb92716812755e889fec4901c04a247f6005a05d8e2158214fb407b341c24c",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 628.788199999999,
+          "prepareMs": 3703.7898999999998,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 884,
+              "total": 12499.899999999998,
+              "max": 45.600000000000364,
+              "over50": 0
+            },
+            "samples": 884,
+            "p95": 24.899999999999636,
+            "max": 45.600000000000364,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.2001953125,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "hitFeedback": {
+        "grade": "PERFECT",
+        "at": 14806.200000001118,
+        "voices": 1,
+        "animations": 6
+      },
+      "timeOrigins": [
+        1795166032282.2
+      ],
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 94,
+        "maxMs": 26.013999999999214,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12619/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:12619/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12619/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12619/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12619/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12619/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 628.788199999999,
+          "prepareMs": 3703.7898999999998,
+          "decodes": [
+            {
+              "ms": 130.40000000037253,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 438.80000000074506,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 261.69999999925494,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 918.4000000003725,
+              "ms": 55
+            },
+            {
+              "start": 1280.6000000014901,
+              "ms": 501
+            },
+            {
+              "start": 1899.1000000014901,
+              "ms": 330
+            },
+            {
+              "start": 3400.5,
+              "ms": 61
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 773,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 771.5,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 770.2999999988824,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 763.2000000011176,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 750.5999999996275,
+              "bytes": 1422410
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 742.1999999992549,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 447.19999999925494,
+              "bytes": 39424
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 392.40000000037253,
+              "bytes": 177649
+            },
+            {
+              "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 352.30000000074506,
+              "bytes": 1173956
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 347.7999999988824,
+              "bytes": 599276
+            }
+          ]
+        }
+      ]
+    },
+    "mobile": {
+      "artifact": "mobile/browser-mobile.json",
+      "sha256": "6c4231af48b6715f18a0a03c6a739e1e9178485b6162934afc6185dc8bf07216",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 281.6193000000003,
+          "prepareMs": 3245.7168,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 2879,
+              "total": 12441.9,
+              "max": 50,
+              "over50": 0
+            },
+            "samples": 2400,
+            "p95": 4.300000000001091,
+            "max": 50,
+            "over50": 0,
+            "hits": 8,
+            "score": 7.95,
+            "clockError": -0.89990234375,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 365.0049999999974,
+          "prepareMs": 1974.067500000001,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 718,
+              "total": 12615.6,
+              "max": 48.79999999999927,
+              "over50": 0
+            },
+            "samples": 718,
+            "p95": 35,
+            "max": 48.79999999999927,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": 1.500244140625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "hitFeedback": {
+        "grade": "PERFECT",
+        "at": 13059,
+        "voices": 1,
+        "animations": 6
+      },
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 188,
+        "maxMs": 29.721000000001368,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12297/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:12297/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12297/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12297/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12297/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12297/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:12297/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 281.6193000000003,
+          "prepareMs": 3245.7168,
+          "decodes": [
+            {
+              "ms": 147.19999999925494,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 159.7000000011176,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 155.2999999988824,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 639.3000000007451,
+              "ms": 71
+            },
+            {
+              "start": 1333.800000000745,
+              "ms": 422
+            },
+            {
+              "start": 1811.9000000003725,
+              "ms": 106
+            },
+            {
+              "start": 2749.7000000011176,
+              "ms": 55
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 613.6999999992549,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 568,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 566.9000000003725,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 565.6999999992549,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 563.5,
+              "bytes": 5898
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 501.09999999962747,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 472.19999999925494,
+              "bytes": 39424
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 458,
+              "bytes": 599276
+            },
+            {
+              "file": "/raid/nox/battle.bundle.js",
+              "ms": 443.40000000037253,
+              "bytes": 3876645
+            },
+            {
+              "file": "/assets/ui/raid-nox-v2/surface.webp",
+              "ms": 437.5,
+              "bytes": 5134
+            }
+          ]
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 365.0049999999974,
+          "prepareMs": 1974.067500000001,
+          "decodes": [
+            {
+              "ms": 113.79999999888241,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 121.10000000149012,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 144,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 882.7000000011176,
+              "ms": 73
+            },
+            {
+              "start": 957.7000000011176,
+              "ms": 95
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 428.30000000074506,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/effects/30000.mp3",
+              "ms": 197,
+              "bytes": 1048442
+            },
+            {
+              "file": "/api/raid/nox/feature",
+              "ms": 150.30000000074506,
+              "bytes": 488
+            },
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 148.30000000074506,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+              "ms": 114.59999999962747,
+              "bytes": 42348
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+              "ms": 112.5,
+              "bytes": 30436
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+              "ms": 111.59999999962747,
+              "bytes": 32943
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/attack.mp3",
+              "ms": 110.69999999925494,
+              "bytes": 24166
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 73.80000000074506,
+              "bytes": 2023
+            },
+            {
+              "file": "/api/raid/nox/deck",
+              "ms": 45.79999999888241,
+              "bytes": 1838
+            }
+          ]
+        }
+      ]
+    },
+    "windows": {
+      "artifact": "windows/browser-windows.json",
+      "sha256": "45c330dffd16af11d4bd0ad89f427cffd6d5c3bf9dbd2c664bc7a62845ab3c23",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 208.98070000000098,
+          "prepareMs": 2986.0325999999986,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 711,
+              "total": 12462.099999999999,
+              "max": 104.90000000000009,
+              "over50": 4
+            },
+            "samples": 711,
+            "p95": 35.899999999999636,
+            "max": 104.90000000000009,
+            "over50": 4,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.699951171875,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 190.53069999999934,
+          "prepareMs": 2642.7606999999953,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 945,
+              "total": 12789.8,
+              "max": 72.09999999999991,
+              "over50": 1
+            },
+            "samples": 945,
+            "p95": 26.5,
+            "max": 72.09999999999991,
+            "over50": 1,
+            "hits": 8,
+            "score": 8,
+            "clockError": -1.75,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "hitFeedback": {
+        "grade": "PERFECT",
+        "at": 13232.699999999255,
+        "voices": 1,
+        "animations": 6
+      },
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 181,
+        "maxMs": 79.72009999999864,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10105/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:10105/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10105/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10105/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10105/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10105/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10105/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10105/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 208.98070000000098,
+          "prepareMs": 2986.0325999999986,
+          "decodes": [
+            {
+              "ms": 90.29999999888241,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 101.20000000111759,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 243.69999999925494,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 1094.5,
+              "ms": 410
+            },
+            {
+              "start": 1517.7999999988824,
+              "ms": 53
+            },
+            {
+              "start": 2531.699999999255,
+              "ms": 66
+            },
+            {
+              "start": 2600.699999999255,
+              "ms": 59
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 514,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 414.09999999962747,
+              "bytes": 599276
+            },
+            {
+              "file": "/assets/ui/project-v/fallback/manifest-v1.json",
+              "ms": 406.1000000014901,
+              "bytes": 1608
+            },
+            {
+              "file": "/assets/ui/project-v/characters/icon/manifest-v1.json",
+              "ms": 405.59999999962747,
+              "bytes": 6358
+            },
+            {
+              "file": "/assets/ui/project-v/characters/superstar/manifest-v1.json",
+              "ms": 404.2999999988824,
+              "bytes": 3647
+            },
+            {
+              "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 212.60000000149012,
+              "bytes": 1173956
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 209.69999999925494,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/ui/raid-nox-v1/gauge.webp",
+              "ms": 208.40000000037253,
+              "bytes": 29708
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 208.2000000011176,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 206.5,
+              "bytes": 135416
+            }
+          ]
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 190.53069999999934,
+          "prepareMs": 2642.7606999999953,
+          "decodes": [
+            {
+              "ms": 149.5,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 108.40000000037253,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 218.2000000011176,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 402.19999999925494,
+              "ms": 65
+            },
+            {
+              "start": 469,
+              "ms": 90
+            },
+            {
+              "start": 566.7999999988824,
+              "ms": 63
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/ui/project-v/fallback/manifest-v1.json",
+              "ms": 558.3999999985099,
+              "bytes": 1608
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 375.09999999962747,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 374.09999999962747,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 371.7000000011176,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 369.80000000074506,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/ui/raid-nox-v1/button.webp",
+              "ms": 337.40000000037253,
+              "bytes": 38384
+            },
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 324.90000000037253,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 290.5,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 243.09999999962747,
+              "bytes": 177649
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 239.90000000037253,
+              "bytes": 599276
+            }
+          ]
+        }
+      ]
+    },
+    "h5": {
+      "artifact": "h5/browser-h5.json",
+      "sha256": "7af327467baba1ddc962d9ce471aaf597b71a4a82f73ea38cae026539ad3be91",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 277.8834999999999,
+          "prepareMs": 3505.5552,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 951,
+              "total": 12438.1,
+              "max": 50.80000000000018,
+              "over50": 1
+            },
+            "samples": 951,
+            "p95": 23.19999999999891,
+            "max": 50.80000000000018,
+            "over50": 1,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.60009765625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 142.03050000000076,
+          "prepareMs": 1893.5678000000007,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 945,
+              "total": 12503.6,
+              "max": 37,
+              "over50": 0
+            },
+            "samples": 945,
+            "p95": 23.199999999999818,
+            "max": 37,
+            "over50": 0,
+            "hits": 8,
+            "score": 7.95,
+            "clockError": -1.400146484375,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "hitFeedback": {
+        "grade": "PERFECT",
+        "at": 12444.299999998882,
+        "voices": 1,
+        "animations": 6
+      },
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 189,
+        "maxMs": 27.985100000001694,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10067/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10067/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10067/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10067/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10067/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:10067/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 277.8834999999999,
+          "prepareMs": 3505.5552,
+          "decodes": [
+            {
+              "ms": 119.79999999888241,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 172.19999999925494,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 223.2000000011176,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 639.4000000003725,
+              "ms": 65
+            },
+            {
+              "start": 1011.5,
+              "ms": 474
+            },
+            {
+              "start": 1527,
+              "ms": 125
+            },
+            {
+              "start": 2505.10000000149,
+              "ms": 65
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 550.5,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 528.4000000003725,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 527.2999999988824,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 526.4000000003725,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 524.4000000003725,
+              "bytes": 5898
+            },
+            {
+              "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 331.90000000037253,
+              "bytes": 1173956
+            },
+            {
+              "file": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+              "ms": 328.40000000037253,
+              "bytes": 599276
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 325.5,
+              "bytes": 177649
+            },
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 231,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/fonts/battle/RussoOne-Regular.ttf",
+              "ms": 206.90000000037253,
+              "bytes": 39424
+            }
+          ]
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 142.03050000000076,
+          "prepareMs": 1893.5678000000007,
+          "decodes": [
+            {
+              "ms": 120.90000000037253,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 140.2999999988824,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 218.2999999988824,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 383.19999999925494,
+              "ms": 60
+            },
+            {
+              "start": 445.40000000037253,
+              "ms": 84
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 436.09999999962747,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/ui/project-v/characters/icon/manifest-v1.json",
+              "ms": 270.80000000074506,
+              "bytes": 6358
+            },
+            {
+              "file": "/assets/effects/30000.mp3",
+              "ms": 171.39999999850988,
+              "bytes": 1048442
+            },
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 127.80000000074506,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/ui/raid-nox-v1/button.webp",
+              "ms": 126.29999999888241,
+              "bytes": 38384
+            },
+            {
+              "file": "/assets/ui/raid-nox-v1/panel.webp",
+              "ms": 124.90000000037253,
+              "bytes": 47826
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+              "ms": 112.30000000074506,
+              "bytes": 42348
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+              "ms": 110.5,
+              "bytes": 30436
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+              "ms": 109.29999999888241,
+              "bytes": 32943
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/attack.mp3",
+              "ms": 108.39999999850988,
+              "bytes": 24166
+            }
+          ]
+        }
+      ]
+    },
+    "public": {
+      "artifact": "public-pc/browser-pc.json",
+      "sha256": "f5e457703b3ec1b3c351bb845a2867182b1db97d0fc058c4c037bb51346cb5f6",
+      "pass": true,
+      "emulation": true,
+      "physicalDevice": false,
+      "network": "Windows loopback / PGlite; browser cache cold then warm",
+      "visits": [
+        {
+          "visit": 0,
+          "lobbyMs": 519.0196999999998,
+          "prepareMs": 2813.8502,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 10747,
+              "total": 46576.1,
+              "max": 62.59999999999991,
+              "over50": 1
+            },
+            "samples": 2400,
+            "p95": 4.399999999999636,
+            "max": 62.59999999999991,
+            "over50": 1,
+            "hits": 189,
+            "score": 179.54999999999964,
+            "clockError": -1.599853515625,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 161.26550000000861,
+          "prepareMs": 994.0290999999997,
+          "music": {
+            "playlist": [
+              "bgm-4458d601c175-full1",
+              "bgm-1612d7a2fa66-full1",
+              "bgm-ec45bd32e008-full1"
+            ],
+            "trackId": "bgm-4458d601c175-full1",
+            "url": "/assets/effects/30000.mp3",
+            "prepared": 3,
+            "bufferBytes": 54592104,
+            "calibration": "0"
+          },
+          "frames": {
+            "wholeRun": {
+              "count": 2937,
+              "total": 12296.1,
+              "max": 20.899999999999636,
+              "over50": 0
+            },
+            "samples": 2400,
+            "p95": 4.300000000000182,
+            "max": 16.700000000000045,
+            "over50": 0,
+            "hits": 8,
+            "score": 8,
+            "clockError": -0.75,
+            "inflight": 0
+          },
+          "exit": {
+            "poll": false,
+            "raf": false,
+            "playing": false,
+            "preparedTracks": 0,
+            "canvases": 0
+          }
+        }
+      ],
+      "fullRhythm": {
+        "hits": 189,
+        "score": 179.54999999999964,
+        "totalNotes": 189,
+        "durationMs": 40981,
+        "lastNoteAt": 40618,
+        "calibration": 0,
+        "targetDelayMs": 110
+      },
+      "nextRound": {
+        "trackId": "bgm-1612d7a2fa66-full1",
+        "url": "/assets/effects/10060.mp3",
+        "prepared": 3,
+        "hp": 1653912
+      },
+      "hitFeedback": {
+        "grade": "PERFECT",
+        "at": 11407.599999999627,
+        "voices": 1,
+        "animations": 6
+      },
+      "floorPaint": [
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        },
+        {
+          "painted": 30,
+          "total": 30,
+          "ticking": true
+        }
+      ],
+      "api": {
+        "count": 546,
+        "maxMs": 31.054599999999482,
+        "failures": []
+      },
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+        },
+        {
+          "type": "warning",
+          "text": "Service Worker registration blocked by Playwright"
+        },
+        {
+          "type": "warning",
+          "text": "PWA service worker registration failed TypeError: Cannot read properties of undefined (reading 'update')\n    at window.addEventListener.once (http://127.0.0.1:1639/js/pwa-install.js?v=1727-split-cache-no-force-reload:37:211)"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it."
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "error",
+          "text": "WebSocket connection to 'ws://127.0.0.1:1639/api/sync/stream?account=undefined&ticket=undefined' failed: Error during WebSocket handshake: Unexpected response code: 200"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        },
+        {
+          "type": "warning",
+          "text": "PixiJS Warning:  [Assets] Asset id /assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=2-low-afterimage was not found in the Cache"
+        }
+      ],
+      "loading": [
+        {
+          "visit": 0,
+          "lobbyMs": 519.0196999999998,
+          "prepareMs": 2813.8502,
+          "decodes": [
+            {
+              "ms": 85.69999999925494,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 316.90000000037253,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 148.5,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 950.5,
+              "ms": 297
+            },
+            {
+              "start": 1311.5999999996275,
+              "ms": 85
+            },
+            {
+              "start": 1851,
+              "ms": 66
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/api/raid/nox/state",
+              "ms": 156.5,
+              "bytes": 2023
+            },
+            {
+              "file": "/assets/cards/ZENITH/1.jpg",
+              "ms": 146,
+              "bytes": 126044
+            },
+            {
+              "file": "/assets/superstar/3.jpg",
+              "ms": 145.40000000037253,
+              "bytes": 135416
+            },
+            {
+              "file": "/assets/cards/976467971.jpg",
+              "ms": 144.40000000037253,
+              "bytes": 322537
+            },
+            {
+              "file": "/assets/NEWCARD/24.png",
+              "ms": 134.39999999850988,
+              "bytes": 177649
+            },
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 126.30000000074506,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+              "ms": 126,
+              "bytes": 5898
+            },
+            {
+              "file": "/raid/nox/battle.bundle.js",
+              "ms": 124.39999999850988,
+              "bytes": 3872675
+            },
+            {
+              "file": "/assets/ui/project-v/fallback/manifest-v1.json",
+              "ms": 124.39999999850988,
+              "bytes": 1608
+            },
+            {
+              "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+              "ms": 99.90000000037253,
+              "bytes": 1173956
+            }
+          ]
+        },
+        {
+          "visit": 1,
+          "lobbyMs": 161.26550000000861,
+          "prepareMs": 994.0290999999997,
+          "decodes": [
+            {
+              "ms": 87.30000000074506,
+              "duration": 40.980979166666664,
+              "bytes": 15736696
+            },
+            {
+              "ms": 67.60000000149012,
+              "duration": 40.95697916666666,
+              "bytes": 15727480
+            },
+            {
+              "ms": 107,
+              "duration": 60.22897916666667,
+              "bytes": 23127928
+            }
+          ],
+          "longTasks": [
+            {
+              "start": 325.2999999988824,
+              "ms": 65
+            }
+          ],
+          "slowResources": [
+            {
+              "file": "/assets/effects/10060.mp3",
+              "ms": 136.80000000074506,
+              "bytes": 963962
+            },
+            {
+              "file": "/assets/effects/50000~99999.mp3",
+              "ms": 114.29999999888241,
+              "bytes": 1422410
+            },
+            {
+              "file": "/assets/effects/30000.mp3",
+              "ms": 103.09999999962747,
+              "bytes": 1048442
+            },
+            {
+              "file": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+              "ms": 80.19999999925494,
+              "bytes": 5618
+            },
+            {
+              "file": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+              "ms": 74.5,
+              "bytes": 5590
+            },
+            {
+              "file": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+              "ms": 70.40000000037253,
+              "bytes": 5672
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+              "ms": 62.899999998509884,
+              "bytes": 42348
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+              "ms": 58.20000000111759,
+              "bytes": 30436
+            },
+            {
+              "file": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+              "ms": 54.899999998509884,
+              "bytes": 5645
+            },
+            {
+              "file": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+              "ms": 46.70000000111759,
+              "bytes": 32943
+            }
+          ]
+        }
+      ]
+    },
+    "webkit": {
+      "pass": false,
+      "reason": "Windows Playwright WebKit has neither AudioContext nor webkitAudioContext, so the existing precise-audio capability guard blocks preparing. Actual Safari/iOS audio gameplay was not verified.",
+      "report": {
+        "artifact": "webkit/browser-webkit.json",
+        "sha256": "81fe688039ed2185585a67b0d51ae2bdbc8ca14100ec28903956c58506d00853",
+        "pass": false,
+        "emulation": true,
+        "physicalDevice": false,
+        "network": "Windows loopback / PGlite; browser cache cold then warm",
+        "failure": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#startButton') to be visible\u001b[22m\n\u001b[2m    62 × locator resolved to hidden <button disabled hidden=\"\" id=\"startButton\" class=\"nox-button nox-primary\">전원 출전</button>\u001b[22m\n\n    at C:\\Users\\User\\Downloads\\upload\\cnine-card\\output\\revan-live-20261027\\release-checkout\\tests\\nox-live.browser.mjs:112:117",
+        "visits": [],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "warnings": [
+          {
+            "type": "error",
+            "text": "Viewport argument key \"interactive-widget\" not recognized and ignored."
+          },
+          {
+            "type": "error",
+            "text": "WebSocket connection to 'ws://127.0.0.1:1804/api/sync/stream?account=undefined&ticket=undefined' failed: Unexpected response code: 200"
+          },
+          {
+            "type": "warning",
+            "text": "Service Worker registration blocked by Playwright"
+          },
+          {
+            "type": "warning",
+            "text": "PWA service worker registration failed TypeError: undefined is not an object (evaluating 'registration.update')"
+          },
+          {
+            "type": "error",
+            "text": "WebSocket connection to 'ws://127.0.0.1:1804/api/sync/stream?account=undefined&ticket=undefined' failed: Unexpected response code: 200"
+          },
+          {
+            "type": "error",
+            "text": "WebSocket connection to 'ws://127.0.0.1:1804/api/sync/stream?account=undefined&ticket=undefined' failed: Unexpected response code: 200"
+          },
+          {
+            "type": "error",
+            "text": "WebSocket connection to 'ws://127.0.0.1:1804/api/sync/stream?account=undefined&ticket=undefined' failed: Unexpected response code: 200"
+          },
+          {
+            "type": "error",
+            "text": "WebSocket connection to 'ws://127.0.0.1:1804/api/sync/stream?account=undefined&ticket=undefined' failed: Unexpected response code: 200"
+          },
+          {
+            "type": "error",
+            "text": "WebSocket connection to 'ws://127.0.0.1:1804/api/sync/stream?account=undefined&ticket=undefined' failed: Unexpected response code: 200"
+          }
+        ]
+      }
+    },
+    "publicFiles": [
+      {
+        "file": "raid/nox/index.html",
+        "bytes": 10185,
+        "sha256": "8547e2182cb632e91d7258bdcd319e30e643a245a3250e8ad6fe8b1d3d202e05"
+      },
+      {
+        "file": "raid/nox/raid.mjs",
+        "bytes": 28787,
+        "sha256": "4b4dda24fb043d9fb8568e472ece7b78a6581be0f209b6d52da4cc2b3264f6aa"
+      },
+      {
+        "file": "raid/nox/raid.css",
+        "bytes": 30084,
+        "sha256": "3b91528e57434418b730f3d1f26d5b311e3c5676903583cc6e96672882ef32fa"
+      },
+      {
+        "file": "js/nox-input-v1.mjs",
+        "bytes": 8358,
+        "sha256": "2fc567c85ecdecc7fedd42d55c8fedc82b33169844c8c623d5a03b007d5c0c06"
+      },
+      {
+        "file": "shared/nox-raid-chart-v1.mjs",
+        "bytes": 620314,
+        "sha256": "db4c07bd2116368d5ec194633babc09c603f19f7b200d332622ec044605f3cdf"
+      }
+    ],
+    "windowsManifest": {
+      "releaseId": "d862bd7d0dbe2594f6cd3c5e261a5583dc8de5b64c73520c4390ae95ccc9edb8",
+      "files": [
+        {
+          "path": "/raid/nox/index.html",
+          "sha256": "8547e2182cb632e91d7258bdcd319e30e643a245a3250e8ad6fe8b1d3d202e05",
+          "bytes": 10185,
+          "essential": true
+        },
+        {
+          "path": "/raid/nox/raid.mjs",
+          "sha256": "4b4dda24fb043d9fb8568e472ece7b78a6581be0f209b6d52da4cc2b3264f6aa",
+          "bytes": 28787,
+          "essential": true
+        },
+        {
+          "path": "/raid/nox/raid.css",
+          "sha256": "3b91528e57434418b730f3d1f26d5b311e3c5676903583cc6e96672882ef32fa",
+          "bytes": 30084,
+          "essential": true
+        },
+        {
+          "path": "/js/nox-input-v1.mjs",
+          "sha256": "2fc567c85ecdecc7fedd42d55c8fedc82b33169844c8c623d5a03b007d5c0c06",
+          "bytes": 8358,
+          "essential": true
+        },
+        {
+          "path": "/shared/nox-raid-chart-v1.mjs",
+          "sha256": "db4c07bd2116368d5ec194633babc09c603f19f7b200d332622ec044605f3cdf",
+          "bytes": 620314,
+          "essential": true
+        }
+      ]
+    },
+    "publicH5": {
+      "status": 200,
+      "usesCommonRaidIframe": true,
+      "newModules": true
+    }
+  },
+  "performance": {
+    "conditions": "Windows shared development host; headless Chrome, Android touch/H5/Windows URL emulation, local PGlite API; real menu → world raid → Nox → prepare/play → leave. Physical phones and installed apps not tested. First/reentry compared with same 3 songs, same viewport and same unchanged static file root. Concurrent unrelated work introduces host load variance; no speedup claim.",
+    "baselineBufferBytes": 35712000,
+    "fullSongBufferBytes": 54592104,
+    "chartModuleBytes": {
+      "before": 189840,
+      "after": 620314,
+      "gzipBefore": 33653,
+      "gzipAfter": 106721
+    },
+    "bottleneck": "Local sparse Git asset reads/HTTP waits and V3 preparation/main-thread tasks dominated loading; full-song decode totals approximately 0.4–0.8s in measured runs. Deployment-era tests shared host load. Long frames and initialization tasks are retained in every report; a pre-optimization cold run reached 1051ms. The complete final chart still accepted 189/189 +110ms inputs with calibration 0.",
+    "comparisonCaveat": "Full-song final/retry runs have a longer active period and reuse the iframe; use matchedFinal versus baseline for first/reentry comparison. Public run uses live static assets with an isolated API, not production account gameplay."
+  },
+  "rawEvidenceRoot": "C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\nox-full-song-20261120"
+}

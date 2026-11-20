@@ -2,12 +2,29 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
+import {hideoutEnabled} from '../functions/_personal_hideout.js';
+import {resolveAvatarDropRate} from '../functions/_avatar_drop.js';
 
 const root=new URL('../',import.meta.url);
 const [api,app,battleLive,pveLive,pveCss,index,serviceWorker,packageRaw]=await Promise.all([
   'functions/api/[[path]].js','js/app.js','js/battle-v2-live.js','js/pve-command-v2-live.js','css/pve-command-v2.css','index.html','service-worker.js','package.json'
 ].map(path=>readFile(new URL(path,root),'utf8')));
 const packageJson=JSON.parse(packageRaw);
+
+test('manual hunts and sweeps use configured card drops until hideout salvage opens',async()=>{
+  const logic=section(api,'async function monsterHuntCardDropHit','async function pickBattleCard');
+  const roll=vm.runInNewContext(logic+';monsterHuntCardDropHit',{hideoutEnabled,resolveAvatarDropRate});
+  const settings={cardDrop:{enabled:true,defaultRate:100}};
+  for(const scope of ['PVE','HUNT','APOCALYPSE']){
+    assert.equal(await roll({},7,settings,'WIN',scope),true);
+    assert.equal(await roll({PERSONAL_HIDEOUT_ENABLED:'0'},7,settings,'WIN',scope),true);
+    assert.equal(await roll({PERSONAL_HIDEOUT_ENABLED:'1'},7,settings,'WIN',scope),false);
+    assert.equal(await roll({},7,settings,'LOSE',scope),false);
+    assert.equal(await roll({},7,{cardDrop:{enabled:false,defaultRate:100}},'WIN',scope),false);
+  }
+  assert.ok(api.includes("await monsterHuntCardDropHit(env,user.id,settings,result,'PVE')"));
+  assert.ok(api.includes("await monsterHuntCardDropHit(env,user.id,settings,result,rankScope)"));
+});
 
 function section(source,startNeedle,endNeedle){
   const start=source.indexOf(startNeedle);

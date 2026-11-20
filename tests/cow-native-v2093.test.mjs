@@ -10,9 +10,9 @@ test('PVP, ranked, territory and other modes cannot roll or display a portal, in
  }
  assert.equal(cowPortalNoticeEligible(portal,'PVE'),true);assert.equal(cowPortalNoticeEligible({...portal,difficulty:'APOCALYPSE'},'APOCALYPSE'),true);assert.equal(cowPortalBattleEligible({sourceType:'SWEEP',battleMode:'APOCALYPSE'}),false);
 });
-test('native Cow entry preserves game shell and shared V3; original Scrapyard entry cannot be intercepted',()=>{
- assert.equal(pvePublicContentState().COW_ROOM.url,'/?screen=battle&pve=cow-room');assert.equal(pvePublicContentState().SCRAPYARD.url,'/?screen=scrapyard');
+test('retired Cow entry returns to the PvE menu; the game shell keeps native Scrapyard entry',()=>{
+ assert.equal(pvePublicContentState().COW_ROOM.policy,'RETIRED');assert.equal(pvePublicContentState().SCRAPYARD.url,'/?screen=scrapyard');
  const cow=read('js/cow-room-live.mjs'),nav=read('js/pve-v3-navigation.mjs'),scrap=read('js/workshop-v1881.js');
  assert.match(cow,/pveV2LiveViewport/);assert.match(cow,/ProjectVBattleV3Live\.createRenderer/);assert.match(cow,/createPveContinuousSession/);assert.doesNotMatch(cow,/<iframe|battle\.html|location\.assign\('\/pve-v3/);
- assert.doesNotMatch(nav,/cowPortalPrompt\.recover/);assert.match(nav,/if\(content==='scrapyard'\)return false/);assert.doesNotMatch(scrap,/PveV3Runtime\?\.tryOpen/);assert.match(scrap,/api\('scrapyard\/v3\/run'/);
+ assert.doesNotMatch(nav,/cowPortalPrompt\.recover/);assert.match(nav,/if\(content!=='tower'\)return false/);assert.doesNotMatch(scrap,/PveV3Runtime\?\.tryOpen/);assert.match(scrap,/api\('scrapyard\/v3\/run'/);
 });

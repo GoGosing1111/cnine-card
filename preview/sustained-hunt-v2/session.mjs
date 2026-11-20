@@ -5,12 +5,14 @@ import {buildFighter,buildMonsterFighter,buildBattleSuitFighter,buildPvePlayerTe
 import {buildPreviewDeck,BATTLE_SUIT} from '../idle-v3-v1/source/idle-model.mjs';
 import {CAPACITY,DIFFICULTIES,PARTIES,MONSTERS,BOSSES,LOOT_ITEMS,selectDifficulty,selectParty,chooseDropPosition,ENGINE_BASE} from './hunt-rules.mjs';
 import {compactHuntTimeline} from './timeline.mjs';
+import {COW_REGION,COW_AREA} from '../../shared/legion-cow-room.mjs';
 import {regionById,regionalDifficulty} from '../../shared/legion-regions-v1.mjs';
 import {regionKillLoot,regionBossGuarantee} from '../../shared/legion-region-loot-v1.mjs';
 export {DIFFICULTIES,PARTIES};
 const secureRandom=()=>randomInt(0,0x100000000)/0x100000000;
 export function createHuntSession({snapshot,catalog,equipment,difficulty='normal',regionId=null,regionDifficulty=null,party='standard',seed=randomInt(1,0x7fffffff),now=Date.now,random=secureRandom,limitMs,dropPolicy}={}){
-  const region=regionId?regionById(regionId):null;
+  const region=regionId?regionById(regionId===COW_AREA?dropPolicy?.sourceRegionId:regionId):null;
+  const displayRegion=regionId===COW_AREA?COW_REGION:region;
   if(regionId&&!region)throw Error('INVALID_HUNT_REGION');
   const policy={...(region?regionalDifficulty(difficulty):selectDifficulty(difficulty)),...(regionDifficulty||{}),...(dropPolicy||{}),...(region?{regionId}:{} )},partyPolicy=selectParty(party),id=randomUUID();
   if(!policy.id)throw Error('INVALID_HUNT_DIFFICULTY');
@@ -34,10 +36,11 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const monster=(art,slot,boss=false)=>({...buildMonsterFighter({id:slot+1,name:art.name,battle_power:Math.round((boss?policy.bossPower:policy.power)*art.power),is_boss:boss?1:0,pve_difficulty:region?'LEGION_REGION':'APOCALYPSE',
     pve_attack_percent:policy.attack,pve_shield_percent:boss?policy.shield:0,pve_attack_count:boss?policy.repeat:1}),
     id:'B:'+slot+':ENCOUNTER:'+(boss?'FINAL':'INITIAL'),slot,huntArtId:art.id,...(region?{legionRegion:region.id,legionRole:art.role,legionVulnerability:boss&&region.id==='desert'?.7:!boss&&art.role==='ARMORED'?.9:1}:{})});
-  const monsters=region?.monsters||MONSTERS,bosses=region?[region.boss]:BOSSES;
+  const monsters=regionId===COW_AREA?region.monsters.map((m,i)=>({...m,...COW_REGION.monsters[i]})):region?.monsters||MONSTERS;
+  const bosses=region?[{...region.boss,...displayRegion.boss}]:BOSSES;
   const fighters=Array.from({length:CAPACITY},(_,slot)=>monster(monsters[slot%monsters.length],slot));
   const templates=monsters.map((art,slot)=>monster(art,slot));
-  const finalBoss=monster(region?.boss||BOSSES[2],4,true);
+  const finalBoss=monster(region?bosses[0]:BOSSES[2],4,true);
   const finalAdds=region&&['coast','viscera'].includes(region.id)?[0,1].map((slot)=>({...monster(monsters[slot],slot),id:`B:${slot}:BOSS_SUPPORT`,legionBossSupport:true})):[];
   const timeLimit=limitMs??policy.limitMs;
   const result=simulateBattleV2Preview({...companionReviewOptions(snapshot),teamA:simulationTeamA,teamB:fighters,
@@ -60,7 +63,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const playbackFinal=state=>({A:state.A.filter(card=>!card.isMercenary&&!card.isBattleSuit),B:state.B.filter(card=>!card.isMercenary),
     mercenaries:{A:state.A.filter(card=>card.isMercenary),B:state.B.filter(card=>card.isMercenary)}});
   const accountNickname=snapshot?.accountNickname||'검수 원정대',mercenaries=result.openingMercenaries?.A||[];
-  const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · '+(region?.name||'잊혀진 섬'),...(region?{regionId:region.id,regionName:region.name,battlefieldBackground:region.background}:{}),mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
+  const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · '+(displayRegion?.name||'잊혀진 섬'),...(region?{regionId,regionName:displayRegion.name,battlefieldBackground:displayRegion.background}:{}),mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
     cards,equippedBattleSuit,equippedWeapon,characterBonus:snapshot?.characterBonus||{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
     ...(snapshot?{loadoutSource:snapshot.source,...companionBattleOptions(snapshot),pet:snapshot.pet||null}:{}),
     huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:instances.length,totalBosses:1,party:snapshot?'account':partyPolicy.id,partyPower:teamSummary(simulationTeamA).power},

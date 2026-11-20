@@ -1,5 +1,6 @@
 (() => {
   const queue = [];
+  const shownCowTickets = new Set();
   let running = false;
   let scheduled = false;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -15,7 +16,7 @@
     if (['LEGENDARY','UNIQUE','EPIC'].includes(value)) return 'legend';
     return 'special';
   };
-  const sourceName = source => ({PVE:'PVE 승리',PVE_AUTO:'자동전투 승리',PVE_NIGHTMARE:'나이트메어 승리',PVE_NIGHTMARE_AUTO:'나이트메어 자동전투',PVP:'PVP 승리',SCRAPYARD:'폐차장 완주'}[String(source || '').toUpperCase()] || '통합 드랍');
+  const sourceName = source => ({MONSTER_HUNT:'몬스터토벌',APOCALYPSE:'아포칼립스',PVE_SWEEP:'몬스터토벌 소탕',PVE:'PVE 승리',PVE_AUTO:'자동전투 승리',PVE_NIGHTMARE:'나이트메어 승리',PVE_NIGHTMARE_AUTO:'나이트메어 자동전투',PVP:'PVP 승리',SCRAPYARD:'폐차장 완주'}[String(source || '').toUpperCase()] || '통합 드랍');
   function sound(level) {
     try {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -41,15 +42,15 @@
   async function play(reward, payload) {
     const level = tier(reward.rarity), image = asset(reward.image), quantity = Math.max(1, Number(reward.quantity || 1));
     const name = reward.displayName || reward.rewardName || reward.rewardRef || '특별 보상';
-    const acquisitionTitle = reward.rewardType === 'CARD' ? '카드 획득' : reward.rewardType === 'EQUIPMENT' ? '장비 획득' : '특별 아이템 획득';
+    const acquisitionTitle = reward.cow ? '카우방 입장권 획득' : reward.rewardType === 'CARD' ? '카드 획득' : reward.rewardType === 'EQUIPMENT' ? '장비 획득' : '특별 아이템 획득';
     const destination = reward.destination || (reward.rewardType === 'VEHICLE' ? '차고지' : '인벤토리');
     const balance = reward.balance == null ? `${destination}에 등록되었습니다` : `${destination} 보유 ${number(reward.balance)}개`;
     const particles = Array.from({length: 34}, (_, index) => `<i style="--i:${index};--x:${(index * 47) % 101};--d:${(index % 9) * .08}s"></i>`).join('');
     const shards = Array.from({length: 16}, (_, index) => `<b style="--i:${index}"></b>`).join('');
     const root = document.createElement('div');
-    root.className = `unified-drop-cinematic ${level}`;
+    root.className = `unified-drop-cinematic ${level}${reward.cow ? ' cow-ticket '+reward.cow : ''}`;
     root.setAttribute('role', 'dialog'); root.setAttribute('aria-modal', 'true'); root.setAttribute('aria-label', `${name} 획득`);
-    root.innerHTML = `<div class="udfx-void"></div><div class="udfx-aurora"></div><div class="udfx-beams"><i></i><i></i><i></i><i></i><i></i></div><div class="udfx-particles">${particles}</div><div class="udfx-stage"><div class="udfx-kicker"><span>REVERSE CALL</span><i></i><b>ULTRA DROP</b></div><div class="udfx-portal"><i></i><i></i><i></i><em></em></div><div class="udfx-shards">${shards}</div><figure class="udfx-relic"><div class="udfx-relic-glow"></div><div class="udfx-image">${image ? `<img src="${esc(image)}" alt="${esc(name)}">` : `<strong>${reward.rewardType === 'COIN' ? 'C' : reward.rewardType === 'CARD_SHARDS' ? 'S' : '◆'}</strong>`}</div><figcaption>${esc(String(reward.rarity || 'SPECIAL').toUpperCase())}</figcaption></figure><div class="udfx-copy"><small>${esc(sourceName(payload.sourceType))} · ${esc(destination.toUpperCase())}</small><h2>${esc(acquisitionTitle)}</h2><strong>${esc(name)}</strong><div><span>획득 수량</span><b>× ${number(quantity)}</b></div><p>${esc(balance)}</p></div><button type="button" class="udfx-confirm"><span>보상 확인</span><small>TOUCH TO CONTINUE</small></button></div>`;
+    root.innerHTML = `<div class="udfx-void"></div><div class="udfx-aurora"></div><div class="udfx-beams"><i></i><i></i><i></i><i></i><i></i></div><div class="udfx-particles">${particles}</div><div class="udfx-stage"><div class="udfx-kicker"><span>REVERSE CALL</span><i></i><b>ULTRA DROP</b></div><div class="udfx-portal"><i></i><i></i><i></i><em></em></div><div class="udfx-shards">${shards}</div><figure class="udfx-relic"><div class="udfx-relic-glow"></div><div class="udfx-image">${image ? `<img src="${esc(image)}" alt="${esc(name)}">` : `<strong>${reward.rewardType === 'COIN' ? 'C' : reward.rewardType === 'CARD_SHARDS' ? 'S' : '◆'}</strong>`}</div><figcaption>${esc(reward.cow ? (reward.cow==='party'?'파티 · 2인':'솔로 · 1인') : String(reward.rarity || 'SPECIAL').toUpperCase())}</figcaption></figure><div class="udfx-copy"><small>${esc(sourceName(payload.sourceType))} · ${esc(destination.toUpperCase())}</small><h2>${esc(acquisitionTitle)}</h2><strong>${esc(name)}</strong><div><span>획득 수량</span><b>× ${number(quantity)}</b></div><p>${esc(balance)}</p></div><button type="button" class="udfx-confirm"><span>보상 확인</span><small>TOUCH TO CONTINUE</small></button></div>`;
     document.body.appendChild(root);
     const imageNode = root.querySelector('.udfx-image img');
     imageNode?.addEventListener('error', () => { imageNode.replaceWith(Object.assign(document.createElement('strong'), {textContent:'◆'})); }, {once:true});
@@ -82,9 +83,23 @@
     setTimeout(() => { scheduled = false; drain(); }, 650);
   }
   window.showUnifiedDropAcquisition = payload => new Promise(resolve => {
-    if (!payload?.rewards?.length) return resolve();
-    queue.push({payload, resolve: () => {}});
+    const rewards = (payload?.rewards || []).filter(r => (r.rewardRef || r.itemCode || r.code) !== 'SCRAPYARD_ENTRY_TICKET');
+    if (!rewards.length) return resolve();
+    queue.push({payload:{...payload,rewards}, resolve: () => {}});
     schedule();
     resolve();
   });
+  window.showCowTicketAcquisition = (tickets, sourceType) => {
+    const rewards = new Map();
+    for (const ticket of Array.isArray(tickets) ? tickets : [tickets]) {
+      if (!ticket || !['LEGION_COW_SOLO_TICKET','LEGION_COW_PARTY_TICKET'].includes(ticket.code) || !ticket.acquisitionId || shownCowTickets.has(ticket.acquisitionId)) continue;
+      shownCowTickets.add(ticket.acquisitionId);
+      if (shownCowTickets.size > 512) shownCowTickets.delete(shownCowTickets.values().next().value);
+      const row = rewards.get(ticket.code);
+      if (row) row.quantity++;
+      else rewards.set(ticket.code, {rewardType:'INVENTORY_ITEM',rewardRef:ticket.code,rewardName:ticket.name,image:ticket.image,
+        quantity:1,rarity:'EPIC',cow:ticket.code==='LEGION_COW_PARTY_TICKET'?'party':'solo'});
+    }
+    if (rewards.size) window.showUnifiedDropAcquisition({sourceType,rewards:[...rewards.values()]});
+  };
 })();

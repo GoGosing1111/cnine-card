@@ -105,13 +105,11 @@ async function status(env,user,raidDeckPower){
   const day=kstDayRange(),statusReads=env.DB.batch([
     env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
     env.DB.prepare("SELECT i.code,i.name,i.image_url,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') ORDER BY i.sort_order,i.code").bind(user.id),
-    env.DB.prepare(`SELECT difficulty,MAX(waves_cleared) best_waves FROM ${RUN_TABLE} WHERE user_id=? GROUP BY difficulty`).bind(user.id),
-    env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,replace(i.image_url,char(92),'/') image_url,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code=?`).bind(user.id,ENTRY_TICKET_CODE)
-  ]),[cfg,deck,statusRows]=await Promise.all([settings(env),raidDeckPower(env,user.id,null,'PVE'),statusReads]),[runs,parts,best,ticket]=statusRows;
+    env.DB.prepare(`SELECT difficulty,MAX(waves_cleared) best_waves FROM ${RUN_TABLE} WHERE user_id=? GROUP BY difficulty`).bind(user.id)
+  ]),[cfg,deck,statusRows]=await Promise.all([settings(env),raidDeckPower(env,user.id,null,'PVE'),statusReads]),[runs,parts,best]=statusRows;
   const used=Number(runs.results?.[0]?.count||0),bestMap=Object.fromEntries((best.results||[]).map(row=>[row.difficulty,Number(row.best_waves||0)]));
-  const ticketItem={...(ticket.results?.[0]||{}),code:ENTRY_TICKET_CODE,quantity:Number(ticket.results?.[0]?.quantity||0)};
   const effectiveMode=cfg.mode,allowed=canAccess(effectiveMode,user);
-  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:true,ticketQuantity:ticketItem.quantity,canEnterWithTicket:ticketItem.quantity>0},ticket:ticketItem,deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
+  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:false,canEnterWithTicket:true},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
 function buildBattle({requestId,difficulty,deck}){
@@ -125,20 +123,6 @@ function buildBattle({requestId,difficulty,deck}){
     const won=enemyHp<=0&&partyHp>0;if(won)cleared++;waves.push({wave:index+1,boss,requiredPower:required,powerRatio:Number(ratio.toFixed(3)),monster:{id:String(monster.id||''),name:monster.name||(boss?'폐차장 파쇄왕':'고철 포식자'),image:monster.image||'',maxHp:enemyMaxHp},turns,won,partyHp});if(!won)break;
   }
   return {waves,wavesCleared:cleared,success:cleared===difficulty.waves,remainingPartyHp:partyHp};
-}
-
-async function reserveEntryTicket(env,userId,requestId){
-  const statements=[
-    env.DB.prepare(`DELETE FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='REFUNDED'`).bind(requestId,userId),
-    env.DB.prepare(`INSERT OR IGNORE INTO ${TICKET_RESERVATION_TABLE}(request_id,user_id,item_code,status) SELECT ?,?,?,'RESERVED' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1)`).bind(requestId,userId,ENTRY_TICKET_CODE,userId,ENTRY_TICKET_CODE),
-    env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=1 AND EXISTS(SELECT 1 FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='RESERVED')`).bind(userId,ENTRY_TICKET_CODE,requestId,userId),
-    env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET ticket_consumed=1,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING' AND EXISTS(SELECT 1 FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='RESERVED')`).bind(requestId,userId,requestId,userId),
-    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-1,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),'폐차장 입장','SCRAPYARD_ENTRY',? WHERE EXISTS(SELECT 1 FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='RESERVED')`).bind(userId,ENTRY_TICKET_CODE,userId,ENTRY_TICKET_CODE,requestId,requestId,userId)
-  ];
-  await env.DB.batch(statements);
-  const receipt=await env.DB.prepare(`SELECT x.ticket_consumed,COALESCE(i.quantity,0) quantity FROM ${RECEIPT_TABLE} x LEFT JOIN cnine_user_inventory i ON i.user_id=x.user_id AND i.item_code=? WHERE x.request_id=? AND x.user_id=?`).bind(ENTRY_TICKET_CODE,requestId,userId).first();
-  if(Number(receipt?.ticket_consumed)!==1)throw new Error('폐차장 출입 허가증이 부족합니다. 입장권 1장이 필요합니다.');
-  return Math.max(0,Number(receipt?.quantity||0));
 }
 
 async function refundEntryTicket(env,userId,requestId,error){
@@ -170,18 +154,14 @@ async function run(env,user,body,deps){
   if(prior?.status==='PENDING')throw new Error('같은 폐차장 원정을 처리 중입니다.');
   const difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
   if(!canAccess(cfg.mode,user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
-  const day=kstDayRange(),[usedResult,ticketResult]=await env.DB.batch([
-    env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
-    env.DB.prepare(`SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?`).bind(user.id,ENTRY_TICKET_CODE)
-  ]),used=usedResult.results?.[0],ticketBefore=Number(ticketResult.results?.[0]?.quantity||0);
+  const day=kstDayRange(),used=await env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end).first();
   if(Number(used?.count||0)>=cfg.dailyRuns&&!isOwner(user))throw new Error(`오늘 폐차장 입장 ${cfg.dailyRuns}회를 모두 사용했습니다.`);
-  if(ticketBefore<1)throw new Error('폐차장 출입 허가증이 부족합니다. 입장권 1장이 필요합니다.');
   const reserved=prior?.status==='FAILED'
     ?await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET difficulty=?,status='PENDING',ticket_consumed=0,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='FAILED'`).bind(difficulty.id,requestId,user.id).run()
     :await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,difficulty,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,difficulty.id).run();if(!reserved.meta?.changes)throw new Error('같은 폐차장 원정을 처리 중입니다.');
   let dropCommitted=false;
   try{
-    const [ticketRemaining,deck]=await Promise.all([reserveEntryTicket(env,user.id,requestId),deps.raidDeckPower(env,user.id,null,'PVE')]);
+    const deck=await deps.raidDeckPower(env,user.id,null,'PVE');
     let uniqueRoll=0;
     const uniqueRuntime=deck.unique?.enabled&&typeof deps.resolveUniqueBattleRuntime==='function'
       ?deps.resolveUniqueBattleRuntime(deck.unique,{mode:'PVE',basePower:Number(deck.power||0),opponentPower:Math.round(Number(difficulty.requiredPowerEnd||0)*1.08),random:()=>hashUnit(`${requestId}:UNIQUE:${uniqueRoll++}`)})
@@ -191,18 +171,16 @@ async function run(env,user,body,deps){
     let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});dropCommitted=(drop.rewards||[]).length>0;
     const clearCoin=battle.success?rankCoin(Number(difficulty.clearCoin||0),await accountRankBenefits(env,user.id,'SCRAPYARD')):0,dropCoinBalance=Number(drop.balances?.coin),coinBeforeClear=Number.isFinite(dropCoinBalance)?dropCoinBalance:Number(user.coin||0);
     const guaranteed=clearCoin>0?[{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}]:[],rewards=[...guaranteed,...(drop.rewards||[])];
-    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:1,remaining:ticketRemaining},baseDeckPower:Number(deck.power||0),deckPower:effectivePower,deckCards:publicDeck(deck),uniqueAbility:typeof deps.uniqueBattleResponsePayload==='function'?deps.uniqueBattleResponsePayload(deck.unique,uniqueRuntime):null,...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(clearCoin>0?{coin:coinBeforeClear+clearCoin}:{})}};
+    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:0},baseDeckPower:Number(deck.power||0),deckPower:effectivePower,deckCards:publicDeck(deck),uniqueAbility:typeof deps.uniqueBattleResponsePayload==='function'?deps.uniqueBattleResponsePayload(deck.unique,uniqueRuntime):null,...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(clearCoin>0?{coin:coinBeforeClear+clearCoin}:{})}};
     const statements=[
       ...(clearCoin>0?[env.DB.prepare('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?').bind(clearCoin,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SCRAPYARD_CLEAR' FROM users WHERE id=?").bind(clearCoin,user.id)]:[]),
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json) VALUES(?,?,?,?,?,?,?,?)`).bind(requestId,user.id,difficulty.id,response.deckPower,difficulty.waves,battle.wavesCleared,battle.success?1:0,JSON.stringify(response.rewards)),
-      env.DB.prepare(`UPDATE ${TICKET_RESERVATION_TABLE} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`).bind(requestId,user.id),
       env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),requestId,user.id)
     ];statements.push(...await accountRankAward(env,user.id,'SCRAPYARD',requestId));await env.DB.batch(statements);
     return response;
   }catch(error){
     if(!dropCommitted){const committed=await env.DB.prepare(`SELECT 1 ok FROM ${DROP_RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND status='COMPLETED'`).bind(`SCRAPYARD:${requestId}`,user.id).first().catch(()=>null);dropCommitted=Boolean(committed?.ok)}
-    if(dropCommitted)await env.DB.prepare(`UPDATE ${TICKET_RESERVATION_TABLE} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`).bind(requestId,user.id).run().catch(()=>null);
-    else await refundEntryTicket(env,user.id,requestId,error).catch(()=>null);
+    if(!dropCommitted)await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(text(error.message,400),requestId,user.id).run();
     throw error
   }
 }
