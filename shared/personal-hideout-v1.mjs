@@ -16,7 +16,8 @@ export function hideoutSpace(raw){
  const rooms=(state.rooms.length?state.rooms:['main']).map(code=>{const room=HIDEOUT_ROOMS.find(r=>r.code===code),width=code==='main'?stage.width:1920;const zone={code,name:room.name,start,width};start+=width;return zone;});
  return {height:640,bayWidth:960,width:start,rooms,furnitureWidths:{workbench:480,fridge:180,garage:480,armory:300,sofa:420,lamp:100,trophy:460}};
 }
-export const HIDEOUT_CORE_DROP=Object.freeze({percent:30,legionRolls:1,raidRolls:3});
+const CORE_DROP_BASIS_POINTS=250;
+export const HIDEOUT_CORE_DROP=Object.freeze({percent:CORE_DROP_BASIS_POINTS/100,legionRolls:1,raidRolls:3});
 export const HIDEOUT_PARTS=Object.freeze([
  {code:'STEEL',name:'회수 철판',source:'몬스터 토벌 · 군단토벌 · 레이드'},
  {code:'WIRE',name:'구리 배선',source:'몬스터 토벌 · 군단토벌 · 레이드'},
@@ -122,7 +123,7 @@ export function changeHideout(raw,action,body,{newId,ownedTrophies=[]}={}){
 }
 function coreReward(rolls,randomInt){
  let count=0;
- for(let draw=0;draw<rolls;draw++)if(randomInt(100)<HIDEOUT_CORE_DROP.percent)count++;
+ for(let draw=0;draw<rolls;draw++)if(randomInt(10_000)<CORE_DROP_BASIS_POINTS)count++;
  return count?{CORE:count}:{};
 }
 export function hideoutAward(event,randomInt=secureRandomInt){

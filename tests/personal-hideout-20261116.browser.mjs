@@ -141,7 +141,7 @@ try{
     house=changeHideout(house,'upgrade',{revision:0,target:'room'});
     house=changeHideout(house,'upgrade',{revision:house.revision,target:'workbench'});
     house=changeHideout(house,'decorate',{revision:house.revision,item:'trophy',room:'main'},{newId:'progression-cabinet'});
-    await f.write(HIDEOUT_KEY(7),house);await enter();await page.locator('.ph-materials').getByText('군단토벌 클리어 시 1회, 레이드 클리어 시 3회 추첨 · 매회 30% 확률로 1개',{exact:true}).waitFor();row.residences=[];
+    await f.write(HIDEOUT_KEY(7),house);await enter();await page.locator('.ph-materials').getByText('군단토벌 클리어 시 1회, 레이드 클리어 시 3회 추첨 · 매회 2.5% 확률로 1개',{exact:true}).waitFor();row.residences=[];
     const kept=JSON.stringify(house.placements),stages=['shanty','apartment','luxury','penthouse'];
     for(let tier=1;tier<=4;tier++){
      if(tier>1){const upgrade=page.locator('[data-ph-action="upgrade"][data-target="room"]');assert(await upgrade.isEnabled());await page.getByText('표시된 부품을 모두 모으면 바로 승급할 수 있습니다.',{exact:true}).waitFor();await upgrade.click();await page.getByText('저장했습니다.',{exact:true}).waitFor();}

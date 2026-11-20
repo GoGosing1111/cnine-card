@@ -140,12 +140,12 @@ test('core salvage rolls once per legion clear and three times independently per
  const failIfDrawn=()=>assert.fail('unexpected core draw');
  for(const e of [event('hunt'),{...legion,won:false},{...raid,won:false},{...legion,eligible:false},{...raid,seasonReplay:true},event('other','TOWER')])assert.equal(hideoutAward(e,failIfDrawn)?.CORE,undefined);
  let hits=0;
- for(let ticket=0;ticket<100;ticket++){
-  let calls=0;const gains=hideoutAward(legion,total=>{assert.equal(total,100);calls++;return ticket;});
-  assert.equal(calls,1);assert.equal(gains.CORE??0,ticket<30?1:0);hits+=gains.CORE??0;
+ for(let ticket=0;ticket<10_000;ticket++){
+  let calls=0;const gains=hideoutAward(legion,total=>{assert.equal(total,10_000);calls++;return ticket;});
+  assert.equal(calls,1);assert.equal(gains.CORE??0,ticket<250?1:0);hits+=gains.CORE??0;
  }
- assert.equal(hits,30);
- for(const [rolls,cores] of [[[30,99,45],0],[[29,30,31],1],[[0,99,29],2],[[29,29,29],3]]){
+ assert.equal(hits,250);
+ for(const [rolls,cores] of [[[250,9999,500],0],[[249,250,251],1],[[0,9999,249],2],[[249,249,249],3]]){
   const tickets=[...rolls];const gains=hideoutAward(raid,()=>{assert(tickets.length);return tickets.shift();});
   assert.equal(tickets.length,0);assert.deepEqual(gains,{STEEL:20,WIRE:12,CIRCUIT:6,COOLANT:4,DRIVE:4,...(cores?{CORE:cores}:{})});
  }
@@ -155,7 +155,7 @@ for(const postgres of [false,true]){
  const engine=postgres?'PostgreSQL':'SQLite';
  test(engine+' settlement receipts preserve both a miss and a hit across retries',async t=>{
   const f=await fixture(t,postgres);
-  for(const [id,first,second,cores] of [['miss',99,0,0],['hit',0,99,1]]){
+  for(const [id,first,second,cores] of [['miss',9999,0,0],['hit',0,9999,1]]){
    const e=event(id,'LEGION'),plan=hideoutAwardStatements(f.env,e,{randomInt:()=>first});
    await f.DB.batch(plan);
    const readReceipt=async()=>JSON.parse((await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(plan.hideoutReceipt).first()).value);
