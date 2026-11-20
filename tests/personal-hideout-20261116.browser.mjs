@@ -75,7 +75,7 @@ async function openPage(browser,profile){
  await outer.addLocatorHandler((profile.h5?outer.frameLocator('iframe'):game).locator('.soop-consent-dialog[open]'),()=>game.locator('[data-soop-close]').first().click());
  const lobby=game.locator('soop-adventure-lobby');await lobby.locator('#depart-button').waitFor();return {context,page:game,outer,lobby};
 }
-async function seed(){f=await collectionFixture();f.env.PERSONAL_HIDEOUT_ENABLED='1';let state=emptyHideout();state.activityDates=Array.from({length:42},(_,i)=>20000+i);for(const key of Object.keys(state.parts))state.parts[key]=10000;state=changeHideout(state,'upgrade',{revision:0,target:'room'});for(const code of Object.keys(state.facilities))state=changeHideout(state,'upgrade',{revision:state.revision,target:code});for(let i=0;i<2;i++)state=changeHideout(state,'upgrade',{revision:state.revision,target:'room'});state=changeHideout(state,'expand',{revision:state.revision,room:'gallery'});state=changeHideout(state,'decorate',{revision:state.revision,item:'trophy',room:'main'},{newId:'display-1'});state.placements.find(p=>p.id==='display-1').x=585;state.placements.find(p=>p.id==='display-1').y=450;await f.write(HIDEOUT_KEY(7),state);}
+async function seed(){f=await collectionFixture();f.env.PERSONAL_HIDEOUT_ENABLED='1';let state=emptyHideout();for(const key of Object.keys(state.parts))state.parts[key]=10000;state=changeHideout(state,'upgrade',{revision:0,target:'room'});for(const code of Object.keys(state.facilities))state=changeHideout(state,'upgrade',{revision:state.revision,target:code});for(let i=0;i<2;i++)state=changeHideout(state,'upgrade',{revision:state.revision,target:'room'});state=changeHideout(state,'expand',{revision:state.revision,room:'gallery'});state=changeHideout(state,'decorate',{revision:state.revision,item:'trophy',room:'main'},{newId:'display-1'});state.placements.find(p=>p.id==='display-1').x=585;state.placements.find(p=>p.id==='display-1').y=450;await f.write(HIDEOUT_KEY(7),state);}
 const saveReport=()=>fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({reports,traffic,errors,missing,condition:'Windows headless Chrome/WebKit; mobile and H5 emulation; localhost assets, isolated SQLite handlers; no real device or production account writes'},null,2));
 try{
  const profiles=[{name:'pc',width:1440,engine:chromium},{name:'android-emulated',width:390,engine:chromium},{name:'iphone-webkit-emulated',width:390,engine:webkit},{name:'onestore-h5-emulated',width:390,engine:chromium,h5:true}];
@@ -137,14 +137,14 @@ try{
     const home=lobby.locator('[data-home]:visible').first();await home.click();await lobby.locator('.hideout-shortcut').waitFor();const afterExit=traffic.filter(r=>r.path.startsWith('hideout')).length;await page.waitForTimeout(1200);assert.equal(traffic.filter(r=>r.path.startsWith('hideout')).length,afterExit);row.hideoutExitRequests=0;
     row.hideoutReentryMs=await enter();await page.locator('[data-ph-action="tab"][data-tab="trophies"]').click();assert(await page.locator('.ph-displayed-trophy').count());await home.click();await lobby.locator('#depart-button').waitFor();
     // Real upgrade actions transform all four residences, retaining each placed item.
-    let house=emptyHideout();house.activityDates=Array.from({length:42},(_,i)=>20000+i);for(const c of Object.keys(house.parts))house.parts[c]=10000;
+    let house=emptyHideout();for(const c of Object.keys(house.parts))house.parts[c]=10000;
     house=changeHideout(house,'upgrade',{revision:0,target:'room'});
     house=changeHideout(house,'upgrade',{revision:house.revision,target:'workbench'});
     house=changeHideout(house,'decorate',{revision:house.revision,item:'trophy',room:'main'},{newId:'progression-cabinet'});
-    await f.write(HIDEOUT_KEY(7),house);await enter();row.residences=[];
+    await f.write(HIDEOUT_KEY(7),house);await enter();await page.locator('.ph-materials').getByText('군단토벌 클리어 시 1회, 레이드 클리어 시 3회 추첨 · 매회 30% 확률로 1개',{exact:true}).waitFor();row.residences=[];
     const kept=JSON.stringify(house.placements),stages=['shanty','apartment','luxury','penthouse'];
     for(let tier=1;tier<=4;tier++){
-     if(tier>1){await page.locator('[data-ph-action="upgrade"][data-target="room"]').click();await page.getByText('저장했습니다.',{exact:true}).waitFor();}
+     if(tier>1){const upgrade=page.locator('[data-ph-action="upgrade"][data-target="room"]');assert(await upgrade.isEnabled());await page.getByText('표시된 부품을 모두 모으면 바로 승급할 수 있습니다.',{exact:true}).waitFor();await upgrade.click();await page.getByText('저장했습니다.',{exact:true}).waitFor();}
      await page.waitForFunction(()=>[...document.querySelectorAll('.ph-backdrop')].every(i=>i.complete&&i.naturalWidth));
      const state=(await readHideout(f.env,7)).state;assert.equal(state.level,tier);assert.equal(JSON.stringify(state.placements),kept);
      await page.locator('[data-ph-piece-select]').selectOption('facility-workbench');await page.locator('.ph-scene').scrollIntoViewIfNeeded();
@@ -154,6 +154,12 @@ try{
     }
     assert(row.residences.every((r,i)=>!i||r.width>row.residences[i-1].width));
     assert(row.residences.every(r=>Math.abs(r.workbenchWidth-row.residences[0].workbenchWidth)<1));
+    const field=page.locator('[data-ph-viewport]'),originalHeight=await field.evaluate(el=>el.clientHeight);
+    await field.evaluate((el,h)=>{el.style.height=(h-64)+'px';},originalHeight);
+    // A real content-box resize must rescale the world on the next frame.
+    await page.waitForFunction(h=>{const v=document.querySelector('[data-ph-viewport]'),world=v.querySelector('[data-ph-world]');return v.clientHeight<h-32&&Math.abs(world.offsetWidth-4800*v.clientHeight/640)<2;},originalHeight);
+    await field.evaluate(el=>el.style.removeProperty('height'));
+    await page.waitForFunction(h=>{const v=document.querySelector('[data-ph-viewport]');return v.clientHeight===h&&Math.abs(v.querySelector('[data-ph-world]').offsetWidth-4800*h/640)<2;},originalHeight);
     await home.click();await lobby.locator('#depart-button').waitFor();
     // Both revisions start combat in a fresh context: no hideout art/cache warming.
     await context.close();({context,page,outer,lobby}=await openPage(browser,profile));

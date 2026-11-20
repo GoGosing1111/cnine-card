@@ -16,7 +16,7 @@ async function fixture(t,postgres=false){
  t.after(()=>pg?pg.close():DB.sql.close());const env={DB,PERSONAL_HIDEOUT_ENABLED:'1'};
  return {env,DB,fail:s=>{failure=s;DB.failAt=s;},state:async()=>(await readHideout(env,7)).state,seed:async state=>DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(HIDEOUT_KEY(7),JSON.stringify(state)).run()};
 }
-const funded=()=>{const s=emptyHideout();s.activityDates=Array.from({length:42},(_,i)=>20000+i);for(const c of Object.keys(s.parts))s.parts[c]=10000;return s;};
+const funded=()=>{const s=emptyHideout();for(const c of Object.keys(s.parts))s.parts[c]=10000;return s;};
 const event=(eventId,source='HUNT')=>({userId:7,eventId,source,won:true});
 const body=(revision,extra={})=>({requestId:crypto.randomUUID(),revision,...extra});
 
@@ -72,9 +72,9 @@ for(const postgres of [false,true]){
   await f.DB.batch(writes);assert.equal((await f.state()).parts.STEEL,2);assert.equal((await f.state()).level,0);
   await f.DB.batch(writes);await f.DB.batch(await contentProgressionStatements(f.env,event('first')));assert.equal((await f.state()).parts.STEEL,2);
   await f.DB.batch(hideoutAwardStatements(f.env,event('guarded'),{guard:'1=0'}));assert.equal((await f.state()).parts.STEEL,2);
-  f.fail(postgres?'jsonb_set':'json_set');await assert.rejects(f.DB.batch(hideoutAwardStatements(f.env,event('rollback','RAID'))),/INJECTED/);f.fail('');
+  f.fail(postgres?'jsonb_set':'json_set');await assert.rejects(f.DB.batch(hideoutAwardStatements(f.env,event('rollback','RAID'),{randomInt:()=>0})),/INJECTED/);f.fail('');
   assert.equal((await f.state()).parts.STEEL,2);assert.equal(await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('personal_hideout_reward_v1:7:RAID:rollback').first(),null);
-  await f.DB.batch(hideoutAwardStatements(f.env,event('rollback','RAID')));assert.equal((await f.state()).parts.CORE,3);
+  await f.DB.batch(hideoutAwardStatements(f.env,event('rollback','RAID'),{randomInt:()=>0}));assert.equal((await f.state()).parts.CORE,3);
   const s=await f.state();s.parts.STEEL=999999999;await f.seed(s);await f.DB.batch(hideoutAwardStatements(f.env,event('ceiling')));assert.equal((await f.state()).parts.STEEL,1000000000);
  });
  test(engine+' mutations enforce replay identity, costs, rollback and concurrent reward CAS',async t=>{
@@ -135,30 +135,52 @@ test('four residences expand continuous space while preserving furniture, trophi
  assert.throws(()=>hideoutState({...emptyHideout(),facilities:{workbench:1}}),/시설/);
 });
 
-for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' counts eligible combat days in Korea once alongside settlement and caps the list',async t=>{
- const f=await fixture(t,postgres);
- const midnight=Date.parse('2026-11-21T00:00:00+09:00');
- const commit=(id,at)=>f.DB.batch(hideoutAwardStatements(f.env,event(id),{now:at}));
- await commit('first',midnight-1);await commit('another',midnight-1);
- await commit('first',midnight); // replay across the date boundary
- assert.equal((await f.state()).activityDates.length,1);
- await commit('new-day',midnight);await commit('previous-day',midnight-2);
- assert.equal((await f.state()).activityDates.length,2);
- const state=await f.state();state.activityDates=Array.from({length:41},(_,i)=>19000+i);await f.seed(state);
- await commit('cap',midnight+86400000);await commit('beyond-cap',midnight+2*86400000);
- const final=await f.state();assert.equal(final.activityDates.length,42);assert.equal(final.parts.STEEL,12);
+test('core salvage rolls once per legion clear and three times independently per raid clear',()=>{
+ const legion=event('legion','LEGION'),raid=event('raid','RAID');
+ const failIfDrawn=()=>assert.fail('unexpected core draw');
+ for(const e of [event('hunt'),{...legion,won:false},{...raid,won:false},{...legion,eligible:false},{...raid,seasonReplay:true},event('other','TOWER')])assert.equal(hideoutAward(e,failIfDrawn)?.CORE,undefined);
+ let hits=0;
+ for(let ticket=0;ticket<100;ticket++){
+  let calls=0;const gains=hideoutAward(legion,total=>{assert.equal(total,100);calls++;return ticket;});
+  assert.equal(calls,1);assert.equal(gains.CORE??0,ticket<30?1:0);hits+=gains.CORE??0;
+ }
+ assert.equal(hits,30);
+ for(const [rolls,cores] of [[[30,99,45],0],[[29,30,31],1],[[0,99,29],2],[[29,29,29],3]]){
+  const tickets=[...rolls];const gains=hideoutAward(raid,()=>{assert(tickets.length);return tickets.shift();});
+  assert.equal(tickets.length,0);assert.deepEqual(gains,{STEEL:20,WIRE:12,CIRCUIT:6,COOLANT:4,DRIVE:4,...(cores?{CORE:cores}:{})});
+ }
 });
 
-test('residence progression requires earned days as well as full materials without resetting missed days',()=>{
- let state=changeHideout({...funded(),activityDates:[]},'upgrade',{revision:0,target:'room'});
- for(const [required,steel] of [[7,240],[21,560],[42,1040]]){
-  state.activityDates=Array.from({length:required-1},(_,i)=>20000+2*i);
-  const upgrade=()=>changeHideout(state,'upgrade',{target:'room',revision:state.revision});
-  assert.equal(hideoutCost(state,'room').STEEL,steel);
-  assert.throws(upgrade,e=>e.code==='HIDEOUT_ACTIVITY');
-  state.activityDates.push(22000);const before=state.parts.STEEL;
-  state.parts.STEEL=steel-1;assert.throws(upgrade,e=>e.code==='HIDEOUT_PARTS');
-  state.parts.STEEL=before;state=upgrade();
- }
- assert.equal(state.level,4);
-});
+for(const postgres of [false,true]){
+ const engine=postgres?'PostgreSQL':'SQLite';
+ test(engine+' settlement receipts preserve both a miss and a hit across retries',async t=>{
+  const f=await fixture(t,postgres);
+  for(const [id,first,second,cores] of [['miss',99,0,0],['hit',0,99,1]]){
+   const e=event(id,'LEGION'),plan=hideoutAwardStatements(f.env,e,{randomInt:()=>first});
+   await f.DB.batch(plan);
+   const readReceipt=async()=>JSON.parse((await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(plan.hideoutReceipt).first()).value);
+   const receipt=await readReceipt();assert.equal(receipt.applied,true);assert.equal(receipt.gains.CORE??0,cores);
+   await f.DB.batch(hideoutAwardStatements(f.env,e,{randomInt:()=>second}));assert.deepEqual(await readReceipt(),receipt);
+  }
+  const saved=await f.state();assert.equal(saved.parts.CORE,1);assert.equal(saved.parts.STEEL,16);assert.equal(saved.revision,2);
+  assert(!Object.hasOwn(JSON.parse((await readHideout(f.env,7)).raw),'activityDates'));
+ });
+ test(engine+' all residence tiers can be built immediately from materials, with one debit per upgrade',async t=>{
+  const f=await fixture(t,postgres);
+  let state={...funded(),level:1,rooms:['main'],activityDates:[20000]};await f.seed(state);
+  for(const [steel,core] of [[240,18],[560,42],[1040,78]]){
+   assert.equal(hideoutCost(state,'room').STEEL,steel);assert.equal(hideoutCost(state,'room').CORE,core);
+   state.parts.CORE=core-1;await f.seed(state);
+   const upgrade=body(state.revision,{target:'room'});
+   await assert.rejects(mutateHideout(f.env,7,'upgrade',upgrade),e=>e.code==='HIDEOUT_PARTS');
+   const before=await f.state();assert.equal(before.parts.CORE,core-1);assert.equal(before.revision,state.revision);
+   await f.DB.batch(hideoutAwardStatements(f.env,event('core-for-'+core,'LEGION'),{randomInt:()=>0}));
+   const ready=await f.state(),request=body(ready.revision,{target:'room'}),result=await mutateHideout(f.env,7,'upgrade',request);
+   assert.equal(result.state.level,state.level+1);assert.equal(result.state.parts.CORE,0);assert.equal(result.state.parts.STEEL,ready.parts.STEEL-steel);
+   assert.deepEqual(result.state.activityDates,[]);assert(result.stages.every(stage=>!Object.hasOwn(stage,'activeDays')));
+   assert.equal((await mutateHideout(f.env,7,'upgrade',request)).replayed,true);
+   state=await f.state();assert.equal(state.parts.STEEL,result.state.parts.STEEL);
+  }
+  assert.equal(state.level,4);assert(!Object.hasOwn(JSON.parse((await readHideout(f.env,7)).raw),'activityDates'));
+ });
+}

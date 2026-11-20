@@ -36,7 +36,7 @@ for(const postgres of [false,true]){
   }
   const home=(await readHideout(f.env,7)).state;
   assert.equal(home.parts.STEEL,4);assert.equal(home.parts.WIRE,2);
-  assert.equal(home.activityDates.length,1);assert.equal(await cowTicketCount(f.env.DB,7,'solo'),2);
+  assert.equal(home.parts.CORE,0);assert.equal(await cowTicketCount(f.env.DB,7,'solo'),2);
   assert.equal(await f.coin(),before+200);
  });
  test((postgres?'PostgreSQL':'SQLite')+' party consumes expanded personal energy once and settles parts without a season',async t=>{

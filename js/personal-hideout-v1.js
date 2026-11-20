@@ -5,7 +5,7 @@
  const n=v=>Number(v||0).toLocaleString('ko-KR');
  let noticeText='',noticeError=false;
  let root=null,data=null,draft=[],room='main',tab='facilities',selected=null,selectedSlot=0,editing=false,dirty=false,busy=false,controller=null,epoch=0,trophies=null,uid=0,drag=null;
- let camera=0,scale=1,observer=null;
+ let camera=0,scale=1,stopSizing=null;
  const view=()=>'<section id="personalHideoutRoot" class="ph-root" aria-label="나의 은신처"><div class="ph-loading" role="status">은신처를 불러오는 중…</div></section>';
  const key=()=> 'cnine-hideout-pending:'+uid;
  const pending=()=>{try{return JSON.parse(sessionStorage.getItem(key())||'null');}catch{return null;}};
@@ -44,9 +44,24 @@
   const label=root.querySelector('[data-ph-location]');if(label)label.textContent=data.space.rooms.find(z=>z.code===room).name+' · '+Math.min(Math.ceil(data.space.width/visible),Math.floor(camera/visible)+1)+' / '+Math.ceil(data.space.width/visible);
  }
  function setCamera(value){const view=viewport();if(!view)return;view.scrollLeft=Math.max(0,value)*scale;syncCamera();}
- function measureWorld(){
-  const view=viewport();if(!view||!data)return;const saved=camera;
-  scale=view.clientHeight/data.space.height;
+ function observeWorld(){
+  const view=viewport();if(!view)return null;
+  let width=0,height=0,frame=0;
+  function fit(){
+   frame=0;
+   const w=view.clientWidth,h=view.clientHeight;
+   if(!w||!h||(w===width&&h===height))return;
+   width=w;height=h;measureWorld(h);
+  }
+  fit();
+  const observer=new ResizeObserver(()=>{
+   if(!frame&&(view.clientWidth!==width||view.clientHeight!==height))frame=requestAnimationFrame(fit);
+  });
+  observer.observe(view);
+  return ()=>{observer.disconnect();cancelAnimationFrame(frame);};
+ }
+ function measureWorld(height){
+  const saved=camera;scale=height/data.space.height;
   const world=root.querySelector('[data-ph-world]');world.style.width=(data.space.width*scale)+'px';
   root.querySelectorAll('[data-ph-bay]').forEach(el=>{el.style.left=Number(el.dataset.phBay)*data.space.bayWidth*scale+'px';el.style.width=data.space.bayWidth*scale+'px';});
   root.querySelectorAll('[data-ph-zone]').forEach(el=>{const z=data.space.rooms.find(z=>z.code===el.dataset.phZone);el.style.left=z.start*scale+'px';el.style.width=z.width*scale+'px';});
@@ -76,7 +91,7 @@
   return '<section class="ph-selected ph-panel"><h3>'+esc(f.name)+'</h3><label>배치 공간<select data-ph-room-select '+(!editing?'disabled':'')+'>'+data.state.rooms.map(r=>'<option value="'+r+'" '+(p.room===r?'selected':'')+'>'+esc(data.rooms.find(v=>v.code===r).name)+'</option>').join('')+'<option value="storage" '+(p.room===null?'selected':'')+'>보관함</option></select></label><div class="ph-actions">'+button('flip','방향 전환','',!editing)+button('store',p.room===null?'현재 방에 꺼내기':'보관하기','',!editing)+(p.code==='trophy'?button('trophies','진열장 크게 보기','',dirty):'')+'</div><p class="ph-help">가구를 끌거나 방향키로 배치합니다. 빈 공간을 끌면 화면이 이동합니다.</p></section>';
  }
  function panelHtml(){
-  if(tab==='facilities')return '<article class="ph-panel ph-room-upgrade"><div><small>거주 등급 '+data.state.level+' / '+data.maximumLevel+'</small><h3>'+esc(data.stage.name)+'</h3><p>'+esc(data.stage.description)+'</p><strong>'+(data.nextStage?'다음 거주지 · '+esc(data.nextStage.name):'최종 거주지')+'</strong>'+(data.nextStage?.activeDays?'<p>전투 활동일 '+data.state.activityDates.length+' / '+data.nextStage.activeDays+'일 · 한국시간 기준 부품을 얻은 날마다 1일 누적</p>':'')+'<p>시설은 Lv.'+data.facilityMaximum+'까지 성장할 수 있습니다.</p></div>'+costHtml(data.roomCost)+button('upgrade',data.state.level===0?'은신처 무료 개방':data.roomCost?'다음 거주지로 업그레이드':'최종 단계','data-target="room"',!data.roomCost||!allowed(data.roomCost)||data.state.activityDates.length<(data.nextStage?.activeDays||0)||dirty)+'</article>'+data.facilities.map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" alt=""><div><h3>'+esc(f.name)+' <small>Lv.'+f.level+'</small></h3><p>'+esc(f.description)+'</p><strong>'+esc(f.effect)+' '+(f.code==='workbench'?'-':'+')+(f.level*f.step)+f.unit+'</strong></div></div>'+costHtml(f.cost)+button('upgrade',!f.cost?'최대 레벨':f.level===0?'시설 설치':'시설 업그레이드','data-target="'+f.code+'"',!f.cost||!allowed(f.cost)||f.level>=data.facilityMaximum||dirty)+'</article>').join('');
+  if(tab==='facilities')return '<article class="ph-panel ph-room-upgrade"><div><small>거주 등급 '+data.state.level+' / '+data.maximumLevel+'</small><h3>'+esc(data.stage.name)+'</h3><p>'+esc(data.stage.description)+'</p><strong>'+(data.nextStage?'다음 거주지 · '+esc(data.nextStage.name):'최종 거주지')+'</strong>'+(data.state.level&&data.nextStage?'<p>표시된 부품을 모두 모으면 바로 승급할 수 있습니다.</p>':'')+'<p>시설은 Lv.'+data.facilityMaximum+'까지 성장할 수 있습니다.</p></div>'+costHtml(data.roomCost)+button('upgrade',data.state.level===0?'은신처 무료 개방':data.roomCost?'다음 거주지로 업그레이드':'최종 단계','data-target="room"',!data.roomCost||!allowed(data.roomCost)||dirty)+'</article>'+data.facilities.map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" alt=""><div><h3>'+esc(f.name)+' <small>Lv.'+f.level+'</small></h3><p>'+esc(f.description)+'</p><strong>'+esc(f.effect)+' '+(f.code==='workbench'?'-':'+')+(f.level*f.step)+f.unit+'</strong></div></div>'+costHtml(f.cost)+button('upgrade',!f.cost?'최대 레벨':f.level===0?'시설 설치':'시설 업그레이드','data-target="'+f.code+'"',!f.cost||!allowed(f.cost)||f.level>=data.facilityMaximum||dirty)+'</article>').join('');
   if(tab==='decor')return '<p class="ph-help">가구를 추가 제작해 자유롭게 꾸미세요. 장식 복제와 위치 변경은 시설 혜택을 중복시키지 않습니다.</p>'+data.decor.map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" alt=""><h3>'+esc(f.name)+'</h3></div>'+costHtml(f.cost)+button('decorate','추가 제작','data-item="'+f.code+'"',!data.state.level||!allowed(f.cost)||dirty||draft.filter(p=>p.kind==='decor').length>=114)+'</article>').join('')+'<h3>보관한 가구</h3><div class="ph-storage">'+draft.filter(p=>p.room===null).map(p=>button('select',definition(p)?.name||p.code,'data-id="'+esc(p.id)+'"')).join('')+'</div>';
   if(tab==='rooms')return '<p class="ph-help">새 구역이 집 옆으로 이어집니다. 이동하면서 구역마다 꾸밀 수 있습니다. 시설 6개와 장식 114개를 보관·배치할 수 있습니다.</p>'+data.rooms.map(r=>'<article class="ph-panel"><h3>'+esc(r.name)+'</h3><p>은신처 Lv.'+r.requiredLevel+'부터 확장 가능</p>'+costHtml(r.cost)+button('expand',data.state.rooms.includes(r.code)?'개방 완료':'공간 확장','data-room="'+r.code+'"',data.state.rooms.includes(r.code)||data.state.level<r.requiredLevel||!allowed(r.cost)||dirty)+'</article>').join('');
   const stand=draft.find(p=>p.id===selected&&p.code==='trophy');
@@ -84,10 +99,9 @@
  }
  function render(){
   if(!root?.isConnected||!data)return;
-  observer?.disconnect();
-  root.innerHTML='<div class="ph-toolbar"><div><small>현재 거주지</small><strong>'+esc(data.stage.name)+'</strong><p>'+esc(data.stage.description)+'</p></div><b>'+data.state.level+' <span>/ '+data.maximumLevel+' 단계</span></b></div>'+residenceHtml()+benefitsHtml()+'<div class="ph-notice" data-ph-notice role="status" aria-live="polite" data-error="'+noticeError+'">'+esc(noticeText)+'</div>'+(pending()?'<div class="ph-recovery ph-panel"><p>저장 결과를 확인하지 못한 요청이 있습니다.</p>'+button('retry','같은 요청으로 결과 확인')+'</div>':'')+'<div class="ph-layout"><section class="ph-space"><nav class="ph-room-tabs" aria-label="구역으로 이동">'+data.state.rooms.map(r=>button('room',data.rooms.find(v=>v.code===r).name,'data-room="'+r+'" aria-pressed="'+(r===room)+'"')).join('')+'</nav><div class="ph-scene '+(editing?'is-editing':'')+'" data-ph-floor>'+sceneHtml()+(!data.state.level?'<div class="ph-locked"><h2>판자촌에서 시작하는 나의 은신처</h2><p>토벌에서 모은 부품으로 집과 시설을 키워보세요.<br>무료 개방 시 군단토벌·파티 군단토벌 최대 행동력 +1</p>'+button('upgrade','무료 개방','data-target="room"')+'</div>':'')+'</div>'+(!cabinetFocus()?cameraHtml():'')+'<div class="ph-editbar">'+button('edit',editing?'꾸미기 종료':'자유롭게 꾸미기','aria-pressed="'+editing+'"',!data.state.level||dirty)+button('save','배치 저장','',!dirty)+button('reset','변경 취소','',!dirty)+'<span>'+(dirty?'아직 저장하지 않은 배치입니다.':'가구를 선택해 살펴보세요.')+'</span></div>'+pickerHtml()+'<div data-ph-selection>'+selectedHtml()+'</div><section class="ph-materials ph-panel"><h2>부품 보관함</h2><div>'+data.parts.map(p=>'<article><img src="'+esc(p.image)+'" width="72" height="72" alt=""><b>'+esc(p.name)+'</b><strong>'+n(data.state.parts[p.code])+'</strong><small>'+esc(p.source)+'</small></article>').join('')+'</div><p>몬스터 토벌·군단토벌·레이드의 확정 보상으로 모읍니다.</p></section></section><aside class="ph-sidebar"><nav class="ph-tabs" aria-label="은신처 관리">'+[['facilities','시설 성장'],['decor','가구·장식'],['trophies','트로피'],['rooms','공간 확장']].map(([v,label])=>button('tab',label,'data-tab="'+v+'" aria-pressed="'+(tab===v)+'"')).join('')+'</nav><div class="ph-panel-list">'+panelHtml()+'</div></aside></div>';
-  measureWorld();
-  if(viewport()){observer=new ResizeObserver(measureWorld);observer.observe(viewport());}
+  stopSizing?.();
+  root.innerHTML='<div class="ph-toolbar"><div><small>현재 거주지</small><strong>'+esc(data.stage.name)+'</strong><p>'+esc(data.stage.description)+'</p></div><b>'+data.state.level+' <span>/ '+data.maximumLevel+' 단계</span></b></div>'+residenceHtml()+benefitsHtml()+'<div class="ph-notice" data-ph-notice role="status" aria-live="polite" data-error="'+noticeError+'">'+esc(noticeText)+'</div>'+(pending()?'<div class="ph-recovery ph-panel"><p>저장 결과를 확인하지 못한 요청이 있습니다.</p>'+button('retry','같은 요청으로 결과 확인')+'</div>':'')+'<div class="ph-layout"><section class="ph-space"><nav class="ph-room-tabs" aria-label="구역으로 이동">'+data.state.rooms.map(r=>button('room',data.rooms.find(v=>v.code===r).name,'data-room="'+r+'" aria-pressed="'+(r===room)+'"')).join('')+'</nav><div class="ph-scene '+(editing?'is-editing':'')+'" data-ph-floor>'+sceneHtml()+(!data.state.level?'<div class="ph-locked"><h2>판자촌에서 시작하는 나의 은신처</h2><p>토벌에서 모은 부품으로 집과 시설을 키워보세요.<br>무료 개방 시 군단토벌·파티 군단토벌 최대 행동력 +1</p>'+button('upgrade','무료 개방','data-target="room"')+'</div>':'')+'</div>'+(!cabinetFocus()?cameraHtml():'')+'<div class="ph-editbar">'+button('edit',editing?'꾸미기 종료':'자유롭게 꾸미기','aria-pressed="'+editing+'"',!data.state.level||dirty)+button('save','배치 저장','',!dirty)+button('reset','변경 취소','',!dirty)+'<span>'+(dirty?'아직 저장하지 않은 배치입니다.':'가구를 선택해 살펴보세요.')+'</span></div>'+pickerHtml()+'<div data-ph-selection>'+selectedHtml()+'</div><section class="ph-materials ph-panel"><h2>부품 보관함</h2><div>'+data.parts.map(p=>'<article><img src="'+esc(p.image)+'" width="72" height="72" alt=""><b>'+esc(p.name)+'</b><strong>'+n(data.state.parts[p.code])+'</strong><small>'+esc(p.source)+'</small></article>').join('')+'</div><p>부품마다 획득처가 다릅니다. 동력 코어는 클리어 보상으로 추첨합니다.</p></section></section><aside class="ph-sidebar"><nav class="ph-tabs" aria-label="은신처 관리">'+[['facilities','시설 성장'],['decor','가구·장식'],['trophies','트로피'],['rooms','공간 확장']].map(([v,label])=>button('tab',label,'data-tab="'+v+'" aria-pressed="'+(tab===v)+'"')).join('')+'</nav><div class="ph-panel-list">'+panelHtml()+'</div></aside></div>';
+  stopSizing=observeWorld();
  }
  async function refresh(){const id=epoch;try{const next=await request('hideout');if(id!==epoch||!root?.isConnected)return;accept(next);render();if(next.enabled===false)say('은신처를 준비하고 있습니다.');}catch(e){if(id!==epoch||e.name==='AbortError')return;root.innerHTML='<div class="ph-panel"><h2>은신처 연결을 확인해 주세요</h2><p>'+esc(e.message)+'</p>'+button('refresh','다시 불러오기')+'</div>';}}
  async function mutate(action,fields){
@@ -129,7 +143,7 @@
  }
  function destroy(){
   if(root&&uid)try{sessionStorage.setItem('cnine-hideout-camera:'+uid,String(camera));}catch{}
-  epoch++;controller?.abort();observer?.disconnect();observer=null;controller=null;root=null;data=null;trophies=null;drag=null;busy=false;editing=false;dirty=false;selected=null;noticeText='';camera=0;room='main';tab='facilities';
+  epoch++;controller?.abort();stopSizing?.();stopSizing=null;controller=null;root=null;data=null;trophies=null;drag=null;busy=false;editing=false;dirty=false;selected=null;noticeText='';camera=0;room='main';tab='facilities';
  }
  async function bind(user){
   destroy();uid=Number(user?.serverUserId||user?.id||user?.userId||0);root=document.getElementById('personalHideoutRoot');if(!root)return;

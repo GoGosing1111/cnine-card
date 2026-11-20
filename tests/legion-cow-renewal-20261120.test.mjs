@@ -116,7 +116,7 @@ for(const withHideout of [false,true])test((withHideout?'with a personal hideout
   for(const uid of [1,2]){
    await call(uid,'state?id='+id);await call(uid,'state?id='+id);
    const home=await saved(f,HIDEOUT_KEY(uid));
-   assert.equal(home.parts.STEEL,8);assert.equal(home.activityDates.length,1);
+   assert.equal(home.parts.STEEL,8);assert.equal(home.parts.DRIVE,1);assert([0,1].includes(home.parts.CORE));
   }
  }
 });
