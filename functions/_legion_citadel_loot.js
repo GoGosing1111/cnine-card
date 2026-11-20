@@ -181,12 +181,12 @@ export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,t
   divisor,seats:splitPool(unique.filter(item=>item.tier===tier).map(item=>({...gearByCode.get(item.code),kind:'CITADEL_UNIQUE',tier})),random)
  })):[];
  const {normalPercent,elitePercent,bossPercent,bossMultiplier}=drops;
- return bonuses.map(({totals},i)=>{
+ return bonuses.map(({totals,hideout},i)=>{
   const {coinPercent,dropPercent}=totals;
-  const uniqueBase=tier10?ascendantBossPercent(tier10.expectedRuns,miracle,dropPercent)*uniqueScale:0;
+  const uniqueBase=tier10?ascendantBossPercent(tier10.expectedRuns,miracle,dropPercent+(hideout?.mercenaryEquipmentPercent||0))*uniqueScale:0;
   const {revision,cap,referenceUnits,multiplier}=createLegionCoins('coast','calamity',{bonusPercent:coinPercent});
   return {...parties[i],itemMultiplier,supplyDropMultiplier:miracle===100?2:1,rates:{normalPercent,elitePercent,bossPercent,bossMultiplier},
-   calamity:regions.length?calamityPartyDrops(regions,calamity,ascendant,gear,material(stoneRow),base=>legionDropPercent(base,miracle,dropPercent),itemMultiplier):null,
+   calamity:regions.length?calamityPartyDrops(regions,calamity,ascendant,gear,material(stoneRow),(base,item)=>legionDropPercent(base,miracle,dropPercent+(item?.type==='EQUIPMENT'?(hideout?.mercenaryEquipmentPercent||0):0)),itemMultiplier):null,
    unique:uniquePools.map(row=>({pieces:row.seats[i],percent:Math.min(100,uniqueBase/row.divisor*(area===DOCKYARD.id?DOCKYARD.itemMultiplier:1))})),
    coins:{revision,cap,referenceUnits,multiplier,huntDurationMs:regionalDifficulty('calamity').huntDurationMs,partyMultiplier:CITADEL_COIN_MULTIPLIER}};
  });

@@ -4,7 +4,7 @@
 // in plaintext headers, logs, responses, deployment files or a second store.
 export const API_RUNTIME_HEADER = 'x-cnine-runtime-context';
 export const API_RUNTIME_VARIABLES = Object.freeze([
-  'DB_BACKEND', 'DB_MIGRATION_FREEZE', 'D1_READ_MODE', 'UNIQUE_ADVANCEMENT_MODE',
+  'DB_BACKEND', 'DB_MIGRATION_FREEZE', 'D1_READ_MODE', 'UNIQUE_ADVANCEMENT_MODE', 'PERSONAL_HIDEOUT_ENABLED',
   'IP_HASH_SALT', 'SETUP_KEY', 'PLAYDK_ACCESS_KEY', 'PLAYDK_SECRET_KEY',
   'PLAYDK_BASE_URL', 'PLAYDK_GAME_CODE', 'PLAYDK_DAILY_BOARD_SLUGS'
 ]);

@@ -18,10 +18,10 @@ import {EXTREME_PULSE_KEY} from '../shared/extreme-burning-v1.mjs';
 const TTL=30*60*1000;
 const ACTIONS={start:['difficulty','version','regionId'],begin:['id'],reveal:['id','seq','seqs'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id'],recover:[]};
 export function legionHuntEnergy(run,at,support=null,user=null){
-  const bonus=support?.active&&support.startsAt<=at&&support.endsAt>at?SUPPORT_PLAN.extraLegionEntries:0,maximum=LEGION_ENERGY_MAXIMUM+bonus;
+  const bonus=support?.active&&support.startsAt<=at&&support.endsAt>at?SUPPORT_PLAN.extraLegionEntries:0,maximum=LEGION_ENERGY_MAXIMUM+bonus+(support?.hideout?.legionEnergy||0);
   const day=new Date(at+9*3600000).toISOString().slice(0,10),legacy=user?.role==='OWNER'?run?.coinDaily:run?.daily;
   const used=legacy?.day===day?Number(legacy.used):0;
-  if(!Number.isSafeInteger(used)||used<0||used>LEGION_ENERGY_MAXIMUM+SUPPORT_PLAN.extraLegionEntries)throw jointError('HUNT_ENTRIES_UNAVAILABLE','행동력 기록을 확인할 수 없습니다.',503);
+  if(!Number.isSafeInteger(used)||used<0||used>LEGION_ENERGY_MAXIMUM+SUPPORT_PLAN.extraLegionEntries+6)throw jointError('HUNT_ENTRIES_UNAVAILABLE','행동력 기록을 확인할 수 없습니다.',503);
   return legionHuntEnergyView(run?.energy,{at,maximum,initial:Math.max(0,maximum-used)});
 }
 // Apply missed activations at their original times, before later recharge or entry debits.
@@ -40,7 +40,7 @@ export function restoreExtremeLegionEnergy(run,pulses,at,support,user){
 }
 export function legionHuntEntries(run,at,user,support=null){
   const energy=legionHuntEnergy(run,at,support,user),unlimited=user?.role==='OWNER';
-  return {...energy,unlimited,limit:unlimited?null:energy.maximum,remaining:unlimited?null:energy.current,...(energy.maximum>LEGION_ENERGY_MAXIMUM?{supporterBonus:SUPPORT_PLAN.extraLegionEntries}:{})};
+  return {...energy,unlimited,limit:unlimited?null:energy.maximum,remaining:unlimited?null:energy.current,hideoutBonus:support?.hideout?.legionEnergy||0,...(support?.active?{supporterBonus:SUPPORT_PLAN.extraLegionEntries}:{})};
 }
 function requireEntry(entries){
   if(!entries.unlimited&&entries.current<=0)throw jointError('HUNT_ENERGY_EMPTY','행동력이 부족합니다. '+legionRechargeLabel(CONTENT_ENERGY_RECHARGE_MS,entries.serverNow)+'마다 1회 충전됩니다.',409);
@@ -203,14 +203,14 @@ export async function handleLegionHunt({path,request,env,deps}){
         const snapshot=await accountSnapshot(env,user,deps);
         const [miracleDropPercent,collection]=await Promise.all([readMiracleDropPercent(env),readCollectionBonuses(env,user.id)]);
         const collectionPercent=collection.totals.dropPercent;
-        const boosted=base=>legionDropPercent(base,miracleDropPercent,collectionPercent);
+        const boosted=(base,equipment=false)=>legionDropPercent(base,miracleDropPercent,collectionPercent+(equipment?(collection.hideout?.mercenaryEquipmentPercent||0):0));
         const paying=access.liveRewards&&(!regionPolicy||regionPolicy.mode==='ON');
         const coins=createLegionCoins(body.regionId,body.difficulty,{live:paying,bonusPercent:collection.totals.coinPercent});
         const regionLoot=regionDifficulty?{...regionDifficulty.loot}:null;
-        if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=boosted(regionLoot[key]);
+        if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=boosted(regionLoot[key],['eliteSetPercent','bossSetPercent','bossUniquePercent'].includes(key));
         const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying,ascendant:regionPolicy.ascendantDrops?.enabled===true})}:{dropChance:boosted(d.dropPercent)/100,bossDropChance:boosted(d.bossDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
         if(regionPolicy?.ascendantDrops?.enabled){
-          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent)}));
+          dropPolicy.ascendantDrops=regionPolicy.ascendantDrops.tiers.map(row=>({tier:row.tier,bossPercent:ascendantBossPercent(row.expectedRuns,miracleDropPercent,collectionPercent+(collection.hideout?.mercenaryEquipmentPercent||0))}));
         }
         const fieldDrops=regionPolicy?.regions.find(r=>r.id===body.regionId)?.fieldDrops;
         if(fieldDrops){

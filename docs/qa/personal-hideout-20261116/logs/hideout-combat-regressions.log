@@ -1,0 +1,67 @@
+✔ November 23 is inclusive in Korea; only the two legion recovery rates change (6.5769ms)
+✔ solo retains pre-event progress, charges at 90 minutes, and restores three hours after expiry (1.4733ms)
+✔ capacity, daily refill, debit/refund anchors and Extreme Burning pulses remain consistent (0.6722ms)
+✔ party deadlines retain recovery earned before either boundary, including expiry while offline (0.3713ms)
+✔ SQLite: existing party cooldown, reopening, expiry and entry guards share the same scheduled deadline (99.0176ms)
+✔ SQLite: two loading acknowledgments debit once and publish a three-hour party deadline (740.7852ms)
+✔ PostgreSQL: existing party cooldown, reopening, expiry and entry guards share the same scheduled deadline (5940.5513ms)
+✔ PostgreSQL: two loading acknowledgments debit once and publish a three-hour party deadline (4172.0155ms)
+✔ SQLite party consumes expanded personal energy once and settles parts without a season (1990.8987ms)
+✔ SQLite real trophy ownership, reward bonuses and generic monster CARD pools (161.2604ms)
+✔ PostgreSQL party consumes expanded personal energy once and settles parts without a season (5957.4892ms)
+✔ PostgreSQL real trophy ownership, reward bonuses and generic monster CARD pools (3405.5121ms)
+✖ real bulk card opening uses the lamp bonus without expanding limited stock or replaying a payment (4321.5531ms)
+✔ Isgen 2000 eok + 100 pig coins + 5 essence: atomic, replay-safe and limited to three false (446.1589ms)
+✔ Varsen 2000 eok + 100 pig coins + 5 essence + 2m stars: atomic and old five-clear rooms obey current three false (20.3496ms)
+✔ Core 1000 eok + 100 pig coins and one unchanged selected reward settle together false (70.3477ms)
+✔ Isgen 2000 eok + 100 pig coins + 5 essence: atomic, replay-safe and limited to three true (7766.3292ms)
+✔ Varsen 2000 eok + 100 pig coins + 5 essence + 2m stars: atomic and old five-clear rooms obey current three true (3363.8104ms)
+✔ Core 1000 eok + 100 pig coins and one unchanged selected reward settle together true (2949.8821ms)
+✔ Varsen settings changed during settlement cannot commit a stale quota false (7.1643ms)
+✔ Varsen settings changed during settlement cannot commit a stale quota true (1756.7394ms)
+✔ SQLite: actual legion start/begin/finish counts terminal combat once; retreat earns nothing; failed finish recovers (140.8984ms)
+✔ SQLite: terminal battleground and defense settlements count wins + ordinary defeats, preserve base rewards and skip practice, absent or forfeited members (70.3921ms)
+✔ PostgreSQL: actual legion start/begin/finish counts terminal combat once; retreat earns nothing; failed finish recovers (5084.6445ms)
+✔ PostgreSQL: terminal battleground and defense settlements count wins + ordinary defeats, preserve base rewards and skip practice, absent or forfeited members (3975.4157ms)
+✔ count and cost reject fractional, oversized, unsafe and other intervals (18.2127ms)
+✔ 100,000 grants exactly once with compact results, duplicate rewards, limited stock and recoverable receipt (6468.3745ms)
+ℹ {"count":100000,"ms":1022,"types":301,"bytes":76427,"wire":19,"sql":80}
+✔ receipt replay uses current balances and ownership, never historical totals (2943.6806ms)
+✔ insufficient coins, changed price, inactive pack and normal draw lock never charge (2469.1907ms)
+✔ failure rolls back every debit, reward, stock, receipt and audit; lost commit ack replays once (2102.7343ms)
+✔ last-stock race and concurrent coin/ownership changes retry atomically without overissue (2209.7791ms)
+✔ a last-stock-only race cannot mistake another purchase for its own reservation (2153.7619ms)
+✔ unbounded LIMITED cards retain individual acquisition logs and per-100 selection limit (1812.3886ms)
+✔ suppressed card grant cannot produce a paid success receipt (1998.6427ms)
+✔ mid-transaction SQL failure rolls back already-executed stock, cards and currency statements (2190.5351ms)
+✔ simultaneous same-ID calls charge once; two users competing for the last limited card never overissue (2637.5328ms)
+✔ expired unknown request and corrupted receipt cannot trigger another purchase (1977.6751ms)
+✔ every 10-card guarantee and one LIMITED roll success per 100 remain intact (42.1133ms)
+✔ sampler gives exact legacy 100-card distribution with the production draw helper (1873.0893ms)
+✔ authenticated route blocks cross-origin, wrong browser and other paths before purchase (38.187ms)
+✔ 10경 plus one opens ultimate bulk once with exact debit and browser receipt (1764.352ms)
+✔ historical large numeric ultimate receipt replays without a second debit (2085.7682ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 41
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39290.9084
+
+✖ failing tests:
+
+test at tests\personal-hideout-integration-20261116.test.mjs:52:1
+✖ real bulk card opening uses the lamp bonus without expanding limited stock or replaying a payment (4321.5531ms)
+  AssertionError [ERR_ASSERTION]: [0,0]
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/personal-hideout-integration-20261116.test.mjs:65:2)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,214 @@
+
+> release:gate
+> npm run test:auction-user && npm run test:release-policy && npm run test:mercenary-equipment && npm run test:jokgak-city && npm run test:api-runtime && npm run test:account-sync && npm run test:cooperative && npm run test:burning && npm run test:ranked-reform && npm run test:icon-cms && npm run test:ranked-duo && npm run test:magic-workbench && npm run test:postgres-compat && npm run test:account-rank && npm run test:lobby && npm run test:loot-shop && npm run test:master-star-mine && npm run check:worker && npm run test:pve-reform && npm run test:pve-overhaul && npm run test:v3-grid && npm run test:v3-joint && npm run test:live-connections && npm run test:wish-lamp && npm run test:golden-axe && npm run test:chuseok && npm run test:hyper-pack && npm run test:new-user-gift && npm run test:scrapyard-v3 && npm run test:avatar && npm run test:performance && npm run test:unique-advancement && npm run test:soopketland && npm run test:streamer-lounge && npm run test:player-card && npm run test:evolution && npm run test:inventory && npm run test:navigation && npm run test:mercenary-codex && npm run test:equipment-forge-public && npm run test:mercenary-cms && npm run test:cryvern && npm run test:mercenary-draw && npm run test:limited-pack && npm run test:raid-entry && npm run test:core-raid && npm run test:lich-raid && npm run test:madara-raid && npm run test:blackwing-raid && npm run test:black-miracle && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:organization && npm run test:prison && npm run test:coup && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:skill-chips && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:daily-quest && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:fur-enhancement && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && npm run test:z-body-effects && npm run test:legion-hunt && node scripts/verify-production-release.mjs
+
+
+> test:auction-user
+> node --test tests/auction-user-20261103.test.mjs tests/auction-user-bgm-20261103.test.mjs tests/auction-user-postgres-20261103.test.mjs tests/auction-live-20261103.test.mjs tests/auction-ticket-shops-20261103.test.mjs
+
+✔ CMS OWNER authorization, strict fields and origins, configuration CAS and blocked raw host (82.0581ms)
+✔ operator creates in same FIFO without tickets or owned debit; cancellation and supply never pay OWNER (14.6087ms)
+✔ nonpackage seller receives restricted source, exact fee, resale origin and loser refunds (11.7979ms)
+✔ settlement failure rolls back source ledger, stock and payment; retry settles exactly once (6.279ms)
+✔ wallet/log changed after accounting snapshot fails closed; all affected IDs lock in numeric order (11.2719ms)
+✔ CMS BGM saves 100조, volume and ordering atomically; stale writes and invalid rules preserve catalog (4.7365ms)
+✔ dual PVE/PVP second member is protected; superseded legacy selection can be sold (8.9426ms)
+✔ verified paid mercenary transfer grants current holder access; proof/settlement/holdings must agree (5.8637ms)
+✔ legacy numeric auction reservation/refund remains exact (0.2399ms)
+✔ SQLite LOOT: ticket bulk100/unlimited, exact price, failure/replay, previous policies intact (102.5149ms)
+✔ SQLite RANKED: ticket bulk100/unlimited, exact price, failure/replay, previous policies intact (86.9941ms)
+✔ PostgreSQL LOOT: ticket bulk100/unlimited, exact price, failure/replay, previous policies intact (3860.0163ms)
+✔ PostgreSQL RANKED: ticket bulk100/unlimited, exact price, failure/replay, previous policies intact (2532.9865ms)
+✔ confirmed prices, 5 exact quick bids, 20% fee and pure shop preparation preserve existing sales (3.0019ms)
+✔ one active auction, FIFO queue and a full 2 hours from actual activation (26.1238ms)
+✔ existing legacy auction blocks promotion without shortening reserved duration (8.8803ms)
+✔ hosting retry is identical once, mismatched replay fails, no ticket means no escrow (7.1027ms)
+✔ injected ticket/log/lot failures rollback all stock, ticket and receipts (12.419ms)
+✔ 100조 debit, exact seller 80조, loser refund and settlement replay leave no duplicate (11.0285ms)
+✔ self bid, queued bid, too large/fractional amount and insufficient funds fail without payment (12.7657ms)
+✔ queued cancellation returns goods and unused ticket once; active cancellation forbidden (27.1456ms)
+✔ unsold returns goods, consumes used ticket and refunds below-start bids (6.4585ms)
+✔ CARD: actual ownership transfer preserves both accounts' growth (9.6799ms)
+✔ MERCENARY: actual ownership transfer preserves both accounts' growth (13.6983ms)
+✔ PET: actual ownership transfer preserves both accounts' growth (7.5835ms)
+✔ EQUIPMENT: actual ownership transfer preserves both accounts' growth (8.9899ms)
+✔ VEHICLE: actual ownership transfer preserves both accounts' growth (5.1853ms)
+✔ MASTER_STAR: actual ownership transfer preserves both accounts' growth (7.1463ms)
+✔ equipped last copies, enhanced equipment and rental-only pets cannot be sold (7.9009ms)
+✔ notice is once per auction/account across repeated reads; no queue or expired popup (4.609ms)
+✔ simultaneous creates cannot consume the last ticket twice or create 2 active lots (5.2947ms)
+✔ settlement failure preserves escrow, bidder payment and seller balance for retry (11.1461ms)
+✔ vehicle reacquisition preserves return custody without blocking FIFO and claims exactly once (6.578ms)
+✔ disabled policy prevents new hosts but drains existing auctions and refunds normally (17.49ms)
+✔ preserves all 80 existing shared guide entries and leaves the original music catalog unchanged (26.6083ms)
+✔ matches THIS additional bid, never the cumulative balance or the new quick-button tiers (13.2337ms)
+✔ keeps inclusive bounds, shared-only lookup, existing overlap priority and unbounded maximum (17.635ms)
+✔ blank winning rule suppresses presentation and preserves duration and 40-character message rules (7.6573ms)
+✔ music receipt is atomic with payment: rollback, retry, duplicate receipt and rejected bids (18.3848ms)
+✔ one server schedule reaches every viewer in order, supports cursors and expires on lot change (12.9796ms)
+✔ competing payments cannot publish overlapping or unpaid music events (12.4812ms)
+✔ audio source retains existing file, query parameters, per-song volume and default volume (2.344ms)
+✔ PostgreSQL wallet 500000000000000: 100조 payment, rollback, queue promotion and exactly-once settlement (3472.5398ms)
+✔ PostgreSQL wallet 100000000000000001: 100조 payment, rollback, queue promotion and exactly-once settlement (2796.6138ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7933.0911
+
+> test:release-policy
+> node --test tests/production-sparse-staging-20261023.test.mjs tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.9204ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (6.6997ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.4471ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (6.7457ms)
+✔ sparse staging reuses only exact sibling blobs and streams remaining HEAD blobs without expanding checkout (1351.0193ms)
+✔ a present working-tree change is preserved, never hidden by a HEAD fallback (937.3924ms)
+✔ missing non-sparse files fail and remove only the failed staging directory (1513.4617ms)
+✔ a changed staged sparse blob cannot silently deploy the old HEAD image (1321.488ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (4.3764ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.8757ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.5236ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.7097ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.2495ms)
+✔ main and store shell releases cannot omit the real battle loader check (0.3881ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (3483.0824ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.694ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (6.8058ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.8569ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8886.1994
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (15.1207ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1139.3861
+
+> test:mercenary-equipment
+> node --test tests/mercenary-equipment-20261011.test.mjs tests/mercenary-equipment-assets-20261011.test.mjs tests/mercenary-equipment-by-mercenary-20261105.test.mjs tests/mercenary-ascendant-equipment-20261028.test.mjs
+
+✔ all 50 pieces preserve the mercenary slot ratio, exceed existing unique pieces, and increase at every tier (25.81ms)
+✔ 2/4/5 thresholds accumulate equally in PVE/PVP, remain below combat caps, and strictly improve by tier (14.2612ms)
+✔ PVP derives only authorized catalog sets, ignoring forged effects, character gear, duplicates and wrong slots (0.9568ms)
+✖ SQLite: owned first/last tier gear, independent modes, polish isolation and ordinary-character exclusion (127.6947ms)
+✖ PostgreSQL: owned first/last tier gear, independent modes, polish isolation and ordinary-character exclusion (5585.4005ms)
+✔ all tiers produce higher PVE/PVP stats and actual combat payloads without applying personal set effects to ordinary cards (307.9989ms)
+✔ actual PVP hit resolution honors new damage reduction and critical damage (68.4919ms)
+✔ SQLite: equipment remains with its mercenary when formation changes and shares only that mercenary across modes (110.1145ms)
+✔ SQLite: ownership, slot, publication, corrupt state and optimistic revision checks fail closed (46.1676ms)
+✔ SQLite: transaction rollback, receipt replay and stale pending requests never overwrite newer equipment (49.9959ms)
+✔ SQLite: enhancement/polish stay on the owned instance; invalid or destroyed copies give no bonus (43.2197ms)
+✔ PostgreSQL: equipment remains with its mercenary when formation changes and shares only that mercenary across modes (4872.0943ms)
+✔ PostgreSQL: ownership, slot, publication, corrupt state and optimistic revision checks fail closed (2740.5356ms)
+✔ PostgreSQL: transaction rollback, receipt replay and stale pending requests never overwrite newer equipment (2633.3727ms)
+✔ PostgreSQL: enhancement/polish stay on the owned instance; invalid or destroyed copies give no bonus (2426.8943ms)
+✔ actual PVE/PVP fighter power and personal set effects follow the selected mode without buffing normal cards (82.7407ms)
+✔ equipment route authenticates and uses the existing account mutation lock (82.9847ms)
+✖ all thirty regional equipment items have distinct complete transparent art and preserved generated sources (3.296ms)
+✔ SQLite: explicit transfer clears only the prior wearer and atomically retains one owner across modes (109.6201ms)
+✔ SQLite: approved legacy migration favors PVP, freezes before formation changes and preserves source records (71.4857ms)
+✔ SQLite: each companion in actual battle snapshots receives only its own equipment (90.3543ms)
+✔ SQLite: inventory cursor exposes every duplicate once and applies filters before pagination (147.6519ms)
+✔ PostgreSQL: explicit transfer clears only the prior wearer and atomically retains one owner across modes (5119.2901ms)
+✔ PostgreSQL: approved legacy migration favors PVP, freezes before formation changes and preserves source records (2938.6041ms)
+✔ PostgreSQL: each companion in actual battle snapshots receives only its own equipment (2778.1022ms)
+✔ PostgreSQL: inventory cursor exposes every duplicate once and applies filters before pagination (2631.8982ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 23
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14972.3199
+
+✖ failing tests:
+
+test at tests\mercenary-ascendant-equipment-20261028.test.mjs:58:36
+✖ SQLite: owned first/last tier gear, independent modes, polish isolation and ordinary-character exclusion (127.6947ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      attackPercent: 26,
+      criticalChancePoints: 13,
+      criticalDamagePoints: 42,
+      damageReductionPercent: 14,
+  +   defensePercent: 200,
+      hpPercent: 28,
+  +   pveGuardPercent: 60,
+      shieldPercent: 25,
+      speedPercent: 12
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/mercenary-ascendant-equipment-20261028.test.mjs:64:140)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { attackPercent: 26, hpPercent: 28, criticalChancePoints: 13, criticalDamagePoints: 42, speedPercent: 12, damageReductionPercent: 14, shieldPercent: 25, defensePercent: 200, pveGuardPercent: 60 },
+    expected: { attackPercent: 26, hpPercent: 28, criticalChancePoints: 13, criticalDamagePoints: 42, speedPercent: 12, damageReductionPercent: 14, shieldPercent: 25 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-ascendant-equipment-20261028.test.mjs:58:36
+✖ PostgreSQL: owned first/last tier gear, independent modes, polish isolation and ordinary-character exclusion (5585.4005ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      attackPercent: 26,
+      criticalChancePoints: 13,
+      criticalDamagePoints: 42,
+      damageReductionPercent: 14,
+  +   defensePercent: 200,
+      hpPercent: 28,
+  +   pveGuardPercent: 60,
+      shieldPercent: 25,
+      speedPercent: 12
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/mercenary-ascendant-equipment-20261028.test.mjs:64:140)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { attackPercent: 26, hpPercent: 28, criticalChancePoints: 13, criticalDamagePoints: 42, speedPercent: 12, damageReductionPercent: 14, shieldPercent: 25, defensePercent: 200, pveGuardPercent: 60 },
+    expected: { attackPercent: 26, hpPercent: 28, criticalChancePoints: 13, criticalDamagePoints: 42, speedPercent: 12, damageReductionPercent: 14, shieldPercent: 25 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\mercenary-equipment-assets-20261011.test.mjs:10:1
+✖ all thirty regional equipment items have distinct complete transparent art and preserved generated sources (3.296ms)
+  Error: ENOENT: no such file or directory, open 'C:\Users\User\Downloads\upload\cnine-card\operations\coin-100quadrillion-20261106\source\preview\legion-mercenary-equipment-20261011\assets.json'
+      at async open (node:internal/fs/promises:640:25)
+      at async Object.readFile (node:internal/fs/promises:1290:14)
+      at async TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/mercenary-equipment-assets-20261011.test.mjs:12:29)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    errno: -4058,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'C:\\Users\\User\\Downloads\\upload\\cnine-card\\operations\\coin-100quadrillion-20261106\\source\\preview\\legion-mercenary-equipment-20261011\\assets.json'
+  }

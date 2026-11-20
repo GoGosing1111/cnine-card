@@ -1,0 +1,36 @@
+✔ free unlock, level-gated facilities and rooms, independent decorative copies and trophy quantities (3.9175ms)
+✔ normal pack bonus changes relative high-grade weights only; combat eligibility is explicit (0.2793ms)
+✔ SQLite combat rewards are atomic, work without season/unlock, and identical statement replay is inert (3.0778ms)
+✔ SQLite mutations enforce replay identity, costs, rollback and concurrent reward CAS (8.5119ms)
+✔ PostgreSQL combat rewards are atomic, work without season/unlock, and identical statement replay is inert (1817.6622ms)
+✔ PostgreSQL mutations enforce replay identity, costs, rollback and concurrent reward CAS (1372.175ms)
+✔ authentication, request fields and feature gate are enforced by the real handler (28.7057ms)
+✔ party capacity preserves partial recovery, legacy deadline, event boundaries and extreme pulses (0.6851ms)
+✔ SQLite party consumes expanded personal energy once and settles parts without a season (340.4914ms)
+✔ SQLite real trophy ownership, reward bonuses and generic monster CARD pools (73.9043ms)
+✔ PostgreSQL party consumes expanded personal energy once and settles parts without a season (2307.3703ms)
+✔ PostgreSQL real trophy ownership, reward bonuses and generic monster CARD pools (1519.222ms)
+✔ PVE와 PVP 핵심 경로는 전투 요청마다 전체 레거시 마이그레이션을 시작하지 않는다 (1.653ms)
+✔ OWNER·점검 테스트 계정의 PVE·PVP 무제한은 실제 점검 중에만 허용한다 (0.528ms)
+✔ 소탕은 첫 1회 V3 전투 뒤 잔여 횟수를 짧은 서버 묶음으로 이어서 처리한다 (0.7803ms)
+✔ 아포칼립스는 UI와 클라이언트 실행 경로에서 소탕이 차단된다 (0.3688ms)
+✔ 서버는 아포칼립스를 강제 거부하고 요청한 잔여 행동력까지만 처리한다 (0.3481ms)
+✔ 잔여 회차도 동일한 V3 엔진과 회차별 시드로 독립 판정한다 (0.1986ms)
+✔ 종료된 프리미엄 큐브는 수동·소탕 경로에서 재지급되지 않는다 (0.8345ms)
+✔ 소탕 결과는 주요 보상 전체를 합산하고 실패 시 현재 묶음 영수증으로 재확인한다 (0.3055ms)
+✔ 진행 중 영수증은 오류 팝업 대신 202 상태 조회와 자동 폴링으로 복구한다 (0.5183ms)
+✔ 각 묶음은 회차별 하트비트로 활성 영수증과 사용자 락을 연장한다 (0.351ms)
+✔ 고아 소탕 락은 하트비트 기준으로 회수하고 실제 실행 중인 락은 보존한다 (21.5045ms)
+✔ 영수증 상태 판정은 실행 중·완료·실패·고아 실행을 구분한다 (4.7172ms)
+✔ 클라이언트는 RUNNING 응답을 보여주지 않고 같은 영수증의 완료 결과를 자동 조회한다 (1.4648ms)
+✔ 클라이언트는 다른 요청의 활성 락을 자동 대기한 뒤 자기 소탕을 재개한다 (0.9666ms)
+✔ 소탕 처리·결과 화면은 잔류 V3 프레임보다 앞에서 활성 결과창 하나만 표시한다 (0.2879ms)
+✔ 소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다 (0.2784ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5020.8989

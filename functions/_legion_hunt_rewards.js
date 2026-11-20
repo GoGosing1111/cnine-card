@@ -1,5 +1,5 @@
 import {withoutHyperTickets,isRetiredHyperReward} from './_hyper_ticket_retirement.js';
-import {seasonAwardStatements} from './_season_s1.js';
+import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';

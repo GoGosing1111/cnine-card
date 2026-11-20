@@ -1,0 +1,178 @@
+✔ SQLite party consumes expanded personal energy once and settles parts without a season (268.7389ms)
+✔ SQLite real trophy ownership, reward bonuses and generic monster CARD pools (36.6557ms)
+✔ PostgreSQL party consumes expanded personal energy once and settles parts without a season (2122.0308ms)
+✔ PostgreSQL real trophy ownership, reward bonuses and generic monster CARD pools (1510.4187ms)
+✔ PVE와 PVP 핵심 경로는 전투 요청마다 전체 레거시 마이그레이션을 시작하지 않는다 (1.3529ms)
+✔ OWNER·점검 테스트 계정의 PVE·PVP 무제한은 실제 점검 중에만 허용한다 (0.4952ms)
+✔ 소탕은 첫 1회 V3 전투 뒤 잔여 횟수를 짧은 서버 묶음으로 이어서 처리한다 (1.0631ms)
+✔ 아포칼립스는 UI와 클라이언트 실행 경로에서 소탕이 차단된다 (0.3485ms)
+✔ 서버는 아포칼립스를 강제 거부하고 요청한 잔여 행동력까지만 처리한다 (0.2807ms)
+✔ 잔여 회차도 동일한 V3 엔진과 회차별 시드로 독립 판정한다 (0.1879ms)
+✔ 종료된 프리미엄 큐브는 수동·소탕 경로에서 재지급되지 않는다 (0.7927ms)
+✔ 소탕 결과는 주요 보상 전체를 합산하고 실패 시 현재 묶음 영수증으로 재확인한다 (0.3137ms)
+✔ 진행 중 영수증은 오류 팝업 대신 202 상태 조회와 자동 폴링으로 복구한다 (0.5809ms)
+✔ 각 묶음은 회차별 하트비트로 활성 영수증과 사용자 락을 연장한다 (0.4758ms)
+✔ 고아 소탕 락은 하트비트 기준으로 회수하고 실제 실행 중인 락은 보존한다 (23.7255ms)
+✔ 영수증 상태 판정은 실행 중·완료·실패·고아 실행을 구분한다 (5.2199ms)
+✔ 클라이언트는 RUNNING 응답을 보여주지 않고 같은 영수증의 완료 결과를 자동 조회한다 (1.9672ms)
+✔ 클라이언트는 다른 요청의 활성 락을 자동 대기한 뒤 자기 소탕을 재개한다 (1.0371ms)
+✔ 소탕 처리·결과 화면은 잔류 V3 프레임보다 앞에서 활성 결과창 하나만 표시한다 (0.3737ms)
+✖ 소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다 (1.9336ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 19
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4649.3267
+
+✖ failing tests:
+
+test at tests\pve-sweep-v1989.test.mjs:257:1
+✖ 소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다 (1.9336ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /js\/battle-v2-live\.js\?v=1991-sweep-result-front/. Input:
+  
+  "const app = document.getElementById('app');\r\n" +
+    "let pendingPlaydkVerificationToken='';\r\n" +
+    'try{\r\n' +
+    "  const startupUrl=new URL(location.href),token=String(startupUrl.searchParams.get('token')||'').trim();\r\n" +
+    '  if(token){\r\n' +
+    '    pendingPlaydkVerificationToken=token.slice(0,2048);\r\n' +
+    "    startupUrl.searchParams.delete('token');\r\n" +
+    "    history.replaceState(history.state,'',`${startupUrl.pathname}${startupUrl.search}${startupUrl.hash}`);\r\n" +
+    '  }\r\n' +
+    "}catch(_){pendingPlaydkVerificationToken=''}\r\n" +
+    "const STORAGE_KEY = 'cnine_card_user_v10';\r\n" +
+    "const LEGACY_STORAGE_KEYS = ['cnine_card_user_v08', 'cnine_card_user'];\r\n" +
+    'const TEST_COIN = 5000;\r\n' +
+    'let cards = [];\r\n' +
+    '// V1797: 다른 스크립트(전투 로스터 등)가 "도감에 보이는 그대로의 카드"를 찾아 쓸 수 있게 노출한다.\r\n' +
+    '// 전투 페이로드의 card.image 는 전투 아트 어댑터가 SD 스프라이트로 바꿔치기하므로 그대로 쓰면 안 된다.\r\n' +
+    'window.cnineCardCatalog = () => cards;\r\n' +
+    "let selectedPackId = 'advanced';\r\n" +
+    "let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,title:'리버스콜 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};\r\n" +
+    '// 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.\r\n' +
+    'let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};\r\n' +
+    "const magicUiState={deckType:'PVE',selectedSlot:1};\r\n" +
+    '\r\n' +
+    'const gradeOrder = { ICON:14, SUPERSTAR:13, ZENITH:12, FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };\r\n' +
+    'const ZENITH_DECK_LIMIT = 2;\r\n' +
+    'const ICON_DECK_LIMIT = 2;\r\n' +
+    'const SUPERSTAR_DECK_LIMIT = 1;\r\n' +
+    'const DEFAULT_DECK_GRADE_LIMITS = Object.freeze({ PRESTIGE: 2, FUR: 2, ZENITH: ZENITH_DECK_LIMIT, SUPERSTAR: SUPERSTAR_DECK_LIMIT, ICON: ICON_DECK_LIMIT });\r\n' +
+    'const DEFAULT_HEALER_PENALTIES = Object.freeze({ 2: 60, 3: 75, 4: 85, 5: 90 });\r\n' +
+    "const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';\r\n" +
+    'const FAKER_FLAT_POWER_BONUS = 3000;\r\n' +
+    'const gradeScore = { SUPERSTAR:12000, ZENITH:8000, FUR: 5000, PRESTIGE:3100, LIMITED:3000, MA:1500, SSR:500, UR:200, HR:100, SR:50, R:20, U:5, C:1 };\r\n' +
+    'const baseRates = { FUR: 0, MA: 0, SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };\r\n' +
+    'const shardReward = { SUPERSTAR:600, ZENITH:400, FUR:250, PRESTIGE:220, LIMITED:180, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };\r\n' +
+    'const breakthroughCosts = [50,100,200,350,550,800,1100,1450,1850,2300,3000,3800,4800];\r\n' +
+    'const breakthroughRates = [100,100,100,80,65,50,35,25,15,8,5,3,1];\r\n' +
+    "const breakthroughMinGrade = 'SR';\r\n" +
+    '\r\n' +
+    'let PACKS = [\r\n' +
+    '  {\r\n' +
+    "    id: 'advanced', name: '고급 카드팩', subtitle: 'ADVANCED PACK', theme: 'advanced',\r\n" +
+    "    description: '커먼을 제외한 U 이상 카드팩', range: 'U ~ FUR', price: 25,\r\n" +
+    "    allowed: ['U','R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'SR', guarantee20: 'HR'\r\n" +
+    '  },\r\n' +
+    '  {\r\n' +
+    "    id: 'pickup', name: '리미티드팩', subtitle: 'LIMITED PACK', theme: 'pickup',\r\n" +
+    "    description: '별도 확률로 한정판 카드 등장', range: 'C ~ FUR + LIMITED', price: 30,\r\n" +
+    "    allowed: ['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'], guarantee10: 'R', guarantee20: 'SR', limitedRate: 1\r\n" +
+    '  },\r\n' +
+    '  {\r\n' +
+    "    id: 'superstar', name: '슈퍼스타팩', subtitle: 'SUPERSTAR CHAMPIONSHIP PACK', theme: 'superstar',\r\n" +
+    "    description: '1회 1장 판정 · SUPERSTAR 10% · 꽝 90%', range: 'SUPERSTAR 10% · 꽝 90%', price: 300000000,\r\n" +
+    "    allowed: ['SUPERSTAR'], guarantee10: null, guarantee20: null, drawMode: 'SUPERSTAR_CHANCE', drawEnabled: false,\r\n" +
+    "    ownerDrawEnabled: true, maxDrawCount: 10000, bulkDrawCounts: [1000,10000], successRate: 10, missRate: 90, imageUrl: 'assets/ui/packs/reverse-call-20261016/superstar-768.webp', revealMode: 'SWIPE'\r\n" +
+    '  }\r\n' +
+    '];\r\n' +
+    '\r\n' +
+    'function packRangeFromAllowed(allowed = []) {\r\n' +
+    "  const ordered = ['C','U','R','SR','HR','UR','SSR','MA','FUR','ZENITH','SUPERSTAR'];\r\n" +
+    '  const normal = ordered.filter(g => allowed.includes(g));\r\n' +
+    "  if (!normal.length) return allowed.includes('LIMITED') ? 'LIMITED' : '-';\r\n" +
+    '  const base = normal.length === 1 ? normal[0] : `${normal[0]} ~ ${normal.at(-1)}`;\r\n' +
+    "  return allowed.includes('LIMITED') ? `${base} + LIMITED` : base;\r\n" +
+    '}\r\n' +
+    '\r\n' +
+    'function applyServerPacks(rows = []) {\r\n' +
+    '  if (!Array.isArray(rows) || !rows.length) return;\r\n' +
+    "  PACKS = rows.filter(row => row&&!['basic','premium','hyper','halloween','mercenary-halloween-ss-limited'].includes(String(row.id))).map(row => {\r\n" +
+    '    let allowed = row.allowed;\r\n' +
+    '    if (!Array.isArray(allowed)) {\r\n' +
+    "      try { allowed = JSON.parse(row.allowed_rarities || '[]'); } catch { allowed = []; }\r\n" +
+    '    }\r\n' +
+    '    return {\r\n' +
+    '      id: String(row.id),\r\n' +
+    "      name: row.name || '카드팩',\r\n" +
+    "      subtitle: row.subtitle || 'CARD PACK',\r\n" +
+    "      theme: row.theme || 'basic',\r\n" +
+    "      description: row.description || '',\r\n" +
+    '      range: row.range || packRangeFromAllowed(allowed),\r\n' +
+    '      price: Math.max(0, Number(row.originalPrice??row.price) || 0),\r\n' +
+    '      prices: row.prices || null,\r\n' +
+    '      originalPrice: Math.max(0, Number(row.originalPrice??row.price) || 0),\r\n' +
+    '      burningDiscountPercent:0,\r\n' +
+    '      allowed,\r\n' +
+    "      guarantee10: row.guarantee10 || row.guarantee_10 || 'R',\r\n" +
+    "      guarantee20: row.guarantee20 || row.guarantee_20 || 'SR',\r\n" +
+    '      limitedRate: Number(row.limitedRate || row.limited_rate || 0) || 0,\r\n' +
+    "      drawMode: row.drawMode || row.draw_mode || 'STANDARD',\r\n" +
+    '      drawEnabled: row.drawEnabled === undefined ? Number(row.draw_enabled ?? 1) !== 0 : row.drawEnabled === true,\r\n' +
+    '      ownerDrawEnabled: row.ownerDrawEnabled === undefined ? row.owner_draw_enabled === true : row.ownerDrawEnabled === true,\r\n' +
+    '      maxDrawCount: Math.max(1, Number(row.maxDrawCount || row.max_draw_count || 100)),\r\n' +
+    "      bulkDrawCounts: String(row.id)==='superstar'&&Array.isArray(row.bulkDrawCounts)?[1000,10000].filter(count=>row.bulkDrawCounts.includes(count)):[],\r\n" +
+    '      successRate: Number(row.successRate || row.success_rate || 0),\r\n' +
+    '      missRate: Number(row.missRate || row.miss_rate || 0),\r\n' +
+    "      imageUrl: row.imageUrl || row.image_url || '',\r\n" +
+    '      previewCards: Array.isArray(row.previewCards) ? row.previewCards : [],\r\n' +
+    "      revealMode: row.revealMode || row.reveal_mode || 'STANDARD'\r\n" +
+    '    };\r\n' +
+    '  });\r\n' +
+    "  const order = ['advanced','pickup','ultimate','superstar'];\r\n" +
+    '  PACKS.sort((a,b)=>(order.includes(a.id)?order.indexOf(a.id):order.length)-(order.includes(b.id)?order.indexOf(b.id):order.length));\r\n' +
+    '  if (!PACKS.some(pack => pack.id === selectedPackId)) selectedPackId = PACKS[0].id;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    '\r\n' +
+    "const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1310';\r\n" +
+    'let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null,burningCountdownTimer=null,burningExpiryRefreshPending=false,burningServerOffsetMs=0;\r\n' +
+    'function burningEventFingerprint(state={}){\r\n' +
+    "  return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.endsAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),1,Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);\r\n" +
+    '}\r\n' +
+    "function syncBurningServerClock(value){const serverTime=Date.parse(String(value||''));if(Number.isFinite(serverTime))burningServerOffsetMs=serverTime-Date.now()}\r\n" +
+    'function burningClientNow(){return Date.now()+burningServerOffsetMs}\r\n' +
+    "function burningRemainingMs(state=burningEventState){const end=Date.parse(String(state?.endsAt||''));return Number.isFinite(end)?end-burningClientNow():NaN}\r\n" +
+    'function burningEventIsActive(state=burningEventState){return state?.enabled===true&&Number.isFinite(burningRemainingMs(state))&&burningRemainingMs(state)>0}\r\n' +
+    "function burningMode(){return burningEventIsActive()?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}\r\n" +
+    'function burningEventNumbers(){\r\n' +
+    '  return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0)),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))};\r\n' +
+    '}\r\n' +
+    "function burningMultiplierText(value){const number=Number(value||1);return Number.isInteger(number)?String(number):number.toFixed(2).replace(/0+$/,'').replace(/\\.$/,'')}\r\n" +
+    'function burningRemainingText(){\r\n' +
+    "  const remain=burningRemainingMs();if(!Number.isFinite(remain)||remain<=0)return '종료 확인 중';\r\n" +
+    '  const total=Math.max(0,Math.ceil(remain/1000)),hours=Math.floor(total/3600),minutes=Math.floor(total%3600/60),seconds=total%60;\r\n' +
+    "  return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')} 남음`;\r\n" +
+    '}\r\n' +
+    'function burningEventHudMarkup(){\r\n' +
+    "  if(!burningEventIsActive())return '';\r\n" +
+    "  const extreme=burningMode()==='EXTREME',miracle=burningMode()==='MIRACLE',hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers(),modeLabel=extreme?'EXTREME BURNING':miracle?'MIRACLE BURNING':hyper?'HYPER BURNING':'BURNING';\r\n" +
+    '  return `<section id="burningEventHud" class="burning-event-hud ${extreme?\'is-extreme\':miracle?\'is-miracle\':hyper?\'is-hyper\':\'is-burning\'}" aria-label="${modeLabel} 이벤트 진행 중"><button type="button" class="burning-event-hud-trigger" data-burning-event-details aria-haspopup="dialog"><span class="burning-event-hud-ident"><i aria-hidden="true">${extreme?\'EX\':miracle?\'MB\':hyper?\'HB\':\'B\'}</i><span><small>LIVE EVENT</small><strong>${modeLabel}</strong></span></span><span class="burning-event-hud-boost"><small>COIN BOOST</small><b>×${burningMultiplierText(coins)}</b></span><span class="burning-event-hud-stats">${extreme?\'<em><small>드랍 확률</small><b>×2</b></em><em><small>토벌 회복</small><b>+1</b></em>\':`<em><small>PVE</small><b>${pve}</b></em><em><small>PVP</small><b>${pvp}</b></em><em><small>RECHARGE</small><b>${minutes}<i>분</i></b></em>`}</span><span class="burning-event-hud-open"><small data-burning-countdown>${burningRemainingText()}</small><b>상세보기 <i aria-hidden="true"'... 770817 more characters
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/Downloads/upload/cnine-card/operations/coin-100quadrillion-20261106/source/tests/pve-sweep-v1989.test.mjs:265:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'const app = document.getElementById(\'app\');\r\nlet pendingPlaydkVerificationToken=\'\';\r\ntry{\r\n  const startupUrl=new URL(location.href),token=String(startupUrl.searchParams.get(\'token\')||\'\').trim();\r\n  if(token){\r\n    pendingPlaydkVerificationToken=token.slice(0,2048);\r\n    startupUrl.searchParams.delete(\'token\');\r\n    history.replaceState(history.state,\'\',`${startupUrl.pathname}${startupUrl.search}${startupUrl.hash}`);\r\n  }\r\n}catch(_){pendingPlaydkVerificationToken=\'\'}\r\nconst STORAGE_KEY = \'cnine_card_user_v10\';\r\nconst LEGACY_STORAGE_KEYS = [\'cnine_card_user_v08\', \'cnine_card_user\'];\r\nconst TEST_COIN = 5000;\r\nlet cards = [];\r\n// V1797: 다른 스크립트(전투 로스터 등)가 "도감에 보이는 그대로의 카드"를 찾아 쓸 수 있게 노출한다.\r\n// 전투 페이로드의 card.image 는 전투 아트 어댑터가 SD 스프라이트로 바꿔치기하므로 그대로 쓰면 안 된다.\r\nwindow.cnineCardCatalog = () => cards;\r\nlet selectedPackId = \'advanced\';\r\nlet burningEventState={mode:\'NONE\',theme:\'RED\',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,title:\'리버스콜 버닝이 발동 되었습니다\',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};\r\n// 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.\r\nlet magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};\r\nconst magicUiState={deckType:\'PVE\',selectedSlot:1};\r\n\r\nconst gradeOrder = { ICON:14, SUPERSTAR:13, ZENITH:12, FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };\r\nconst ZENITH_DECK_LIMIT = 2;\r\nconst ICON_DECK_LIMIT = 2;\r\nconst SUPERSTAR_DECK_LIMIT = 1;\r\nconst DEFAULT_DECK_GRADE_LIMITS = Object.freeze({ PRESTIGE: 2, FUR: 2, ZENITH: ZENITH_DECK_LIMIT, SUPERSTAR: SUPERSTAR_DECK_LIMIT, ICON: ICON_DECK_LIMIT });\r\nconst DEFAULT_HEALER_PENALTIES = Object.freeze({ 2: 60, 3: 75, 4: 85, 5: 90 });\r\nconst FAKER_CHAMPIONSHIP_CARD_ID = \'CN-0B48C6FF8F9B4AC5\';\r\nconst FAKER_FLAT_POWER_BONUS = 3000;\r\nconst gradeScore = { SUPERSTAR:12000, ZENITH:8000, FUR: 5000, PRESTIGE:3100, LIMITED:3000, MA:1500, SSR:500, UR:200, HR:100, SR:50, R:20, U:5, C:1 };\r\nconst baseRates = { FUR: 0, MA: 0, SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };\r\nconst shardReward = { SUPERSTAR:600, ZENITH:400, FUR:250, PRESTIGE:220, LIMITED:180, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };\r\nconst breakthroughCosts = [50,100,200,350,550,800,1100,1450,1850,2300,3000,3800,4800];\r\nconst breakthroughRates = [100,100,100,80,65,50,35,25,15,8,5,3,1];\r\nconst breakthroughMinGrade = \'SR\';\r\n\r\nlet PACKS = [\r\n  {\r\n    id: \'advanced\', name: \'고급 카드팩\', subtitle: \'ADVANCED PACK\', theme: \'advanced\',\r\n    description: \'커먼을 제외한 U 이상 카드팩\', range: \'U ~ FUR\', price: 25,\r\n    allowed: [\'U\',\'R\',\'SR\',\'HR\',\'UR\',\'SSR\',\'MA\',\'FUR\'], guarantee10: \'SR\', guarantee20: \'HR\'\r\n  },\r\n  {\r\n    id: \'pickup\', name: \'리미티드팩\', subtitle: \'LIMITED PACK\', theme: \'pickup\',\r\n    description: \'별도 확률로 한정판 카드 등장\', range: \'C ~ FUR + LIMITED\', price: 30,\r\n    allowed: [\'C\',\'U\',\'R\',\'SR\',\'HR\',\'UR\',\'SSR\',\'MA\',\'FUR\',\'LIMITED\'], guarantee10: \'R\', guarantee20: \'SR\', limitedRate: 1\r\n  },\r\n  {\r\n    id: \'superstar\', name: \'슈퍼스타팩\', subtitle: \'SUPERSTAR CHAMPIONSHIP PACK\', theme: \'superstar\',\r\n    description: \'1회 1장 판정 · SUPERSTAR 10% · 꽝 90%\', range: \'SUPERSTAR 10% · 꽝 90%\', price: 300000000,\r\n    allowed: [\'SUPERSTAR\'], guarantee10: null, guarantee20: null, drawMode: \'SUPERSTAR_CHANCE\', drawEnabled: false,\r\n    ownerDrawEnabled: true, maxDrawCount: 10000, bulkDrawCounts: [1000,10000], successRate: 10, missRate: 90, imageUrl: \'assets/ui/packs/reverse-call-20261016/superstar-768.webp\', revealMode: \'SWIPE\'\r\n  }\r\n];\r\n\r\nfunction packRangeFromAllowed(allowed = []) {\r\n  const ordered = [\'C\',\'U\',\'R\',\'SR\',\'HR\',\'UR\',\'SSR\',\'MA\',\'FUR\',\'ZENITH\',\'SUPERSTAR\'];\r\n  const normal = ordered.filter(g => allowed.includes(g));\r\n  if (!normal.length) return allowed.includes(\'LIMITED\') ? \'LIMITED\' : \'-\';\r\n  const base = normal.length === 1 ? normal[0] : `${normal[0]} ~ ${normal.at(-1)}`;\r\n  return allowed.includes(\'LIMITED\') ? `${base} + LIMITED` : base;\r\n}\r\n\r\nfunction applyServerPacks(rows = []) {\r\n  if (!Array.isArray(rows) || !rows.length) return;\r\n  PACKS = rows.filter(row => row&&![\'basic\',\'premium\',\'hyper\',\'halloween\',\'mercenary-halloween-ss-limited\'].includes(String(row.id))).map(row => {\r\n    let allowed = row.allowed;\r\n    if (!Array.isArray(allowed)) {\r\n      try { allowed = JSON.parse(row.allowed_rarities || \'[]\'); } catch { allowed = []; }\r\n    }\r\n    return {\r\n      id: String(row.id),\r\n      name: row.name || \'카드팩\',\r\n      subtitle: row.subtitle || \'CARD PACK\',\r\n      theme: row.theme || \'basic\',\r\n      description: row.description || \'\',\r\n      range: row.range || packRangeFromAllowed(allowed),\r\n      price: Math.max(0, Number(row.originalPrice??row.price) || 0),\r\n      prices: row.prices || null,\r\n      originalPrice: Math.max(0, Number(row.originalPrice??row.price) || 0),\r\n      burningDiscountPercent:0,\r\n      allowed,\r\n      guarantee10: row.guarantee10 || row.guarantee_10 || \'R\',\r\n      guarantee20: row.guarantee20 || row.guarantee_20 || \'SR\',\r\n      limitedRate: Number(row.limitedRate || row.limited_rate || 0) || 0,\r\n      drawMode: row.drawMode || row.draw_mode || \'STANDARD\',\r\n      drawEnabled: row.drawEnabled === undefined ? Number(row.draw_enabled ?? 1) !== 0 : row.drawEnabled === true,\r\n      ownerDrawEnabled: row.ownerDrawEnabled === undefined ? row.owner_draw_enabled === true : row.ownerDrawEnabled === true,\r\n      maxDrawCount: Math.max(1, Number(row.maxDrawCount || row.max_draw_count || 100)),\r\n      bulkDrawCounts: String(row.id)===\'superstar\'&&Array.isArray(row.bulkDrawCounts)?[1000,10000].filter(count=>row.bulkDrawCounts.includes(count)):[],\r\n      successRate: Number(row.successRate || row.success_rate || 0),\r\n      missRate: Number(row.missRate || row.miss_rate || 0),\r\n      imageUrl: row.imageUrl || row.image_url || \'\',\r\n      previewCards: Array.isArray(row.previewCards) ? row.previewCards : [],\r\n      revealMode: row.revealMode || row.reveal_mode || \'STANDARD\'\r\n    };\r\n  });\r\n  const order = [\'advanced\',\'pickup\',\'ultimate\',\'superstar\'];\r\n  PACKS.sort((a,b)=>(order.includes(a.id)?order.indexOf(a.id):order.length)-(order.includes(b.id)?order.indexOf(b.id):order.length));\r\n  if (!PACKS.some(pack => pack.id === selectedPackId)) selectedPackId = PACKS[0].id;\r\n}\r\n\r\n\r\nconst BURNING_EVENT_SYNC_KEY=\'cnine:burning-event-sync-v1310\';\r\nlet burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null,burningCountdownTimer=null,burningExpiryRefreshPending=false,burningServerOffsetMs=0;\r\nfunction burningEventFingerprint(state={}){\r\n  return JSON.stringify([String(state.mode||\'NONE\'),String(state.theme||\'\'),state.enabled===true,Number(state.generation||0),String(state.activatedAt||\'\'),String(state.updatedAt||\'\'),String(state.endsAt||\'\'),String(state.title||\'\'),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),1,Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);\r\n}\r\nfunction syncBurningServerClock(value){const serverTime=Date.parse(String(value||\'\'));if(Number.isFinite(serverTime))burningServerOffsetMs=serverTime-Date.now()}\r\nfunction burningClientNow(){return Date.now()+burningServerOffsetMs}\r\nfunction burningRemainingMs(state=burningEventState){const end=Date.parse(String(state?.endsAt||\'\'));return Number.isFinite(end)?end-burningClientNow():NaN}\r\nfunction burningEventIsActive(state=burningEventState){return state?.enabled===true&&Number.isFinite(burningRemainingMs(state))&&burningRemainingMs(state)>0}\r\nfunction burningMode(){return burningEventIsActive()?String(burningEventState.mode||\'BURNING\').toUpperCase():\'NONE\'}\r\nfunction burningEventNumbers(){\r\n  return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0)),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))};\r\n}\r\nfunction burningMultiplierText(value){const number=Number(value||1);return Number.isInteger(number)?String(number):number.toFixed(2).replace(/0+$/,\'\').replace(/\\.$/,\'\')}\r\nfunction burningRemainingText(){\r\n  const remain=burningRemainingMs();if(!Number.isFinite(remain)||remain<=0)return \'종료 확인 중\';\r\n  const total=Math.max(0,Math.ceil(remain/1000)),hours=Math.floor(total/3600),minutes=Math.floor(total%3600/60),seconds=total%60;\r\n  return `${String(hours).padStart(2,\'0\')}:${String(minutes).padStart(2,\'0\')}:${String(seconds).padStart(2,\'0\')} 남음`;\r\n}\r\nfunction burningEventHudMarkup(){\r\n  if(!burningEventIsActive())return \'\';\r\n  const extreme=burningMode()===\'EXTREME\',miracle=burningMode()===\'MIRACLE\',hyper=burningMode()===\'HYPER\',{pve,pvp,minutes,coins}=burningEventNumbers(),modeLabel=extreme?\'EXTREME BURNING\':miracle?\'MIRACLE BURNING\':hyper?\'HYPER BURNING\':\'BURNING\';\r\n  return `<section id="burningEventHud" class="burning-event-hud ${extreme?\'is-extreme\':miracle?\'is-miracle\':hyper?\'is-hyper\':\'is-burning\'}" aria-label="${modeLabel} 이벤트 진행 중"><button type="button" class="burning-event-hud-trigger" data-burning-event-details aria-haspopup="dialog"><span class="burning-event-hud-ident"><i aria-hidden="true">${extreme?\'EX\':miracle?\'MB\':hyper?\'HB\':\'B\'}</i><span><small>LIVE EVENT</small><strong>${modeLabel}</strong></span></span><span class="burning-event-hud-boost"><small>COIN BOOST</small><b>×${burningMultiplierText(coins)}</b></span><span class="burning-event-hud-stats">${extreme?\'<em><small>드랍 확률</small><b>×2</b></em><em><small>토벌 회복</small><b>+1</b></em>\':`<em><small>PVE</small><b>${pve}</b></em><em><small>PVP</small><b>${pvp}</b></em><em><small>RECHARGE</small><b>${minutes}<i>분</i></b></em>`}</span><span class="burning-event-hud-open"><small data-burning-countdown>${burningRemainingText()}</small><b>상세보기 <i aria-hidden="true"'... 770817 more characters,
+    expected: /js\/battle-v2-live\.js\?v=1991-sweep-result-front/,
+    operator: 'match',
+    diff: 'simple'
+  }

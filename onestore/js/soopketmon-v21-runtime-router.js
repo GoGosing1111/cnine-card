@@ -2,6 +2,7 @@
   'use strict';
 
   const SHELL_ROUTES = Object.freeze([
+    'hideout',
     'season',
     'buy',
     'dex',
@@ -46,6 +47,7 @@
   // Every alias below resolves to an existing production route, injected PVE
   // entry, or overlay. No production view/binder is replaced by this adapter.
   const ROUTE_CONTRACT = Object.freeze({
+    hideout: Object.freeze({ shell: 'hideout' }),
     season: Object.freeze({ shell: 'season' }),
     buy: { shell: 'buy' },
     lootShop: Object.freeze({ href: '/loot-shop/' }),

@@ -1,0 +1,3193 @@
+{
+  "reports": [
+    {
+      "profile": "pc",
+      "variant": "after",
+      "hideoutFirstMs": 258.41640000000007,
+      "hideoutIdleFrames": {
+        "frames": 233,
+        "p95": 4.300000000000182,
+        "max": 33.40000000000009,
+        "over50": 0
+      },
+      "workbenchWidth": 358.5,
+      "panFrames": {
+        "frames": 248,
+        "p95": 20.700000000000273,
+        "max": 29.200000000000273,
+        "over50": 0
+      },
+      "dragInput": "mouse pointer",
+      "hideoutDragFrames": {
+        "frames": 287,
+        "p95": 4.400000000000546,
+        "max": 12.599999999999454,
+        "over50": 0
+      },
+      "hideoutCabinetFrames": {
+        "frames": 303,
+        "p95": 4.300000000000182,
+        "max": 12.899999999999636,
+        "over50": 0
+      },
+      "hideoutExitRequests": 0,
+      "hideoutReentryMs": 79.38630000000012,
+      "residences": [
+        {
+          "tier": 1,
+          "width": 1793,
+          "viewport": 920,
+          "workbenchWidth": 358.5
+        },
+        {
+          "tier": 2,
+          "width": 2390,
+          "viewport": 920,
+          "workbenchWidth": 358.5
+        },
+        {
+          "tier": 3,
+          "width": 2988,
+          "viewport": 920,
+          "workbenchWidth": 358.5
+        },
+        {
+          "tier": 4,
+          "width": 3585,
+          "viewport": 920,
+          "workbenchWidth": 358.5
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "profile": "android-emulated",
+      "variant": "after",
+      "hideoutFirstMs": 341.5727000000006,
+      "hideoutIdleFrames": {
+        "frames": 238,
+        "p95": 4.300000000000182,
+        "max": 12.5,
+        "over50": 0
+      },
+      "workbenchWidth": 268.5,
+      "panFrames": {
+        "frames": 254,
+        "p95": 12.600000000000364,
+        "max": 25,
+        "over50": 0
+      },
+      "dragInput": "Chromium CDP touch",
+      "hideoutDragFrames": {
+        "frames": 294,
+        "p95": 4.300000000000182,
+        "max": 16.600000000000364,
+        "over50": 0
+      },
+      "hideoutCabinetFrames": {
+        "frames": 306,
+        "p95": 4.300000000000182,
+        "max": 12.5,
+        "over50": 0
+      },
+      "hideoutExitRequests": 0,
+      "hideoutReentryMs": 64.39730000000054,
+      "residences": [
+        {
+          "tier": 1,
+          "width": 1343,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 2,
+          "width": 1790,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 3,
+          "width": 2238,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 4,
+          "width": 2685,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "profile": "iphone-webkit-emulated",
+      "variant": "after",
+      "hideoutFirstMs": 477.3272999999972,
+      "hideoutIdleFrames": {
+        "frames": 59,
+        "p95": 30,
+        "max": 30,
+        "over50": 0
+      },
+      "workbenchWidth": 268.5,
+      "panFrames": {
+        "frames": 71,
+        "p95": 31,
+        "max": 66,
+        "over50": 1
+      },
+      "dragInput": "mouse pointer",
+      "hideoutDragFrames": {
+        "frames": 70,
+        "p95": 32,
+        "max": 54,
+        "over50": 1
+      },
+      "hideoutCabinetFrames": {
+        "frames": 81,
+        "p95": 30,
+        "max": 59,
+        "over50": 1
+      },
+      "hideoutExitRequests": 0,
+      "hideoutReentryMs": 183.8657000000021,
+      "residences": [
+        {
+          "tier": 1,
+          "width": 1343,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 2,
+          "width": 1790,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 3,
+          "width": 2238,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 4,
+          "width": 2685,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "profile": "onestore-h5-emulated",
+      "variant": "after",
+      "hideoutFirstMs": 438.2214000000022,
+      "hideoutIdleFrames": {
+        "frames": 236,
+        "p95": 4.300000000000182,
+        "max": 20.800000000000182,
+        "over50": 0
+      },
+      "workbenchWidth": 268.5,
+      "panFrames": {
+        "frames": 271,
+        "p95": 8.400000000000546,
+        "max": 24.899999999999636,
+        "over50": 0
+      },
+      "dragInput": "Chromium CDP touch",
+      "hideoutDragFrames": {
+        "frames": 296,
+        "p95": 4.300000000001091,
+        "max": 12.5,
+        "over50": 0
+      },
+      "hideoutCabinetFrames": {
+        "frames": 307,
+        "p95": 4.299999999999272,
+        "max": 12.5,
+        "over50": 0
+      },
+      "hideoutExitRequests": 0,
+      "hideoutReentryMs": 77.33249999998952,
+      "residences": [
+        {
+          "tier": 1,
+          "width": 1343,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 2,
+          "width": 1790,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 3,
+          "width": 2238,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        },
+        {
+          "tier": 4,
+          "width": 2685,
+          "viewport": 348,
+          "workbenchWidth": 268.5
+        }
+      ],
+      "overflow": false
+    }
+  ],
+  "traffic": [
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.14899999999988722
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.18560000000024957
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.052000000000134605
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01960000000008222
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02599999999983993
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019200000000182627
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.04289999999991778
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021300000000337604
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02070000000003347
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020899999999983265
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01859999999987849
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.024800000000141154
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022399999999834108
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007299999999759166
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023500000000240107
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02040000000033615
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0239000000001397
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016899999999623105
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01239999999961583
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011300000000119326
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02999999999974534
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011800000000221189
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.02099999999973079
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0158000000001266
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018199999999524152
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014500000000225555
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01870000000053551
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013199999999415013
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020099999999729334
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01900000000023283
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023599999999532884
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 8.098899999999958
+    },
+    {
+      "variant": "after",
+      "path": "clan/war/ready-alert",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02070000000003347
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.039399999999659485
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019699999999829743
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.02510000000074797
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02779999999984284
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 5.811200000000099
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019500000000334694
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01989999999932479
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.886099999999715
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.023999999999432475
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016999999999825377
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophies",
+      "method": "GET",
+      "status": 200,
+      "ms": 16.80789999999979
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 4.970400000000154
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01389999999992142
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 5.322200000000521
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 4.220200000001569
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022700000001350418
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.2981999999992695
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.0740999999998166
+    },
+    {
+      "variant": "after",
+      "path": "hideout/expand",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.360399999999572
+    },
+    {
+      "variant": "after",
+      "path": "hideout/decorate",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.7661000000007334
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01959999999962747
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.6530000000002474
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01900000000023283
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017299999999522697
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.006500000001324224
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.006199999999807915
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0239000000001397
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022200000001248554
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 1.998700000000099
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017400000000634464
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.7764999999999418
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.8971000000001368
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.803699999998571
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023499999999330612
+    },
+    {
+      "variant": "after",
+      "path": "pvp/config",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02510000000074797
+    },
+    {
+      "variant": "after",
+      "path": "magic/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010700000000724685
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010200000000622822
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021199999999225838
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.8708000000005995
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020899999999528518
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011699999999109423
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010400000002846355
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011100000003352761
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017700000000331784
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.020599999999831198
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020399999997607665
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018299999999726424
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02149999999892316
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019700000000739237
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.039099999998143176
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.015200000001641456
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0027000000009138603
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021199999999225838
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01929999999993015
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007900000000518048
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.008300000001327135
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007799999999406282
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018000000000029104
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.024099999998725252
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02079999999841675
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011400000003050081
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011599999997997656
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013800000000628643
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023199999999633292
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0038000000022293534
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.02260000000023865
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011399999999412103
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.015800000001036096
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019400000001041917
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011200000000826549
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017700000000331784
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01810000000114087
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018299999999726424
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02140000000144937
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01959999999962747
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.023600000000442378
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02200000000084401
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013600000002043089
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01840000000083819
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019499999998515705
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.004300000000512227
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018299999999726424
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0030000000006111804
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018299999999726424
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013400000003457535
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010900000001129229
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012400000003253808
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007999999997991836
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01989999999932479
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018000000000029104
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01900000000023283
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010800000000017462
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009000000001833541
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.008299999997689156
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018499999998311978
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.004400000001623994
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.03589999999894644
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01209999999991851
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.008999999998195563
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01989999999932479
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02140000000144937
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014400000000023283
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01959999999962747
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014400000000023283
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01929999999993015
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 2.419799999999668
+    },
+    {
+      "variant": "after",
+      "path": "clan/war/ready-alert",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018799999998009298
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022700000001350418
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.00969999999870197
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.019100000001344597
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013499999997293344
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.4592999999986205
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022500000002764864
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.7941999999966356
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.01779999999780557
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013399999999819556
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018599999999423744
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophies",
+      "method": "GET",
+      "status": 200,
+      "ms": 1.8958000000020547
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 3.832800000000134
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.775999999998021
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.706399999999121
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014699999999720603
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.094099999998434
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.741600000001199
+    },
+    {
+      "variant": "after",
+      "path": "hideout/expand",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.0771999999997206
+    },
+    {
+      "variant": "after",
+      "path": "hideout/decorate",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.6474999999991269
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020000000000436557
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.0815999999977066
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01959999999962747
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009000000001833541
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007499999999708962
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019799999998213025
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020400000001245644
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018800000001647277
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 1.614000000001397
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018599999999423744
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 1.030800000000454
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.01900000000023283
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017899999998917338
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.8507000000026892
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.9913000000015018
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023799999999027932
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.5846999999994296
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02110000000175205
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011299999998300336
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010400000002846355
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018899999995483086
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.020700000000942964
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023499999995692633
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012499999997089617
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012600000001839362
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016999999999825377
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.004099999998288695
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02320000000327127
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0031000000017229468
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01840000000083819
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010800000003655441
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009599999997590203
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007599999997182749
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007600000004458707
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01900000000023283
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023600000000442378
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022199999999429565
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010399999999208376
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013700000003154855
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.008600000001024455
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016100000000733417
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.003599999996367842
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.020400000001245644
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.015200000001641456
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.024900000003981404
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01810000000114087
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007599999997182749
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011300000005576294
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018900000002759043
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014900000001944136
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017400000004272442
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021800000002258457
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.013700000003154855
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014299999995273538
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010399999999208376
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018599999995785765
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0026999999972758815
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012899999994260725
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.002300000000104774
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.029699999999138527
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014900000001944136
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009799999999813735
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.00879999999597203
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01929999999993015
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02719999999681022
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.13070000000152504
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011500000000523869
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009400000002642628
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.008399999998800922
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018300000003364403
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007299999997485429
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0026999999972758815
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012299999994866084
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02419999999983702
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.017700000003969762
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018800000005285256
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01870000000053551
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009299999997892883
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009400000002642628
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021899999999732245
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01900000000023283
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019199999995180406
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021800000002258457
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 2.067699999999604
+    },
+    {
+      "variant": "after",
+      "path": "clan/war/ready-alert",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022199999999429565
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016999999999825377
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02290000000357395
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.022200000006705523
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023000000001047738
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.9254000000000815
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.021300000000337604
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.026300000004994217
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02530000000115251
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02449999999953434
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.2202999999935855
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022499999999126885
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophies",
+      "method": "GET",
+      "status": 200,
+      "ms": 2.0993000000016764
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 3.5178000000014435
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021999999997206032
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 3.526499999999942
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.024399999994784594
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 3.8726999999998952
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021399999997811392
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.2439999999987776
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.025900000000547152
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.7598999999972875
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01999999999679858
+    },
+    {
+      "variant": "after",
+      "path": "hideout/expand",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.41030000000319
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021600000000034925
+    },
+    {
+      "variant": "after",
+      "path": "hideout/decorate",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.1506999999983236
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02119999999558786
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.5947999999989406
+    },
+    {
+      "variant": "after",
+      "path": "pvp/config",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02079999999841675
+    },
+    {
+      "variant": "after",
+      "path": "magic/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011700000002747402
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023000000001047738
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01939999999740394
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.021399999997811392
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022199999999429565
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.026499999999941792
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014400000000023283
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010099999999511056
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018600000003061723
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 1.4301999999952386
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.024600000004284084
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.9980999999970663
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.2580000000016298
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01989999999932479
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.486400000001595
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.026900000004388858
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.6981999999989057
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022499999999126885
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020700000000942964
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011400000003050081
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01029999999445863
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.034299999999348074
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.016499999997904524
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.00990000000456348
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010300000001734588
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009200000000419095
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.022700000001350418
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.005999999993946403
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017299999999522697
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010899999993853271
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.002099999997881241
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02089999999589054
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012199999997392297
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020600000003469177
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011099999996076804
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007900000004156027
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01900000000023283
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014600000002246816
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.027099999999336433
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012600000001839362
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010300000001734588
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010899999993853271
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.008099999999103602
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0034999999988940544
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018199999998614658
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014800000004470348
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009799999999813735
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02019999999902211
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013099999996484257
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.019800000001851004
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020000000004074536
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021399999997811392
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017899999998917338
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0026999999972758815
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01329999999870779
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0011000000013154931
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01479999999719439
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01989999999932479
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.006300000000919681
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019099999997706618
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.09870000000228174
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020900000003166497
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.006300000000919681
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016499999997904524
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014699999999720603
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018300000003364403
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.006699999998090789
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019100000004982576
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009400000002642628
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.006000000001222361
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.00789999999688007
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.0062000000034458935
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012200000004668254
+    },
+    {
+      "variant": "after",
+      "path": "messages",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012900000001536682
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009200000000419095
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014400000000023283
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011900000004970934
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018900000002759043
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01449999999749707
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01780000000144355
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 3.0769000000000233
+    },
+    {
+      "variant": "after",
+      "path": "clan/war/ready-alert",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018599999995785765
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.04869999999937136
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01750000000174623
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.017100000004575122
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.006699999998091
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017099999997299165
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.8607000000047265
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophies",
+      "method": "GET",
+      "status": 200,
+      "ms": 1.4004999999888241
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.823000000003958
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.293600000004517
+    },
+    {
+      "variant": "after",
+      "path": "hideout/trophy",
+      "method": "POST",
+      "status": 200,
+      "ms": 2.614799999995739
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.017699999996693805
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02070000000821892
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.975399999995716
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.134200000000419
+    },
+    {
+      "variant": "after",
+      "path": "hideout/expand",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.501300000003539
+    },
+    {
+      "variant": "after",
+      "path": "hideout/decorate",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.8300000000017462
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.023700000005192123
+    },
+    {
+      "variant": "after",
+      "path": "hideout/arrange",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.616200000004028
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017099999997299165
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012000000002444722
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.009200000000419095
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01849999999103602
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016499999997904524
+    },
+    {
+      "variant": "after",
+      "path": "pvp/config",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.015500000008614734
+    },
+    {
+      "variant": "after",
+      "path": "magic/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.00990000000456348
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.02079999999841675
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016899999987799674
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 1.6250999999901978
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016400000007706694
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.8254000000015367
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.358699999997043
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.2299000000057276
+    },
+    {
+      "variant": "after",
+      "path": "hideout/upgrade",
+      "method": "POST",
+      "status": 200,
+      "ms": 1.3607999999949243
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016700000007404014
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010600000008707866
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0062000000034458935
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.015500000008614734
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.017699999996693805
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01870000000053551
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0102000000042608
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014599999994970858
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0028000000020256266
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014200000005075708
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0019000000029336661
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01780000000144355
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0102000000042608
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020399999993969686
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010899999993853271
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.00789999999688007
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014500000004773028
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01810000000114087
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014699999999720603
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021700000012060627
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012400000006891787
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010900000008405186
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01690000000235159
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.002299999992828816
+    },
+    {
+      "variant": "after",
+      "path": "messages",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019400000004679896
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01579999999376014
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.04290000000037253
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01999999998952262
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01860000001033768
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01830000001064036
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010899999993853271
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.019400000004679896
+    }
+  ],
+  "errors": [
+    {
+      "profile": "iphone-webkit-emulated",
+      "variant": "after",
+      "error": "ResizeObserver loop completed with undelivered notifications."
+    },
+    {
+      "profile": "iphone-webkit-emulated",
+      "variant": "after",
+      "error": "ResizeObserver loop completed with undelivered notifications."
+    }
+  ],
+  "missing": [],
+  "condition": "Windows headless Chrome/WebKit; mobile and H5 emulation; localhost assets, isolated SQLite handlers; no real device or production account writes"
+}

@@ -1,0 +1,411 @@
+{
+  "reports": [
+    {
+      "profile": "pc",
+      "variant": "after",
+      "loadTimings": [
+        {
+          "resources": [
+            {
+              "path": "/css/personal-hideout-v1.css",
+              "duration": 7.699999988079071,
+              "serverWait": 1.2999999821186066,
+              "transferSize": 13509,
+              "decodedBodySize": 13209
+            },
+            {
+              "path": "/js/personal-hideout-v1.js",
+              "duration": 8.5,
+              "serverWait": 2,
+              "transferSize": 26976,
+              "decodedBodySize": 26676
+            },
+            {
+              "path": "/api/hideout",
+              "duration": 9.300000011920929,
+              "serverWait": 7.200000017881393,
+              "transferSize": 9239,
+              "decodedBodySize": 8939
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/residence-luxury.webp",
+              "duration": 6.5,
+              "serverWait": 1.9000000059604645,
+              "transferSize": 77294,
+              "decodedBodySize": 76994
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/furniture-fridge.webp",
+              "duration": 7.300000011920929,
+              "serverWait": 2.9000000059604645,
+              "transferSize": 15978,
+              "decodedBodySize": 15678
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/furniture-armory.webp",
+              "duration": 8.700000017881393,
+              "serverWait": 3.199999988079071,
+              "transferSize": 32032,
+              "decodedBodySize": 31732
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/furniture-lamp.webp",
+              "duration": 9.5,
+              "serverWait": 4.0999999940395355,
+              "transferSize": 10542,
+              "decodedBodySize": 10242
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/trophy-stand.webp",
+              "duration": 10.600000023841858,
+              "serverWait": 4.9000000059604645,
+              "transferSize": 30780,
+              "decodedBodySize": 30480
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/furniture-garage.webp",
+              "duration": 11.399999976158142,
+              "serverWait": 5.5999999940395355,
+              "transferSize": 44518,
+              "decodedBodySize": 44218
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/furniture-sofa.webp",
+              "duration": 17.399999976158142,
+              "serverWait": 4.4000000059604645,
+              "transferSize": 17814,
+              "decodedBodySize": 17514
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/part-steel.webp",
+              "duration": 11.799999982118607,
+              "serverWait": 5.800000011920929,
+              "transferSize": 17334,
+              "decodedBodySize": 17034
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/part-wire.webp",
+              "duration": 12.799999982118607,
+              "serverWait": 5.9000000059604645,
+              "transferSize": 16482,
+              "decodedBodySize": 16182
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/part-circuit.webp",
+              "duration": 13.5,
+              "serverWait": 5.199999988079071,
+              "transferSize": 15102,
+              "decodedBodySize": 14802
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/part-coolant.webp",
+              "duration": 14.099999994039536,
+              "serverWait": 5.199999988079071,
+              "transferSize": 15710,
+              "decodedBodySize": 15410
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/part-drive.webp",
+              "duration": 14.900000005960464,
+              "serverWait": 5,
+              "transferSize": 15754,
+              "decodedBodySize": 15454
+            },
+            {
+              "path": "/assets/ui/personal-hideout-20261116/part-core.webp",
+              "duration": 15.800000011920929,
+              "serverWait": 4.9000000059604645,
+              "transferSize": 18152,
+              "decodedBodySize": 17852
+            }
+          ],
+          "longTasks": []
+        },
+        {
+          "resources": [
+            {
+              "path": "/api/hideout",
+              "duration": 9.200000017881393,
+              "serverWait": 2.5,
+              "transferSize": 9239,
+              "decodedBodySize": 8939
+            }
+          ],
+          "longTasks": []
+        }
+      ],
+      "hideoutFirstMs": 130.45409999999993,
+      "hideoutIdleFrames": {
+        "frames": 237,
+        "p95": 4.2999999999999545,
+        "max": 20.700000000000045,
+        "over50": 0
+      },
+      "hideoutReentryMs": 74.55010000000038
+    }
+  ],
+  "traffic": [
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.17020000000002256
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.038399999999910506
+    },
+    {
+      "variant": "after",
+      "path": "service/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01749999999992724
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012299999999868305
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011899999999968713
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.012500000000045475
+    },
+    {
+      "variant": "after",
+      "path": "cards",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01700000000005275
+    },
+    {
+      "variant": "after",
+      "path": "packs",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.006899999999859574
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016200000000026193
+    },
+    {
+      "variant": "after",
+      "path": "pve/v3/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011799999999993815
+    },
+    {
+      "variant": "after",
+      "path": "mercenary-cards/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.010300000000142973
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013799999999946522
+    },
+    {
+      "variant": "after",
+      "path": "card/unique-advancement/feature",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.008599999999887586
+    },
+    {
+      "variant": "after",
+      "path": "burning-event/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.005999999999858119
+    },
+    {
+      "variant": "after",
+      "path": "streamer-profiles",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016300000000228465
+    },
+    {
+      "variant": "after",
+      "path": "me/menu-favorites",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.020899999999983265
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01650000000017826
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01209999999991851
+    },
+    {
+      "variant": "after",
+      "path": "live-operations",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.0067000000003645255
+    },
+    {
+      "variant": "after",
+      "path": "chief/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007500000000163709
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014500000000225555
+    },
+    {
+      "variant": "after",
+      "path": "me/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.007700000000113505
+    },
+    {
+      "variant": "after",
+      "path": "loot-shop/balance",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01319999999986976
+    },
+    {
+      "variant": "after",
+      "path": "auction/user/lobby",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.011600000000271393
+    },
+    {
+      "variant": "after",
+      "path": "me/collection",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.015199999999822467
+    },
+    {
+      "variant": "after",
+      "path": "shell/summary",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01209999999991851
+    },
+    {
+      "variant": "after",
+      "path": "user/runtime-command",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.018099999999776628
+    },
+    {
+      "variant": "after",
+      "path": "sync/ticket",
+      "method": "POST",
+      "status": 200,
+      "ms": 0.015199999999822467
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 5.557999999999993
+    },
+    {
+      "variant": "after",
+      "path": "sync/stream",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.016499999999723514
+    },
+    {
+      "variant": "after",
+      "path": "clan/war/ready-alert",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01139999999986685
+    },
+    {
+      "variant": "after",
+      "path": "clan/faction/alerts",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.014899999999670399
+    },
+    {
+      "variant": "after",
+      "path": "account-rank/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.013100000000122236
+    },
+    {
+      "variant": "after",
+      "path": "chief/extension-notice",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.017000000000280124
+    },
+    {
+      "variant": "after",
+      "path": "jokgak-city/notifications",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.021000000000185537
+    },
+    {
+      "variant": "after",
+      "path": "rank-exp-potion/status",
+      "method": "GET",
+      "status": 200,
+      "ms": 0.01919999999972788
+    },
+    {
+      "variant": "after",
+      "path": "hideout",
+      "method": "GET",
+      "status": 200,
+      "ms": 2.03670000000011
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "condition": "Windows headless Chrome/WebKit; mobile and H5 emulation; localhost assets, isolated SQLite handlers; no real device or production account writes"
+}

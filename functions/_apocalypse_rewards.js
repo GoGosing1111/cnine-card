@@ -1,4 +1,4 @@
-import {seasonAwardStatements} from './_season_s1.js';
+import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {supplyBoxSettings} from './_equipment.js';
 import {blackMiracleSettings} from './_black_miracle_pack.js';
 import {resolveAvatarDropRate} from './_avatar_drop.js';
@@ -55,7 +55,7 @@ function inventoryWrites(env,userId,code,quantity,requestId){
 // anywhere rolls back the clear, every grant, rank XP and all battle logs.
 export async function prepareApocalypseRewards(env,user,state,now=Date.now()){
   const plan=state.plan,requestId=state.requestId,statements=[],patch={result:state.won?'WIN':'LOSE',reward:state.won?plan.reward:0,cardReward:null,magicReward:null,equipmentReward:null,blackMiracleReward:null,unifiedDrop:null,apocalypseBonus:{rewards:plan.bonuses}};
-  const seasonWrites=await seasonAwardStatements(env,{userId:user.id,eventId:requestId,source:'APOCALYPSE',won:state.won,monsterId:state.monsterId,startedAt:state.createdAt});statements.push(...seasonWrites);patch.seasonReward=seasonWrites.award||null;
+  const seasonWrites=await seasonAwardStatements(env,{userId:user.id,eventId:requestId,source:'APOCALYPSE',won:state.won,monsterId:state.monsterId,startedAt:state.createdAt});statements.push(...seasonWrites);patch.seasonReward=seasonWrites.award||null;patch.hideoutReward=seasonWrites.hideoutAward||null;
   if(!state.won)return {statements,patch};
   if(plan.unified?.rewards?.length){
     const drop={...plan.unified,rewards:await applyDailyLimits(env,user.id,plan.unified.rewards)};

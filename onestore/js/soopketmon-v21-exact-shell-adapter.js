@@ -88,7 +88,7 @@
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'classicColosseum', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
-    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['season', 'attendance', 'dailyquest', 'comeback', 'messages', 'mineral']) }),
+    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['hideout', 'season', 'attendance', 'dailyquest', 'comeback', 'messages', 'mineral']) }),
     market: Object.freeze({ title: '경매장', routes: Object.freeze(['auction']) }),
     administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'soopketland', 'prison']) })
   });
@@ -99,6 +99,7 @@
     growth: Object.freeze({ title: '성장', routes: Object.freeze([...MENU_GROUPS.equipment.routes, ...MENU_GROUPS.crafting.routes]) })
   });
   const ROUTE_META = Object.freeze({
+    hideout: Object.freeze({ title:'나의 은신처',group:'rewards',icon:'home',home:Object.freeze({title:'나의 은신처',meta:'가구 · 트로피 · 시설 성장'}) }),
     season: Object.freeze({ title: 'S1 불멸의 왕', group: 'rewards', icon: 'rank' }),
     buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
     rankedShop: Object.freeze({ title: '랭크전 상점', group: 'store', icon: 'rankedShop' }),
@@ -355,7 +356,7 @@
         </section>
         <nav class="pc-main-navigation${clanFeatureVisible()?' has-clan-test':''}" aria-label="PC 주요 메뉴"><div class="pc-navigation-heading"><span>MAIN COMMAND</span><b>01 / LOBBY</b></div>
           ${pcCommand('buy', '카드 상점', '대량 구매 · 20/100/1000회')}${pcCommand('dex', '도감', '카드 수집 · 진화')}${pcCommand('battle', '전투', 'PVE · 특수전 · 레이드', true)}${clanFeatureVisible()?pcCommand('clan', '클랜', '클랜 본부 · 아지트', true):''}
-          ${pcCommand('character', '제작소', '장비 · 칭호 · 차고지 · 제작소', false, 'growth')}${pcCommand('attendance', '보상', '출석 · 퀘스트 · 메시지')}${pcCommand('rank', '랭킹', '시즌 순위 · 티어')}${pcCommand('auction', '경매장', '실시간 경매')}
+          ${pcCommand('character', '제작소', '장비 · 칭호 · 차고지 · 제작소', false, 'growth')}${pcCommand('hideout','나의 은신처','가구 · 트로피 · 시설 성장',true)}${pcCommand('attendance', '보상', '출석 · 퀘스트 · 메시지')}${pcCommand('rank', '랭킹', '시즌 순위 · 티어')}${pcCommand('auction', '경매장', '실시간 경매')}
         </nav>
         <div class="pc-utility-rail" aria-label="빠른 메뉴"><button type="button" data-v21-route="magic">${svg('magic')}<span>마법</span></button><button type="button" data-v21-route="inventory">${svg('inventory')}<span>인벤</span></button><button type="button" data-v21-route="messages">${svg('mail')}<span>메시지</span><i data-message-new-badge data-v21-message-badge hidden></i></button><button type="button" data-v21-all>${svg('menu')}<span>전체</span></button></div>
         <div class="pc-status-cluster"><span><i></i> LIVE SERVER</span><b>CH. 01</b><small>ONLINE</small></div>
@@ -365,7 +366,7 @@
       <section class="mobile-command-lobby" aria-label="리버스콜 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" alt="리버스콜"><span>CARD COLLECTION RPG</span></div>
         <div class="mobile-chief-visual" aria-label="로비 아바타 일러스트">${chiefPicture}</div>
         <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>${chief.reignStyle==='GENERAL'?'최고사령부 · 장군 집권':'THE REIGNING QUEEN'}</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>${chief.label} 임기 현황 <em>LIVE</em></button></section>
-        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${clanFeatureVisible()?mobileCommand('clan', '클랜', '클랜 본부 · 아지트', true):''}${mobileCommand('character', '제작소', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('auction', '경매장', '실시간 경매')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>${mobileOperations}
+        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${clanFeatureVisible()?mobileCommand('clan', '클랜', '클랜 본부 · 아지트', true):''}${mobileCommand('character', '제작소', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('hideout','나의 은신처','가구 · 트로피',true)}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('auction', '경매장', '실시간 경매')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>${mobileOperations}
         <aside data-streamer-lounge-host hidden aria-label="스트리머 라운지 입구"></aside>
       </section>`;
   }
