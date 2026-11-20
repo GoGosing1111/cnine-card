@@ -1,0 +1,575 @@
+{
+  "at": "2026-11-20T09:06:29.955Z",
+  "tracks": [
+    {
+      "id": "bgm-4458d601c175-full1",
+      "source": "/assets/effects/30000.mp3",
+      "durationMs": 40981,
+      "oldNotes": 101,
+      "notes": 189,
+      "oldSegmentNotes": 128,
+      "lastGapMs": 363
+    },
+    {
+      "id": "bgm-1612d7a2fa66-full1",
+      "source": "/assets/effects/10060.mp3",
+      "durationMs": 40957,
+      "oldNotes": 94,
+      "notes": 169,
+      "oldSegmentNotes": 117,
+      "lastGapMs": 339
+    },
+    {
+      "id": "bgm-ec45bd32e008-full1",
+      "source": "/assets/effects/50000~99999.mp3",
+      "durationMs": 60229,
+      "oldNotes": 101,
+      "notes": 293,
+      "oldSegmentNotes": 127,
+      "lastGapMs": 385
+    },
+    {
+      "id": "bgm-65d42cc7bc7e-full1",
+      "source": "/assets/effects/10091.mp3",
+      "durationMs": 47965,
+      "oldNotes": 82,
+      "notes": 196,
+      "oldSegmentNotes": 103,
+      "lastGapMs": 343
+    },
+    {
+      "id": "bgm-0ed4a7769dfc-full1",
+      "source": "/assets/effects/20069.mp3",
+      "durationMs": 57613,
+      "oldNotes": 96,
+      "notes": 250,
+      "oldSegmentNotes": 119,
+      "lastGapMs": 303
+    },
+    {
+      "id": "bgm-ade91c41a7ab-full1",
+      "source": "/assets/effects/10069.mp3",
+      "durationMs": 55573,
+      "oldNotes": 96,
+      "notes": 244,
+      "oldSegmentNotes": 117,
+      "lastGapMs": 219
+    },
+    {
+      "id": "bgm-2d59cdb2901e-full1",
+      "source": "/assets/effects/10782.mp3",
+      "durationMs": 44485,
+      "oldNotes": 95,
+      "notes": 191,
+      "oldSegmentNotes": 120,
+      "lastGapMs": 345
+    },
+    {
+      "id": "bgm-7a1e6bdcb78a-full1",
+      "source": "/assets/effects/11223.mp3",
+      "durationMs": 50461,
+      "oldNotes": 92,
+      "notes": 218,
+      "oldSegmentNotes": 114,
+      "lastGapMs": 385
+    },
+    {
+      "id": "bgm-a9e0ee3b98cc-full1",
+      "source": "/assets/effects/12525.mp3",
+      "durationMs": 57973,
+      "oldNotes": 96,
+      "notes": 276,
+      "oldSegmentNotes": 122,
+      "lastGapMs": 214
+    },
+    {
+      "id": "bgm-78e26f30b48f-full1",
+      "source": "/assets/effects/16767.mp3",
+      "durationMs": 54637,
+      "oldNotes": 86,
+      "notes": 236,
+      "oldSegmentNotes": 108,
+      "lastGapMs": 400
+    },
+    {
+      "id": "bgm-b44c2f297f64-full1",
+      "source": "/assets/effects/17272.mp3",
+      "durationMs": 44893,
+      "oldNotes": 81,
+      "notes": 168,
+      "oldSegmentNotes": 99,
+      "lastGapMs": 225
+    },
+    {
+      "id": "bgm-1986faf92ba9-full1",
+      "source": "/assets/effects/15000.mp3",
+      "durationMs": 53965,
+      "oldNotes": 94,
+      "notes": 234,
+      "oldSegmentNotes": 118,
+      "lastGapMs": 367
+    },
+    {
+      "id": "bgm-3845139a7b35-full1",
+      "source": "/assets/effects/15151.mp3",
+      "durationMs": 50653,
+      "oldNotes": 85,
+      "notes": 218,
+      "oldSegmentNotes": 110,
+      "lastGapMs": 337
+    },
+    {
+      "id": "bgm-7e42014162ed-full1",
+      "source": "/assets/effects/10003.mp3",
+      "durationMs": 53149,
+      "oldNotes": 97,
+      "notes": 244,
+      "oldSegmentNotes": 121,
+      "lastGapMs": 339
+    },
+    {
+      "id": "bgm-94f811ca1246-full1",
+      "source": "/assets/effects/10054.mp3",
+      "durationMs": 48133,
+      "oldNotes": 93,
+      "notes": 203,
+      "oldSegmentNotes": 116,
+      "lastGapMs": 431
+    },
+    {
+      "id": "bgm-8463a25cb582-full1",
+      "source": "/assets/effects/10119.mp3",
+      "durationMs": 56869,
+      "oldNotes": 90,
+      "notes": 271,
+      "oldSegmentNotes": 118,
+      "lastGapMs": 438
+    },
+    {
+      "id": "bgm-ae89bd17b2ec-full1",
+      "source": "/assets/effects/11000.mp3",
+      "durationMs": 52597,
+      "oldNotes": 94,
+      "notes": 232,
+      "oldSegmentNotes": 116,
+      "lastGapMs": 296
+    },
+    {
+      "id": "bgm-c9a8d2a73c44-full1",
+      "source": "/assets/effects/12520.mp3",
+      "durationMs": 53557,
+      "oldNotes": 96,
+      "notes": 246,
+      "oldSegmentNotes": 119,
+      "lastGapMs": 338
+    },
+    {
+      "id": "bgm-6a88521ff0e9-full1",
+      "source": "/assets/effects/10000.mp3",
+      "durationMs": 52093,
+      "oldNotes": 93,
+      "notes": 230,
+      "oldSegmentNotes": 119,
+      "lastGapMs": 400
+    },
+    {
+      "id": "bgm-61542b4c9928-full1",
+      "source": "/assets/effects/7272.mp3",
+      "durationMs": 40933,
+      "oldNotes": 93,
+      "notes": 173,
+      "oldSegmentNotes": 116,
+      "lastGapMs": 316
+    },
+    {
+      "id": "bgm-0a5eb0433fbd-full1",
+      "source": "/assets/effects/10071.mp3",
+      "durationMs": 47701,
+      "oldNotes": 92,
+      "notes": 201,
+      "oldSegmentNotes": 116,
+      "lastGapMs": 329
+    },
+    {
+      "id": "bgm-bfa5cd4e9707-full1",
+      "source": "/assets/effects/10075.mp3",
+      "durationMs": 51589,
+      "oldNotes": 93,
+      "notes": 225,
+      "oldSegmentNotes": 117,
+      "lastGapMs": 365
+    },
+    {
+      "id": "bgm-79ef06721f8e-full1",
+      "source": "/assets/effects/11333.mp3",
+      "durationMs": 43069,
+      "oldNotes": 96,
+      "notes": 184,
+      "oldSegmentNotes": 118,
+      "lastGapMs": 326
+    },
+    {
+      "id": "bgm-008b109757a0-full1",
+      "source": "/assets/effects/26969.mp3",
+      "durationMs": 47173,
+      "oldNotes": 94,
+      "notes": 204,
+      "oldSegmentNotes": 116,
+      "lastGapMs": 339
+    },
+    {
+      "id": "bgm-5c51efd7f0d8-full1",
+      "source": "/assets/effects/28888.mp3",
+      "durationMs": 55092,
+      "oldNotes": 98,
+      "notes": 274,
+      "oldSegmentNotes": 128,
+      "lastGapMs": 424
+    },
+    {
+      "id": "bgm-547804dd2e90-full1",
+      "source": "/assets/effects/12222.mp3",
+      "durationMs": 53533,
+      "oldNotes": 93,
+      "notes": 235,
+      "oldSegmentNotes": 115,
+      "lastGapMs": 404
+    },
+    {
+      "id": "bgm-334f1308739e-full1",
+      "source": "/assets/effects/10923.mp3",
+      "durationMs": 56197,
+      "oldNotes": 90,
+      "notes": 243,
+      "oldSegmentNotes": 114,
+      "lastGapMs": 204
+    },
+    {
+      "id": "bgm-08d1da738cc0-full1",
+      "source": "/assets/effects/26767.mp3",
+      "durationMs": 44125,
+      "oldNotes": 85,
+      "notes": 174,
+      "oldSegmentNotes": 104,
+      "lastGapMs": 255
+    },
+    {
+      "id": "bgm-71b04663e83b-full1",
+      "source": "/assets/effects/29999.mp3",
+      "durationMs": 55045,
+      "oldNotes": 97,
+      "notes": 248,
+      "oldSegmentNotes": 123,
+      "lastGapMs": 310
+    },
+    {
+      "id": "bgm-6aac05aae7ef-full1",
+      "source": "/assets/effects/12345.mp3",
+      "durationMs": 41989,
+      "oldNotes": 98,
+      "notes": 188,
+      "oldSegmentNotes": 122,
+      "lastGapMs": 334
+    },
+    {
+      "id": "bgm-a88b4b932cfc-full1",
+      "source": "/assets/effects/14444.mp3",
+      "durationMs": 38792,
+      "oldNotes": 83,
+      "notes": 171,
+      "oldSegmentNotes": 120,
+      "lastGapMs": 200
+    },
+    {
+      "id": "bgm-d51b02d9e4e4-full1",
+      "source": "/assets/effects/15551.mp3",
+      "durationMs": 51733,
+      "oldNotes": 99,
+      "notes": 244,
+      "oldSegmentNotes": 124,
+      "lastGapMs": 310
+    },
+    {
+      "id": "bgm-679c2314a1f4-full1",
+      "source": "/assets/effects/24444.mp3",
+      "durationMs": 34765,
+      "oldNotes": 100,
+      "notes": 156,
+      "oldSegmentNotes": 125,
+      "lastGapMs": 343
+    },
+    {
+      "id": "bgm-b69792929a41-full1",
+      "source": "/assets/effects/29272.mp3",
+      "durationMs": 52573,
+      "oldNotes": 96,
+      "notes": 227,
+      "oldSegmentNotes": 117,
+      "lastGapMs": 380
+    },
+    {
+      "id": "bgm-3eba5e9f3094-full1",
+      "source": "/assets/effects/29486.mp3",
+      "durationMs": 55501,
+      "oldNotes": 91,
+      "notes": 248,
+      "oldSegmentNotes": 113,
+      "lastGapMs": 200
+    },
+    {
+      "id": "bgm-c5170b539450-full1",
+      "source": "/assets/effects/4040.mp3",
+      "durationMs": 36613,
+      "oldNotes": 89,
+      "notes": 149,
+      "oldSegmentNotes": 109,
+      "lastGapMs": 395
+    },
+    {
+      "id": "bgm-bdf914c9cc4f-full1",
+      "source": "/assets/effects/7777.mp3",
+      "durationMs": 45613,
+      "oldNotes": 91,
+      "notes": 188,
+      "oldSegmentNotes": 113,
+      "lastGapMs": 325
+    },
+    {
+      "id": "bgm-2895e295db47-full1",
+      "source": "/assets/effects/10044.mp3",
+      "durationMs": 49165,
+      "oldNotes": 94,
+      "notes": 231,
+      "oldSegmentNotes": 118,
+      "lastGapMs": 226
+    },
+    {
+      "id": "bgm-3131239ab1c2-full1",
+      "source": "/assets/effects/10057.mp3",
+      "durationMs": 54469,
+      "oldNotes": 101,
+      "notes": 273,
+      "oldSegmentNotes": 127,
+      "lastGapMs": 272
+    },
+    {
+      "id": "bgm-57bb53172933-full1",
+      "source": "/assets/effects/10065.mp3",
+      "durationMs": 52981,
+      "oldNotes": 98,
+      "notes": 245,
+      "oldSegmentNotes": 123,
+      "lastGapMs": 361
+    },
+    {
+      "id": "bgm-8f33aa7cdf7f-full1",
+      "source": "/assets/effects/10195.mp3",
+      "durationMs": 58828,
+      "oldNotes": 84,
+      "notes": 239,
+      "oldSegmentNotes": 100,
+      "lastGapMs": 451
+    },
+    {
+      "id": "bgm-a0fa7c0c6199-full1",
+      "source": "/assets/effects/auction-20261106/%EB%82%98%EB%AC%B4%EB%8A%98%EB%B4%89%EC%88%9C_5785.mp3",
+      "durationMs": 48973,
+      "oldNotes": 94,
+      "notes": 218,
+      "oldSegmentNotes": 124,
+      "lastGapMs": 304
+    },
+    {
+      "id": "bgm-fda9d3540bd9-full1",
+      "source": "/assets/effects/auction-20261106/%EB%8B%88%EC%97%98%ED%98%952%E2%86%91_13333.mp3",
+      "durationMs": 57949,
+      "oldNotes": 91,
+      "notes": 250,
+      "oldSegmentNotes": 114,
+      "lastGapMs": 410
+    },
+    {
+      "id": "bgm-f41832beffb3-full1",
+      "source": "/assets/effects/auction-20261106/%EB%B2%A8%EB%9D%BC74_11174.mp3",
+      "durationMs": 55477,
+      "oldNotes": 87,
+      "notes": 250,
+      "oldSegmentNotes": 113,
+      "lastGapMs": 282
+    },
+    {
+      "id": "bgm-82c5a657cfbc-full1",
+      "source": "/assets/effects/auction-20261106/%EC%82%BC%EA%B2%B9%EA%B5%AC_10369.mp3",
+      "durationMs": 46861,
+      "oldNotes": 94,
+      "notes": 204,
+      "oldSegmentNotes": 117,
+      "lastGapMs": 200
+    },
+    {
+      "id": "bgm-1dbbb6fdc087-full1",
+      "source": "/assets/effects/auction-20261106/%EC%95%84%EA%B8%B0%EB%AD%89%EB%A9%98_10579.mp3",
+      "durationMs": 52789,
+      "oldNotes": 104,
+      "notes": 222,
+      "oldSegmentNotes": 131,
+      "lastGapMs": 419
+    },
+    {
+      "id": "bgm-df77145bfe4c-full1",
+      "source": "/assets/effects/auction-20261106/%EC%95%BD%EC%86%8D%ED%95%B4_20009.mp3",
+      "durationMs": 48949,
+      "oldNotes": 91,
+      "notes": 212,
+      "oldSegmentNotes": 115,
+      "lastGapMs": 449
+    },
+    {
+      "id": "bgm-79707bf6e0a1-full1",
+      "source": "/assets/effects/auction-20261106/%EC%98%A4%EB%B2%A0R_10058.mp3",
+      "durationMs": 46645,
+      "oldNotes": 99,
+      "notes": 216,
+      "oldSegmentNotes": 124,
+      "lastGapMs": 379
+    },
+    {
+      "id": "bgm-960f104bd94a-full1",
+      "source": "/assets/effects/auction-20261106/%EC%A1%B0%EB%A1%9C_19999.mp3",
+      "durationMs": 36194,
+      "oldNotes": 91,
+      "notes": 152,
+      "oldSegmentNotes": 116,
+      "lastGapMs": 315
+    },
+    {
+      "id": "bgm-3ad2ae47644b-full1",
+      "source": "/assets/effects/auction-20261106/%EC%AB%84%EB%B3%91_13088.mp3",
+      "durationMs": 46309,
+      "oldNotes": 89,
+      "notes": 196,
+      "oldSegmentNotes": 113,
+      "lastGapMs": 353
+    },
+    {
+      "id": "bgm-cf1e8eb7ab51-full1",
+      "source": "/assets/effects/auction-20261106/%EC%B4%88%EC%9B%94_10070.mp3",
+      "durationMs": 46741,
+      "oldNotes": 86,
+      "notes": 185,
+      "oldSegmentNotes": 108,
+      "lastGapMs": 200
+    },
+    {
+      "id": "bgm-a49dc0fa836c-full1",
+      "source": "/assets/effects/auction-20261106/%EC%B9%B4%EB%A6%AC%23_10228.mp3",
+      "durationMs": 48037,
+      "oldNotes": 89,
+      "notes": 184,
+      "oldSegmentNotes": 109,
+      "lastGapMs": 483
+    },
+    {
+      "id": "bgm-33c9df5574ea-full1",
+      "source": "/assets/effects/auction-20261106/%ED%81%B0%EB%9D%BC%EB%84%A4%ED%8A%B8_20442.mp3",
+      "durationMs": 67453,
+      "oldNotes": 95,
+      "notes": 324,
+      "oldSegmentNotes": 118,
+      "lastGapMs": 436
+    },
+    {
+      "id": "bgm-e4f5e79b4ff0-full1",
+      "source": "/assets/effects/auction-20261106/%ED%81%B0%EC%98%A4%EC%8A%B9%ED%99%98_20252.mp3",
+      "durationMs": 53485,
+      "oldNotes": 96,
+      "notes": 241,
+      "oldSegmentNotes": 122,
+      "lastGapMs": 376
+    },
+    {
+      "id": "bgm-b75085d30280-full1",
+      "source": "/assets/effects/auction-20261106/%ED%81%B0%ED%8F%B4%EB%A1%9C_22892.mp3",
+      "durationMs": 65880,
+      "oldNotes": 92,
+      "notes": 286,
+      "oldSegmentNotes": 117,
+      "lastGapMs": 389
+    },
+    {
+      "id": "bgm-9a9e463c0e25-full1",
+      "source": "/assets/effects/auction-20261106/%ED%8B%B0%EB%A8%B8%EB%8B%88_22000.mp3",
+      "durationMs": 41701,
+      "oldNotes": 97,
+      "notes": 183,
+      "oldSegmentNotes": 119,
+      "lastGapMs": 335
+    },
+    {
+      "id": "bgm-37ff62da8b7f-full1",
+      "source": "/assets/effects/auction-20261106/%ED%8E%98%EB%9D%BC%EB%A6%ACv12_10812.mp3",
+      "durationMs": 55453,
+      "oldNotes": 95,
+      "notes": 255,
+      "oldSegmentNotes": 120,
+      "lastGapMs": 468
+    },
+    {
+      "id": "bgm-3a742d207d27-full1",
+      "source": "/assets/effects/auction-20261106/%ED%97%A4%EC%9D%B4%EC%A6%90_10027.mp3",
+      "durationMs": 56101,
+      "oldNotes": 95,
+      "notes": 264,
+      "oldSegmentNotes": 119,
+      "lastGapMs": 457
+    },
+    {
+      "id": "bgm-82e53ee7e20b-full1",
+      "source": "/assets/effects/auction-20261106/%ED%98%B8%EB%9E%91%EC%88%98%EC%9B%94%EA%B0%80_10390.mp3",
+      "durationMs": 57493,
+      "oldNotes": 92,
+      "notes": 260,
+      "oldSegmentNotes": 114,
+      "lastGapMs": 323
+    },
+    {
+      "id": "bgm-8d163b05e33a-full1",
+      "source": "/assets/effects/auction-20261107/%EC%98%A4%EC%A7%81%EC%A1%B0%EC%9D%80_5759.mp3",
+      "durationMs": 56999,
+      "oldNotes": 97,
+      "notes": 245,
+      "oldSegmentNotes": 120,
+      "lastGapMs": 317
+    },
+    {
+      "id": "bgm-6485f21a893a-full1",
+      "source": "/assets/effects/auction-20261107/%EA%B3%A8%ED%83%8069_16969.mp3",
+      "durationMs": 54085,
+      "oldNotes": 93,
+      "notes": 241,
+      "oldSegmentNotes": 115,
+      "lastGapMs": 287
+    }
+  ],
+  "legacyUnchanged": true,
+  "summary": {
+    "tracks": 61,
+    "oldNotes": [
+      81,
+      104
+    ],
+    "notes": [
+      149,
+      324
+    ],
+    "densityIncrease": 0.25562983814215334,
+    "travelMsBefore": 1400,
+    "travelMsAfter": 1250,
+    "speedIncrease": 0.1200000000000001,
+    "loopVisits": {
+      "before": 1311228,
+      "after": 31372,
+      "comparison": "same longest chart, one frame every 16.67ms; excludes binary-search comparisons; algorithm count, not measured browser speed"
+    }
+  }
+}
