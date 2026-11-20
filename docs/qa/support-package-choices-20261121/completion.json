@@ -1,0 +1,939 @@
+{
+  "at": "2026-11-20T16:11:45.149Z",
+  "sourceCommit": "3aec757b8fbd6ef4069fbdbd170e98fa10b53dd3",
+  "previousProduction": "c66ba9cc25474714db61ef6130aca4c3f55077ed",
+  "sale": "상시 판매",
+  "eligibility": "기존 시즌패스·계정·배포판 조건 적용",
+  "current": [
+    {
+      "name": "묶음패키지",
+      "code": "SEASON_PASS_PACKAGE_20261121_BUNDLE",
+      "priceWon": 49800,
+      "onePlusOneTotal": true,
+      "coins": "500000000000000",
+      "items": {
+        "MASTER_STAR": 1000000000,
+        "ARDEN_ENERGY": 50,
+        "WEAPON_ENHANCEMENT_SCROLL": 10,
+        "ARMOR_ENHANCEMENT_SCROLL": 10,
+        "MERCENARY_SSS_LIMITED_SHARD": 25,
+        "PET_SEAL_ORB": 50,
+        "PET_ESSENCE": 500
+      }
+    },
+    {
+      "name": "재화패키지",
+      "code": "SEASON_PASS_PACKAGE_20261121_CURRENCY",
+      "priceWon": 49800,
+      "onePlusOneTotal": true,
+      "coins": "1500000000000000",
+      "items": {
+        "MASTER_STAR": 25000000000,
+        "WEAPON_ENHANCEMENT_SCROLL": 5,
+        "ARMOR_ENHANCEMENT_SCROLL": 20,
+        "MERCENARY_SSS_LIMITED_SHARD": 10
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "purchases": 1,
+      "coins": "1000000000000000",
+      "cubes": 5,
+      "masterStars": 5000000000
+    },
+    {
+      "purchases": 2,
+      "coins": "2000000000000000",
+      "cubes": 10,
+      "masterStars": 10000000000
+    },
+    {
+      "purchases": 3,
+      "coins": "3000000000000000",
+      "cubes": 15,
+      "masterStars": 20000000000
+    },
+    {
+      "purchases": 4,
+      "coins": "6000000000000000",
+      "cubes": 20,
+      "masterStars": 40000000000
+    },
+    {
+      "purchases": 5,
+      "coins": "8000000000000000",
+      "cubes": 40,
+      "masterStars": 80000000000
+    },
+    {
+      "purchases": 10,
+      "coins": "8000000000000000",
+      "cubes": 100,
+      "masterStars": 100000000000
+    }
+  ],
+  "repeatEvery": 10,
+  "progress": "묶음·재화 유료 구매 횟수 합산. 기존 누적은 독립된 키로 보존하고 새 기록은 0회부터 시작한다. 기존 접수건은 접수 당시 상품과 보상정책을 사용한다.",
+  "database": {
+    "readOnlyPreflight": {
+      "checkedAt": "2026-11-20T15:54:15.423Z",
+      "counts": {
+        "previous": 37,
+        "current": 0
+      },
+      "previous": {
+        "accounts": 37,
+        "purchases": "364",
+        "digest": "a5caff16c0cf6b56c542dc3bc858b92c"
+      },
+      "pending": [],
+      "productionWrites": 0
+    },
+    "readOnlyPostdeploy": {
+      "checkedAt": "2026-11-20T16:09:02.863Z",
+      "counts": {
+        "previous": 37,
+        "current": 0
+      },
+      "previous": {
+        "accounts": 37,
+        "purchases": "365",
+        "digest": "17aa35550d2b479a3cda3f5f467d45ee"
+      },
+      "pending": [],
+      "productionWrites": 0
+    },
+    "historicalSnapshotIdentical": false,
+    "verifiedPriorOrderActivity": {
+      "previousAccounts": 37,
+      "before": "364",
+      "after": "365",
+      "trace": [
+        {
+          "appliedAt": "2026-11-20T16:08:40.049Z",
+          "status": "FULFILLED",
+          "product": "SEASON_PASS_PACKAGE_20261115_PETS",
+          "policy": "SUPPORT_PACKAGE_PURCHASE_BONUS_20261115_V1",
+          "prior": 4,
+          "next": 5,
+          "coinLedger": true
+        }
+      ],
+      "deltaAccountedFor": 1,
+      "newCountersAtRead": 0,
+      "productionWrites": 0
+    },
+    "allHistoricalChangesAccountedFor": true,
+    "operationalPaymentsIssued": 0
+  },
+  "validation": {
+    "relatedTests": 50,
+    "isolatedBrowserCheckout": [
+      {
+        "name": "재화패키지",
+        "paidBefore": 0,
+        "bonus": 5000000000,
+        "arden": 0,
+        "bankStarTotal": "300억개",
+        "replay": true
+      },
+      {
+        "name": "묶음패키지",
+        "paidBefore": 1,
+        "bonus": 10000000000,
+        "arden": 50,
+        "bankStarTotal": "110억개",
+        "replay": true
+      }
+    ],
+    "postedOnlyToIsolatedFixture": [
+      {
+        "productCode": "SEASON_PASS_PACKAGE_20261121_CURRENCY",
+        "quantity": 1,
+        "status": 200
+      },
+      {
+        "productCode": "SEASON_PASS_PACKAGE_20261121_BUNDLE",
+        "quantity": 1,
+        "status": 200
+      }
+    ],
+    "publicStorePackageCalls": 0,
+    "confirmed": "두 상품 선택·메시지/CMS/지급 일치, 두 주문을 이어 1→2회 적립, 보상 지급의 원자성·중복 방지, 이전 상품과 영수증, 100회 구매, 상시 판매 및 발급 기한 보존"
+  },
+  "deployment": {
+    "checkedAt": "2026-11-20T16:09:08.527Z",
+    "pages": {
+      "id": "7f4d6e5c-1dc5-4fed-a399-9281d4784eed",
+      "commit": "3aec757b8fbd6ef4069fbdbd170e98fa10b53dd3",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "3890e4ab-fe87-46ce-a1f1-58cb7a7c5ad0",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "34f3ca8f-f575-4059-a410-3d4ad98e1694",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "bd4b721ee4c0be7b126d666b32ad290716ae8bdc1649da6d3a7226d9c6208772",
+        "windows": true
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "bd9acb13a3a98cf472ca95e1ff9d1d5e357f58cc85b2be2022aef7af6933e381",
+        "windows": false
+      },
+      {
+        "path": "js/adventure-lobby-v2107.js",
+        "sha256": "22508d5dfa9c5434205060d6ad35f4897e9ec75c4471ab96fa5bdb9bc595a89f",
+        "windows": true
+      },
+      {
+        "path": "js/server-support-v1.mjs",
+        "sha256": "dcfaca5b4b6e73bf641368239aa666423a2eb7eac2263702a423086cc17303bf",
+        "windows": true
+      },
+      {
+        "path": "js/support-package-v1.mjs",
+        "sha256": "2178f8f96186be5e51693d51a8576cbc4fe40247e1a940036cca1278daf1d4e6",
+        "windows": true
+      },
+      {
+        "path": "js/support-package-alerts-v1.mjs",
+        "sha256": "b705c4a2773f2cc7030c3ebf58568a9fc92ef29a4f0214d959c67bbaf9bd68af",
+        "windows": true
+      },
+      {
+        "path": "shared/support-package-v1.mjs",
+        "sha256": "89c82f4487fc44a542e04bf4557dc8a7f2774e3fa31382727858af22e7949bc0",
+        "windows": true
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "01fd3e3bc0cd8e7ec83ab65c2bfe2eed7095c6781c8bb1ae186c8cdfdb106faf",
+        "windows": false
+      },
+      {
+        "path": "admin/server-support-admin-v1.mjs",
+        "sha256": "17b13b9227afdeee53507c01e6aa10f2dce46d01130ed4f54a8316f985e41db3",
+        "windows": false
+      },
+      {
+        "path": "admin/support-package-admin-v1.mjs",
+        "sha256": "17f1b8e1cb700dcb2ce13592c5d739d5f00d8927004d848c5a29118fe8ad6b7c",
+        "windows": false
+      }
+    ],
+    "windowsReleaseId": "804b2e5980f409ecb9f5872b9392745789b81faa4e41e98d4601f6512eeb61d1",
+    "apiWorkerSha256": "49c7dc66507d2fbfcc4a5085c726625c4ce22be1e817303154cc1cf5ab0256f6",
+    "scopedTests": 9
+  },
+  "performance": {
+    "conditions": "Windows headless Chrome and WebKit. Desktop and Android before/after measured serially with fresh browser contexts on the same host, real lobby → menu → server info → purchase button. CDN files and an isolated PostgreSQL fixture. Two entries per session. Windows client URL and H5 host emulated. WebKit, Windows and H5 secondary samples share host load. No physical-device or installed-app measurements.",
+    "serviceConditions": "운영 PostgreSQL 읽기 전용. 같은 두 계정, 같은 순서, 구매 화면 상태 서비스의 첫·반복 조회. 네트워크 포함 단회.",
+    "service": {
+      "before": {
+        "samples": [
+          {
+            "account": 5426,
+            "entry": "first",
+            "ms": 714,
+            "queries": 8,
+            "paidPurchases": 12
+          },
+          {
+            "account": 5426,
+            "entry": "repeat",
+            "ms": 690,
+            "queries": 7,
+            "paidPurchases": 12
+          },
+          {
+            "account": 197,
+            "entry": "first",
+            "ms": 535,
+            "queries": 7,
+            "paidPurchases": 5
+          },
+          {
+            "account": 197,
+            "entry": "repeat",
+            "ms": 1912,
+            "queries": 7,
+            "paidPurchases": 5
+          }
+        ],
+        "databaseRoundTripMs": [
+          78,
+          74,
+          75,
+          88,
+          75,
+          80,
+          126,
+          86,
+          87,
+          77,
+          163,
+          86,
+          121,
+          79,
+          74,
+          72,
+          74,
+          72,
+          74,
+          77,
+          79,
+          85,
+          72,
+          73,
+          75,
+          1367,
+          76,
+          174,
+          73
+        ],
+        "productionWrites": 0
+      },
+      "after": {
+        "samples": [
+          {
+            "account": 5426,
+            "entry": "first",
+            "ms": 729,
+            "queries": 8,
+            "paidPurchases": 0
+          },
+          {
+            "account": 5426,
+            "entry": "repeat",
+            "ms": 573,
+            "queries": 7,
+            "paidPurchases": 0
+          },
+          {
+            "account": 197,
+            "entry": "first",
+            "ms": 569,
+            "queries": 7,
+            "paidPurchases": 0
+          },
+          {
+            "account": 197,
+            "entry": "repeat",
+            "ms": 580,
+            "queries": 7,
+            "paidPurchases": 0
+          }
+        ],
+        "databaseRoundTripMs": [
+          85,
+          81,
+          77,
+          114,
+          78,
+          78,
+          108,
+          77,
+          90,
+          80,
+          80,
+          79,
+          80,
+          84,
+          77,
+          78,
+          86,
+          80,
+          78,
+          80,
+          85,
+          79,
+          78,
+          81,
+          77,
+          77,
+          77,
+          103,
+          84
+        ],
+        "productionWrites": 0
+      }
+    },
+    "platforms": {
+      "desktop": {
+        "before": {
+          "lobbyReadyMs": 1277,
+          "entries": [
+            {
+              "toInteractiveMs": 695,
+              "frames": {
+                "samples": 166,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 8.400000000000091,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/css/auction-user-v1.css",
+                  "ms": 83
+                },
+                {
+                  "path": "/css/supporter-season-pass-v1.css",
+                  "ms": 82
+                },
+                {
+                  "path": "/css/server-support-v1.css",
+                  "ms": 78
+                },
+                {
+                  "path": "/assets/ui/season-pass-v1/sanctum-hero.webp",
+                  "ms": 71
+                },
+                {
+                  "path": "/api/chief/status",
+                  "ms": 63
+                },
+                {
+                  "path": "/css/support-package-v1.css",
+                  "ms": 63
+                },
+                {
+                  "path": "/api/auction/user/lobby",
+                  "ms": 62
+                }
+              ],
+              "longTasks": [
+                {
+                  "start": 1355.8000000044703,
+                  "ms": 56
+                }
+              ]
+            },
+            {
+              "toInteractiveMs": 194,
+              "frames": {
+                "samples": 169,
+                "p95Ms": 4.299999999999272,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/assets/ui/season-pass-v1/supporter-crest.webp",
+                  "ms": 23
+                },
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 12
+                },
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 12
+                },
+                {
+                  "path": "/api/server-support/status",
+                  "ms": 7
+                },
+                {
+                  "path": "/api/server-support/package",
+                  "ms": 6
+                }
+              ],
+              "longTasks": []
+            }
+          ],
+          "warnings": []
+        },
+        "candidate": {
+          "lobbyReadyMs": 974,
+          "entries": [
+            {
+              "toInteractiveMs": 703,
+              "frames": {
+                "samples": 167,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/assets/ui/season-pass-v1/sanctum-hero.webp",
+                  "ms": 76
+                },
+                {
+                  "path": "/shared/supporter-season-pass-v1.mjs",
+                  "ms": 44
+                },
+                {
+                  "path": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+                  "ms": 29
+                },
+                {
+                  "path": "/assets/items/armor-enhancement-scroll-v1.webp",
+                  "ms": 27
+                },
+                {
+                  "path": "/assets/items/pet-opening-v1/pet-essence.webp",
+                  "ms": 26
+                },
+                {
+                  "path": "/css/auction-user-v1.css",
+                  "ms": 26
+                },
+                {
+                  "path": "/assets/items/arden-energy-v1.webp",
+                  "ms": 24
+                }
+              ],
+              "longTasks": [
+                {
+                  "start": 1035.0999999940395,
+                  "ms": 61
+                },
+                {
+                  "start": 1138.7999999970198,
+                  "ms": 58
+                }
+              ]
+            },
+            {
+              "toInteractiveMs": 173,
+              "frames": {
+                "samples": 168,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 13
+                },
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 12
+                },
+                {
+                  "path": "/api/server-support/package",
+                  "ms": 9
+                },
+                {
+                  "path": "/api/server-support/status",
+                  "ms": 6
+                }
+              ],
+              "longTasks": []
+            }
+          ],
+          "warnings": []
+        }
+      },
+      "android": {
+        "before": {
+          "lobbyReadyMs": 1298,
+          "entries": [
+            {
+              "toInteractiveMs": 573,
+              "frames": {
+                "samples": 169,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/css/supporter-season-pass-v1.css",
+                  "ms": 86
+                },
+                {
+                  "path": "/css/server-support-v1.css",
+                  "ms": 84
+                },
+                {
+                  "path": "/assets/ui/season-pass-v1/sanctum-hero.webp",
+                  "ms": 75
+                },
+                {
+                  "path": "/css/support-package-v1.css",
+                  "ms": 63
+                },
+                {
+                  "path": "/js/soop-watch-consent-v1.mjs",
+                  "ms": 51
+                },
+                {
+                  "path": "/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png",
+                  "ms": 40
+                },
+                {
+                  "path": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+                  "ms": 32
+                }
+              ],
+              "longTasks": [
+                {
+                  "start": 1385.2000000029802,
+                  "ms": 54
+                }
+              ]
+            },
+            {
+              "toInteractiveMs": 252,
+              "frames": {
+                "samples": 166,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/assets/ui/season-pass-v1/supporter-crest.webp",
+                  "ms": 23
+                },
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 19
+                },
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 13
+                },
+                {
+                  "path": "/api/server-support/package",
+                  "ms": 7
+                },
+                {
+                  "path": "/api/server-support/status",
+                  "ms": 6
+                }
+              ],
+              "longTasks": []
+            }
+          ],
+          "warnings": []
+        },
+        "candidate": {
+          "lobbyReadyMs": 972,
+          "entries": [
+            {
+              "toInteractiveMs": 662,
+              "frames": {
+                "samples": 166,
+                "p95Ms": 4.200000000000273,
+                "maxMs": 5.700000000000273,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/assets/ui/season-pass-v1/sanctum-hero.webp",
+                  "ms": 69
+                },
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 35
+                },
+                {
+                  "path": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+                  "ms": 27
+                },
+                {
+                  "path": "/assets/items/weapon-enhancement-scroll-v1.webp",
+                  "ms": 27
+                },
+                {
+                  "path": "/assets/items/pet-opening-v1/pet-essence.webp",
+                  "ms": 27
+                },
+                {
+                  "path": "/assets/items/armor-enhancement-scroll-v1.webp",
+                  "ms": 25
+                },
+                {
+                  "path": "/assets/items/sss-limited-shard-20261020/item.webp",
+                  "ms": 25
+                }
+              ],
+              "longTasks": [
+                {
+                  "start": 1139,
+                  "ms": 54
+                }
+              ]
+            },
+            {
+              "toInteractiveMs": 160,
+              "frames": {
+                "samples": 176,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.600000000000364,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              },
+              "resources": [
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 13
+                },
+                {
+                  "path": "/api/server-support/info",
+                  "ms": 10
+                },
+                {
+                  "path": "/api/server-support/package",
+                  "ms": 9
+                },
+                {
+                  "path": "/api/server-support/status",
+                  "ms": 6
+                }
+              ],
+              "longTasks": []
+            }
+          ],
+          "warnings": []
+        }
+      },
+      "ios": {
+        "before": {
+          "lobbyReadyMs": 3014,
+          "entries": [
+            {
+              "toInteractiveMs": 1861,
+              "frames": {
+                "samples": 55,
+                "p95Ms": 73,
+                "maxMs": 97,
+                "over50": 8
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "toInteractiveMs": 1067,
+              "frames": {
+                "samples": 54,
+                "p95Ms": 71,
+                "maxMs": 98,
+                "over50": 3
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "warnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "candidate": {
+          "lobbyReadyMs": 4956,
+          "entries": [
+            {
+              "toInteractiveMs": 9563,
+              "frames": {
+                "samples": 50,
+                "p95Ms": 79,
+                "maxMs": 104,
+                "over50": 8
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "toInteractiveMs": 1261,
+              "frames": {
+                "samples": 53,
+                "p95Ms": 62,
+                "maxMs": 98,
+                "over50": 3
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "warnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "windows": {
+        "before": {
+          "lobbyReadyMs": 2847,
+          "entries": [
+            {
+              "toInteractiveMs": 804,
+              "frames": {
+                "samples": 167,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 12.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "toInteractiveMs": 260,
+              "frames": {
+                "samples": 171,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.399999999999636,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "warnings": []
+        },
+        "candidate": {
+          "lobbyReadyMs": 10773,
+          "entries": [
+            {
+              "toInteractiveMs": 1275,
+              "frames": {
+                "samples": 185,
+                "p95Ms": 4.299999999999272,
+                "maxMs": 12.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            },
+            {
+              "toInteractiveMs": 340,
+              "frames": {
+                "samples": 219,
+                "p95Ms": 4.300000000001091,
+                "maxMs": 12.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "packageRequests": 0
+              }
+            }
+          ],
+          "warnings": []
+        }
+      },
+      "h5": {
+        "before": {
+          "lobbyReadyMs": 1556,
+          "entries": [
+            {
+              "toInteractiveMs": 236,
+              "frames": null,
+              "afterExit": null,
+              "packageHidden": true
+            },
+            {
+              "toInteractiveMs": 106,
+              "frames": null,
+              "afterExit": null,
+              "packageHidden": true
+            }
+          ],
+          "warnings": []
+        },
+        "candidate": {
+          "lobbyReadyMs": 7101,
+          "entries": [
+            {
+              "toInteractiveMs": 610,
+              "frames": null,
+              "afterExit": null,
+              "packageHidden": true
+            },
+            {
+              "toInteractiveMs": 218,
+              "frames": null,
+              "afterExit": null,
+              "packageHidden": true
+            }
+          ],
+          "warnings": []
+        }
+      }
+    },
+    "bottleneck": "DB와의 왕복 대기 및 첫 진입의 정적 모듈·스타일 요청을 기록했다. 두 상품을 한 응답에서 제공하고 선택·수량 변경은 로컬 계산한다. 주문 검증은 미리 생성한 상품 스냅샷 맵을 재사용하고 상시 판매 화면의 마감 타이머를 제거했다. WebKit 긴 프레임과 경고, 캐시·공유 호스트 편차가 포함된다."
+  }
+}
