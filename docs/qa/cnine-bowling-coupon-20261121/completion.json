@@ -1,0 +1,962 @@
+{
+  "status": "ISSUED_AND_VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:cnine-bowling-coupon:20261121:v1",
+    "authorization": "씨나인 볼링대회 기념 쿠폰 1,000조 + 마스터의 별 10억 + 아르덴 에너지 10개, 150명",
+    "title": "씨나인 볼링대회 기념 쿠폰",
+    "couponCode": "CNINEBOWL150",
+    "couponId": "5771",
+    "rewardType": "NOVEMBER_GIFT_CNINE_BOWLING_20261121",
+    "coin": "1000000000000000",
+    "items": [
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "amount": 1000000000
+      },
+      {
+        "code": "ARDEN_ENERGY",
+        "name": "아르덴 에너지",
+        "amount": 10
+      }
+    ],
+    "maxUses": 150,
+    "perAccount": 1,
+    "expiresAt": null,
+    "completedAt": "2026-11-20T15:59:06.145Z",
+    "auditId": "68311"
+  },
+  "issuedAtKst": "2026-11-21 00:59:06 KST",
+  "verifiedAt": "2026-11-20T15:59:46.063Z",
+  "availabilityAtInitialVerification": {
+    "used": 31,
+    "remaining": 119
+  },
+  "liveClaimReconciliation": {
+    "code": "CNINEBOWL150",
+    "capacity": 150,
+    "used": 50,
+    "remaining": 100,
+    "active": 1,
+    "ends_at": null,
+    "checked_at": "2026-11-20T16:01:16.609Z",
+    "recipients": 50,
+    "exact_receipts": 50,
+    "matching_coin_entries": 50,
+    "item_entries": [
+      {
+        "item_code": "ARDEN_ENERGY",
+        "entries": 50,
+        "players": 50,
+        "smallest": "10",
+        "largest": "10"
+      },
+      {
+        "item_code": "MASTER_STAR",
+        "entries": 50,
+        "players": 50,
+        "smallest": "1000000000",
+        "largest": "1000000000"
+      }
+    ],
+    "queryMs": 2800,
+    "readOnly": true
+  },
+  "checks": {
+    "releaseTests": 38,
+    "catalog": [
+      {
+        "code": "ARDEN_ENERGY",
+        "name": "아르덴 에너지",
+        "is_active": 1
+      },
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "is_active": 1
+      }
+    ],
+    "issuanceWrites": [
+      {
+        "relname": "admin_logs",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      },
+      {
+        "relname": "app_meta",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      },
+      {
+        "relname": "coupons",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      }
+    ],
+    "issuanceMs": 1314,
+    "rollbackStages": [
+      "coupon",
+      "audit",
+      "receipt"
+    ],
+    "successfulRehearsalRolledBack": true,
+    "uniqueAccountsInFixture": 150,
+    "firstRejectedAccount": 151,
+    "settlementFailureStages": 6,
+    "responseLossReplay": true,
+    "issueReplayReadQueries": 1,
+    "readOnlyVerification": true,
+    "lockReleased": true,
+    "productionTestRedemptions": 0
+  },
+  "release": {
+    "checkedAt": "2026-11-20T15:58:37.875Z",
+    "sourceCommit": "c66ba9cc25474714db61ef6130aca4c3f55077ed",
+    "pages": {
+      "id": "4bd78411-3f86-4142-bbbd-18991974f276",
+      "commit": "c66ba9cc25474714db61ef6130aca4c3f55077ed",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "65708d89-2ad6-423f-945d-5ee479165679",
+        "percentage": 100,
+        "bundleSupported": true,
+        "sourceSHA256": "006ff460f1b0d3edcbbb7b55515494548e2b3569303d9f4c9052722c530b2d53"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "c3c70325-bf76-4651-a19b-f74fc40ed7f1",
+        "percentage": 100,
+        "bundleSupported": true,
+        "sourceSHA256": "04e16f169a0e17566e459044e6f9e9a5c6dbe45d4a508ea5919d989fbc524e27"
+      }
+    ],
+    "unauthenticatedStatus": 401,
+    "releaseTests": 38,
+    "liveAccountRedemption": false
+  },
+  "art": {
+    "title": "씨나인 볼링대회 기념 쿠폰",
+    "couponCode": "CNINEBOWL150",
+    "size": [
+      1080,
+      1350
+    ],
+    "generation": "Built-in ImageGen for the bowling photograph; original C9 PNG and native Korean/Latin type for the final print layout.",
+    "logo": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+    "logoSha256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba",
+    "sourceImageSha256": "f209ba5017a9b65653bc7363c7996a3400dedfd87ff4f203806429e6542e247e",
+    "prompt": "output/announcements/cnine-bowling-coupon-20261121/prompt.txt",
+    "artifacts": {
+      "png": {
+        "bytes": 1028598,
+        "sha256": "ca44b069102aa7e525798ba4f96fa1763a1988155b1e4e6c874b388c779e0b46"
+      },
+      "jpg": {
+        "bytes": 268891,
+        "sha256": "3028823ba14e3d6fb34ce73360ac7d3f0d6f83714077c89948f8c4260db4e125"
+      }
+    },
+    "visualReview": "한글 제목·원본 왕관 표범 C9 로고·12자리 코드·세 보상과 수량·선착순 150명·계정당 1회·입력 경로를 PNG/JPG에서 확인했다."
+  },
+  "performance": {
+    "server": {
+      "setup": "Isolated PGlite, actual coupon route, fixed 6 ms transport per SQL. First run is warm-up; eight matched different accounts follow. Not production network latency. Baseline is the shipped BONGSOON1000 with the same coin amount, two inventory items and 150 slots. After uses the new event. Both use the existing batch SQL.",
+      "roundTripMs": 6,
+      "before": {
+        "coldMs": 252.2,
+        "results": [
+          {
+            "ms": 230.1,
+            "queries": 15
+          },
+          {
+            "ms": 227.4,
+            "queries": 15
+          },
+          {
+            "ms": 232.7,
+            "queries": 15
+          },
+          {
+            "ms": 230.5,
+            "queries": 15
+          },
+          {
+            "ms": 230.4,
+            "queries": 15
+          },
+          {
+            "ms": 228.2,
+            "queries": 15
+          },
+          {
+            "ms": 229.5,
+            "queries": 15
+          },
+          {
+            "ms": 228.4,
+            "queries": 15
+          }
+        ],
+        "medianMs": 229.8,
+        "queries": 15
+      },
+      "after": {
+        "coldMs": 228.2,
+        "results": [
+          {
+            "ms": 231.4,
+            "queries": 15
+          },
+          {
+            "ms": 231.7,
+            "queries": 15
+          },
+          {
+            "ms": 228.6,
+            "queries": 15
+          },
+          {
+            "ms": 232.9,
+            "queries": 15
+          },
+          {
+            "ms": 228.9,
+            "queries": 15
+          },
+          {
+            "ms": 229.8,
+            "queries": 15
+          },
+          {
+            "ms": 229.9,
+            "queries": 15
+          },
+          {
+            "ms": 228.2,
+            "queries": 15
+          }
+        ],
+        "medianMs": 229.85000000000002,
+        "queries": 15
+      }
+    },
+    "platforms": {
+      "pc": {
+        "before": {
+          "mode": "before",
+          "device": "pc",
+          "staticOrigin": "https://46dfdd20.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 99,
+              "frames": {
+                "count": 150,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 21
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 4억 개, 계급 경험치 3배 물약 (60분) 4개를 받았습니다. 물약은 인벤토리에서 사용하세요.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 16,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 23.2,
+              "queries": 15,
+              "label": "나무늘봉순 · 귀환 서약",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 400000000
+                },
+                {
+                  "type": "RANK_EXP_POTION_3X_60M",
+                  "amount": 4
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.7,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1182
+        },
+        "after": {
+          "mode": "after",
+          "device": "pc",
+          "staticOrigin": "https://4bd78411.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 116,
+              "frames": {
+                "count": 151,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 19.8
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 17,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.2,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 26.5,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.9,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1220
+        }
+      },
+      "android": {
+        "before": {
+          "mode": "before",
+          "device": "android",
+          "staticOrigin": "https://46dfdd20.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 112,
+              "frames": {
+                "count": 147,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 20.8
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 4억 개, 계급 경험치 3배 물약 (60분) 4개를 받았습니다. 물약은 인벤토리에서 사용하세요.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 21,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 30.1,
+              "queries": 15,
+              "label": "나무늘봉순 · 귀환 서약",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 400000000
+                },
+                {
+                  "type": "RANK_EXP_POTION_3X_60M",
+                  "amount": 4
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.1,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1371
+        },
+        "after": {
+          "mode": "after",
+          "device": "android",
+          "staticOrigin": "https://4bd78411.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 83,
+              "frames": {
+                "count": 149,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 20.9
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 13,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 22.6,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 4.9,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1167
+        }
+      },
+      "ios": {
+        "before": {
+          "mode": "before",
+          "device": "ios",
+          "staticOrigin": "https://46dfdd20.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 165,
+              "frames": {
+                "count": 39,
+                "p95Ms": 30,
+                "over50": 0,
+                "maxMs": 38
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 4억 개, 계급 경험치 3배 물약 (60분) 4개를 받았습니다. 물약은 인벤토리에서 사용하세요.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 70,
+              "frames": {
+                "count": 38,
+                "p95Ms": 31,
+                "over50": 0,
+                "maxMs": 35
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 20.8,
+              "queries": 15,
+              "label": "나무늘봉순 · 귀환 서약",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 400000000
+                },
+                {
+                  "type": "RANK_EXP_POTION_3X_60M",
+                  "amount": 4
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.8,
+              "queries": 7
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldStartToLobbyMs": 1446
+        },
+        "after": {
+          "mode": "after",
+          "device": "ios",
+          "staticOrigin": "https://4bd78411.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 86,
+              "frames": {
+                "count": 40,
+                "p95Ms": 37,
+                "over50": 0,
+                "maxMs": 45
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 52,
+              "frames": {
+                "count": 36,
+                "p95Ms": 31,
+                "over50": 0,
+                "maxMs": 35
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 23,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.4,
+              "queries": 7
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldStartToLobbyMs": 1168
+        }
+      },
+      "windows": {
+        "before": {
+          "mode": "before",
+          "device": "windows",
+          "staticOrigin": "https://46dfdd20.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 114,
+              "frames": {
+                "count": 148,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 22.2
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 4억 개, 계급 경험치 3배 물약 (60분) 4개를 받았습니다. 물약은 인벤토리에서 사용하세요.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 13,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 27.5,
+              "queries": 15,
+              "label": "나무늘봉순 · 귀환 서약",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 400000000
+                },
+                {
+                  "type": "RANK_EXP_POTION_3X_60M",
+                  "amount": 4
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.2,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1021
+        },
+        "after": {
+          "mode": "after",
+          "device": "windows",
+          "staticOrigin": "https://4bd78411.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 93,
+              "frames": {
+                "count": 152,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 20.8
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 15,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 21.8,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.8,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 959
+        }
+      },
+      "h5": {
+        "before": {
+          "mode": "before",
+          "device": "h5",
+          "staticOrigin": "https://46dfdd20.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 88,
+              "frames": {
+                "count": 147,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 23.3
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 4억 개, 계급 경험치 3배 물약 (60분) 4개를 받았습니다. 물약은 인벤토리에서 사용하세요.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 17,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 23.9,
+              "queries": 15,
+              "label": "나무늘봉순 · 귀환 서약",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 400000000
+                },
+                {
+                  "type": "RANK_EXP_POTION_3X_60M",
+                  "amount": 4
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 4.2,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "hostIframe": true,
+          "coldStartToLobbyMs": 954
+        },
+        "after": {
+          "mode": "after",
+          "device": "h5",
+          "staticOrigin": "https://4bd78411.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 86,
+              "frames": {
+                "count": 147,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 20.8
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 16,
+              "frames": {
+                "count": 157,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 4.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 21.5,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "hostIframe": true,
+          "coldStartToLobbyMs": 954
+        }
+      }
+    },
+    "conditions": "Windows headless Chrome, Android touch emulation, Windows-client entry URL, WebKit mobile viewport, and the ONE store H5 entry in a test host iframe. Isolated synthetic account, actual redemption transaction in PGlite. Each device opened the public build and followed lobby → all menu → attendance/coupon twice. No physical device or installed native app was used.",
+    "findings": "기존 1,000조·인벤토리 2종 쿠폰과 같은 경로를 비교했다. 보상 2종을 일괄 저장하며 첫 수령 15 SQL을 유지한다. SQL마다 고정 지연 6ms를 둔 격리 DB 측정이다. 실제 운영 사용자 응답 시간은 이 수치에서 산출할 수 없다. 모바일 WebKit에서는 이전·이후 모두 기존 ResizeObserver 경고가 있었으며 각 수령·재입장·퇴장 검사를 통과했다."
+  }
+}
