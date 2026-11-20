@@ -1,0 +1,326 @@
+{
+  "verifiedAt": "2026-11-20T13:38:43.154Z",
+  "name": "희야투게더",
+  "code": "PET-HEEYA-TOGETHER",
+  "publication": "운영 펫 도감",
+  "displayApproved": "운영 도감에 공개",
+  "growthCap": "SSS",
+  "sameAs": "배찌 나무늘봉순",
+  "buffs": [
+    {
+      "type": "SPEED_PERCENT",
+      "percent": 55
+    }
+  ],
+  "rewardBonuses": {
+    "dropPercent": 25,
+    "accountXpPercent": 55,
+    "coinPercent": 55
+  },
+  "ready": [
+    "PVE",
+    "PVP"
+  ],
+  "scope": {
+    "accountGrants": 0,
+    "openingPoolChanged": false,
+    "marketChanged": false,
+    "potentialSettingsChanged": false
+  },
+  "operation": {
+    "key": "ops:pet-heeya-together-live:20261120:v1",
+    "completedAt": "2026-11-20T13:35:56.517Z",
+    "auditId": "68092",
+    "previousRevision": 51,
+    "revision": 52,
+    "previousPetsPreserved": 28,
+    "configuredPets": 29,
+    "preservedPetsHash": "5c020fbb283bf3f8452389db5721adb390ba14a8e02546464bb8d2187f9c98bd",
+    "settingsHash": "83310892c5d1fe78f6db66f1b3d0585d0708dc80e7b0e3bdd5418d8df8e9fa46",
+    "readOnlyIndependentVerification": true,
+    "onlyReadsOnReplay": true,
+    "rollback": true,
+    "receiptFailureRollback": true
+  },
+  "release": {
+    "at": "2026-11-20T13:35:36.188Z",
+    "releaseCommit": "a438681668745a6b8fd7b325d2b655a565eacaae",
+    "pages": {
+      "id": "8337865f-f579-4a4d-aca4-e24c3f2d9f0a",
+      "commit": "a438681668745a6b8fd7b325d2b655a565eacaae",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version_id": "a9167d37-464b-4b51-b7b9-3ac7b5520a9b",
+        "percentage": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version_id": "b846e13d-d208-43ac-96da-de8b54f4cf68",
+        "percentage": 100
+      }
+    ],
+    "windowsRelease": "00660fc331d3ac8de790752494c7df72a980afb48e10da7c53c035d078c2abb0",
+    "files": [
+      {
+        "path": "pet-codex/index.html",
+        "publicSha256": "82ab223c2531ba69cc41b5ff6076f7b642a1040c6a4d55abf6d83ccbe7b50b29",
+        "bytes": 911,
+        "windowsVerified": true
+      },
+      {
+        "path": "pet-codex/app.mjs",
+        "publicSha256": "a984927a75978b0722e62dfdaba6266880373fd890be3f8617e5dff7f07c28e1",
+        "bytes": 1078,
+        "windowsVerified": true
+      },
+      {
+        "path": "js/pet-equipment-window-v1.mjs",
+        "publicSha256": "0ca1eb60dadb3a63c57cde90fbd1a6b9c1823965be1111e22b99c23ecb5acd07",
+        "bytes": 35781,
+        "windowsVerified": true
+      },
+      {
+        "path": "js/pet-codex-growth-v3.mjs",
+        "publicSha256": "5af373a8f148fbe3bf115715b349e8267e7bfc8d5297457ab733c573c0a0921e",
+        "bytes": 5430,
+        "windowsVerified": true
+      },
+      {
+        "path": "onestore/pet-codex/app.mjs",
+        "publicSha256": "a509e7f3e597e6b54f3b8b365933e3e507868c22e99056630b3833b24d17f9b2",
+        "bytes": 1105,
+        "windowsVerified": false
+      },
+      {
+        "path": "onestore/js/pet-equipment-window-v1.mjs",
+        "publicSha256": "c3ad2a53497f5223e68c69772cb89c9250c521c52db87af8f611238f60bc5598",
+        "bytes": 35566,
+        "windowsVerified": false
+      },
+      {
+        "path": "shared/pet-art-catalog-v1.mjs",
+        "publicSha256": "c1ed59f774e54f8524eb64bf2cd15a9f2444643a09d6c09ff1836a844f69e68e",
+        "bytes": 8090,
+        "windowsVerified": true
+      },
+      {
+        "path": "shared/pet-growth-live-v2.mjs",
+        "publicSha256": "9b2b7a15fe808440921f7ca0aad7045e4b0e30cc153c37cfb9d9813c83fabbf2",
+        "bytes": 3945,
+        "windowsVerified": true
+      },
+      {
+        "path": "assets/ui/pets/rework-20261114/codex-v3/pets.json",
+        "publicSha256": "85783fe09180cf8ed8c54cff8d846aa76091ccc9baa0785a0a5961606ab7719f",
+        "bytes": 10721,
+        "windowsVerified": true
+      },
+      {
+        "path": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-approved.png",
+        "publicSha256": "b80807ede3f6e42b635d945637dea0eb8f5d9a001aac9300e790fd00aac2ee06",
+        "bytes": 2010880,
+        "windowsVerified": true
+      },
+      {
+        "path": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+        "publicSha256": "b718e7f2a9f2cced03fad2d9b9770cf6963c9b37985fc56113ce0bfceaf0e4ea",
+        "bytes": 37566,
+        "windowsVerified": true
+      },
+      {
+        "path": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-thumb.webp",
+        "publicSha256": "c55dd359f9765dd6c2b6c3ad665d17c498e7064f6e4742c7431642b3b1d721a1",
+        "bytes": 6304,
+        "windowsVerified": true
+      }
+    ],
+    "scopedTests": 65
+  },
+  "productionDataRead": {
+    "database": "운영 PostgreSQL의 펫 설정을 읽기 전용으로 조회하고 도감·전투 효과를 조립",
+    "baseline": [
+      {
+        "phase": "first",
+        "sql": 1,
+        "elapsedMs": 162.44,
+        "revision": 51,
+        "configured": false,
+        "sourceEntries": 28
+      },
+      {
+        "phase": "reentry",
+        "sql": 1,
+        "elapsedMs": 80.09,
+        "revision": 51,
+        "configured": false,
+        "sourceEntries": 28
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "sql": 1,
+        "elapsedMs": 158,
+        "revision": 52,
+        "configured": true,
+        "sourceEntries": 29
+      },
+      {
+        "phase": "reentry",
+        "sql": 1,
+        "elapsedMs": 80.04,
+        "revision": 52,
+        "configured": true,
+        "sourceEntries": 29
+      }
+    ],
+    "serviceCheckedAt": "2026-11-20T13:36:13.412Z"
+  },
+  "display": {
+    "source": "승인 PNG 원본",
+    "thumbnails": "비율을 유지한 560px 전신과 144px 목록 WebP",
+    "localCondition": "Windows host. Actual /pet-codex/ page and game API handlers with isolated PostgreSQL-compatible fixture. Chrome desktop/Android and WebKit iPhone emulation; hidden Electron renderer; iframe embedding smoke. No production account mutation or physical mobile measurements.",
+    "profiles": [
+      {
+        "platform": "desktop",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 480,
+        "firstImageMs": 1006,
+        "selectionReentryMs": 24,
+        "documentReentryMs": 226,
+        "frames": {
+          "samples": 359,
+          "p95": 4.2999999999999545,
+          "max": 8.300000000000182,
+          "over50ms": 0
+        },
+        "effectAfterExit": {
+          "active": 0,
+          "updates": 61
+        }
+      },
+      {
+        "platform": "android",
+        "variant": "source-png",
+        "firstInteractiveMs": 1698,
+        "firstImageMs": 4719,
+        "selectionReentryMs": 215,
+        "documentReentryMs": 1522
+      },
+      {
+        "platform": "android",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 1590,
+        "firstImageMs": 2490,
+        "selectionReentryMs": 103,
+        "documentReentryMs": 1523,
+        "frames": {
+          "samples": 184,
+          "p95": 16.59999999999991,
+          "max": 341.38599999701955,
+          "over50ms": 4
+        },
+        "effectAfterExit": {
+          "active": 0,
+          "updates": 73
+        }
+      },
+      {
+        "platform": "ios",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 367,
+        "firstImageMs": 723,
+        "selectionReentryMs": 129,
+        "documentReentryMs": 363,
+        "frames": {
+          "samples": 103,
+          "p95": 20,
+          "max": 52,
+          "over50ms": 1
+        },
+        "effectAfterExit": {
+          "active": 0,
+          "updates": 24
+        }
+      },
+      {
+        "platform": "windows",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 471,
+        "firstImageMs": 483,
+        "selectionReentryMs": 52,
+        "documentReentryMs": 229
+      },
+      {
+        "platform": "iframe",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 451,
+        "firstImageMs": 902,
+        "selectionReentryMs": 47,
+        "documentReentryMs": 226
+      }
+    ],
+    "published": [
+      {
+        "platform": "desktop",
+        "interactiveMs": 591,
+        "imagesMs": 654,
+        "image": {
+          "src": "https://cnine-card.pages.dev/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+          "width": 560,
+          "height": 560
+        },
+        "growthCap": "SSS",
+        "errors": []
+      },
+      {
+        "platform": "android",
+        "interactiveMs": 386,
+        "imagesMs": 419,
+        "image": {
+          "src": "https://cnine-card.pages.dev/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+          "width": 560,
+          "height": 560
+        },
+        "growthCap": "SSS",
+        "errors": []
+      },
+      {
+        "platform": "h5-iframe",
+        "interactiveMs": 388,
+        "imagesMs": 396,
+        "image": {
+          "src": "https://cnine-card.pages.dev/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+          "width": 560,
+          "height": 560
+        },
+        "growthCap": "SSS",
+        "errors": []
+      }
+    ],
+    "publishedConditions": "Published production documents, modules, images and H5 iframe entry; API GET responses use isolated local game-handler fixture. Windows Chrome desktop/Android emulation. No production login, account mutation or physical mobile/ONE store app SDK test.",
+    "unownedSearch": {
+      "at": "2026-11-20T13:38:27.887Z",
+      "cmsRevision": 52,
+      "condition": "Production CMS read-only snapshot and published browser files; isolated ordinary game account without this pet, Windows Chrome desktop headless.",
+      "query": "희야투게더",
+      "filter": "미보유",
+      "listing": "희야투게더\nSSS · 미보유",
+      "portrait": {
+        "src": "https://cnine-card.pages.dev/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+        "width": 560
+      },
+      "battleEffects": [
+        "속도 +55%",
+        "드랍률 +25%",
+        "계정 경험치 +55%",
+        "코인 +55%"
+      ],
+      "apiReadOnly": true,
+      "errors": []
+    }
+  }
+}
