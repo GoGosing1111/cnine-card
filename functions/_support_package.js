@@ -1,6 +1,6 @@
 import {readPackageCoinAccounting,packageCoinGuardStatements} from './_package_coin_accounting.js';
 import {planPackageGuaranteeNotice,packageGuaranteeNoticeStatements} from './_support_package_guarantee_notice.js';
-import {SUPPORT_PACKAGE,LIMITED_SHARD,isSupportPackageProduct,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageClientAllowed,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_OFFERS,LIMITED_SHARD,supportPackageFulfillment,supportPackageOrderProduct,supportPackageQuantityValid,supportPackageClientAllowed,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 import {SUPPORT_PACKAGE_BONUS_CODE,supportPackageBonusKey,supportPackageBonusState,supportPackageWithBonus,supportPackageHasBonus,supportPackageAdvanceBonus} from '../shared/support-package-v1.mjs';
 import {supportAccountEligible,supportBenefits,canManageSupport} from '../shared/server-support-v1.mjs';
 import {passSubscription} from '../shared/supporter-season-pass-v1.mjs';
@@ -57,14 +57,18 @@ export async function issuePackage(env,user,body,now=Date.now()){
  if(!requestId(body.requestId))fail('INPUT','요청 번호를 확인하세요.');
  const quantity=body.quantity===undefined?1:body.quantity;
  if(!supportPackageQuantityValid(quantity))fail('QUANTITY','신청 횟수는 1~100회 사이의 정수로 입력하세요.');
- const id=Number(user.id),{account,support,config}=await eligibility(env,id,now),key='support_package_application_v1:'+id+':'+body.requestId,payload=JSON.stringify(quantity===1?[id]:[id,quantity]);
+ const id=Number(user.id),{account,support,config}=await eligibility(env,id,now),key='support_package_application_v1:'+id+':'+body.requestId;
+ // Keep the original request signature for retries from clients predating product selection.
+ const payload=JSON.stringify(body.productCode===undefined?(quantity===1?[id]:[id,quantity]):[id,quantity,body.productCode]);
  const previous=await receipt(env,key,payload);if(previous)return applicationResult(env,id,previous,now);
- // Preserve committed application receipts while closing new bank instructions.
  if(!supportPackageSalesOpen(now))fail('CLOSED','패키지 판매가 종료되었습니다. 기존 신청은 운영자가 확인 후 처리합니다.',410);
- await deleteExpiredSupportMessages(env,now,id);await ensureJointAtomicSchema(env);
  const old=await pendingOrder(env,id);
  if(old&&body.quantity!==undefined&&quantity!==(old.order.quantity??1))fail('QUANTITY_CONFLICT','접수된 신청의 횟수는 변경할 수 없습니다. 기존 신청을 확인해 주세요.',409);
- const order=old?.order||{version:1,quantity,id:id+'_'+body.requestId,userId:id,nickname:account.nickname,product:SUPPORT_PACKAGE,status:'PENDING',revision:0,createdAt:now,eligibleUntil:support.state.endsAt};
+ if(old&&body.productCode!==undefined&&body.productCode!==old.order.product.code)fail('PRODUCT_CONFLICT','이미 접수된 신청의 패키지는 변경할 수 없습니다. 기존 신청을 확인해 주세요.',409);
+ const selected=old?.order.product??SUPPORT_PACKAGE_OFFERS.find(offer=>offer.code===(body.productCode===undefined?SUPPORT_PACKAGE.code:body.productCode));
+ if(!selected)fail('PRODUCT','구매할 패키지를 다시 선택해 주세요.');
+ await deleteExpiredSupportMessages(env,now,id);await ensureJointAtomicSchema(env);
+ const order=old?.order||{version:1,quantity,id:id+'_'+body.requestId,userId:id,nickname:account.nickname,product:selected,status:'PENDING',revision:0,createdAt:now,eligibleUntil:support.state.endsAt};
  const product=await quotePackage(env,order);if(!product)fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  // Reissuing bank instructions keeps the same pending order and never repeats its owner alert.
  const campaign='support_package_bank_v1:'+id+':'+body.requestId;
@@ -93,10 +97,8 @@ export async function processPackage(env,admin,body,now=Date.now()){
  const before=await raw(env,orderKey(body.orderId));if(!before)fail('NOT_FOUND','신청을 찾지 못했습니다.',404);
  const order=JSON.parse(before),grant=body.action==='FULFILL';
  if(order.status!=='PENDING'||order.revision!==body.expectedRevision)fail('REVISION','이미 처리되었거나 변경된 신청입니다. 새로고침해 주세요.',409);
- // October terms remain unchanged; pending November orders get 500 trillion per paid unit.
- // Completed receipts return above and are never granted a second time.
- if(!supportPackageOrderProduct(order))fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  const baseProduct=supportPackageOrderProduct(order);
+ if(!baseProduct)fail('PRODUCT','신청 시점의 상품 구성을 확인해야 합니다.',409);
  const bonusProgress=grant&&supportPackageHasBonus(baseProduct)?await readBonusProgress(env,order.userId,baseProduct.bonusPolicy):null;
  const product=bonusProgress?supportPackageWithBonus(baseProduct,bonusProgress.state):baseProduct;
  const nextBonus=bonusProgress?supportPackageAdvanceBonus(bonusProgress.state,product.purchaseBonus,{orderId:order.id,now}):null;
@@ -167,10 +169,10 @@ export async function handleSupportPackage({path,request,env,user,deps,now}){
     env.DB.prepare("SELECT value FROM app_meta WHERE key LIKE ? ESCAPE '!' ORDER BY updated_at DESC LIMIT 5").bind(orderKey(Number(user.id)+'!_')+'%').all(),
     readBonusProgress(env,user.id)
    ]);
-   return {product:pending?supportPackageFulfillment(pending.order.product):SUPPORT_PACKAGE,pending:pending?.order??null,bonusProgress:pending&&supportPackageHasBonus(pending.order.product)&&pending.order.product.bonusPolicy!==SUPPORT_PACKAGE_BONUS_CODE?(await readBonusProgress(env,user.id,pending.order.product.bonusPolicy)).state:bonus.state,recent:recent.results.map(r=>JSON.parse(r.value)),salesOpen:supportPackageSalesOpen(now),serverNow:now};
+   return {product:pending?supportPackageFulfillment(pending.order.product):SUPPORT_PACKAGE,products:SUPPORT_PACKAGE_OFFERS,pending:pending?.order??null,bonusProgress:pending&&supportPackageHasBonus(pending.order.product)&&pending.order.product.bonusPolicy!==SUPPORT_PACKAGE_BONUS_CODE?(await readBonusProgress(env,user.id,pending.order.product.bonusPolicy)).state:bonus.state,recent:recent.results.map(r=>JSON.parse(r.value)),salesOpen:supportPackageSalesOpen(now),serverNow:now};
   }
   if(path==='server-support/package/apply'&&request.method==='POST'){
-   const body=await readJointBody(request,{fields:['requestId','quantity']});await deps.ensureMessages?.(env);
+   const body=await readJointBody(request,{fields:['requestId','quantity','productCode']});await deps.ensureMessages?.(env);
    return deps.withUserMutationLock(env,user.id,path,()=>issuePackage(env,user,body,(deps.now||Date.now)()));
   }
  }

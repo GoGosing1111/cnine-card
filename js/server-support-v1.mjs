@@ -1,8 +1,8 @@
 import {legionRechargeLabel,legionRecoveryNotice} from '../shared/legion-hunt-energy-v1.mjs';
 import {openSupportApplication} from './supporter-application-v1.mjs?v=20261108-pass-purchases';
-import {mountSupportPackage} from './support-package-v1.mjs?v=20261118-package-repeat23-v1';
-import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261118-package-repeat23-v1';
-import {SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageSalesOpen} from '../shared/support-package-v1.mjs?v=20261118-package-repeat23-v1';
+import {mountSupportPackage} from './support-package-v1.mjs?v=20261121-package-stars-v1';
+import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261121-package-stars-v1';
+import {SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261121-package-stars-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261114-month2-purchase';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
@@ -27,7 +27,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const menu=root.getElementById('menu-dialog');if(!menu)return {dispose(){}};
   const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261011-apply1';root.append(link);
   const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261107-pass-months';root.append(passStyle);
-  const packageStyle=doc.createElement('link');packageStyle.rel='stylesheet';packageStyle.href='/css/support-package-v1.css?v=20261118-package-repeat23-v1';root.append(packageStyle);
+  const packageStyle=doc.createElement('link');packageStyle.rel='stylesheet';packageStyle.href='/css/support-package-v1.css?v=20261121-package-stars-v1';root.append(packageStyle);
   const packageAlerts=mountPackageAlerts({root,request,canReceive:()=>Number(getUser()?.serverUserId||getUser()?.id)===1,onOpen:()=>window.open('/admin/?supportPackage=1','_blank','noopener'),
     onPassOpen:(id,orderId)=>window.open('/admin/?'+new URLSearchParams({supportPassMonth:'2',userId:id,supportPassOrder:orderId}),'_blank','noopener')});
   let selectedMonth=1,passView=null,passVisible=false,screenGuard=null,applicationView=null;
@@ -43,10 +43,9 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const key=()=>`cnine_support_pet_pending_v1:${Number(getUser()?.serverUserId||getUser()?.id||0)}`;
   function render(){
     if(!dialog||!data)return;
-    if(!supportPackageSalesOpen(Date.now()+serverOffset)){data.packageVisible=false;if(page==='package')page='info';}
     passView?.dispose();passView=null;
     const s=data.subscription,p=data.plan,selected=s.magnetPetCode,active=s.active;
-    if(active||data.packageVisible)timer??=setInterval(checkExpiry,1000);else stopExpiryChecks();
+    if(active)timer??=setInterval(checkExpiry,1000);else stopExpiryChecks();
     const selectedPass=selectedMonth===2?data.secondSeasonPass:data.seasonPass;
     const passTabs=[data.seasonPass,data.secondSeasonPass].filter(Boolean).map((pass,i)=>`<button type="button" data-ss-month="${i+1}" aria-pressed="${selectedMonth===i+1}"><strong>${i+1}개월차</strong><small>${pass.active?'이용 중':pass.purchased?'기간 종료':pass.saleClosed?'판매 종료':!pass.enabled?'판매 준비 중':'미구매'}</small></button>`).join('');
     const scrollTop=dialog.scrollTop,focusPet=root.activeElement?.dataset?.ssPet;
@@ -54,7 +53,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
     dialog.innerHTML=`<header class="ss-dialog-head"><span class="ss-brand">${icon('leaf')}<span>REVERSE CALL<small>리버스콜 · ${SERVER_SUPPORT_ENTRY_VISIBLE?'서버 안내':'시즌패스'}</small></span></span><div class="ss-header-actions">${SERVER_SUPPORT_ENTRY_VISIBLE&&page!=='info'?'<button type="button" class="ss-back" data-ss-back>← 서버 안내</button>':''}<button type="button" class="ss-close" data-ss-close aria-label="${SERVER_SUPPORT_ENTRY_VISIBLE?'서버 안내':'시즌패스'} 닫기">${icon('close')}</button></div></header><div class="ss-dialog-body">${page==='package'?'<div data-support-package></div>':page==='pass'?`<nav class="sp-editions" aria-label="시즌패스 월 선택">${passTabs}</nav><div data-season-pass></div>`:page==='info'?`
       <section class="ss-info-intro"><div><p class="ss-eyebrow">함께 이어가는 리버스콜</p><h2>서버 안내</h2><p class="ss-lead">더 오래 즐길 수 있는 리버스콜을 위해.<br>여러분의 마음을 운영과 개발에 담습니다.</p></div><div class="ss-info-seal">${crest}</div></section>
       <div class="ss-purpose" aria-label="후원금 사용처"><span><small>01</small>안정적인 서버 운영</span><span><small>02</small>서비스 유지·보수</span><span><small>03</small>새로운 콘텐츠 개발</span></div>
-      <button class="ss-info-link" type="button" data-ss-support aria-label="서버 운영 후원"><span class="ss-info-link-icon">${icon('leaf')}</span><span class="ss-info-link-copy"><small>리버스콜을 응원하는 또 하나의 방법</small><strong>서버 운영 후원</strong><span>30일 혜택과 이용 안내 확인하기</span></span><span class="ss-link-arrow">${icon('arrow')}</span></button>${data.packageVisible?`<button class="ss-info-link" type="button" data-ss-package aria-label="패키지 구매"><span class="ss-info-link-icon"><img src="/assets/items/sss-limited-shard-20261020/item.webp" alt=""></span><span class="ss-info-link-copy"><small>시즌패스 활성화 유저 전용</small><strong>패키지 구매 · 1+1 이벤트</strong><span>49,800원 · 총 2개 지급</span><span class="spkg-entry-deadline">${esc(SUPPORT_PACKAGE_EVENT_DEADLINE.label)} · 한국시간</span></span><span class="ss-link-arrow">${icon('arrow')}</span></button>`:''}<p class="ss-info-note">${icon('clock')}${data.seasonPass?.enabled?'시즌패스 일일 보상 이용 가능':'시즌패스 보상표 준비 중'}</p>`:`
+      <button class="ss-info-link" type="button" data-ss-support aria-label="서버 운영 후원"><span class="ss-info-link-icon">${icon('leaf')}</span><span class="ss-info-link-copy"><small>리버스콜을 응원하는 또 하나의 방법</small><strong>서버 운영 후원</strong><span>30일 혜택과 이용 안내 확인하기</span></span><span class="ss-link-arrow">${icon('arrow')}</span></button>${data.packageVisible?`<button class="ss-info-link" type="button" data-ss-package aria-label="패키지 구매"><span class="ss-info-link-icon"><img src="/assets/items/sss-limited-shard-20261020/item.webp" alt=""></span><span class="ss-info-link-copy"><small>시즌패스 활성화 유저 전용</small><strong>패키지 구매 · 1+1 이벤트</strong><span>49,800원 · 묶음패키지 / 재화패키지 선택</span><span class="spkg-entry-deadline">${esc(SUPPORT_PACKAGE_EVENT_DEADLINE.label)}</span></span><span class="ss-link-arrow">${icon('arrow')}</span></button>`:''}<p class="ss-info-note">${icon('clock')}${data.seasonPass?.enabled?'시즌패스 일일 보상 이용 가능':'시즌패스 보상표 준비 중'}</p>`:`
       ${data.previewOnly?'<p class="ss-preview"><b>운영자 미리보기</b><span>일반 유저는 가입 3일 경과·2차 인증 완료 후 볼 수 있습니다.</span></p>':''}
       <section class="ss-hero" aria-label="서버 운영 후원 안내"><div class="ss-hero-copy"><p class="ss-eyebrow">리버스콜의 다음 이야기를 함께</p><h2>서버 운영 <em>후원</em></h2><p class="ss-lead">${esc(data.notice)}</p><div class="ss-application-entry"><div class="ss-launch">${icon('clock')}<span>${data.seasonPass?.enabled?'시즌패스 일일 보상 이용 가능':'시즌패스 보상표 준비 중'}</span></div>${data.application?.enabled&&!data.seasonPass?.saleClosed&&!data.previewOnly?`<button type="button" class="ss-apply-button" data-ss-apply>1개월차 후원 신청 ${icon('arrow')}</button>`:data.seasonPass?.saleClosed?'<span>1개월차 시즌패스 판매 종료</span>':''}</div></div><div class="ss-pass"><div class="ss-pass-top"><span>REVERSE CALL</span><span>${p.durationDays} DAYS</span></div><div class="ss-pass-art">${crest}<span>함께하는 마음,<br><b>더 깊어지는 모험.</b></span></div><div class="ss-pass-price"><span>${p.durationDays}일 후원</span><strong>${p.priceWon.toLocaleString('ko-KR')}<small>원</small></strong></div></div></section>
       <section class="ss-benefits" aria-label="30일 후원 혜택"><div class="ss-section-heading"><h3>후원자 혜택</h3><span>함께해 주시는 분들을 위해</span></div><div class="ss-benefit-list"><article class="ss-benefit"><div class="ss-benefit-top">${icon('magnet')}<span>01</span></div><h4>펫 자석 잠재력</h4><div class="ss-benefit-value"><strong>${p.magnetSuccessPercent}<small>%</small></strong><span>${p.durationDays}일</span></div><p>선택한 펫 1마리에 확정 적용. <br>원하는 보유 펫으로 언제든 변경할 수 있습니다.</p></article><article class="ss-benefit"><div class="ss-benefit-top">${icon('shield')}<span>02</span></div><h4>군단토벌 행동력</h4><div class="ss-benefit-value"><strong>+${p.extraLegionEntries}<small>회</small></strong><span>최대 저장량</span></div><p>행동력 최대 저장량 10회 → 13회. <br>${legionRechargeLabel(3*3600000,Date.now())}마다 1회 충전됩니다.${legionRecoveryNotice(Date.now())?'<br>'+legionRecoveryNotice(Date.now()):''}</p></article><article class="ss-benefit"><div class="ss-benefit-top">${icon('mail')}<span>03</span></div><h4>후원자 전용</h4><div class="ss-benefit-value ss-benefit-message"><strong>푸시 메시지</strong><span>별도 지급</span></div><p>후원자를 위한 별도의 <br>푸시 메시지가 지급됩니다.</p></article></div></section>
@@ -116,7 +115,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const observer=new MutationObserver(()=>void sync());observer.observe(menu,{attributes:true,attributeFilter:['open','data-menu-category']});
   const changed=()=>void sync(true);
   window.addEventListener('storage',changed);window.addEventListener('cnine:player-updated',changed);
-  function checkExpiry(){if(!dialog?.open||!data)return;if(data.packageVisible&&!supportPackageSalesOpen(Date.now()+serverOffset)){data.packageVisible=false;if(page==='package')page='info';render();}if(data.subscription.active&&Date.now()+serverOffset>=data.subscription.endsAt)void loadPage(page);}
+  function checkExpiry(){if(!dialog?.open||!data)return;if(data.subscription.active&&Date.now()+serverOffset>=data.subscription.endsAt)void loadPage(page);}
   function dispose(){if(disposed)return;disposed=true;generation++;observer.disconnect();window.removeEventListener('storage',changed);window.removeEventListener('cnine:player-updated',changed);packageAlerts.dispose();close();footer.remove();link.remove();passStyle.remove();packageStyle.remove();}
   signal?.addEventListener('abort',dispose,{once:true});void sync();return {dispose,openSeasonPass(button){opener=button;return loadPage('pass');}};
 }

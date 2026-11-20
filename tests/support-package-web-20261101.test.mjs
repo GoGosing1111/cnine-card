@@ -5,7 +5,7 @@ import {supportPackageBonus} from '../shared/support-package-v1.mjs';
 import {readPackageCoinAccounting,requirePredictionCoins,packageCoinGuardStatements} from '../functions/_package_coin_accounting.js';
 import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_CURRENT_UNIT,SUPPORT_PACKAGE_NOVEMBER_BOGO,SUPPORT_PACKAGE_UNIT,SUPPORT_PACKAGE_LEGACY_BOGO,SUPPORT_PACKAGE_EVENT_DEADLINE,supportPackageClientAllowed} from '../shared/support-package-v1.mjs';
 const nativeAgents=['Mozilla/5.0 ReverseCallStore/onestore/1.0.0','Mozilla/5.0 (Windows NT 10.0; Win64; x64) ReverseCallStore/onestore/1.0.0 Electron/32.0.0'];
-test('direct Windows and Android clients plus browser/PWA user agents expose and submit the same offer, preserving eligibility and deadline',async()=>{
+test('direct Windows and Android clients plus browser/PWA user agents expose and submit the same offer, preserving eligibility throughout the permanent sale',async()=>{
  const f=await packageFixture({postgres:true});try{
   f.clock.now=Date.parse('2026-11-01T12:00:00+09:00');await f.activate();
   const agents=['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Reversecall/0.1.10 Chrome/130.0.0 Electron/32.0.0 Safari/537.36','Mozilla/5.0 (Linux; Android 14; Pixel 8; wv) AppleWebKit/537.36 ReverseCallAndroid/1.1.0','Mozilla/5.0 (Linux; Android 14) Chrome/130.0.0 Mobile Safari/537.36','Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Version/18.0 Mobile/15E148 Safari/604.1'];
@@ -19,13 +19,13 @@ test('direct Windows and Android clients plus browser/PWA user agents expose and
   }
   assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
   f.clock.now=Date.parse('2026-11-03T00:00:00+09:00');for(const agent of agents){assert.equal((await call(agent,'server-support/info')).body.packageVisible,true);assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:100})).status,200);}
-  f.clock.now=Date.parse('2026-11-24T00:00:00+09:00');for(const agent of agents){assert.equal((await call(agent,'server-support/info')).body.packageVisible,false);assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:100})).status,410);}
+  f.clock.now=Date.parse('2026-11-24T00:00:00+09:00');for(const agent of agents){assert.equal((await call(agent,'server-support/info')).body.packageVisible,true);assert.equal((await call(agent,'server-support/package/apply',{requestId:crypto.randomUUID(),quantity:100})).status,200);}
  }finally{await f.close();}
 });
 const applyQuantity=(f,quantity,requestId=crypto.randomUUID())=>f.call('server-support/package/apply',{user:2,body:{requestId,quantity}});
 test('5, 10, custom 7 and maximum 100 applications have matching bank, owner, CMS and exact atomic grants',async()=>{
  const f=await packageFixture({postgres:true});try{
-  await f.activate();let balance=1234n,restricted=0n,units=0;
+  await f.activate();let balance=1234n,restricted=0n,units=0,bonusStars=0;
   for(const quantity of [5,10,7,100]){
    const grant=500000000000000n*BigInt(quantity)+BigInt(supportPackageBonus(units,quantity).coins);
    const id=crypto.randomUUID(),applied=await applyQuantity(f,quantity,id);assert.equal(applied.status,200,JSON.stringify(applied.body));const order=applied.body.order;assert.equal(order.quantity,quantity);
@@ -34,9 +34,9 @@ test('5, 10, custom 7 and maximum 100 applications have matching bank, owner, CM
    for(const m of messages.results){assert(m.body.includes((quantity*49800).toLocaleString('ko-KR')+'원'));assert(m.body.includes(quantity+'회'));assert(m.body.includes(String(grant/1000000000000n)+'조 코인'));}
    const alert=(await f.call('admin/server-support/package/alerts')).body.pending[0];assert.equal(alert.quantity,quantity);assert.equal(alert.product.priceWon,49800*quantity);assert.equal(BigInt(alert.product.coins),grant);
    const rid=crypto.randomUUID(),paid=await f.process(order,'FULFILL',rid);assert.equal(paid.status,200,JSON.stringify(paid.body));assert.equal(paid.body.order.fulfillment.packageQuantity,quantity*2);
-   units+=quantity;restricted+=grant;balance+=grant;
+   bonusStars+=supportPackageBonus(units,quantity).masterStars;units+=quantity;restricted+=grant;balance+=grant;
    assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,balance.toString());
-   for(const [code,count] of [['MASTER_STAR',1000000000],['ARDEN_ENERGY',50],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10],['MERCENARY_SSS_LIMITED_SHARD',25],['PET_SEAL_ORB',50],['PET_ESSENCE',500]])assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),units*count);
+   for(const [code,count] of [['MASTER_STAR',1000000000],['ARDEN_ENERGY',50],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10],['MERCENARY_SSS_LIMITED_SHARD',25],['PET_SEAL_ORB',50],['PET_ESSENCE',500]])assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),units*count+(code==='MASTER_STAR'?bonusStars:0));
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
    const accounting=await readPackageCoinAccounting(f.env,2);assert.equal(accounting.restrictedExact,restricted.toString());assert.equal(accounting.availableExact,'1234');assert.throws(()=>requirePredictionCoins(accounting,1235),{code:'PREDICTION_PACKAGE_COIN'});
   }
@@ -70,7 +70,7 @@ test('Refreshed offer has 500 trillion in 1+1 total and keeps historical product
  assert.notEqual(SUPPORT_PACKAGE.code,SUPPORT_PACKAGE_UNIT.code);assert.notEqual(SUPPORT_PACKAGE.eventCode,SUPPORT_PACKAGE_LEGACY_BOGO.eventCode);
  assert.deepEqual(SUPPORT_PACKAGE_CURRENT_UNIT.items.slice(-2).map(i=>[i.code,i.quantity]),[['WEAPON_ENHANCEMENT_SCROLL',5],['ARMOR_ENHANCEMENT_SCROLL',5]]);
  assert.deepEqual(SUPPORT_PACKAGE.items.map(i=>[i.code,i.quantity]),[['MASTER_STAR',1000000000],['ARDEN_ENERGY',50],['WEAPON_ENHANCEMENT_SCROLL',10],['ARMOR_ENHANCEMENT_SCROLL',10],['MERCENARY_SSS_LIMITED_SHARD',25],['PET_SEAL_ORB',50],['PET_ESSENCE',500]]);
- assert.equal(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt,'2026-11-24T00:00:00+09:00');
+ assert.equal(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt,null);
 });
 test('ordinary desktop, Android Chrome and iPhone Safari browsers stay eligible for web checkout',()=>{
  for(const agent of ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0.0 Safari/537.36','Mozilla/5.0 (Linux; Android 14) Chrome/130.0.0 Mobile Safari/537.36','Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Version/18.0 Mobile/15E148 Safari/604.1'])assert(supportPackageClientAllowed(new Request('https://support.test/api/server-support/package',{headers:{'user-agent':agent}})));

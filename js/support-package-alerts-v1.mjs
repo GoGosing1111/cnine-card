@@ -1,4 +1,4 @@
-import {SUPPORT_PACKAGE,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261118-package-repeat23-v1';
+import {SUPPORT_PACKAGE,supportPackageSummary,SUPPORT_PACKAGE_EVENT_DEADLINE} from '../shared/support-package-v1.mjs?v=20261121-package-stars-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=value=>new Date(value).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'});
 const passKey=order=>'pass2:'+order.id;
@@ -38,7 +38,7 @@ export function mountPackageAlerts({root,request,canReceive,onOpen,onPassOpen=()
     const title=passes.length?(packages.length?'새 구매 신청이 접수됐습니다':'시즌패스 2개월차 구매 신청이 접수됐습니다'):'패키지 구매가 접수됐습니다';
     dialog.setAttribute('aria-label',passes.length?'시즌패스 구매 접수 알림':'패키지 구매 접수 알림');
     const passHtml=passes.length?`<div class="spkg-alert-orders">${passes.map(passRow).join('')}</div>`:'';
-    const packageHtml=packages.length?`<div class="spkg-alert-orders">${packages.map(o=>packageRow(o,data.product)).join('')}</div><p class="spkg-note spkg-deadline-note"><time datetime="${esc(SUPPORT_PACKAGE_EVENT_DEADLINE.endsAt)}">1+1 이벤트 · ${esc(SUPPORT_PACKAGE_EVENT_DEADLINE.label)}</time><br>${esc(SUPPORT_PACKAGE_EVENT_DEADLINE.detail)}</p>`:'';
+    const packageHtml=packages.length?`<div class="spkg-alert-orders">${packages.map(o=>packageRow(o,data.product)).join('')}</div><p class="spkg-note spkg-deadline-note">1+1 이벤트 · ${esc(SUPPORT_PACKAGE_EVENT_DEADLINE.label)}</p>`:'';
     dialog.innerHTML=`<section class="spkg"><header class="spkg-hero"><h2>${title}</h2><p>새로운 구매 신청 ${shown.length}건 · 전체 확인 대기 ${orders.length+passOrders.length}건</p></header>${passHtml}${packageHtml}<p class="spkg-note">신청자의 입금 내역을 확인한 뒤 CMS에서 구매를 확정하세요.</p><div class="spkg-actions">${packages.length?'<button type="button" data-package-alert-open>CMS 접수 내역 보기</button>':''}<button type="button" data-package-alert-close>확인 · 닫기</button></div></section>`;
     if(!dialog.open)dialog.showModal();
   }

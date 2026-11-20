@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {packageFixture} from './helpers/support-package-fixture.mjs';
-import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER6,SUPPORT_PACKAGE_NOVEMBER15,SUPPORT_PACKAGE_BONUS_CODE,SUPPORT_PACKAGE_LEGACY_BONUS_CODE,supportPackageBonus,supportPackageBonusState,supportPackageBonusKey,supportPackageWithBonus,supportPackageOrderProduct,SUPPORT_PACKAGE_SALES_ENDS_AT,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
+import {SUPPORT_PACKAGE,SUPPORT_PACKAGE_NOVEMBER6,SUPPORT_PACKAGE_NOVEMBER15,SUPPORT_PACKAGE_NOVEMBER15_PETS,SUPPORT_PACKAGE_BONUS_CODE,SUPPORT_PACKAGE_LEGACY_BONUS_CODE,supportPackageBonus,supportPackageBonusState,supportPackageBonusKey,supportPackageWithBonus,supportPackageOrderProduct,SUPPORT_PACKAGE_SALES_ENDS_AT,supportPackageSalesOpen} from '../shared/support-package-v1.mjs';
 const oldKey=supportPackageBonusKey(2,SUPPORT_PACKAGE_LEGACY_BONUS_CODE),newKey=supportPackageBonusKey(2),read=async(f,key=newKey)=>{const r=await f.one('SELECT value FROM app_meta WHERE key=?',key);return r?JSON.parse(r.value):null;};
 
 test('new campaign resets every prior count and keeps immutable old products and deadlines',()=>{
@@ -11,13 +11,13 @@ test('new campaign resets every prior count and keeps immutable old products and
  assert.equal(supportPackageBonus(0,5).coins,'20000000000000000');assert.equal(supportPackageBonus(0,10).coins,'28000000000000000');assert.equal(supportPackageBonus(10,100).coins,'280000000000000000');
  assert.deepEqual(supportPackageOrderProduct({product:SUPPORT_PACKAGE_NOVEMBER6,status:'FULFILLED'}),SUPPORT_PACKAGE_NOVEMBER6);
  assert.throws(()=>supportPackageBonusState({version:1,policyCode:SUPPORT_PACKAGE_LEGACY_BONUS_CODE,paidPurchases:5,totalBonusCoins:'4100000000000000'}));
- assert(supportPackageSalesOpen(Date.parse('2026-11-23T23:59:59.999+09:00')));assert(!supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT));
+ assert(supportPackageSalesOpen(Date.parse('2026-11-23T23:59:59.999+09:00')));assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT,null);assert(supportPackageSalesOpen(Date.parse('2026-11-24T00:00:00+09:00')));
 });
 
 test('pet additions upgrade pending November 15 orders, keep completed terms and do not restart the counter',async()=>{
  assert.deepEqual(supportPackageOrderProduct({product:SUPPORT_PACKAGE_NOVEMBER15,status:'FULFILLED'}),SUPPORT_PACKAGE_NOVEMBER15);
- assert.deepEqual(supportPackageOrderProduct({product:SUPPORT_PACKAGE_NOVEMBER15,status:'PENDING'}),SUPPORT_PACKAGE);
- assert.equal(SUPPORT_PACKAGE.bonusPolicy,SUPPORT_PACKAGE_NOVEMBER15.bonusPolicy);
+ assert.deepEqual(supportPackageOrderProduct({product:SUPPORT_PACKAGE_NOVEMBER15,status:'PENDING'}),SUPPORT_PACKAGE_NOVEMBER15_PETS);
+ assert.equal(SUPPORT_PACKAGE_NOVEMBER15_PETS.bonusPolicy,SUPPORT_PACKAGE_NOVEMBER15.bonusPolicy);assert.notEqual(SUPPORT_PACKAGE.bonusPolicy,SUPPORT_PACKAGE_NOVEMBER15.bonusPolicy);
  const f=await packageFixture({postgres:true});try{
   await f.activate();const order=(await f.apply()).body.order;order.product=SUPPORT_PACKAGE_NOVEMBER15;
   await f.run('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(order),'support_package_order_v1:'+order.id);
@@ -25,7 +25,7 @@ test('pet additions upgrade pending November 15 orders, keep completed terms and
   assert.equal((await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin,'1234');assert.equal(await read(f),null);assert.equal(Number((await f.one('SELECT COUNT(*) n FROM cnine_user_inventory')).n),0);
   await f.run("UPDATE inventory_items SET is_active=1 WHERE code='PET_ESSENCE'");assert.equal((await f.process(order)).status,200);
   for(const [code,quantity] of [['ARDEN_ENERGY',50],['PET_SEAL_ORB',50],['PET_ESSENCE',500]])assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE item_code=?',code)).quantity),quantity);
-  assert.equal((await read(f)).paidPurchases,1);const second=(await f.apply()).body.order;assert.equal((await f.process(second)).body.order.fulfillment.purchaseBonus.coins,'2000000000000000');assert.equal((await read(f)).paidPurchases,2);
+  assert.equal((await read(f,supportPackageBonusKey(2,SUPPORT_PACKAGE_NOVEMBER15.bonusPolicy))).paidPurchases,1);assert.equal(await read(f),null);const first=(await f.apply()).body.order;assert.equal((await f.process(first)).body.order.fulfillment.purchaseBonus.coins,'1000000000000000');assert.equal((await read(f)).paidPurchases,1);
  }finally{await f.close();}
 });
 

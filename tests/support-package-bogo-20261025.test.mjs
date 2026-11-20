@@ -23,7 +23,7 @@ test('new and legacy pending applications deliver their own 1+1 terms with restr
   }
   assert.equal(Number((await f.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='EMPEROR_ENERGY'")).quantity),400);
   assert.equal(Number((await f.one("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='MERCENARY_SSS_LIMITED_SHARD'")).quantity),35);
-  const messages=await f.all('SELECT body FROM user_messages');assert(messages.every(m=>m.body.includes('1+1 이벤트')&&m.body.includes('500조')&&m.body.includes('10억개')&&m.body.includes('10개')));
+  const messages=await f.all('SELECT body FROM user_messages');assert(messages.every(m=>m.body.includes('1+1 이벤트')&&m.body.includes('500조')&&m.body.includes('묶음패키지')&&m.body.includes('마스터의 별')&&m.body.includes('10개')));assert(messages.some(m=>m.body.includes('마스터의 별 60억개')));assert(messages.some(m=>m.body.includes('마스터의 별 110억개')));
  }finally{await f.close();}
 });
 
