@@ -8,7 +8,7 @@ import {rankedPowerDifference,rankedMatchForecast} from '../shared/ranked-reform
 import {rankedRosterPrefix} from '../functions/_ranked_series.js';
 import {rankedPromotionKey} from '../functions/_ranked_reform.js';
 import {pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE} from '../functions/_pvp_deck_policy.js';
-import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
+import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,RANKED_MATCH_RECENT_AVOID,rankedMatchPower,rankedMatchBands,rankedMatchScoreBounds,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
 
 const settings={matchSeasonRange:250,matchCardRange:20};
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
@@ -38,16 +38,16 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
  }
  for(let i=0;i<recent.length;i++)await db.prepare('INSERT INTO pvp_match_history VALUES(?,?,?)').bind(recent.length-i,1,recent[i]).run();
  const env={DB:{prepare(sql){let values=[];return {bind(...v){values=v;return this;},all:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).all();},first:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).first();},run:async()=>{writes.push(sql);return db.prepare(sql).bind(...values).run();}};}}};
- const ticketPayloads=new Map(),rosterCodes=['V-001','V-002','V-003'];
+ const ticketPayloads=new Map(),rosterChecks=[],rosterCodes=['V-001','V-002','V-003'];
  let currentTier='silver';const blockedDecks=new Set();
  const deps={rankedMatchForecast,rankedRosterPrefix,rankedPromotionKey,
   pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE,pvpDeckSnapshot:async(_,id)=>blockedDecks.has(Number(id))?[]:['FUR','FUR','ZENITH','SUPERSTAR','ICON'].map((rarity,i)=>({id:String(i),rarity})),
-  readRankedCandidateRosters:(_,batch)=>deps.readRankedRosters(_,batch.map(row=>row.id)),
+  readRankedCandidateRosters:(_,batch)=>{const ids=batch.map(row=>row.id);rosterChecks.push(ids);return deps.readRankedRosters(_,ids);},
   readRankedRosters:async(_,ids)=>new Map(ids.map(id=>[Number(id),{ready:rows.find(row=>row.id===Number(id))?.rosterReady!==false,codes:rosterCodes}])),
   saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender,scoringTier})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,scoringTier,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
   readRankedSeriesTicket:async(_,token)=>ticketPayloads.get(token)||null,
   rankedTicketPreview:async()=>({opponentOrderHidden:true,attacker:[],opponent:[]}),
-  RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,
+  RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,RANKED_MATCH_RECENT_AVOID,rankedMatchPower,rankedMatchScoreBounds,rankedMatchBand,
   selectRankedCandidate:(rows,settings,options)=>selectRankedCandidate(rows,settings,{...options,random}),rankedPowerDifference,
   ensureRankedPvpFoundation:async()=>{},pvpSeasonKey:()=> 'fixture-season',publicEquippedTitleMap:async()=>({}),resolvePvpTier:()=>({id:currentTier,name:currentTier}),pvpChallengerRank:async()=>0,pvpTierIndex:()=>0,
   ensurePvpProfile:async()=>({season_score:myScore,highest_score:myScore}),battleSettings:async()=>({}),pvpFormationPower:async()=>({power:100,matchPower:100,deckReady:myDeckReady}),
@@ -56,7 +56,7 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
   PVP_RANKED_ROLE_SQL:"UPPER(TRIM(COALESCE(u.role,'USER'))) <> 'OWNER'",pvpSqlUtc:ms=>new Date(ms).toISOString().replace('T',' ').slice(0,19)
  };
  const match=Function('deps',`with(deps){${matching}\nreturn createRankedMatchTicket;}`)(deps);
- return {call:()=>match(env,{id:1},matchSettings),setTier:tier=>{currentTier=tier;},blockedDecks,db,raw,queries,writes,batches,powers,mercenaryBatches};
+ return {call:()=>match(env,{id:1},matchSettings),setTier:tier=>{currentTier=tier;},blockedDecks,db,raw,queries,writes,batches,powers,mercenaryBatches,rosterChecks};
 }
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: pre-policy tickets cannot admit lower grade attack or defense decks`,async t=>{
@@ -131,6 +131,24 @@ test('a formerly valid ticket outside the new settings is discarded before issui
  const result=await f.call();assert.notEqual(result.token,'old');assert.equal(result.opponent.id,2);assert.equal(f.batches.length,1);
 });
 
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: a first batch of eight recent peers does not hide a fresh peer on the next page`,async t=>{
+ const rows=Array.from({length:129},(_,i)=>({id:i+2,power:i<8||i===96?105:1000}));
+ const f=await fixture(t,{rows,recent:[2,3,4,5,6,7,8,9],postgres});
+ assert.equal((await f.call()).opponent.id,98);assert.equal(f.batches.length,2);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: upper-tier ticket samples a new peer in the last band and reuses the quoted opponent`,async t=>{
+ const matchSettings={...settings,tiers:[{id:'diamond',min:1300}]};
+ const rows=[{id:2,score:2505,power:110},{id:3,score:1796,power:105},{id:4,score:1300,power:108},{id:5,score:1299,power:100},{id:6,score:1301,power:113}];
+ const f=await fixture(t,{rows,recent:[2,3,2,3],myScore:2498,matchSettings,postgres});
+ const ticket=await f.call(),again=await f.call();
+ assert.equal(ticket.opponent.id,4);assert.equal(again.token,ticket.token);assert.equal(again.reused,true);
+ const query=f.queries.find(x=>x.sql.includes('FROM users u JOIN pvp_profiles'));
+ assert.deepEqual(query.values.slice(2,4),[1300,3698]);
+ assert.ok(!f.batches.flat().includes(5));
+ assert.deepEqual(f.rosterChecks,[[4]]);
+});
+
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: one early candidate does not stop the search before a diverse pool is available`,async t=>{
  const rows=Array.from({length:193},(_,i)=>({id:i+2}));rows[0].power=100;
  for(let i=96;i<103;i++)rows[i].power=110;
@@ -165,9 +183,11 @@ test('matching keeps card/equipment and season caps even when mercenaries hide t
  await assert.rejects(f.call(),e=>e.status===409);assert.equal((await f.raw('SELECT token FROM pvp_ranked_match_tickets_v1671')).length,0);
 });
 
-test('an otherwise suitable defender without three saved owned types never enters the pool',async t=>{
- const f=await fixture(t,{rows:[{id:2,power:100,rosterReady:false},{id:3,power:105}]});
- assert.equal((await f.call()).opponent.id,3);assert.ok(!f.batches.flat().includes(2));
+test('a stale drawn roster triggers one batched ownership check before ticket issuance',async t=>{
+ const f=await fixture(t,{rows:[{id:2,power:100,rosterReady:false},{id:3,power:105},{id:4,power:108,rosterReady:false},{id:5,power:350}]});
+ assert.equal((await f.call()).opponent.id,3);assert.deepEqual(f.rosterChecks,[[2],[3,4]]);
+ const none=await fixture(t,{rows:[{id:2,power:100,rosterReady:false},{id:3,power:105,rosterReady:false}]});
+ await assert.rejects(none.call(),e=>e.status===409);assert.ok(!none.writes.some(sql=>sql.startsWith('INSERT')));
 });
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: saved eligible rosters remain discoverable behind the candidate limit`,async t=>{

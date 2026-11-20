@@ -1,0 +1,855 @@
+{
+  "변경": "일반 랭크전 상대 다양화",
+  "운영반영": {
+    "commit": "0eeb152cff041104867ed6b3d6cce37a179d39fd",
+    "pages": {
+      "id": "1af6d6cb-030a-4f31-9b05-b4773eeac11a",
+      "commit": "0eeb152cff041104867ed6b3d6cce37a179d39fd",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "5f3b4daf-dca5-45cb-81fa-d22ef737297e",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "97a96270-f9d5-474e-919d-22b1178f8c48",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "확인시각": "2026-11-20 20:08:31 KST",
+    "서버번들검증": "a80fe18e64d9ceb410e40fa6f0be7f152a992196755321274efc9fb662746e26"
+  },
+  "운영제보": {
+    "모드": "일반 랭크전 본인 도전",
+    "계정": "T-Money™",
+    "일시": "2026-11-20 17:46~19:02 KST",
+    "경기": 14,
+    "상대별": {
+      "학벌": 4,
+      "더듬이구": 8,
+      "베베킹": 1,
+      "족단": 1
+    }
+  },
+  "정책": {
+    "최근회피": 8,
+    "빈도가중기록": 20,
+    "범위": "허용된 단계 중 최근 8판에 없는 상대가 나오는 가장 가까운 단계 우선. 모두 만났으면 마지막 대전이 가장 오래된 상대.",
+    "상위권": "양쪽 모두 다이아 이상. 운영 설정에서 점수 차 750/1000/1200점까지 전투력 차 각각 20/15/12% 이하. CMS 기본 폭이 낮으면 그 값을 적용.",
+    "전투력": "덱·장비 등의 기존 매칭용 전투력 산식 사용.",
+    "편성확인": "마지막 후보 묶음은 뽑힌 상대의 저장 용병 소유권을 확인한다. 보유가 유효하지 않으면 나머지 후보를 일괄 검증한 뒤 재선택한다."
+  },
+  "재현": {
+    "조회시각": "2026-11-20T10:16:30.278Z",
+    "점수": 2498,
+    "직접도전20판기준": true,
+    "후보정밀검증": 145,
+    "고정편성시뮬레이션": {
+      "at": "2026-11-20T10:16:30.278Z",
+      "score": 2498,
+      "recorded": {
+        "학벌": 4,
+        "더듬이구": 8,
+        "베베킹": 1,
+        "족단": 1
+      },
+      "seeds": 200,
+      "historyWindow": 20,
+      "results": {
+        "before": {
+          "eligible": 2,
+          "stageCounts": {
+            "0": 1,
+            "3": 1
+          },
+          "stats": {
+            "first14Unique": [
+              2,
+              2
+            ],
+            "first14Max": [
+              7,
+              7
+            ],
+            "totalUnique": [
+              2,
+              2
+            ],
+            "immediateRepeats": [
+              0,
+              0
+            ],
+            "distinctPer7Min": [
+              2,
+              2
+            ]
+          }
+        },
+        "after": {
+          "eligible": 7,
+          "stageCounts": {
+            "0": 1,
+            "3": 1,
+            "4": 1,
+            "5": 4
+          },
+          "stats": {
+            "first14Unique": [
+              7,
+              7
+            ],
+            "first14Max": [
+              2,
+              2
+            ],
+            "totalUnique": [
+              7,
+              7
+            ],
+            "immediateRepeats": [
+              0,
+              0
+            ],
+            "distinctPer7Min": [
+              7,
+              7
+            ]
+          }
+        },
+        "public": {
+          "eligible": 7,
+          "stageCounts": {
+            "0": 1,
+            "3": 1,
+            "4": 1,
+            "5": 4
+          },
+          "stats": {
+            "first14Unique": [
+              7,
+              7
+            ],
+            "first14Max": [
+              2,
+              2
+            ],
+            "totalUnique": [
+              7,
+              7
+            ],
+            "immediateRepeats": [
+              0,
+              0
+            ],
+            "distinctPer7Min": [
+              7,
+              7
+            ]
+          }
+        }
+      }
+    },
+    "추가표본": {
+      "at": "2026-11-20T10:42:43.913Z",
+      "condition": "Same read-only snapshot. One deterministic ready attacker nearest each target score, then T-Money. Current attack vs every other eligible saved defense. Twenty actual prior attacks, 100 simulated seeds of 14 matches with fixed scores and rosters. Not a population-wide estimate.",
+      "ready": 146,
+      "samples": [
+        {
+          "score": 1018,
+          "reportedPlayer": false,
+          "before": {
+            "eligible": 44,
+            "unique14": [
+              7,
+              7
+            ]
+          },
+          "after": {
+            "eligible": 44,
+            "unique14": [
+              9,
+              9
+            ]
+          }
+        },
+        {
+          "score": 1251,
+          "reportedPlayer": false,
+          "before": {
+            "eligible": 32,
+            "unique14": [
+              9,
+              11
+            ]
+          },
+          "after": {
+            "eligible": 32,
+            "unique14": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "score": 1471,
+          "reportedPlayer": false,
+          "before": {
+            "eligible": 21,
+            "unique14": [
+              8,
+              9
+            ]
+          },
+          "after": {
+            "eligible": 21,
+            "unique14": [
+              9,
+              9
+            ]
+          }
+        },
+        {
+          "score": 1796,
+          "reportedPlayer": false,
+          "before": {
+            "eligible": 11,
+            "unique14": [
+              3,
+              3
+            ]
+          },
+          "after": {
+            "eligible": 11,
+            "unique14": [
+              9,
+              9
+            ]
+          }
+        },
+        {
+          "score": 2523,
+          "reportedPlayer": true,
+          "before": {
+            "eligible": 2,
+            "unique14": [
+              2,
+              2
+            ]
+          },
+          "after": {
+            "eligible": 5,
+            "unique14": [
+              5,
+              5
+            ]
+          }
+        }
+      ],
+      "writes": 0
+    }
+  },
+  "성능": {
+    "조건": "Single Windows CLI connection; same read-only PostgreSQL repeatable-read snapshot, applicant preloaded and ticket writes excluded. Actual indexed player history, shortlist, saved rosters and formation reads. DB/network time includes round trips.",
+    "운영읽기전용": [
+      {
+        "label": "before",
+        "visit": 0,
+        "scoreBounds": [
+          1773,
+          3273
+        ],
+        "shortlist": 2,
+        "batches": 1,
+        "powerEligible": 2,
+        "sql": 11,
+        "shortlistMs": 158,
+        "formationsMs": 818,
+        "selectMs": 0.494,
+        "totalMs": 977
+      },
+      {
+        "label": "before",
+        "visit": 1,
+        "scoreBounds": [
+          1773,
+          3273
+        ],
+        "shortlist": 2,
+        "batches": 1,
+        "powerEligible": 2,
+        "sql": 11,
+        "shortlistMs": 155,
+        "formationsMs": 715,
+        "selectMs": 0.059,
+        "totalMs": 870
+      },
+      {
+        "label": "after",
+        "visit": 0,
+        "scoreBounds": [
+          1323,
+          3723
+        ],
+        "shortlist": 12,
+        "batches": 1,
+        "powerEligible": 5,
+        "sql": 13,
+        "shortlistMs": 156,
+        "formationsMs": 573,
+        "selectMs": 0.336,
+        "totalMs": 1057
+      },
+      {
+        "label": "after",
+        "visit": 1,
+        "scoreBounds": [
+          1323,
+          3723
+        ],
+        "shortlist": 12,
+        "batches": 1,
+        "powerEligible": 5,
+        "sql": 13,
+        "shortlistMs": 156,
+        "formationsMs": 613,
+        "selectMs": 0.161,
+        "totalMs": 1113
+      }
+    ],
+    "최적화전실험": [
+      {
+        "label": "before",
+        "visit": 0,
+        "scoreBounds": [
+          1773,
+          3273
+        ],
+        "shortlist": 2,
+        "batches": 1,
+        "eligible": 2,
+        "sql": 11,
+        "shortlistMs": 158,
+        "formationsMs": 829,
+        "selectMs": 0.417,
+        "totalMs": 987
+      },
+      {
+        "label": "before",
+        "visit": 1,
+        "scoreBounds": [
+          1773,
+          3273
+        ],
+        "shortlist": 2,
+        "batches": 1,
+        "eligible": 2,
+        "sql": 11,
+        "shortlistMs": 159,
+        "formationsMs": 713,
+        "selectMs": 0.077,
+        "totalMs": 872
+      },
+      {
+        "label": "after",
+        "visit": 0,
+        "scoreBounds": [
+          1323,
+          3723
+        ],
+        "shortlist": 12,
+        "batches": 1,
+        "eligible": 5,
+        "sql": 21,
+        "shortlistMs": 156,
+        "formationsMs": 1650,
+        "selectMs": 0.257,
+        "totalMs": 1806
+      },
+      {
+        "label": "after",
+        "visit": 1,
+        "scoreBounds": [
+          1323,
+          3723
+        ],
+        "shortlist": 12,
+        "batches": 1,
+        "eligible": 5,
+        "sql": 21,
+        "shortlistMs": 155,
+        "formationsMs": 1546,
+        "selectMs": 0.101,
+        "totalMs": 1701
+      }
+    ],
+    "병목": "후보 편성 및 보유 조회의 DB/네트워크 왕복. 2523점 표본에서 기존 11회, 넓힌 초기안 21회, 최종 13회. 단일 Windows 연결의 측정치이며 전체 매칭 속도 추정치가 아니다.",
+    "브라우저조건": "Windows headless Chrome/WebKit. PC·Android 터치·iOS WebKit·Windows 실행 URL·H5 iframe을 에뮬레이션했다. 공개 UI의 로비 → 전체 메뉴 → 랭크전 → 매칭 신청 → 상대 공개. API는 동일한 25ms 지연과 검증용 저장 편성으로 격리, 전투 시작 경계까지만 측정. 프레임은 화면 갱신 간격, 긴 프레임은 50ms 초과. 첫 진입과 재입장 각각 단회.",
+    "브라우저": [
+      {
+        "platform": "desktop",
+        "phase": "before",
+        "launchMs": 29807,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 333,
+            "visibleMs": 86,
+            "frames": {
+              "count": 98,
+              "p50": 4.200000000000728,
+              "p95": 12.299999999999272,
+              "max": 45.79999999999927,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 181,
+            "visibleMs": 65,
+            "frames": {
+              "count": 114,
+              "p50": 4.19999999999709,
+              "p95": 4.400000000001455,
+              "max": 20.69999999999709,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "desktop",
+        "phase": "after",
+        "launchMs": 4967,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 687,
+            "visibleMs": 332,
+            "frames": {
+              "count": 191,
+              "p50": 4.199999999998909,
+              "p95": 4.700000000000728,
+              "max": 87.30000000000109,
+              "over50": 1
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 136,
+            "visibleMs": 80,
+            "frames": {
+              "count": 120,
+              "p50": 4.200000000000728,
+              "p95": 4.5,
+              "max": 16.600000000002183,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "android",
+        "phase": "before",
+        "launchMs": 6285,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 394,
+            "visibleMs": 147,
+            "frames": {
+              "count": 167,
+              "p50": 4.199999999998909,
+              "p95": 4.399999999999636,
+              "max": 20.800000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "laterReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 158,
+            "visibleMs": 74,
+            "frames": {
+              "count": 115,
+              "p50": 4.19999999999709,
+              "p95": 4.599999999998545,
+              "max": 33.20000000000073,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "laterReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "android",
+        "phase": "after",
+        "launchMs": 2386,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 216,
+            "visibleMs": 106,
+            "frames": {
+              "count": 55,
+              "p50": 4.200000000000273,
+              "p95": 54.09999999999991,
+              "max": 100,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 126,
+            "visibleMs": 83,
+            "frames": {
+              "count": 113,
+              "p50": 4.19999999999709,
+              "p95": 4.434000000001106,
+              "max": 33.39999999999782,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "ios",
+        "phase": "before",
+        "launchMs": 6622,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 402,
+            "visibleMs": 364,
+            "frames": {
+              "count": 8,
+              "p50": 16,
+              "p95": 864,
+              "max": 864,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 90,
+            "visibleMs": 260,
+            "frames": {
+              "count": 29,
+              "p50": 16,
+              "p95": 254,
+              "max": 305,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "platform": "ios",
+        "phase": "after",
+        "launchMs": 4937,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 452,
+            "visibleMs": 235,
+            "frames": {
+              "count": 3,
+              "p50": 250,
+              "p95": 345,
+              "max": 345,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "laterReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 82,
+            "visibleMs": 286,
+            "frames": {
+              "count": 12,
+              "p50": 15,
+              "p95": 356,
+              "max": 356,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "laterReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "windows",
+        "phase": "before",
+        "launchMs": 3864,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 417,
+            "visibleMs": 96,
+            "frames": {
+              "count": 99,
+              "p50": 4.199999999999818,
+              "p95": 8.402000000000044,
+              "max": 79.10000000000036,
+              "over50": 1
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "laterReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 172,
+            "visibleMs": 78,
+            "frames": {
+              "count": 123,
+              "p50": 4.19999999999709,
+              "p95": 4.30000000000291,
+              "max": 20.799999999999272,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "laterReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "windows",
+        "phase": "after",
+        "launchMs": 6241,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 484,
+            "visibleMs": 123,
+            "frames": {
+              "count": 141,
+              "p50": 4.199999999998909,
+              "p95": 4.400000000001455,
+              "max": 29.100000000000364,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 149,
+            "visibleMs": 64,
+            "frames": {
+              "count": 119,
+              "p50": 4.19999999999709,
+              "p95": 4.30000000000291,
+              "max": 16.700000000000728,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "h5",
+        "phase": "before",
+        "launchMs": 1208,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 164,
+            "visibleMs": 224,
+            "frames": {
+              "count": 119,
+              "p50": 4.199999999999818,
+              "p95": 12.399999999999636,
+              "max": 66.59999999999991,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 187,
+            "visibleMs": 67,
+            "frames": {
+              "count": 115,
+              "p50": 4.199999999999818,
+              "p95": 4.399999999999636,
+              "max": 29.100000000000364,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "h5",
+        "phase": "after",
+        "launchMs": 3998,
+        "entries": [
+          {
+            "visit": 0,
+            "readyMs": 208,
+            "visibleMs": 89,
+            "frames": {
+              "count": 72,
+              "p50": 4.199999999999818,
+              "p95": 20.800000000000182,
+              "max": 133.30000000000018,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 153,
+            "visibleMs": 76,
+            "frames": {
+              "count": 108,
+              "p50": 4.199999999998909,
+              "p95": 12.399999999999636,
+              "max": 37.5,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "관찰": "WebKit 및 일부 첫 진입에 긴 프레임이 관찰됐다. 초기 자산과 부하 차이가 포함된다. 실기기 및 배포 후 플레이어 승률은 이 측정의 대상 밖이다."
+  },
+  "관련통과": 47,
+  "공개모듈": {
+    "ranked-matchmaking-v2.mjs": "94c61f2780fc0c763ddb4127259d80d77e1d257908a4a6c63d8ba8e0efec96a0",
+    "ranked-reform-v1.mjs": "bec38534642442f2017412f2da4251b02b6ade77accbaefb9d231ef72a22959a",
+    "martial-law-v1.mjs": "85ad690a1495ef90022b948d80c3d4afa5e533b9d10c8a2662b4e8466761dde9"
+  },
+  "운영계정쓰기": 0,
+  "공개기록확인": {
+    "since": "2026-11-20T11:08:18.146Z",
+    "checked": "2026-11-20T11:08:28.709Z",
+    "count": 0,
+    "distinct": 0,
+    "opponents": [],
+    "meaning": "자연 발생한 직접 도전만 집계, 운영 테스트 경기 없음"
+  }
+}

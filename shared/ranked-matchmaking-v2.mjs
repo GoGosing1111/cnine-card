@@ -4,7 +4,7 @@ export const RANKED_MATCH_BATCH_SIZE=96;
 export const RANKED_MATCH_CANDIDATE_LIMIT=768;
 export const RANKED_MATCH_MIN_POOL_SIZE=8;
 export const RANKED_MATCH_HISTORY_LIMIT=20;
-export const RANKED_MATCH_RECENT_AVOID=5;
+export const RANKED_MATCH_RECENT_AVOID=8;
 
 // Mercenary strength remains a combat advantage, not an opponent-selection tax.
 // Tickets still retain full formation power for the pre-fight change guard.
@@ -21,10 +21,22 @@ export function rankedMatchBands(settings,lowerScore){
   matchSeasonRange:score+extraScore,matchCardRange:Math.min(100,power+extraPower)
  }));
  const diamond=settings.tiers?.find(tier=>tier.id==='diamond');
- if(diamond&&Number.isFinite(lowerScore)&&lowerScore>=diamond.min&&bands[2].matchSeasonRange<750){
-  bands.push({matchSeasonRange:Math.min(750,score+500),matchCardRange:Math.min(20,power)});
+ if(diamond&&Number.isFinite(lowerScore)&&lowerScore>=diamond.min){
+  for(const [ceiling,extra,powerCap] of [[750,500,20],[1000,750,15],[1200,950,12]]){
+   const reach=Math.min(ceiling,score+extra);
+   if(reach>bands.at(-1).matchSeasonRange)bands.push({matchSeasonRange:reach,matchCardRange:Math.min(power,powerCap)});
+  }
  }
  return bands;
+}
+
+// A player below Diamond can only be reached through the regular bands.
+export function rankedMatchScoreBounds(score,settings){
+ const normal=rankedMatchBands(settings).at(-1).matchSeasonRange;
+ const widest=rankedMatchBands(settings,score).at(-1).matchSeasonRange;
+ if(widest===normal)return [score-normal,score+normal];
+ const floor=settings.tiers.find(tier=>tier.id==='diamond').min;
+ return [Math.min(score-normal,Math.max(floor,score-widest)),score+widest];
 }
 
 export function rankedMatchBand(row,settings){
@@ -36,34 +48,34 @@ const rankedMatchRandom=()=>crypto.getRandomValues(new Uint32Array(1))[0]/429496
 
 export function selectRankedCandidate(rows,settings,{recentOpponentIds=[],random=rankedMatchRandom}={}){
  const recent=recentOpponentIds.slice(0,RANKED_MATCH_HISTORY_LIMIT).map(Number);
- const counts=new Map();for(const id of recent)counts.set(id,(counts.get(id)||0)+1);
- const eligible=rows.map(row=>({...row,matchStage:rankedMatchBand(row,settings)})).filter(row=>row.matchStage>=0);
- const regular=eligible.filter(row=>row.matchStage<3);
- const rescue=eligible.filter(row=>row.matchStage===3);
- const useRescue=rescue.length&&(!regular.length||(regular.length===1&&Number(regular[0].id)===recent[0]));
- const candidates=useRescue?rescue:regular;
- // A third consecutive opponent is a last resort, not a permanent lockout.
- const repeated=recent.length>=2&&recent[0]===recent[1]?recent[0]:0;
- const alternatives=candidates.filter(row=>Number(row.id)!==repeated),allowed=alternatives.length?alternatives:candidates;
- if(!allowed.length)return null;
- const stage=Math.min(...allowed.map(row=>row.matchStage));
- let pool=allowed.filter(row=>row.matchStage===stage);
- // Prefer the closest band. If everyone there was just played, look one
- // band farther for a fresh opponent before repeating a recent matchup.
- const justPlayed=new Set(recent.slice(0,RANKED_MATCH_RECENT_AVOID));
- if(pool.every(row=>justPlayed.has(Number(row.id)))){
-  const neighbors=allowed.filter(row=>row.matchStage===stage+1&&!justPlayed.has(Number(row.id)));
-  if(neighbors.length)pool=neighbors;
+ const counts=new Map(),lastMet=new Map();
+ for(const [index,id] of recent.entries()){
+  counts.set(id,(counts.get(id)||0)+1);
+  if(!lastMet.has(id))lastMet.set(id,index);
  }
- for(const length of [RANKED_MATCH_RECENT_AVOID,2,1]){
-  const avoided=new Set(recent.slice(0,length)),fresh=pool.filter(row=>!avoided.has(Number(row.id)));
-  if(fresh.length){pool=fresh;break;}
+ let nearestFreshStage=Infinity,oldestIndex=-1,oldest=null;
+ const pool=[];
+ for(const row of rows){
+  const matchStage=rankedMatchBand(row,settings);
+  if(matchStage<0)continue;
+  const index=lastMet.get(Number(row.id));
+  if(index!==undefined&&index<RANKED_MATCH_RECENT_AVOID){
+   if(index>oldestIndex){oldestIndex=index;oldest={...row,matchStage};}
+   continue;
+  }
+  if(matchStage>nearestFreshStage)continue;
+  if(matchStage<nearestFreshStage){nearestFreshStage=matchStage;pool.length=0;}
+  pool.push({...row,matchStage});
  }
+ if(!pool.length)return oldest;
  if(pool.length===1)return pool[0];
  const scoreScale=Math.max(1,Number(settings.matchSeasonRange??300)*0.8),powerScale=Math.max(1,Number(settings.matchCardRange??15));
- const weighted=pool.map(row=>({row,weight:Math.exp(-row.scoreDiff/scoreScale-row.powerDiff/powerScale)/(1+(counts.get(Number(row.id))||0))**2}));
+ // Relative weights keep a valid draw even with a zero-point CMS base range.
+ const costs=pool.map(row=>row.scoreDiff/scoreScale+row.powerDiff/powerScale+2*Math.log1p(counts.get(Number(row.id))||0));
+ const minimum=Math.min(...costs);
+ const weights=costs.map(cost=>Math.exp(minimum-cost));
  const draw=random();if(!Number.isFinite(draw)||draw<0||draw>=1)throw new RangeError('Invalid ranked matchmaking random value');
- let cursor=draw*weighted.reduce((sum,item)=>sum+item.weight,0);
- for(const item of weighted){cursor-=item.weight;if(cursor<0)return item.row;}
- return weighted.at(-1).row;
+ let cursor=draw*weights.reduce((sum,weight)=>sum+weight,0);
+ for(let i=0;i<pool.length;i++){cursor-=weights[i];if(cursor<0)return pool[i];}
+ return pool.at(-1);
 }
