@@ -27,7 +27,7 @@ import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
 import {registerApocalypseChallenge,apocalypseChallengeAction,reserveApocalypseBattle} from '../_apocalypse_challenge.js';
 import {rankedEqualPoints,rankedPromotionStatus,rankedLadderGame,rankedMatchForecast,rankedPowerDifference,normalizeRankedRechargeMinutes} from '../../shared/ranked-reform-v1.mjs';
-import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../../shared/ranked-matchmaking-v2.mjs';
+import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,RANKED_MATCH_RECENT_AVOID,rankedMatchPower,rankedMatchScoreBounds,rankedMatchBand,selectRankedCandidate} from '../../shared/ranked-matchmaking-v2.mjs';
 import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFight,rankedPromotionKey} from '../_ranked_reform.js';
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
 import {retiredContentResponse} from '../_retired_content.js';
@@ -1251,7 +1251,8 @@ async function createRankedMatchTicket(env,user,settings){
   }
   const [mine,battle,challengerRank]=await Promise.all([ensurePvpProfile(env,user,settings,true),battleSettings(env),pvpChallengerRank(env,user.id)]),myFormation=await pvpFormationPower(env,user.id,battle);
   if(!myFormation.deckReady){const error=new Error('FUR 등급 이상 카드 5장으로 랭크전 덱을 저장하세요. FUR·제니스·아이콘 각 최대 2장, 슈퍼스타 최대 1장입니다.');error.status=400;throw error}
-  const searchRange=rankedMatchBands(settings,Number(mine.season_score)).at(-1).matchSeasonRange,[recentRows,candidates]=await Promise.all([
+  const [minScore,maxScore]=rankedMatchScoreBounds(Number(mine.season_score),settings);
+  const [recentRows,candidates]=await Promise.all([
     env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT ?').bind(user.id,RANKED_MATCH_HISTORY_LIMIT).all(),
     env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses,r.value AS ranked_roster
     FROM users u JOIN pvp_profiles p ON p.user_id=u.id JOIN pvp_decks d ON d.user_id=u.id
@@ -1260,26 +1261,49 @@ async function createRankedMatchTicket(env,user,settings){
       AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
       AND CASE WHEN json_valid(d.card_ids) THEN json_array_length(d.card_ids) ELSE 0 END=5
       AND p.season_score BETWEEN ? AND ?
-    ORDER BY ABS(p.season_score-?) ASC,p.updated_at DESC,u.id ASC LIMIT ?`).bind(rankedRosterPrefix(),user.id,Number(mine.season_score)-searchRange,Number(mine.season_score)+searchRange,mine.season_score,RANKED_MATCH_CANDIDATE_LIMIT).all()
+    ORDER BY ABS(p.season_score-?) ASC,p.updated_at DESC,u.id ASC LIMIT ?`).bind(rankedRosterPrefix(),user.id,minScore,maxScore,mine.season_score,RANKED_MATCH_CANDIDATE_LIMIT).all()
   ]),recentOpponentIds=(recentRows.results||[]).map(row=>Number(row.defender_id));
   if(!(candidates.results||[]).length){const error=new Error('현재 매칭 가능한 랭크전 상대가 없습니다. 잠시 후 다시 시도하세요.');error.status=409;throw error}
-  const candidateRows=candidates.results||[],evaluated=[],seriesRosters=new Map([[Number(user.id),myRoster]]);let baselineCount=0;
-  // Gather at least eight suitable formations when available before drawing once.
-  // Sparse brackets still use bounded 96-row batches, never per-account queries.
+  const candidateRows=candidates.results||[],evaluated=[],seriesRosters=new Map([[Number(user.id),myRoster]]);
+  const unchecked=[];
+  const justPlayed=new Set(recentOpponentIds.slice(0,RANKED_MATCH_RECENT_AVOID));
+  let baselineCount=0,hasFreshBaseline=false;
   for(let offset=0;offset<candidateRows.length;offset+=RANKED_MATCH_BATCH_SIZE){
-    const batch=candidateRows.slice(offset,offset+RANKED_MATCH_BATCH_SIZE),rosters=await readRankedCandidateRosters(env,batch),readyIds=batch.filter(c=>rosters.get(Number(c.id))?.ready).map(c=>c.id),formationMap=await pvpDefenseFormationPowers(env,readyIds,battle);
-    for(const [id,roster] of rosters)if(roster.ready)seriesRosters.set(id,roster);
+    const batch=candidateRows.slice(offset,offset+RANKED_MATCH_BATCH_SIZE);
+    const isLastBatch=offset+batch.length===candidateRows.length;
+    // Earlier batches need a verified count to stop searching. On the final
+    // batch only the drawn opponent needs ownership checks to issue the ticket.
+    const rosters=isLastBatch?null:await readRankedCandidateRosters(env,batch);
+    const readyIds=(rosters?batch.filter(c=>rosters.get(Number(c.id))?.ready):batch).map(c=>c.id);
+    const formationMap=await pvpDefenseFormationPowers(env,readyIds,battle);
+    if(rosters)for(const [id,roster] of rosters)if(roster.ready)seriesRosters.set(id,roster);
     for(const candidate of batch){
       const formation=formationMap.get(Number(candidate.id));if(!formation?.deckReady)continue;
       const scoreDiff=Math.abs(Number(candidate.season_score)-Number(mine.season_score)),powerDiff=rankedPowerDifference(formation.matchPower,myFormation.matchPower),tierDistance=Math.abs(pvpTierIndex(candidate.season_score,settings.tiers)-pvpTierIndex(mine.season_score,settings.tiers));
       const lowerScore=Math.min(Number(candidate.season_score),Number(mine.season_score));
       const matchStage=rankedMatchBand({scoreDiff,powerDiff,lowerScore},settings);if(matchStage<0)continue;
       evaluated.push({id:candidate.id,nickname:candidate.nickname,season_score:candidate.season_score,wins:candidate.wins,losses:candidate.losses,power:formation.power,scoreDiff,powerDiff,lowerScore,tierDistance});
-      if(matchStage===0)baselineCount++;
+      if(isLastBatch)unchecked.push(candidate);
+      if(matchStage===0){
+        baselineCount++;
+        if(!justPlayed.has(Number(candidate.id)))hasFreshBaseline=true;
+      }
     }
-    if(baselineCount>=RANKED_MATCH_MIN_POOL_SIZE)break;
+    if(baselineCount>=RANKED_MATCH_MIN_POOL_SIZE&&hasFreshBaseline)break;
   }
-  const selected=selectRankedCandidate(evaluated,settings,{recentOpponentIds});
+  let selected=selectRankedCandidate(evaluated,settings,{recentOpponentIds});
+  if(selected&&!seriesRosters.has(Number(selected.id))){
+    const id=Number(selected.id),candidate=unchecked.find(row=>Number(row.id)===id);
+    const roster=(await readRankedCandidateRosters(env,[candidate])).get(id);
+    if(roster?.ready)seriesRosters.set(id,roster);
+    else{
+      // A stale saved order cannot win the draw. Validate the remaining
+      // balances together so stale accounts never cause a per-user retry loop.
+      const remaining=unchecked.filter(row=>Number(row.id)!==id);
+      for(const [otherId,other] of await readRankedCandidateRosters(env,remaining))if(other.ready)seriesRosters.set(otherId,other);
+      selected=selectRankedCandidate(evaluated.filter(row=>seriesRosters.has(Number(row.id))),settings,{recentOpponentIds});
+    }
+  }
   if(!selected){const error=new Error('균형 조건에 맞는 상대를 찾지 못했습니다. 잠시 후 다시 시도하세요.');error.status=409;throw error}
   const token=crypto.randomUUID(),expiresAt=pvpSqlUtc(Date.now()+90000);
   const insert=env.DB.prepare(`INSERT OR IGNORE INTO pvp_ranked_match_tickets_v1671(token,attacker_id,defender_id,season_key,attacker_score,defender_score,attacker_power,defender_power,expires_at)

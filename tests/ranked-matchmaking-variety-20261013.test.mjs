@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {selectRankedCandidate,rankedMatchBand} from '../shared/ranked-matchmaking-v2.mjs';
+import {selectRankedCandidate,rankedMatchBand,rankedMatchScoreBounds} from '../shared/ranked-matchmaking-v2.mjs';
 
 const settings={matchSeasonRange:250,matchCardRange:20};
 const candidate=(id,scoreDiff=0,powerDiff=0)=>({id,scoreDiff,powerDiff});
@@ -19,11 +19,11 @@ test('equally suitable opponents are all selectable without a fixed ID preferenc
  for(const count of counts.values())assert(count>=99&&count<=101);
 });
 
-test('recent five are avoided before weighting; recent twenty penalize repeated meetings',()=>{
- const rows=Array.from({length:8},(_,i)=>candidate(i+1));
- const counts=distribution(rows,{recentOpponentIds:[1,2,3,4,5]});
- assert.deepEqual([...counts.keys()],[6,7,8]);
- const penalized=distribution([candidate(1),candidate(2)],{recentOpponentIds:[90,91,92,93,94,1,1,1,1]});
+test('recent eight are avoided before weighting; recent twenty penalize repeated meetings',()=>{
+ const rows=Array.from({length:11},(_,i)=>candidate(i+1));
+ const counts=distribution(rows,{recentOpponentIds:[1,2,3,4,5,6,7,8]});
+ assert.deepEqual([...counts.keys()],[9,10,11]);
+ const penalized=distribution([candidate(1),candidate(2)],{recentOpponentIds:[90,91,92,93,94,95,96,97,1,1,1,1]});
  assert(penalized.get(1)>0,'A frequency penalty is not a permanent ban');
  assert(penalized.get(1)<penalized.get(2)/5);
  const expired=distribution([candidate(1),candidate(2)],{recentOpponentIds:[...Array(20).fill(90),1,1,1,1]});
@@ -53,26 +53,53 @@ test('stable scores no longer trap a healthy pool in a five-opponent cycle',()=>
  const rows=Array.from({length:24},(_,i)=>candidate(i+1,i,2)),recent=[],sequence=[];
  for(let i=0;i<120;i++){
   const next=selectRankedCandidate(rows,settings,{recentOpponentIds:recent,random});
-  assert(!recent.slice(0,5).includes(next.id));assert.equal(rankedMatchBand(next,settings),0);
+  assert(!recent.slice(0,8).includes(next.id));assert.equal(rankedMatchBand(next,settings),0);
   sequence.push(next.id);recent.unshift(next.id);recent.length=Math.min(20,recent.length);
  }
  assert(new Set(sequence.slice(-20)).size>=12,'Repeated play must reach a broader set of equally suitable opponents');
  assert(new Set(sequence).size>=22);
 });
 
-test('two recently alternating peers can yield to a fresh neighbor one band away',()=>{
+test('two recently alternating peers yield to the closest fresh neighbor, including across empty bands',()=>{
  const rows=[candidate(1),candidate(2),candidate(3,300,21),candidate(4,480,38)];
  assert.equal(selectRankedCandidate(rows,settings,{recentOpponentIds:[1,2,1,2,1]}).id,3);
  assert.equal(selectRankedCandidate(rows,settings,{recentOpponentIds:[1,3]}).id,2);
- assert.equal(selectRankedCandidate(rows.filter(r=>r.id!==3),settings,{recentOpponentIds:[1,2]}).id,2);
+ assert.equal(selectRankedCandidate(rows.filter(r=>r.id!==3),settings,{recentOpponentIds:[1,2]}).id,4);
 });
 
-test('upper-tier rescue only replaces an empty pool or a lone last opponent, within both hard caps',()=>{
+test('both upper-tier players must meet progressively tighter power caps as the score range widens',()=>{
  const cfg={...settings,tiers:[{id:'diamond',min:1300}]},peer=(id,scoreDiff,powerDiff=10,lowerScore=1500)=>({...candidate(id,scoreDiff,powerDiff),lowerScore});
  const lone=peer(1,498),rescue=peer(2,503);
  const pick=(rows,recent=[])=>selectRankedCandidate(rows,cfg,{recentOpponentIds:recent,random:()=>0});
  assert.equal(pick([rescue]).matchStage,3);assert.equal(pick([lone,rescue]).id,1);assert.equal(pick([lone,rescue],[1]).id,2);
- assert.equal(pick([lone,peer(3,490),rescue],[1,3]).id,3);
+ assert.equal(pick([lone,peer(3,490),rescue],[1,3]).id,2);
  assert.equal(pick([peer(1,750,20,1300)]).matchStage,3);
- for(const row of [peer(1,751),peer(1,510,20.1),peer(1,510,10,1299)])assert.equal(pick([row]),null);
+ assert.equal(pick([peer(1,751,15)]).matchStage,4);assert.equal(pick([peer(1,1000,15)]).matchStage,4);
+ assert.equal(pick([peer(1,1001,12)]).matchStage,5);assert.equal(pick([peer(1,1200,12)]).matchStage,5);
+ for(const row of [peer(1,1201,0),peer(1,751,15.01),peer(1,1001,12.01),peer(1,510,20.1),peer(1,510,10,1299)])assert.equal(pick([row]),null);
+ assert.deepEqual(rankedMatchScoreBounds(1299,cfg),[799,1799]);
+ assert.deepEqual(rankedMatchScoreBounds(1400,cfg),[900,2600]);
+ assert.deepEqual(rankedMatchScoreBounds(4000,cfg),[2800,5200]);
+ const tighter={...cfg,matchCardRange:8};
+ assert.equal(rankedMatchBand(peer(1,1180,8.01),tighter),-1);
+ assert.equal(rankedMatchBand(peer(1,1180,8),tighter),5);
+});
+
+test('a zero-point CMS base still gives equally distant upper-tier peers equal draw weights',()=>{
+ const cfg={...settings,matchSeasonRange:0,tiers:[{id:'diamond',min:1300}]};
+ const rows=[1,2].map(id=>({...candidate(id,900,8),lowerScore:1450}));
+ for(const [draw,id] of [[0,1],[0.499,1],[0.5,2],[0.99,2]])assert.equal(selectRankedCandidate(rows,cfg,{random:()=>draw}).id,id);
+});
+
+test('a sparse seven-peer bracket cycles through every legal opponent before a repeat',()=>{
+ const cfg={...settings,tiers:[{id:'diamond',min:1300}]};
+ const rows=[[2505,12.7],[1796,5.9],[1613,13.1],[1562,19.2],[1450,11.3],[1407,4.1],[1300,8.2],[1300,4.9],[1299,0],[3854,0]]
+  .map(([score,power],i)=>({...candidate(i+1,Math.abs(2498-score),power),lowerScore:Math.min(2498,score)}));
+ const recent=[1,2,1,2],seen=[];
+ for(let i=0;i<28;i++){
+  const next=selectRankedCandidate(rows,cfg,{recentOpponentIds:recent,random:()=>0.4});
+  seen.push(next.id);recent.unshift(next.id);
+ }
+ assert.equal(seen[0],3);
+ for(let i=0;i<=seen.length-7;i++)assert.deepEqual([...new Set(seen.slice(i,i+7))].sort(),[1,2,3,5,6,7,8]);
 });
