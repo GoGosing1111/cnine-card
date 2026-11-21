@@ -19,12 +19,12 @@ test('KST midnight, original registration odds, price and distinct ownership',()
  for(const code of ['V-976','V-967'])assert.equal(s.effectiveCardPercents[code],'0.00000008');
  assert.equal(s.effectiveCardPercents['V-059'],'0.000032');
  assert.equal(s.settings.normalSssRatePpm,997098);
- rows[4].issued=45;const other=blueGearState(doc,rows,[],after,['V-701','V-703']);assert.equal(other.effectiveCardPercents['V-701'],'0');assert.equal(other.effectiveCardPercents['V-702'],'0.00002');assert.equal(other.effectiveCardPercents['V-705'],'0');
+ rows[4].issued=rows[4].stock_limit;const other=blueGearState(doc,rows,[],after,['V-701','V-703']);assert.equal(other.effectiveCardPercents['V-701'],'0');assert.equal(other.effectiveCardPercents['V-702'],'0.00002');assert.equal(other.effectiveCardPercents['V-705'],'0');
  assert.equal(blueGearCatalog(doc,rows.slice(1),after).drawEnabled,false);
 });
 test('ordinary SSS replaces owned and exhausted slots without reroll',()=>{
  const doc=config(),rows=stock(doc),normals=[{code:'V-001',name:'일반',rank:'SSS',weight:1}];
- rows[0].issued=45;
+ rows[0].issued=rows[0].stock_limit;
  const s=blueGearState(doc,rows,normals,after,['V-702']);
  for(const ticket of [0,5000000]){let r=[1992000000,ticket,0];const [d]=pickBlackcrownBatch(s,1,()=>r.shift(),policy);assert.equal(d.mercenaryCode,'V-001');assert.equal(r.length,0);}
 });
@@ -54,14 +54,72 @@ test('production transaction paths, time lock, stock, 1/10/bulk, recovery and fo
  assert.equal((await f.p('SELECT COUNT(*) AS n FROM mercenary_limited_issues_v1 WHERE code LIKE ?',BLUE_GEAR_STOCK_PREFIX+'%').first()).n,3);
 });
 
-import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
+import {mercenaryCodexDocument,handleMercenaryCodex} from '../functions/_mercenary_codex.js';
+import {bluegearBulkFixture,bluegearBulkDocument} from './helpers/bluegear-large-bulk-fixture.mjs';
+import {bloodmoonStockText} from '../js/mercenary-bloodmoon-presentation-v2.mjs';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {validateCatalog} from '../mercenary-codex/model.mjs';
 test('codex validates the full live roster and approves all eight pack identities with unique Astra skills',()=>{
  const catalog=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
  const result=validateCatalog(catalog,{forDisplay:true});
  assert.equal(result.cards.filter(c=>c.acquisition==='BLUE_GEAR_PACK').length,8);
- for(const code of policy.ssCodes){const card=result.cards.find(c=>c.code===code);assert.equal(card.serverLimit,45);assert.match(card.acquisitionDescription,/종당 45장/);}
+ for(const code of policy.ssCodes){const card=result.cards.find(c=>c.code===code);assert.equal(card.serverLimit,60);assert.match(card.acquisitionDescription,/총 60장/);}
  const astra=result.cards.find(c=>c.code==='V-059'),others=new Set(result.cards.filter(c=>c.code!=='V-059').flatMap(c=>c.skills.map(s=>s.id)));
  assert(astra.skills.every(s=>!others.has(s.id)));assert.equal(result.cards.find(c=>c.code==='V-976').skills.length,6);
+});
+
+test('shop, codex and opening use individual Blue Gear limits and stop at the final serial',async t=>{
+ const f=await bluegearBulkFixture(t);
+ const doc=structuredClone(bluegearBulkDocument);
+ doc.revision=7;
+ const limits={'V-701':60,'V-702':60,'V-703':60,'V-704':60,'V-705':60,'V-976':9,'V-967':7};
+ const tickets={'V-701':0,'V-702':703125,'V-703':1406250,'V-704':2109375,'V-705':2812500,'V-976':3515625,'V-967':3525625};
+ doc.settings.stockLimits=limits;
+ await f.setting(BLUE_GEAR_PACK_KEY,doc);
+ for(const [code,limit] of Object.entries(limits)){
+  await f.p('UPDATE mercenary_limited_stock_v1 SET stock_limit=?,issued=? WHERE code=?',limit,limit-1,BLUE_GEAR_STOCK_PREFIX+code).run();
+ }
+ await f.pg.exec('ALTER TABLE mercenary_cms_documents_v1 ADD COLUMN updated_at TEXT');
+ const readCodex=async()=>{
+  const res=await handleMercenaryCodex({path:'mercenary-codex',request:{method:'GET'},env:f.env,deps:{json:(body,status)=>({body,status})}});
+  assert.equal(res.status,200);
+  return validateCatalog(res.body,{forDisplay:true}).cards;
+ };
+ const catalog=await readCodex();
+ const state=await f.state();
+ for(const [code,limit] of Object.entries(limits)){
+  const card=catalog.find(c=>c.code===code);
+  assert.equal(card.serverLimit,limit);
+  assert(card.acquisitionDescription.includes('총 '+limit+'장'));
+  const preview=state.previewCards.find(c=>c.code===code);
+  assert.equal(preview.limit,limit);
+  assert.equal(bloodmoonStockText(card,preview,true),'남은 1장 / 총 '+limit+'장');
+  let stage=0;
+  const service=createBlueGearPackService({randomInt:n=>n===10000000000?(stage++%2===0?1992000000:tickets[code]):0});
+  const body={count:1,expectedRevision:doc.revision,requestId:crypto.randomUUID()};
+  const initial=await f.coin();
+  if(code==='V-701'){
+   await assert.rejects(service.open(f.env,f.user,{...body,expectedRevision:6}),e=>e.code==='MERCENARY_BLACKCROWN_CHANGED');
+   f.fail('INSERT INTO mercenary_card_acquisitions_v1');
+   await assert.rejects(service.open(f.env,f.user,body));f.fail('');
+   assert.equal(await f.coin(),initial);
+   assert.equal((await f.state()).stock.find(r=>r.code===code).remaining,1);
+  }
+  const receipt=await service.open(f.env,f.user,body);
+  assert.equal(receipt.draws[0].mercenaryCode,code);assert.equal(receipt.draws[0].serial,limit);
+  assert.equal(receipt.draws[0].stockLimit,limit);assert((await service.open(f.env,f.user,body)).replayed);
+  assert.equal(await f.coin(),initial-doc.settings.prices.single);
+  const exhausted=await service.open(f.env,{...f.user,id:2},{...body,requestId:crypto.randomUUID()});
+  assert.notEqual(exhausted.draws[0].mercenaryCode,code);
+  const current=(await f.state()).stock.find(r=>r.code===code);
+  assert.equal(current.issued,limit);assert.equal(current.remaining,0);
+ }
+ const astra=catalog.find(c=>c.code==='V-059');
+ assert.equal(astra.stockPolicy,'UNLIMITED');
+ assert.equal(bloodmoonStockText(astra,null,true),'발행 한도 없음');
+ const earlier=structuredClone(doc);
+ earlier.settings.stockLimits={'V-701':45,'V-702':45,'V-703':45,'V-704':45,'V-705':45,'V-976':6,'V-967':4};
+ await f.setting(BLUE_GEAR_PACK_KEY,earlier);
+ const previous=await readCodex();
+ for(const [code,limit] of Object.entries(earlier.settings.stockLimits))assert.equal(previous.find(c=>c.code===code).serverLimit,limit);
 });

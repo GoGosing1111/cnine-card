@@ -3,6 +3,7 @@ import {ASTRA_ART} from '../shared/mercenary-astra-v1.mjs';
 import {JIN_JOKRO_ART,jinJokroCodexSkills} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {HELIOS_KING_ART,heliosKingCodexSkills} from '../shared/mercenary-helios-king-v1.mjs';
 import {HAKUYA_ART,hakuyaCodexSkills} from '../shared/mercenary-hakuya-v1.mjs';
+import {BLUE_GEAR_CODES,BLUE_GEAR_LEGEND_LIMITS} from '../shared/mercenary-blue-gear-catalog-v1.mjs';
 import {HEUKMU_ART,heukmuCodexSkills} from '../shared/mercenary-heukmu-v1.mjs';
 import {KAMISHIRO_ART,kamishiroCodexSkills} from '../shared/mercenary-kamishiro-v1.mjs';
 import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
@@ -44,6 +45,7 @@ import {MERCENARY_RANK_GROWTH_DESCRIPTION} from '../shared/mercenary-rank-growth
 // account ownership, acquisition drafts, or unassigned skill associations.
 export function mercenaryCodexDocument(row){
   const document=expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,seed.catalog);
+  const blueGearLimits=row.blue_gear_pack?JSON.parse(row.blue_gear_pack)?.settings?.stockLimits:null;
   const skills=new Map(document.skills.map(skill=>[skill.id,skill]));
   const projection={version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,rangedBalanceVersion:MERCENARY_RANGED_BALANCE_VERSION,guardBalanceVersion:MERCENARY_GUARD_BALANCE_VERSION,moonDrawVersion:MERCENARY_MOON_DRAW_VERSION,ssLimitedBalanceVersion:SS_LIMITED_BALANCE_VERSION,
     formation:{regularCardSlots:5,mercenarySlots:COMPANION_RELEASE.dualMercenaries?2:1,maxDeployedUnits:COMPANION_RELEASE.dualMercenaries?7:6},
@@ -89,9 +91,15 @@ export function mercenaryCodexDocument(row){
     card.combatLinkDescription=[card.combatLinkDescription,MERCENARY_PVP_GROWTH_DESCRIPTION,MERCENARY_RANK_GROWTH_DESCRIPTION].filter(Boolean).join(' ');
   }
   for(const card of projection.cards){
-    if(card.code!==ZERO_CODE&&card.code!==HAKUYA_ART.code)continue;
-    Object.assign(card,{acquisition:'BLUE_GEAR_PACK',packAcquisitionEnabled:true,acquisitionPackId:'mercenary-blue-gear',acquisitionPackName:'블루기어팩',acquisitionDescription:'블루기어팩에서 한정 발행합니다. 현재 잔여 수량은 상점에서 확인하세요.',stockPolicy:'PACK_ONLY',serverLimit:3,releaseStatus:'BATTLE_RELEASED'});
-    card.combatLinkDescription=(card.combatLinkDescription||'').replace(/현재 (일반 )?획득 불가[.。]?/g,'')+' 블루기어팩에서 한정 발행합니다. 현재 잔여 수량은 상점에서 확인하세요.';
+    const legendLimit=BLUE_GEAR_LEGEND_LIMITS[card.code];
+    if(!legendLimit&&!BLUE_GEAR_CODES.includes(card.code))continue;
+    const configured=blueGearLimits?.[card.code];
+    card.serverLimit=Number.isSafeInteger(configured)&&configured>=0?configured:legendLimit??card.serverLimit;
+    card.acquisitionDescription='블루기어팩 발행 한도는 총 '+card.serverLimit+'장입니다. 현재 잔여 수량은 상점에서 확인하세요.';
+    if(legendLimit){
+      Object.assign(card,{acquisition:'BLUE_GEAR_PACK',packAcquisitionEnabled:true,acquisitionPackId:'mercenary-blue-gear',acquisitionPackName:'블루기어팩',stockPolicy:'PACK_ONLY',releaseStatus:'BATTLE_RELEASED'});
+      card.combatLinkDescription=(card.combatLinkDescription||'').replace(/현재 (일반 )?획득 불가[.。]?/g,'')+' 블루기어팩에서 한정 발행합니다.';
+    }
   }
   return projection;
 }
@@ -99,7 +107,7 @@ export function mercenaryCodexDocument(row){
 export async function handleMercenaryCodex({path,request,env,deps}){
   if(path!=='mercenary-codex')return null;
   if(request.method!=='GET')return deps.json({error:'도감은 조회만 가능합니다.'},405,{Allow:'GET'});
-  const row=await env.DB.prepare("SELECT payload_json,revision,updated_at FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first();
+  const row=await env.DB.prepare("SELECT payload_json,revision,updated_at,(SELECT value FROM app_meta WHERE key='mercenary_blue_gear_pack_v1') AS blue_gear_pack FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first();
   if(!row)return deps.json({error:'용병 정보를 준비하고 있습니다.'},503);
   return deps.json(mercenaryCodexDocument(row),200,{'cache-control':'no-store'});
 }

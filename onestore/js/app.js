@@ -1951,11 +1951,12 @@ document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-bloodmoon-pack-enter]');if(!button||button.disabled)return;
  button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261113-contract1').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
-function bloodmoonShopStockText(stock){
+function bloodmoonShopStockText(stock,showLimit=false){
  if(stock?.stockPolicy==='UNLIMITED')return '발행 한도 없음';
  if(stock?.limit===null&&!stock.prepared)return '발행 한도 미정';
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
- return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+(stock.remaining===0?' · 소진':'');
+ const total=showLimit&&Number.isSafeInteger(stock.limit)?' / 총 '+stock.limit.toLocaleString('ko-KR')+'장':'';
+ return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+total+(stock.remaining===0?' · 소진':'');
 }
 window.addEventListener('bloodmoon-pack:stock',event=>{
  const stock=event.detail?.stock,pack=PACKS.find(row=>row.id==='mercenary-bloodmoon-ss-limited');if(!Array.isArray(stock)||!pack)return;
@@ -1969,12 +1970,12 @@ function bloodmoonPackHero(pack) {
  const ssCards=preview.filter(card=>card.rank==='SS');
  const legends=preview.filter(card=>card.rank==='SSS'&&card.stockPolicy!=='UNLIMITED');
  const unlimited=preview.filter(card=>card.stockPolicy==='UNLIMITED');
- const portrait=c=>`<figure class="bwp-portrait" data-rank="${escapeHtml(c.rank)}" data-code="${escapeHtml(c.code)}"><div class="bwp-art-frame"><img src="/${escapeHtml(c.thumbnailArt)}" alt="${escapeHtml(c.name)} 원화" loading="lazy" decoding="async"><span>${escapeHtml(c.rank)}</span></div><figcaption>${c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${escapeHtml(c.name)}</strong><small data-bwp-stock-code="${escapeHtml(c.code)}">${bloodmoonShopStockText(c)}</small></figcaption></figure>`;
+ const portrait=c=>`<figure class="bwp-portrait" data-rank="${escapeHtml(c.rank)}" data-code="${escapeHtml(c.code)}"><div class="bwp-art-frame"><img src="/${escapeHtml(c.thumbnailArt)}" alt="${escapeHtml(c.name)} 원화" loading="lazy" decoding="async"><span>${escapeHtml(c.rank)}</span></div><figcaption>${c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${escapeHtml(c.name)}</strong><small data-bwp-stock-code="${escapeHtml(c.code)}">${bloodmoonShopStockText(c,blue)}</small></figcaption></figure>`;
  const action=pack.drawEnabled||blue?`<button class="bwp-button bwp-primary bloodmoon-shop-action" ${blue?'data-blue-gear-enter':'data-bloodmoon-pack-enter'}>${pack.drawEnabled?escapeHtml(pack.name)+' 개봉':'개봉실 미리보기'}</button>`:'<div class="bwp-button bloodmoon-shop-action bloodmoon-shop-status" role="status">출시 예정 · 개봉 OFF</div>';
  const prices=blue||pack.drawEnabled?`<p class="bloodmoon-shop-note"><span>1회 ${Number(pack.prices?.single??pack.price).toLocaleString()} 코인</span><span>10회 ${Number(pack.prices?.ten).toLocaleString()} 코인</span></p>`:'';
  return `<section class="bloodmoon-shop-hero${blue?' blue-gear-skin':''}"><div class="bloodmoon-shop-main"><div class="bloodmoon-shop-copy"><p class="bloodmoon-eyebrow">REVERSE CALL · ${blue?'BLUE GEAR':'BLOODMOON'}</p><h2>${escapeHtml(pack.name)}</h2><p class="bloodmoon-shop-description">${blue?(pack.drawEnabled?'판매 중':'11월 20일 00:00 판매 시작 · 한국시간'):'블러드문의 계약이 깨어나는 밤.'}</p><div class="bloodmoon-shop-facts"><span>${blue?'블루기어':'블러드'} <b>SS ${ssCards.length}종</b></span><span>${blue?'SSS 리미티드':'SSS 리미티드·재료'} <b>${legends.length}종</b></span><span>일반 SSS <b>${unlimited.map(c=>escapeHtml(c.name)).join(' · ')}</b></span></div>${action}${prices}</div><div class="bloodmoon-shop-art">${packResponsiveImage(pack,{hero:true})}</div></div>
- <section class="bloodmoon-shop-collection"><div class="bwp-section-heading"><h3>${blue?'블루기어':'블러드'} 한정 컬렉션</h3><span>SS LIMITED · ${ssCards.length}${blue?' · 각 45장':''}</span></div><div class="bwp-roster">${ssCards.map(portrait).join('')}</div>
- <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>${blue?'SSS 리미티드 · 제로 · 하쿠야 신':'SSS 리미티드 · 프라임 제작 재료'}</h3><span>${blue?'현재 잔여 수량은 카드별 표시':'SSS LIMITED · 재료 포함 4종'}</span></div><div class="bwp-sss-roster">${legends.map(portrait).join('')}</div></section>
+ <section class="bloodmoon-shop-collection"><div class="bwp-section-heading"><h3>${blue?'블루기어':'블러드'} 한정 컬렉션</h3><span>SS LIMITED · ${ssCards.length}</span></div><div class="bwp-roster">${ssCards.map(portrait).join('')}</div>
+ <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>${blue?'SSS 리미티드 · 제로 · 하쿠야 신':'SSS 리미티드 · 프라임 제작 재료'}</h3><span>${blue?'카드별 잔여 수량 / 총한도':'SSS LIMITED · 재료 포함 4종'}</span></div><div class="bwp-sss-roster">${legends.map(portrait).join('')}</div></section>
  <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bwp-sss-roster">${unlimited.map(portrait).join('')}</div></section></section></section>`;
 }
 
@@ -2011,7 +2012,7 @@ window.addEventListener('blue-gear-pack:stock',event=>{
  if(!hero)return;
  for(const label of hero.querySelectorAll('[data-bwp-stock-code]')){
   const card=pack.previewCards.find(row=>row.code===label.dataset.bwpStockCode);
-  if(card)label.textContent=bloodmoonShopStockText(card);
+  if(card)label.textContent=bloodmoonShopStockText(card,true);
  }
  hero.querySelector('.bloodmoon-shop-description').textContent=pack.drawEnabled?'판매 중':pack.openingScheduled?'11월 20일 00:00 판매 시작 · 한국시간':'현재 개봉 불가';
  hero.querySelector('[data-blue-gear-enter]').textContent=pack.drawEnabled?'블루기어팩 개봉':'개봉실 미리보기';
@@ -2019,7 +2020,7 @@ window.addEventListener('blue-gear-pack:stock',event=>{
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-legend-refill-20261120-v1');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-limits-20261122-v1');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {
