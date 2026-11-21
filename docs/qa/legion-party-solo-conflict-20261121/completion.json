@@ -1,0 +1,1174 @@
+{
+  "request": "Prevent repeated personal legion hunt reconnect on a Burning Citadel party departure",
+  "checkedAt": "2026-11-21T07:16:18.199Z",
+  "release": {
+    "code": 0,
+    "base": "141044e46f07e03aad01635db155bc203445d694",
+    "head": "dbe10d6719bd2961beee3a4d45d55f28b27342b2",
+    "logfile": "deploy-1795245031977.log",
+    "at": "2026-11-21T07:16:12.031Z"
+  },
+  "verification": {
+    "publicStatus": {
+      "ok": true,
+      "open": true
+    },
+    "at": "2026-11-21T07:16:18.199Z",
+    "pages": {
+      "id": "91df2329-8859-4e7b-91c1-f737ecb81dd2",
+      "commit": "dbe10d6719bd2961beee3a4d45d55f28b27342b2",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "c95cbd2c-605c-4eed-bc43-442aa71038e8",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "997caf05-540b-48a6-9822-bf2368ec32cd",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "head": "dbe10d6719bd2961beee3a4d45d55f28b27342b2",
+    "tests": 78,
+    "workerMarkers": [
+      "interruptedLegionRun",
+      "keepCollected"
+    ],
+    "workerSha256": "e9e022f0c788e342a8cf5f4873bd20e0eabd80bd2d04cc7d1719ca1e949d719b",
+    "files": [
+      {
+        "file": "js/legion-citadel-v1.mjs",
+        "sha256": "de55db486772ff4c8afd98020989512d416b6eceb795e087a25a9728f41837d6",
+        "windows": true
+      },
+      {
+        "file": "js/legion-hunt-entry-v1.mjs",
+        "sha256": "c7f365cc2bf3737716781015a6bd78c29f568ecc24dad9e35fd01555250bf1c8",
+        "windows": true
+      }
+    ],
+    "windowsReleaseId": "526ccc52f8c1ce3f8e388171a0aefa85f57ffa43f4bcf259938378bc14e6f880"
+  },
+  "localTests": 78,
+  "deployedTests": 78,
+  "rootCause": "Late second loaded acknowledgement rejected either unexpired personal snapshot every time, including retries from an already rendered room.",
+  "before": [
+    {
+      "ms": 1.119899999999916,
+      "status": 409,
+      "code": "CITADEL_SOLO",
+      "queries": 6
+    },
+    {
+      "ms": 0.7041999999999007,
+      "status": 409,
+      "code": "CITADEL_SOLO",
+      "queries": 6
+    }
+  ],
+  "after": [
+    {
+      "ms": 2.9886999999999944,
+      "status": 200,
+      "room": "ACTIVE",
+      "queries": 20
+    },
+    {
+      "ms": 0.43649999999990996,
+      "status": 200,
+      "room": "ACTIVE",
+      "queries": 4
+    }
+  ],
+  "behavior": [
+    "Use both authenticated loaded acknowledgements and the committed party admission as the only point of transition.",
+    "Freeze both eligible personal sessions and party admission in one guarded transaction. An empty ordinary charged run refunds energy once. Already paid coins stay paid. Persist only acknowledged loot and results. Normal solo recovery or finish performs the existing idempotent grant.",
+    "Closed, expired, previously settled and non-member records stay independent. No personal hunt access or posting needed to enter the party.",
+    "Verified failed cooldown and missing party ticket, failed batch rollback, late pickup retry, lost reply, owner energy, cow tickets, legacy instant payouts and ordinary pending settlement."
+  ],
+  "profiling": {
+    "conditions": "Windows host. Public web static frontend, real isolated server handlers, no production account actions. Chromium desktop, Pixel 7 touch emulation, iPhone 13 WebKit emulation, offscreen Electron Windows renderer and H5 iframe. Service samples use in-process SQLite/PGlite and a 2,627-event snapshot (912 acknowledged); mock account authentication and support benefit lookup. First rendering measurements include asset warm-up; overlapping host/production check loads vary.",
+    "service": [
+      {
+        "phase": "before",
+        "dialect": "SQLite",
+        "kind": "no-solo",
+        "soloBytes": 0,
+        "trials": 6,
+        "firstMedianMs": 1.27,
+        "repeatMedianMs": 0.42,
+        "firstSQL": 19,
+        "repeatSQL": 4,
+        "firstOutcome": "ACTIVE"
+      },
+      {
+        "phase": "before",
+        "dialect": "SQLite",
+        "kind": "saved-solo",
+        "soloBytes": 129696,
+        "trials": 6,
+        "firstMedianMs": 1.46,
+        "repeatMedianMs": 1.48,
+        "firstSQL": 6,
+        "repeatSQL": 6,
+        "firstOutcome": "CITADEL_SOLO"
+      },
+      {
+        "phase": "before",
+        "dialect": "PGlite",
+        "kind": "no-solo",
+        "soloBytes": 0,
+        "trials": 6,
+        "firstMedianMs": 15.6,
+        "repeatMedianMs": 3.03,
+        "firstSQL": 24,
+        "repeatSQL": 4,
+        "firstOutcome": "ACTIVE"
+      },
+      {
+        "phase": "before",
+        "dialect": "PGlite",
+        "kind": "saved-solo",
+        "soloBytes": 129696,
+        "trials": 6,
+        "firstMedianMs": 5.63,
+        "repeatMedianMs": 5.69,
+        "firstSQL": 6,
+        "repeatSQL": 6,
+        "firstOutcome": "CITADEL_SOLO"
+      },
+      {
+        "phase": "after",
+        "dialect": "SQLite",
+        "kind": "no-solo",
+        "soloBytes": 0,
+        "trials": 6,
+        "firstMedianMs": 1.25,
+        "repeatMedianMs": 0.68,
+        "firstSQL": 19,
+        "repeatSQL": 4,
+        "firstOutcome": "ACTIVE"
+      },
+      {
+        "phase": "after",
+        "dialect": "SQLite",
+        "kind": "saved-solo",
+        "soloBytes": 129696,
+        "trials": 6,
+        "firstMedianMs": 3.15,
+        "repeatMedianMs": 0.5,
+        "firstSQL": 20,
+        "repeatSQL": 4,
+        "firstOutcome": "ACTIVE"
+      },
+      {
+        "phase": "after",
+        "dialect": "PGlite",
+        "kind": "no-solo",
+        "soloBytes": 0,
+        "trials": 6,
+        "firstMedianMs": 17.91,
+        "repeatMedianMs": 3.04,
+        "firstSQL": 24,
+        "repeatSQL": 4,
+        "firstOutcome": "ACTIVE"
+      },
+      {
+        "phase": "after",
+        "dialect": "PGlite",
+        "kind": "saved-solo",
+        "soloBytes": 129696,
+        "trials": 6,
+        "firstMedianMs": 28.81,
+        "repeatMedianMs": 3.03,
+        "firstSQL": 26,
+        "repeatSQL": 4,
+        "firstOutcome": "ACTIVE"
+      }
+    ],
+    "browser": [
+      {
+        "platform": "desktop",
+        "phase": "before",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 9410,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 8.5,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 195,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.8,
+              "max": 16.6,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 1
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          155,
+          86,
+          95,
+          86,
+          105,
+          150,
+          725,
+          83,
+          70,
+          275,
+          60,
+          51,
+          66
+        ],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "desktop",
+        "phase": "after",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 12309,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 5.6,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 182,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 12.7,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 5
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          223,
+          91,
+          84,
+          93,
+          75,
+          95,
+          62,
+          116,
+          368,
+          102,
+          54,
+          80,
+          256,
+          77,
+          62
+        ],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "android",
+        "phase": "before",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 12242,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 4.3,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 1000,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 4.4,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 3
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          124,
+          163,
+          76,
+          63,
+          220,
+          125,
+          71,
+          106,
+          54,
+          397,
+          79,
+          59,
+          61,
+          73,
+          195,
+          65,
+          127
+        ],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "android",
+        "phase": "after",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 12431,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 4.5,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 175,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 12.5,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 6
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          222,
+          62,
+          79,
+          66,
+          74,
+          88,
+          59,
+          100,
+          384,
+          90,
+          64,
+          253,
+          59,
+          59
+        ],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "ios",
+        "phase": "before",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 2663,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 16,
+              "p95": 49,
+              "max": 225,
+              "over50": 4,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 777,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 15,
+              "p95": 30,
+              "max": 230,
+              "over50": 3,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 4
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 3
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "longTasksMs": [],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "ios",
+        "phase": "after",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 8206,
+            "outcome": "active",
+            "frames": {
+              "p50": 16,
+              "p95": 208,
+              "max": 291,
+              "over50": 11,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 359,
+            "outcome": "active",
+            "frames": {
+              "p50": 16,
+              "p95": 172,
+              "max": 200,
+              "over50": 11,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 5
+          }
+        ],
+        "errors": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ],
+        "longTasksMs": [],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "windows",
+        "phase": "before",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 5605,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 16.7,
+              "p95": 16.8,
+              "max": 16.8,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 344,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 16.7,
+              "p95": 16.8,
+              "max": 16.8,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 4
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 1
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          200,
+          70,
+          102,
+          102,
+          155,
+          90,
+          50,
+          397,
+          92,
+          57,
+          90,
+          76,
+          284,
+          304,
+          76
+        ],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "windows",
+        "phase": "after",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 11062,
+            "outcome": "active",
+            "frames": {
+              "p50": 16.7,
+              "p95": 16.8,
+              "max": 16.8,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 258,
+            "outcome": "active",
+            "frames": {
+              "p50": 16.7,
+              "p95": 16.8,
+              "max": 16.8,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 4
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          52,
+          203,
+          64,
+          101,
+          97,
+          129,
+          130,
+          66,
+          72,
+          55,
+          425,
+          92,
+          195,
+          59
+        ],
+        "largestRelevantResources": []
+      },
+      {
+        "platform": "h5",
+        "phase": "before",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 8082,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 8.3,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 183,
+            "outcome": "blocked",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 8.2,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 2
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          205,
+          77,
+          82,
+          90,
+          78,
+          401,
+          78,
+          56,
+          234
+        ],
+        "largestRelevantResources": [
+          {
+            "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+            "ms": 222
+          }
+        ]
+      },
+      {
+        "platform": "h5",
+        "phase": "after",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 11345,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 8.4,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 574,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.2,
+              "p95": 4.3,
+              "max": 8.2,
+              "over50": 0,
+              "canvas": true,
+              "light": true
+            },
+            "afterExit": []
+          }
+        ],
+        "loaded": [
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 5
+          }
+        ],
+        "errors": [],
+        "longTasksMs": [
+          136,
+          210,
+          78,
+          76,
+          97,
+          112,
+          50,
+          408,
+          83,
+          74,
+          210,
+          59
+        ],
+        "largestRelevantResources": []
+      }
+    ],
+    "extended": [
+      {
+        "variant": "control",
+        "phase": "before",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 3814,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 4.400000000000546,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 1481,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.199999999998909,
+              "p95": 4.300000000001091,
+              "max": 16.600000000000364,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          }
+        ],
+        "replies": [
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 3
+          }
+        ],
+        "errors": [],
+        "slowRequests": [
+          {
+            "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+            "ms": 1629
+          },
+          {
+            "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+            "ms": 692
+          },
+          {
+            "path": "/assets/ui/legion-citadel/gate-1440.webp",
+            "ms": 536
+          },
+          {
+            "path": "/assets/ui/legion-citadel/enemies-v1/castellan-moloch.webp",
+            "ms": 417
+          },
+          {
+            "path": "/css/legion-citadel-v1.css",
+            "ms": 141
+          },
+          {
+            "path": "/js/legion-citadel-v1.mjs",
+            "ms": 141
+          },
+          {
+            "path": "/api/legion-party/lobby",
+            "ms": 53
+          },
+          {
+            "path": "/api/legion-party/battle",
+            "ms": 30
+          },
+          {
+            "path": "/api/legion-party/battle",
+            "ms": 21
+          },
+          {
+            "path": "/api/legion-party/state",
+            "ms": 18
+          },
+          {
+            "path": "/api/legion-party/loaded",
+            "ms": 14
+          },
+          {
+            "path": "/api/legion-party/lobby",
+            "ms": 7
+          }
+        ],
+        "mainThread": [
+          230,
+          88,
+          74,
+          85,
+          51,
+          120,
+          51,
+          353,
+          72,
+          78,
+          209,
+          51,
+          51
+        ]
+      },
+      {
+        "variant": "control",
+        "phase": "after",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 2923,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 8.399999999999636,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 2031,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.199999999998909,
+              "p95": 4.300000000001091,
+              "max": 8.399999999999636,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          }
+        ],
+        "replies": [
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 5
+          }
+        ],
+        "errors": [],
+        "slowRequests": [
+          {
+            "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+            "ms": 187
+          },
+          {
+            "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+            "ms": 170
+          },
+          {
+            "path": "/assets/ui/legion-citadel/gate-1440.webp",
+            "ms": 122
+          },
+          {
+            "path": "/api/legion-party/lobby",
+            "ms": 83
+          },
+          {
+            "path": "/assets/ui/legion-citadel/enemies-v1/castellan-moloch.webp",
+            "ms": 60
+          },
+          {
+            "path": "/api/legion-party/lobby",
+            "ms": 59
+          },
+          {
+            "path": "/css/legion-citadel-v1.css",
+            "ms": 34
+          },
+          {
+            "path": "/api/legion-party/battle",
+            "ms": 34
+          },
+          {
+            "path": "/js/legion-citadel-v1.mjs",
+            "ms": 30
+          },
+          {
+            "path": "/api/legion-party/battle",
+            "ms": 23
+          },
+          {
+            "path": "/api/legion-party/loaded",
+            "ms": 17
+          },
+          {
+            "path": "/api/legion-party/state",
+            "ms": 6
+          }
+        ],
+        "mainThread": [
+          174,
+          73,
+          74,
+          86,
+          63,
+          93,
+          350,
+          73,
+          58,
+          157,
+          56
+        ]
+      },
+      {
+        "variant": "switch",
+        "phase": "after",
+        "entries": [
+          {
+            "visit": "first",
+            "readyMs": 6006,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.199999999999818,
+              "p95": 4.299999999999272,
+              "max": 4.300000000001091,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          },
+          {
+            "visit": "reentry",
+            "readyMs": 2032,
+            "outcome": "active",
+            "frames": {
+              "p50": 4.199999999998909,
+              "p95": 4.300000000001091,
+              "max": 8.299999999999272,
+              "over50": 0,
+              "canvas": true,
+              "light": false
+            },
+            "afterExit": []
+          }
+        ],
+        "replies": [
+          {
+            "key": "legion-party/loaded",
+            "status": 409,
+            "code": "CITADEL_SOLO",
+            "ms": 4
+          },
+          {
+            "key": "legion-party/loaded",
+            "status": 200,
+            "state": "ACTIVE",
+            "ms": 4
+          }
+        ],
+        "beforeReconnectMs": 2802,
+        "errors": [],
+        "slowRequests": [
+          {
+            "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+            "ms": 139
+          },
+          {
+            "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+            "ms": 128
+          },
+          {
+            "path": "/api/legion-party/lobby",
+            "ms": 52
+          },
+          {
+            "path": "/js/legion-citadel-v1.mjs",
+            "ms": 47
+          },
+          {
+            "path": "/css/legion-citadel-v1.css",
+            "ms": 44
+          },
+          {
+            "path": "/api/legion-party/battle",
+            "ms": 38
+          },
+          {
+            "path": "/assets/ui/legion-citadel/gate-1440.webp",
+            "ms": 29
+          },
+          {
+            "path": "/assets/ui/legion-citadel/enemies-v1/castellan-moloch.webp",
+            "ms": 26
+          },
+          {
+            "path": "/api/legion-party/battle",
+            "ms": 24
+          },
+          {
+            "path": "/api/legion-party/battle",
+            "ms": 22
+          },
+          {
+            "path": "/api/legion-party/loaded",
+            "ms": 18
+          },
+          {
+            "path": "/api/legion-party/loaded",
+            "ms": 14
+          }
+        ],
+        "mainThread": [
+          173,
+          88,
+          66,
+          73,
+          79,
+          93,
+          70,
+          292,
+          59,
+          62,
+          176,
+          57,
+          50
+        ]
+      }
+    ],
+    "findings": "Before the change the saved-session path returns 409, so failure rendering and battle rendering are different endpoints. Compare completed no-solo controls separately. Normal admission and reentry retain their SQL counts. Saved progress adds a guarded snapshot write, plus a row lock in Postgres. No rendering-loop changes. First loads span asset fetch/decoding and main-thread work; the post-mount loaded handler is only part of that time. WebKit reports long frames and an existing ResizeObserver warning. No claimed speedup.",
+    "postExit": "All ten first/reentry pairs left no battle canvas and no legion-party polling during the 2.7 s post-close probe."
+  },
+  "productionAccountMutationsByQA": 0,
+  "noticePublished": false
+}
