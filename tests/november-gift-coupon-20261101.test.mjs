@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {forgeTicketFixture} from './helpers/admin-forge-ticket-fixture.mjs';
-import {NOVEMBER_GIFT_COUPON as gift,LUCKY_SEVEN_COUPON as lucky,CNINE_CHEER_COUPON as cheer,REVERSECALL_FOUR_MONTH_COUPON as fourMonth,CNINE_BOWLING_COUPON as bowling,redeemNovemberGiftCoupon} from '../functions/_november_gift_coupon.js';
+import {NOVEMBER_GIFT_COUPON as gift,LUCKY_SEVEN_COUPON as lucky,CNINE_CHEER_COUPON as cheer,REVERSECALL_FOUR_MONTH_COUPON as fourMonth,CNINE_BOWLING_COUPON as bowling,CNINE_STAR_COUPON as star,redeemNovemberGiftCoupon} from '../functions/_november_gift_coupon.js';
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const redeemSource=source.slice(source.indexOf("    if(path==='coupon/redeem'"),source.indexOf("    if(path==='admin/daily-quests')"));
 const route=new (Object.getPrototypeOf(async()=>{}).constructor)('deps',`const {env,request,authenticate,readBody,redeemLandCoupon,json,profile,redeemNovemberGiftCoupon,isRandomDrawExcluded}=deps;const path='coupon/redeem';${redeemSource}`);
@@ -60,6 +60,7 @@ test('regular CMS limits still reject the special bundle and 3X issuance',()=>{
  assert.equal(spec(gift.type),null);assert.equal(spec(lucky.type),null);assert.equal(spec('RANK_EXP_POTION_3X_60M'),null);assert.equal(spec('COIN').max,1000000000000);assert.equal(spec('MASTER_STAR').max,1000000);
  assert.equal(spec(cheer.type),null);assert.equal(spec(fourMonth.type),null);
  assert.equal(spec(bowling.type),null);
+ assert.equal(spec(star.type),null);
 });
 
 async function bowlingFixture(t) {
@@ -69,6 +70,44 @@ async function bowlingFixture(t) {
   [bowling.code,bowling.type,'1000000000000000']);
  return f;
 }
+
+test('CNINESTAR has its own 150 spots and pays a prior bowling recipient exactly once', async t => {
+ const f = await bowlingFixture(t);
+ await f.pg.query('INSERT INTO coupons(code,reward_type,reward_coin,reward_amount,max_uses) VALUES($1,$2,$3,1,150)',
+  ['CNINESTAR',star.type,'1000000000000000']);
+ const claim = (id, key) => f.redeem(id,key,' cninestar ');
+ assert.equal((await f.redeem(1,'BOWLING_INDEPENDENT',bowling.code)).status,200);
+ const before = await f.snapshot();
+ for (const pattern of ['UPDATE users SET coin','INSERT INTO coin_logs','INSERT INTO cnine_user_inventory','INSERT INTO inventory_logs','UPDATE coupons SET used_count','INSERT INTO coupon_redemptions']) {
+  f.fault({pattern});
+  await assert.rejects(claim(1,'STAR_REPLAY_FIRST'),/QA injected/);
+  assert.deepEqual(await f.snapshot(),before);
+ }
+ await f.pg.query("UPDATE coupons SET reward_type='COIN' WHERE code=$1",[star.code]);
+ const misconfigured = await f.snapshot();
+ assert.equal((await claim(1,'STAR_BAD_BUNDLE')).status,409);
+ assert.deepEqual(await f.snapshot(),misconfigured);
+ await f.pg.query('UPDATE coupons SET reward_type=$1 WHERE code=$2',[star.type,star.code]);
+ f.fault({ack:true});
+ await assert.rejects(claim(1,'STAR_REPLAY_FIRST'),/lost commit response/);
+ const replay = await (await claim(1,'STAR_REPLAY_FIRST')).json();
+ assert.equal(replay.replayed,true);
+ assert.equal(replay.rewardLabel,'씨나인 스타대회 출정기념 쿠폰');
+ assert.deepEqual(replay.rewards,[{type:'COIN',amount:1_000_000_000_000_000},{type:'MASTER_STAR',amount:1_000_000_000},{type:'ARDEN_ENERGY',amount:10}]);
+ assert.equal((await claim(1,'STAR_SECOND_ATTEMPT')).status,409);
+ assert.equal((await f.one('SELECT coin::text FROM users WHERE id=1')).coin,'2000000000001234');
+ assert.equal(await f.quantity('MASTER_STAR',1),2_000_000_000);
+ assert.equal(await f.quantity('ARDEN_ENERGY',1),20);
+ await f.pg.exec("INSERT INTO users(id,nickname,status,coin) SELECT n,'Star '||n,'ACTIVE',0 FROM generate_series(20,168) n");
+ for (let id = 20; id < 168; id++) assert.equal((await claim(id,'STAR_USER_'+id)).status,200);
+ const last = await Promise.all([claim(2,'STAR_LAST_002'),claim(168,'STAR_LAST_168')]);
+ assert.deepEqual(last.map(r=>r.status).sort(),[200,409]);
+ assert.deepEqual((await f.pg.query('SELECT c.code,c.used_count::int AS used,COUNT(DISTINCT r.user_id)::int AS recipients FROM coupons c LEFT JOIN coupon_redemptions r ON r.coupon_id=c.id WHERE c.code=ANY($1::text[]) GROUP BY c.id ORDER BY c.code',[[bowling.code,star.code]])).rows,[
+  {code:'CNINEBOWL150',used:1,recipients:1},{code:'CNINESTAR',used:150,recipients:150}
+ ]);
+ assert.equal(await f.count('coin_logs'),151);
+ assert.equal(await f.count('inventory_logs'),302);
+});
 
 test('bowling coupon credits 1,000조, 10억 stars and ten Arden energy once even after a lost response', async t => {
  const f = await bowlingFixture(t);
