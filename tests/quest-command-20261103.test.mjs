@@ -91,7 +91,15 @@ test('combined coop raid count uses frozen participants after departure, exclude
   await add('raid_lich_rooms_v1',{questParticipants:['1'],members:[]});await add('raid_lich_rooms_v1',{clearRewardSettlement:{weeklyByUser:{1:0}}});await add('raid_lich_rooms_v1',{status:'FAILED',members:[{id:1}]});
   await add('raid_madara_rooms_v1',{initialMembers:[1]});await add('raid_blackwing_rooms_v1',{initialMembers:['1']});await add('raid_blackwing_rooms_v1',{clearRewards:{1:{items:[]}}});
   for(const changes of [{releaseMode:'TEST',initialMembers:[1]},{status:'LOBBY',initialMembers:[1]},{finishedAt:end,initialMembers:[1]},{failure:{code:'MEMBER_LEFT'},initialMembers:[1]},{initialMembers:[2]},{startedAt:0,initialMembers:[1]}])await add('raid_blackwing_rooms_v1',changes);
-  await f.world();assert.equal((await extraWeeklyRaidCounts(f.env,f.user,period)).count,6);
+  await f.world();
+  const statements=[];
+  const env={DB:{dialect:'postgres',prepare(sql){statements.push(sql);return f.env.DB.prepare(sql);}}};
+  assert.deepEqual(await extraWeeklyRaidCounts(env,f.user,period),{count:6,available:true});
+  assert.equal(statements.length,1);
+  await f.pg.exec('DROP TABLE raid_blackwing_rooms_v1');
+  assert.deepEqual(await extraWeeklyRaidCounts(env,f.user,period),{count:4,available:true});
+  await f.pg.exec('DROP TABLE raid_madara_rooms_v1,raid_lich_rooms_v1');
+  assert.deepEqual(await extraWeeklyRaidCounts(env,f.user,period),{count:0,available:false});
  }finally{await f.pg.close()}
 });
 test('NPC briefing/progress/ready/claimed/blocked/paused/error lines follow mission and status',()=>{

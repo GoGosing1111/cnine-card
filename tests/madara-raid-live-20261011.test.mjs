@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {madaraLiveFixture} from './helpers/madara-live-fixture.mjs';
 import {MADARA_TICKET,validateMadaraSettings,defaultMadaraSettings} from '../functions/_raid_madara_live.js';
 import {prepareMadaraRewards} from '../functions/_raid_madara_rewards.js';
+import {extraWeeklyRaidCounts} from '../functions/_quest_combat.js';
+import {questPeriod} from '../functions/_quest_hub.js';
 const setup=async(t,options)=>{const h=await madaraLiveFixture(options);t.after(()=>h.close());return h;};
 const balance=async(h,user=1)=>Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user,MADARA_TICKET))?.quantity||0);
 test('CMS defaults TEST, excludes normal and ADMIN users, saves ON/OFF and rejects stale settings',async t=>{
@@ -92,6 +94,28 @@ test('expired lobby frees reservations, settings snapshot controls timing, and f
   assert.equal((await h.call('feature',{user:999})).status,401);
   assert.equal((await h.call('state?roomId='+roomId,{user:4})).status,403);
 });
+
+test('leaving an empty lobby cancels recruitment, while a finished loss keeps its original reason and quest eligibility',async t=>{
+  const h=await setup(t);await h.configure({mode:'ON'});
+  const solo=(await h.command('create')).body.roomId;
+  assert.equal((await h.command('leave',{roomId:solo})).status,200);
+  assert.equal((await h.one('SELECT status FROM raid_madara_rooms_v1 WHERE room_id=?',solo)).status,'CANCELLED');
+  for(const reason of ['MEMBER_LEFT','ENRAGE']){
+    const roomId=await h.party();
+    for(const user of [1,2,3])assert.equal((await h.command('ready',{roomId,ready:true},user)).status,200);
+    assert.equal((await h.command('start',{roomId})).status,200);
+    const read=async()=>JSON.parse((await h.one('SELECT state_json FROM raid_madara_rooms_v1 WHERE room_id=?',roomId)).state_json);
+    if(reason==='ENRAGE'){
+      const room=await read();room.endsAt=room.clock;
+      await h.run('UPDATE raid_madara_rooms_v1 SET state_json=? WHERE room_id=?',JSON.stringify(room),roomId);
+    }
+    assert.equal((await h.command('leave',{roomId},1)).status,200);
+    const result=await read();assert.equal(result.failure.code,reason);
+    for(const user of [2,3])assert.equal((await h.command('leave',{roomId},user)).status,200);
+    const after=await read();assert.equal(after.status,'FAILED');assert.equal(after.finishedAt,result.finishedAt);
+    assert.equal((await extraWeeklyRaidCounts(h.env,{id:1},questPeriod())).count,reason==='ENRAGE'?1:0);
+  }
+});
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: clear rewards rollback together, TEST never grants, weekly limit counts one multi-item clear`,async t=>{
   const h=await setup(t,{postgres});await h.configure();
   const room={id:'REWARD-QA',status:'CLEAR',releaseMode:'ON',finishedAt:Date.now(),members:[{id:'1'},{id:'2'}],rewardPolicy:{enabled:true,coin:500000000000,masterStars:20,petEssence:3,weeklyLimit:1}};
@@ -122,4 +146,18 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: fina
   assert.equal(Number((await h.one('SELECT COUNT(*) n FROM coin_logs')).n),3);
   assert.equal(Number((await h.one('SELECT COUNT(*) n FROM raid_madara_active_v1')).n),0);
   for(const user of [1,2,3]){assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=?',user)).coin),500000000000);assert.equal((await h.call('lobby',{user})).body.weeklyReward.used,1);}
+  const period=questPeriod(),readRoom=async()=>{
+    const row=await h.one('SELECT status,state_json FROM raid_madara_rooms_v1 WHERE room_id=?',roomId);
+    const state=JSON.parse(row.state_json);
+    return {status:row.status,outcome:state.status,finishedAt:state.finishedAt,rewards:state.clearRewards};
+  };
+  const result=await readRoom();
+  for(const user of [1,2,3]){
+    const leave={roomId,requestId:h.uid()};
+    assert.equal((await h.call('leave',{user,body:leave})).status,200);
+    assert.equal((await h.call('leave',{user,body:leave})).status,200);
+  }
+  assert.deepEqual(await readRoom(),result);
+  for(const id of [1,2,3])assert.equal((await extraWeeklyRaidCounts(h.env,{id},period)).count,1);
+  assert.equal(Number((await h.one('SELECT COUNT(*) n FROM coin_logs')).n),3);
 });

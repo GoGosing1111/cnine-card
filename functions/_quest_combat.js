@@ -27,20 +27,31 @@ export async function combatQuestPolicy(env){
  return {raw:row?.value||'',value,enabled:value.version===1&&value.enabled===true};
 }
 const range=column=>`REPLACE(SUBSTR(${column},1,19),'T',' ')>=? AND REPLACE(SUBSTR(${column},1,19),'T',' ')<?`;
+const missingTable=error=>/no such table|relation .* does not exist/i.test(String(error.message));
 async function count(env,sql,args){
  try{return {count:Number((await env.DB.prepare(sql).bind(...args).first())?.c||0),available:true}}
- catch(error){if(/no such table|relation .* does not exist/i.test(String(error.message)))return {count:0,available:false};throw error;}
+ catch(error){if(missingTable(error))return {count:0,available:false};throw error;}
 }
 export async function extraWeeklyRaidCounts(env,user,period){
  const start=Date.parse(period.start.replace(' ','T')+'Z'),end=Date.parse(period.end.replace(' ','T')+'Z');
- const results=await Promise.all(['raid_lich_rooms_v1','raid_madara_rooms_v1','raid_blackwing_rooms_v1'].map(table=>{
-  if(env.DB.dialect==='postgres')return count(env,`SELECT COUNT(*) c FROM ${table} r
+ const tables=['raid_lich_rooms_v1','raid_madara_rooms_v1','raid_blackwing_rooms_v1'];
+ if(env.DB.dialect==='postgres'){
+  const bounds='WITH limits AS (SELECT CAST(? AS bigint) AS week_start,CAST(? AS bigint) AS week_end,CAST(? AS text) AS user_key) ';
+  const args=[start,end,String(user.id)];
+  const queries=tables.map(table=>`SELECT COUNT(*) c FROM ${table} r CROSS JOIN limits
    CROSS JOIN LATERAL jsonb_to_record(r.state_json::jsonb) AS s("releaseMode" text,"startedAt" bigint,"finishedAt" bigint,failure jsonb,"questParticipants" jsonb,"initialMembers" jsonb,members jsonb,"clearRewards" jsonb,"clearRewardSettlement" jsonb)
-   WHERE r.status IN ('CLEAR','FAILED') AND (r.state_json::jsonb->>'finishedAt')::bigint>=? AND (r.state_json::jsonb->>'finishedAt')::bigint<? AND s."releaseMode"='ON' AND s."startedAt">0
+   WHERE r.status IN ('CLEAR','FAILED') AND (r.state_json::jsonb->>'finishedAt')::bigint>=limits.week_start AND (r.state_json::jsonb->>'finishedAt')::bigint<limits.week_end AND s."releaseMode"='ON' AND s."startedAt">0
    AND COALESCE(s.failure->>'code','') NOT IN ('MEMBER_LEFT','HOST_CANCELLED','LOBBY_EXPIRED')
-   AND (EXISTS(SELECT 1 FROM jsonb_array_elements_text(COALESCE(s."questParticipants",s."initialMembers",'[]'::jsonb)) AS participant(id) WHERE participant.id=?)
-    OR s."clearRewards"->? IS NOT NULL OR s."clearRewardSettlement"->'weeklyByUser'->? IS NOT NULL
-    OR EXISTS(SELECT 1 FROM jsonb_array_elements(COALESCE(s.members,'[]'::jsonb)) AS member(value) WHERE member.value->>'id'=?))`,[start,end,String(user.id),String(user.id),String(user.id),String(user.id)]);
+   AND (EXISTS(SELECT 1 FROM jsonb_array_elements_text(COALESCE(s."questParticipants",s."initialMembers",'[]'::jsonb)) AS participant(id) WHERE participant.id=limits.user_key)
+    OR s."clearRewards"->limits.user_key IS NOT NULL OR s."clearRewardSettlement"->'weeklyByUser'->limits.user_key IS NOT NULL
+    OR EXISTS(SELECT 1 FROM jsonb_array_elements(COALESCE(s.members,'[]'::jsonb)) AS member(value) WHERE member.value->>'id'=limits.user_key))`);
+  const combined=await count(env,bounds+'SELECT SUM(c) c FROM ('+queries.join(' UNION ALL ')+') totals',args);
+  if(combined.available)return combined;
+  // Older installations may have only some of the raid tables.
+  const individual=await Promise.all(queries.map(q=>count(env,bounds+q,args)));
+  return {count:individual.reduce((n,r)=>n+r.count,0),available:individual.some(r=>r.available)};
+ }
+ const results=await Promise.all(tables.map(table=>{
   // Frozen participants and clear settlement maps survive post-result departures.
   const sql=`SELECT COUNT(*) c FROM ${table} r WHERE status IN ('CLEAR','FAILED')
    AND json_extract(state_json,'$.releaseMode')='ON' AND CAST(json_extract(state_json,'$.startedAt') AS BIGINT)>0
