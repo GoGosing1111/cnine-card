@@ -1,0 +1,254 @@
+{
+  "status": "DEPLOYED_VERIFIED",
+  "checkedAt": "2026-11-21T18:04:12.354Z",
+  "previouslyDeployed": "d5fa46e32102667cc511758b2304c5f6aecc45f0",
+  "source": "bce0b8da5ebc66d2657cbf516669cd0c4a81fef0",
+  "pages": {
+    "id": "2b23f586-3f80-42f7-82a9-05128134f62c",
+    "commit": "bce0b8da5ebc66d2657cbf516669cd0c4a81fef0",
+    "status": "success"
+  },
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "version": "cea184c8-1639-4b42-ad01-1b08184f7c88",
+      "percentage": 100,
+      "perCoupon": 5000000000000,
+      "dailyCap": 30000000000000
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "version": "aa26bedc-f1cb-41a0-b31d-a38675f3a4f1",
+      "percentage": 100
+    }
+  ],
+  "publicAdmin": [
+    {
+      "file": "admin/index.html",
+      "sha256": "687dd1999be948cfd27671e15c13875bbdbfb1a97d8ab920f5b1d62a58c1ab83"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "efbfd297aee6c6f19c2d68a76c9004695324f3f2139f22d2ef458e5147ae62f3"
+    }
+  ],
+  "policy": {
+    "before": {
+      "perCoupon": 1000000000000,
+      "perOwnerDaily": 10000000000000
+    },
+    "after": {
+      "perCoupon": 5000000000000,
+      "perOwnerDaily": 30000000000000
+    },
+    "dailyExemptOwner": {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "perCoupon": 5000000000000
+    },
+    "countBy": "FACE_VALUE",
+    "day": "Asia/Seoul",
+    "sameDayExistingIssuesCount": true,
+    "disabledDeletedExhaustedIssuesCount": true
+  },
+  "validation": {
+    "testsPassed": 59,
+    "tests": [
+      "tests/coupon-owner-limits-20261029.test.mjs",
+      "tests/coupon-reward-cap-v1997.test.mjs",
+      "tests/chicken-coupon-20261009.test.mjs",
+      "tests/golden-axe-coupon-v1.test.mjs",
+      "tests/november-gift-coupon-20261101.test.mjs"
+    ],
+    "workerCompilation": true,
+    "productionReadOnly": true,
+    "productionAccountWrites": 0,
+    "productionTestCoupons": 0,
+    "ownersChecked": 4
+  },
+  "performance": {
+    "condition": "Windows CLI, 운영 데이터베이스에서 계정별 한도 조회. 첫 요청과 반복 요청을 한 번씩 측정. 브라우저는 Windows 헤드리스 Chrome PC 1440px 및 모바일 터치 390px 에뮬레이션. 공개 관리자 화면에서 쿠폰관리 클릭부터 목록과 잔여 금액이 표시될 때까지 측정. 화면 발행 요청은 격리 PGlite로 처리.",
+    "db": {
+      "before": [
+        {
+          "entry": "first",
+          "ms": 79,
+          "sql": 1
+        },
+        {
+          "entry": "repeat",
+          "ms": 78,
+          "sql": 1
+        }
+      ],
+      "after": [
+        {
+          "entry": "first",
+          "ms": 72,
+          "sql": 1
+        },
+        {
+          "entry": "repeat",
+          "ms": 74,
+          "sql": 1
+        }
+      ],
+      "executionMs": 0.648,
+      "plan": {
+        "Node Type": "Aggregate",
+        "Strategy": "Plain",
+        "Partial Mode": "Simple",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 315.82,
+        "Total Cost": 315.83,
+        "Plan Rows": 1,
+        "Plan Width": 32,
+        "Actual Startup Time": 0.631,
+        "Actual Total Time": 0.631,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Plans": [
+          {
+            "Node Type": "Seq Scan",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "coupons",
+            "Alias": "coupons",
+            "Startup Cost": 0,
+            "Total Cost": 315.81,
+            "Plan Rows": 1,
+            "Plan Width": 16,
+            "Actual Startup Time": 0.624,
+            "Actual Total Time": 0.627,
+            "Actual Rows": 10,
+            "Actual Loops": 1,
+            "Filter": "((created_at >= '2026-11-21 15:00:00'::text) AND (created_at < '2026-11-22 15:00:00'::text) AND (created_by = '2'::bigint) AND (COALESCE(NULLIF(upper(TRIM(BOTH FROM reward_type)), ''::text), 'COIN'::text) = 'COIN'::text))",
+            "Rows Removed by Filter": 5769
+          }
+        ]
+      }
+    },
+    "browser": {
+      "before": [
+        {
+          "width": 1440,
+          "per": 1000000000000,
+          "daily": 10000000000000,
+          "firstMs": 169,
+          "repeatMs": 29,
+          "readsAfterExit": 0,
+          "frames": {
+            "frames": 285,
+            "p95Ms": 4.3,
+            "maxMs": 12.5,
+            "longFrames": 0
+          },
+          "posts": [
+            {
+              "status": 201,
+              "amount": 1000000000000,
+              "uses": 1000000
+            },
+            {
+              "status": 409,
+              "amount": 1,
+              "uses": 1000000
+            }
+          ],
+          "exemptVerified": true,
+          "errors": []
+        },
+        {
+          "width": 390,
+          "per": 1000000000000,
+          "daily": 10000000000000,
+          "firstMs": 117,
+          "repeatMs": 34,
+          "readsAfterExit": 0,
+          "frames": {
+            "frames": 285,
+            "p95Ms": 4.3,
+            "maxMs": 12.6,
+            "longFrames": 0
+          },
+          "posts": [
+            {
+              "status": 201,
+              "amount": 1000000000000,
+              "uses": 1000000
+            },
+            {
+              "status": 409,
+              "amount": 1,
+              "uses": 1000000
+            }
+          ],
+          "exemptVerified": true,
+          "errors": []
+        }
+      ],
+      "after": [
+        {
+          "width": 1440,
+          "per": 5000000000000,
+          "daily": 30000000000000,
+          "firstMs": 189,
+          "repeatMs": 34,
+          "readsAfterExit": 0,
+          "frames": {
+            "frames": 83,
+            "p95Ms": 16.6,
+            "maxMs": 17.4,
+            "longFrames": 0
+          },
+          "posts": [
+            {
+              "status": 201,
+              "amount": 5000000000000,
+              "uses": 1000000
+            },
+            {
+              "status": 409,
+              "amount": 1,
+              "uses": 1000000
+            }
+          ],
+          "exemptVerified": true,
+          "errors": []
+        },
+        {
+          "width": 390,
+          "per": 5000000000000,
+          "daily": 30000000000000,
+          "firstMs": 112,
+          "repeatMs": 48,
+          "readsAfterExit": 0,
+          "frames": {
+            "frames": 82,
+            "p95Ms": 16.7,
+            "maxMs": 19.7,
+            "longFrames": 0
+          },
+          "posts": [
+            {
+              "status": 201,
+              "amount": 5000000000000,
+              "uses": 1000000
+            },
+            {
+              "status": 409,
+              "amount": 1,
+              "uses": 1000000
+            }
+          ],
+          "exemptVerified": true,
+          "errors": []
+        }
+      ]
+    },
+    "physicalDevice": false,
+    "observation": "한도 조회는 1회 SQL이다. 서버 쿼리 실행 시간보다 Windows 클라이언트와 DB 사이의 왕복 시간이 길었다. 브라우저는 폼 조작 중 프레임과 화면을 나간 후 450ms 동안 발생한 쿠폰 조회 수를 기록했다."
+  }
+}
