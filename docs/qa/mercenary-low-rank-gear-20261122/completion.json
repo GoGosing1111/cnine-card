@@ -1,0 +1,1212 @@
+{
+  "status": "운영 반영 및 검증 완료",
+  "verifiedAt": "2026-11-21T20:42:47.482Z",
+  "reporter": "베베킹",
+  "partyMember": "더듬이구",
+  "encounter": "군단 파티 토벌 · 종말의 왕좌",
+  "seed": 778135605,
+  "policy": {
+    "gearRatePercent": {
+      "C": 1,
+      "B": 2,
+      "A": 3,
+      "S": 5,
+      "SS": 100,
+      "SSS": 100
+    },
+    "personalGearPowerCap": {
+      "C": 100,
+      "B": 400,
+      "A": 1200,
+      "S": 3500
+    },
+    "lowRankOptionCapPercentOrPoints": {
+      "C": 1,
+      "B": 2,
+      "A": 3,
+      "S": 5
+    },
+    "inheritedGearCap": "캐릭터 장비를 제외한 카드의 연계 기준 능력치에 해당 등급 적용률을 곱한 값. 칭호·차고·카드 성장과 아바타·시즌 보너스는 분리해 계산.",
+    "pvpFrontRankBonusPercent": {
+      "C": 5,
+      "B": 10,
+      "A": 15,
+      "S": 20,
+      "SS": 40,
+      "SSS": 60
+    },
+    "targeting": "일반 군단 파티 토벌의 일반 몬스터 공격에서 같은 체력 비율끼리 기존 난수 한 번을 사용해 분산. 도발·전열·낮은 체력 우선과 다른 지역 표적 선택 유지."
+  },
+  "battle": {
+    "recorded": {
+      "variant": "제보 당시 C등급 개인 장비 미착용",
+      "events": 4065,
+      "frames": 811,
+      "matchedSavedReplay": true,
+      "eventHash": "6525cdfb7b8fe88a9b1a0031bdeec7d191fe3e0059c50703a229a7ba6891060b",
+      "frameHash": "77d7fe9e35990f50a3d4271fe45ab56a969b2ab4302c579bbc79d1e5c3e5a4da",
+      "mercs": [
+        {
+          "code": "V-035",
+          "rank": "C",
+          "hp": 21536106,
+          "shield": 21536106,
+          "effectivePower": 10770,
+          "guard": 0,
+          "defense": 1730,
+          "firstHit": 285000,
+          "ko": [
+            301700,
+            321020
+          ],
+          "final": 0
+        },
+        {
+          "code": "V-039",
+          "rank": "C",
+          "hp": 21536106,
+          "shield": 21536106,
+          "effectivePower": 10770,
+          "guard": 0,
+          "defense": 1730,
+          "firstHit": 285000,
+          "ko": [
+            301360,
+            325680
+          ],
+          "final": 0
+        }
+      ]
+    },
+    "reproduction": {
+      "variant": "동일 편성과 난수, C등급 두 명 각각 태양왕좌 유니크 3단계 +15 5부위",
+      "gear": {
+        "set": "태양왕좌",
+        "level": 15,
+        "rawPower": 75141000,
+        "rawEffects": {
+          "defensePercent": 600,
+          "pveGuardPercent": 80
+        }
+      },
+      "before": [
+        {
+          "code": "V-035",
+          "rank": "C",
+          "hp": 648755583,
+          "shield": 475665014,
+          "effectivePower": 80937627,
+          "guard": 80,
+          "defense": 91018409,
+          "firstHit": null,
+          "ko": [],
+          "final": 648755583
+        },
+        {
+          "code": "V-039",
+          "rank": "C",
+          "hp": 648755583,
+          "shield": 475665014,
+          "effectivePower": 80937627,
+          "guard": 80,
+          "defense": 91018409,
+          "firstHit": null,
+          "ko": [],
+          "final": 648755583
+        }
+      ],
+      "after": [
+        {
+          "code": "V-035",
+          "rank": "C",
+          "hp": 8641584,
+          "shield": 8613483,
+          "effectivePower": 10878,
+          "guard": 0.8,
+          "defense": 1765,
+          "firstHit": 50000,
+          "ko": [
+            60000,
+            62720
+          ],
+          "final": 0
+        },
+        {
+          "code": "V-039",
+          "rank": "C",
+          "hp": 8641584,
+          "shield": 8613483,
+          "effectivePower": 10878,
+          "guard": 0.8,
+          "defense": 1765,
+          "firstHit": 15000,
+          "ko": [
+            31020,
+            37380
+          ],
+          "final": 0
+        }
+      ]
+    },
+    "overSeeds": {
+      "seedsPerPosition": 12,
+      "positions": 2,
+      "battles": 24,
+      "individualMercenaries": 48,
+      "beforeWithKo": 1,
+      "afterWithKo": 48,
+      "afterFinalZero": 48,
+      "minFirstKoMs": 20340,
+      "maxFirstKoMs": 136700
+    },
+    "level21": {
+      "battles": 24,
+      "rank": "C",
+      "gear": "태양왕좌 +15 5부위",
+      "level": 21,
+      "knockedOut": 48,
+      "finalZero": 48
+    },
+    "solo": {
+      "conditions": "각 보스에서 등급별 운영 로스터 전원 Lv.1, 장비 5부위, 캐릭터 전투력·방어 옵션 적용",
+      "counts": {
+        "아카자": {
+          "C": {
+            "tested": 13,
+            "knockedOut": 13
+          },
+          "B": {
+            "tested": 5,
+            "knockedOut": 5
+          },
+          "A": {
+            "tested": 10,
+            "knockedOut": 10
+          },
+          "S": {
+            "tested": 6,
+            "knockedOut": 6
+          }
+        },
+        "모르가스": {
+          "C": {
+            "tested": 13,
+            "knockedOut": 13
+          },
+          "B": {
+            "tested": 5,
+            "knockedOut": 5
+          },
+          "A": {
+            "tested": 10,
+            "knockedOut": 10
+          },
+          "S": {
+            "tested": 6,
+            "knockedOut": 6
+          }
+        }
+      }
+    },
+    "upperRankControls": {
+      "battles": 12,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "codes": [
+        "V-010",
+        "V-021",
+        "V-975"
+      ],
+      "levels": [
+        1,
+        21
+      ],
+      "matching": [
+        "opening mercenary",
+        "all timeline events",
+        "final HP and battle state"
+      ]
+    }
+  },
+  "verification": {
+    "gateTests": 149,
+    "production": {
+      "head": "aaac5f44694c4d9cf955017175883d0ee3f90024",
+      "pages": {
+        "id": "d90786da-eafa-4972-bd1e-a125c83b6e8b",
+        "commit": "aaac5f44694c4d9cf955017175883d0ee3f90024",
+        "status": "success"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "deployments": [
+            {
+              "version_id": "ead09c9e-70b6-4837-9b33-d0510aa67217",
+              "percentage": 100
+            }
+          ]
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "deployments": [
+            {
+              "version_id": "e385afb7-ad28-4c8e-a619-5c97c8326c2a",
+              "percentage": 100
+            }
+          ]
+        }
+      ],
+      "publicFiles": [
+        "index.html",
+        "onestore/index.html",
+        "mercenary-codex/equipment/index.html",
+        "mercenary-codex/equipment/app.mjs",
+        "mercenary-codex/equipment/ui.mjs",
+        "shared/mercenary-equipment-rank-v1.mjs",
+        "shared/mercenary-equipment-v1.mjs",
+        "shared/equipment-combat-growth-v1.mjs",
+        "shared/mercenary-combat-link-v2103.mjs",
+        "shared/avatar-power-v1.mjs",
+        "service-worker.js",
+        "onestore/mercenary-codex/equipment/"
+      ],
+      "windowsManifestFiles": [
+        "index.html",
+        "mercenary-codex/equipment/index.html",
+        "mercenary-codex/equipment/app.mjs",
+        "mercenary-codex/equipment/ui.mjs",
+        "shared/mercenary-equipment-rank-v1.mjs",
+        "shared/mercenary-equipment-v1.mjs",
+        "shared/equipment-combat-growth-v1.mjs",
+        "shared/mercenary-combat-link-v2103.mjs",
+        "shared/avatar-power-v1.mjs"
+      ]
+    },
+    "additionalCheck": "기존 듀오 칭호 초기화·자동 편성 테스트 2건은 배포 전 원본 785376a14와 수정본 모두 같은 51행에서 팀 0/기대 2로 실패. 등급별 장비·칭호 전투력 분리와 실제 듀오 전투는 별도로 검증."
+  },
+  "performance": {
+    "environment": "Windows 헤드리스. 상세/경량 토벌은 실제 로비 → PVE 전투 → 군단 파티 토벌과 읽기 전용 리플레이 API. 장비실은 격리 SQLite의 실제 계정 API 및 브라우저 진입 URL. iOS/WebKit·Android·H5 iframe·Windows 클라이언트 URL 에뮬레이션. 모바일 실기기와 설치형 클라이언트 미측정.",
+    "bottleneck": "상세 전투 첫 진입은 이미지·초기 렌더러 준비 및 메인 스레드 긴 작업의 영향을 받음. 용병 장비 계산에는 기존 조회값을 재사용. 소유자별 연계 평균은 한 번 계산. 네트워크 및 캐시 편차가 있는 단회 비교.",
+    "battle": {
+      "before": {
+        "detail": [
+          {
+            "readyMs": 4210,
+            "frames": {
+              "n": 941,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 33.29999999999927,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 6,
+            "slowResources": [
+              {
+                "path": "/assets/optimized/20261015-v1/1acb0840fce80facd1ce5a75.webp",
+                "ms": 263,
+                "bytes": 1710882
+              },
+              {
+                "path": "/assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+                "ms": 254,
+                "bytes": 2873380
+              },
+              {
+                "path": "/assets/optimized/20261015-v1/541b2b2434e9db10992b7aa3.webp",
+                "ms": 249,
+                "bytes": 1703398
+              }
+            ],
+            "sample": {
+              "at": 65003,
+              "light": null,
+              "units": [
+                {
+                  "id": "V-035",
+                  "hp": 100,
+                  "state": "ATTACK",
+                  "visible": true,
+                  "alpha": 1,
+                  "rotation": 0,
+                  "active": true
+                },
+                {
+                  "id": "V-039",
+                  "hp": 100,
+                  "state": "ATTACK",
+                  "visible": true,
+                  "alpha": 1,
+                  "rotation": 0,
+                  "active": true
+                }
+              ]
+            }
+          },
+          {
+            "readyMs": 2056,
+            "frames": {
+              "n": 300,
+              "p50": 4.199999999998909,
+              "p95": 4.299999999999272,
+              "max": 29.100000000000364,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 0,
+            "slowResources": [
+              {
+                "path": "/assets/ui/pets/buffs-v1/attack-icon.webp",
+                "ms": 160,
+                "bytes": 26936
+              },
+              {
+                "path": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+                "ms": 150,
+                "bytes": 42048
+              },
+              {
+                "path": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+                "ms": 136,
+                "bytes": 30136
+              }
+            ],
+            "sample": {
+              "at": 70000,
+              "light": null,
+              "units": [
+                {
+                  "id": "V-035",
+                  "hp": 100,
+                  "state": "IDLE",
+                  "visible": true,
+                  "alpha": 1,
+                  "rotation": 0,
+                  "active": true
+                },
+                {
+                  "id": "V-039",
+                  "hp": 100,
+                  "state": "ATTACK",
+                  "visible": true,
+                  "alpha": 1,
+                  "rotation": 0,
+                  "active": true
+                }
+              ]
+            }
+          }
+        ],
+        "light": [
+          {
+            "readyMs": 397,
+            "frames": {
+              "n": 1871,
+              "p50": 4.199999999999818,
+              "p95": 4.299999999999727,
+              "max": 33.40000000000009,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 0,
+            "slowResources": [
+              {
+                "path": "/assets/ui/legion-citadel/enemies-v1/ember-watcher.webp",
+                "ms": 244,
+                "bytes": 29136
+              },
+              {
+                "path": "/assets/ui/legion-citadel/enemies-v1/ash-hound.webp",
+                "ms": 237,
+                "bytes": 34772
+              },
+              {
+                "path": "/assets/ui/legion-citadel/enemies-v1/furnace-warden.webp",
+                "ms": 206,
+                "bytes": 48500
+              }
+            ],
+            "sample": {
+              "at": 65006,
+              "light": "성채 전투 · 아군 8명 · 적 16명",
+              "units": []
+            }
+          },
+          {
+            "readyMs": 107,
+            "frames": {
+              "n": 308,
+              "p50": 4.199999999998909,
+              "p95": 4.300000000001091,
+              "max": 16.799999999999272,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 0,
+            "slowResources": [
+              {
+                "path": "/assets/ui/legion-citadel/enemies-v1/black-iron-guard.webp",
+                "ms": 172,
+                "bytes": 32490
+              },
+              {
+                "path": "/assets/ui/legion-citadel/enemies-v1/ember-watcher.webp",
+                "ms": 162,
+                "bytes": 29136
+              },
+              {
+                "path": "/assets/ui/project-v/characters/mercenary/mercenary-v039-rosetta-sd-v1.png",
+                "ms": 148,
+                "bytes": 1912196
+              }
+            ],
+            "sample": {
+              "at": 67990,
+              "light": "성채 전투 · 아군 8명 · 적 1명",
+              "units": []
+            }
+          }
+        ]
+      },
+      "after": {
+        "detail": [
+          {
+            "readyMs": 3701,
+            "frames": {
+              "n": 1082,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 20.799999999999272,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 5,
+            "slowResources": [
+              {
+                "path": "/assets/optimized/20261015-v1/541b2b2434e9db10992b7aa3.webp",
+                "ms": 265,
+                "bytes": 1703398
+              },
+              {
+                "path": "/assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+                "ms": 252,
+                "bytes": 2873380
+              },
+              {
+                "path": "/assets/optimized/20261015-v1/1acb0840fce80facd1ce5a75.webp",
+                "ms": 245,
+                "bytes": 1710882
+              }
+            ],
+            "sample": {
+              "at": 65005,
+              "light": null,
+              "units": [
+                {
+                  "id": "V-035",
+                  "hp": 0,
+                  "state": "DEAD",
+                  "visible": true,
+                  "alpha": 0.3,
+                  "rotation": -1.13,
+                  "active": false
+                },
+                {
+                  "id": "V-039",
+                  "hp": 0,
+                  "state": "DEAD",
+                  "visible": false,
+                  "alpha": 0.3,
+                  "rotation": -1.13,
+                  "active": false
+                }
+              ]
+            }
+          },
+          {
+            "readyMs": 1463,
+            "frames": {
+              "n": 310,
+              "p50": 4.199999999998909,
+              "p95": 4.299999999999272,
+              "max": 8.399999999999636,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 0,
+            "slowResources": [
+              {
+                "path": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+                "ms": 120,
+                "bytes": 42048
+              },
+              {
+                "path": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+                "ms": 113,
+                "bytes": 30136
+              },
+              {
+                "path": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+                "ms": 94,
+                "bytes": 32643
+              }
+            ],
+            "sample": {
+              "at": 69393,
+              "light": null,
+              "units": [
+                {
+                  "id": "V-035",
+                  "hp": 0,
+                  "state": "DEAD",
+                  "visible": true,
+                  "alpha": 0.3,
+                  "rotation": -1.13,
+                  "active": false
+                },
+                {
+                  "id": "V-039",
+                  "hp": 0,
+                  "state": "DEAD",
+                  "visible": true,
+                  "alpha": 0.3,
+                  "rotation": -1.13,
+                  "active": false
+                }
+              ]
+            }
+          }
+        ],
+        "light": [
+          {
+            "readyMs": 360,
+            "frames": {
+              "n": 1889,
+              "p50": 4.199999999999818,
+              "p95": 4.200000000000728,
+              "max": 12.400000000000091,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 0,
+            "slowResources": [
+              {
+                "path": "/assets/ui/project-v/characters/mercenary/mercenary-v035-sera-sd-v1.png",
+                "ms": 108,
+                "bytes": 2127420
+              },
+              {
+                "path": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+                "ms": 104,
+                "bytes": 15396
+              },
+              {
+                "path": "/assets/fonts/battle/RussoOne-Regular.ttf",
+                "ms": 103,
+                "bytes": 39124
+              }
+            ],
+            "sample": {
+              "at": 65014,
+              "light": "성채 전투 · 아군 6명 · 적 15명",
+              "units": []
+            }
+          },
+          {
+            "readyMs": 68,
+            "frames": {
+              "n": 314,
+              "p50": 4.199999999998909,
+              "p95": 4.200000000000728,
+              "max": 4.300000000001091,
+              "over50": 0
+            },
+            "exit": {
+              "canvas": 0,
+              "timelines": 0,
+              "partyRequests": 0
+            },
+            "longTaskCount": 0,
+            "slowResources": [
+              {
+                "path": "/api/legion-party/lobby",
+                "ms": 11,
+                "bytes": 804
+              },
+              {
+                "path": "/api/legion-party/battle",
+                "ms": 6,
+                "bytes": 289246
+              }
+            ],
+            "sample": {
+              "at": 67965,
+              "light": "성채 전투 · 아군 6명 · 적 0명",
+              "units": []
+            }
+          }
+        ]
+      }
+    },
+    "armory": [
+      {
+        "stage": "before",
+        "profile": "desktop",
+        "visits": [
+          {
+            "readyMs": 857,
+            "count": 2,
+            "p95": 4.2000000000000455,
+            "max": 4.300000000000182,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+                268
+              ],
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                261
+              ],
+              [
+                "/css/equipment-icons-20261114.css",
+                251
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 251,
+            "count": 2,
+            "p95": 4.2999999999999545,
+            "max": 4.300000000000011,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                78
+              ],
+              [
+                "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+                77
+              ],
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                71
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "after",
+        "profile": "desktop",
+        "visits": [
+          {
+            "readyMs": 604,
+            "count": 2,
+            "p95": 4.2999999999999545,
+            "max": 4.2999999999999545,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-top.webp",
+                240
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-bottom.webp",
+                239
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-shoes.webp",
+                238
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 185,
+            "count": 2,
+            "p95": 4.2999999999999545,
+            "max": 4.300000000000011,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-top.webp",
+                33
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-bottom.webp",
+                32
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-shoes.webp",
+                32
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "before",
+        "profile": "android",
+        "visits": [
+          {
+            "readyMs": 207,
+            "count": 2,
+            "p95": 4.2000000000000455,
+            "max": 4.2999999999999545,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                67
+              ],
+              [
+                "/api/sync/ticket",
+                59
+              ],
+              [
+                "/assets/quest-command-20261103/PretendardVariable.woff2",
+                39
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 129,
+            "count": 2,
+            "p95": 4.300000000000011,
+            "max": 4.300000000000011,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/api/mercenaries/v3/state",
+                26
+              ],
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                26
+              ],
+              [
+                "/api/mercenaries/v3/equipment",
+                23
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "after",
+        "profile": "android",
+        "visits": [
+          {
+            "readyMs": 206,
+            "count": 2,
+            "p95": 4.2000000000000455,
+            "max": 4.300000000000011,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                57
+              ],
+              [
+                "/api/sync/ticket",
+                47
+              ],
+              [
+                "/assets/quest-command-20261103/PretendardVariable.woff2",
+                46
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 167,
+            "count": 2,
+            "p95": 4.2000000000000455,
+            "max": 4.300000000000068,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                29
+              ],
+              [
+                "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+                29
+              ],
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                28
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "before",
+        "profile": "ios",
+        "visits": [
+          {
+            "readyMs": 287,
+            "count": 4,
+            "p95": 30,
+            "max": 30,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/api/mercenaries/v3/state",
+                18
+              ],
+              [
+                "/api/sync/ticket",
+                16
+              ],
+              [
+                "/api/mercenaries/v3/equipment",
+                14
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 332,
+            "count": 2,
+            "p95": 30,
+            "max": 30,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/api/mercenaries/v3/state",
+                22
+              ],
+              [
+                "/api/mercenaries/v3/equipment",
+                14
+              ],
+              [
+                "/assets/quest-command-20261103/PretendardVariable.woff2",
+                7
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "after",
+        "profile": "ios",
+        "visits": [
+          {
+            "readyMs": 399,
+            "count": 4,
+            "p95": 29,
+            "max": 31,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/api/sync/ticket",
+                17
+              ],
+              [
+                "/assets/quest-command-20261103/PretendardVariable.woff2",
+                16
+              ],
+              [
+                "/api/mercenaries/v3/state",
+                16
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 301,
+            "count": 2,
+            "p95": 30,
+            "max": 30,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                20
+              ],
+              [
+                "/api/mercenaries/v3/state",
+                18
+              ],
+              [
+                "/api/mercenaries/v3/equipment",
+                15
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "before",
+        "profile": "windows-client-url",
+        "visits": [
+          {
+            "readyMs": 306,
+            "count": 2,
+            "p95": 4.300000000000068,
+            "max": 4.5,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                88
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/10-crown-of-genesis-weapon.webp",
+                52
+              ],
+              [
+                "/assets/quest-command-20261103/PretendardVariable.woff2",
+                48
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 241,
+            "count": 2,
+            "p95": 4.2999999999999545,
+            "max": 4.300000000000011,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                49
+              ],
+              [
+                "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+                47
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/10-crown-of-genesis-top.webp",
+                40
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "after",
+        "profile": "windows-client-url",
+        "visits": [
+          {
+            "readyMs": 384,
+            "count": 2,
+            "p95": 4.300000000000068,
+            "max": 4.300000000000068,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                94
+              ],
+              [
+                "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+                91
+              ],
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                88
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 220,
+            "count": 2,
+            "p95": 4.2000000000000455,
+            "max": 4.300000000000068,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-top.webp",
+                53
+              ],
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                39
+              ],
+              [
+                "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+                38
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "before",
+        "profile": "h5-frame",
+        "visits": [
+          {
+            "readyMs": 327,
+            "count": 4,
+            "p95": 4.2999999999999545,
+            "max": 4.300000000000068,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                74
+              ],
+              [
+                "/api/sync/ticket",
+                67
+              ],
+              [
+                "/assets/quest-command-20261103/PretendardVariable.woff2",
+                61
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 252,
+            "count": 4,
+            "p95": 4.2999999999999545,
+            "max": 4.300000000000068,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/api/mercenaries/v3/state",
+                52
+              ],
+              [
+                "/api/mercenaries/v3/equipment",
+                48
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/08-abyss-constellation-bottom.webp",
+                42
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      },
+      {
+        "stage": "after",
+        "profile": "h5-frame",
+        "visits": [
+          {
+            "readyMs": 265,
+            "count": 4,
+            "p95": 4.300000000000068,
+            "max": 4.300000000000068,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/assets/ui/equipment-polish-20261114/icons.webp",
+                69
+              ],
+              [
+                "/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+                68
+              ],
+              [
+                "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+                66
+              ]
+            ],
+            "exitRequests": 0
+          },
+          {
+            "readyMs": 256,
+            "count": 4,
+            "p95": 4.300000000000068,
+            "max": 4.300000000000068,
+            "over50": 0,
+            "scrollOverflow": false,
+            "slowResources": [
+              [
+                "/api/mercenaries/v3/state",
+                55
+              ],
+              [
+                "/api/mercenaries/v3/equipment",
+                50
+              ],
+              [
+                "/assets/ui/mercenary-equipment/ascendant-20261028/09-celestial-dragon-emperor-top.webp",
+                33
+              ]
+            ],
+            "exitRequests": 0
+          }
+        ]
+      }
+    ]
+  },
+  "blueGear": {
+    "source": "docs/qa/bluegear-limits-20261122/completion.json",
+    "audit": 69869,
+    "ssEach": 60,
+    "hakuya": 7,
+    "zero": 9
+  }
+}
