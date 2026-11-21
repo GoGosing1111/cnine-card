@@ -1,0 +1,624 @@
+{
+  "operationKey": "ops:diim-vote:verified-coin500t-messages:20261121:v1",
+  "status": "SENT_AND_VERIFIED",
+  "completedAtKST": "2026-11-21 22:53:52",
+  "auditId": "69409",
+  "eligibility": "발송 명단을 조회한 시점에 2차 인증 기록이 있는 전체 계정",
+  "recipientCutoff": "2026-11-21T13:53:52.067Z",
+  "accountStatuses": {
+    "ACTIVE": 280,
+    "BANNED": 2
+  },
+  "accountRoles": {
+    "OWNER": 3,
+    "USER": 278,
+    "ADMIN": 1
+  },
+  "providers": {
+    "WAGO": 2,
+    "PLAYDK": 280
+  },
+  "delivery": "게임 내 메시지 첨부",
+  "title": "디임 멸망전 투표 사료",
+  "body": "디임 멸망전 투표를 기념해 2차 인증 유저 여러분께 코인 500조를 드립니다.\n아래 수령 버튼을 눌러 받아 주세요.",
+  "recipients": 282,
+  "messages": 282,
+  "attachments": 282,
+  "amountEach": "500000000000000",
+  "totalCoins": "141000000000000000",
+  "missing": 0,
+  "duplicates": 0,
+  "claimed": 4,
+  "pending": 278,
+  "claimStatusObservedAt": "2026-11-21T13:54:11.075Z",
+  "automaticClaims": 0,
+  "receiptSha256": "7ea0b7accc883e245cd4fb96bb6b0138e642ece19d5b06679d9fcab7b1547799",
+  "verification": {
+    "productionReadOnly": true,
+    "replay": {
+      "reads": 1,
+      "writes": 0
+    },
+    "writesAtDispatch": [
+      {
+        "name": "account_sync_versions_v1",
+        "inserted": 0,
+        "updated": 282,
+        "deleted": 0
+      },
+      {
+        "name": "admin_logs",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      },
+      {
+        "name": "app_meta",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      },
+      {
+        "name": "user_message_rewards",
+        "inserted": 282,
+        "updated": 0,
+        "deleted": 0
+      },
+      {
+        "name": "user_messages",
+        "inserted": 282,
+        "updated": 0,
+        "deleted": 0
+      }
+    ],
+    "priorMatchingCampaigns": 0,
+    "remainingAdvisoryLocks": 0,
+    "partialDeliveryRolledBack": true,
+    "successfulRehearsalRolledBack": true,
+    "claimTestsPassed": 3,
+    "claimCode": {
+      "deployedCommit": "dbe10d6719bd2961beee3a4d45d55f28b27342b2",
+      "specsHash": "81d06cd853a2b0bb44860dab26a15c8966febc35e532b6812fd871f6ddb994c8",
+      "claimHash": "aa0b575798771eba7ab9ad642ba330da2b44da4c02eacb80ca00036a2710f7e9",
+      "compatAndBatchMatched": true,
+      "checkedAt": "2026-11-21T13:52:14.751Z"
+    },
+    "checkedClaimsAgainstCoinLedger": 4
+  },
+  "performance": {
+    "environment": "Windows. 운영 PostgreSQL의 실제 메시지 목록·복구·정리 가능 건수 조회를 같은 계정으로 첫 진입과 재진입 각각 1회 측정. 공개 게임 로비→메시지함은 Chrome 및 WebKit 헤드리스, 모바일·Windows 클라이언트 URL·H5 호스트 에뮬레이션. 격리된 API가 메시지 한 건을 25ms 지연으로 반환했으며 기준 메시지는 기존 동일 금액 이벤트를 사용했다.",
+    "before": {
+      "inbox": [
+        {
+          "visit": "first",
+          "ms": 264,
+          "sql": 3,
+          "visibleCampaignMessages": 0
+        },
+        {
+          "visit": "repeat",
+          "ms": 234,
+          "sql": 3,
+          "visibleCampaignMessages": 0
+        }
+      ],
+      "roster": [
+        {
+          "entry": "first",
+          "elapsedMs": 151,
+          "queries": 1,
+          "recipients": 282
+        },
+        {
+          "entry": "repeat",
+          "elapsedMs": 76,
+          "queries": 1,
+          "recipients": 282
+        }
+      ],
+      "inboxListDatabaseExecutionMs": 0.115
+    },
+    "after": {
+      "inbox": [
+        {
+          "visit": "first",
+          "ms": 266,
+          "sql": 3,
+          "visibleCampaignMessages": 1
+        },
+        {
+          "visit": "repeat",
+          "ms": 264,
+          "sql": 3,
+          "visibleCampaignMessages": 1
+        }
+      ],
+      "roster": [
+        {
+          "entry": "first",
+          "elapsedMs": 172,
+          "queries": 1,
+          "recipients": 282
+        },
+        {
+          "entry": "repeat",
+          "elapsedMs": 83,
+          "queries": 1,
+          "recipients": 282
+        }
+      ],
+      "inboxListDatabaseExecutionMs": 0.123
+    },
+    "dispatchWithValidationMs": 2275,
+    "independentVerificationMs": 1221,
+    "bottleneck": "운영 메시지함 조회는 세 번의 DB 왕복이 대기 시간의 대부분을 차지했다. 메시지와 첨부를 각각 한 SQL로 묶어 발송했다. 화면별 프레임 시간은 60개 프레임 간격, 50ms 초과 개수, 퇴장 뒤 1.25초간 메시지함 재요청과 남은 카드로 측정했다.",
+    "physicalDevices": false,
+    "ui": {
+      "desktop": {
+        "before": {
+          "initialLobbyMs": 2640,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 410,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 5.600000000000364,
+                "max": 16.5,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 2820.2000000029802,
+                    "duration": 72
+                  },
+                  {
+                    "start": 2968.3000000044703,
+                    "duration": 90
+                  },
+                  {
+                    "start": 3079.9000000059605,
+                    "duration": 58
+                  }
+                ]
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 169,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.399999999999636,
+                "max": 4.800000000000182,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        },
+        "after": {
+          "initialLobbyMs": 2894,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 334,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 4.300000000000182,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 3340.89999999851,
+                    "duration": 51
+                  },
+                  {
+                    "start": 3491.2000000029802,
+                    "duration": 51
+                  }
+                ]
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 137,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.399999999999636,
+                "max": 4.700000000000728,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        }
+      },
+      "android": {
+        "before": {
+          "initialLobbyMs": 2522,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 389,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.5,
+                "max": 4.799999999999727,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 2987.5,
+                    "duration": 50
+                  }
+                ]
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 82,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.800000000000182,
+                "max": 4.899999999999636,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        },
+        "after": {
+          "initialLobbyMs": 1430,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 402,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 12.400000000000091,
+                "max": 16.700000000000045,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 1557.5,
+                    "duration": 57
+                  }
+                ]
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 134,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.599999999999909,
+                "max": 8.300000000000182,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        }
+      },
+      "ios": {
+        "before": {
+          "initialLobbyMs": 2479,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 281,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 16,
+                "p95": 35,
+                "max": 270,
+                "over50": 2,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 156,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 16,
+                "p95": 31,
+                "max": 329,
+                "over50": 2,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "initialLobbyMs": 2175,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 399,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 16,
+                "p95": 33,
+                "max": 373,
+                "over50": 1,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 111,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 16,
+                "p95": 33,
+                "max": 422,
+                "over50": 2,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "windows": {
+        "before": {
+          "initialLobbyMs": 1814,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 387,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.5,
+                "max": 4.599999999999909,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 2141.6999999955297,
+                    "duration": 96
+                  },
+                  {
+                    "start": 2336.2999999970198,
+                    "duration": 51
+                  }
+                ]
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 96,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 5.299999999999272,
+                "max": 8.200000000000728,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        },
+        "after": {
+          "initialLobbyMs": 1852,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 482,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 4.300000000000182,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 2207.2999999970198,
+                    "duration": 55
+                  }
+                ]
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 80,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 4.400000000000546,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        }
+      },
+      "h5": {
+        "before": {
+          "initialLobbyMs": 1819,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 522,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.400000000000091,
+                "max": 4.800000000000182,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 279,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.600000000000364,
+                "max": 5.199999999999818,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        },
+        "after": {
+          "initialLobbyMs": 1775,
+          "entries": [
+            {
+              "visit": "first",
+              "inputToReadyMs": 365,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.399999999999636,
+                "max": 8.400000000000091,
+                "over50": 0,
+                "longTasks": [
+                  {
+                    "start": 1945.1999999955297,
+                    "duration": 60
+                  }
+                ]
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            },
+            {
+              "visit": "repeat",
+              "inputToReadyMs": 185,
+              "requests": 1,
+              "frames": {
+                "samples": 60,
+                "p50": 4.199999999999818,
+                "p95": 4.300000000000182,
+                "max": 4.5,
+                "over50": 0,
+                "longTasks": []
+              },
+              "afterExit": {
+                "inboxRequests": 0,
+                "messageCards": 0
+              }
+            }
+          ],
+          "warnings": []
+        }
+      }
+    }
+  }
+}
