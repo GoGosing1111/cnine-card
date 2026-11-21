@@ -1,0 +1,1051 @@
+{
+  "verifiedAt": "2026-11-21T01:55:43.823Z",
+  "source": "d4e78ba7147c72295b3813828fad65ba98653979",
+  "base": "3aec757b8fbd6ef4069fbdbd170e98fa10b53dd3",
+  "production": {
+    "at": "2026-11-21T01:54:13.520Z",
+    "pages": {
+      "id": "6501e5d7-b0ed-47bd-8257-41094f0559b3",
+      "commit": "d4e78ba7147c72295b3813828fad65ba98653979",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "5c307248-762d-4853-86ed-96e0798728df",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "2b8cb4d6-7d8b-4d92-aa9d-9ad7333fcb5b",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "head": "d4e78ba7147c72295b3813828fad65ba98653979",
+    "tests": 39,
+    "workerMarkers": [
+      "X_AND_SX_PVE_DAMAGE_MULTIPLIER",
+      "skillPierceInterval",
+      "BATTLE_SUIT_SX_SKYFALL"
+    ],
+    "workerSha256": "fec4b6090a52e3d8dd7abf50a9b67775235821dfcff4db2cdcca365cbfed470f",
+    "files": [
+      {
+        "file": "shared/sx-suit-v1.mjs",
+        "sha256": "9c31ba77987128b004a45c60572191b3f6faa54d52015406adad2811cea9390b",
+        "windows": true
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "sha256": "ecaaf4c535719e5205a1848316b986013466e722d0480694c1cda028fe24a0eb",
+        "windows": true
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "sha256": "d60a32a688ef7f9d68eb31e5407145fbf71c728086d5d3d348b45311e9119c59",
+        "windows": true
+      }
+    ],
+    "windowsReleaseId": "b4da958fd23571c6e9d6de2d98c4ada1ca5217e55140cec9ad71032344d0b3b9"
+  },
+  "finding": "X바디에 적용된 32배 PvE 보정에서 SX가 빠졌고, 아포칼립스에서 고정 주기 기술의 관통 피해도 빠른 평타 간격으로 줄어들었다.",
+  "change": "X바디와 SX가 동일한 PvE 기본 보정을 사용한다. 창천멸진의 계수는 6.25, 천룡 강림은 5다. SX는 고정 주기 기술에 무기의 원래 관통 간격을 사용하며 평타는 두 배 속도에 맞춰 나눠 계산한다.",
+  "catalog": [
+    {
+      "code": "BATTLE_SUIT_SX",
+      "name": "SX슈트",
+      "pvePower": 80000000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_OVERLORD",
+      "name": "오버로드",
+      "pvePower": 75000000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_X_BODY",
+      "name": "X-BODY",
+      "pvePower": 50000000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_Z_BODY",
+      "name": "Z-BODY",
+      "pvePower": 25000000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_S_BODY",
+      "name": "S-BODY",
+      "pvePower": 12500000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_H_BODY",
+      "name": "H-BODY",
+      "pvePower": 7000000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_03",
+      "name": "G-BODY",
+      "pvePower": 3500000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_02",
+      "name": "F-BODY",
+      "pvePower": 2500000,
+      "pvpPower": 0
+    },
+    {
+      "code": "BATTLE_SUIT_01",
+      "name": "E-BODY",
+      "pvePower": 200000,
+      "pvpPower": 0
+    }
+  ],
+  "controlledComparison": {
+    "method": "9종·일반/아포칼립스/관통 비중이 큰 아포칼립스·동일 전투력 5,000만 또는 운영 전투력. 조건별 동일 16개 시드, 동일 5인 덱·무기·칩, 45초와 충분한 HP·보호막. 인당 1회 첫 궁극기와 슈트 전체의 HP 및 보호막 실차감 평균.",
+    "perVersionRuns": 864,
+    "comparison": [
+      {
+        "scenario": "normal",
+        "equalPower": true,
+        "seeds": 16,
+        "beforeSX": 27434299,
+        "x": 877897560,
+        "afterSX": 1097371950,
+        "afterSXToX": 1.25,
+        "allSuitDamage45s": {
+          "beforeSX": 150554108735,
+          "afterSX": 4818127300114,
+          "x": 2417412059956
+        }
+      },
+      {
+        "scenario": "normal",
+        "equalPower": false,
+        "seeds": 16,
+        "beforeSX": 43894879,
+        "x": 877897560,
+        "afterSX": 1755795150,
+        "afterSXToX": 2.000000034172552,
+        "allSuitDamage45s": {
+          "beforeSX": 240886573902,
+          "afterSX": 7709003677792,
+          "x": 2417412059956
+        }
+      },
+      {
+        "scenario": "apocalypse",
+        "equalPower": true,
+        "seeds": 16,
+        "beforeSX": 7054226,
+        "x": 231996340,
+        "afterSX": 289995425,
+        "afterSXToX": 1.25,
+        "allSuitDamage45s": {
+          "beforeSX": 77520144461,
+          "afterSX": 2480878974456,
+          "x": 1280606165732
+        }
+      },
+      {
+        "scenario": "apocalypse",
+        "equalPower": false,
+        "seeds": 16,
+        "beforeSX": 11286767,
+        "x": 231996340,
+        "afterSX": 463992675,
+        "afterSXToX": 1.9999999784479359,
+        "allSuitDamage45s": {
+          "beforeSX": 124032352477,
+          "afterSX": 3969410238057,
+          "x": 1280606165732
+        }
+      },
+      {
+        "scenario": "pierce",
+        "equalPower": true,
+        "seeds": 16,
+        "beforeSX": 140191906,
+        "x": 8752807860,
+        "afterSX": 10941009825,
+        "afterSXToX": 1.25,
+        "allSuitDamage45s": {
+          "beforeSX": 1692474378087,
+          "afterSX": 54251545725064,
+          "x": 53040328999044
+        }
+      },
+      {
+        "scenario": "pierce",
+        "equalPower": false,
+        "seeds": 16,
+        "beforeSX": 224307047,
+        "x": 8752807860,
+        "afterSX": 17505615475,
+        "afterSXToX": 1.9999999720089823,
+        "allSuitDamage45s": {
+          "beforeSX": 2707959029239,
+          "afterSX": 86802473934990,
+          "x": 53040328999044
+        }
+      }
+    ],
+    "otherSuitCasesChecked": 48,
+    "pvpTimelineSha256": "615e632f73dc584ec5a99a68ab83ab98fb7096643fea105dc916b6b48a2cf4c5"
+  },
+  "savedApocalypse": {
+    "method": "동일 저장 편성의 시작 상태를 재구성하고 슈트만 교체했다. 각 보스·슈트마다 고정 시드 16개를 비교했다. 처치·보호막·남은 체력에 따른 실제 적용량을 집계했다.",
+    "bosses": [
+      {
+        "name": "카르겐",
+        "bossId": 81,
+        "seeds": 16,
+        "firstUltimate": {
+          "beforeSX": 124463357,
+          "afterSX": 3487318192,
+          "x": 2012017212
+        },
+        "allSuitDamage": {
+          "beforeSX": 261677070,
+          "afterSX": 6921330258,
+          "x": 4205076825
+        }
+      },
+      {
+        "name": "발카르",
+        "bossId": 82,
+        "seeds": 16,
+        "firstUltimate": {
+          "beforeSX": 124302830,
+          "afterSX": 3539860430,
+          "x": 2066293700
+        },
+        "allSuitDamage": {
+          "beforeSX": 283808131,
+          "afterSX": 7944229088,
+          "x": 4788830354
+        }
+      }
+    ]
+  },
+  "validation": {
+    "tests": 39,
+    "coverage": [
+      "첫 시전·40초·80초",
+      "최대 12대상·사망 제외",
+      "대상별 5타 총합, 보호막·HP와 과잉 피해 제한",
+      "아포칼립스 기술방어 0·50·100%",
+      "평타와 장착칩 관통, 무기별 발사 간격",
+      "PvP·전투력 0·다른 슈트 정산"
+    ],
+    "dataWrites": 0
+  },
+  "performance": {
+    "conditions": "Windows 헤드리스. 실제 로비 → 전투 → 몬스터 토벌 → 시작 버튼. 격리 API가 서버 엔진에서 생성한 전투를 반환한다. 동일 연출 구간인 첫 궁극기 5타까지 재생하고 첫/재진입과 퇴장 후 갱신을 관찰했다. 모바일·Windows URL·H5는 에뮬레이션이다.",
+    "findings": "모바일 에뮬레이션에서 첫 진입의 격리 전투 API 응답은 약 4ms, 기존 폰트 로딩은 최대 37ms, 메인 스레드의 긴 작업은 74·79ms였다. 웹킷은 변경 전후에 ResizeObserver 경고와 긴 프레임을 기록했다. 서버 재측정에서 일반 토벌은 강해진 SX에 따라 전투가 229→32 이벤트로 단축됐다. 동일한 29,430 이벤트 스트레스 조건의 반복 중앙값은 213→221ms였다. 전투 구성에 따라 측정값이 달라진다.",
+    "cpuMethod": "Windows Node, 동일 입력과 시드. 수정 전후 프로세스를 ABBA 순으로 교대했다. 각 조건 2프로세스×14회이며 처음 2회를 제외한 벽시계 중앙값과 CPU 시간 중앙값을 기록했다. Windows CPU 시계 해상도 이하의 짧은 구간은 0ms로 표시될 수 있다.",
+    "serverCpu": {
+      "before": {
+        "hunt": {
+          "coldMs": [
+            25.036399999999958,
+            24.011699999999962
+          ],
+          "warmMedianMs": 5.8537000000000035,
+          "warmMedianCpuMs": 0,
+          "actions": [
+            157
+          ],
+          "events": [
+            229
+          ]
+        },
+        "stress": {
+          "coldMs": [
+            357.6132,
+            426.1704
+          ],
+          "warmMedianMs": 213.3828500000002,
+          "warmMedianCpuMs": 227,
+          "actions": [
+            78
+          ],
+          "events": [
+            29430
+          ]
+        }
+      },
+      "after": {
+        "hunt": {
+          "coldMs": [
+            13.531000000000006,
+            13.348800000000011
+          ],
+          "warmMedianMs": 1.2352499999999935,
+          "warmMedianCpuMs": 0,
+          "actions": [
+            11
+          ],
+          "events": [
+            32
+          ]
+        },
+        "stress": {
+          "coldMs": [
+            361.4098,
+            338.49739999999997
+          ],
+          "warmMedianMs": 220.82225000000005,
+          "warmMedianCpuMs": 250,
+          "actions": [
+            78
+          ],
+          "events": [
+            29430
+          ]
+        }
+      }
+    },
+    "profiles": {
+      "pc": {
+        "before": {
+          "lobbyReadyMs": 1087,
+          "openingHitsShown": [
+            11743316,
+            11743316,
+            11743316,
+            11743316,
+            11743316
+          ],
+          "first": {
+            "inputToReadyMs": 1032,
+            "inputToFifthHitMs": 5369,
+            "frames": 1135,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 79.1,
+            "framesOver50Ms": 3,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 0,
+              "loadingTasks": [
+                {
+                  "start": 2142.5,
+                  "ms": 79
+                },
+                {
+                  "start": 2988.7999999970198,
+                  "ms": 69
+                }
+              ],
+              "slowest": []
+            }
+          },
+          "reentry": {
+            "inputToReadyMs": 576,
+            "inputToFifthHitMs": 4929,
+            "frames": 1089,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 66.6,
+            "framesOver50Ms": 2,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 0,
+              "loadingTasks": [
+                {
+                  "start": 12338.20000000298,
+                  "ms": 66
+                }
+              ],
+              "slowest": []
+            }
+          },
+          "errors": []
+        },
+        "after": {
+          "lobbyReadyMs": 1259,
+          "openingHitsShown": [
+            469732640,
+            469732640,
+            469732640,
+            469732640,
+            469732640
+          ],
+          "first": {
+            "inputToReadyMs": 1077,
+            "inputToFifthHitMs": 5409,
+            "frames": 1139,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 83.3,
+            "framesOver50Ms": 3,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 29,
+              "fightMs": 2.5,
+              "loadingTasks": [
+                {
+                  "start": 2239.300000011921,
+                  "ms": 83
+                },
+                {
+                  "start": 3123.5,
+                  "ms": 79
+                }
+              ],
+              "slowest": [
+                {
+                  "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+                  "ms": 38
+                },
+                {
+                  "file": "/preview/battle-suit-sx-v1/assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
+                  "ms": 16
+                },
+                {
+                  "file": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+                  "ms": 16
+                },
+                {
+                  "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+                  "ms": 8
+                }
+              ]
+            }
+          },
+          "reentry": {
+            "inputToReadyMs": 584,
+            "inputToFifthHitMs": 4927,
+            "frames": 1090,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 66.6,
+            "framesOver50Ms": 2,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 15,
+              "fightMs": 3.699999988079071,
+              "loadingTasks": [
+                {
+                  "start": 12852.60000000894,
+                  "ms": 67
+                }
+              ],
+              "slowest": [
+                {
+                  "file": "/api/account-rank/status",
+                  "ms": 15
+                },
+                {
+                  "file": "/api/battle/fight",
+                  "ms": 4
+                },
+                {
+                  "file": "/api/raid/nox/feature",
+                  "ms": 3
+                },
+                {
+                  "file": "/api/raid/blackwing/feature",
+                  "ms": 3
+                }
+              ]
+            }
+          },
+          "errors": []
+        },
+        "public": {
+          "lobbyReadyMs": 931,
+          "openingHitsShown": [
+            469732640,
+            469732640,
+            469732640,
+            469732640,
+            469732640
+          ],
+          "first": {
+            "inputToReadyMs": 1047,
+            "inputToFifthHitMs": 5390,
+            "frames": 1133,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 104.3,
+            "framesOver50Ms": 4,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 30,
+              "fightMs": 19.799999997019768,
+              "loadingTasks": [
+                {
+                  "start": 1927.5,
+                  "ms": 65
+                },
+                {
+                  "start": 2794.5999999940395,
+                  "ms": 68
+                }
+              ],
+              "slowest": [
+                {
+                  "file": "/assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+                  "ms": 65
+                },
+                {
+                  "file": "/assets/responsive/cards/77e93745e86a3918-192.webp",
+                  "ms": 41
+                },
+                {
+                  "file": "/assets/responsive/cards/18c75845211bf13e-192.webp",
+                  "ms": 40
+                },
+                {
+                  "file": "/assets/responsive/cards/4e7a1197ecd3cfbe-192.webp",
+                  "ms": 40
+                }
+              ]
+            }
+          },
+          "reentry": {
+            "inputToReadyMs": 667,
+            "inputToFifthHitMs": 5017,
+            "frames": 1115,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 66.7,
+            "framesOver50Ms": 2,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 15,
+              "fightMs": 20.599999994039536,
+              "loadingTasks": [
+                {
+                  "start": 12276,
+                  "ms": 64
+                }
+              ],
+              "slowest": [
+                {
+                  "file": "/api/battle/fight",
+                  "ms": 21
+                },
+                {
+                  "file": "/api/account-rank/status",
+                  "ms": 17
+                },
+                {
+                  "file": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+                  "ms": 12
+                },
+                {
+                  "file": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+                  "ms": 12
+                }
+              ]
+            }
+          },
+          "errors": []
+        }
+      },
+      "android": {
+        "before": {
+          "lobbyReadyMs": 1172,
+          "openingHitsShown": [
+            11743316,
+            11743316,
+            11743316,
+            11743316,
+            11743316
+          ],
+          "first": {
+            "inputToReadyMs": 1054,
+            "inputToFifthHitMs": 5418,
+            "frames": 1137,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 79.2,
+            "framesOver50Ms": 4,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 26,
+              "fightMs": 5.4000000059604645,
+              "loadingTasks": [
+                {
+                  "start": 2168.300000011921,
+                  "ms": 77
+                },
+                {
+                  "start": 3017.9000000059605,
+                  "ms": 80
+                }
+              ],
+              "slowest": [
+                {
+                  "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+                  "ms": 38
+                },
+                {
+                  "file": "/preview/battle-suit-sx-v1/assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
+                  "ms": 18
+                },
+                {
+                  "file": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+                  "ms": 16
+                },
+                {
+                  "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+                  "ms": 9
+                }
+              ]
+            }
+          },
+          "reentry": {
+            "inputToReadyMs": 506,
+            "inputToFifthHitMs": 4890,
+            "frames": 1098,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 58.4,
+            "framesOver50Ms": 2,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 12,
+              "fightMs": 4.899999991059303,
+              "loadingTasks": [
+                {
+                  "start": 12288.10000000894,
+                  "ms": 60
+                }
+              ],
+              "slowest": [
+                {
+                  "file": "/api/battle/fight",
+                  "ms": 5
+                },
+                {
+                  "file": "/api/account-rank/status",
+                  "ms": 4
+                },
+                {
+                  "file": "/preview/battle-suit-sx-v1/assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
+                  "ms": 3
+                },
+                {
+                  "file": "/api/raid/nox/feature",
+                  "ms": 3
+                }
+              ]
+            }
+          },
+          "errors": []
+        },
+        "after": {
+          "lobbyReadyMs": 1192,
+          "openingHitsShown": [
+            469732640,
+            469732640,
+            469732640,
+            469732640,
+            469732640
+          ],
+          "first": {
+            "inputToReadyMs": 995,
+            "inputToFifthHitMs": 5367,
+            "frames": 1104,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 108.2,
+            "framesOver50Ms": 4,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 26,
+              "fightMs": 3.7999999970197678,
+              "loadingTasks": [
+                {
+                  "start": 2129.8999999910593,
+                  "ms": 74
+                },
+                {
+                  "start": 2924.7999999970198,
+                  "ms": 79
+                }
+              ],
+              "slowest": [
+                {
+                  "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+                  "ms": 37
+                },
+                {
+                  "file": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+                  "ms": 17
+                },
+                {
+                  "file": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+                  "ms": 10
+                },
+                {
+                  "file": "/preview/battle-suit-sx-v1/assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
+                  "ms": 8
+                }
+              ]
+            }
+          },
+          "reentry": {
+            "inputToReadyMs": 478,
+            "inputToFifthHitMs": 4878,
+            "frames": 1090,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 66.7,
+            "framesOver50Ms": 2,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 12,
+              "fightMs": 3.5999999940395355,
+              "loadingTasks": [],
+              "slowest": [
+                {
+                  "file": "/api/battle/fight",
+                  "ms": 4
+                },
+                {
+                  "file": "/preview/battle-suit-sx-v1/assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
+                  "ms": 3
+                },
+                {
+                  "file": "/api/raid/blackwing/feature",
+                  "ms": 2
+                },
+                {
+                  "file": "/api/raid/nox/feature",
+                  "ms": 2
+                }
+              ]
+            }
+          },
+          "errors": []
+        }
+      },
+      "ios": {
+        "before": {
+          "lobbyReadyMs": 1628,
+          "openingHitsShown": [
+            11743316,
+            11743316,
+            11743316,
+            11743316,
+            11743316
+          ],
+          "first": {
+            "inputToReadyMs": 3508,
+            "inputToFifthHitMs": 7738,
+            "frames": 180,
+            "frameP95Ms": 74,
+            "maxFrameMs": 824,
+            "framesOver50Ms": 20,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "reentry": {
+            "inputToReadyMs": 1820,
+            "inputToFifthHitMs": 6164,
+            "frames": 187,
+            "frameP95Ms": 62,
+            "maxFrameMs": 240,
+            "framesOver50Ms": 12,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "lobbyReadyMs": 1519,
+          "openingHitsShown": [
+            469732640,
+            469732640,
+            469732640,
+            469732640,
+            469732640
+          ],
+          "first": {
+            "inputToReadyMs": 3224,
+            "inputToFifthHitMs": 7426,
+            "frames": 183,
+            "frameP95Ms": 63,
+            "maxFrameMs": 512,
+            "framesOver50Ms": 19,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "reentry": {
+            "inputToReadyMs": 2152,
+            "inputToFifthHitMs": 6517,
+            "frames": 172,
+            "frameP95Ms": 71,
+            "maxFrameMs": 286,
+            "framesOver50Ms": 21,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "windows": {
+        "before": {
+          "lobbyReadyMs": 1279,
+          "openingHitsShown": [
+            11743316,
+            11743316,
+            11743316,
+            11743316,
+            11743316
+          ],
+          "first": {
+            "inputToReadyMs": 1403,
+            "inputToFifthHitMs": 5702,
+            "frames": 1141,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 158.3,
+            "framesOver50Ms": 6,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "reentry": {
+            "inputToReadyMs": 698,
+            "inputToFifthHitMs": 5024,
+            "frames": 1082,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 83.4,
+            "framesOver50Ms": 3,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "errors": []
+        },
+        "after": {
+          "lobbyReadyMs": 1368,
+          "openingHitsShown": [
+            469732640,
+            469732640,
+            469732640,
+            469732640,
+            469732640
+          ],
+          "first": {
+            "inputToReadyMs": 1573,
+            "inputToFifthHitMs": 5818,
+            "frames": 1180,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 129.1,
+            "framesOver50Ms": 7,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "reentry": {
+            "inputToReadyMs": 751,
+            "inputToFifthHitMs": 5063,
+            "frames": 1095,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 91.8,
+            "framesOver50Ms": 3,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "errors": []
+        }
+      },
+      "h5": {
+        "before": {
+          "lobbyReadyMs": 1334,
+          "openingHitsShown": [
+            11743316,
+            11743316,
+            11743316,
+            11743316,
+            11743316
+          ],
+          "first": {
+            "inputToReadyMs": 1027,
+            "inputToFifthHitMs": 5407,
+            "frames": 1149,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 91.7,
+            "framesOver50Ms": 5,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "reentry": {
+            "inputToReadyMs": 551,
+            "inputToFifthHitMs": 4942,
+            "frames": 1098,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 66.7,
+            "framesOver50Ms": 2,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0
+          },
+          "errors": []
+        },
+        "after": {
+          "lobbyReadyMs": 1167,
+          "openingHitsShown": [
+            469732640,
+            469732640,
+            469732640,
+            469732640,
+            469732640
+          ],
+          "first": {
+            "inputToReadyMs": 971,
+            "inputToFifthHitMs": 5360,
+            "frames": 1136,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 70.8,
+            "framesOver50Ms": 3,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 0,
+              "loadingTasks": [
+                {
+                  "start": 2178.7000000029802,
+                  "ms": 62
+                },
+                {
+                  "start": 2967.2999999970198,
+                  "ms": 68
+                }
+              ],
+              "slowest": []
+            }
+          },
+          "reentry": {
+            "inputToReadyMs": 527,
+            "inputToFifthHitMs": 4931,
+            "frames": 1072,
+            "frameP95Ms": 4.3,
+            "maxFrameMs": 58.3,
+            "framesOver50Ms": 2,
+            "exit": {
+              "timelines": 0,
+              "ambient": false,
+              "cast": false
+            },
+            "postExitFightRequests": 0,
+            "loading": {
+              "requests": 0,
+              "loadingTasks": [
+                {
+                  "start": 12260.79999999702,
+                  "ms": 59
+                }
+              ],
+              "slowest": []
+            }
+          },
+          "errors": []
+        }
+      }
+    }
+  }
+}
