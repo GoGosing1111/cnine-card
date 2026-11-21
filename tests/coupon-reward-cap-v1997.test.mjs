@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {createCouponWithinIssueLimit,readCouponIssueLimit} from '../functions/_coupon_issue_limits.js';
+import {COUPON_COIN_MAX,createCouponWithinIssueLimit,readCouponIssueLimit} from '../functions/_coupon_issue_limits.js';
 import {redeemChuseokCoinCoupon} from '../functions/_chuseok_coupon.js';
 
 const server=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
@@ -16,8 +16,9 @@ const end=server.indexOf('let verifiedRewardMessageV1276ReadyPromise',start);
 assert.ok(start>=0&&end>start,'쿠폰 보상 한도 정의 구간을 찾을 수 있어야 합니다.');
 const {verifiedMessageRewardSpec,couponRewardSpec}=Function(`${server.slice(start,end)};return {verifiedMessageRewardSpec,couponRewardSpec};`)();
 
-test('코인 쿠폰 1조와 인증 메시지 50억 한도는 분리 유지한다',()=>{
-  assert.equal(couponRewardSpec('COIN').max,1_000_000_000_000);
+test('코인 쿠폰 5조와 인증 메시지 50억 한도는 분리 유지한다',()=>{
+  assert.equal(couponRewardSpec('COIN').max,5_000_000_000_000);
+  assert.equal(couponRewardSpec('COIN').max,COUPON_COIN_MAX);
   assert.equal(verifiedMessageRewardSpec('COIN').max,5_000_000_000);
   assert.equal(couponRewardSpec('MASTER_STAR').max,1_000_000);
   assert.equal(couponRewardSpec('PREMIUM_CUBE'),null);
@@ -32,31 +33,31 @@ test('신규·호환 쿠폰 발급 라우트가 모두 쿠폰 전용 한도를 �
   assert.match(compatibleRoute,/rewardAmount>Number\(spec\.max/);
 });
 
-test('CMS도 보상 종류별 최대값을 즉시 표시하고 1조 초과 입력을 차단한다',()=>{
-  assert.match(admin,/COUPON_REWARD_META=\{COIN:\{label:'코인',max:1000000000000\}/);
+test('CMS도 보상 종류별 최대값을 즉시 표시하고 5조 초과 입력을 차단한다',()=>{
+  assert.match(admin,/COUPON_REWARD_META=\{COIN:\{label:'코인',max:5000000000000\}/);
   assert.match(admin,/amount\.max=String\(meta\.max\)/);
   assert.match(admin,/rewardAmount>meta\.max/);
   assert.match(adminHtml,/admin-v1276\.js\?[^"\s]*\bv=2050-verified-coin-50eok/);
-  assert.match(adminHtml,/coupon-1jo-owner-daily-10jo-20261029/);
+  assert.match(adminHtml,/coupon-5jo-owner-daily-30jo-20261122/);
 });
 
 test('쿠폰 한도 회귀 검사가 운영 출시 게이트에 포함된다',()=>{
   assert.match(packageJson.scripts['release:gate']||'',/npm run test:coupon/);
 });
 
-test('CMS 발급은 1조를 그대로 전송하고 1조+1은 요청 전에 거부한다',async()=>{
-  const fields={couponRewardType:{value:'COIN'},couponRewardAmount:{value:'1000000000000',setAttribute(){}},couponCode:{value:'CAP1000-QA'},couponMax:{value:'1'},createPermanentCouponBtn:{disabled:false}};
+test('CMS 발급은 5조를 그대로 전송하고 5조+1은 요청 전에 거부한다',async()=>{
+  const fields={couponRewardType:{value:'COIN'},couponRewardAmount:{value:'5000000000000',setAttribute(){}},couponCode:{value:'CAP5T-QA'},couponMax:{value:'1'},createPermanentCouponBtn:{disabled:false}};
   const requests=[],alerts=[];
   const source=admin.slice(admin.indexOf('const COUPON_REWARD_META='),admin.indexOf('async function toggleCoupon('));
   const {syncCouponRewardForm,createPermanentCouponV3}=Function('$','document','api','alert','setBusy','loadCoupons',source+';return {syncCouponRewardForm,createPermanentCouponV3}')(
-    selector=>fields[selector.slice(1)],{addEventListener(){}},async(path,options)=>{requests.push(JSON.parse(options.body));return {coupon:{id:1,reward_amount:1000000000000}};},message=>alerts.push(message),(button,busy)=>{button.disabled=busy;},async()=>{});
-  syncCouponRewardForm();assert.equal(fields.couponRewardAmount.max,'1000000000000');
-  await createPermanentCouponV3();assert.equal(requests.length,1);assert.equal(requests[0].rewardAmount,1000000000000);
-  fields.couponCode.value='OVER-CAP';fields.couponRewardAmount.value='1000000000001';
-  await createPermanentCouponV3();assert.equal(requests.length,1);assert.match(alerts.at(-1),/1,000,000,000,000/);
+    selector=>fields[selector.slice(1)],{addEventListener(){}},async(path,options)=>{requests.push(JSON.parse(options.body));return {coupon:{id:1,reward_amount:5000000000000}};},message=>alerts.push(message),(button,busy)=>{button.disabled=busy;},async()=>{});
+  syncCouponRewardForm();assert.equal(fields.couponRewardAmount.max,'5000000000000');
+  await createPermanentCouponV3();assert.equal(requests.length,1);assert.equal(requests[0].rewardAmount,5000000000000);
+  fields.couponCode.value='OVER-CAP';fields.couponRewardAmount.value='5000000000001';
+  await createPermanentCouponV3();assert.equal(requests.length,1);assert.match(alerts.at(-1),/5,000,000,000,000/);
 });
 
-test('PostgreSQL에서 모든 발급 경로의 1조 저장·수령·재시도와 초과 차단을 검증한다',async(t)=>{
+test('PostgreSQL에서 모든 발급 경로의 5조 저장·수령·재시도와 초과 차단을 검증한다',async(t)=>{
   const pg=new PGlite();t.after(()=>pg.close());
   await pg.exec(`
     CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;
@@ -77,24 +78,24 @@ test('PostgreSQL에서 모든 발급 경로의 1조 저장·수령·재시도와
   const request=body=>new Request('https://qa.test/api/coupon',{method:'POST',body:JSON.stringify(body)});
   let count=0;
   for(const path of ['admin/coupon-create-permanent-v3','admin/coupons','admin/coupons-v2']){
-    const code='COIN-1000EOK-'+count,body={code,rewardType:'COIN',rewardAmount:1000000000000,maxUses:1};
+    const code='COIN-5T-'+count,body={code,rewardType:'COIN',rewardAmount:5000000000000,maxUses:1};
     const call=payload=>create(path,request(payload),env,async()=>({id:99}),r=>r.json(),async()=>{},async()=>{},json,createCouponWithinIssueLimit,readCouponIssueLimit);
-    const made=await call(body);assert.equal(made.status,201);const {coupon}=await made.json();assert.equal(Number(coupon.reward_coin),1000000000000);assert.equal(Number(coupon.reward_amount),1000000000000);
-    for(const amount of [1000000000001,0,-1,1.5])assert.equal((await call({...body,code:'INVALID-'+count,rewardAmount:amount})).status,400);
+    const made=await call(body);assert.equal(made.status,201);const {coupon}=await made.json();assert.equal(Number(coupon.reward_coin),5000000000000);assert.equal(Number(coupon.reward_amount),5000000000000);
+    for(const amount of [5000000000001,0,-1,1.5])assert.equal((await call({...body,code:'INVALID-'+count,rewardAmount:amount})).status,400);
     const claim=operationKey=>redeem('coupon/redeem',request({code,operationKey}),env,async()=>({id:1}),r=>r.json(),async()=>null,async()=>null,async()=>null,redeemChuseokCoinCoupon,async(_env,user)=>user,()=>false,json);
     failCoinLog=true;
-    try{await assert.rejects(claim('CAP1000-QA-KEY-'+count),/INJECTED_COUPON_LOG_FAILURE/)}finally{failCoinLog=false}
-    assert.equal(Number((await pg.query('SELECT coin FROM users WHERE id=1')).rows[0].coin),9000000000+count*1000000000000);
+    try{await assert.rejects(claim('CAP5T-QA-KEY-'+count),/INJECTED_COUPON_LOG_FAILURE/)}finally{failCoinLog=false}
+    assert.equal(Number((await pg.query('SELECT coin FROM users WHERE id=1')).rows[0].coin),9000000000+count*5000000000000);
     assert.equal(Number((await pg.query('SELECT used_count FROM coupons WHERE code=$1',[code])).rows[0].used_count),0);
     assert.equal(Number((await pg.query('SELECT COUNT(*) AS n FROM coupon_redemptions')).rows[0].n),count);
     assert.equal(Number((await pg.query('SELECT COUNT(*) AS n FROM coin_logs')).rows[0].n),count);
-    const first=await claim('CAP1000-QA-KEY-'+count);assert.equal(first.status,200);const result=await first.json();assert.equal(result.rewardCoin,1000000000000);assert.equal(Number(result.user.coin),9000000000+(++count)*1000000000000);
-    const replay=await claim('CAP1000-QA-KEY-'+(count-1));assert.equal((await replay.json()).replayed,true);
+    const first=await claim('CAP5T-QA-KEY-'+count);assert.equal(first.status,200);const result=await first.json();assert.equal(result.rewardCoin,5000000000000);assert.equal(Number(result.user.coin),9000000000+(++count)*5000000000000);
+    const replay=await claim('CAP5T-QA-KEY-'+(count-1));assert.equal((await replay.json()).replayed,true);
     assert.equal((await claim('DIFFERENT-OPERATION-KEY')).status,409);
   }
   const rows=sql=>pg.query(sql).then(r=>r.rows);
-  assert.equal(Number((await rows('SELECT coin FROM users'))[0].coin),3009000000000);
+  assert.equal(Number((await rows('SELECT coin FROM users'))[0].coin),15009000000000);
   assert.equal((await rows('SELECT * FROM coupons')).length,3);
   assert.equal((await rows('SELECT * FROM coin_logs')).length,3);
-  assert((await rows('SELECT * FROM coupon_redemptions')).every(r=>Number(r.reward_coin)===1000000000000&&Number(r.reward_amount)===1000000000000));
+  assert((await rows('SELECT * FROM coupon_redemptions')).every(r=>Number(r.reward_coin)===5000000000000&&Number(r.reward_amount)===5000000000000));
 });

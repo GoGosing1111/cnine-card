@@ -57,7 +57,7 @@ test('inactive items/accounts, malformed bundle, duplicate code and overflowing 
 test('regular CMS limits still reject the special bundle and 3X issuance',()=>{
  const specs=source.slice(source.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),source.indexOf('let verifiedRewardMessageV1276ReadyPromise'));
  const spec=Function(specs+';return couponRewardSpec')();
- assert.equal(spec(gift.type),null);assert.equal(spec(lucky.type),null);assert.equal(spec('RANK_EXP_POTION_3X_60M'),null);assert.equal(spec('COIN').max,1000000000000);assert.equal(spec('MASTER_STAR').max,1000000);
+ assert.equal(spec(gift.type),null);assert.equal(spec(lucky.type),null);assert.equal(spec('RANK_EXP_POTION_3X_60M'),null);assert.equal(spec('COIN').max,5000000000000);assert.equal(spec('MASTER_STAR').max,1000000);
  assert.equal(spec(cheer.type),null);assert.equal(spec(fourMonth.type),null);
  assert.equal(spec(bowling.type),null);
  assert.equal(spec(star.type),null);
