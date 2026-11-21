@@ -6,7 +6,6 @@ from PIL import Image, ImageOps
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "assets" / "responsive" / "ui"
 TARGETS = {
-    ROOT / "assets/ui/cninelogo.png": ("cninelogo", (240, 480)),
     ROOT / "assets/chief-council-election-v1.png": ("chief-council-election-v1", (768, 1280)),
     ROOT / "assets/ui/packs/standard-pack.png": ("standard-pack", (160, 320)),
     ROOT / "assets/ui/packs/advanced-pack.png": ("advanced-pack", (160, 320)),

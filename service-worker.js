@@ -7,6 +7,14 @@
 importScripts('/js/image-delivery-map-20261015.js');
 const SHELL_CACHE='soop-card-shell-vbluegear-limits-20261122-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
+const APPROVED_CNINE_CREST='/assets/ui/brand/cnine-crowned-c9.webp';
+const RETIRED_LOGO_PATHS=new Set([
+  '/assets/ui/cninelogo.png',
+  '/assets/responsive/ui/cninelogo-240.avif',
+  '/assets/responsive/ui/cninelogo-240.webp',
+  '/assets/responsive/ui/cninelogo-480.avif',
+  '/assets/responsive/ui/cninelogo-480.webp',
+]);
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 // Renderer contracts can change while an installed client keeps old versioned URLs.
@@ -99,6 +107,8 @@ self.addEventListener('activate',event=>{
       const path=new URL(request.url).pathname;
       return FRESH_BATTLE_SCRIPTS.has(path)||FRESH_ACCOUNT_SCRIPTS.has(path)||UPDATED_SPINE_BUNDLES.has(path);
     }).map(request=>shell.delete(request)));
+    const brandCache=await caches.open(CONTENT_CACHE);
+    await Promise.all([...RETIRED_LOGO_PATHS].map(path=>brandCache.delete(path,{ignoreSearch:true})));
     await self.clients.claim();
   })());
 });
@@ -195,6 +205,10 @@ async function optimizedImage(event,request,target){
 self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url);
   if(!sameOriginGet(request,url))return;
+  if(RETIRED_LOGO_PATHS.has(url.pathname)){
+    event.respondWith(Response.redirect(new URL(APPROVED_CNINE_CREST,url.origin),301));
+    return;
+  }
 
   // The H5 edition owns its document policy; never replace it with the PWA shell.
   if(url.pathname==='/onestore'||url.pathname.startsWith('/onestore/'))return;
