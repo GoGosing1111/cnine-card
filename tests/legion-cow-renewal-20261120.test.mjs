@@ -8,14 +8,20 @@ import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {citadelFixture,veteranCitadelSquads} from './helpers/legion-citadel-fixture.mjs';
 import {seedRegionalCatalog} from './helpers/legion-regions-fixture.mjs';
 import {legionRegionDefaults,LEGION_REGIONS_KEY} from '../shared/legion-regions-v1.mjs';
-import {COW_AREA,COW_REGION,COW_SOLO_CAP,COW_PARTY_CAP,COW_TICKETS} from '../shared/legion-cow-room.mjs';
+import {COW_AREA,COW_REGION,COW_SOLO_CAP,COW_PARTY_CAP,COW_TICKETS,COW_TICKET_ONE_IN_PER_KIND} from '../shared/legion-cow-room.mjs';
 import {cowTicketAward,cowTicketOutcome,cowTicketCount,COW_DRAW_KEY} from '../functions/_legion_cow_tickets.js';
 import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
 
+function fixtureBucket(user,source,id,seed){
+  const bytes=createHmac('sha256',seed).update(JSON.stringify([user,source,id])).digest();
+  const value=bytes.readUInt32BE();
+  if(value>=4294967200||bytes[4]===255)return -1;
+  return value%400+400*(bytes[4]%5);
+}
 function winningId(user,source,kind,seed){
   for(let i=0;;i++){
-    const id='qa-cow-'+i,value=createHmac('sha256',seed).update(JSON.stringify([user,source,id])).digest().readUInt32BE();
-    if(value<4294967200&&value%400===kind)return id;
+    const id='qa-cow-'+i;
+    if(fixtureBucket(user,source,id,seed)===kind)return id;
   }
 }
 const ok=r=>{assert.equal(r.status,200,JSON.stringify(r.body));return r.body;};
@@ -27,15 +33,56 @@ async function regions(f){
   await exec(f,'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',LEGION_REGIONS_KEY,JSON.stringify(policy));
   await seedRegionalCatalog(f);
 }
+test('one solo and one party win in 2,000 equally likely outcomes, with unbiased tail rejection',async t=>{
+  const f=await legionFixture();t.after(f.close);
+  await exec(f,'INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,'odds-fixture');
+  const bytes=new ArrayBuffer(32),words=new DataView(bytes);
+  const sign=t.mock.method(crypto.subtle,'sign',async()=>bytes);
+  const roll=()=>cowTicketOutcome(f.env,2,'PVE_HUNT','test-battle');
+  const counts={solo:0,party:0,miss:0};
+  for(let first=0;first<400;first++){
+    for(let second=0;second<5;second++){
+      words.setUint32(0,first);words.setUint8(4,second);
+      const ticket=await roll();
+      if(ticket===COW_TICKETS.solo)counts.solo++;
+      else if(ticket===COW_TICKETS.party)counts.party++;
+      else{assert.equal(ticket,null);counts.miss++;}
+    }
+  }
+  assert.equal(COW_TICKET_ONE_IN_PER_KIND,2_000);
+  assert.deepEqual(counts,{solo:1,party:1,miss:1998});
+  words.setUint32(0,4294967200);words.setUint32(4,4294966801);words.setUint8(8,255);words.setUint8(9,250);
+  assert.equal(await roll(),COW_TICKETS.party);
+  words.setUint8(9,254);assert.equal(await roll(),null);
+  const tail=new Uint8Array(32).fill(255);tail.fill(0,0,4);
+  sign.mock.mockImplementationOnce(async()=>tail.buffer);words.setUint8(0,0);
+  assert.equal(await roll(),COW_TICKETS.solo);
+});
+test('a pre-change winning settlement replays its original receipt after its bucket becomes a miss',async t=>{
+  const f=await jointFixture(t,{postgres:true}),seed='historical-ticket-fixture';
+  await exec(f,'INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,seed);
+  const source='PVE_SWEEP',id=winningId(7,source,401,seed);
+  const settle=()=>settleRankedHunt(f.env,7,'HUNT',id,100,'historical sweep',{sweep:true});
+  assert.equal(await cowTicketOutcome(f.env,7,source,id),null);
+  const miss=await cowTicketAward(f.env,7,source,id);assert.deepEqual(miss,{ticket:null,statements:[]});
+  // Settle the original party win, then restore the digest that the new policy rejects.
+  const oldDraw=new DataView(new ArrayBuffer(32));oldDraw.setUint32(0,1);
+  const sign=t.mock.method(crypto.subtle,'sign',async()=>oldDraw.buffer);
+  const awarded=await settle();assert.equal(awarded.code,COW_TICKETS.party.code);
+  sign.mock.restore();
+  const recovered=await cowTicketAward(f.env,7,source,id);assert.deepEqual(recovered,{ticket:awarded,statements:[]});
+  assert.deepEqual(await settle(),awarded);assert.equal(await cowTicketCount(f.DB,7,'party'),1);
+  const ledger=await f.DB.prepare("SELECT count(*) n FROM inventory_logs WHERE reference_type='LEGION_COW_DROP'").first();
+  assert.equal(Number(ledger.n),1);
+});
 for(const postgres of [false,true]){
  const backend=postgres?'Postgres':'SQLite';
  test(backend+' · equal solo/party ticket buckets, cached misses, atomic grant, duplicate and failed receipt',async t=>{
   const f=await legionFixture({postgres});t.after(f.close);
   const seed='local-frozen-seed',source='PVE_HUNT',ids=new Map();await exec(f,'INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,seed);
   for(let i=0;ids.size<3;i++){
-    const id='battle-'+i,value=createHmac('sha256',seed).update(JSON.stringify([2,source,id])).digest().readUInt32BE();
-    if(value>=4294967200)continue;
-    const bucket=value%400;if(bucket<=2)ids.set(bucket,id);
+    const id='battle-'+i,bucket=fixtureBucket(2,source,id,seed);
+    if(bucket>=0&&bucket<=2)ids.set(bucket,id);
   }
   f.resetQueries();assert.equal(await cowTicketOutcome(f.env,2,source,ids.get(2)),null);
   assert.equal((await cowTicketAward(f.env,2,source,ids.get(2))).statements.length,0);assert.equal(f.queries.length,1);

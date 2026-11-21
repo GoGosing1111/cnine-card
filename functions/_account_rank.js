@@ -130,7 +130,7 @@ export async function settleRankedHunt(env,userId,source,eventId,coin,reason,sea
   writes.push(...await seasonAwardStatements(env,{userId,eventId,source:season.source||'HUNT',won:true,monsterId:season.monsterId},{guard,values:[writes.token]}));
   const cow=await cowTicketAward(env,userId,season.sweep?'PVE_SWEEP':'PVE_HUNT',eventId,{guard,values:[writes.token]});
   const results=await env.DB.batch([...writes,...cow.statements]);
-  if(!cow.ticket||Number(results[writes.length]?.meta?.changes)>0)return cow.ticket;
+  if(!cow.statements.length||Number(results[writes.length]?.meta?.changes)>0)return cow.ticket;
   // A completed hunt from before the renewal can have XP but no ticket receipt.
   const receipt=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(cow.ticket.acquisitionId).first();
   return receipt?.value.startsWith(cow.ticket.code+'/')?cow.ticket:null;

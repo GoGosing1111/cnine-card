@@ -2,6 +2,7 @@ export const COW_AREA = 'cow-room';
 export const COW_SOLO_CAP = 5_000_000_000_000;
 export const COW_PARTY_CAP = 10_000_000_000_000;
 export const COW_DROP_FACTOR = 1.5;
+export const COW_TICKET_ONE_IN_PER_KIND = 2_000;
 const art = '/assets/ui/legion-cow-room/';
 export const COW_REGION = Object.freeze({
   id:COW_AREA, name:'카우방', english:'COW LEVEL', accent:'#eeb76f',

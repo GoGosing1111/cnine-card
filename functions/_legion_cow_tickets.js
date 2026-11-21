@@ -1,4 +1,4 @@
-import {COW_TICKETS} from '../shared/legion-cow-room.mjs';
+import {COW_TICKETS,COW_TICKET_ONE_IN_PER_KIND} from '../shared/legion-cow-room.mjs';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -6,6 +6,9 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 export const COW_DRAW_KEY='legion_cow_draw_seed_v1';
 const sql=(db,query,...args)=>db.prepare(query).bind(...args);
 const utf8=new TextEncoder();
+const originalBuckets=400;
+const keepOneIn=COW_TICKET_ONE_IN_PER_KIND/originalBuckets;
+const byteLimit=256-(256%keepOneIn);
 let lastSeed,signingKey;
 async function drawKey(seed){
   if(seed===lastSeed)return signingKey;
@@ -15,7 +18,7 @@ async function drawKey(seed){
 
 // A keyed draw stays identical across retries. Misses need no per-battle row.
 // Only the server's settled battle identity enters the draw.
-export async function cowTicketOutcome(env,userId,source,eventId){
+async function drawCowTicket(env,userId,source,eventId){
   let seed=readRuntimeData(env,COW_DRAW_KEY);
   if(seed===undefined){
     seed=(await sql(env.DB,'SELECT value FROM app_meta WHERE key=?',COW_DRAW_KEY).first())?.value||null;
@@ -23,23 +26,46 @@ export async function cowTicketOutcome(env,userId,source,eventId){
   }
   if(!seed)return null;
   const identity=JSON.stringify([Number(userId),source,String(eventId)]);
-  const hash=new DataView(await crypto.subtle.sign('HMAC',await drawKey(seed),utf8.encode(identity)));
-  // Each ticket has exactly one winning bucket in 400; discard the uneven tail.
-  for(let i=0;i<hash.byteLength;i+=4){
-    const value=hash.getUint32(i);
-    if(value>=4294967200)continue;
-    const bucket=value%400;
-    return bucket<2?COW_TICKETS[bucket?'party':'solo']:null;
+  const key=await drawKey(seed);
+  let bytes=await crypto.subtle.sign('HMAC',key,utf8.encode(identity));
+  let ticket=null;
+  // Retain one fifth of each original ticket's wins, so an old miss stays a miss on retry.
+  for(;;){
+    const hash=new DataView(bytes);
+    let offset=0;
+    while(!ticket&&offset<hash.byteLength){
+      const value=hash.getUint32(offset);
+      offset+=4;
+      if(value>=4294967200)continue;
+      const bucket=value%originalBuckets;
+      if(bucket>1)return null;
+      ticket=bucket===0?COW_TICKETS.solo:COW_TICKETS.party;
+    }
+    // Use independent bytes from the same digest. Reject the uneven tail before taking modulo.
+    for(;offset<hash.byteLength;offset++){
+      const gate=hash.getUint8(offset);
+      if(gate<byteLimit)return {ticket,awarded:gate%keepOneIn===0};
+    }
+    bytes=await crypto.subtle.sign('HMAC',key,bytes);
   }
-  throw Error('Invalid cow ticket draw');
+}
+
+export async function cowTicketOutcome(env,userId,source,eventId){
+  const draw=await drawCowTicket(env,userId,source,eventId);
+  return draw?.awarded?draw.ticket:null;
 }
 
 export async function cowTicketAward(env,userId,source,eventId,{guard='1=1',values=[]}={}){
-  const ticket=await cowTicketOutcome(env,userId,source,eventId);
-  if(!ticket)return {ticket:null,statements:[]};
-  const db=env.DB,token=crypto.randomUUID();
+  const draw=await drawCowTicket(env,userId,source,eventId);
+  if(!draw)return {ticket:null,statements:[]};
+  const {ticket}=draw,db=env.DB;
   const digest=await crypto.subtle.digest('SHA-256',utf8.encode(String(eventId)));
   const key='legion-cow:drop:'+userId+':'+source+':'+Array.from(new Uint8Array(digest),n=>n.toString(16).padStart(2,'0')).join('');
+  if(!draw.awarded){
+    const prior=await sql(db,'SELECT value FROM app_meta WHERE key=?',key).first();
+    return {ticket:prior?.value.startsWith(ticket.code+'/')?{...ticket,acquisitionId:key}:null,statements:[]};
+  }
+  const token=crypto.randomUUID();
   const receipt=ticket.code+'/'+token,won='EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)';
   return {ticket:{...ticket,acquisitionId:key},statements:[
     sql(db,'INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,CURRENT_TIMESTAMP WHERE '+guard+' ON CONFLICT(key) DO NOTHING',key,receipt,...values),
