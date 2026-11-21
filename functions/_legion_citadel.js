@@ -4,7 +4,7 @@ import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {canAccessLegionHunt,readLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from './_legion_hunt_settings.js';
 import {EXTREME_PULSE_KEY} from '../shared/extreme-burning-v1.mjs';
-import {legionHuntEntries,restoreExtremeLegionEnergy} from './_legion_hunt.js';
+import {interruptedLegionRun,legionHuntEntries,restoreExtremeLegionEnergy} from './_legion_hunt.js';
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {loadCoopOwnedCards} from './_cooperative_live.js';
 import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
@@ -139,31 +139,43 @@ async function eligibleUsers(env,r,policy){
  const users=r.members.map(m=>rows.find(u=>Number(u.id)===m.id));if(users.some(u=>!canAccessLegionHunt(policy,u)))fail('CLOSED','두 참가자 모두 군단토벌 이용이 가능해야 합니다.',403);
  return users;
 }
-async function paidEntryStatements(env,users,members,at,nextEntryAt,deps,cowHost=null,roomId=null){
+async function paidEntryStatements(env,users,members,at,nextEntryAt,deps,cowHost,roomId,entryVersions){
  const db=env.DB;
  const balances=await Promise.all(users.map(async (u,index)=>{
   const k='legion_hunt_owner_session_v1:'+u.id;
   const {value:old,deadline,storedDeadline,pulses,pulseRaw}=await readWithEntry(db,k,u.id);
   const solo=old?JSON.parse(old):{};
-  if(solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at)fail('SOLO',u.nickname+'님의 개인 군단토벌을 종료한 뒤 출전하세요.');
+  const activeSolo=solo.state&&!solo.state.ended&&!solo.state.receipt&&!solo.interruption&&solo.expiresAt>at;
+  const ownerCoins=cowHost===null&&u.role==='OWNER'&&members[index].coins;
+  const checks=[[k,old]],writes=[],locks=[];
   if(cowHost!==null){
-   const writes=guard(db,[k,old]);
    if(Number(u.id)===cowHost){await requireCowTicket(db,u.id,'party');writes.push(...spendCowTicket(db,u.id,'party',roomId));}
-   return writes;
-  }
-  if(u.role!=='OWNER'){
+  }else if(u.role!=='OWNER'){
    requireEntry(deadline,at,u.nickname);
    members[index].nextEntryAt=nextEntryAt;
-   return [...guard(db,[k,old],[entryKey(u.id),storedDeadline],[EXTREME_PULSE_KEY,pulseRaw]),put(db,entryKey(u.id),String(nextEntryAt)),put(db,entryPulseKey(u.id),String(pulses.at(-1)?.generation??0))];
+   checks.push([entryKey(u.id),storedDeadline],[EXTREME_PULSE_KEY,pulseRaw]);
+   writes.push(put(db,entryKey(u.id),String(nextEntryAt)),put(db,entryPulseKey(u.id),String(pulses.at(-1)?.generation??0)));
   }
-  // OWNER may always enter. Only the opt-in coin payout uses solo energy.
-  if(!members[index].coins)return [];
-  const support=await (deps.supportBenefits||readSupportBenefits)(env,u.id,at);
-  const restored=restoreExtremeLegionEnergy(solo,pulses,at,support,u);
-  const e=legionHuntEntries(restored,at,u,support);
-  if(e.current<1){delete members[index].coins;return [];}
-  const saved=JSON.stringify({...restored,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}});
-  return [...guard(db,[k,old],[EXTREME_PULSE_KEY,pulseRaw]),put(db,k,saved)];
+  if(activeSolo||ownerCoins){
+   const support=await (deps.supportBenefits||readSupportBenefits)(env,u.id,at);
+   let next=restoreExtremeLegionEnergy(solo,pulses,at,support,u);
+   if(activeSolo)next=interruptedLegionRun(next,u,at,support,{keepCollected:true});
+   if(ownerCoins){
+    const e=legionHuntEntries(next,at,u,support);
+    if(e.current<1)delete members[index].coins;
+    else next={...next,energy:{version:1,current:e.current-1,maximum:e.maximum,updatedAt:e.updatedAt}};
+   }
+   if(next!==solo){
+    if(cowHost!==null||u.role==='OWNER')checks.push([EXTREME_PULSE_KEY,pulseRaw]);
+    // Reveal and pickup can update this row in another transaction. Lock it
+    // before validating the snapshot and committing the two members together.
+    if(old!==null&&db.dialect==='postgres')locks.push(stmt(db,'SELECT key FROM app_meta WHERE key=? FOR UPDATE',k));
+    writes.push(put(db,k,JSON.stringify(next)));
+   }
+  }
+  if(!writes.length&&cowHost===null)return [];
+  for(const [key,value] of checks)entryVersions.set(key,value);
+  return [...locks,...guard(db,...checks),...writes];
  }));return balances.flat();
 }
 async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
@@ -182,7 +194,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  const area=action==='create'?(b.area??'public'):(r?.area||'public'),privateRaid=area===DOCKYARD.id,cow=area===COW_AREA;
  const entering=admission&&!(action==='loaded'&&r&&['ACTIVE','VICTORY','DEFEAT'].includes(phase(r,at)));
  let clan=null;
- const out=[],check=[];
+ const out=[],check=[],entryVersions=new Map();
  if(entering){
   if(privateRaid){
    if(policy.mode!=='ON')fail('CLOSED','군단토벌 정식 운영 중에 클랜 원정을 이용할 수 있습니다.',403);
@@ -251,8 +263,9 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
      const us=await eligibleUsers(env,r,policy);
      if(r.paying&&policy.mode!=='ON')fail('PAUSED','군단토벌 운영이 일시 중지됐습니다.',423);
      const confirmedAt=now();
+     if(confirmedAt>=r.expiresAt)fail('LOADING','전장 준비 시간이 종료됐습니다. 행동력은 차감되지 않습니다.');
      r.startsAt=confirmedAt+1200;
-     if(r.paying)out.push(...await paidEntryStatements(env,us,r.members,confirmedAt,r.startsAt+PARTY_ENTRY_INTERVAL_MS,deps,cow?r.hostId:null,id));
+     if(r.paying)out.push(...await paidEntryStatements(env,us,r.members,confirmedAt,r.startsAt+PARTY_ENTRY_INTERVAL_MS,deps,cow?r.hostId:null,id,entryVersions));
      r.phase='ACTIVE';
     }
    }else if(action==='pickup'){
@@ -313,6 +326,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
   if(entering&&privateRaid)await Promise.all(room.members.map(m=>requireClanHideout(env,m.id,DOCKYARD.stage,clan)));
   if(admission&&!privateRaid&&(await raw(db,CITADEL_POLICY_KEY))!==citadel.raw){requireOpen((await readCitadelPolicy(env)).policy);fail('SETTINGS_CHANGED','성채 설정이 변경됐습니다. 다시 시도하세요.');}
   if(await raw(db,key)!==old||pointer&&await raw(db,who)!==pointer.ptr)fail('CONFLICT','파티 상태가 변경됐습니다. 다시 시도하세요.');
+  if(entryVersions.size&&(await Promise.all([...entryVersions].map(async([k,v])=>(await raw(db,k))!==v))).some(Boolean))fail('CONFLICT','출전 직전의 원정 진행 상황을 다시 확인합니다.');
   throw error;
  }
  return action==='leave'?null:present(db,room,user,now());
