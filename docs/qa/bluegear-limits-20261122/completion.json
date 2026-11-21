@@ -1,0 +1,1500 @@
+{
+  "operation": "ops:bluegear:ss-plus15-legends-plus3:20261122:v1",
+  "authorization": "블루기어팩 Ss리미티드 한도 15장씩 늘리고 하쿠야신 제로 3장씩",
+  "status": "COMPLETED",
+  "completedAtKST": "2026-11-22 04:11:43",
+  "auditId": "69869",
+  "settingsRevision": [
+    6,
+    7
+  ],
+  "totalLimit": {
+    "before": 235,
+    "after": 316,
+    "added": 81
+  },
+  "atCommit": [
+    {
+      "code": "V-701",
+      "name": "하이희야",
+      "previousLimit": 45,
+      "added": 15,
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15
+    },
+    {
+      "code": "V-702",
+      "name": "나무늘봉순",
+      "previousLimit": 45,
+      "added": 15,
+      "limit": 60,
+      "issued": 41,
+      "remaining": 19
+    },
+    {
+      "code": "V-703",
+      "name": "디임",
+      "previousLimit": 45,
+      "added": 15,
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15
+    },
+    {
+      "code": "V-704",
+      "name": "수댕",
+      "previousLimit": 45,
+      "added": 15,
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15
+    },
+    {
+      "code": "V-705",
+      "name": "조은",
+      "previousLimit": 45,
+      "added": 15,
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15
+    },
+    {
+      "code": "V-967",
+      "name": "하쿠야 신",
+      "previousLimit": 4,
+      "added": 3,
+      "limit": 7,
+      "issued": 4,
+      "remaining": 3
+    },
+    {
+      "code": "V-976",
+      "name": "제로",
+      "previousLimit": 6,
+      "added": 3,
+      "limit": 9,
+      "issued": 6,
+      "remaining": 3
+    }
+  ],
+  "issuedSerialsPreserved": 231,
+  "issueHistory": [
+    {
+      "code": "BLUE_GEAR:V-701",
+      "count": 45,
+      "first": 1,
+      "last": 45,
+      "digest": "7b246e65051651bf14b13d2b4c3fab47"
+    },
+    {
+      "code": "BLUE_GEAR:V-702",
+      "count": 41,
+      "first": 1,
+      "last": 41,
+      "digest": "97de3a7b399b344de904f14bb83d6e4d"
+    },
+    {
+      "code": "BLUE_GEAR:V-703",
+      "count": 45,
+      "first": 1,
+      "last": 45,
+      "digest": "e3e962ee8058bd42b89cef404f7ad040"
+    },
+    {
+      "code": "BLUE_GEAR:V-704",
+      "count": 45,
+      "first": 1,
+      "last": 45,
+      "digest": "5a3973ccd0aeee5f0b5f31feeab11ec4"
+    },
+    {
+      "code": "BLUE_GEAR:V-705",
+      "count": 45,
+      "first": 1,
+      "last": 45,
+      "digest": "3863fc68157421fc0116d35fca3aec59"
+    },
+    {
+      "code": "BLUE_GEAR:V-967",
+      "count": 4,
+      "first": 1,
+      "last": 4,
+      "digest": "d4e36c4a360b9eefcb6dac12092c0bee"
+    },
+    {
+      "code": "BLUE_GEAR:V-976",
+      "count": 6,
+      "first": 1,
+      "last": 6,
+      "digest": "3e4cb952ae94a6ad3619ee711beaeb70"
+    }
+  ],
+  "publicAtKST": "2026-11-22 04:14:16",
+  "publicStock": [
+    {
+      "code": "V-701",
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15,
+      "prepared": true
+    },
+    {
+      "code": "V-702",
+      "limit": 60,
+      "issued": 41,
+      "remaining": 19,
+      "prepared": true
+    },
+    {
+      "code": "V-703",
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15,
+      "prepared": true
+    },
+    {
+      "code": "V-704",
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15,
+      "prepared": true
+    },
+    {
+      "code": "V-705",
+      "limit": 60,
+      "issued": 45,
+      "remaining": 15,
+      "prepared": true
+    },
+    {
+      "code": "V-976",
+      "limit": 9,
+      "issued": 6,
+      "remaining": 3,
+      "prepared": true
+    },
+    {
+      "code": "V-967",
+      "limit": 7,
+      "issued": 4,
+      "remaining": 3,
+      "prepared": true
+    }
+  ],
+  "publicCodex": [
+    {
+      "name": "하이희야",
+      "limit": 60
+    },
+    {
+      "name": "나무늘봉순",
+      "limit": 60
+    },
+    {
+      "name": "디임",
+      "limit": 60
+    },
+    {
+      "name": "수댕",
+      "limit": 60
+    },
+    {
+      "name": "조은",
+      "limit": 60
+    },
+    {
+      "name": "하쿠야 신",
+      "limit": 7
+    },
+    {
+      "name": "제로",
+      "limit": 9
+    }
+  ],
+  "verification": {
+    "independentReadOnly": true,
+    "replaySelects": 1,
+    "rolledBackLocalStages": [
+      "setting",
+      "stock",
+      "audit",
+      "receipt"
+    ],
+    "productionRehearsalRolledBack": true,
+    "rehearsalAt": "2026-11-22 04:04:50",
+    "tablesWritten": [
+      "admin_logs",
+      "app_meta",
+      "mercenary_limited_stock_v1"
+    ],
+    "transactionMs": 1037,
+    "prices": {
+      "single": 2250000000,
+      "ten": 22500000000
+    },
+    "configuredProbabilities": {
+      "V-701": 70.3125,
+      "V-702": 70.3125,
+      "V-703": 70.3125,
+      "V-704": 70.3125,
+      "V-705": 70.3125,
+      "V-976": 1,
+      "V-967": 1,
+      "V-059": 400
+    },
+    "openingAt": "2026-11-19T15:00:00.000Z",
+    "settingsBefore": {
+      "revision": 6,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 45,
+          "V-702": 45,
+          "V-703": 45,
+          "V-704": 45,
+          "V-705": 45,
+          "V-976": 6,
+          "V-967": 4
+        }
+      }
+    },
+    "settingsAfter": {
+      "revision": 7,
+      "openingAt": "2026-11-19T15:00:00.000Z",
+      "references": {
+        "bloodmoon": 14,
+        "blackcrown": 11
+      },
+      "settings": {
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "missRatePpm": 800000,
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 4700,
+          "SSS": 800
+        },
+        "cardRatesPpm": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "normalSssRatePpm": 999246.4375,
+        "stockLimits": {
+          "V-701": 60,
+          "V-702": 60,
+          "V-703": 60,
+          "V-704": 60,
+          "V-705": 60,
+          "V-976": 9,
+          "V-967": 7
+        }
+      }
+    },
+    "lastSerialAndNextExclusionTested": [
+      {
+        "code": "V-701",
+        "lastSerial": 60,
+        "excludes": 61
+      },
+      {
+        "code": "V-702",
+        "lastSerial": 60,
+        "excludes": 61
+      },
+      {
+        "code": "V-703",
+        "lastSerial": 60,
+        "excludes": 61
+      },
+      {
+        "code": "V-704",
+        "lastSerial": 60,
+        "excludes": 61
+      },
+      {
+        "code": "V-705",
+        "lastSerial": 60,
+        "excludes": 61
+      },
+      {
+        "code": "V-967",
+        "lastSerial": 7,
+        "excludes": 8
+      },
+      {
+        "code": "V-976",
+        "lastSerial": 9,
+        "excludes": 10
+      }
+    ],
+    "release": {
+      "at": "2026-11-21T19:12:55.341Z",
+      "pages": {
+        "id": "44d27015-00f4-40b2-a13b-ede1b99c0359",
+        "commit": "d48599c1572f222e551c23d1cfc2fe633f03c91f",
+        "status": "success"
+      },
+      "workers": [
+        {
+          "name": "cnine-card-api-runtime",
+          "deployments": [
+            {
+              "version_id": "3c65678b-bff6-42ee-a32c-ca5c61d66617",
+              "percentage": 100
+            }
+          ]
+        },
+        {
+          "name": "cnine-card-clan-draft",
+          "deployments": [
+            {
+              "version_id": "dec499ec-c121-4acd-9354-2649eb2e2d92",
+              "percentage": 100
+            }
+          ]
+        }
+      ],
+      "assets": [
+        {
+          "file": "index.html",
+          "sha256": "0d53e86b5065f3436aad8d419cd111279ca6dcb61ba6ed55d8be4e5b02c1a80d"
+        },
+        {
+          "file": "onestore/index.html",
+          "sha256": "9aae5c220ff7b4a58208261ce5fb4857ad4ad15654296bd33a64ec69a55da01c"
+        },
+        {
+          "file": "js/app.js",
+          "sha256": "c394a314a1d3029bd1b441821ee30a02b6c8950aeb72a5acaeb9728e3b570994"
+        },
+        {
+          "file": "onestore/js/app.js",
+          "sha256": "9a92d41faff89521c0644ef6db5653059910356574b197ba07a3b2fc107e79d1"
+        },
+        {
+          "file": "js/mercenary-blue-gear-pack-live.bundle.mjs",
+          "sha256": "b93e1b10dd689bcc871dca52ad38564ea5aa0d5c5ffee9f307248e4a1a61ef53"
+        },
+        {
+          "file": "js/mercenary-bloodmoon-pack-live.mjs",
+          "sha256": "679a6eca9cba6e5b5771c48aad7914a2855becc38bc379b5eba08f1062e8b421"
+        },
+        {
+          "file": "js/mercenary-bloodmoon-presentation-v2.mjs",
+          "sha256": "a644c76c6a0e7dfc9256e5878d2ee3d6762456f0e78db66f7fe7a647be46f52e"
+        },
+        {
+          "file": "mercenary-codex/index.html",
+          "sha256": "1abc39431373c94da0c5e83c9096bd0848e9123fac17e10eb0021cc5cf447e88"
+        },
+        {
+          "file": "mercenary-codex/shell.mjs",
+          "sha256": "8260a80cdfd84e68ee7e4f9fae0aaa92d17dd6f12dc825d6917ddd5aec1b8414"
+        },
+        {
+          "file": "mercenary-codex/app.mjs",
+          "sha256": "9c01d766bc42d53755588834b06fd337535a0a93d8b83a765badccd67ad10b0b"
+        },
+        {
+          "file": "mercenary-codex/model.mjs",
+          "sha256": "4886e0320f71864db42d22de9d65b87c84d536cde423888fabc0f94eacab2483"
+        },
+        {
+          "file": "shared/mercenary-blue-gear-catalog-v1.mjs",
+          "sha256": "74f76c2cff2f614c235e6940833f1c34b9426c23c721fed640ad200a2f48b8cb"
+        },
+        {
+          "file": "shared/mercenary-blue-gear-pack-v1.mjs",
+          "sha256": "950cce9582cfe14ca90a10114d484fdad4b9fc9884c1420df9f4e981e1be7042"
+        },
+        {
+          "file": "service-worker.js",
+          "sha256": "016e6a59abc2829245a126a8fb1d43683661c29b20c49e80674a18aeee69cd0c"
+        }
+      ],
+      "windows": [
+        "index.html",
+        "js/app.js",
+        "js/mercenary-blue-gear-pack-live.bundle.mjs",
+        "js/mercenary-bloodmoon-pack-live.mjs",
+        "js/mercenary-bloodmoon-presentation-v2.mjs",
+        "mercenary-codex/index.html",
+        "mercenary-codex/shell.mjs",
+        "mercenary-codex/app.mjs",
+        "mercenary-codex/model.mjs",
+        "shared/mercenary-blue-gear-catalog-v1.mjs",
+        "shared/mercenary-blue-gear-pack-v1.mjs"
+      ],
+      "tests": 44
+    }
+  },
+  "performance": {
+    "condition": "Windows. 운영 PostgreSQL에 동일한 팩 조회 코드로 첫 조회·반복 조회. 공개 웹 로비 → 상점 → 블루기어팩 → 개봉실 및 도감. 공개 팩/도감 API와 격리한 계정 응답을 사용했다. PC Chrome, Pixel 7 터치 에뮬레이션, iPhone WebKit 에뮬레이션, Windows 클라이언트 진입 URL, H5 호스트 iframe을 실행했다.",
+    "physicalDevice": false,
+    "service": {
+      "before": {
+        "visits": [
+          {
+            "visit": "first",
+            "ms": 299,
+            "sql": 3
+          },
+          {
+            "visit": "repeat",
+            "ms": 149,
+            "sql": 3
+          }
+        ],
+        "revision": 6,
+        "stock": [
+          {
+            "code": "V-701",
+            "limit": 45,
+            "issued": 45,
+            "remaining": 0,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "limit": 45,
+            "issued": 41,
+            "remaining": 4,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "limit": 45,
+            "issued": 45,
+            "remaining": 0,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "limit": 45,
+            "issued": 45,
+            "remaining": 0,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "limit": 45,
+            "issued": 45,
+            "remaining": 0,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "limit": 6,
+            "issued": 6,
+            "remaining": 0,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "limit": 4,
+            "issued": 4,
+            "remaining": 0,
+            "prepared": true
+          }
+        ],
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "configuredCardRates": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "databaseMs": 0.022,
+        "access": "Index Scan"
+      },
+      "after": {
+        "visits": [
+          {
+            "visit": "first",
+            "ms": 300,
+            "sql": 3
+          },
+          {
+            "visit": "repeat",
+            "ms": 151,
+            "sql": 3
+          }
+        ],
+        "revision": 7,
+        "stock": [
+          {
+            "code": "V-701",
+            "limit": 60,
+            "issued": 45,
+            "remaining": 15,
+            "prepared": true
+          },
+          {
+            "code": "V-702",
+            "limit": 60,
+            "issued": 41,
+            "remaining": 19,
+            "prepared": true
+          },
+          {
+            "code": "V-703",
+            "limit": 60,
+            "issued": 45,
+            "remaining": 15,
+            "prepared": true
+          },
+          {
+            "code": "V-704",
+            "limit": 60,
+            "issued": 45,
+            "remaining": 15,
+            "prepared": true
+          },
+          {
+            "code": "V-705",
+            "limit": 60,
+            "issued": 45,
+            "remaining": 15,
+            "prepared": true
+          },
+          {
+            "code": "V-976",
+            "limit": 9,
+            "issued": 6,
+            "remaining": 3,
+            "prepared": true
+          },
+          {
+            "code": "V-967",
+            "limit": 7,
+            "issued": 4,
+            "remaining": 3,
+            "prepared": true
+          }
+        ],
+        "prices": {
+          "single": 2250000000,
+          "ten": 22500000000
+        },
+        "configuredCardRates": {
+          "V-701": 70.3125,
+          "V-702": 70.3125,
+          "V-703": 70.3125,
+          "V-704": 70.3125,
+          "V-705": 70.3125,
+          "V-976": 1,
+          "V-967": 1,
+          "V-059": 400
+        },
+        "databaseMs": 0.024,
+        "access": "Index Scan"
+      }
+    },
+    "codexSqlOnSameSnapshot": {
+      "before": {
+        "checks": [
+          {
+            "visit": "first",
+            "ms": 233
+          },
+          {
+            "visit": "repeat",
+            "ms": 78
+          }
+        ],
+        "sqlPerVisit": 1,
+        "executionMs": 0.023,
+        "nodes": [
+          [
+            "Seq Scan",
+            "mercenary_cms_documents_v1"
+          ]
+        ]
+      },
+      "after": {
+        "checks": [
+          {
+            "visit": "first",
+            "ms": 79
+          },
+          {
+            "visit": "repeat",
+            "ms": 78
+          }
+        ],
+        "sqlPerVisit": 1,
+        "executionMs": 0.028,
+        "nodes": [
+          [
+            "Seq Scan",
+            "mercenary_cms_documents_v1"
+          ],
+          [
+            "Index Scan",
+            "app_meta"
+          ]
+        ]
+      }
+    },
+    "publicNetwork": [
+      {
+        "route": "mercenaries/v3/blue-gear-pack/feature",
+        "visit": "first",
+        "ms": 191,
+        "cache": "no-store"
+      },
+      {
+        "route": "packs",
+        "visit": "first",
+        "ms": 237,
+        "cache": "no-store"
+      },
+      {
+        "route": "mercenary-codex",
+        "visit": "first",
+        "ms": 454,
+        "cache": "no-store"
+      },
+      {
+        "route": "mercenaries/v3/blue-gear-pack/feature",
+        "visit": "repeat",
+        "ms": 179,
+        "cache": "no-store"
+      },
+      {
+        "route": "packs",
+        "visit": "repeat",
+        "ms": 180,
+        "cache": "no-store"
+      },
+      {
+        "route": "mercenary-codex",
+        "visit": "repeat",
+        "ms": 760,
+        "cache": "no-store"
+      }
+    ],
+    "shopAndRoom": {
+      "before": {
+        "desktop": {
+          "phase": "before",
+          "platform": "desktop",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 243,
+              "heroMs": 65,
+              "roomMs": 230,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 61,
+              "heroMs": 32,
+              "roomMs": 235,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 273
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 147
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 158
+            }
+          ],
+          "launchMs": 1143,
+          "longTasks": [
+            {
+              "start": 1022.1000000014901,
+              "ms": 104
+            },
+            {
+              "start": 1252.8999999985099,
+              "ms": 52
+            },
+            {
+              "start": 1452.7000000029802,
+              "ms": 65
+            },
+            {
+              "start": 1536.8999999985099,
+              "ms": 75
+            }
+          ],
+          "blockedNonGetRequests": 1
+        },
+        "android": {
+          "phase": "before",
+          "platform": "android",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 226,
+              "heroMs": 72,
+              "roomMs": 242,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 8.200000000000273,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 78,
+              "heroMs": 36,
+              "roomMs": 245,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 182
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 139
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 161
+            }
+          ],
+          "launchMs": 1066,
+          "longTasks": [
+            {
+              "start": 949,
+              "ms": 100
+            },
+            {
+              "start": 1274.5,
+              "ms": 51
+            },
+            {
+              "start": 1367.1000000014901,
+              "ms": 62
+            }
+          ],
+          "blockedNonGetRequests": 1
+        },
+        "ios": {
+          "phase": "before",
+          "platform": "ios",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 150,
+              "heroMs": 60,
+              "roomMs": 373,
+              "frames": {
+                "p50Ms": 15,
+                "p95Ms": 31,
+                "maxMs": 88,
+                "over50": 1
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 49,
+              "heroMs": 47,
+              "roomMs": 233,
+              "frames": {
+                "p50Ms": 15,
+                "p95Ms": 30,
+                "maxMs": 82,
+                "over50": 1
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 229
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 226
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 178
+            }
+          ],
+          "launchMs": 1108,
+          "longTasks": [],
+          "blockedNonGetRequests": 1
+        },
+        "windows": {
+          "phase": "before",
+          "platform": "windows",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 271,
+              "heroMs": 68,
+              "roomMs": 315,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.200000000000273,
+                "maxMs": 4.299999999999727,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 54,
+              "heroMs": 34,
+              "roomMs": 260,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.299999999999272,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 195
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 163
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 151
+            }
+          ],
+          "launchMs": 1090,
+          "longTasks": [
+            {
+              "start": 940.7999999970198,
+              "ms": 103
+            },
+            {
+              "start": 1175.6999999955297,
+              "ms": 54
+            },
+            {
+              "start": 1396.6000000014901,
+              "ms": 67
+            },
+            {
+              "start": 1491,
+              "ms": 88
+            },
+            {
+              "start": 1804.7999999970198,
+              "ms": 52
+            }
+          ],
+          "blockedNonGetRequests": 1
+        },
+        "h5": {
+          "phase": "before",
+          "platform": "h5",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 294,
+              "heroMs": 185,
+              "roomMs": 241,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 16.700000000000273,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 71,
+              "heroMs": 41,
+              "roomMs": 249,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.200000000000728,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 198
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 151
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 168
+            }
+          ],
+          "launchMs": 1514,
+          "longTasks": [
+            {
+              "start": 963.5,
+              "ms": 142
+            },
+            {
+              "start": 1602.3999999985099,
+              "ms": 72
+            },
+            {
+              "start": 2162.2000000029802,
+              "ms": 59
+            }
+          ],
+          "blockedNonGetRequests": 1
+        }
+      },
+      "after": {
+        "desktop": {
+          "phase": "after",
+          "platform": "desktop",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 308,
+              "heroMs": 109,
+              "roomMs": 231,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.200000000000273,
+                "maxMs": 4.299999999999727,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 129,
+              "heroMs": 35,
+              "roomMs": 258,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 303
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 148
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 155
+            }
+          ],
+          "launchMs": 1212,
+          "longTasks": [
+            {
+              "start": 1078.1000000014901,
+              "ms": 113
+            },
+            {
+              "start": 1317.2000000029802,
+              "ms": 50
+            },
+            {
+              "start": 1515.8000000044703,
+              "ms": 71
+            },
+            {
+              "start": 1623.7000000029802,
+              "ms": 119
+            }
+          ],
+          "blockedNonGetRequests": 1
+        },
+        "android": {
+          "phase": "after",
+          "platform": "android",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 344,
+              "heroMs": 172,
+              "roomMs": 248,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.200000000000273,
+                "maxMs": 8.299999999999727,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 78,
+              "heroMs": 45,
+              "roomMs": 246,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 204
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 161
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 191
+            }
+          ],
+          "launchMs": 1266,
+          "longTasks": [
+            {
+              "start": 1134.5,
+              "ms": 110
+            },
+            {
+              "start": 1378.3000000044703,
+              "ms": 83
+            },
+            {
+              "start": 1651.4000000059605,
+              "ms": 90
+            },
+            {
+              "start": 1753.1000000014901,
+              "ms": 118
+            },
+            {
+              "start": 2069,
+              "ms": 60
+            }
+          ],
+          "blockedNonGetRequests": 1
+        },
+        "ios": {
+          "phase": "after",
+          "platform": "ios",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 170,
+              "heroMs": 64,
+              "roomMs": 382,
+              "frames": {
+                "p50Ms": 15,
+                "p95Ms": 30,
+                "maxMs": 84,
+                "over50": 1
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 47,
+              "heroMs": 48,
+              "roomMs": 229,
+              "frames": {
+                "p50Ms": 15,
+                "p95Ms": 31,
+                "maxMs": 93,
+                "over50": 1
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 220
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 199
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 166
+            }
+          ],
+          "launchMs": 1072,
+          "longTasks": [],
+          "blockedNonGetRequests": 1
+        },
+        "windows": {
+          "phase": "after",
+          "platform": "windows",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 263,
+              "heroMs": 67,
+              "roomMs": 241,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 69,
+              "heroMs": 34,
+              "roomMs": 246,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.200000000000728,
+                "maxMs": 4.200000000000728,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 318
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 156
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 170
+            }
+          ],
+          "launchMs": 1199,
+          "longTasks": [
+            {
+              "start": 1073.2999999970198,
+              "ms": 103
+            },
+            {
+              "start": 1294.3999999985099,
+              "ms": 60
+            },
+            {
+              "start": 1501.7999999970198,
+              "ms": 66
+            },
+            {
+              "start": 1595.2999999970198,
+              "ms": 76
+            }
+          ],
+          "blockedNonGetRequests": 1
+        },
+        "h5": {
+          "phase": "after",
+          "platform": "h5",
+          "emulated": true,
+          "entries": [
+            {
+              "visit": "first",
+              "shopMs": 269,
+              "heroMs": 179,
+              "roomMs": 246,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.299999999999727,
+                "maxMs": 12.400000000000091,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            },
+            {
+              "visit": "repeat",
+              "shopMs": 146,
+              "heroMs": 41,
+              "roomMs": 228,
+              "frames": {
+                "p50Ms": 4.199999999999818,
+                "p95Ms": 4.300000000000182,
+                "maxMs": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitFeatureRequests": 0,
+              "remainingRooms": 0
+            }
+          ],
+          "errors": [],
+          "network": [
+            {
+              "path": "packs",
+              "ms": 229
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 179
+            },
+            {
+              "path": "mercenaries/v3/blue-gear-pack/feature",
+              "ms": 187
+            }
+          ],
+          "launchMs": 1524,
+          "longTasks": [
+            {
+              "start": 1063.8000000044703,
+              "ms": 115
+            },
+            {
+              "start": 1616.7000000029802,
+              "ms": 83
+            },
+            {
+              "start": 2184.7000000029802,
+              "ms": 61
+            }
+          ],
+          "blockedNonGetRequests": 1
+        }
+      }
+    },
+    "codex": {
+      "before": [
+        {
+          "platform": "desktop",
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 1388,
+              "frames": {
+                "p95": 8.300000000000182,
+                "over50": 0
+              },
+              "postExitReads": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 1156,
+              "frames": {
+                "p95": 4.2999999999999545,
+                "over50": 0
+              },
+              "postExitReads": 0
+            }
+          ],
+          "errors": []
+        },
+        {
+          "platform": "android",
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 1301,
+              "frames": {
+                "p95": 4.2999999999999545,
+                "over50": 0
+              },
+              "postExitReads": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 1181,
+              "frames": {
+                "p95": 4.2999999999999545,
+                "over50": 0
+              },
+              "postExitReads": 0
+            }
+          ],
+          "errors": []
+        }
+      ],
+      "after": [
+        {
+          "platform": "desktop",
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 1748,
+              "frames": {
+                "p95": 4.299999999999727,
+                "over50": 0
+              },
+              "postExitReads": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 1167,
+              "frames": {
+                "p95": 4.2999999999999545,
+                "over50": 0
+              },
+              "postExitReads": 0
+            }
+          ],
+          "errors": []
+        },
+        {
+          "platform": "android",
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 1291,
+              "frames": {
+                "p95": 4.2000000000000455,
+                "over50": 0
+              },
+              "postExitReads": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 1668,
+              "frames": {
+                "p95": 4.300000000000182,
+                "over50": 0
+              },
+              "postExitReads": 0
+            }
+          ],
+          "errors": []
+        }
+      ]
+    },
+    "observation": "기존 팩 조회의 세 SQL과 도감의 단일 SQL을 재사용한다. 도감은 같은 SQL 안에서 기본키 인덱스로 한도를 읽는다. 동일한 운영 스냅샷에서 도감 SQL 자체 실행은 변경 전/후 0.023/0.028ms, Windows 클라이언트 반복 요청은 각각 78ms로 DB 왕복이 주 대기였다. 일곱 재고는 한 UPDATE에서 변경한다. 브라우저는 첫 진입과 재진입을 한 쌍씩 측정했고, 카드 목록 스크롤 중 프레임과 퇴장 뒤 750ms 동안의 팩 조회를 확인했다. 기기별 긴 프레임과 브라우저 경고는 원측정값에 포함한다."
+  }
+}
