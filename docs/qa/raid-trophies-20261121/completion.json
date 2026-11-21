@@ -1,0 +1,913 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "verifiedAt": "2026-11-21T04:14:06.625Z",
+  "sourceCommit": "ff1f969a800ef35ce58d2cd812a19af79203f59f",
+  "release": {
+    "pages": {
+      "id": "55a4543e-cbe8-49c0-9026-8ff53902e2f1",
+      "commit": "ff1f969a800ef35ce58d2cd812a19af79203f59f",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "fb1fc299-84cc-4e7e-a9e0-afe79b0ffa00",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "1b31b96b-0b8e-48b5-ac67-546007bc5fe5",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "tests": 86,
+    "publicAssets": [
+      {
+        "file": "js/player-card-model-v2052.js",
+        "bytes": 7373,
+        "sha256": "7d0f43d6843e6b7ef292da1ee1fa0400af1ceca69a0d7dd80190876b6d79b8e0",
+        "windows": true
+      },
+      {
+        "file": "shared/trophy-bonuses-v1.mjs",
+        "bytes": 2470,
+        "sha256": "87cde2896468defb7f1e8ddb470eea79ebb8e7afc779385b5962541f43e4c3c2",
+        "windows": true
+      },
+      {
+        "file": "admin/trophy-bonuses-v1.mjs",
+        "bytes": 5497,
+        "sha256": "d0a73dcab16833d362ff2128d676b57937ff664c6805f3e2711e758dfc52aef4",
+        "windows": false
+      },
+      {
+        "file": "admin/index.html",
+        "bytes": 83361,
+        "sha256": "a190a6e2a9b1f5db6e8043ea31dd12ea9eb6cd5d01f1739d11adf86795319e31",
+        "windows": false
+      },
+      {
+        "file": "preview/player-calling-card-v2052/index.html",
+        "bytes": 2319,
+        "sha256": "9e00f2d7e683eeead71719f92be2d614de05ec3c2ce4690ca5f349d19ef1d9a0",
+        "windows": true
+      },
+      {
+        "file": "preview/player-calling-card-v2052/preview.js",
+        "bytes": 3873,
+        "sha256": "e9d3f83677ddd648f67c05692f23b5bee097f7cbc2886b376fe8f19b70307d15",
+        "windows": true
+      },
+      {
+        "file": "assets/ui/player-card/nox-20261121/final-frequency-front.webp",
+        "bytes": 45896,
+        "sha256": "5839f1d4fdaa19dbdf20b01379ff04549b093501b91cb78a436147ba13d91729",
+        "windows": true
+      }
+    ],
+    "windowsRelease": "6a365cd6d6e695e9b3a42b19eae3b3d33c01b79c5fc31f87ec58eda454d3dbfa",
+    "auth": [
+      {
+        "route": "player-card",
+        "status": 401
+      },
+      {
+        "route": "raid/nox/feature",
+        "status": 401
+      }
+    ]
+  },
+  "trophies": {
+    "frostmourne": {
+      "name": "서리한",
+      "originalCode": "LICH_KING_CLEAR_1000",
+      "previousGoal": 1000,
+      "goal": 200,
+      "carryForward": true,
+      "manualGrantsRetained": true,
+      "acquiredAt": "Preserve a recorded award date. Record the timestamp on the 200th clear. A historical account whose 200th clear cannot be dated still qualifies from its count."
+    },
+    "nox": {
+      "name": "종언",
+      "code": "NOX_CLEAR_30",
+      "raid": "종언의 주파수",
+      "goal": 30,
+      "eligible": "공식 ON 방이 클리어 상태로 전환되는 시점에 남은 참가자. 전투 중 사망 후 공대에 남은 참가자 포함. 방당 1회.",
+      "defaultRewardBonusPercent": 0,
+      "modeAtCheck": "TEST",
+      "officialEntriesAtCheck": 0
+    }
+  },
+  "dataVerification": {
+    "productionInspection": "Repeatable-read, read-only PostgreSQL snapshot through the player-card handler, actual deployed commit loaded locally. The public API probes verified authentication and static assets. Boundary victories used isolated fixtures.",
+    "lichCountersBefore": 165,
+    "lichNaturalQualifiersAtCheck": 0,
+    "highestLichCountAtCheck": 193,
+    "existingBaseline": true,
+    "productionAccountWrites": 0
+  },
+  "art": {
+    "tool": "Built-in ImageGen",
+    "source": "assets/ui/player-card/nox-20261121/final-frequency-front.png",
+    "webp": "assets/ui/player-card/nox-20261121/final-frequency-front.webp",
+    "prompts": "assets/ui/player-card/nox-20261121/prompts.json",
+    "sourceSha256": "56c0f2b33a4f2cc3bcc423e747b9766ed5fa88e76ec53485b791d68db30e485f",
+    "runtimeSha256": "5839f1d4fdaa19dbdf20b01379ff04549b093501b91cb78a436147ba13d91729",
+    "runtimeBytes": 45896,
+    "revision": 2,
+    "review": "The first concept leaned. The replacement uses a front view and a horizontal base. Head, gemstone, rings and stem were visually reviewed alongside the other shelf trophies on desktop and mobile.",
+    "alignment": {
+      "conditions": "Median left/right opaque silhouette midpoint at 7%, 37%, 49%, 71%, 92% of visible height. Alpha at least 180.",
+      "firstConcept": {
+        "sourceSize": [
+          1254,
+          1254
+        ],
+        "centerSpreadPixels": 24.75,
+        "forkToBaseAngleDegrees": 0.86
+      },
+      "frontView": {
+        "sourceSize": [
+          1254,
+          1254
+        ],
+        "opaqueBounds": [
+          332,
+          27,
+          922,
+          1221
+        ],
+        "crossSectionCentersPx": {
+          "fork": 626.5,
+          "rings": 626.5,
+          "midsection": 626,
+          "stem": 626.5,
+          "base": 626.5
+        },
+        "centerSpreadPixels": 0.5,
+        "centerSpreadPercentOfHeight": 0.04,
+        "forkToBaseAngleDegrees": 0
+      },
+      "runtime": {
+        "sourceSize": [
+          512,
+          512
+        ],
+        "centerSpreadPixels": 0.25,
+        "forkToBaseAngleDegrees": 0
+      }
+    }
+  },
+  "checks": [
+    "Lich 199 → 200, previous dated ownership, older undated counts above 200, manual grants, baseline participants, multiple proofs, no payout cap, SQLite and PostgreSQL.",
+    "Nox official three- and six-player victories, 29 → 30 → 31, frozen roster, prior leaver, defeated member still present, disconnected response, duplicate requests, simultaneous polls and final-poll / final-action / final-leave routes.",
+    "A failing counter trigger rolls back every member and the room. A failed leave receipt rolls back the room and trophy transaction. Elimination, TEST and cancellation do not earn a trophy. Repeated late departures preserve terminal result.",
+    "Existing saved CMS rates retain the same codes. Missing new trophy defaults to zero. Verified read-only card, bonus projection, alpha runtime asset and source exclusions."
+  ],
+  "performance": {
+    "playerCard": {
+      "conditions": "Same account at 193 Lich clears, Windows Node CLI, production PostgreSQL READ ONLY on a single connection per phase. Timings include network and serialized database round trips. One first/repeat pair per build.",
+      "before": [
+        {
+          "visit": "first",
+          "ms": 3914,
+          "queries": 40,
+          "frost": {
+            "progress": 193,
+            "goal": 1000,
+            "owned": false
+          }
+        },
+        {
+          "visit": "repeat",
+          "ms": 3512,
+          "queries": 39,
+          "frost": {
+            "progress": 193,
+            "goal": 1000,
+            "owned": false
+          }
+        }
+      ],
+      "after": [
+        {
+          "visit": "first",
+          "ms": 3770,
+          "queries": 39,
+          "frost": {
+            "progress": 193,
+            "goal": 200,
+            "owned": false
+          },
+          "nox": {
+            "progress": 0,
+            "goal": 30,
+            "owned": false
+          }
+        },
+        {
+          "visit": "repeat",
+          "ms": 3416,
+          "queries": 38,
+          "frost": {
+            "progress": 193,
+            "goal": 200,
+            "owned": false
+          },
+          "nox": {
+            "progress": 0,
+            "goal": 30,
+            "owned": false
+          }
+        }
+      ],
+      "live": [
+        {
+          "visit": "first",
+          "ms": 3495,
+          "queries": 39,
+          "frost": {
+            "progress": 193,
+            "goal": 200,
+            "owned": false
+          },
+          "nox": {
+            "progress": 0,
+            "goal": 30,
+            "owned": false
+          }
+        },
+        {
+          "visit": "repeat",
+          "ms": 3226,
+          "queries": 38,
+          "frost": {
+            "progress": 193,
+            "goal": 200,
+            "owned": false
+          },
+          "nox": {
+            "progress": 0,
+            "goal": 30,
+            "owned": false
+          }
+        }
+      ],
+      "finding": "The account-key lookups for city, Lich, Nox and the historic baseline now share one indexed SELECT. No full raid replay scan was needed."
+    },
+    "nox": {
+      "condition": "Windows Node, isolated PGlite, 6 ms transport per SQL, real Nox state handler with three and six players. Measured ordinary poll, final phase and repeat observation after a clear. No live raid entry or fee.",
+      "measurements": [
+        {
+          "phase": "before",
+          "size": 3,
+          "visit": "first",
+          "active": {
+            "ms": 31.5,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 59.9,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 24.5,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        },
+        {
+          "phase": "before",
+          "size": 3,
+          "visit": "repeat",
+          "active": {
+            "ms": 32.7,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 44,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 30.2,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        },
+        {
+          "phase": "before",
+          "size": 6,
+          "visit": "first",
+          "active": {
+            "ms": 32.7,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 44.9,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 30.9,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        },
+        {
+          "phase": "before",
+          "size": 6,
+          "visit": "repeat",
+          "active": {
+            "ms": 31.3,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 45.2,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 30.9,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        },
+        {
+          "phase": "after",
+          "size": 3,
+          "visit": "first",
+          "active": {
+            "ms": 32.3,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 61.1,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 30.2,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        },
+        {
+          "phase": "after",
+          "size": 3,
+          "visit": "repeat",
+          "active": {
+            "ms": 30.9,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 45.3,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 29.7,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        },
+        {
+          "phase": "after",
+          "size": 6,
+          "visit": "first",
+          "active": {
+            "ms": 31.9,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 43.9,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 30.9,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        },
+        {
+          "phase": "after",
+          "size": 6,
+          "visit": "repeat",
+          "active": {
+            "ms": 31.6,
+            "queries": 2,
+            "status": "ACTIVE"
+          },
+          "clear": {
+            "ms": 45.1,
+            "queries": 3,
+            "status": "CLEAR"
+          },
+          "replay": {
+            "ms": 30.7,
+            "queries": 2,
+            "status": "CLEAR"
+          }
+        }
+      ]
+    },
+    "browser": {
+      "conditions": "Windows headless Chromium, Android touch emulation, mobile WebKit, Windows launcher URL and a ONE store H5 test iframe. Actual lobby → account → profile shelf, isolated response fixtures. Slot and details checked at 199/200 and 29/30. One cold launch and two visits per phase. Physical devices and installed apps were not tested.",
+      "results": {
+        "pc": {
+          "before": {
+            "firstLaunchToLobbyMs": 944,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 163,
+                "artReadyMs": 210,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 211,
+                  "p95Ms": 4.2999999999999545,
+                  "maxMs": 109.46000000000004,
+                  "over50": 2
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 99,
+                "artReadyMs": 101,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 217,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 25,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          },
+          "after": {
+            "firstLaunchToLobbyMs": 1072,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 168,
+                "artReadyMs": 346,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 224,
+                  "p95Ms": 4.2999999999999545,
+                  "maxMs": 12.5,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 113,
+                "artReadyMs": 116,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 247,
+                  "p95Ms": 4.299999999999727,
+                  "maxMs": 12.5,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          },
+          "public": {
+            "firstLaunchToLobbyMs": 1014,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 336,
+                "artReadyMs": 383,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 218,
+                  "p95Ms": 4.2999999999999545,
+                  "maxMs": 12.5,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 108,
+                "artReadyMs": 113,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 249,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 12.5,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          }
+        },
+        "android": {
+          "before": {
+            "firstLaunchToLobbyMs": 1178,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 214,
+                "artReadyMs": 408,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 214,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 24.899999999999864,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 158,
+                "artReadyMs": 161,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 214,
+                  "p95Ms": 8.300000000000182,
+                  "maxMs": 29.300000000000182,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          },
+          "after": {
+            "firstLaunchToLobbyMs": 1145,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 176,
+                "artReadyMs": 342,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 219,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 8.400000000000091,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 127,
+                "artReadyMs": 130,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 231,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 16.699999999999818,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          }
+        },
+        "ios": {
+          "before": {
+            "firstLaunchToLobbyMs": 1073,
+            "errors": [
+              "ResizeObserver loop completed with undelivered notifications."
+            ],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 563,
+                "artReadyMs": 1049,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 57,
+                  "p95Ms": 65,
+                  "maxMs": 73,
+                  "over50": 25
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 472,
+                "artReadyMs": 475,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 59,
+                  "p95Ms": 61,
+                  "maxMs": 62,
+                  "over50": 11
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          },
+          "after": {
+            "firstLaunchToLobbyMs": 1013,
+            "errors": [
+              "ResizeObserver loop completed with undelivered notifications."
+            ],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 562,
+                "artReadyMs": 972,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 57,
+                  "p95Ms": 63,
+                  "maxMs": 64,
+                  "over50": 20
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 409,
+                "artReadyMs": 413,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 63,
+                  "p95Ms": 50,
+                  "maxMs": 64,
+                  "over50": 3
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          }
+        },
+        "windows": {
+          "before": {
+            "firstLaunchToLobbyMs": 1008,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 190,
+                "artReadyMs": 369,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 214,
+                  "p95Ms": 4.2999999999999545,
+                  "maxMs": 33.40000000000009,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 110,
+                "artReadyMs": 114,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 220,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 24.899999999999636,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          },
+          "after": {
+            "firstLaunchToLobbyMs": 1128,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 182,
+                "artReadyMs": 470,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 218,
+                  "p95Ms": 4.2999999999999545,
+                  "maxMs": 8.400000000000091,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 107,
+                "artReadyMs": 109,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 213,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 12.5,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          }
+        },
+        "h5": {
+          "before": {
+            "firstLaunchToLobbyMs": 1053,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 200,
+                "artReadyMs": 348,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 221,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 25.09999999999991,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 125,
+                "artReadyMs": 128,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 228,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 25,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          },
+          "after": {
+            "firstLaunchToLobbyMs": 1014,
+            "errors": [],
+            "visits": [
+              {
+                "visit": "first",
+                "accountShortcutToShelfMs": 231,
+                "artReadyMs": 470,
+                "artRequestsSinceLaunch": 4,
+                "frames": {
+                  "count": 228,
+                  "p95Ms": 4.299999999999727,
+                  "maxMs": 8.400000000000091,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              },
+              {
+                "visit": "reentry",
+                "accountShortcutToShelfMs": 127,
+                "artReadyMs": 130,
+                "artRequestsSinceLaunch": 11,
+                "frames": {
+                  "count": 226,
+                  "p95Ms": 4.300000000000182,
+                  "maxMs": 20.800000000000182,
+                  "over50": 0
+                },
+                "exitObservationMs": 1000,
+                "exit": {
+                  "canvases": 0,
+                  "cardAnimations": 0
+                },
+                "requestsAfterExit": 0
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
