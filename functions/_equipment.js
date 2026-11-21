@@ -676,8 +676,9 @@ export async function userEquipmentBonuses(env,userId,{skillChips}={}){
     LEFT JOIN garage ON 1=1
     LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId,userId,userId).first();
   const [forge,growthRuntime,avatarPower]=await Promise.all([FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonus(env,userId):{pve:0,pvp:0},equipmentGrowthRuntime(env,userId),avatarBattlePowerPercents(env,[userId])]);
-  const avatarPowerPercent=avatarPower.get(Number(userId))||0,pveEquipmentRuntime=avatarPowerPercent?{...growthRuntime,avatarPowerPercent}:growthRuntime;
+  const avatarPowerPercent=avatarPower.get(Number(userId))||0;
   const equipmentPve=Number(row?.equipment_pve||0)+forge.pve,equipmentPvp=Number(row?.equipment_pvp||0)+forge.pvp,battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
+  const pveEquipmentRuntime={...growthRuntime,wornGearPower:equipmentPve,...(avatarPowerPercent?{avatarPowerPercent}:{})};
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
   const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');
   if(equippedBattleSuit&&battleSuitPve>0){const chips=skillChips?await skillChips:null;equippedBattleSuit.skillChips=chips?(chips.battleEnabled?chips.loadout.filter(Boolean):[]):await equippedSkillChipCodes(env,userId);}

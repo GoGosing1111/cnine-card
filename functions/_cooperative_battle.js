@@ -16,7 +16,7 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
  squads.forEach((squad,squadIndex)=>{
   const {ownerId,ownerName}=squad,deck=squad.cards,rows=citadelEnemies?validatePreparedMercenaries(squad.mercenaries,{freeRanks:true}):companionSnapshotRows(squad,review);
   if(!Number.isSafeInteger(ownerId)||ownerId<=0||!Array.isArray(deck)||deck.length!==2||new Set(deck.map(c=>c.id)).size!==2||deck.some(c=>!c.id||c.isMercenary)||deck.filter(c=>(c.rarity||c.grade)==='SUPERSTAR').length>1||!rows.length)throw Error('INVALID_COOPERATIVE_SQUAD');
-  const own=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0)).map((c,localSlot)=>({
+  const own=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0),squad.wornGearPower).map((c,localSlot)=>({
    ...buildFighter(avatarPoweredCard(c,squad.avatarPowerPercent),localSlot,'A',c.uniqueAbility||null,'PVE'),id:`A:OWNER:${ownerId}:CARD:${c.id}`,
    ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*2+localSlot,
    row:c.uniqueAbility?.dominantType==='DEFENSE'||c.power_type==='DEFENSE'?'FRONT':'BACK'

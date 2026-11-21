@@ -1,4 +1,5 @@
 import {equipmentDefenseFromRows} from '../../shared/equipment-defense-v1.mjs';
+import {rankedGearPower,rankedGearEffects} from '../../shared/mercenary-equipment-rank-v1.mjs';
 export const SLOTS=Object.freeze(['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY']);
 export const MODES=Object.freeze(['PVE','PVP']);
 export const LABELS=Object.freeze({WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'});
@@ -18,7 +19,9 @@ export function stats(state,code,mode){
  for(const item of items)if(item.setId)groups.set(item.setId,(groups.get(item.setId)??0)+1);
  const defense=equipmentDefenseFromRows(items),sets=[...groups].map(([id,count])=>({...state.sets.find(s=>s.setId===id),count,defense: defense.sets.find(s=>s.id===id)}));
  for(const set of defense.sets)if(!sets.some(s=>s.setId===set.id))sets.push({setId:set.id,name:set.name,tier:set.tier,tierLabel:'유니크 '+set.tier+'단계',count:set.count,defense:set,modes:['PVE']});
- return {power:items.reduce((total,item)=>total+power(item,mode),0),count:items.length,sets,defense:mode==='PVE'?defense.effects:{}};
+ const rank=state.mercenaries.find(m=>m.code===code)?.rank;
+ const rawPower=items.reduce((total,item)=>total+power(item,mode),0);
+ return {power:rankedGearPower(rank,rawPower),count:items.length,sets,defense:mode==='PVE'?rankedGearEffects(rank,defense.effects):{}};
 }
 export class LoadoutError extends Error{constructor(code,message){super(message);this.code=code;}}
 function validate(state,input){

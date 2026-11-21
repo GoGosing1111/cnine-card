@@ -27,17 +27,17 @@ const numeric=id=>Number(id);
 export async function duoVersions(env,ids){
  return (await env.DB.prepare(`SELECT a.user_id,a.source_version,v.revision AS policy_revision,u.nickname,u.role,u.status,u.banned_until,p.source_version AS cached_version,p.policy_revision AS cached_policy,p.config_hash,p.payload_json,p.expires_at FROM ranked_duo_accounts_v1 a JOIN users u ON u.id=a.user_id CROSS JOIN ranked_duo_policy_version_v1 v LEFT JOIN ranked_duo_profiles_v1 p ON p.user_id=a.user_id WHERE v.id=1 AND a.user_id IN (${marks(ids)})`).bind(...ids).all()).results;
 }
-export function duoMercenaryRating(snapshot,cards,equipment,weight=1){
+export function duoMercenaryRating(snapshot,cards,equipment,weight=1,wornGearPower=equipment){
  const m=buildMercenaryFighter(snapshot,'A','PVP',buildFighter);if(!m)return 0;
  const baseHp=m.maxHp,baseAttack=m.attack;
- const fighters=distributeEquipment(cards,equipment).map((c,i)=>buildFighter(c,i,'A',null,'PVP'));
+ const fighters=distributeEquipment(cards,equipment,wornGearPower).map((c,i)=>buildFighter(c,i,'A',null,'PVP'));
  applyMercenaryCombatLink([[...fighters,m]]);
  const ratio=(mercenaryEffectiveAttack(m)/Math.max(1,baseAttack)+(m.maxHp+m.shield)/Math.max(1,baseHp))/2;
  const skillBudget=(snapshot.skills||[]).reduce((sum,s)=>sum+Math.min(10,Math.max(0,Number(s.balance?.damageRatio)||0))*(MERCENARY_SKILL_CAP_SCALE[s.id]??1)/Math.max(2,Number(s.balance?.cooldownTurns||0)+1),0);
  return Math.round(mercenarySnapshotPower(snapshot)*Math.max(1,ratio)*(1+Math.min(2,skillBudget)*.1)*weight);
 }
-export function duoMercenaryPotential(mercs,cards,equipment,weights={},dual=COMPANION_RELEASE.dualMercenaries){
- const ratings=mercs.map(m=>duoMercenaryRating(m,cards,equipment,weights[m.code]??1));
+export function duoMercenaryPotential(mercs,cards,equipment,weights={},dual=COMPANION_RELEASE.dualMercenaries,wornGearPower=equipment){
+ const ratings=mercs.map(m=>duoMercenaryRating(m,cards,equipment,weights[m.code]??1,wornGearPower));
  let best=Math.max(0,...ratings);
  if(dual)for(let i=0;i<mercs.length;i++)for(let j=i+1;j<mercs.length;j++){
   try{validatePreparedMercenaries([mercs[i],mercs[j]]);}catch{continue;}
@@ -72,19 +72,21 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
   const saved=decks.results.find(d=>Number(d.user_id)===userId),select=raw=>{const value=parsed(raw);return Array.isArray(value)?value.map(id=>cardMap.get(String(id))).filter(Boolean):[];};
   const attack=select(saved?.attack_ids),defense=select(saved?.defense_ids),slotBest=new Map();let equipment=0;
   for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level),advanced).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
-  let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
+  const wornGearPower=equipment;
+  const potentialWornGear=[...slotBest.values()].reduce((s,n)=>s+n,0);
+  let potentialEquipment=potentialWornGear,expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
   for(const row of byUser(mercRows,userId))if(row.loan_until)expires=Math.min(expires,Date.parse(row.loan_until.replace(' ','T')+'Z'));
   const mercs=mercsByUser.get(userId);
   const codes=mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[],mercenaries=codes.map(code=>mercs.find(m=>m.code===code)).filter(Boolean),mercenary=mercs.find(m=>m.equipped)||null,formation=dual?{mercenary:mercenaries[0]||null,mercenaries}:{mercenary};
   if(dual)validatePreparedMercenaries(mercenaries);
-  const mercenaryPower=best.length===5?duoMercenaryPotential(mercs,best,potentialEquipment,config.mercenaryWeights,dual):0;
+  const mercenaryPower=best.length===5?duoMercenaryPotential(mercs,best,potentialEquipment,config.mercenaryWeights,dual,potentialWornGear):0;
   const cardPower=best.reduce((s,c)=>s+c.power,0),power=Math.max(1,Math.round(100*(cardPower+potentialEquipment+mercenaryPower)/Math.max(1,baseline)));
   // Admission uses the current minimum grade. Recorded paid matches keep their
   // original simulator inputs so a policy change cannot strand their receipt.
   const valid=deck=>{if(!pvpDeckGradeAllowed(deck))return false;try{validateDuoDeck(deck);return true;}catch{return false;}};
   const equipmentSetVisual=equipmentSetVisualFromRows(byUser(gear,userId),userId);
-  profiles.push({userId,user,nickname:version.nickname,sourceVersion:Number(version.source_version),policyRevision:Number(version.policy_revision),power,expiresAt:new Date(expires).toISOString(),breakdown:{baseline,cardPower,equipmentPower:potentialEquipment,mercenaryPower,fur13Count:cards.filter(c=>c.rarity==='FUR'&&Number(c.breakthrough_level)>=13).length,superstarLevel:Math.max(-1,...cards.filter(c=>c.rarity==='SUPERSTAR').map(c=>Number(c.breakthrough_level))),mercenaryRanks:mercs.map(m=>({code:m.code,rank:m.rank}))},attackReady:valid(attack),defenseReady:valid(defense),attack:{ownerId:userId,ownerName:version.nickname,cards:attack,equipmentSetVisual,equipmentBonus:equipment,...formation,presetNo:Number(saved?.preset_no||1)},defense:{ownerId:userId,ownerName:version.nickname,cards:defense,equipmentSetVisual,equipmentBonus:equipment,...formation,presetNo:1}});
+  profiles.push({userId,user,nickname:version.nickname,sourceVersion:Number(version.source_version),policyRevision:Number(version.policy_revision),power,expiresAt:new Date(expires).toISOString(),breakdown:{baseline,cardPower,equipmentPower:potentialEquipment,mercenaryPower,fur13Count:cards.filter(c=>c.rarity==='FUR'&&Number(c.breakthrough_level)>=13).length,superstarLevel:Math.max(-1,...cards.filter(c=>c.rarity==='SUPERSTAR').map(c=>Number(c.breakthrough_level))),mercenaryRanks:mercs.map(m=>({code:m.code,rank:m.rank}))},attackReady:valid(attack),defenseReady:valid(defense),attack:{ownerId:userId,ownerName:version.nickname,cards:attack,equipmentSetVisual,equipmentBonus:equipment,wornGearPower,...formation,presetNo:Number(saved?.preset_no||1)},defense:{ownerId:userId,ownerName:version.nickname,cards:defense,equipmentSetVisual,equipmentBonus:equipment,wornGearPower,...formation,presetNo:1}});
  }
  const entries=profiles.flatMap(p=>[p.attack,p.defense].map(squad=>({user:p.user,cards:squad.cards,squad}))),[unique,synergy,magic]=await Promise.all([
   deps.cardUniqueDeckStates(env,entries,'PVP',{fresh:true,batched:true}),deps.evaluateDeckSynergiesBatch(env,entries.map(e=>({user:e.user,deckIds:e.cards.map(c=>c.id)})),'PVP'),
@@ -108,7 +110,7 @@ const validateAccounts=(versions,count,now,allowOwner=false)=>{
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0,dual=COMPANION_RELEASE.dualMercenaries}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
- const hash=await jointHash({pvpDeckPolicy:'fur-minimum-20261118-v1',weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',shiranuiDeployment:'20261108-bus-driver',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
+ const hash=await jointHash({pvpDeckPolicy:'fur-minimum-20261118-v1',weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261122-rank',mercenaryGrowth:'20261020-v1',shiranuiDeployment:'20261108-bus-driver',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);

@@ -56,7 +56,7 @@ export async function loadCoopSelection(env,user,body,deps,{rules=COMPANION_RELE
   const [cards,mercenaries,bonus,settings,accountRank,pet]=await Promise.all([loadCoopOwnedCards(env,user,deps,selected.cardIds),selectedMercenaryBattleSnapshots(env,user,selected.mercenaryCodes,'PVE'),deps.userEquipmentBonuses(env,user.id),deps.battleSettings(env),readAccountRank(env,user.id),loadPetBattleSnapshot(env,user,'PVE')]);
   if(cards.length!==2||cards.filter(c=>c.grade==='SUPERSTAR').length>1)fail('OWNERSHIP','보유 카드 2장과 슈퍼스타 제한을 확인하세요.',403);
   const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
-  return {...runeOption,ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenaries,...(review?{[REVIEW]:true}:{}),pet,equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:settings.engine?.singleHealerBonus||{},power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenaries.reduce((sum,m)=>sum+mercenarySnapshotPower(m),0))*(1+(bonus.avatarPowerPercent||0)/100))};
+  return {...runeOption,ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenaries,...(review?{[REVIEW]:true}:{}),pet,equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,wornGearPower:bonus.equipmentPve,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:settings.engine?.singleHealerBonus||{},power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenaries.reduce((sum,m)=>sum+mercenarySnapshotPower(m),0))*(1+(bonus.avatarPowerPercent||0)/100))};
  }
  const [cards,owned,document,runtime,bonus,battleSettings,accountRank]=await Promise.all([
   loadCoopOwnedCards(env,user,deps,selected.cardIds),
@@ -67,7 +67,7 @@ export async function loadCoopSelection(env,user,body,deps,{rules=COMPANION_RELE
  const mercenary={...battleConfig(document.document,selected.mercenaryCode,1),combat:runtime.combat,cmsRevision:document.revision,policyVersion:runtime.version};
  const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
  return {...runeOption,pet:await loadPetBattleSnapshot(env,user,'PVE'),ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
-  equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:battleSettings.engine?.singleHealerBonus||{},
+  equipmentSetVisual:bonus.pveEquipmentRuntime?.equipmentSetVisual||null,equipmentBonus,wornGearPower:bonus.equipmentPve,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:battleSettings.engine?.singleHealerBonus||{},
   power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary))*(1+(bonus.avatarPowerPercent||0)/100))};
 }
 export async function handleCooperative({path,request,env,deps}){

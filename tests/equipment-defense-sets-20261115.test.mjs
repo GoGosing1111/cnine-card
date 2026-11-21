@@ -65,7 +65,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: actu
  let state=await mercenaryEquipmentState(f.env,f.user),pve=state.loadouts.PVE,pvp=state.loadouts.PVP;
  assert.equal(pve.defenseSets[0].active,true);assert.equal(pve.effects.pveGuardPercent,65);assert.equal(pvp.effects.pveGuardPercent,undefined);
  const snapshot=await releasedMercenarySnapshot(f.env,f.user,'PVE'),fighter=buildMercenaryFighter(snapshot,'A','PVE',buildFighter);
- assert.equal(fighter.equipmentEffects.defensePercent,350);assert.equal(fighter.equipmentEffects.pveGuardPercent,65);
+ assert.equal(fighter.rank,'C');assert.equal(fighter.equipmentEffects.defensePercent,1);assert.equal(fighter.equipmentEffects.pveGuardPercent,.65);
  await f.equip('PVE',ASCENDANT_EQUIPMENT.find(i=>i.tier===9&&i.slot==='ACCESSORY'));
  state=await mercenaryEquipmentState(f.env,f.user);assert(state.loadouts.PVE.defenseSets.every(s=>!s.active));assert.equal(state.loadouts.PVE.effects.pveGuardPercent,22);
  assert.deepEqual(state.loadouts.PVP.items,pvp.items);assert.equal(state.loadouts.PVP.effects.pveGuardPercent,undefined);

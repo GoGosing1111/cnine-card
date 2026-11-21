@@ -286,28 +286,32 @@ export function applyTypeStacking(cards = []) {
   });
 }
 
-export function distributeEquipment(cards = [], equipmentBonus = 0) {
+export function distributeEquipment(cards = [], equipmentBonus = 0, wornGearPower = equipmentBonus) {
   // ICON growth must not move equipment (and thus speed) between party slots.
   const weight=card=>Math.max(0,Number(card.power||0)-(String(card.rarity??card.grade??'').toUpperCase()==='ICON'?(liveExpansionIcon(card)?.basePower||180000)*.2*iconEnhancementLevel(card.iconRole?.enhancementLevel??card.iconExpansion?.enhancementLevel??card.breakthrough_level??card.breakthroughLevel):0));
   const total = cards.reduce((sum, card) => sum + weight(card), 0);
-  let assigned = 0;
+  let assigned = 0, assignedNonGear = 0;
+  const nonGear=Math.max(0,equipmentBonus-wornGearPower);
   return cards.map((card, index) => {
-    const share = index === cards.length - 1
-      ? Math.max(0, Math.round(equipmentBonus - assigned))
-      : Math.max(0, Math.floor(Number(equipmentBonus || 0) * weight(card) / Math.max(1, total)));
+    const last=index===cards.length-1,cardWeight=weight(card);
+    const share=last?Math.max(0,Math.round(equipmentBonus-assigned)):Math.max(0,Math.floor(Number(equipmentBonus||0)*cardWeight/Math.max(1,total)));
+    const nonGearShare=last?Math.max(0,Math.round(nonGear-assignedNonGear)):Math.floor(nonGear*cardWeight/Math.max(1,total));
     assigned += share;
-    return { ...card, equipmentShare: share, effectivePower: Math.max(1, Math.round(Number(card.power || 0) + share)) };
+    assignedNonGear+=nonGearShare;
+    return { ...card, ...(nonGearShare?{nonGearShare}:{}), equipmentShare: share, effectivePower: Math.max(1, Math.round(Number(card.power || 0) + share)) };
   });
 }
 
 // Account support stays fixed for each PvE slot when another card is enhanced.
-export function distributePveEquipment(cards = [], equipmentBonus = 0) {
+export function distributePveEquipment(cards = [], equipmentBonus = 0, wornGearPower = equipmentBonus) {
   const rawBonus = Number(equipmentBonus);
   const bonus = Number.isFinite(rawBonus) ? Math.max(0, Math.round(rawBonus)) : 0;
   const share = Math.floor(bonus / Math.max(1, cards.length));
+  const nonGear=Math.max(0,Math.round(bonus-wornGearPower)),nonGearPerCard=Math.floor(nonGear/Math.max(1,cards.length));
   return cards.map((card, index) => {
     const equipmentShare = index === cards.length - 1 ? bonus - share * index : share;
-    return { ...card, equipmentShare, effectivePower: Math.max(1, Math.round(Number(card.power || 0) + equipmentShare)) };
+    const nonGearShare=index===cards.length-1?nonGear-nonGearPerCard*index:nonGearPerCard;
+    return { ...card, ...(nonGearShare?{nonGearShare}:{}), equipmentShare, effectivePower: Math.max(1, Math.round(Number(card.power || 0) + equipmentShare)) };
   });
 }
 
@@ -357,9 +361,12 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   const hpScale = mode === 'PVE' ? 2.34 : 2.6;
   const rankHp=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.hpBp||0,0,1500):0;
   const rankAttack=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.attackBp||0,0,1000):0;
-  const floor=key=>iconStatFloor(superiority,mode,key,Number(card.equipmentShare||0),iconDef?.role,iconLevel);
-  const maxHp = Math.ceil(statScale*Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)),Math.ceil(floor('maxHp')*(1+rankHp/10000))));
-  const attack = Math.ceil(statScale*Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)),Math.ceil(floor('attack')*(1+rankAttack/10000))));
+  const share=Number(card.equipmentShare||0),nonGearShare=Number(card.nonGearShare||0);
+  const floor=(key,included=share)=>iconStatFloor(superiority,mode,key,included,iconDef?.role,iconLevel);
+  const hpAt=(power,included)=>Math.ceil(statScale*Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)),Math.ceil(floor('maxHp',included)*(1+rankHp/10000))));
+  const attackAt=(power,included)=>Math.ceil(statScale*Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)),Math.ceil(floor('attack',included)*(1+rankAttack/10000))));
+  const maxHp=hpAt(power,share),attack=attackAt(power,share);
+  const withoutGear=Math.max(1,power-share+nonGearShare);
   const defense = Math.ceil(statScale*Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)),floor('defense')));
   // V1936: 기저값을 더해 행동 빈도 격차를 압축한다(속도형 1.6배 -> 1.2배).
   const speed = Math.ceil(statScale*Math.max(35, Math.round((70 + speedPower * S1.speedBaseK + speedPower * profile.speed * 0.10) * (1 + speedPct / 100)),floor('speed')));
@@ -389,6 +396,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     breakthroughLevel: int(card.breakthrough_level ?? card.breakthroughLevel, 0),
     basePower: int(card.power, 0),
     equipmentShare: int(card.equipmentShare, 0),
+    ...(share>0?{mercenaryLinkWithoutGear:{attack:attackAt(withoutGear,nonGearShare)/attack,maxHp:hpAt(withoutGear,nonGearShare)/maxHp}}:{}),
     power: int(power, 0),
     battleMode: mode,
     type,
@@ -431,7 +439,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
 
 export function publicFighter(fighter) {
   const {
-    emergencyUsed, survivalUsed, indomitableUsed, advancementLastStandUsed, pvpTakedownUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
+    emergencyUsed, survivalUsed, indomitableUsed, advancementLastStandUsed, pvpTakedownUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone, mercenaryLinkWithoutGear, equipmentUnscaledPolish,
     ...card
   } = fighter;
   return card;
@@ -669,10 +677,15 @@ function pushEvent(timeline, clock, type, data = {}) {
   timeline.push({ seq: timeline.length + 1, at: Number(clock.toFixed(3)), type, ...data });
 }
 
-function lowestRatioTarget(pool, random) {
+function lowestRatioTarget(pool, random, shareTies=false) {
   const sorted = [...pool].sort((a, b) => (a.hp / a.maxHp) - (b.hp / b.maxHp) || a.slot - b.slot);
-  if (sorted.length > 1 && random() < 0.28) return sorted[1];
-  return sorted[0];
+  if(sorted.length<2)return sorted[0];
+  const roll=random(),second=roll<0.28,pick=sorted[second?1:0];
+  if(!shareTies)return pick;
+  // Reuse the same draw and preserve the two HP priorities and their odds.
+  const tied=sorted.filter(unit=>unit.hp/unit.maxHp===pick.hp/pick.maxHp);
+  const position=second?roll/.28:(roll-.28)/.72;
+  return tied[Math.min(tied.length-1,Math.floor(position*tied.length))];
 }
 
 function healerPenaltyForTeam(team = []) {
@@ -845,6 +858,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let actionRandom = cardRandom;
   const random = () => actionRandom();
   const a = teamA.map(card => ({ ...card }));
+  const shareCitadelTies=cooperative&&sustainedEncounter?.sharePartyTargetTies;
   const b = teamB.map(card => ({ ...card }));
   // Live assignments are derived exclusively from the registered card identities.
   // JSON technique/tuning fields cannot activate the four unassigned techniques.
@@ -1711,7 +1725,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const preferredTarget=iconRuntime?.selectTarget(actor,pool);
-    const target = tauntGuard||(!techniqueRuntime?preferredTarget:preferredTarget&&pool.includes(preferredTarget)?preferredTarget:null)||lowestRatioTarget(pool, random);
+    const target = tauntGuard||(!techniqueRuntime?preferredTarget:preferredTarget&&pool.includes(preferredTarget)?preferredTarget:null)||lowestRatioTarget(pool, random, shareCitadelTies&&actor.isMonster);
     advancement?.attempt(actor,target);
     techniqueRuntime?.singleTarget(actor,target);
     const speedCombo=isPvpSpeedCard(actor)&&!apocalypseSealed(actor);
@@ -2190,7 +2204,7 @@ function battleMercenaryFighters({cards,single,rows,side,mode,avatarPowerPercent
 
 export function buildPvePlayerTeam({seasonEquipment=null,cards=[],characterBonus=0,battleSuit=null,mercenary=null,mercenaries,pveEquipmentRuntime=null,[COMPANION_PREPARATION_REVIEW]:companionReview=false}={}) {
   const avatarPowerPercent=pveEquipmentRuntime?.avatarPowerPercent||0;
-  const withBonus = distributePveEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
+  const withBonus = distributePveEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)),pveEquipmentRuntime?.wornGearPower);
   const teamA = withBonus.map((card, index) => buildFighter(avatarPoweredCard(card,avatarPowerPercent), index, 'A', card.uniqueAbility || null, 'PVE'));
   const battleSuitFighter = battleSuit ? buildBattleSuitFighter(avatarPowerPercent?{...battleSuit,pvePower:avatarScaledPower(battleSuit.pvePower??battleSuit.power,avatarPowerPercent)}:battleSuit, teamA.length) : null;
   if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');
@@ -2366,10 +2380,10 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
+export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerWornGearPower, defenderWornGearPower, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
-  const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)));
-  const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)));
+  const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)),attackerWornGearPower);
+  const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)),defenderWornGearPower);
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(avatarPoweredCard(card,attackerAvatarPowerPercent), index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(avatarPoweredCard(card,defenderAvatarPowerPercent), index, 'B', card.uniqueAbility || null, 'PVP'));
   if((attackerMercenary&&(attackerCards.length!==5||new Set(attackerCards.map(c=>String(c.id))).size!==5))||(defenderMercenary&&(defenderCards.length!==5||new Set(defenderCards.map(c=>String(c.id))).size!==5)))throw Error('INVALID_MERCENARY_PARTY');
@@ -2426,7 +2440,7 @@ export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,si
       owners.add(ownerId);
       validateDuoDeck(deck);
       if(!Array.isArray(deck)||deck.length!==5||new Set(deck.map(c=>String(c.id))).size!==5||deck.some(c=>!c.id||c.isMercenary)||deck.filter(c=>String(c.rarity||c.grade).toUpperCase()==='SUPERSTAR').length>1)throw Error('INVALID_DUO_DECK');
-      const ownerName=String(squad.ownerName||'').slice(0,80),ownCards=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0)).map((card,localSlot)=>({
+      const ownerName=String(squad.ownerName||'').slice(0,80),ownCards=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0),squad.wornGearPower).map((card,localSlot)=>({
         ...buildFighter(avatarPoweredCard(card,squad.avatarPowerPercent),localSlot,side,card.uniqueAbility||null,'PVP'),
         id:`${side}:OWNER:${ownerId}:CARD:${card.id}`,ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*5+localSlot
       }));
@@ -2518,8 +2532,8 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
 
   const ownUniqueMap = new Map((uniqueStates[0]?.cards || []).map(card => [String(card.id), card]));
   const enemyUniqueMap = new Map((uniqueStates[1]?.cards || []).map(card => [String(card.id), card]));
-  const ownWithEquipment = distributeEquipment(ownCards, Number(ownBonus?.pvp || 0));
-  const enemyWithEquipment = distributeEquipment(enemyCards, Number(enemyBonus?.pvp || 0));
+  const ownWithEquipment = distributeEquipment(ownCards, Number(ownBonus?.pvp || 0),ownBonus?.equipmentPvp);
+  const enemyWithEquipment = distributeEquipment(enemyCards, Number(enemyBonus?.pvp || 0),enemyBonus?.equipmentPvp);
   const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null,iconExpansion:uniqueCard?.iconExpansion || null },ownBonus?.avatarPowerPercent), index, 'A', uniqueCard?.uniqueAbility || null); });
   const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null,iconExpansion:uniqueCard?.iconExpansion || null },enemyBonus?.avatarPowerPercent), index, 'B', uniqueCard?.uniqueAbility || null); });
   let magicA = [];

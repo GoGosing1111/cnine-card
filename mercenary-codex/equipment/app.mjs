@@ -3,7 +3,8 @@ import {polishDisplay,polishMarkHtml,polishDetailsHtml} from '../../shared/equip
 import {equipmentEffectText} from '../../shared/equipment-growth-text-v1.mjs';
 import {equipmentDefenseDefinition} from '../../shared/equipment-defense-v1.mjs';
 import {mercenaryModeAllowed} from '../../shared/mercenary-eunseol-v1.mjs';
-import {SLOTS,MODES,LABELS,gearSlots,wornItems,wearer,power,stats,previewChange} from './ui.mjs?v=20261115-defense-sets';
+import {mercenaryGearRankText} from '../../shared/mercenary-equipment-rank-v1.mjs';
+import {SLOTS,MODES,LABELS,gearSlots,wornItems,wearer,power,stats,previewChange} from './ui.mjs?v=20261122-rank';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const numberFormat=new Intl.NumberFormat('ko-KR'),shortFormat=new Intl.NumberFormat('ko-KR',{maximumFractionDigits:1});
@@ -42,6 +43,8 @@ function renderStage(){
  for(const el of $$('[data-mode]')){el.setAttribute('aria-pressed',String(el.dataset.mode===mode));el.disabled=busy||!mercenaryModeAllowed(code,el.dataset.mode);}
  $('#slots').innerHTML=SLOTS.map(part=>{const item=state.items.find(i=>i.instanceId===current[part]);return `<button class="equip-slot" data-slot="${part}" aria-pressed="${slot===part}" aria-label="${LABELS[part]}: ${esc(item?.name??'빈 슬롯')}" ${busy?'disabled':''}>${item?`<img src="${esc(item.image)}" alt="">`:icon(part)}<b>${LABELS[part]}</b><small>${item?'장착 중':'미장착'}</small>${item?polishMarkHtml(item):''}</button>`;}).join('');
  $('#slotCount').textContent=s.count+' / 5부위 장착';$('#powerLabel').textContent=mode+' 장비 전투력';$('#gearPower').textContent='+ '+fmt(s.power);
+ const note=mercenaryGearRankText(merc.rank);
+ $('#gearRankNote').hidden=!note;$('#gearRankNote').textContent=note+' 장비별 설명과 세트 구성 수치는 등급 적용 전 기준입니다.';
  const individual=wornItems(state,code,mode).filter(item=>item.individualEffects);
  $('#individualPanel').hidden=!individual.length;
  $('#individualList').innerHTML=individual.map(item=>`<div class="set-entry"><strong>${esc(item.passiveName)}<span>${esc(item.tierLabel)} · ${esc(LABELS[item.slot])}</span></strong><p class="active">${esc(effects(item.individualEffects))}</p></div>`).join('');
