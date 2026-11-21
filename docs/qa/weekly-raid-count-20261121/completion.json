@@ -1,0 +1,662 @@
+{
+  "completedAt": "2026-11-21T07:12:50.247Z",
+  "checkedAt": "2026-11-21T07:13:13.166Z",
+  "sourceReport": "https://www.playdk.kr/board/all/1563402",
+  "player": "레드클라우드",
+  "diagnosis": "At the final departure, the Varsen leave handler overwrote a finished battle with CANCELLED and the exit time. The weekly quest requires an official finished battle and consequently omitted it after all participants left.",
+  "evidence": {
+    "reportDate": "2026-11-21T06:19:40.000Z",
+    "questWeek": "2026-11-16",
+    "originalCount": 6,
+    "coreRooms": 3,
+    "lichRooms": 3,
+    "restoredVarsenVictories": 4,
+    "restoredVarsenDefeats": 3,
+    "varsensWithNormalRewards": 3,
+    "finalCount": 13,
+    "target": 7,
+    "claimedAtVerification": false,
+    "questRewardCoin": 15000000000000
+  },
+  "operation": {
+    "key": "ops:varsen:restore-weekly-raid-outcomes:20261121:v1",
+    "audit": "68982",
+    "repairedRooms": 738,
+    "victories": 353,
+    "eligibleDefeats": 385,
+    "affectedPlayers": 85,
+    "activeWeekRooms": 29,
+    "activeWeekPlayers": 19,
+    "verifiedActiveWeekParticipations": 87,
+    "originalEndTimesRestored": true,
+    "allOtherRoomFieldsMatch": true,
+    "priorQuestClaimsVerified": true,
+    "readonlyReplay": true,
+    "residualEligibleRooms": 0,
+    "rehearsal": [
+      "full production transaction rolled back",
+      "room, audit and receipt rollback checked in isolated PostgreSQL"
+    ],
+    "directAccountGrants": 0,
+    "manualMessageCount": 0,
+    "accountRaidRewardsReissued": 0
+  },
+  "release": {
+    "at": "2026-11-21T07:12:19.341Z",
+    "releaseCommit": "141044e46f07e03aad01635db155bc203445d694",
+    "pages": {
+      "id": "f0a638f9-2bbe-4b4f-9017-b07e0b450c0b",
+      "commit": "141044e46f07e03aad01635db155bc203445d694",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version_id": "47131843-6843-408c-9d7d-ad3dbeab41c2",
+        "percentage": 100,
+        "sourceHash": "d42c48a8ea2bb11e79cc12f3d37230bbd939b2fb61cbc7d56db1cce1e99fc00d"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version_id": "5bfa9827-c230-4fa3-9561-47c76105d27a",
+        "percentage": 100,
+        "sourceHash": "db2fe9ce692500d06aa3fe5f053e6913afc2ae512dc6c31e12ade4fed02c2ed1"
+      }
+    ],
+    "files": [
+      {
+        "url": "/js/quest-command-ui.mjs",
+        "bytes": 12708,
+        "sha256": "386c49ae3e856080e2048fd4cf62f1890d82cfe8137cca45feebcd8531ac39a1",
+        "windows": true
+      },
+      {
+        "url": "/js/quest-hub-live.mjs",
+        "bytes": 13628,
+        "sha256": "7e566419ff61087f4568dc149b96d4e25c863e9bba1fa528dbaa466a5b21855b",
+        "windows": true
+      },
+      {
+        "url": "/shared/quest-command-v1.mjs",
+        "bytes": 9259,
+        "sha256": "3eef21961f71242cd8da6a5dae56f5a54e4c8a87602e79afe193e53936172852",
+        "windows": true
+      },
+      {
+        "url": "/onestore/js/adventure-navigation-standalone.js",
+        "bytes": 2245,
+        "sha256": "0bd3f76f88aa1db0a27be817d317ad5b9810f4bae28951e6524085f96b59a3f2",
+        "windows": false
+      }
+    ],
+    "windowsRelease": "f61076d6031c172f4ed80f6b541d206cda5dfbf8de5ce4a284d1c8a411734a2c",
+    "tests": 40
+  },
+  "performance": {
+    "comparison": {
+      "at": "2026-11-21T07:13:51.334Z",
+      "condition": "Same repeatable-read PostgreSQL snapshot, same user/week. Windows remote client, original and candidate alternating, no account writes. PostgreSQL plans timed separately.",
+      "samples": [
+        {
+          "label": "original",
+          "ms": 920,
+          "sql": 3,
+          "count": 10
+        },
+        {
+          "label": "updated",
+          "ms": 741,
+          "sql": 1,
+          "count": 10
+        },
+        {
+          "label": "updated",
+          "ms": 711,
+          "sql": 1,
+          "count": 10
+        },
+        {
+          "label": "original",
+          "ms": 923,
+          "sql": 3,
+          "count": 10
+        },
+        {
+          "label": "original",
+          "ms": 903,
+          "sql": 3,
+          "count": 10
+        },
+        {
+          "label": "updated",
+          "ms": 717,
+          "sql": 1,
+          "count": 10
+        }
+      ],
+      "plans": [
+        {
+          "label": "original",
+          "executionMs": 364.152,
+          "planningMs": 0.106,
+          "indexes": [
+            "idx_quest_lich_finished_20261103"
+          ]
+        },
+        {
+          "label": "original",
+          "executionMs": 69.309,
+          "planningMs": 0.115,
+          "indexes": [
+            "idx_quest_madara_finished_20261103"
+          ]
+        },
+        {
+          "label": "original",
+          "executionMs": 186.331,
+          "planningMs": 0.114,
+          "indexes": [
+            "idx_quest_blackwing_finished_20261103"
+          ]
+        },
+        {
+          "label": "updated",
+          "executionMs": 750.131,
+          "planningMs": 0.34,
+          "indexes": [
+            "idx_quest_lich_finished_20261103",
+            "idx_quest_madara_finished_20261103",
+            "idx_quest_blackwing_finished_20261103"
+          ]
+        }
+      ]
+    },
+    "serverBefore": [
+      {
+        "phase": "first",
+        "ms": 2723,
+        "queries": 17,
+        "verified": true,
+        "week": "2026-11-16",
+        "count": 6,
+        "target": 7,
+        "claimed": false,
+        "enabled": true,
+        "available": true,
+        "rewardAmount": 15000000000000
+      },
+      {
+        "phase": "repeat",
+        "ms": 2187,
+        "queries": 17,
+        "verified": true,
+        "week": "2026-11-16",
+        "count": 6,
+        "target": 7,
+        "claimed": false,
+        "enabled": true,
+        "available": true,
+        "rewardAmount": 15000000000000
+      }
+    ],
+    "serverAfter": [
+      {
+        "phase": "first",
+        "ms": 5283,
+        "queries": 15,
+        "verified": true,
+        "week": "2026-11-16",
+        "count": 13,
+        "target": 7,
+        "claimed": false,
+        "enabled": true,
+        "available": true,
+        "rewardAmount": 15000000000000
+      },
+      {
+        "phase": "repeat",
+        "ms": 1953,
+        "queries": 15,
+        "verified": true,
+        "week": "2026-11-16",
+        "count": 13,
+        "target": 7,
+        "claimed": false,
+        "enabled": true,
+        "available": true,
+        "rewardAmount": 15000000000000
+      }
+    ],
+    "profiles": {
+      "before": [
+        {
+          "device": "pc",
+          "phase": "before",
+          "at": "2026-11-21T06:55:40.886Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1288,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 559,
+              "itemMsIncludingFrames": 1139,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 85,
+                "p95": 5.099999999999909,
+                "max": 58.49999999999977,
+                "over50": 1
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 159,
+              "itemMsIncludingFrames": 710,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 119,
+                "p95": 4.300000000000182,
+                "max": 8.299999999999727,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "android",
+          "phase": "before",
+          "at": "2026-11-21T06:55:45.606Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1227,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 538,
+              "itemMsIncludingFrames": 1125,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 113,
+                "p95": 4.300000000000182,
+                "max": 12.599999999999909,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 201,
+              "itemMsIncludingFrames": 789,
+              "label": "전투 참여 완료\n6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 121,
+                "p95": 4.300000000000182,
+                "max": 4.400000000000091,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "webkit",
+          "phase": "before",
+          "at": "2026-11-21T06:55:54.655Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 2085,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 976,
+              "itemMsIncludingFrames": 2526,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 20,
+                "p95": 149,
+                "max": 149,
+                "over50": 6
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 526,
+              "itemMsIncludingFrames": 1888,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 25,
+                "p95": 123,
+                "max": 125,
+                "over50": 3
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "windows",
+          "phase": "before",
+          "at": "2026-11-21T06:55:59.114Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1270,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 597,
+              "itemMsIncludingFrames": 1212,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 117,
+                "p95": 4.2999999999999545,
+                "max": 12.5,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 136,
+              "itemMsIncludingFrames": 674,
+              "label": "전투 참여 완료\n6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 117,
+                "p95": 4.300000000000182,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "h5",
+          "phase": "before",
+          "at": "2026-11-21T06:59:03.974Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1694,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 581,
+              "itemMsIncludingFrames": 1187,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 119,
+                "p95": 4.200000000000273,
+                "max": 12.5,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 123,
+              "itemMsIncludingFrames": 657,
+              "label": "전투 참여 완료6 / 7회",
+              "claimButton": false,
+              "frames": {
+                "n": 116,
+                "p95": 4.300000000000182,
+                "max": 4.300000000000182,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        }
+      ],
+      "after": [
+        {
+          "device": "pc",
+          "phase": "after",
+          "at": "2026-11-21T07:13:46.690Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1642,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 683,
+              "itemMsIncludingFrames": 1404,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 113,
+                "p95": 8.400000000000091,
+                "max": 62.40000000000009,
+                "over50": 1
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 144,
+              "itemMsIncludingFrames": 693,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 118,
+                "p95": 4.299999999999727,
+                "max": 8.400000000000091,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "android",
+          "phase": "after",
+          "at": "2026-11-21T07:13:51.968Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1756,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 628,
+              "itemMsIncludingFrames": 1363,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 119,
+                "p95": 4.300000000000182,
+                "max": 62.40000000000009,
+                "over50": 2
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 144,
+              "itemMsIncludingFrames": 658,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 114,
+                "p95": 4.200000000000273,
+                "max": 4.299999999999727,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "webkit",
+          "phase": "after",
+          "at": "2026-11-21T07:14:01.812Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 2551,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 1048,
+              "itemMsIncludingFrames": 2656,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 18,
+                "p95": 145,
+                "max": 145,
+                "over50": 9
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 574,
+              "itemMsIncludingFrames": 2214,
+              "label": "전투 참여 완료\n13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 16,
+                "p95": 273,
+                "max": 273,
+                "over50": 5
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "windows",
+          "phase": "after",
+          "at": "2026-11-21T07:14:07.445Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1788,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 645,
+              "itemMsIncludingFrames": 1280,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 116,
+                "p95": 4.299999999999727,
+                "max": 12.5,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 117,
+              "itemMsIncludingFrames": 632,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 116,
+                "p95": 4.300000000000182,
+                "max": 8.400000000000091,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        },
+        {
+          "device": "h5",
+          "phase": "after",
+          "at": "2026-11-21T07:14:12.720Z",
+          "condition": "Windows headless Chromium/WebKit, published web files, isolated GET data with verified production weekly count. Mobile/windows-launcher URL/H5 iframe are emulations, no physical client or production account writes.",
+          "initialLobbyMs": 1742,
+          "visits": [
+            {
+              "visit": "first",
+              "interactiveMs": 608,
+              "itemMsIncludingFrames": 1232,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 119,
+                "p95": 4.299999999999727,
+                "max": 4.400000000000091,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            },
+            {
+              "visit": "repeat",
+              "interactiveMs": 146,
+              "itemMsIncludingFrames": 706,
+              "label": "전투 참여 완료13 / 7회",
+              "claimButton": true,
+              "frames": {
+                "n": 119,
+                "p95": 4.300000000000182,
+                "max": 4.400000000000091,
+                "over50": 0
+              },
+              "overdueQuestRequests": 0
+            }
+          ],
+          "unhandled": [],
+          "warnings": [],
+          "blockedWrites": [
+            "sync/ticket"
+          ]
+        }
+      ]
+    },
+    "conditions": "Real production PostgreSQL, remote Windows client. Browser measurements on Windows headless use published files, isolated account and production-verified counts. Android, WebKit/iOS, launcher URL and H5 iframe are emulations. Frame windows and exit observation are bounded."
+  }
+}
