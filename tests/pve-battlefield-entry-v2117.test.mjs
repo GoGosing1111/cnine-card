@@ -95,11 +95,13 @@ test('raid effects refresh an older same-version runtime once to share native Pi
   await ensure({effects:true});assert.equal(loads,1,'the raid reuses its native runtime');
 });
 
-for(const scriptPath of ['/js/app.js','/preview/sustained-hunt-v2/battle.bundle.js','/js/account-sync-client-v1.mjs','/shared/server-clock-v1.mjs','/js/auction-user-entry.js','/js/auction-user-live.mjs','/admin/auction-user-admin-v1.mjs','/css/auction-user-v1.css'])test('service worker refreshes historical versioned battle/account/auction resources '+scriptPath,async()=>{
+for(const scriptPath of ['/mercenary-codex/equipment/app.mjs','/mercenary-codex/equipment/ui.mjs','/shared/mercenary-equipment-rank-v1.mjs','/js/app.js','/preview/sustained-hunt-v2/battle.bundle.js','/js/account-sync-client-v1.mjs','/shared/server-clock-v1.mjs','/js/auction-user-entry.js','/js/auction-user-live.mjs','/admin/auction-user-admin-v1.mjs','/css/auction-user-v1.css'])test('service worker refreshes historical versioned battle/account/auction resources '+scriptPath,async()=>{
   const source=readFileSync(new URL('../service-worker.js',import.meta.url),'utf8');
   const events={},deleted=[],url='https://test.invalid'+scriptPath+'?v=old';let fetched=0;
   const cache={keys:async()=>[new Request(url),new Request('https://test.invalid/css/app.css?v=old')],delete:async r=>deleted.push(r.url),match:async()=>new Response('OLD',{headers:{'Content-Type':'text/javascript'}}),put:async()=>{}};
-  const context={self:{location:{origin:'https://test.invalid'},addEventListener:(n,f)=>events[n]=f,clients:{claim:async()=>{}}},caches:{keys:async()=>[source.match(/const SHELL_CACHE='([^']+)'/)[1]],open:async()=>cache},URL,Response,fetch:async()=>{fetched++;return new Response('CURRENT',{headers:{'Content-Type':'text/javascript'}})}};
+  const shellName=source.match(/const SHELL_CACHE='([^']+)'/)[1];
+  const mediaCache={keys:async()=>[],delete:async path=>{assert(path.startsWith('/assets/'));return true;}};
+  const context={self:{location:{origin:'https://test.invalid'},addEventListener:(n,f)=>events[n]=f,clients:{claim:async()=>{}}},caches:{keys:async()=>[shellName],open:async name=>name===shellName?cache:mediaCache},URL,Response,fetch:async()=>{fetched++;return new Response('CURRENT',{headers:{'Content-Type':'text/javascript'}})}};
   vm.createContext(context);context.importScripts=path=>{assert.equal(path,'/js/image-delivery-map-20261015.js');vm.runInContext(readFileSync(new URL('..'+path,import.meta.url),'utf8'),context);};
   vm.runInContext(source,context);let wait;events.activate({waitUntil:p=>wait=p});await wait;assert.deepEqual(deleted,[url]);
   let reply;events.fetch({request:{method:'GET',url,destination:'script',mode:'no-cors'},respondWith:p=>reply=p});

@@ -47,7 +47,7 @@ for(const path of ['/preview/coop-defense-v1/defense.bundle.js','/preview/coop-d
 FRESH_ACCOUNT_SCRIPTS.add('/js/territory-war-v1811.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/mercenary-deck-slot.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/mercenary-codex/equipment/app.mjs');
-for(const path of ['/mercenary-codex/equipment/ui.mjs','/shared/equipment-defense-v1.mjs','/shared/equipment-growth-text-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
+for(const path of ['/mercenary-codex/equipment/ui.mjs','/shared/mercenary-equipment-rank-v1.mjs','/shared/equipment-defense-v1.mjs','/shared/equipment-growth-text-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/shared/legion-regions-v1.mjs');
 for(const path of ['/js/legion-citadel-v1.mjs','/shared/legion-hunt-energy-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/mercenary-codex/sss-reroll/app.mjs','/mercenary-codex/sss-reroll/client.mjs','/shared/mercenary-sss-reroll-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
