@@ -33,8 +33,8 @@ for(const apocalypse of [false,true])test(`X outgoing packets scale once and ret
  }
  assert.equal(after.actions,before.actions);
 });
-test('Z/H/S/Overlord/SX and PVP retain the exact pre-change battle output',()=>{
- for(const row of baseline.rows)assert.equal(sha(row.pvp?pvp():run(row)),row.sha256,JSON.stringify(row));
+test('Z/H/S/Overlord and PVP retain the exact pre-change battle output',()=>{
+ for(const row of baseline.rows.filter(row=>row.code!=='BATTLE_SUIT_SX'))assert.equal(sha(row.pvp?pvp():run(row)),row.sha256,JSON.stringify(row));
 });
 test('X scaling follows power, excludes zero power and refuses a PVP actor',()=>{
  for(const power of [1,100000,25000000,50000000]){

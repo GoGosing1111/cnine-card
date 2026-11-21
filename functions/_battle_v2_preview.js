@@ -515,12 +515,11 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 const BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER = 2;
 const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;
 const BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER = 4;
-// 2026-11-06: X-BODY alone gains a 32x outgoing PVE damage budget.
-// Its 50m catalog power, weapon cadence, chip coefficients and authored hits
-// stay intact. Apply once to each ordinary/piercing base before skill splitting
-// and enemy skill defense; never infer this policy from a client-supplied stat.
-const X_BODY_PVE_DAMAGE_MULTIPLIER = 32;
-const battleSuitOutgoingDamageScale = actor => actor?.battleMode === 'PVE' && isXBodyAreaActor(actor) ? X_BODY_PVE_DAMAGE_MULTIPLIER : 1;
+// X-BODY and SX share the PvE firepower adjustment. Apply it once to each
+// regular and shield-piercing component, before skill defense and hit splitting.
+const X_AND_SX_PVE_DAMAGE_MULTIPLIER = 32;
+const battleSuitOutgoingDamageScale = actor =>
+  actor?.battleMode === 'PVE' && (isXBodyAreaActor(actor) || isSxAreaActor(actor)) ? X_AND_SX_PVE_DAMAGE_MULTIPLIER : 1;
 const BATTLE_SUIT_PVE_FIREPOWER = BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER * BATTLE_SUIT_DAMAGE_MULTIPLIER;
 const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;
@@ -1326,7 +1325,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER<=1||!target?.isApocalypse)return BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER;
     return 1+(BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER-1)*Math.pow(apocalypseDeckGate(actor,target),BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT);
   };
-  const apocalypseSuitPierce=(actor,target,damageMultiplier=BATTLE_SUIT_DAMAGE_MULTIPLIER)=>{
+  const apocalypseSuitPierce=(actor,target,damageMultiplier=BATTLE_SUIT_DAMAGE_MULTIPLIER,fireInterval=actor?.independentFireInterval)=>{
     if(!isBattleSuitSupport(actor)||!target?.isApocalypse)return 0;
     const basePower=Math.max(1,Number(target.power||1));
     const ratioScale=clamp(Math.max(0,Number(actor.power||0))/basePower/APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO,0,APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE);
@@ -1337,7 +1336,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const referenceCardPower=basePower/5;
     const referenceSpeed=Math.max(35,70+referenceCardPower*S1.speedBaseK+referenceCardPower*STAT_PROFILES.NONE.speed*0.10);
     const referenceCycle=Math.max(BATTLE_SUIT_REFERENCE_CYCLE,100/referenceSpeed);
-    const interval=Math.max(.0002,Number(actor.independentFireInterval||BATTLE_SUIT_REFERENCE_CYCLE/10));
+    const interval=Math.max(.0002,Number(fireInterval||BATTLE_SUIT_REFERENCE_CYCLE/10));
     const previousPierce=Math.max(0,Math.round(target.maxHp*APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT*ratioScale*deckGate*(interval/referenceCycle)));
     return previousPierce*damageMultiplier*battleSuitOutgoingDamageScale(actor);
   };
@@ -1388,10 +1387,14 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const primary=lowestRatioTarget(pool,rng);
       const targets=area?[primary,...pool.filter(target=>target!==primary)]:[primary];
       const count=chip.impactOffsetsMs.length,castId=`${chip.code}:${cast.activation}`,calculations=[];
+      // Fixed-timer skills do not fire twice as often on SX. Only its basic
+      // shots prorate Apocalypse piercing damage over the shorter interval.
+      const skillPierceInterval=isSxAreaActor(chipActor)
+        ? BATTLE_SUIT_REFERENCE_CYCLE/chipActor.independentShotsPerCycle : chipActor.independentFireInterval;
       for(const target of targets){
         const hit=hitResult(chipActor,target,rng,Math.max(.1,Number(chipActor.independentAttackMultiplier||1)),false,hitOptions);
         const basePrimary=hit.dodge?0:Math.max(1,Math.round(Number(hit.damage||0)/Math.max(1,chipActor.independentShotsPerCycle)*battleSuitFirepowerBeforeV2011(chipActor,target)))*BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER*battleSuitOutgoingDamageScale(chipActor);
-        const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target,BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER);
+        const basePierce=hit.dodge?0:apocalypseSuitPierce(chipActor,target,BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER,skillPierceInterval);
         // Each enemy gets the full per-target skill total, divided over its
         // authored contacts. Never divide that total by the enemy count.
         const reference=chip.damageReference||chip.code;
@@ -2070,7 +2073,7 @@ export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
   fighter.consumesBattleAction = false;
   fighter.independentShotsPerCycle = Math.max(1, Math.round(cadence.shotsPerCycle));
   fighter.independentAttackSpeed = isSxSuit(code)?SX_ATTACK_SPEED:1;
-  // Keep the per-hit divisor and damage unchanged; only SX's interval is halved.
+  // Attack speed changes the firing interval independently of the per-hit divisor.
   fighter.independentFireInterval = BATTLE_SUIT_REFERENCE_CYCLE / fighter.independentShotsPerCycle / fighter.independentAttackSpeed;
   fighter.independentOpeningDelay = fighter.independentFireInterval * .35;
   fighter.independentAttackMultiplier = cadence.attackMultiplier;
