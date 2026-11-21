@@ -1,5 +1,18 @@
 {
   "generator": "image_gen.imagegen",
   "use": "종언의 주파수 30회 클리어 트로피",
-  "prompt": "Use case: stylized-concept. Create a single premium MMORPG trophy collectible for the Korean raid 종언의 주파수 (Final Frequency), whose boss is Nox, the crimson-crowned conductor. A tall sculpted ceremonial tuning fork in polished blackened silver, its two prongs suggesting the conductor's sharp red crown, an inset luminous crimson faceted crystal resonating between them, with thin concentric bronze sound rings attached to the sides. Set on a compact tiered dark-metal trophy plinth with antique gold edges. One cohesive crafted object, distinctive readable silhouette even at 72 pixels. Square game inventory artwork, isolated, centered with clear margins, slight elevated three-quarter front view, crisp highlights and deep red enamel, restrained heroic gothic craftsmanship. Fully transparent background. Entire trophy and base visible. No letters, numerals, engraving text, UI, scenery, black backing, people, emblems of real brands, or watermark."
+  "variants": [
+    {
+      "revision": 1,
+      "original": "final-frequency.png",
+      "feedback": "기울어져있음, 다시",
+      "prompt": "Use case: stylized-concept. Create a single premium MMORPG trophy collectible for the Korean raid 종언의 주파수 (Final Frequency), whose boss is Nox, the crimson-crowned conductor. A tall sculpted ceremonial tuning fork in polished blackened silver, its two prongs suggesting the conductor's sharp red crown, an inset luminous crimson faceted crystal resonating between them, with thin concentric bronze sound rings attached to the sides. Set on a compact tiered dark-metal trophy plinth with antique gold edges. One cohesive crafted object, distinctive readable silhouette even at 72 pixels. Square game inventory artwork, isolated, centered with clear margins, slight elevated three-quarter front view, crisp highlights and deep red enamel, restrained heroic gothic craftsmanship. Fully transparent background. Entire trophy and base visible. No letters, numerals, engraving text, UI, scenery, black backing, people, emblems of real brands, or watermark."
+    },
+    {
+      "revision": 2,
+      "original": "final-frequency-front.png",
+      "reference": "final-frequency.png",
+      "prompt": "Edit the supplied Final Frequency trophy into a precise head-on front elevation suitable for a top-tier Korean RPG inventory. The owner identified the previous trophy as leaning. Rebuild its geometry so it stands absolutely straight vertically. Lock the camera orthographic and dead center, zero yaw, zero roll, zero pitch. The front face of the octagonal plinth faces directly toward the viewer, its front bottom and top edges perfectly horizontal, and the identical side facets recede equally left and right. Use the vertical line through the exact middle of the square canvas as the single construction line. The midpoint of the two fork tips, center of the crimson jewel, ring hub, neck, stem, and midpoint of every level of the pedestal all sit on that same vertical line. The ruby's top tip and bottom tip and all intermediate vertices are aligned and mirror-symmetric. Each fork prong is the exact geometric reflection of the other, with the two tips at exactly the same height. The gold circular resonance rings face the viewer as full circles, left and right extents and side studs matched. The center shaft is perfectly straight. Preserve the identity of the supplied red-crowned tuning fork, red enamel, ruby, dark sculpted silver, fine gold edging, premium metal facets, tiered base and elegant high-contrast game render. Make it fully visible with about 8% breathing room on top and bottom. Light evenly enough that the symmetry is immediately clear at thumbnail size. One centered trophy, square canvas, genuine transparent background. No letters, numbers, marks, text, scenery, motion, shadows cast to one side or surrounding elements."
+    }
+  ]
 }
