@@ -1,0 +1,88 @@
+{
+  "completedAtKst": "2026-11-22 00:01:24 KST",
+  "status": "COMPLETED",
+  "operationKey": "ops:chanho:halloween-diim:20261121:v1",
+  "auditId": "69553",
+  "recipient": {
+    "userId": "4597",
+    "nickname": "찬호"
+  },
+  "card": {
+    "code": "V-984",
+    "name": "디임",
+    "title": "할로윈 SS 리미티드",
+    "rank": "SS",
+    "edition": "LIMITED",
+    "season": "HALLOWEEN"
+  },
+  "delivery": "DIRECT_ADMIN_GRANT",
+  "quantity": 1,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "permanent": true,
+  "level": 1,
+  "basePower": 237600,
+  "eligibleModes": [
+    "PVE",
+    "PVP"
+  ],
+  "packStock": {
+    "limit": 13,
+    "issued": 13,
+    "remaining": 0
+  },
+  "numberedIssuesForGrant": 0,
+  "verification": {
+    "confirmedAt": "2026-11-21T15:01:52.248Z",
+    "independentReadOnly": true,
+    "acquisitionId": "ops:chanho:halloween-diim:20261121:v1:4597:V-984:1",
+    "matchingAcquisitions": 1,
+    "formationPreserved": true,
+    "blueGearDiimPreserved": true,
+    "rollbackChecks": [
+      "acquisition",
+      "audit",
+      "receipt",
+      "complete"
+    ],
+    "locksReleased": true,
+    "receiptReadQueries": 1,
+    "applyReplayQueries": 1,
+    "applyReplayAdditionalGrants": 0,
+    "isolatedTest": "PGlite에서 지급 롤백, 중복 취득 방지, 영구 보유, PvE·PvP 편성 저장과 같은 요청 재시도를 검사했다."
+  },
+  "performance": {
+    "conditions": "Windows CLI; production collection service and read-only formation selection, including network round trips.",
+    "entry": "mercenaryAccountState",
+    "before": [
+      {
+        "phase": "first",
+        "ms": 1728,
+        "sql": 18,
+        "queryRoundTripMs": 1680
+      },
+      {
+        "phase": "repeat",
+        "ms": 1498,
+        "sql": 18,
+        "queryRoundTripMs": 1477
+      }
+    ],
+    "after": [
+      {
+        "phase": "first",
+        "ms": 1681,
+        "sql": 18,
+        "queryRoundTripMs": 1646
+      },
+      {
+        "phase": "repeat",
+        "ms": 1435,
+        "sql": 18,
+        "queryRoundTripMs": 1419
+      }
+    ],
+    "transactionMs": 917,
+    "observation": "두 조회 모두 SQL 18회로 대부분의 시간은 DB 왕복에서 소요됐다. 계정 데이터만 변경했으며 브라우저와 실기기 프레임은 측정하지 않았다."
+  }
+}
