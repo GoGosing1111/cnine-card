@@ -1,5 +1,6 @@
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,leaveNoxRoom,tickNoxRoom,actNoxRoom,noxView,noxBattlePayload,loadNoxPveDeck} from './_raid_nox.js';
 import {readJointBody,jointError} from './_joint_request.js';
+import {noxClearKey,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
 
 export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CLIENT_VERSION=4;
 export const NOX_SCHEMA=[
@@ -34,7 +35,25 @@ async function snapshot(q,roomId,user){
   const raw=row?.config_raw??null,cfg=raw?validateNoxSettings(JSON.parse(raw)):defaultNoxSettings();access(user,cfg);if(!row?.room_id)fail('ROOM_MISSING','참가 중인 공대를 찾을 수 없습니다.',404);
   return {row,room:JSON.parse(row.state_json),raw,cfg};
 }
-async function save(q,row,room){const rows=await q('UPDATE raid_nox_rooms_v1 SET state_json=$1,version=version+1,status=$2,expires_at=$3 WHERE room_id=$4 AND version=$5 RETURNING version',[JSON.stringify(room),room.status,room.endsAt?room.endsAt+600000:room.lobbyEndsAt,room.id,row.version]);return rows.length>0;}
+const SAVE_ROOM_SQL='UPDATE raid_nox_rooms_v1 SET state_json=$1,version=version+1,status=$2,expires_at=$3 WHERE room_id=$4 AND version=$5 RETURNING version';
+// Only the writer that wins the ACTIVE -> CLEAR transition can increment the
+// frozen roster. A counter failure rolls back the room update in the same SQL.
+const SAVE_OFFICIAL_CLEAR_SQL=`WITH saved AS (${SAVE_ROOM_SQL}), credited AS (
+  INSERT INTO app_meta AS prior (key,value)
+  SELECT member_key,jsonb_build_object('count',1,'acquiredAt',NULL)::text
+    FROM saved CROSS JOIN unnest($6::text[]) AS members(member_key) ORDER BY member_key
+  ON CONFLICT(key) DO UPDATE SET value=jsonb_build_object(
+    'count',(prior.value::jsonb->>'count')::bigint+1,
+    'acquiredAt',CASE WHEN (prior.value::jsonb->>'count')::bigint=${NOX_CLEAR_GOAL-1}
+                      THEN $7::text ELSE prior.value::jsonb->>'acquiredAt' END)::text
+) SELECT version FROM saved`;
+async function save(q,row,room){
+  const params=[JSON.stringify(room),room.status,room.endsAt?room.endsAt+600000:room.lobbyEndsAt,room.id,row.version];
+  const officialClear=row.status==='ACTIVE'&&room.status==='CLEAR'&&room.releaseMode==='ON';
+  if(officialClear)params.push(room.clearParticipantIds.map(noxClearKey),new Date(room.finishedAt).toISOString());
+  const rows=await q(officialClear?SAVE_OFFICIAL_CLEAR_SQL:SAVE_ROOM_SQL,params);
+  return rows.length>0;
+}
 async function activeRoom(q,user,now){const [active]=await q('SELECT room_id FROM raid_nox_active_v1 WHERE user_id=$1',[user.id]);if(!active)return null;const {room}=await load(q,active.room_id);if(ongoing(room)&&(room.status!=='LOBBY'||now<room.lobbyEndsAt)&&(room.status!=='ACTIVE'||now<room.endsAt))return room.id;await q('DELETE FROM raid_nox_active_v1 WHERE user_id=$1 AND room_id=$2',[user.id,active.room_id]);return null;}
 async function selected(q,ids,lock=''){return ids.length?await q('SELECT id,nickname,role,status,banned_until,coin::text AS coin FROM users WHERE id=ANY($1::bigint[]) ORDER BY id'+lock,[ids]):[];}
 const publicUsers=rows=>rows.map(({coin,...u})=>({...u,id:Number(u.id)}));
@@ -95,7 +114,7 @@ async function command(env,user,kind,body,deps,now){
           await q('UPDATE users SET coin=coin-$1::bigint WHERE id=$2',[room.entryCoins,u.id]);
           await q('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,-$1::bigint,coin,$2 FROM users WHERE id=$3',[room.entryCoins,'종언의 주파수 입장 #'+room.id,u.id]);
         }await q('INSERT INTO raid_nox_entry_fees_v1(room_id,user_id,mode,coins) VALUES($1,$2,$3,$4::bigint)',[room.id,u.id,room.releaseMode,room.entryCoins]);}
-      }else if(kind==='leave'){leaveNoxRoom(room,String(user.id),Date.now());if(!room.members.some(m=>!m.left)){room.status='CANCELLED';room.revision++;}await q('DELETE FROM raid_nox_active_v1 WHERE user_id=$1 AND room_id=$2',[user.id,room.id]);}
+      }else if(kind==='leave'){leaveNoxRoom(room,String(user.id),Date.now());if(room.status==='LOBBY'&&!room.members.length){room.status='CANCELLED';room.revision++;}await q('DELETE FROM raid_nox_active_v1 WHERE user_id=$1 AND room_id=$2',[user.id,room.id]);}
       else fail('ROUTE','지원하지 않는 요청입니다.',404);
       if(!await save(q,row,room))fail('BUSY','공대를 갱신하고 있습니다.',503);
       if(!ongoing(room))await q('DELETE FROM raid_nox_active_v1 WHERE room_id=$1',[room.id]);
@@ -110,8 +129,12 @@ async function action(env,user,body,since,arrival){
     const {cfg,raw,row,room}=await read(env,q=>snapshot(q,body.roomId,user));
     const me=member(room,user),index=room.members.indexOf(me),previousSeq=me.lastSequence,previousEvent=room.eventSeq,previousChallenge=room.challenge?.id;
     if(me.receipts[body.seq]||body.stream&&body.seq<=me.lastSequence){actNoxRoom(room,String(user.id),body,Math.max(room.clock,arrival),{receiptNow:arrival});return result(room,user,cfg,{since});}
+    if(room.status==='CLEAR')return result(room,user,cfg,{since});
     const before=signature(room);tick(room,Math.max(room.clock,arrival));
-    if(signature(room)!==before){if(await read(env,q=>save(q,row,room)))continue;continue;}
+    if(signature(room)!==before){
+      if(await read(env,q=>save(q,row,room))&&room.status==='CLEAR')return result(room,user,cfg,{since});
+      continue;
+    }
     actNoxRoom(room,String(user.id),body,room.clock,{receiptNow:arrival});
     if(room.status!=='ACTIVE'){if(await read(env,q=>save(q,row,room)))return result(room,user,cfg,{since});continue;}
     const events=room.events.filter(e=>e.seq>previousEvent),strike=room.challenge.stage==='COOP'?{[user.id]:room.challenge.strikes[user.id]}:{};

@@ -30,9 +30,9 @@ test('baseline failure rolls back every imported account; a lost commit is recov
  fail=false;lost=true;await assert.rejects(backfillLichTrophyBaseline(wrapped),/LOST_COMMIT/);assert.equal((await backfillLichTrophyBaseline(wrapped)).replayed,true);
  assert.equal(JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',[lichClearKey(1)])).rows[0].value).count,3);
 });
-test('the 1000th verified room sets the original achievement date, with duplicate participation proofs counted once',()=>{
+test('the 200th verified room sets the achievement date, with duplicate participation proofs counted once',()=>{
  const rows=Array.from({length:1002},(_,i)=>({room_id:'room-'+i,finished_at:Date.parse('2026-10-01T00:00:00Z')+i*1000,members:[{id:'1'}],paid:['1'],weekly:{1:{}}}));
- const [[id,value]]=aggregateLichProofs(rows);assert.equal(id,1);assert.equal(value.count,1002);assert.equal(value.acquiredAt,new Date(rows[999].finished_at).toISOString());
+ const [[id,value]]=aggregateLichProofs(rows);assert.equal(id,1);assert.equal(value.count,1002);assert.equal(value.acquiredAt,new Date(rows[199].finished_at).toISOString());
 });
 for(const postgres of [false,true])test('new clears after the baseline start at one and remain idempotent '+(postgres?'Postgres':'SQLite'),async t=>{
  const h=await lichLiveFixture({postgres});t.after(()=>h.close());await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)',LICH_LEGACY_BASELINE_KEY,JSON.stringify({version:1}));

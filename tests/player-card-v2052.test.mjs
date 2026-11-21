@@ -143,10 +143,17 @@ test('existing trophies and first dates are preserved; manual grants validate on
 test('city and Lich milestones share permanent counts, earned date and collection honors; the public card remains read-only',async()=>{
  const f=await fixture();try{
   const at='2026-10-11T03:00:00.000Z';
-  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2),($3,$4)',['trophy_city_top_v1:2',JSON.stringify({count:25,acquiredAt:at}),'trophy_lich_clear_v1:2',JSON.stringify({count:999,acquiredAt:null})]);
-  const before=await f.call();assert.equal(trophy(before,'CITY_TOP_25').owned,true);assert.equal(trophy(before,'CITY_TOP_25').acquiredAt,at);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').owned,false);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').progress,999);
+  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2),($3,$4)',['trophy_city_top_v1:2',JSON.stringify({count:25,acquiredAt:at}),'trophy_lich_clear_v1:2',JSON.stringify({count:199,acquiredAt:null})]);
+  const before=await f.call();assert.equal(trophy(before,'CITY_TOP_25').owned,true);assert.equal(trophy(before,'CITY_TOP_25').acquiredAt,at);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').owned,false);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').progress,199);
+  await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:275,acquiredAt:null}),'trophy_lich_clear_v1:2']);
+  const retro=trophy(await f.call(),'LICH_KING_CLEAR_1000');
+  assert.deepEqual([retro.owned,retro.progress,retro.goal,retro.acquiredAt],[true,275,200,null]);
+  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',['trophy_nox_clear_v1:2',JSON.stringify({count:30,acquiredAt:at})]);
   await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:1001,acquiredAt:at}),'trophy_lich_clear_v1:2']);
   const after=await f.call(),honors=await readTrophyHonors({DB:f.db},2);assert.equal(trophy(after,'LICH_KING_CLEAR_1000').count,1);assert.equal(honors.LICH_KING_CLEAR_1000.progress,1001);assert.equal(honors.CITY_TOP_25.count,1);assert.equal(trophy(await f.call('userId=3'),'CITY_TOP_25').owned,false);
+  assert.equal(trophy(after,'LICH_KING_CLEAR_1000').acquiredAt,at);
+  assert.deepEqual(honors.NOX_CLEAR_30,{count:1,progress:30,goal:30,acquiredAt:at});
+  assert.equal(trophy(after,'NOX_CLEAR_30').owned,true);assert.equal(trophy(await f.call('userId=3'),'NOX_CLEAR_30').owned,false);
   assert.ok(f.sql.every(s=>/^\s*(SELECT|WITH)\b/i.test(s)));
  }finally{await f.close();}
 });

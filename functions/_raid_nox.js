@@ -14,7 +14,14 @@ const live=room=>room.members.filter(m=>m.hp>0&&!m.left);
 // raid clock by exactly their added duration, not the floor/co-op/DPS windows.
 export const noxEnrageMs=playlist=>NOX_RULES.enrageMs+(playlist||[]).reduce((sum,id)=>sum+Math.max(0,noxTrack(id).chartEndMs-30000),0);
 function event(room,type,label,extra={}){room.events.push({...extra,type,label,at:room.clock,seq:++room.eventSeq});if(room.events.length>240)room.events.splice(0,room.events.length-240);}
-function finish(room,status,code,reason){if(room.status!=='ACTIVE')return;room.status=status;room.finishedAt=room.clock;room.failure=status==='FAILED'?{code,reason}:null;event(room,'RESULT',reason,{winner:status==='CLEAR'?'A':'B'});}
+function finish(room,status,code,reason){
+  if(room.status!=='ACTIVE')return;
+  room.status=status;
+  room.finishedAt=room.clock;
+  room.failure=status==='FAILED'?{code,reason}:null;
+  if(status==='CLEAR')room.clearParticipantIds=room.members.filter(m=>!m.left&&!m.bot).map(m=>m.id);
+  event(room,'RESULT',reason,{winner:status==='CLEAR'?'A':'B'});
+}
 function kill(room,m,reason,extra={}){if(m.hp<=0)return;m.hp=0;m.deathReason=reason;for(const f of m.fighters){f.hp=0;f.alive=false;}event(room,'NOX_DEATH',m.name+' · '+reason,{...extra,memberId:m.id,stage:room.stage});if(!live(room).length)finish(room,'FAILED','PARTY_DEAD','공대 전원 사망');}
 function validateDeck(cards){if(!Array.isArray(cards)||cards.length!==5||new Set(cards.map(c=>c.id)).size!==5||cards.some(c=>!c.id||!Number.isFinite(c.power)||c.power<=0||!c.image))fail('PVE_DECK','저장된 PVE 덱에 서로 다른 카드 5장을 편성하세요.',400);}
 export function createNoxRoom({id,hostId,size=6,seed=1,now=0}={}){

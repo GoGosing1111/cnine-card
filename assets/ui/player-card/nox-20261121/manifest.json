@@ -1,0 +1,18 @@
+{
+  "code": "NOX_CLEAR_30",
+  "original": "final-frequency.png",
+  "runtime": "final-frequency.webp",
+  "generator": "image_gen.imagegen",
+  "originalSize": [
+    1254,
+    1254
+  ],
+  "originalSha256": "78cac635a1d2cca2d2fb75e15db8913b562d3034fda39687df0b81d2e01c1d8b",
+  "runtimeSize": [
+    512,
+    512
+  ],
+  "runtimeBytes": 49902,
+  "runtimeSha256": "1105abf3f6c24c2387fef4c6effc0ea05533d66f475c04b935a28bdfe4b78783",
+  "hasAlpha": true
+}

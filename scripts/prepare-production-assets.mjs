@@ -150,7 +150,7 @@ export const previewNodeAuthoringOnly=new Set(JSON.parse(readFileSync(new URL('.
 const pumpkinChoiceAuthoringOnly=file=>file==='docs/pumpkin-pet-choice-20261023.md'||(file.startsWith('assets/items/pumpkin-pet-choice-20261023/')&&!['ticket.webp','panel.webp','button.webp'].includes(file.split('/').at(-1)));
 // Trophy UI loads three WebPs. Exact PNG originals, prompts and hash records
 // remain in Git; only this new authoring directory is excluded from Pages.
-const trophyAuthoringOnly=file=>/^assets\/ui\/player-card\/(?:renewal-20261101|milestones-20261023|cnine-vip-20261118)\/(?:[^/]+\.png|prompts\.json|manifest\.json)$/.test(file);
+const trophyAuthoringOnly=file=>/^assets\/ui\/player-card\/(?:renewal-20261101|milestones-20261023|cnine-vip-20261118|nox-20261121)\/(?:[^/]+\.png|prompts\.json|manifest\.json)$/.test(file);
 // Three historical Node filesystem validators have no browser consumers.
 // Retain the exact scripts in Git; their slots hold the three trophy WebPs.
 export const trophyNodeQaOnly=new Set(['scripts/validate-v1676.mjs','scripts/validate-v1677.mjs','scripts/validate-v1680.mjs']);

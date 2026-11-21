@@ -36,14 +36,14 @@ for(const pg of [false,true]){
   f.setTime(cityShift(f.now).endsAt);await settleCityRound(f.env,f.now);assert.equal((await readCityTopHonors(f.env,a)).progress,0);
   assert.equal(Number((await f.p('SELECT value FROM app_meta WHERE key=?',CITY_TOP_CURSOR).first()).value),cityShift(f.now).id);
  });
- test(db+': Lich 1000th clear counts without a payout and survives retry, late failure and leaving the completed room',async t=>{
+ test(db+': Lich 200th clear counts without a payout and survives retry, late failure and leaving the completed room',async t=>{
   const h=await lichLiveFixture({postgres:pg});t.after(()=>h.close());const ready=await readyLichClear(h);
-  await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)',lichClearKey(1),JSON.stringify({count:999,acquiredAt:null}));
+  await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)',lichClearKey(1),JSON.stringify({count:199,acquiredAt:null}));
   const stored=await h.one('SELECT state_json FROM raid_lich_rooms_v1 WHERE room_id=?',ready.roomId),room=JSON.parse(stored.state_json);room.clearRewardPolicy.enabled=false;
   await h.run('UPDATE raid_lich_rooms_v1 SET state_json=? WHERE room_id=?',JSON.stringify(room),ready.roomId);
-  h.inject('INSERT INTO raid_lich_receipts_v1');assert.equal((await h.call('action',{body:ready.body})).status,503);h.inject('');assert.equal((await readLichClearHonors(h.env,1)).progress,999);
+  h.inject('INSERT INTO raid_lich_receipts_v1');assert.equal((await h.call('action',{body:ready.body})).status,503);h.inject('');assert.equal((await readLichClearHonors(h.env,1)).progress,199);
   const result=await h.call('action',{body:ready.body});assert.equal(result.status,200,JSON.stringify(result.body));assert.equal(result.body.state.status,'CLEAR');assert.equal(result.body.state.clearReward.granted,false);
-  const trophy=await readLichClearHonors(h.env,1);assert.equal(trophy.count,1);assert.equal(trophy.progress,1000);assert.ok(trophy.acquiredAt);
+  const trophy=await readLichClearHonors(h.env,1);assert.equal(trophy.count,1);assert.equal(trophy.progress,200);assert.ok(trophy.acquiredAt);
   await h.call('action',{body:ready.body});await h.call('status?roomId='+ready.roomId,{user:2});assert.deepEqual(await readLichClearHonors(h.env,1),trophy);
   await h.call('leave',{user:2,body:{roomId:ready.roomId,requestId:crypto.randomUUID()}});assert.equal((await readLichClearHonors(h.env,2)).progress,1);
  });

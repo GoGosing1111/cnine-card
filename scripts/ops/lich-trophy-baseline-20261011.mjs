@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {LICH_LEGACY_BASELINE_KEY,LICH_CLEAR_GOAL,lichClearKey,milestoneValue} from '../../functions/_milestone_trophies.js';
+import {LICH_LEGACY_BASELINE_KEY,LICH_CLEAR_GOAL,lichClearKey,lichMilestoneValue} from '../../functions/_milestone_trophies.js';
 
 // Parse each completed replay once on the server, returning only the small
 // immutable participant proof. No combat log or private inventory is exported.
@@ -41,7 +41,7 @@ export async function backfillLichTrophyBaseline(db,{dryRun=false}={}){
    SELECT key,value FROM jsonb_to_recordset($1::jsonb) AS x(id BIGINT,key TEXT,value TEXT)
    ORDER BY id ON CONFLICT(key) DO NOTHING RETURNING key`,[JSON.stringify(values)])).rows.length;
   const stored=new Map((await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[])',[values.map(v=>v.key)])).rows.map(v=>[v.key,v.value]));
-  for(const [id,value] of counts)assert.ok(milestoneValue(stored.get(lichClearKey(id)),LICH_CLEAR_GOAL).count>=value.count,'Existing lifetime count must include every completed room');
+  for(const [id,value] of counts)assert.ok(lichMilestoneValue(stored.get(lichClearKey(id))).count>=value.count,'Existing lifetime count must include every completed room');
   const preserved=counts.length-inserted;
   const receipt={version:1,completedAt:at,rooms:rooms.length,accounts:counts.length,inserted,preserved};
   await db.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[LICH_LEGACY_BASELINE_KEY,JSON.stringify(receipt)]);

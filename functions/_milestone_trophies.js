@@ -1,8 +1,9 @@
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
-export const CITY_TOP_GOAL=25,LICH_CLEAR_GOAL=1000;
+export const CITY_TOP_GOAL=25,LICH_CLEAR_GOAL=200,NOX_CLEAR_GOAL=30;
 export const LICH_LEGACY_BASELINE_KEY='trophy_lich_legacy_baseline_v1';
 export const cityTopKey=id=>'trophy_city_top_v1:'+Number(id);
 export const lichClearKey=id=>'trophy_lich_clear_v1:'+Number(id);
+export const noxClearKey=id=>'trophy_nox_clear_v1:'+Number(id);
 export function milestoneValue(raw,goal){
   if(raw==null)return {count:0,acquiredAt:null};
   const value=JSON.parse(raw);
@@ -10,6 +11,13 @@ export function milestoneValue(raw,goal){
   return value;
 }
 const honor=(value,goal)=>({count:value.count>=goal?1:0,progress:value.count,goal,acquiredAt:value.acquiredAt||null});
+// Older counters only recorded an award date at 1,000. At exactly 200 the
+// last clear is the milestone itself. Otherwise retain only a documented date.
+export function lichMilestoneValue(raw){
+  const value=milestoneValue(raw,Infinity);
+  if(value.count===LICH_CLEAR_GOAL&&!value.acquiredAt&&value.lastAt)return {...value,acquiredAt:value.lastAt};
+  return value;
+}
 export async function readCityTopHonors(env,id){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(cityTopKey(id)).first();
   return honor(milestoneValue(row?.value,CITY_TOP_GOAL),CITY_TOP_GOAL);
@@ -25,27 +33,38 @@ export const LICH_CLEAR_HONORS_SQL=`WITH clears AS (
  OR EXISTS(SELECT 1 FROM json_each(COALESCE(json_extract(json_extract(r.state_json,'$.petEssenceSettlement'),'$.participantIds'),'[]')) m WHERE CAST(m.value AS TEXT)=?)
  OR EXISTS(SELECT 1 FROM json_each(COALESCE(json_extract(r.state_json,'$.members'),'[]')) m WHERE CAST(json_extract(m.value,'$.id') AS TEXT)=?)))
  SELECT COUNT(*) count,MIN(CASE WHEN ordinal=${LICH_CLEAR_GOAL} THEN finished_at END) first_at FROM clears`;
-async function legacyLichValue(env,id){
+async function legacyLichValue(env,id,baseline){
   // The one-time baseline includes every verifiable historic participant.
   // Thereafter an absent account row means zero, without parsing raid replays.
-  const baseline=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LICH_LEGACY_BASELINE_KEY).first();
+  if(baseline===undefined)baseline=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LICH_LEGACY_BASELINE_KEY).first();
   if(baseline)return {count:0,acquiredAt:null};
   const initialized=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_lich_settings_v1'").first();
   if(!initialized)return {count:0,acquiredAt:null};
   const value=await env.DB.prepare(LICH_CLEAR_HONORS_SQL).bind('$.'+Number(id),String(id),String(id)).first();
   return {count:Number(value?.count||0),acquiredAt:value?.first_at?new Date(Number(value.first_at)).toISOString():null};
 }
+export async function readPlayerMilestoneHonors(env,id){
+  const city=cityTopKey(id),lich=lichClearKey(id),nox=noxClearKey(id);
+  const {results}=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?,?)')
+    .bind(city,lich,nox,LICH_LEGACY_BASELINE_KEY).all();
+  const values=new Map(results.map(row=>[row.key,row.value]));
+  const lichValue=values.has(lich)?lichMilestoneValue(values.get(lich)):await legacyLichValue(env,id,values.has(LICH_LEGACY_BASELINE_KEY));
+  return {
+    cityTop:honor(milestoneValue(values.get(city),CITY_TOP_GOAL),CITY_TOP_GOAL),
+    lichClear:honor(lichValue,LICH_CLEAR_GOAL),
+    noxClear:honor(milestoneValue(values.get(nox),NOX_CLEAR_GOAL),NOX_CLEAR_GOAL)
+  };
+}
 export async function readLichClearHonors(env,id){
-  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(lichClearKey(id)).first();
-  return honor(row?milestoneValue(row.value,LICH_CLEAR_GOAL):await legacyLichValue(env,id),LICH_CLEAR_GOAL);
+  return (await readPlayerMilestoneHonors(env,id)).lichClear;
 }
 export async function prepareLichClearMilestone(env,row,room,plan){
   if(row.status!=='ACTIVE'||room.status!=='CLEAR'||room.releaseMode!=='ON')return;
   const at=new Date(room.finishedAt).toISOString();
   for(const member of [...room.members].sort((a,b)=>Number(a.id)-Number(b.id))){
     const key=lichClearKey(member.id),stored=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first(),raw=stored?.value??null;
-    const before=raw===null?await legacyLichValue(env,member.id):milestoneValue(raw,LICH_CLEAR_GOAL),count=before.count+1;
-    const value=JSON.stringify({count,acquiredAt:before.acquiredAt||(count>=LICH_CLEAR_GOAL?at:null),lastAt:at,lastRoomId:room.id});
+    const before=raw===null?await legacyLichValue(env,member.id):lichMilestoneValue(raw),count=before.count+1;
+    const value=JSON.stringify({count,acquiredAt:before.acquiredAt||(count===LICH_CLEAR_GOAL?at:null),lastAt:at,lastRoomId:room.id});
     const token=crypto.randomUUID();plan.counters.push({key,raw});
     plan.statements.push(raw===null
       ?env.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING').bind(key,value)

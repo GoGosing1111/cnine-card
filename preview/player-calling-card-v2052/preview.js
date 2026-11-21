@@ -1,21 +1,28 @@
-import { TROPHY_CATALOG } from '../../js/player-card-model-v2052.js?v=20261020-dragon1';
-const trophyData = [
-  { count: 2, acquiredAt: '2026-08-20T13:00:00Z', progress: 2, goal: 1 },
-  { count: 1, acquiredAt: '2026-09-01T13:00:00Z', progress: 3, goal: 3 },
-  { count: 1, acquiredAt: '2026-08-25T13:00:00Z', progress: 1, goal: 1 },
-  { count: 1, acquiredAt: '2026-09-02T13:00:00Z', progress: 1, goal: 1 },
-  { count: 1, acquiredAt: '2026-09-03T13:00:00Z', progress: 1, goal: 1 },
-  { count: 1, acquiredAt: '2026-10-08T03:00:00Z', progress: 300000000000000, goal: 300000000000000 },
-  { count: 1, acquiredAt: '2026-10-11T03:00:00Z', progress: 25, goal: 25 },
-  { count: 1, acquiredAt: '2026-10-11T03:15:00Z', progress: 1000, goal: 1000 },
-  { count: 1, acquiredAt: '2026-10-20T05:00:00Z', progress: 5000, goal: 5000 }
-];
+import { TROPHY_CATALOG } from '../../js/player-card-model-v2052.js?v=20261121-raid-trophies';
+const trophyData = {
+  NOX_CLEAR_30: { progress: 30, goal: 30 },
+  CNINE_VIP: { progress: 4, goal: 4 },
+  BLACKWING_CLEAR_15: { progress: 15, goal: 15 },
+  CHALLENGER_STREAK_3_V2: { progress: 3, goal: 3 },
+  DUO_CHALLENGER: { count: 2, acquiredAt: '2026-08-20T13:00:00Z', progress: 2, goal: 1 },
+  CHALLENGER_STREAK_3: { acquiredAt: '2026-09-01T13:00:00Z', progress: 3, goal: 3 },
+  CLAN_CHAMPION: { acquiredAt: '2026-08-25T13:00:00Z' },
+  RANKED_CHAMPION: { acquiredAt: '2026-09-02T13:00:00Z' },
+  CLAN_CHAMPIONS_TROPHY: { acquiredAt: '2026-09-03T13:00:00Z' },
+  PREDICTION_STAKE_300T: { acquiredAt: '2026-10-08T03:00:00Z', progress: 300000000000000, goal: 300000000000000 },
+  CITY_TOP_25: { acquiredAt: '2026-10-11T03:00:00Z', progress: 25, goal: 25 },
+  LICH_KING_CLEAR_1000: { acquiredAt: '2026-10-11T03:15:00Z', progress: 200, goal: 200 },
+  WORLD_RAID_CLEAR_5000: { acquiredAt: '2026-10-20T05:00:00Z', progress: 5000, goal: 5000 },
+  BLUE_EMPIRE_20: { progress: 20, goal: 20 },
+  LIMITED_EDITION_80: { progress: 8, goal: 8, total: 10 },
+  LOYAL_SERVICE_POST_20: { progress: 20, goal: 20 }
+};
 const profile = {
   version: 2052, player: { id: 0, nickname: '별을걷는사람', title: { badgeText: '챌린저★★★★' }, clan: { name: 'AURORA', role: '클랜원' }, avatar: { name: '테란여제 조은', image: '/assets/ui/avatars-v1/lobby-v1/avatar-f09-terran-empress-joeun-lobby-v1-640.webp' } },
   ranked: { season: '시즌 12', state: 'RANKED', tier: { id: 'challenger', name: '챌린저', color: '#79c8ef' }, rank: 3, score: 3850, wins: 124, losses: 38, bestRank: 1, completedSeasons: 8, longestStreak: 3, currentStreak: 3,
     history: [3, 2, 1].map((rank, i) => ({ season: '시즌 ' + (11 - i), settledAt: `2026-08-${30 - i * 5}T13:00:00Z`, rank, tier: '챌린저', tierId: 'challenger', score: 3000 })) },
   clanHistory: [{ season: 3, clan: 'AURORA', settledAt: '2026-09-01T13:00:00Z' }, { season: 2, clan: 'AURORA', settledAt: '2026-08-20T13:00:00Z' }],
-  trophies: TROPHY_CATALOG.map((t, i) => ({ ...t, ...trophyData[i], owned: true, effect: { enabled: false } })),
+  trophies: TROPHY_CATALOG.map(t => ({ count: 1, progress: 1, goal: 1, ...t, ...trophyData[t.code], owned: true, effect: { enabled: false } })),
   frame: { name: '옵시디언', level: 0, enhancement: { enabled: false } }, effects: { enabled: false, modifiers: [] }, historyLimit: 12
 };
 const fresh = structuredClone(profile); fresh.player.nickname = '새로운모험가'; fresh.player.title = null; fresh.player.avatar = null; fresh.player.clan = null;
