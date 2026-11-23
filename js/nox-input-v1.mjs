@@ -64,7 +64,22 @@ export class NoxAudio {
     this.loading.set(url,task);return task;
   }
   async prepareAll(urls){const generation=this.generation;for(const key of this.buffers.keys())if(!urls.includes(key))this.buffers.delete(key);for(const url of new Set(urls)){if(generation!==this.generation)throw new DOMException('Preparation cancelled','AbortError');await this.prepare(url);}}
-  schedule(url,musicStartAt,serverNow){if(this.musicStartAt===musicStartAt&&this.trackUrl===url&&this.source)return;const buffer=this.buffers.get(url);if(!buffer||this.context?.state!=='running')return;this.stop();this.trackUrl=url;this.musicStartAt=musicStartAt;const wait=(musicStartAt-serverNow)/1000;this.startContext=this.context.currentTime+Math.max(.08,wait);this.offset=Math.max(0,.08-wait);const source=this.context.createBufferSource(),gain=this.context.createGain();gain.gain.value=.25;source.buffer=buffer;source.connect(gain);gain.connect(this.context.destination);this.source=source;this.gain=gain;source.start(this.startContext,Math.min(this.offset,buffer.duration-.01));}
+  schedule(url,musicStartAt,serverNow){
+    const buffer=this.buffers.get(url),ctx=this.context;
+    if(!buffer||ctx?.state!=='running')return;
+    const wait=(musicStartAt-serverNow)/1000;
+    if(this.musicStartAt===musicStartAt&&this.trackUrl===url&&this.source){
+      // A suspended audio clock can resume seconds behind the live round.
+      // Compare transport clocks; device output latency still belongs in timeAt.
+      const drift=ctx.currentTime-this.startContext+this.offset+wait;
+      if(Math.abs(drift)<.35)return;
+    }
+    this.stop();this.trackUrl=url;this.musicStartAt=musicStartAt;
+    this.startContext=ctx.currentTime+Math.max(.08,wait);this.offset=Math.max(0,.08-wait);
+    const source=ctx.createBufferSource(),gain=ctx.createGain();
+    gain.gain.value=.25;source.buffer=buffer;source.connect(gain);gain.connect(ctx.destination);
+    this.source=source;this.gain=gain;source.start(this.startContext,Math.min(this.offset,buffer.duration-.01));
+  }
   timeAt(perfTime=performance.now()){
     if(!this.context||this.musicStartAt===null)return null;const output=this.context.getOutputTimestamp?.();
     const contextTime=output?.performanceTime>0?output.contextTime+(perfTime-output.performanceTime)/1000:this.context.currentTime+(perfTime-performance.now())/1000-(this.context.outputLatency||this.context.baseLatency||0);

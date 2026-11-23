@@ -66,7 +66,7 @@ test('a Hell party already in battle before the update uses its previous setting
   assert(room.challenge.chart.every(note=>note.endAt===undefined));
 });
 
-test('both difficulties place playable holds across all 61 tracks and move nearby notes onto measured beat subdivisions',()=>{
+test('all 61 tracks keep their beat alignment with tap-only Normal charts and playable holds in Hell',()=>{
   for(const difficulty of ['NORMAL','HELL']){
     const base=createNoxRoom({id:'HOLDCHARTS',hostId:'1',difficulty,size:1,practice:true});
     addNoxMember(base,{id:'1',cards:NOX_DECK});
@@ -80,7 +80,7 @@ test('both difficulties place playable holds across all 61 tracks and move nearb
       startNoxRoom(updated,'1');
       const chart=updated.challenge.chart,original=legacy.challenge.chart;
       assert.equal(chart.length,Math.round(track.notes.length*(difficulty==='HELL'?1.75:1)),track.id);
-      assert(chart.some(note=>note.endAt!==undefined),track.id);
+      assert.equal(chart.some(note=>note.endAt!==undefined),difficulty==='HELL',track.id);
       const grid=NOX_BEAT_GRIDS[track.id],previous=[];
       for(const [i,note] of chart.entries()){
         const before=previous[note.lane];

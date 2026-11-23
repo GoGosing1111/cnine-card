@@ -115,9 +115,10 @@ function retimeRhythmNotes(notes,track,grid){
   }
   return chart;
 }
-function longRhythmNotes(notes,track){
+function prepareRhythmNotes(notes,track,includeHolds){
   const grid=NOX_BEAT_GRIDS[track.id];
   const chart=grid?retimeRhythmNotes(notes,track,grid):notes.map(note=>({...note}));
+  if(!includeHolds)return chart;
   const nextAt=nextRhythmNotes(chart);
   const minimumHoldMs=420, nextPressBufferMs=55;
   let nextHoldAt=8500;
@@ -142,7 +143,7 @@ function openStage(room,stage,at){
     const track=noxTrack(room.playlist?.[room.round-1]);c.trackId=track.id||null;
     const rhythm=hell?(room.hellRhythm??LEGACY_HELL_RHYTHM):null;
     let notes=rhythm?hellChart(track.notes,rhythm.noteMultiplier):track.notes;
-    if(room.rhythmVersion===NOX_RHYTHM_VERSION)notes=longRhythmNotes(notes,track);
+    if(room.rhythmVersion===NOX_RHYTHM_VERSION)notes=prepareRhythmNotes(notes,track,hell);
     c.travelMs=rhythm?.travelMs??NOX_RULES.travelMs;
     c.deadline=at+track.chartEndMs+NOX_RULES.receiptGraceMs;c.musicStartAt=at;c.chart=room.round%2===0?notes.map(n=>({...n,lane:3-n.lane})):copy(notes);
     for(const m of room.members){m.hits=[];m.score=0;m.miss=0;m.lastInputAt=-1000;m.holdAttempts=[];m.holding={};}
@@ -206,7 +207,6 @@ function judgeRhythmInput(room,m,challenge,pressed,p){
       event(room,'NOX_JUDGE','HOLD_MISS',{memberId:m.id,noteId:active.id,lane:p.lane});
       return;
     }
-    if(relative>active.endAt+NOX_RULES.goodMs)return;
     m.hits.push(active.id);
     m.score+=active.grade==='PERFECT'?1:NOX_RULES.goodScore;
     event(room,'NOX_JUDGE',active.grade,{memberId:m.id,noteId:active.id,lane:p.lane,delta:active.delta});
@@ -248,11 +248,18 @@ export function actNoxRoom(room,id,input,now,{receiptNow=now}={}){
   // note id, role, member id or outcome. Time is bounded to server receipt time.
   // A rhythm timestamp includes up to ±150 ms of user calibration. Keep the
   // original clock tolerance for the uncalibrated floor/cooperative actions.
-  for(const p of inputs){if(!p||!Number.isInteger(p.lane)||p.lane<0||p.lane>(c.stage==='RHYTHM'?3:c.stage==='MEMORY'?c.tiles.length-1:2)||p.release!==undefined&&(c.stage!=='RHYTHM'||p.release!==true)||!Number.isFinite(p.at)||p.at>receiptNow+(c.stage==='RHYTHM'?NOX_RULES.inputLeadMs:60)||p.at<receiptNow-NOX_RULES.receiptGraceMs||p.at<c.startsAt)fail('INPUT_TIME','입력 시각이 허용 범위를 벗어났습니다.',400);}
+  const rhythmStream=input.stream&&c.stage==='RHYTHM',oldestAt=receiptNow-NOX_RULES.receiptGraceMs;
+  for(const p of inputs){if(!p||!Number.isInteger(p.lane)||p.lane<0||p.lane>(c.stage==='RHYTHM'?3:c.stage==='MEMORY'?c.tiles.length-1:2)||p.release!==undefined&&(c.stage!=='RHYTHM'||p.release!==true)||!Number.isFinite(p.at)||p.at>receiptNow+(c.stage==='RHYTHM'?NOX_RULES.inputLeadMs:60)||(!rhythmStream&&p.at<oldestAt)||p.at<c.startsAt)fail('INPUT_TIME','입력 시각이 허용 범위를 벗어났습니다.',400);}
   const pressed=c.stage==='RHYTHM'?new Set([...m.hits,...(m.holdAttempts??[])]):null;
   for(const p of inputs){
     if(m.hp<=0)break;
     if(c.stage==='RHYTHM'){
+      // A delayed stream can overlap fresh keys. Consume expired transitions
+      // without scoring them or leaving a released lane held on the server.
+      if(p.at<oldestAt){
+        if(m.holding)delete m.holding[p.lane];
+        continue;
+      }
       judgeRhythmInput(room,m,c,pressed,p);
     }else if(c.stage==='MEMORY'){
       if(p.at<c.revealEnd||p.at>=c.deadline)continue;

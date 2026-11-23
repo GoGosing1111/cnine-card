@@ -44,6 +44,13 @@ test('audio caches by URL, schedules the selected track and discards unfinished 
  globalThis.fetch=async url=>{downloads++;return {ok:true,arrayBuffer:async()=>Uint8Array.of(url==='/a'?1:2).buffer};};t.after(()=>globalThis.fetch=previous);
  const a=new NoxAudio();a.context=ctx;await a.prepareAll(['/a','/b','/a']);assert.equal(downloads,2);assert.equal(a.buffers.size,2);assert.equal(a.buffers.get('/a').length,1600);
  a.schedule('/a',20000,19000);assert.equal(a.source.buffer.getChannelData(0)[0],1);assert.deepEqual(a.source.started,[11,0]);assert(Math.abs(a.timeAt(2100))<1e-7);
+ const scheduled=a.source;ctx.currentTime=12;a.schedule('/a',20000,21000);assert.equal(a.source,scheduled);
+ // Wall time advances during an audio interruption. Reuse the decoded song at
+ // the live position and leave subsequent in-sync polls alone.
+ ctx.state='suspended';a.schedule('/a',20000,23000);assert.equal(a.source,scheduled);
+ ctx.state='running';a.schedule('/a',20000,23000);assert.notEqual(a.source,scheduled);
+ assert(Math.abs(a.source.started[1]-3.08)<1e-7);const resumed=a.source;
+ ctx.currentTime+=.2;a.schedule('/a',20000,23200);assert.equal(a.source,resumed);
  a.schedule('/b',20000,19000);assert.equal(a.source.buffer.getChannelData(0)[0],2);assert.equal(a.trackUrl,'/b');
  delayed=true;const pending=a.prepare('/c');await new Promise(r=>setTimeout(r,0));await a.suspend();resolveDecode(sample(3));await assert.rejects(pending,{name:'AbortError'});assert.equal(a.buffers.size,0);assert.equal(a.loading.size,0);assert.equal(a.source,null);
 });
