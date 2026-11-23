@@ -1,6 +1,7 @@
 // Actual index.html, native navigation and V3 playback. All accounts are isolated.
 import fs from 'node:fs';import path from 'node:path';import http from 'node:http';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
-import {chromium,webkit} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import {pathToFileURL} from 'node:url';
+const {chromium,webkit}=await import(process.env.HIDEOUT_QA_PLAYWRIGHT?pathToFileURL(process.env.HIDEOUT_QA_PLAYWRIGHT).href:'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
 import {collectionFixture} from './helpers/collection-bonuses-fixture.mjs';
 import {emptyHideout,HIDEOUT_KEY,changeHideout} from '../shared/personal-hideout-v1.mjs';
 import {handlePersonalHideout,hideoutAwardStatements,readHideout} from '../functions/_personal_hideout.js';
@@ -9,7 +10,7 @@ import {htmlForStore} from '../functions/_onestore_web.js';
 import {canonicalDocument} from '../shared/onestore-web-v1.mjs';
 import prestige from '../assets/ui/project-v/characters/prestige/manifest-v1.json' with {type:'json'};
 const root=path.resolve(import.meta.dirname,'..'),project='C:/Users/User/Downloads/upload/cnine-card';
-const out=path.join(root,process.env.HIDEOUT_QA_OUTPUT||'docs/qa/personal-hideout-20261116');fs.mkdirSync(out,{recursive:true});
+const out=path.resolve(root,process.env.HIDEOUT_QA_OUTPUT||'docs/qa/personal-hideout-20261116');fs.mkdirSync(out,{recursive:true});
 const cache=new Map(),missing=[],errors=[],traffic=[],reports=[];
 let f,variant='after',loseNext=false;
 const baseline='a6fc4b936';
@@ -141,7 +142,7 @@ try{
     house=changeHideout(house,'upgrade',{revision:0,target:'room'});
     house=changeHideout(house,'upgrade',{revision:house.revision,target:'workbench'});
     house=changeHideout(house,'decorate',{revision:house.revision,item:'trophy',room:'main'},{newId:'progression-cabinet'});
-    await f.write(HIDEOUT_KEY(7),house);await enter();await page.locator('.ph-materials').getByText('군단토벌 클리어 시 1회, 레이드 클리어 시 3회 추첨 · 매회 2.5% 확률로 1개',{exact:true}).waitFor();row.residences=[];
+    await f.write(HIDEOUT_KEY(7),house);await enter();await page.locator('.ph-materials').getByText(/군단토벌.*무한의탑.*매회 1\.75%/).waitFor();row.residences=[];
     const kept=JSON.stringify(house.placements),stages=['shanty','apartment','luxury','penthouse'];
     for(let tier=1;tier<=4;tier++){
      if(tier>1){const upgrade=page.locator('[data-ph-action="upgrade"][data-target="room"]');assert(await upgrade.isEnabled());await page.getByText('표시된 부품을 모두 모으면 바로 승급할 수 있습니다.',{exact:true}).waitFor();await upgrade.click();await page.getByText('저장했습니다.',{exact:true}).waitFor();}
