@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {PGlite} from '@electric-sql/pglite';
 import {BOSSES,apocalypseTrioLiveProfile} from '../shared/apocalypse-trio-v1.mjs';
+import {APOCALYPSE_KNIGHTS,knightProfile} from '../shared/apocalypse-knights-v1.mjs';
 import {sahyeonLiveProfile} from '../shared/apocalypse-sahyeon-v1.mjs';
 import {normalizeApocalypseSettings,pveDifficultyRuntime} from '../functions/_pve_nightmare.js';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
@@ -56,10 +57,11 @@ test('atomic registration: rollback/stale CMS/missing public art/audit failure, 
  }finally{await db.close();}
 });
 
-for(const postgres of [false,true])for(const boss of BOSSES)test(boss.name+(postgres?' PostgreSQL':' SQLite')+': real settlement pays exact coins/stars once, failed dodge and transaction failure pay zero',async t=>{
+for(const postgres of [false,true])for(const boss of [...BOSSES,...APOCALYPSE_KNIGHTS])test(boss.name+(postgres?' PostgreSQL':' SQLite')+': real settlement pays exact coins/stars once, failed dodge and transaction failure pay zero',async t=>{
  const f=await apocalypseFixture({postgres});t.after(()=>f.close());const now=Date.now(),runToken=crypto.randomUUID();
  const act=(action,id,extra={},at=now)=>apocalypseChallengeAction(f.env,f.user,action,{requestId:id,runToken,...extra},at);
- const plan={reward:boss.clearRewards.coin,card:null,items:[],magic:null,unified:null,bonuses:{coin:0,masterStars:boss.clearRewards.masterStars,mysticEnergy:0}};
+ const profile=APOCALYPSE_KNIGHTS.includes(boss)?knightProfile(boss,reference):apocalypseTrioLiveProfile(boss,reference);
+ const plan={reward:runtime(boss.monsterId,profile).effectiveRewardCoin,card:null,items:[],magic:null,unified:null,bonuses:{coin:0,masterStars:profile.clearBonus.masterStars,mysticEnergy:0}};
  const register=async id=>{await reserveApocalypseBattle(f.env,{userId:1,requestId:id,runToken,monsterId:boss.monsterId},now);await registerApocalypseChallenge(f.env,{userId:1,requestId:id,runToken,monsterId:boss.monsterId,won:true,battleV2:f.battle,plan,log:{ids:[],playerPower:1,monsterPower:boss.battlePower}},now);return act('open',id);};
  const money=async()=>Number((await f.p('SELECT coin FROM users WHERE id=1').first()).coin);
  let opened=await register('trio-failure');await act('answer','trio-failure',{zone:(opened.safeZone+1)%3},now+500);assert.equal((await act('claim','trio-failure',{played:true},now+8000)).status,'FAILED');assert.equal(await money(),100);

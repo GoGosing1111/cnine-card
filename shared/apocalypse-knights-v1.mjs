@@ -21,6 +21,7 @@ function battleMove(def, skill) {
 const definitions = [
   {
     monsterId: 84, key: 'rahden', name: '라흐덴', subtitle: '흑철의 집행관',
+    clearRewards: {coin: 10_000_000_000, masterStars: 1_000_000},
     equipmentBenchmark: {tier: 8, level: 10}, color: 0xe96150, battlePower: 3_000_000_000_000, battleSuitSkillDefensePercent: 52,
     tuning: {hpPercent: 625, attackPercent: 375, defensePercent: 375, speedPercent: 350, shieldPercent: 70, forcedActionEvery: 4},
     skills: [
@@ -31,6 +32,7 @@ const definitions = [
   },
   {
     monsterId: 85, key: 'velsir', name: '벨시르', subtitle: '침수 천문대의 파수자',
+    clearRewards: {coin: 20_000_000_000, masterStars: 2_000_000},
     equipmentBenchmark: {tier: 10, level: 15}, color: 0x67dfff, battlePower: 3_400_000_000_000, battleSuitSkillDefensePercent: 55,
     tuning: {hpPercent: 530, attackPercent: 650, defensePercent: 200, speedPercent: 220, shieldPercent: 50, forcedActionEvery: 5},
     skills: [
@@ -52,7 +54,11 @@ export const APOCALYPSE_KNIGHTS = Object.freeze(definitions.map(def => ({
 export function knightProfile(boss, morgas) {
   if (!APOCALYPSE_KNIGHTS.includes(boss) || !Number.isFinite(morgas?.battlePower)) throw new Error('모르가스 CMS 프로필이 필요합니다.');
   const ultimate = boss.skills.find(skill => skill.kind === 'ultimate');
+  // The CMS stores up to one billion base coins and applies the boss's reward percentage.
+  const rewardCoin = 1_000_000_000;
   return {...structuredClone(morgas), ...boss.tuning, battlePower: boss.battlePower, skillEnabled: true,
+    rewardCoin, rewardPercent: boss.clearRewards.coin / rewardCoin * 100,
+    clearBonus: {coinPercent: null, masterStars: boss.clearRewards.masterStars, mysticEnergy: null},
     skillName: boss.skills.map(skill => skill.name).join(' · '),
     skillDescription: boss.skills.map(skill => skill.description).join(' '),
     battleSuitSkillDefensePercent: boss.battleSuitSkillDefensePercent,

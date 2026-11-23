@@ -21,7 +21,8 @@ for (const boss of APOCALYPSE_KNIGHTS) test(boss.name + ' uses its saved profile
   const settings = {apocalypse:{enabled:true,monsterProfiles:{[id]:profile}}};
   const runtime = pveDifficultyRuntime(settings,{id,name:boss.name,pve_tab:'APOCALYPSE',is_boss:1});
   assert.deepEqual(normalizeApocalypseSettings(settings.apocalypse).monsterProfiles[id],profile);
-  assert.equal(runtime.effectiveRewardCoin,4000000000);
+  assert.equal(runtime.effectiveRewardCoin,id===84?10_000_000_000:20_000_000_000);
+  assert.equal(profile.clearBonus.masterStars,id===84?1_000_000:2_000_000);
   assert.deepEqual(runtime.equipmentBenchmark,id===84?{tier:8,level:10}:{tier:10,level:15});
   const cards = ['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((type,i) => ({id:'QA-'+i,power:2e8,power_type:type,rarity:i<2?'FUR':'ZENITH'}));
   const input = {cards,mercenaries:['V-966','V-953'].map(c => snapshot(c,21,'PVE',1e8)),seed:17};
@@ -109,7 +110,7 @@ test('registration rolls back as a unit, preserves Morgas, advances the ID seque
   assert.equal((await db.query('SELECT id FROM battle_monsters')).rows.length,1);
   const done=await registerKnights(db,{...options,commit:true});
   assert.equal(done.committed,true);
-  assert.deepEqual(done.registered.map(b=>b.coin),[4000000000,4000000000]);
+  assert.deepEqual(done.registered.map(b=>[b.coin,b.clearBonus.masterStars]),[[10_000_000_000,1_000_000],[20_000_000_000,2_000_000]]);
   const saved=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',['battle_apocalypse_settings_v1'])).rows[0].value);
   for(const boss of APOCALYPSE_KNIGHTS){assert.deepEqual(saved.monsterProfiles[boss.monsterId],knightProfile(boss,anchor));delete saved.monsterProfiles[boss.monsterId];}
   assert.deepEqual(saved,settings);
