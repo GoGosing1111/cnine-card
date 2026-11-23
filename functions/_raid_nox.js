@@ -2,7 +2,7 @@ import {applyPetOpeningBuff} from '../shared/companion-opening-v1.mjs';
 import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
 import {companionBattleOptions} from '../shared/companion-battle-snapshot-v1.mjs';
 import { buildPvePlayerTeam, buildMonsterFighter, simulateBattleV2Preview } from './_battle_v2_preview.js';
-import { NOX_RHYTHM_RULES, noxPlaylist, noxTrack, judgeNoxNote } from '../shared/nox-raid-chart-v1.mjs';
+import { NOX_BEAT_GRIDS, NOX_RHYTHM_VERSION, NOX_RHYTHM_RULES, noxPlaylist, noxTrack, judgeNoxNote } from '../shared/nox-raid-chart-v1.mjs';
 
 export const NOX_RELEASE = Object.freeze({ enabled:false, rewardLocked:true, reviewOnly:true });
 export const NOX_RULES = Object.freeze({ name:'종언의 주파수', bossName:'적관의 지휘자 녹스', sizes:[3,6], hp3:18000000, hp6:12000000, ...NOX_RHYTHM_RULES, receiptGraceMs:1500, inputLeadMs:210, enrageMs:210000, roles:['저음','중음','고음'] });
@@ -27,13 +27,13 @@ function finish(room,status,code,reason){
 }
 function kill(room,m,reason,extra={}){if(m.hp<=0)return;m.hp=0;m.deathReason=reason;for(const f of m.fighters){f.hp=0;f.alive=false;}event(room,'NOX_DEATH',m.name+' · '+reason,{...extra,memberId:m.id,stage:room.stage});if(!live(room).length)finish(room,'FAILED','PARTY_DEAD',room.practice?reason:'공대 전원 사망');}
 function validateDeck(cards){if(!Array.isArray(cards)||cards.length!==5||new Set(cards.map(c=>c.id)).size!==5||cards.some(c=>!c.id||!Number.isFinite(c.power)||c.power<=0||!c.image))fail('PVE_DECK','저장된 PVE 덱에 서로 다른 카드 5장을 편성하세요.',400);}
-export function createNoxRoom({id,hostId,size=6,practice=false,difficulty='NORMAL',seed=1,now=0}={}){
+export function createNoxRoom({id,hostId,size=6,practice=false,difficulty='NORMAL',rhythmVersion,seed=1,now=0}={}){
   const solo=practice===true;
   const validSize=solo?size===1:NOX_RULES.sizes.includes(size);
   if(!id||!hostId||!validSize||!Number.isFinite(now))fail('INVALID_ROOM',solo?'1인 연습 출전 인원을 확인하세요.':'3인 또는 6인 공대를 선택하세요.',400);
   if(difficulty!=='NORMAL'&&difficulty!=='HELL')fail('DIFFICULTY','노말 또는 헬 난이도를 선택하세요.',400);
   const maxHp=solo?NOX_RULES.hp3/3:size===3?NOX_RULES.hp3:NOX_RULES.hp6;
-  return {id,hostId,size,practice:solo,difficulty,seed:seed>>>0,playlist:noxPlaylist(seed),clock:now,createdAt:now,status:'LOBBY',members:[],boss:{...buildMonsterFighter(NOX_BOSS),hp:maxHp,maxHp},round:0,stage:'LOBBY',challenge:null,revision:0,eventSeq:0,events:[],startedAt:null,endsAt:null,finishedAt:null,failure:null,lastAttackAt:0};
+  return {id,hostId,size,practice:solo,difficulty,...(rhythmVersion===NOX_RHYTHM_VERSION?{rhythmVersion}:{}),seed:seed>>>0,playlist:noxPlaylist(seed),clock:now,createdAt:now,status:'LOBBY',members:[],boss:{...buildMonsterFighter(NOX_BOSS),hp:maxHp,maxHp},round:0,stage:'LOBBY',challenge:null,revision:0,eventSeq:0,events:[],startedAt:null,endsAt:null,finishedAt:null,failure:null,lastAttackAt:0};
 }
 export function addNoxMember(room,{id,name,cards,deckSnapshot=null,deckSource='PVE',bot=false},now=room.clock){
   if(room.status!=='LOBBY')fail('STARTED','전투가 시작된 공대입니다.');
@@ -76,6 +76,64 @@ function hellChart(notes,noteMultiplier){
   }
   return times.sort((a,b)=>a-b).map((at,id)=>({id,at,lane:lanes[id%lanes.length]}));
 }
+function nextRhythmNotes(notes){
+  const next=[Infinity,Infinity,Infinity,Infinity];
+  const nextAt=new Array(notes.length);
+  for(let i=notes.length-1;i>=0;i--){
+    const {lane,at}=notes[i];
+    nextAt[i]=next[lane];
+    next[lane]=at;
+  }
+  return nextAt;
+}
+function beatSubdivision(at,grid){
+  const step=grid.periodMs/4;
+  return Math.round(grid.phaseMs+Math.round((at-grid.phaseMs)/step)*step);
+}
+function retimeRhythmNotes(notes,track,grid){
+  const nextAt=nextRhythmNotes(notes);
+  const previousLane=[-Infinity,-Infinity,-Infinity,-Infinity];
+  const spacing=2*NOX_RULES.goodMs+10;
+  const earliest=track.chartStartMs??0,latest=track.chartEndMs-NOX_RULES.goodMs;
+  const chart=[];
+  for(let start=0;start<notes.length;){
+    const original=notes[start].at;
+    let end=start+1;
+    while(notes[end]?.at===original)end++;
+    const chord=notes.slice(start,end);
+    const candidate=beatSubdivision(original,grid);
+    const clear=candidate>=earliest&&candidate<=latest&&candidate>(chart.at(-1)?.at??-Infinity)
+      &&candidate<(notes[end]?.at??Infinity)
+      &&Math.abs(candidate-original)<=65
+      &&chord.every(({lane},i)=>candidate-previousLane[lane]>=spacing&&nextAt[start+i]-candidate>=spacing);
+    const at=clear?candidate:original;
+    for(const note of chord){
+      chart.push({...note,at});
+      previousLane[note.lane]=at;
+    }
+    start=end;
+  }
+  return chart;
+}
+function longRhythmNotes(notes,track){
+  const grid=NOX_BEAT_GRIDS[track.id];
+  const chart=grid?retimeRhythmNotes(notes,track,grid):notes.map(note=>({...note}));
+  const nextAt=nextRhythmNotes(chart);
+  const minimumHoldMs=420, nextPressBufferMs=55;
+  let nextHoldAt=8500;
+  for(let i=0;i<chart.length;i++){
+    const note=chart[i];
+    if(note.at<nextHoldAt)continue;
+    const latest=Math.min(nextAt[i]-NOX_RULES.goodMs-nextPressBufferMs,
+      track.chartEndMs-NOX_RULES.goodMs,note.at+NOX_RULES.holdMaxMs);
+    if(latest-note.at<minimumHoldMs)continue;
+    const ideal=Math.min(latest,note.at+(grid?Math.max(650,grid.periodMs*1.5):825));
+    const tail=grid?beatSubdivision(ideal,grid):Math.round(ideal);
+    note.endAt=tail<=latest&&tail>=note.at+minimumHoldMs?tail:Math.floor(ideal);
+    nextHoldAt=note.at+6500;
+  }
+  return chart;
+}
 function openStage(room,stage,at){
   room.stage=stage;const c=room.challenge={id:room.id+':'+room.round+':'+stage,stage,startsAt:at,deadline:at,round:room.round};
   const hell=room.difficulty==='HELL';
@@ -83,10 +141,11 @@ function openStage(room,stage,at){
     if(room.practice)room.members[0].role=room.round-1;
     const track=noxTrack(room.playlist?.[room.round-1]);c.trackId=track.id||null;
     const rhythm=hell?(room.hellRhythm??LEGACY_HELL_RHYTHM):null;
-    const notes=rhythm?hellChart(track.notes,rhythm.noteMultiplier):track.notes;
+    let notes=rhythm?hellChart(track.notes,rhythm.noteMultiplier):track.notes;
+    if(room.rhythmVersion===NOX_RHYTHM_VERSION)notes=longRhythmNotes(notes,track);
     c.travelMs=rhythm?.travelMs??NOX_RULES.travelMs;
     c.deadline=at+track.chartEndMs+NOX_RULES.receiptGraceMs;c.musicStartAt=at;c.chart=room.round%2===0?notes.map(n=>({...n,lane:3-n.lane})):copy(notes);
-    for(const m of room.members){m.hits=[];m.score=0;m.miss=0;m.lastInputAt=-1000;}
+    for(const m of room.members){m.hits=[];m.score=0;m.miss=0;m.lastInputAt=-1000;m.holdAttempts=[];m.holding={};}
   }else if(stage==='MEMORY'){
     let seed=(room.seed+room.round*7919)>>>0;const cells=Array.from({length:30},(_,id)=>id);for(let i=cells.length-1;i>0;i--){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const j=seed%(i+1);[cells[i],cells[j]]=[cells[j],cells[i]];}
     c.sequence=cells.slice(0,hell?HELL_MEMORY_STEPS:NORMAL_MEMORY_STEPS);c.tiles=Array.from({length:30},(_,id)=>({id,kind:c.sequence.includes(id)?'safe':'mine'}));c.cueMs=350;c.gapMs=100;c.revealEnd=at+c.sequence.length*(c.cueMs+c.gapMs);c.deadline=c.revealEnd+2200;for(const m of room.members){m.memoryIndex=0;m.memoryTiles=[];}
@@ -137,6 +196,41 @@ export function tickNoxRoom(room,now){
   if(room.status==='ACTIVE'&&now>=room.challenge.deadline)return tickNoxRoom(room,now);
   room.revision++;return room;
 }
+function judgeRhythmInput(room,m,challenge,pressed,p){
+  const relative=p.at-challenge.musicStartAt;
+  const active=m.holding?.[p.lane];
+  if(p.release){
+    if(!active)return;
+    delete m.holding[p.lane];
+    if(relative<active.endAt-NOX_RULES.holdReleaseMs){
+      event(room,'NOX_JUDGE','HOLD_MISS',{memberId:m.id,noteId:active.id,lane:p.lane});
+      return;
+    }
+    if(relative>active.endAt+NOX_RULES.goodMs)return;
+    m.hits.push(active.id);
+    m.score+=active.grade==='PERFECT'?1:NOX_RULES.goodScore;
+    event(room,'NOX_JUDGE',active.grade,{memberId:m.id,noteId:active.id,lane:p.lane,delta:active.delta});
+    return;
+  }
+  // Another press in the same lane implies the previous hold was interrupted.
+  if(active)delete m.holding[p.lane];
+  const judged=judgeNoxNote(challenge.chart,pressed,p.lane,relative);
+  if(!judged){
+    m.score=Math.max(0,m.score-.5);
+    event(room,'NOX_JUDGE','EMPTY',{memberId:m.id,lane:p.lane});
+    return;
+  }
+  const {note,delta,grade}=judged;
+  pressed.add(note.id);
+  if(note.endAt!==undefined){
+    (m.holdAttempts??=[]).push(note.id);
+    (m.holding??={})[p.lane]={id:note.id,endAt:note.endAt,delta,grade};
+    return;
+  }
+  m.hits.push(note.id);
+  m.score+=grade==='PERFECT'?1:NOX_RULES.goodScore;
+  event(room,'NOX_JUDGE',grade,{memberId:m.id,noteId:note.id,lane:p.lane,delta});
+}
 export function actNoxRoom(room,id,input,now,{receiptNow=now}={}){
   const m=room.members.find(m=>m.id===id&&!m.left);if(!m)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
   if(!input||!Number.isSafeInteger(input.seq)||input.seq<1||!Array.isArray(input.inputs)||input.inputs.length>24||input.stream!==undefined&&input.stream!==true||input.stream&&(input.inputs.length<1||input.seq<input.inputs.length))fail('INPUT','잘못된 입력 묶음입니다.',400);
@@ -154,14 +248,12 @@ export function actNoxRoom(room,id,input,now,{receiptNow=now}={}){
   // note id, role, member id or outcome. Time is bounded to server receipt time.
   // A rhythm timestamp includes up to ±150 ms of user calibration. Keep the
   // original clock tolerance for the uncalibrated floor/cooperative actions.
-  for(const p of inputs){if(!p||!Number.isInteger(p.lane)||p.lane<0||p.lane>(c.stage==='RHYTHM'?3:c.stage==='MEMORY'?c.tiles.length-1:2)||!Number.isFinite(p.at)||p.at>receiptNow+(c.stage==='RHYTHM'?NOX_RULES.inputLeadMs:60)||p.at<receiptNow-NOX_RULES.receiptGraceMs||p.at<c.startsAt)fail('INPUT_TIME','입력 시각이 허용 범위를 벗어났습니다.',400);}
+  for(const p of inputs){if(!p||!Number.isInteger(p.lane)||p.lane<0||p.lane>(c.stage==='RHYTHM'?3:c.stage==='MEMORY'?c.tiles.length-1:2)||p.release!==undefined&&(c.stage!=='RHYTHM'||p.release!==true)||!Number.isFinite(p.at)||p.at>receiptNow+(c.stage==='RHYTHM'?NOX_RULES.inputLeadMs:60)||p.at<receiptNow-NOX_RULES.receiptGraceMs||p.at<c.startsAt)fail('INPUT_TIME','입력 시각이 허용 범위를 벗어났습니다.',400);}
+  const pressed=c.stage==='RHYTHM'?new Set([...m.hits,...(m.holdAttempts??[])]):null;
   for(const p of inputs){
     if(m.hp<=0)break;
     if(c.stage==='RHYTHM'){
-      const relative=p.at-c.musicStartAt;
-      const judged=judgeNoxNote(c.chart,new Set(m.hits),p.lane,relative);
-      if(judged){const {note,delta,grade}=judged;m.hits.push(note.id);m.score+=grade==='PERFECT'?1:NOX_RULES.goodScore;event(room,'NOX_JUDGE',grade,{memberId:id,noteId:note.id,lane:p.lane,delta});}
-      else{m.score=Math.max(0,m.score-.5);event(room,'NOX_JUDGE','EMPTY',{memberId:id,lane:p.lane});}
+      judgeRhythmInput(room,m,c,pressed,p);
     }else if(c.stage==='MEMORY'){
       if(p.at<c.revealEnd||p.at>=c.deadline)continue;
       if(m.memoryIndex>=c.sequence.length)continue;
@@ -186,7 +278,7 @@ export function noxView(room,id,since=0){
     c.cues=c.sequence.map((tile,i)=>({tile,step:i+1,from:c.startsAt+i*(c.cueMs+c.gapMs),to:c.startsAt+i*(c.cueMs+c.gapMs)+c.cueMs}));
     delete c.sequence;
   }
-  return copy({id:room.id,size:room.size,difficulty:room.difficulty||'NORMAL',playlist:room.playlist||[],status:room.status,stage:room.stage,round:room.round,serverNow:room.clock,revision:room.revision,startedAt:room.startedAt,endsAt:room.endsAt,bossHp:room.boss.hp,bossMaxHp:room.boss.maxHp,challenge:c,me:{id:me.id,isHost:room.hostId===id,role:me.role,hp:me.hp,maxHp:me.maxHp,deathReason:me.deathReason||'',score:me.score,hits:me.hits,miss:me.miss,memoryIndex:me.memoryIndex,memoryTiles:me.memoryTiles||[],cooperated:me.cooperated,lastSequence:me.lastSequence,ready:me.ready},members:room.members.map(({id,name,role,hp,maxHp,ready,left,bot,cooperated})=>({id,name,role,hp,maxHp,ready,left,bot,cooperated})),fighters:me.fighters.map(({id,hp,maxHp,title})=>({id,hp,maxHp,title})),failure:room.failure,events:room.events.filter(e=>e.seq>since&&(!e.memberId||e.memberId===id||e.type.startsWith('NOX_'))),eventSeq:room.eventSeq,release:NOX_RELEASE});
+  return copy({id:room.id,size:room.size,difficulty:room.difficulty||'NORMAL',playlist:room.playlist||[],status:room.status,stage:room.stage,round:room.round,serverNow:room.clock,revision:room.revision,startedAt:room.startedAt,endsAt:room.endsAt,bossHp:room.boss.hp,bossMaxHp:room.boss.maxHp,challenge:c,me:{id:me.id,isHost:room.hostId===id,role:me.role,hp:me.hp,maxHp:me.maxHp,deathReason:me.deathReason||'',score:me.score,hits:me.hits,holdAttempts:me.holdAttempts||[],miss:me.miss,memoryIndex:me.memoryIndex,memoryTiles:me.memoryTiles||[],cooperated:me.cooperated,lastSequence:me.lastSequence,ready:me.ready},members:room.members.map(({id,name,role,hp,maxHp,ready,left,bot,cooperated})=>({id,name,role,hp,maxHp,ready,left,bot,cooperated})),fighters:me.fighters.map(({id,hp,maxHp,title})=>({id,hp,maxHp,title})),failure:room.failure,events:room.events.filter(e=>e.seq>since&&(!e.memberId||e.memberId===id||e.type.startsWith('NOX_'))),eventSeq:room.eventSeq,release:NOX_RELEASE});
 }
 export function noxBattlePayload(room,id){
   const me=room.members.find(m=>m.id===id&&!m.left);if(!me)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);

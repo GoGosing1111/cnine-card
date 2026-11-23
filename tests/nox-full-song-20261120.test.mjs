@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {NOX_TRACK,NOX_TRACKS,NOX_LEGACY_TRACKS,noxTrack,NOX_RHYTHM_RULES} from '../shared/nox-raid-chart-v1.mjs';
+import {NOX_TRACK,NOX_TRACKS,NOX_LEGACY_TRACKS,NOX_BEAT_GRIDS,NOX_RHYTHM_VERSION,noxTrack,NOX_RHYTHM_RULES} from '../shared/nox-raid-chart-v1.mjs';
 import {NoxAudio,noxNoteStart} from '../js/nox-input-v1.mjs';
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,tickNoxRoom,actNoxRoom,noxEnrageMs,NOX_RULES} from '../functions/_raid_nox.js';
 import {NOX_DECK,noxFixture} from './helpers/nox-live-fixture.mjs';
@@ -63,17 +63,60 @@ test('a Hell party already in battle before the update uses its previous setting
   assert.equal(room.round,2);
   assert.equal(room.challenge.travelMs,1000);
   assert.equal(room.challenge.chart.length,Math.round(noxTrack(room.playlist[1]).notes.length*1.5));
+  assert(room.challenge.chart.every(note=>note.endAt===undefined));
+});
+
+test('both difficulties place playable holds across all 61 tracks and move nearby notes onto measured beat subdivisions',()=>{
+  for(const difficulty of ['NORMAL','HELL']){
+    const base=createNoxRoom({id:'HOLDCHARTS',hostId:'1',difficulty,size:1,practice:true});
+    addNoxMember(base,{id:'1',cards:NOX_DECK});
+    readyNoxMember(base,'1');
+    let originalError=0,correctedError=0;
+    for(const track of NOX_TRACKS){
+      const legacy=structuredClone(base),updated=structuredClone(base);
+      legacy.playlist[0]=updated.playlist[0]=track.id;
+      updated.rhythmVersion=NOX_RHYTHM_VERSION;
+      startNoxRoom(legacy,'1');
+      startNoxRoom(updated,'1');
+      const chart=updated.challenge.chart,original=legacy.challenge.chart;
+      assert.equal(chart.length,Math.round(track.notes.length*(difficulty==='HELL'?1.75:1)),track.id);
+      assert(chart.some(note=>note.endAt!==undefined),track.id);
+      const grid=NOX_BEAT_GRIDS[track.id],previous=[];
+      for(const [i,note] of chart.entries()){
+        const before=previous[note.lane];
+        assert(!before||note.at-before.at>=330,track.id);
+        assert(!before?.endAt||note.at-before.endAt>NOX_RULES.goodMs,track.id);
+        assert(Math.abs(note.at-original[i].at)<=65,track.id);
+        if(note.endAt!==undefined){
+          assert(note.endAt-note.at>=420&&note.endAt-note.at<=NOX_RULES.holdMaxMs,track.id);
+          assert(note.endAt<=track.chartEndMs-NOX_RULES.goodMs,track.id);
+        }
+        previous[note.lane]=note;
+        if(grid){
+          const step=grid.periodMs/4;
+          const distance=at=>Math.abs(at-(grid.phaseMs+Math.round((at-grid.phaseMs)/step)*step));
+          originalError+=distance(original[i].at);
+          correctedError+=distance(note.at);
+        }else assert.equal(note.at,original[i].at,track.id);
+      }
+    }
+    assert(correctedError<originalError/3,difficulty);
+  }
 });
 
 test('longest three songs finish every mechanic in 3/6 players without early enrage or early music cutoff',()=>{
  for(const difficulty of ['NORMAL','HELL'])for(const size of [3,6]){
-  const room=createNoxRoom({id:'FULLSONG01',hostId:'1',size,difficulty,seed:7});room.playlist=[...NOX_TRACKS].sort((a,b)=>b.durationMs-a.durationMs).slice(0,3).map(t=>t.id);
+  const room=createNoxRoom({id:'FULLSONG01',hostId:'1',size,difficulty,rhythmVersion:NOX_RHYTHM_VERSION,seed:7});room.playlist=[...NOX_TRACKS].sort((a,b)=>b.durationMs-a.durationMs).slice(0,3).map(t=>t.id);
   for(let i=1;i<=size;i++){addNoxMember(room,{id:String(i),cards:NOX_DECK});readyNoxMember(room,String(i));}startNoxRoom(room,'1',0);
   assert.equal(room.endsAt-room.startedAt,120000+room.playlist.reduce((s,id)=>s+noxTrack(id).durationMs,0));
   const send=(m,inputs,now)=>actNoxRoom(room,m.id,{seq:m.lastSequence+1,challengeId:room.challenge.id,inputs},now);
   for(let round=1;round<=3;round++){
     let c=room.challenge;assert.equal(room.round,round);
-    for(const n of c.chart){const at=c.musicStartAt+n.at;for(const m of room.members)send(m,[{lane:n.lane,at}],at+40);}
+    const actions=c.chart.flatMap(n=>[
+      {lane:n.lane,at:c.musicStartAt+n.at},
+      ...(n.endAt===undefined?[]:[{lane:n.lane,at:c.musicStartAt+n.endAt,release:true}])
+    ]).sort((a,b)=>a.at-b.at);
+    for(const action of actions)for(const m of room.members)send(m,[action],action.at+40);
     tickNoxRoom(room,c.musicStartAt+noxTrack(c.trackId).durationMs);assert.equal(room.stage,'RHYTHM');
     tickNoxRoom(room,c.deadline);assert.equal(room.stage,'MEMORY');c=room.challenge;
     const steps=difficulty==='HELL'?5:3;

@@ -17,6 +17,7 @@ const f=await noxFixture(),mime={'.html':'text/html; charset=utf-8','.js':'text/
 const difficulty=process.env.NOX_DIFFICULTY||'NORMAL',steps=difficulty==='HELL'?5:3;
 const official=process.env.NOX_OFFICIAL==='1';
 const practice=process.env.NOX_PRACTICE==='1';
+const verifyLongNotes=process.env.NOX_QA_LONG_NOTES==='1';
 if(official)await f.configure({mode:'ON'});
 if(practice)await f.pg.query('UPDATE users SET coin=0 WHERE id=1');
 const {entryCoins}= (await f.call('feature')).body;
@@ -124,11 +125,28 @@ try{
       assert.match(await raid.locator('#weeklyReward').innerText(),/노말·헬 합산 보상/);
     }
     assert.match(await raid.locator('label:has(input[name=difficulty][value="HELL"])').innerText(),/낙하 0.8초 · 노트 \+75%/);
+    assert.equal(await raid.locator('#joinCode,#copyCode').count(),0);
+    await raid.locator('#roomDirectory').waitFor({state:'visible'});
+    if(verifyLongNotes&&visit===0){
+      const listed=await f.command('create',{size:6,difficulty:'HELL',...(official?{acceptedCreateCoins:'10000000000000'}:{})},2);
+      assert.equal(listed.status,200,JSON.stringify(listed));
+      await raid.locator('#refreshRooms').click();
+      const row=raid.locator('#roomList li').filter({hasText:'헬 · 6인 공대 · 1/6명'});
+      await row.waitFor({state:'visible'});
+      await page.screenshot({path:path.join(out,profile+'-room-list.png')});
+      await row.getByRole('button',{name:'참가'}).click();
+      await raid.locator('#assembly').waitFor({state:'visible'});
+      assert.equal(await raid.evaluate(()=>window.NoxRaid.diagnostics().state.id),listed.body.roomId);
+      await raid.locator('#lobbyLeave').click();
+      await raid.waitForFunction(()=>!document.getElementById('createButton')?.disabled);
+      assert.equal((await f.command('leave',{roomId:listed.body.roomId},2)).status,200);
+      assert.equal((await f.one('SELECT count(*)::int n FROM coin_logs WHERE user_id=2')).n,official?1:0);
+      report.listedRoomJoined=true;
+    }
     await raid.locator('input[name=difficulty][value="'+difficulty+'"]').check();
     await raid.locator('input[name=size][value="'+(practice?1:3)+'"]').check();
     if(practice){
       assert.match(await raid.locator('#feeDetail').innerText(),/도전 비용 0 코인/);
-      assert.equal(await raid.locator('#joinControls').isVisible(),false);
       assert.equal(await raid.locator('#weeklyReward').isVisible(),false);
     }
     if(visit===0)await page.screenshot({path:path.join(out,profile+'-lobby.png')});
@@ -138,7 +156,6 @@ try{
     assert.equal(size,practice?1:3);
     assert.equal(await raid.locator('#roomDifficulty').innerText(),(difficulty==='HELL'?'헬':'노말')+(practice?' · 1인 연습':''));
     if(practice){
-      assert.equal(await raid.locator('#copyCode').isVisible(),false);
       assert.equal(await raid.locator('#memberList li').count(),1);
       assert.match(await raid.locator('#readyButton').innerText(),/연습 준비/);
     }else for(const id of [2,3]){assert.equal((await f.command('join',{roomId},id)).status,200);assert.equal((await f.command('ready',{roomId,ready:true,acceptedCoins:entryCoins},id)).status,200);}
@@ -162,6 +179,17 @@ try{
     assert.equal(music.url,noxTrack(music.trackId).source);assert.equal(music.prepared,3);assert.equal(music.calibration,'0');assert(music.bufferBytes<=3*68*48000*2*4);
     assert.equal(music.travelMs,difficulty==='HELL'?800:1250);
     assert.equal(music.notes,Math.round(noxTrack(music.trackId).notes.length*(difficulty==='HELL'?1.75:1)));
+    const receptor=await raid.evaluate(travelMs=>{
+      const chart=document.getElementById('chart'),line=chart.querySelector('.nox-hit-line');
+      const height=parseFloat(getComputedStyle(chart).getPropertyValue('--note-height'));
+      const y=parseFloat(getComputedStyle(chart).getPropertyValue('--hit-y'));
+      const oldY=(chart.clientHeight-height/2-6)/(1+160/travelMs);
+      return {y,oldY,chartHeight:chart.clientHeight,chartWidth:chart.clientWidth,
+        actual:line.getBoundingClientRect().top-chart.getBoundingClientRect().top+height/2};
+    },music.travelMs);
+    assert(receptor.y+1>=receptor.oldY&&Math.abs(receptor.actual-receptor.y)<2,JSON.stringify(receptor));
+    if(!mobile)assert(receptor.y>receptor.oldY+8,JSON.stringify(receptor));
+    report.receptor=receptor;
     // Drive the real input listener at the audio clock's first eight notes.
     let hits;
     if(mobile&&profile!=='webkit'){
@@ -171,15 +199,51 @@ try{
     }else{
       hits=await raid.evaluate(async({full,delay})=>{
         const notes=window.NoxRaid.diagnostics().state.challenge.chart.slice(0,full?undefined:8),keys=['KeyD','KeyF','KeyJ','KeyK'];
+        const presses=notes.flatMap(note=>[
+          {at:note.at+(full?delay:0),lane:note.lane,hold:note.endAt!==undefined},
+          ...(note.endAt===undefined?[]:[{at:note.endAt+24,lane:note.lane,release:true}])
+        ]).sort((a,b)=>a.at-b.at);
         return new Promise(resolve=>{let next=0;const run=()=>{const age=window.NoxRaid.diagnostics().audioPositionMs;
-          if(age!==null)while(next<notes.length&&age>=notes[next].at+(full?delay:0)){const n=notes[next++],code=keys[n.lane];document.dispatchEvent(new KeyboardEvent('keydown',{code,bubbles:true}));document.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));}
-          if(next===notes.length){setTimeout(()=>resolve(window.NoxRaid.diagnostics().state.me.hits.length),600);return;}requestAnimationFrame(run);
+          if(age!==null)while(next<presses.length&&age>=presses[next].at){const n=presses[next++],code=keys[n.lane];if(!n.release)document.dispatchEvent(new KeyboardEvent('keydown',{code,bubbles:true}));if(!n.hold)document.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));}
+          if(next===presses.length){setTimeout(()=>resolve(window.NoxRaid.diagnostics().state.me.hits.length),600);return;}requestAnimationFrame(run);
         };run();});
       },{full,delay:Number(process.env.NOX_INPUT_DELAY_MS??110)});
     }
     await captureHit;
     if(process.env.NOX_ACTION_RESPONSE_DELAY_MS||process.env.NOX_ACTION_PROCESS_DELAY_MS){await page.waitForTimeout(Math.max(Number(process.env.NOX_ACTION_RESPONSE_DELAY_MS||0),Number(process.env.NOX_ACTION_PROCESS_DELAY_MS||0))*2+300);hits=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me.hits.length);}
     assert(hits>=(process.env.NOX_ACTION_RESPONSE_DELAY_MS||process.env.NOX_ACTION_PROCESS_DELAY_MS?8:7),'key inputs should score: '+hits);
+    if(verifyLongNotes&&!full&&visit===0){
+      const note=await raid.evaluate(()=>{
+        const d=window.NoxRaid.diagnostics();
+        return d.state.challenge.chart.find(n=>n.endAt!==undefined&&n.at>d.audioPositionMs+400);
+      });
+      assert(note,'A long note should follow the initial taps');
+      const held=raid.locator(`.nox-note.is-long[data-note-id="${note.id}"]`);
+      await held.waitFor({state:'visible',timeout:45000});
+      const cdp=mobile?await context.newCDPSession(page):null;
+      const key=raid.locator(`.nox-keys [data-nox-lane="${note.lane}"]`);
+      const {x,y,width,height}=await key.boundingBox();
+      await raid.waitForFunction(at=>window.NoxRaid.diagnostics().audioPositionMs>=at,note.at,{polling:'raf'});
+      const physicalKey=['d','f','j','k'][note.lane];
+      if(cdp)await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:x+width/2,y:y+height/2,id:1}]});
+      else await page.keyboard.down(physicalKey);
+      await held.and(raid.locator('.is-holding')).waitFor({state:'visible',timeout:2500});
+      const bar=await held.evaluate(node=>{
+        const chart=document.getElementById('chart');
+        const receptor=parseFloat(getComputedStyle(chart).getPropertyValue('--hit-y'));
+        return {height:node.offsetHeight,head:node.getBoundingClientRect().bottom-chart.getBoundingClientRect().top,receptor,
+          skin:getComputedStyle(node,'::before').borderImageSource,after:getComputedStyle(node,'::after').content};
+      });
+      assert(bar.height>0&&Math.abs(bar.head-bar.receptor)<2,JSON.stringify(bar));
+      assert.match(bar.skin,/raid-nox-v2\/note\.webp/);
+      assert.equal(bar.after,'none');
+      assert(!(await raid.evaluate(id=>window.NoxRaid.diagnostics().state.me.hits.includes(id),note.id)));
+      await page.screenshot({path:path.join(out,profile+'-long-note.png')});
+      await raid.waitForFunction(id=>window.NoxRaid.diagnostics().state.me.hits.includes(id),note.id,{timeout:3500});
+      if(cdp){await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();}
+      else await page.keyboard.up(physicalKey);
+      report.longNote={input:cdp?'touch':'keyboard',durationMs:note.endAt-note.at,scoredThroughTail:true};
+    }
     if(full){const result=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me);assert(result.score/result.hits.length>=.9);assert.equal(result.hits.length,music.notes);report.fullRhythm={hits:result.hits.length,score:result.score,totalNotes:music.notes,durationMs:noxTrack(music.trackId).durationMs,lastNoteAt:noxTrack(music.trackId).notes.at(-1).at,calibration:0,targetDelayMs:Number(process.env.NOX_INPUT_DELAY_MS??110)};}
     await page.screenshot({path:path.join(out,profile+'-rhythm-'+visit+'.png')});
     const stats=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics(),a=d.frameTimes.sort((a,b)=>a-b);return {wholeRun:d.frameSummary,samples:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,over50:a.filter(t=>t>50).length,hits:d.state.me.hits.length,score:d.state.me.score,clockError:d.serverNowEstimate-Date.now(),inflight:d.inflight};});
@@ -224,7 +288,7 @@ try{
       if(practice){
         assert.equal(await raid.locator('#resultTitle').innerText(),'연습 클리어');
         assert.equal((await f.one('SELECT coin::text FROM users WHERE id=1')).coin,'0');
-        assert.equal((await f.one('SELECT count(*)::int n FROM coin_logs')).n,0);
+        assert.equal((await f.one('SELECT count(*)::int n FROM coin_logs WHERE user_id=1')).n,0);
         assert.equal((await f.one('SELECT count(*)::int n FROM raid_nox_entry_fees_v1')).n,0);
       }
       await page.screenshot({path:path.join(out,profile+'-reward-'+visit+'.png')});
@@ -240,7 +304,7 @@ try{
       await raid.locator('#resultDialog').waitFor({state:'visible'});await raid.locator('#retryButton').click();
     }else await raid.locator('#leaveButton').click();
     await raid.waitForFunction(()=>!window.NoxRaid.diagnostics().mounted);
-    const exitAt=Date.now();await page.waitForTimeout(Math.max(650,Number(process.env.NOX_ACTION_PROCESS_DELAY_MS||0)+100));const cleanup=await raid.evaluate(()=>{window.__noxHitObserver?.disconnect();return window.NoxRaid.diagnostics();});assert.equal(cleanup.poll,false);assert.equal(cleanup.raf,false);assert.equal(cleanup.playing,false);assert.equal(cleanup.preparedTracks,0);assert.equal(cleanup.hitVoices||0,0);assert.equal(cleanup.hitAnimations||0,0);assert.equal(cleanup.inputRequests,0);assert.equal(cleanup.inputPackets,0);assert.equal(cleanup.battle.canvases,0);assert.equal(cleanup.battle.viewportObserved,false);assert.deepEqual(cleanup.battle.art,{poses:0,fxFrames:0,invalid:0});assert.equal(requests.filter(r=>r.at>exitAt&&r.endpoint.startsWith('raid/nox/')).length,0);
+    const exitAt=Date.now();await page.waitForTimeout(Math.max(650,Number(process.env.NOX_ACTION_PROCESS_DELAY_MS||0)+100));const cleanup=await raid.evaluate(()=>{window.__noxHitObserver?.disconnect();return window.NoxRaid.diagnostics();});assert.equal(cleanup.poll,false);assert.equal(cleanup.raf,false);assert.equal(cleanup.playing,false);assert.equal(cleanup.preparedTracks,0);assert.equal(cleanup.hitVoices||0,0);assert.equal(cleanup.hitAnimations||0,0);assert.equal(cleanup.inputRequests,0);assert.equal(cleanup.inputPackets,0);assert.equal(cleanup.battle.canvases,0);assert.equal(cleanup.battle.viewportObserved,false);assert.deepEqual(cleanup.battle.art,{poses:0,fxFrames:0,invalid:0});assert.equal(requests.filter(r=>r.at>exitAt&&['raid/nox/state','raid/nox/action'].includes(r.endpoint)).length,0);
     if(!practice)for(const id of [2,3])await f.command('leave',{roomId},id);
     report.visits.push({visit,lobbyMs,prepareMs,viewport,music,frames:stats,exit:{poll:cleanup.poll,raf:cleanup.raf,playing:cleanup.playing,preparedTracks:cleanup.preparedTracks,canvases:cleanup.battle.canvases}});
     if(!retainedRaid||visit===Number(process.env.NOX_QA_VISITS||2)-1){await raid.locator('#exitRaid').click();await shell.locator('#noxLiveOverlay').waitFor({state:'detached'});}

@@ -2,8 +2,10 @@ import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,leaveNoxRoom,tick
 import {readJointBody,jointError} from './_joint_request.js';
 import {noxClearKey,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
+import {NOX_CLIENT_VERSION, NOX_RHYTHM_VERSION} from '../shared/nox-raid-chart-v1.mjs';
 
-export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='3000000000000',NOX_CREATE_COINS='10000000000000',NOX_CLIENT_VERSION=5;
+export {NOX_CLIENT_VERSION};
+export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='3000000000000',NOX_CREATE_COINS='10000000000000';
 export const NOX_WEEKLY_REWARD_LIMIT=3;
 const NOX_REWARDS=Object.freeze({
   NORMAL:Object.freeze({coins:'100000000000000',masterStars:'1000000000'}),
@@ -54,9 +56,28 @@ function result(room,user,cfg,{payload=false,since=0}={}){
   state.reward=room.rewards?.[user.id]??null;
   return {ok:true,roomId:room.id,state,...(payload?{payload:{...noxBattlePayload(room,String(user.id)),reviewOnly:false}}:{})};
 }
-async function load(q,roomId,lock=''){if(typeof roomId!=='string'||!/^[A-F0-9]{10}$/.test(roomId))fail('ROOM_ID','공대 코드 10자리를 확인하세요.',400);const [row]=await q('SELECT * FROM raid_nox_rooms_v1 WHERE room_id=$1'+lock,[roomId]);if(!row)fail('ROOM_MISSING','참가 중인 공대를 찾을 수 없습니다.',404);return {row,room:JSON.parse(row.state_json)};}
+async function listRooms(env,user,now){
+  return read(env,async q=>{
+    const {cfg}=await config(q);
+    access(user,cfg);
+    const rows=await q(`WITH lobbies AS (
+      SELECT room_id,expires_at,state_json::jsonb AS data FROM raid_nox_rooms_v1
+      WHERE status='LOBBY' AND expires_at>$1
+    )
+    SELECT room_id,expires_at,data->>'difficulty' AS difficulty,(data->>'size')::integer AS size,
+      jsonb_array_length(data->'members') AS members,
+      (SELECT member->>'name' FROM jsonb_array_elements(data->'members') AS member
+        WHERE member->>'id'=data->>'hostId' LIMIT 1) AS host
+    FROM lobbies
+    WHERE data->>'releaseMode'=$2 AND data->>'practice' IS DISTINCT FROM 'true'
+      AND jsonb_array_length(data->'members')<(data->>'size')::integer
+    ORDER BY expires_at,room_id LIMIT 50`,[now,cfg.mode]);
+    return {ok:true,rooms:rows.map(({room_id,difficulty,size,members,host})=>({id:room_id,difficulty,size,members,host}))};
+  });
+}
+async function load(q,roomId,lock=''){if(typeof roomId!=='string'||!/^[A-F0-9]{10}$/.test(roomId))fail('ROOM_ID','대기방을 다시 선택해 주세요.',400);const [row]=await q('SELECT * FROM raid_nox_rooms_v1 WHERE room_id=$1'+lock,[roomId]);if(!row)fail('ROOM_MISSING','참가 중인 공대를 찾을 수 없습니다.',404);return {row,room:JSON.parse(row.state_json)};}
 async function snapshot(q,roomId,user){
-  if(typeof roomId!=='string'||!/^[A-F0-9]{10}$/.test(roomId))fail('ROOM_ID','공대 코드 10자리를 확인하세요.',400);
+  if(typeof roomId!=='string'||!/^[A-F0-9]{10}$/.test(roomId))fail('ROOM_ID','대기방을 다시 선택해 주세요.',400);
   const [row]=await q('SELECT r.*,m.value AS config_raw FROM app_meta m LEFT JOIN raid_nox_rooms_v1 r ON r.room_id=$1 WHERE m.key=$2',[roomId,NOX_SETTINGS]);
   const raw=row?.config_raw??null,cfg=raw?validateNoxSettings(JSON.parse(raw)):defaultNoxSettings();access(user,cfg);if(!row?.room_id)fail('ROOM_MISSING','참가 중인 공대를 찾을 수 없습니다.',404);
   return {row,room:JSON.parse(row.state_json),raw,cfg};
@@ -203,6 +224,7 @@ async function command(env,user,kind,body,deps,now){
         readyNoxMember(room,String(user.id),body.ready);
       }else if(kind==='start'){
         if(room.status!=='LOBBY')fail('STARTED','이미 출전했거나 종료된 공대입니다.');
+        room.rhythmVersion=NOX_RHYTHM_VERSION;
         if(room.practice)startNoxRoom(room,String(user.id),Date.now());
         else{
           const entryCoins=entryCoinsFor(room);
@@ -269,6 +291,7 @@ export async function handleNoxLive({path,request,env,deps}){
     const user=await deps.authenticate(request,env);if(!user)return send({error:'로그인이 필요합니다.'},401);
     const url=new URL(request.url);if(path.startsWith('admin/'))return send(await admin(env,user,request,url,path.slice('admin/raid/nox/'.length)));
     const kind=path.slice('raid/nox/'.length),since=Math.max(0,Number(url.searchParams.get('since'))||0);
+    if(kind==='rooms'&&request.method==='GET')return send(await listRooms(env,user,arrival));
     if(kind==='state'&&request.method==='GET')return send(await state(env,user,url.searchParams.get('roomId'),{since,payload:url.searchParams.get('payload')==='1'},arrival));
     if(kind==='action'&&request.method==='POST'){const body=await readJointBody(request,{fields:['roomId','seq','challengeId','inputs','stream'],maxBytes:8192});return send(await action(env,user,body,since,arrival));}
     if(kind==='feature'&&request.method==='GET')return send(await read(env,async q=>{

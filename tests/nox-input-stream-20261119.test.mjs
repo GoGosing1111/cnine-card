@@ -18,6 +18,36 @@ test('overlapping and reordered stream packets score every physical press once',
   }
 });
 
+test('live hold scoring requires maintaining the note, handles reordered packets and credits the head grade once',async t=>{
+  const h=await noxFixture(t),{roomId,ids}=await h.party(3);
+  assert.equal((await h.command('start',{roomId})).status,200);
+  const now=Date.now();
+  const r=await h.changeRoom(roomId,r=>{
+    r.clock=now-1000;
+    r.challenge.startsAt=r.challenge.musicStartAt=now-1150;
+    r.challenge.deadline=now+30000;
+    r.challenge.chart=[{lane:0,id:99,at:300,endAt:1120}];
+  });
+  const at=relative=>r.challenge.musicStartAt+relative;
+  const head={lane:0,at:at(390)},early={lane:0,at:at(500),release:true},tail={lane:0,at:at(1120),release:true};
+  const send=(user,seq,inputs)=>h.call('action',{user,body:{roomId,...stream(r,seq,inputs)}});
+  const pressed=await send(ids[0],1,[head]);
+  assert.equal(pressed.status,200);
+  assert.deepEqual(pressed.body.state.me.holdAttempts,[99]);
+  assert.equal(pressed.body.state.me.score,0);
+  const endedEarly=await send(ids[0],2,[head,early]);
+  assert.equal(endedEarly.status,200);
+  assert(endedEarly.body.state.events.some(e=>e.label==='HOLD_MISS'));
+  assert.equal((await send(ids[0],3,[tail])).body.state.me.score,0);
+  const results=await Promise.all([send(ids[1],2,[head,tail]),send(ids[1],1,[head])]);
+  assert(results.every(result=>result.status===200));
+  const replay=await send(ids[1],2,[head,tail]);
+  assert.deepEqual(replay.body.state.me.hits,[99]);
+  assert.equal(replay.body.state.me.score,NOX_RULES.goodScore);
+  assert.equal((await send(ids[1],3,[tail])).body.state.me.score,NOX_RULES.goodScore);
+  assert.equal((await send(ids[2],1,[tail])).body.state.me.score,0);
+});
+
 test('acknowledged overlap may be old; every new input retains receipt and lane validation',()=>{
   const r=party(),c=r.challenge,first=c.chart[0],last=c.chart.find(n=>n.at>first.at+2200),p={lane:first.lane,at:c.musicStartAt+first.at},q={lane:last.lane,at:c.musicStartAt+last.at};
   actNoxRoom(r,'1',stream(r,1,[p]),p.at);

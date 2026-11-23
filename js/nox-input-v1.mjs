@@ -1,31 +1,50 @@
-import {NOX_RHYTHM_RULES,judgeNoxNote} from '../shared/nox-raid-chart-v1.mjs?v=20261120-full1';
+import {NOX_RHYTHM_RULES,judgeNoxNote} from '../shared/nox-raid-chart-v1.mjs?v=20261123-hold1';
 export const NOX_CODES = Object.freeze({KeyD:0,KeyF:1,KeyJ:2,KeyK:3});
 export function eventTime(event,now=performance.now(),origin=performance.timeOrigin){const t=Number(event.timeStamp);if(!Number.isFinite(t)||t<=0)return now;return Math.min(now,t>1e12?t-origin:t);}
 export class NoxInput {
-  constructor(root,onPress,{active=()=>true,onHeld=()=>{}}={}){
-    this.root=root;this.onPress=onPress;this.active=active;this.onHeld=onHeld;this.held=new Map();this.abort=new AbortController();const opts={signal:this.abort.signal};
+  constructor(root,onPress,{active=()=>true,onHeld=()=>{},onRelease=()=>{}}={}){
+    this.root=root;this.onPress=onPress;this.active=active;this.onHeld=onHeld;this.onRelease=onRelease;this.held=new Map();this.abort=new AbortController();const opts={signal:this.abort.signal};
     const editable=e=>e.target?.closest?.('input,textarea,select,[contenteditable="true"]');
-    document.addEventListener('keydown',e=>{const lane=NOX_CODES[e.code];if(lane===undefined||editable(e)||!this.active())return;e.preventDefault();if(!e.repeat)this.press('key:'+e.code,lane,e);},opts);
-    document.addEventListener('keyup',e=>{if(NOX_CODES[e.code]!==undefined)this.release('key:'+e.code);},opts);
+    document.addEventListener('keydown',e=>{
+      if(editable(e)||!this.active())return;
+      let lane=NOX_CODES[e.code];
+      if(lane===undefined&&(e.key==='Enter'||e.key===' ')){
+        const button=e.target?.closest?.('[data-nox-lane]');
+        if(button&&!button.disabled&&root.contains(button))lane=Number(button.dataset.noxLane);
+      }
+      if(lane===undefined)return;
+      e.preventDefault();
+      if(!e.repeat)this.press('key:'+e.code,lane,e);
+    },opts);
+    document.addEventListener('keyup',e=>this.release('key:'+e.code,eventTime(e)),opts);
     root.addEventListener('pointerdown',e=>{const button=e.target.closest('[data-nox-lane]');if(!button||button.disabled||!this.active()||e.pointerType==='mouse'&&e.button!==0)return;e.preventDefault();button.setPointerCapture?.(e.pointerId);this.press('pointer:'+e.pointerId,Number(button.dataset.noxLane),e);},{...opts,passive:false});
-    for(const type of ['pointerup','pointercancel','lostpointercapture'])root.addEventListener(type,e=>this.release('pointer:'+e.pointerId),opts);
+    for(const type of ['pointerup','pointercancel','lostpointercapture'])root.addEventListener(type,e=>this.release('pointer:'+e.pointerId,eventTime(e)),opts);
     // Accessible activation for switch/keyboard users. Pointer click must not
     // duplicate pointerdown; physical D/F/J/K is handled above.
     root.addEventListener('click',e=>{const b=e.target.closest('[data-nox-lane]');if(b&&!b.disabled&&e.detail===0&&this.active()){this.onPress(Number(b.dataset.noxLane),eventTime(e));}},opts);
     window.addEventListener('blur',()=>this.reset(),opts);document.addEventListener('visibilitychange',()=>{if(document.hidden)this.reset();},opts);
   }
-  press(source,lane,event){if(this.held.has(source)||!Number.isInteger(lane)||lane<0||lane>3)return;const repeated=[...this.held.values()].includes(lane);this.held.set(source,lane);this.onHeld(lane,true);if(!repeated)this.onPress(lane,eventTime(event));}
-  release(source){const lane=this.held.get(source);this.held.delete(source);if(lane!==undefined&&![...this.held.values()].includes(lane))this.onHeld(lane,false);}
-  reset(){const lanes=new Set(this.held.values());this.held.clear();for(const lane of lanes)this.onHeld(lane,false);}
+  isHeld(lane){return [...this.held.values()].includes(lane);}
+  press(source,lane,event){if(this.held.has(source)||!Number.isInteger(lane)||lane<0||lane>3)return;const repeated=this.isHeld(lane);this.held.set(source,lane);this.onHeld(lane,true);if(!repeated)this.onPress(lane,eventTime(event));}
+  release(source,at){const lane=this.held.get(source);this.held.delete(source);if(lane!==undefined&&!this.isHeld(lane)){this.onHeld(lane,false);this.onRelease(lane,at);}}
+  reset(){const lanes=new Set(this.held.values()),at=performance.now();this.held.clear();for(const lane of lanes){this.onHeld(lane,false);this.onRelease(lane,at);}}
   destroy(){this.abort.abort();this.reset();}
 }
 export const nearestNoxNote=judgeNoxNote;
 // Drawing and judging share this calibrated output clock. A positive offset
 // delays the visible chart as well as its judgment; it never shifts floor QTEs.
 export function noxRhythmTime(audioTime,calibration=0){return audioTime-calibration;}
-export function noxNoteY(noteAt,age,hitY,noteHeight=56,travelMs=NOX_RHYTHM_RULES.travelMs){return hitY-(noteAt-age)*hitY/travelMs-noteHeight/2;}
-// Reserve the whole late window below the receptor, including the note body.
-export function noxHitY(height,noteHeight,travelMs=NOX_RHYTHM_RULES.travelMs){return Math.max(1,(height-noteHeight/2-6)/(1+NOX_RHYTHM_RULES.goodMs/travelMs));}
+const lateFallRatio=.55,lateDropPx=36;
+export function noxNoteY(noteAt,age,hitY,noteHeight=56,travelMs=NOX_RHYTHM_RULES.travelMs){
+  const elapsed=age-noteAt,fallSpeed=hitY/travelMs;
+  const speed=elapsed<=0?fallSpeed:Math.min(fallSpeed*lateFallRatio,lateDropPx/NOX_RHYTHM_RULES.goodMs);
+  return hitY+elapsed*speed-noteHeight/2;
+}
+// Lower the receptor while keeping the late judgment window inside the chart.
+export function noxHitY(height,noteHeight,travelMs=NOX_RHYTHM_RULES.travelMs){
+  const bottom=height-noteHeight/2-6;
+  return Math.max(1,bottom/(1+lateFallRatio*NOX_RHYTHM_RULES.goodMs/travelMs),bottom-lateDropPx);
+}
 // A full song may have hundreds of notes; visit only the visible time range.
 // Binary search also handles resyncs/backwards corrections without stale cursors.
 export function noxNoteStart(notes,at){let lo=0,hi=notes.length;while(lo<hi){const mid=(lo+hi)>>>1;if(notes[mid].at<at)lo=mid+1;else hi=mid;}return lo;}
