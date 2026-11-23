@@ -19,6 +19,21 @@ const trackUrls=()=>state?.playlist?.length?state.playlist.map(id=>noxTrack(id).
 let frameSummary={count:0,total:0,max:0,over50:0};
 const hitAnimations=new Map();
 function clearHitEffects(){for(const list of hitAnimations.values())for(const animation of list)animation.cancel();hitAnimations.clear();}
+function showCombo(value){
+  combo=value;
+  const counter=$('rhythmCombo');
+  $('rhythmComboValue').textContent=String(value);
+  counter.classList.toggle('is-active',value>0);
+  for(const animation of hitAnimations.get('combo')||[])animation.cancel();
+  hitAnimations.delete('combo');
+  if(!value||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const milestone=value%10===0;
+  const flash=counter.animate([
+    {color:'#fff9df',borderColor:'#ffecae',textShadow:'0 0 4px #fff5b2,0 0 12px #ffa344',boxShadow:'inset -3px 0 10px #ffae5155,3px 0 8px #ffb76688',transform:milestone?'scale(1.10)':'scale(1.05)'},
+    {color:'#ffd38c',borderColor:'#bc7849',textShadow:'0 0 5px #c6744780',boxShadow:'inset -2px 0 5px #ec8c3417,0 0 0 transparent',transform:'scale(1)'}
+  ],{duration:milestone?320:200,easing:'ease-out'});
+  hitAnimations.set('combo',[flash]);
+}
 function showHit(lane,judged,at,phase='tap'){
   const starting=phase==='holdStart',ending=phase==='holdEnd';
   const grade=judged?.grade||(ending?'MISS':'EMPTY');
@@ -27,7 +42,7 @@ function showHit(lane,judged,at,phase='tap'){
   if(starting)$('timingDetail').textContent='꼬리가 판정선에 닿을 때까지';
   else if(ending)$('timingDetail').textContent=judged?'롱노트 성공':'롱노트는 꼬리까지 누르세요';
   else $('timingDetail').textContent=judged?(Math.abs(delta)<12?'정확한 타이밍':`${delta<0?'빠름':'늦음'} ${Math.round(Math.abs(delta))}ms`):'노트가 없는 입력';
-  if(!starting){combo=judged?combo+1:0;$('rhythmCombo').textContent=combo?combo+' COMBO':'';}
+  if(!starting)showCombo(judged?combo+1:0);
   const effect=layer.querySelector(`[data-hit-lane="${lane}"]`),column=layer.querySelectorAll('.nox-chart-columns i')[lane],key=layer.querySelector(`.nox-keys [data-nox-lane="${lane}"]`),receptor=layer.querySelectorAll('.nox-hit-line i')[lane];
   for(const animation of hitAnimations.get(lane)||[])animation.cancel();
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,perfect=grade==='PERFECT',options={duration:reduced?120:320,easing:'cubic-bezier(.16,1,.3,1)'};
@@ -43,7 +58,6 @@ function showHit(lane,judged,at,phase='tap'){
   for(const animation of hitAnimations.get('readout')||[])animation.cancel();
   const readout=[];
   if(judged)readout.push($('judgement').animate(reduced?[{opacity:1},{opacity:1}]:[{transform:`scale(${perfect?1.16:1.08})`,textShadow:'0 0 18px #ffc980'},{transform:'scale(1)',textShadow:'0 2px 3px #000'}],{duration:190,easing:'ease-out'}));
-  if(judged&&!starting)readout.push($('rhythmCombo').animate([{transform:reduced?'none':`scale(${combo%10===0?1.22:1.08})`,color:'#fff4ce'},{transform:'none',color:'#ffca9b'}],{duration:220}));
   hitAnimations.set('readout',readout);
 }
 const fmt=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');};
@@ -135,7 +149,7 @@ async function mountBattle(){
   if(mounted)return;if(mountPromise)return mountPromise;const version=epoch;
   mountPromise=(async()=>{
     if(!payload){const result=await api('state?payload=1');payload=result.payload;render(result);}
-    await loadScript('/raid/nox/battle.bundle.js?astraLifecycle=20261120-v1&nox=20261119-input4&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
+    await loadScript('/raid/nox/battle.bundle.js?astraLifecycle=20261120-v1&nox=20261124-death1&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
     chartObserver=new ResizeObserver(layoutChart);chartObserver.observe($('chart'));
@@ -160,13 +174,12 @@ function scheduleRhythmAudio(c){
 }
 function updateMechanic(){
   if(!layer||!state?.challenge)return;const c=state.challenge;
-  if(c.id!==stageId){stageId=c.id;blockedStage='';lastInputNotice='';stopInputStream();layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;localHits=new Set();nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();combo=0;$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 판정선에 맞추세요';$('rhythmCombo').textContent='';$('combatMessage').textContent='';
+  if(c.id!==stageId){stageId=c.id;blockedStage='';lastInputNotice='';stopInputStream();layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;localHits=new Set();nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();showCombo(0);$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 판정선에 맞추세요';$('combatMessage').textContent='';
     $('rhythm').hidden=c.stage!=='RHYTHM';$('memory').hidden=c.stage!=='MEMORY';$('coop').hidden=c.stage!=='COOP';
     $('mechanicName').textContent=({RHYTHM:'종언의 악보',MEMORY:'잔향의 발판',COOP:'삼중 공명',EXPOSED:'왕관 붕괴'})[c.stage];
     $('mechanicHint').textContent=({RHYTHM:'D · F · J · K  /  정확도 90% · MISS 3 이하',MEMORY:`안전 발판 ${memorySteps(c)}개의 순서를 기억하세요`,COOP:state.practice?'바늘이 중앙에 닿을 때 이 회차의 주파수를 누르세요':'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
     if(c.stage==='MEMORY')$('floorTargets').innerHTML=c.tiles.map(tile=>`<button type="button" class="nox-floor-target" data-nox-tile="${tile.id}" aria-label="${tile.id+1}번 위치 ${tile.kind==='mine'?'지뢰지대':'안전지대'}"><span></span></button>`).join('');
     if(c.stage==='RHYTHM'){
-      $('rhythmTrack').textContent=(noxTrack(c.trackId).name||'경매 BGM')+' · '+c.chart.length+' NOTES';
       if(c.chart.some(n=>n.endAt!==undefined))$('timingDetail').textContent='긴 노트는 꼬리까지 누르세요';
       layoutChart();
     }

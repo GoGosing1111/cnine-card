@@ -97,14 +97,16 @@
 .nox-rhythm{top:2px;bottom:2px;width:min(94%,64dvh,584px);padding:30px 16px 12px;gap:2px;isolation:isolate}
 .nox-rhythm:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:32px 18px 15px;border-image:url('/assets/ui/raid-nox-v2/frame.webp') 210 70 80 70 stretch;pointer-events:none}
 .nox-rhythm:after{content:'';position:absolute;inset:23px 14px 10px;background:url('/assets/ui/raid-nox-v2/surface.webp') center/100% 100%;z-index:-2;pointer-events:none}
-.nox-track-heading{height:24px;flex:0 0 24px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding-inline:4px}
-.nox-track-heading strong{font-size:21px;font-weight:850;letter-spacing:-.025em}.nox-track-heading small{font-size:12px;color:#e6c7bf}.nox-track-heading>span{font-size:13px;color:#ffdfbd;font-variant-numeric:tabular-nums}
-.nox-rhythm-readout{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;min-height:40px;flex:0 0 40px;padding:0 6px}
-.nox-judgement{position:static;display:flex;flex-direction:column;align-items:center;gap:1px}
+.nox-rhythm-readout{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-rows:24px 40px;grid-template-areas:"title clock combo" "accuracy judgement combo";align-items:center;gap:2px 6px;flex:0 0 66px;padding:0 4px}
+.nox-rhythm-title{grid-area:title;justify-self:start;font-size:21px;font-weight:850;letter-spacing:-.025em;white-space:nowrap}
+#rhythmClock{grid-area:clock;justify-self:center;font-size:13px;color:#ffdfbd;font-variant-numeric:tabular-nums}
+.nox-judgement{grid-area:judgement;position:static;display:flex;flex-direction:column;align-items:center;gap:1px}
 #judgement{font-family:NoxHUD,sans-serif;font-size:29px;font-weight:800;line-height:1;color:#fff2d2;text-shadow:0 2px 3px #000}
 #timingDetail{font-family:NoxText,sans-serif;font-size:11px;line-height:14px;white-space:nowrap;color:#e6c7bf}
-#rhythmScore{position:static;font-family:NoxText,sans-serif;font-size:13px;font-weight:650;line-height:1.45}
-#rhythmCombo{justify-self:end;font-family:NoxHUD,sans-serif;font-size:21px;font-weight:700;white-space:nowrap;color:#ffca9b}
+#rhythmScore{grid-area:accuracy;justify-self:start;position:static;font-family:NoxText,sans-serif;font-size:13px;font-weight:650;line-height:1.45}
+#rhythmCombo{grid-area:combo;justify-self:end;align-self:start;display:inline-flex;gap:5px;align-items:baseline;padding:3px 9px 4px 14px;border-right:2px solid #745e53;background:linear-gradient(90deg,transparent,#6f432328);color:#cfb7a4;text-shadow:none;font:700 11px/1 NoxHUD,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap;transform-origin:right center}
+#rhythmComboValue{font-size:32px;font-weight:800;letter-spacing:-.035em}
+#rhythmCombo.is-active{color:#ffd38c;border-color:#bc7849;text-shadow:0 0 5px #c6744780}
 .nox-chart{--note-height:40px;--bar-width:calc(var(--hold-width)*149/256);border:0;min-height:64px;background:url('/assets/ui/raid-nox-v2/surface.webp') center/100% 100%;box-shadow:inset 0 3px 14px #000}
 .nox-chart-columns i{background:none;border-right:1px solid #bea39530}.nox-chart-columns i:last-child{border:0}
 .nox-note,.nox-note:nth-child(4n+2),.nox-note:nth-child(4n+3){height:var(--note-height);border:0;border-radius:0;background:url('/assets/ui/raid-nox-v2/note.webp') center/100% 100% no-repeat;box-shadow:none}
@@ -135,18 +137,17 @@
   .nox-combat[data-stage="RHYTHM"] .nox-party{margin-top:2px}
   .nox-rhythm{width:min(90%,60dvh,550px);padding:28px 12px 10px;top:1px;bottom:2px}.nox-rhythm:before{border-width:29px 14px 13px}.nox-rhythm:after{inset:22px 10px 8px}
   .nox-chart{--note-height:32px}
-  .nox-track-heading{height:22px;flex-basis:22px;gap:4px}.nox-track-heading strong{font-size:17px}.nox-track-heading small{font-size:11px;max-width:138px;text-align:right;line-height:1.2}
-  .nox-rhythm-readout{grid-template-columns:1fr auto 1fr;gap:4px;padding:0 2px;min-height:36px;flex-basis:36px}#judgement{font-size:24px}#rhythmScore{font-size:11px;max-width:90px}#rhythmCombo{font-size:15px}#timingDetail{font-size:11px}
+  .nox-rhythm-title{font-size:17px}
+  .nox-rhythm-readout{grid-template-rows:22px 36px;gap:2px 4px;padding:0 2px;flex-basis:60px}#judgement{font-size:24px}#rhythmScore{font-size:11px;text-align:left;max-width:calc(100% - 8px);text-wrap:balance}#rhythmCombo{font-size:9px;gap:3px;padding:2px 5px}#rhythmComboValue{font-size:24px}#timingDetail{font-size:11px}
   .nox-keys{height:54px;flex-basis:54px;gap:1px}.nox-keys button{font-size:25px;padding-bottom:5px}
 }
 @media(max-height:480px) and (min-width:650px){
   .nox-rhythm{top:0;left:50%;right:auto;transform:translateX(-50%);bottom:1px;width:min(56%,max(230px,68dvh),420px);padding:20px 10px 8px;gap:2px}.nox-rhythm:before{border-width:21px 12px 10px}.nox-rhythm:after{inset:15px 9px 6px}
-  .nox-track-heading{display:none}
-  .nox-rhythm-readout{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:repeat(2,1fr);gap:0 4px;min-height:34px;flex-basis:34px;padding:0 2px}
-  .nox-judgement{grid-area:1/1/3/2}
+  .nox-rhythm-title,#rhythmClock{display:none}
+  .nox-rhythm-readout{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:20px 12px;grid-template-areas:"judgement combo" "judgement accuracy";gap:2px 4px;flex-basis:34px;padding:0 2px}
   #judgement{font-size:20px}#timingDetail{font-size:10px;line-height:11px}
-  #rhythmScore{grid-area:1/2;justify-self:end;font-size:11px;line-height:1;max-width:none;white-space:nowrap}
-  #rhythmCombo{grid-area:2/2;font-size:15px;line-height:1}
+  #rhythmScore{justify-self:end;font-size:11px;line-height:1;max-width:none;white-space:nowrap}
+  #rhythmCombo{font-size:9px;gap:3px;padding:0 4px 0 8px}#rhythmComboValue{font-size:20px}
   .nox-keys{height:44px;flex-basis:44px}.nox-keys button{font-size:22px}.nox-chart{--note-height:30px}
   .nox-mechanic-layer[data-stage="RHYTHM"] .nox-mechanic-title{display:block;font-family:NoxText,sans-serif}
 }
