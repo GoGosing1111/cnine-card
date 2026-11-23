@@ -10,13 +10,15 @@ import {APOCALYPSE_KNIGHTS, knightProfile} from '../../shared/apocalypse-knights
 // Transfer the observed polish per wearer and slot. A previously empty slot has zero polish.
 export function equipmentScenario(study, sample, name) {
   if (name === 'actual') return sample.input;
-  const [tier, level] = name.split('+').map(Number);
+  const sssOnly = name.startsWith('sss:');
+  const [tier, level] = (sssOnly ? name.slice(4) : name).split('+').map(Number);
   assert([8, 10].includes(tier) && level >= 10 && level <= 15);
   const prefix = 'MERC_ASC_' + String(tier).padStart(2, '0') + '_';
   const pieces = study.catalog.filter(item => item.code.startsWith(prefix));
   assert.equal(pieces.length, 5);
   assert.equal(new Set(pieces.map(item => item.slot)).size, 5);
   const mercenaries = sample.input.mercenaries.map((mercenary, seat) => {
+    if (sssOnly && mercenary.rank !== 'SSS') return mercenary;
     const rows = pieces.map((piece, slot) => {
       const worn = mercenary.equipment?.items.find(item => item.slot === piece.slot);
       const instance = worn?.instanceId ?? String(800000000 + seat * 10 + slot);

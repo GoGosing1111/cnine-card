@@ -11,10 +11,15 @@ const timing = {
   'velsir-curse': [2.16, 1.13, 7], 'velsir-seal': [2.12, 1.12, 7], 'velsir-ultimate': [2.94, 1.58, 7]
 };
 
+export function glancingHitDescription({chancePercent, maxHpPercent}) {
+  return `대상마다 ${chancePercent}% 확률로 빗맞으며, 이때 피해는 대상 최대 HP의 ${maxHpPercent}%까지입니다.`;
+}
+
 function battleMove(def, skill) {
   const asset = def.key + '-' + skill.kind;
   const [duration, impactAt, collisionFrame] = timing[asset];
-  return {...skill, boss:def.key, code:asset.replace('-', '_').toUpperCase(), visual:'KNIGHT_SEQUENCE',
+  const description = skill.glancingHit ? skill.description + ' ' + glancingHitDescription(skill.glancingHit) : skill.description;
+  return {...skill, description, boss:def.key, code:asset.replace('-', '_').toUpperCase(), visual:'KNIGHT_SEQUENCE',
     tint:def.color, atlas:artRoot+'/skills/'+asset+'-v2.json', asset, duration, impactAt, collisionFrame};
 }
 
@@ -22,7 +27,7 @@ const definitions = [
   {
     monsterId: 84, key: 'rahden', name: '라흐덴', subtitle: '흑철의 집행관',
     clearRewards: {coin: 10_000_000_000, masterStars: 1_000_000},
-    equipmentBenchmark: {tier: 8, level: 10}, color: 0xe96150, battlePower: 3_000_000_000_000, battleSuitSkillDefensePercent: 52,
+    equipmentBenchmark: {tier: 8, level: 10}, color: 0xe96150, battlePower: 29_000_000_000, battleSuitSkillDefensePercent: 52,
     tuning: {hpPercent: 625, attackPercent: 375, defensePercent: 375, speedPercent: 350, shieldPercent: 70, forcedActionEvery: 4},
     skills: [
       move('seal', '흑철 낙인', '공격력이 높은 두 명의 기술을 각자 3행동 동안 봉인합니다.', {targetCount: 2, statusActions: 3, dispel: true}),
@@ -33,12 +38,12 @@ const definitions = [
   {
     monsterId: 85, key: 'velsir', name: '벨시르', subtitle: '침수 천문대의 파수자',
     clearRewards: {coin: 20_000_000_000, masterStars: 2_000_000},
-    equipmentBenchmark: {tier: 10, level: 15}, color: 0x67dfff, battlePower: 3_400_000_000_000, battleSuitSkillDefensePercent: 55,
+    equipmentBenchmark: {tier: 10, level: 15}, color: 0x67dfff, battlePower: 1_500_000_000_000, battleSuitSkillDefensePercent: 55,
     tuning: {hpPercent: 530, attackPercent: 650, defensePercent: 200, speedPercent: 220, shieldPercent: 50, forcedActionEvery: 5},
     skills: [
       move('curse', '침성의 조류', '모든 적의 회복·재생·흡혈을 각자 4행동 동안 차단합니다.', {targetCount: 'ALL', statusActions: 4, healReductionPercent: 100, dispel: true}),
       move('seal', '궤도 동결', '공격력이 높은 네 명의 기술을 각자 3행동 동안 봉인합니다.', {targetCount: 4, statusActions: 3, dispel: true}),
-      move('ultimate', '낙성의 자오선', '전원에게 청염을 내립니다. 회복 차단이 남은 적은 이 기술의 피해가 20% 증가합니다.', {targetCount: 'ALL', attackPercent: 55, shieldPiercePercent: 72, cursedDamageBonusPercent: 20})
+      move('ultimate', '낙성의 자오선', '전원에게 청염을 내립니다. 회복 차단이 남은 적은 이 기술의 피해가 20% 증가합니다.', {targetCount: 'ALL', attackPercent: 55, shieldPiercePercent: 72, cursedDamageBonusPercent: 20, glancingHit: {chancePercent: 10, maxHpPercent: 40}})
     ]
   }
 ];

@@ -27,7 +27,7 @@ export function buildApocalypseLegion(monster,build){
  return [leader,...minions];
 }
 // One approved cast on each of the boss's first three actions. No legacy opening ultimate.
-export function castApocalypseAction(actor,targets,{damage,damageCombined=null,knockout,emit}){
+export function castApocalypseAction(actor,targets,{damage,damageCombined=null,knockout,emit,random}){
  const boss=actor?.apocalypseSkillsEnabled?apocalypseLegionBoss(actor):null,baseSkill=boss?.skills[actor.actions-1];
  const skill=baseSkill?.kind==='ultimate'?{...baseSkill,...apocalypseLegionUltimate(actor,actor.apocalypseUltimate)}:baseSkill;
  if(!skill||actor.hp<=0)return false;
@@ -37,6 +37,8 @@ export function castApocalypseAction(actor,targets,{damage,damageCombined=null,k
   const shieldOrder=skill.targetOrder==='SHIELD'?(b.shield||0)-(a.shield||0):0;
   return shieldOrder||b.attack-a.attack||a.slot-b.slot;
  }).slice(0,skill.targetCount);
+ const glancing=skill.glancingHit;
+ const glancingTargets=glancing?new Set(selected.filter(()=>random()*100<glancing.chancePercent)):null;
  const hits=[];
  for(const target of selected){
   if(skill.kind!=='ultimate'){
@@ -44,13 +46,16 @@ export function castApocalypseAction(actor,targets,{damage,damageCombined=null,k
    hits.push({targetId:target.id,status:skill.kind,remainingActions:skill.statusActions,statuses:structuredClone(target.apocalypseStatus),targetHpAfter:target.hp,targetShieldAfter:target.shield});
   }else{
    const curseBonus=skill.cursedDamageBonusPercent&&apocalypseCursed(target)?skill.cursedDamageBonusPercent:0;
-   const gross=Math.max(0,Math.round((actor.attack*skill.attackPercent/100)*(1+curseBonus/100))),pierce=Math.round(gross*skill.shieldPiercePercent/100);
+   const fullDamage=Math.max(0,Math.round((actor.attack*skill.attackPercent/100)*(1+curseBonus/100)));
+   const glanced=glancingTargets?.has(target);
+   const gross=glanced?Math.min(fullDamage,Math.round(target.maxHp*glancing.maxHpPercent/100)):fullDamage;
+   const pierce=Math.round(gross*skill.shieldPiercePercent/100);
    const normal=Math.max(0,gross-pierce-Math.round(target.defense*.35));
    // S2 intercept/protection must see one logical impact, including its pierce.
    // Existing callers retain the exact split-damage path.
    const base=damageCombined?damageCombined(target,normal,pierce):damage(target,normal),direct=damageCombined?{hpDamage:0}:damage(target,pierce,{ignoreShield:true});
    actor.damageDealt+=base.hpDamage+base.absorbed+direct.hpDamage;
-   hits.push({targetId:target.id,damage:base.hpDamage+direct.hpDamage,absorbed:base.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
+   hits.push({targetId:target.id,...(glanced?{glancing:true}:{}),damage:base.hpDamage+direct.hpDamage,absorbed:base.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
   }
  }
  emit('APOCALYPSE_SKILL',{actorId:actor.id,skillCode:skill.code,label:skill.name,kind:skill.kind,...(skill.kind==='ultimate'?{attackPercent:skill.attackPercent,shieldPiercePercent:skill.shieldPiercePercent}:{}),hits});
