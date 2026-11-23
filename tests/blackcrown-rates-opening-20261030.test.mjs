@@ -29,7 +29,7 @@ test('KST midnight boundary opens at exactly 2026-10-30T15:00Z and never modifie
  assert.equal(blackcrownScheduledSettings(saved,'2026-10-30T14:59:59.999Z').settings.mode,'OFF');assert.equal(blackcrownScheduledSettings(saved,OPENS_AT).settings.mode,'ON');assert.equal(blackcrownScheduledSettings(saved,'2026-10-31T15:00:00.000Z').settings.mode,'ON');assert.deepEqual(saved,before);
  assert.throws(()=>blackcrownScheduledSettings({...saved,openingSchedule:{status:'SCHEDULED',opensAt:'bad'}},OPENS_AT));
 });
-test('real shop and purchase gate agree before/after opening; early request cannot charge, completed request cannot charge twice',async t=>{
+test('shop and purchase gate agree before opening, during sales, and after closure',async t=>{
  const f=await blackcrownFixture(t);f.settings.mode='OFF';
  const save=opensAt=>f.setting(BLACKCROWN_PACK_KEY,{revision:1,settings:f.settings,openingSchedule:{status:'SCHEDULED',opensAt}});
  await save('2099-10-30T15:00:00.000Z');const balance=await f.coin(),stock=(await f.state()).stock;
@@ -38,7 +38,15 @@ test('real shop and purchase gate agree before/after opening; early request cann
  await save('2000-10-30T15:00:00.000Z');assert.equal((await blackcrownPackShopRow(f.env)).drawEnabled,true);assert.equal((await f.state()).userOpeningEnabled,true);
  const body=f.body(),receipt=await f.service.open(f.env,f.user,body);assert.equal(receipt.status,'COMPLETED');assert.equal(await f.coin(),balance-100);assert((await f.service.open(f.env,f.user,body)).replayed);assert.equal(await f.coin(),balance-100);
  // Explicit OWNER save supersedes the scheduled opening and can close it.
- await saveBlackcrownPack(f.env,f.user,{expectedRevision:1,requestId:crypto.randomUUID(),reason:'예약 이후 수동 판매 중지',settings:f.settings});assert.equal((await f.state()).userOpeningEnabled,false);
+ const stockBeforeClosure=(await f.state()).stock;
+ const closed=await saveBlackcrownPack(f.env,f.user,{expectedRevision:1,requestId:crypto.randomUUID(),reason:'예약 이후 수동 판매 중지',settings:f.settings});
+ assert.equal(closed.openingAt,null);assert.equal(closed.userOpeningEnabled,false);assert.equal(await blackcrownPackShopRow(f.env),null);
+ for(const request of [f.body(),f.body(10),{...f.body(100),budget:'9000'}]){
+  await assert.rejects(f.service.open(f.env,f.user,request),e=>e.code==='MERCENARY_BLACKCROWN_CLOSED');
+ }
+ assert.deepEqual((await f.service.receipt(f.env,f.user,body.requestId)).draws,receipt.draws);
+ assert((await f.service.open(f.env,f.user,body)).replayed);
+ assert.equal(await f.coin(),balance-100);assert.deepEqual((await f.state()).stock,stockBeforeClosure);
 });
 test('100 trillion threshold uses budget, not rounded debit; other batch sizes have no added film',()=>{
  assert.equal(BLACKCROWN_LARGE_OPENING_MS,10000);assert(blackcrownLargeOpening({budget:'100000000000000',coinCost:'99999000000000'}));assert(!blackcrownLargeOpening({budget:'50000000000000'}));assert(!blackcrownLargeOpening({count:10}));

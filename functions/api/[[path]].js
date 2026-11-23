@@ -5451,7 +5451,7 @@ async function handleRequest(context){
       const [rows,burning,superstarSettings,limitedPack,halloweenPack,bloodmoonPack,blackcrownPack,streamerPack,blueGearPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),limitedPackShopRow(env),halloweenPackShopRow(env),bloodmoonPackShopRow(env),blackcrownPackShopRow(env),streamerPackShopRow(env),blueGearPackShopRow(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs:[...arrangeHyperPackCatalog(packs),...(limitedPack?[limitedPack]:[]),...(halloweenPack?[halloweenPack]:[]),...(bloodmoonPack?[bloodmoonPack]:[]),blackcrownPack,streamerPack,...(blueGearPack?[blueGearPack]:[])],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      return json({packs:[...arrangeHyperPackCatalog(packs),...(limitedPack?[limitedPack]:[]),...(halloweenPack?[halloweenPack]:[]),...(bloodmoonPack?[bloodmoonPack]:[]),...(blackcrownPack?[blackcrownPack]:[]),streamerPack,...(blueGearPack?[blueGearPack]:[])],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});

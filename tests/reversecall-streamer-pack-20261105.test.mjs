@@ -4,6 +4,7 @@ import {BLACKCROWN_PACK_KEY,blackcrownReceiptResults,pickBlackcrownBatch} from '
 import {STREAMER_PACK,STREAMER_PACK_KEY,streamerStockCode} from '../shared/reversecall-streamer-pack-v1.mjs';
 import {registerStreamerPack,readStreamerPackState,createStreamerPackService,saveStreamerPack,streamerPackAccess,handleStreamerPack} from '../functions/_reversecall_streamer_pack.js';
 import {BlackcrownOpeningSession} from '../shared/mercenary-blackcrown-session-v2.mjs';
+import {saveBlackcrownPack} from '../functions/_mercenary_blackcrown_pack.js';
 async function fixture(t){
  const f=await blackcrownFixture(t);
  await f.pg.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'USER',ADD COLUMN status TEXT DEFAULT 'ACTIVE',ADD COLUMN banned_until TIMESTAMPTZ;CREATE TABLE soopketland_accounts(slot TEXT PRIMARY KEY,user_id BIGINT UNIQUE,bound_at TEXT);INSERT INTO soopketland_accounts VALUES('registered',1,'2026-01-01'),('second',2,'2026-01-01')");
@@ -44,6 +45,15 @@ test('existing ownership across either pack prevents duplicates while each pack 
 test('base prices and rates stay identical, fresh source revision invalidates stale quotes',async t=>{
  const f=await fixture(t),first=await f.state(),body=await f.body();f.settings.prices={single:200,ten:1800};await f.configure(2);const next=await f.state();assert.deepEqual(next.settings.prices,f.settings.prices);assert.deepEqual(next.settings.cardRatesPpm,f.settings.cardRatesPpm);assert.equal(next.revision,first.revision+1);
  await assert.rejects(f.service.open(f.env,f.user,body),e=>e.code==='MERCENARY_BLACKCROWN_CHANGED');assert.equal(await f.coin(),1000000);
+});
+test('ending Black Crown sales keeps the streamer pack available at the same prices and rates',async t=>{
+ const f=await fixture(t),before=await f.state();
+ await saveBlackcrownPack(f.env,f.user,{expectedRevision:before.sourceRevision,requestId:crypto.randomUUID(),reason:'블랙크라운팩 판매 종료',settings:{...f.settings,mode:'OFF'}});
+ const after=await f.state();
+ assert(after.userOpeningEnabled);
+ assert.deepEqual(after.settings,before.settings);
+ assert.deepEqual(after.stock,before.stock);
+ assert.equal((await f.service.open(f.env,f.user,await f.body())).status,'COMPLETED');
 });
 test('source change at commit rolls back planned grants and debit',async t=>{
  const f=await fixture(t),before=await f.coin(),batch=f.DB.batch.bind(f.DB);let injected=false;
