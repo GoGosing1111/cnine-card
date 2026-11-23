@@ -221,6 +221,13 @@ try{
     assert(receptor.targets.every(t=>t.width<receptor.chartWidth/4*.66&&t.centerError<1&&t.keyOffset<2&&t.keyWidth>=44&&t.keyHeight>=44),JSON.stringify(receptor));
     if(receptor.viewport.join('x')==='1440x900')assert(receptor.chartWidth<=600&&receptor.y>=530,JSON.stringify(receptor));
     if(receptor.viewport.join('x')==='390x844')assert(receptor.chartWidth<350&&receptor.y>=465,JSON.stringify(receptor));
+    if(receptor.viewport[0]>=650&&receptor.viewport[1]<=480){
+      const fits=await raid.evaluate(()=>{
+        const row=document.querySelector('.nox-rhythm-readout').getBoundingClientRect(),score=document.getElementById('rhythmScore').getBoundingClientRect(),judge=document.getElementById('judgement').getBoundingClientRect(),chart=document.getElementById('chart').getBoundingClientRect();
+        return score.left>=judge.right&&score.right<=row.right+1&&score.top>=row.top-1&&score.bottom<=chart.top;
+      });
+      assert(fits,'Landscape score must fit beside the judgement and above the first note');
+    }
     report.receptor=receptor;
     // Drive the real input listener at the audio clock's first eight notes.
     let hits;
