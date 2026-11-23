@@ -112,9 +112,11 @@ test('draw, prime and legacy draw paths keep their statement-saving and guard co
   assert.match(vehicle,/export async function handleVehicleDraw\(\{path,request,env,deps\}\)\{if\(!vehicleDrawRoute\(path\)\)return null;/);
   assert.match(vehicle,/RETURNING status,response_json,COALESCE/);
   assert.match(equipment,/WHERE request_id=\? AND user_id=\? AND status='PENDING' RETURNING status,response_json`\)\.bind\(JSON\.stringify\(response\)/);
-  assert.equal((prime.match(/(?<!function )loadDrawPool\(env,product\)/g)||[]).length,3);
-  assert.equal((prime.match(/RETURNING status,response_json`\)/g)||[]).length,3);
-  assert.equal((prime.match(/\.\.\.checkedOpenMutationStatements\(env,/g)||[]).length,2);
+  const legacyPrime=prime.slice(0,prime.indexOf('async function openNewHyperdrive('));
+  assert(legacyPrime.length>0);
+  assert.equal((legacyPrime.match(/(?<!function )loadDrawPool\(env,product\)/g)||[]).length,3);
+  assert.equal((legacyPrime.match(/RETURNING status,response_json`\)/g)||[]).length,3);
+  assert.equal((legacyPrime.match(/\.\.\.checkedOpenMutationStatements\(env,/g)||[]).length,2);
   assert.match(prime,/\.\.\.checkedPurchaseDebitStatements\(env,/);
 });
 
