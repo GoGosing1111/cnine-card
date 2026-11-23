@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {NOX_TRACKS,NOX_LEGACY_TRACKS,noxTrack,NOX_RHYTHM_RULES} from '../shared/nox-raid-chart-v1.mjs';
+import {NOX_TRACK,NOX_TRACKS,NOX_LEGACY_TRACKS,noxTrack,NOX_RHYTHM_RULES} from '../shared/nox-raid-chart-v1.mjs';
 import {NoxAudio,noxNoteStart} from '../js/nox-input-v1.mjs';
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,tickNoxRoom,actNoxRoom,noxEnrageMs,NOX_RULES} from '../functions/_raid_nox.js';
 import {NOX_DECK,noxFixture} from './helpers/nox-live-fixture.mjs';
@@ -18,23 +18,23 @@ test('61 full songs continue into the final half-second; denser charts keep sepa
   assert.deepEqual([NOX_RULES.perfectMs,NOX_RULES.goodMs,NOX_RULES.maxMiss,NOX_RULES.accuracy],[80,160,3,.9]);
 });
 
-test('Hell adds 50% more playable notes without changing song timing or Normal chart data',()=>{
+test('Hell adds 75% more playable notes with 800ms travel and preserves Normal chart data',()=>{
   const lobby=createNoxRoom({id:'DIFFICULTY',hostId:'1',size:3,difficulty:'HELL',seed:7});
   for(let i=1;i<=3;i++){
     addNoxMember(lobby,{id:String(i),cards:NOX_DECK});
     readyNoxMember(lobby,String(i));
   }
-  for(const track of NOX_TRACKS){
+  for(const track of [...NOX_TRACKS,...NOX_LEGACY_TRACKS,NOX_TRACK]){
     const hell=structuredClone(lobby),legacy=structuredClone(lobby);
     delete legacy.difficulty;
     hell.playlist[0]=legacy.playlist[0]=track.id;
     startNoxRoom(hell,'1',0);startNoxRoom(legacy,'1',0);
     assert.deepEqual(legacy.challenge.chart,track.notes);
     assert.equal(legacy.challenge.travelMs,1250);
-    assert.equal(hell.challenge.travelMs,1000);
+    assert.equal(hell.challenge.travelMs,800);
     assert.equal(hell.challenge.deadline,legacy.challenge.deadline);
     const notes=hell.challenge.chart;
-    assert.equal(notes.length,Math.round(track.notes.length*1.5),track.id);
+    assert.equal(notes.length,Math.round(track.notes.length*1.75),track.id);
     assert.equal(notes[0].at,track.notes[0].at);
     assert.equal(notes.at(-1).at,track.notes.at(-1).at);
     const last=[-Infinity,-Infinity,-Infinity,-Infinity],counts=new Map();
@@ -45,6 +45,24 @@ test('Hell adds 50% more playable notes without changing song timing or Normal c
       assert(counts.get(note.at)<=2,track.id);
     }
   }
+});
+
+test('a Hell party already in battle before the update uses its previous settings in later rounds',()=>{
+  const room=createNoxRoom({id:'LEGACYHELL',hostId:'1',size:3,difficulty:'HELL',seed:7});
+  for(let i=1;i<=3;i++){
+    addNoxMember(room,{id:String(i),cards:NOX_DECK});
+    readyNoxMember(room,String(i));
+  }
+  startNoxRoom(room,'1',0);
+  delete room.hellRhythm;
+  room.stage='EXPOSED';
+  room.lastAttackAt=room.startedAt;
+  room.challenge={stage:'EXPOSED',deadline:room.startedAt+15000};
+  room.boss.hp=Math.ceil(room.boss.maxHp*(1-1/3))+1;
+  tickNoxRoom(room,room.startedAt+1000);
+  assert.equal(room.round,2);
+  assert.equal(room.challenge.travelMs,1000);
+  assert.equal(room.challenge.chart.length,Math.round(noxTrack(room.playlist[1]).notes.length*1.5));
 });
 
 test('longest three songs finish every mechanic in 3/6 players without early enrage or early music cutoff',()=>{

@@ -7,7 +7,8 @@ import { NOX_RHYTHM_RULES, noxPlaylist, noxTrack, judgeNoxNote } from '../shared
 export const NOX_RELEASE = Object.freeze({ enabled:false, rewardLocked:true, reviewOnly:true });
 export const NOX_RULES = Object.freeze({ name:'종언의 주파수', bossName:'적관의 지휘자 녹스', sizes:[3,6], hp3:18000000, hp6:12000000, ...NOX_RHYTHM_RULES, receiptGraceMs:1500, inputLeadMs:210, enrageMs:210000, roles:['저음','중음','고음'] });
 export const NOX_BOSS = Object.freeze({ id:'NOX_RED_CROWN', name:NOX_RULES.bossName, isBoss:true, is_boss:1, battle_power:320000, pve_hp_percent:200, pve_attack_percent:100, pve_defense_percent:100, pve_speed_percent:100, image:'/assets/ui/raid-nox-v1/boss-portrait.webp', battleSprite:'/assets/ui/raid-nox-v1/boss-idle.webp' });
-const HELL_TRAVEL_MS=1000, HELL_NOTE_MULTIPLIER=1.5;
+const HELL_RHYTHM=Object.freeze({travelMs:800,noteMultiplier:1.75});
+const LEGACY_HELL_RHYTHM=Object.freeze({travelMs:1000,noteMultiplier:1.5});
 const NORMAL_MEMORY_STEPS=3, HELL_MEMORY_STEPS=5;
 const copy=x=>structuredClone(x);
 const fail=(code,message,status=409)=>{throw Object.assign(new Error(message),{code,status});};
@@ -49,13 +50,16 @@ export function addNoxMember(room,{id,name,cards,deckSnapshot=null,deckSource='P
 }
 export function readyNoxMember(room,id,ready=true){const m=room.members.find(m=>m.id===id&&!m.left);if(!m)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);if(room.status!=='LOBBY')fail('STARTED','이미 출전했습니다.');m.ready=Boolean(ready);room.revision++;return room;}
 export function leaveNoxRoom(room,id,now=room.clock){const m=room.members.find(m=>m.id===id&&!m.left);if(!m)return room;room.clock=Math.max(now,room.clock);if(room.status==='LOBBY'){room.members=room.members.filter(x=>x.id!==id);room.members.forEach((x,i)=>{x.role=i%3;});if(room.hostId===id)room.hostId=room.members[0]?.id||'';}else{m.left=true;kill(room,m,'전장 이탈');}room.revision++;return room;}
-function hellChart(notes){
+function hellChart(notes,noteMultiplier){
   const beats=[...new Set(notes.map(note=>note.at))], times=[...beats];
-  const target=Math.round(notes.length*HELL_NOTE_MULTIPLIER), lanes=[0,2,1,3];
+  const target=Math.round(notes.length*noteMultiplier), lanes=[0,2,1,3];
   const spacing=NOX_RULES.goodMs*2+10;
+  const subdivisions=noteMultiplier===LEGACY_HELL_RHYTHM.noteMultiplier?[0,.5]:[.5,0,.25,.75];
   // Accents and subdivisions follow the original audio anchors. With lanes
   // rotating, five notes inside one judgment span would reuse the same lane.
-  function addNotes(candidates){
+  for(const fraction of subdivisions){
+    if(times.length>=target)break;
+    const candidates=fraction===0?beats:beats.slice(1).map((at,i)=>Math.round(beats[i]+(at-beats[i])*fraction));
     const remaining=target-times.length, visited=new Set();
     function place(at){
       if(times.length>=target||visited.has(at))return;
@@ -68,8 +72,6 @@ function hellChart(notes){
     for(let i=0;i<remaining;i++)place(candidates[Math.floor((i+.5)*candidates.length/remaining)]);
     for(const at of candidates)place(at);
   }
-  addNotes(beats);
-  if(times.length<target) addNotes(beats.slice(1).map((at,i)=>Math.round((beats[i]+at)/2)));
   return times.sort((a,b)=>a-b).map((at,id)=>({id,at,lane:lanes[id%lanes.length]}));
 }
 function openStage(room,stage,at){
@@ -77,8 +79,9 @@ function openStage(room,stage,at){
   const hell=room.difficulty==='HELL';
   if(stage==='RHYTHM'){
     const track=noxTrack(room.playlist?.[room.round-1]);c.trackId=track.id||null;
-    const notes=hell?hellChart(track.notes):track.notes;
-    c.travelMs=hell?HELL_TRAVEL_MS:NOX_RULES.travelMs;
+    const rhythm=hell?(room.hellRhythm??LEGACY_HELL_RHYTHM):null;
+    const notes=rhythm?hellChart(track.notes,rhythm.noteMultiplier):track.notes;
+    c.travelMs=rhythm?.travelMs??NOX_RULES.travelMs;
     c.deadline=at+track.chartEndMs+NOX_RULES.receiptGraceMs;c.musicStartAt=at;c.chart=room.round%2===0?notes.map(n=>({...n,lane:3-n.lane})):copy(notes);
     for(const m of room.members){m.hits=[];m.score=0;m.miss=0;m.lastInputAt=-1000;}
   }else if(stage==='MEMORY'){
@@ -95,6 +98,7 @@ export function startNoxRoom(room,id,now=room.clock){
   if(room.status!=='LOBBY')return room;
   if(room.members.length!==room.size||room.members.some(m=>!m.ready))fail('NOT_READY','정원 전원이 음원과 전장 준비를 마쳐야 합니다.');
   for(const m of room.members){applyMercenaryCombatLink([m.fighters]);const opening=applyPetOpeningBuff(m.fighters,m.pet,'A','PVE');if(opening)event(room,'PET_OPENING_BUFF',opening.label,{...opening,memberId:m.id});m.maxHp=m.fighters.reduce((n,f)=>n+f.maxHp,0);m.hp=m.maxHp;}
+  if(room.difficulty==='HELL')room.hellRhythm=HELL_RHYTHM;
   room.clock=Math.max(now,room.clock);room.status='ACTIVE';room.startedAt=room.clock+5000;room.endsAt=room.startedAt+noxEnrageMs(room.playlist);room.round=1;openStage(room,'RHYTHM',room.startedAt);room.revision++;return room;
 }
 function attacks(room,at){

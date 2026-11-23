@@ -118,6 +118,7 @@ try{
       assert.match(await raid.locator('#hellReward').innerText(),/300조.*25억/);
       assert.match(await raid.locator('#weeklyReward').innerText(),/노말·헬 합산 보상/);
     }
+    assert.match(await raid.locator('label:has(input[name=difficulty][value="HELL"])').innerText(),/낙하 0.8초 · 노트 \+75%/);
     await raid.locator('input[name=difficulty][value="'+difficulty+'"]').check();
     if(visit===0)await page.screenshot({path:path.join(out,profile+'-lobby.png')});
     await raid.locator('input[name=size][value="3"]').check();await raid.locator('#createButton').click();await raid.locator('#assembly').waitFor({state:'visible'});const roomId=await raid.locator('#roomCode').innerText();
@@ -140,8 +141,8 @@ try{
     const full=process.env.NOX_FULL_RHYTHM==='1'&&visit===0&&!mobile;
     const music=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics();return {playlist:d.state.playlist,trackId:d.state.challenge.trackId,travelMs:d.state.challenge.travelMs,notes:d.state.challenge.chart.length,url:d.trackUrl,prepared:d.preparedTracks,bufferBytes:d.audioBufferBytes,calibration:document.getElementById('calibration').value};});
     assert.equal(music.url,noxTrack(music.trackId).source);assert.equal(music.prepared,3);assert.equal(music.calibration,'0');assert(music.bufferBytes<=3*68*48000*2*4);
-    assert.equal(music.travelMs,difficulty==='HELL'?1000:1250);
-    assert.equal(music.notes,Math.round(noxTrack(music.trackId).notes.length*(difficulty==='HELL'?1.5:1)));
+    assert.equal(music.travelMs,difficulty==='HELL'?800:1250);
+    assert.equal(music.notes,Math.round(noxTrack(music.trackId).notes.length*(difficulty==='HELL'?1.75:1)));
     // Drive the real input listener at the audio clock's first eight notes.
     let hits;
     if(mobile&&profile!=='webkit'){
