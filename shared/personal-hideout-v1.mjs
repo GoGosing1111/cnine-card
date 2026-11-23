@@ -14,7 +14,7 @@ export const hideoutFacilityLimit=level=>level>0?(HIDEOUT_STAGES[level-1]?.facil
 export function hideoutSpace(raw){
  const state=hideoutState(raw),stage=HIDEOUT_STAGES[Math.max(0,state.level-1)];let start=0;
  const rooms=(state.rooms.length?state.rooms:['main']).map(code=>{const room=HIDEOUT_ROOMS.find(r=>r.code===code),width=code==='main'?stage.width:1920;const zone={code,name:room.name,start,width};start+=width;return zone;});
- return {height:640,bayWidth:960,width:start,rooms,furnitureWidths:{workbench:480,fridge:180,garage:480,armory:300,sofa:420,lamp:100,trophy:460,...Object.fromEntries(HIDEOUT_DECOR.filter(d=>d.width).map(d=>[d.code,d.width]))}};
+ return {height:640,bayWidth:960,width:start,rooms,furnitureWidths:{workbench:580,fridge:180,garage:480,armory:300,sofa:420,lamp:100,trophy:460,...Object.fromEntries(HIDEOUT_DECOR.filter(d=>d.width).map(d=>[d.code,d.width]))}};
 }
 const CORE_DROP_BASIS_POINTS=175;
 export const HIDEOUT_CORE_DROP=Object.freeze({percent:CORE_DROP_BASIS_POINTS/100,legionRolls:1,raidRolls:3,apocalypseRolls:1,towerRolls:1});

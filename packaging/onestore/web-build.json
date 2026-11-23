@@ -3,7 +3,7 @@
   "sourceHashes": {
     "packaging/onestore/web/client-patch.json": "5844c8abf6e4a7a8d2427930f2c08bbf89661422afa4dec0f067c0e269741744",
     "index.html": "df9dec0e0f21946a684c02ef9b185f969d4d47b9bbacd4a53e13891edf7f3050",
-    "js/app.js": "6e3b435c6bbf1e242f18a5499e8effc037a08a063bcdae852b35089da5e53d5e",
+    "js/app.js": "8b605295ccdc85e411d842a044a89d233f4bf426244848f55712cf30c5221aa6",
     "js/soopketmon-v21-exact-shell-adapter.js": "3215d68817c246a4d55025de82b93eba0184fbdf071816b6e1c51e11505d17a9",
     "js/soopketmon-v21-runtime-router.js": "cdc82f6eb31ea85f598f006ca1cd283debaa09b5839a612d6a695ede9d4aa08b",
     "js/adventure-lobby-v2107.js": "379138122cc0359178537f1f288f0b19f0b731bddce7423a8335d5ff1f5421ac",
@@ -21,7 +21,7 @@
     "packaging/onestore/web/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27"
   },
   "outputs": {
-    "onestore/js/app.js": "1237ce07f983d9ca415a29fdc3a34b317561229cf1605c0df0a5f845ebead98e",
+    "onestore/js/app.js": "9f29c7b0fca20210376bdbdd36dc762cef944a62599d44a2cbae24d02b3d38fb",
     "onestore/js/soopketmon-v21-exact-shell-adapter.js": "f5d19f221199fdccb514399c1e55c273aac156563ae642f60837aca2cc79465b",
     "onestore/js/soopketmon-v21-runtime-router.js": "66fc43d3d350a09b7b7132510580630676cd37b8475c398a10b4ee4404559546",
     "onestore/js/adventure-lobby-v2107.js": "e559b8836173c84ad1e4dd1a54a1be0af954d060b02a9bd14dd4a1104a6f70dc",
@@ -34,6 +34,6 @@
     "onestore/h5-sdk.js": "c9e18131d55df5ad36ec1c8bd6bc78f9f1113be8e49cf946f2ed121d58b4ee19",
     "onestore/h5.css": "7c77779b15fef492acd7647c0d091b52a8c74b44ce511aff793ad66ac25d3d27",
     "onestore/index.html": "52e9e2ed9ef8ef2314fb355233bd4a8a83f9cce30f064832c82fcbb5577d768d",
-    "shared/onestore-web-assets-v1.mjs": "faed45636a413831b9c520d60a60b36c30f015fc65267fdaba273c5fc4009628"
+    "shared/onestore-web-assets-v1.mjs": "32368847882348962cc2a93ab200b68191752d3b45312db81da1eee38a8a95fb"
   }
 }
