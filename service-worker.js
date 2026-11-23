@@ -5,8 +5,16 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-vhideout-core-chance-20261120-v1';
+const SHELL_CACHE='soop-card-shell-vhideout-release-20261124-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
+const APPROVED_CNINE_CREST='/assets/ui/brand/cnine-crowned-c9.webp';
+const RETIRED_LOGO_PATHS=new Set([
+  '/assets/ui/cninelogo.png',
+  '/assets/responsive/ui/cninelogo-240.avif',
+  '/assets/responsive/ui/cninelogo-240.webp',
+  '/assets/responsive/ui/cninelogo-480.avif',
+  '/assets/responsive/ui/cninelogo-480.webp',
+]);
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 // Renderer contracts can change while an installed client keeps old versioned URLs.
@@ -39,7 +47,7 @@ for(const path of ['/preview/coop-defense-v1/defense.bundle.js','/preview/coop-d
 FRESH_ACCOUNT_SCRIPTS.add('/js/territory-war-v1811.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/mercenary-deck-slot.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/mercenary-codex/equipment/app.mjs');
-for(const path of ['/mercenary-codex/equipment/ui.mjs','/shared/equipment-defense-v1.mjs','/shared/equipment-growth-text-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
+for(const path of ['/mercenary-codex/equipment/ui.mjs','/shared/mercenary-equipment-rank-v1.mjs','/shared/equipment-defense-v1.mjs','/shared/equipment-growth-text-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/shared/legion-regions-v1.mjs');
 for(const path of ['/js/legion-citadel-v1.mjs','/shared/legion-hunt-energy-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/mercenary-codex/sss-reroll/app.mjs','/mercenary-codex/sss-reroll/client.mjs','/shared/mercenary-sss-reroll-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
@@ -99,6 +107,8 @@ self.addEventListener('activate',event=>{
       const path=new URL(request.url).pathname;
       return FRESH_BATTLE_SCRIPTS.has(path)||FRESH_ACCOUNT_SCRIPTS.has(path)||UPDATED_SPINE_BUNDLES.has(path);
     }).map(request=>shell.delete(request)));
+    const brandCache=await caches.open(CONTENT_CACHE);
+    await Promise.all([...RETIRED_LOGO_PATHS].map(path=>brandCache.delete(path,{ignoreSearch:true})));
     await self.clients.claim();
   })());
 });
@@ -195,6 +205,10 @@ async function optimizedImage(event,request,target){
 self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url);
   if(!sameOriginGet(request,url))return;
+  if(RETIRED_LOGO_PATHS.has(url.pathname)){
+    event.respondWith(Response.redirect(new URL(APPROVED_CNINE_CREST,url.origin),301));
+    return;
+  }
 
   // The H5 edition owns its document policy; never replace it with the PWA shell.
   if(url.pathname==='/onestore'||url.pathname.startsWith('/onestore/'))return;

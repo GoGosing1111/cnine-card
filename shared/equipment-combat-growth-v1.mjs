@@ -1,4 +1,5 @@
 import {combinePveGuard} from './equipment-defense-v1.mjs';
+import {mercenaryGearPercent,rankedGearEffects} from './mercenary-equipment-rank-v1.mjs';
 const bounded=(value,max)=>Math.max(0,Math.min(max,Number(value)||0));
 export const POLISH_EFFECT_KEYS=['attackPercent','criticalChancePoints','criticalDamagePoints','bossDamagePercent','penetrationPoints'];
 const polishValue=value=>Number.isFinite(Number(value))?Math.max(0,Number(value)):0;
@@ -26,17 +27,24 @@ function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false,individua
     for(const key of ['echoEvery','uniqueEchoEvery'])if(combined[key]===Infinity)combined[key]=0;
     if(fighter.battleMode==='PVE'&&(old.pveGuardPercent||runtime.effects.pveGuardPercent))combined.pveGuardPercent=combinePveGuard(old.pveGuardPercent,runtime.effects.pveGuardPercent);
     if(fighter.battleMode!=='PVE'){delete combined.defensePercent;delete combined.pveGuardPercent;}
+    const rank=fighter.isMercenary?fighter.rank:null;
+    const oldPolish=fighter.equipmentUnscaledPolish||fighter.equipmentPolishEffects;
     const polish={};
     if(fighter.battleMode!=='PVP'||allowMercenaryPvp&&fighter.isMercenary)for(const key of POLISH_EFFECT_KEYS){
-      const value=polishValue(fighter.equipmentPolishEffects?.[key])+polishValue(runtime.polishEffects?.[key]);
+      const value=polishValue(oldPolish?.[key])+polishValue(runtime.polishEffects?.[key]);
       if(value)polish[key]=Math.min(value,polishValue(combined[key]));
     }
     const standard=normalizedEquipmentEffects(combined,polish);
-    if(Object.keys(polish).length)fighter.equipmentPolishEffects=polish;
+    if(Object.keys(polish).length){
+      if(mercenaryGearPercent(rank)<100)fighter.equipmentUnscaledPolish=polish;
+      fighter.equipmentPolishEffects=rankedGearEffects(rank,polish);
+    }
     if(individual&&fighter.isMercenary)fighter.equipmentIndividualEffects=individual;
     const personal=fighter.isMercenary&&fighter.equipmentIndividualEffects;
-    if(personal)fighter.equipmentStandardEffects=standard;
-    const effects=addIndividualEquipmentEffects(standard,personal);
+    // The next loadout (personal or character) combines original bonuses.
+    // Apply the rank once to the total, including polish and individual items.
+    if(personal||mercenaryGearPercent(rank)<100)fighter.equipmentStandardEffects=standard;
+    const effects=rankedGearEffects(rank,addIndividualEquipmentEffects(standard,personal));
     // Personal mercenary gear and ordinary account polish can meet here.
     // Recompute from the unmodified entry stats; add polish after set caps.
     const base=fighter.equipmentGrowthBase??={attack:fighter.attack,maxHp:fighter.maxHp,hp:fighter.hp,speed:fighter.speed,shield:fighter.shield,maxShield:fighter.maxShield};
@@ -46,7 +54,7 @@ function applyEquipmentGrowth(fighters,runtime,allowMercenaryPvp=false,individua
     if(effects.defensePercent){base.defense??=fighter.defense;fighter.defense=Math.round(base.defense*(1+effects.defensePercent/100));}
     fighter.maxHp=Math.round(base.maxHp*(1+effects.hpPercent/100));fighter.hp=Math.round(base.hp*(1+effects.hpPercent/100));
     fighter.speed=base.speed*(1+effects.speedPercent/100);
-    const shield=Math.round(fighter.maxHp*effects.shieldPercent/100);fighter.shield=base.shield+shield;fighter.maxShield=base.maxShield+shield;
+    const shield=base.hp>0?Math.round(fighter.maxHp*effects.shieldPercent/100):0;fighter.shield=base.shield+shield;fighter.maxShield=base.maxShield+shield;
   }
   return fighters;
 }

@@ -13,7 +13,7 @@ export function mountPetEquipment(root,{review=false,codex=false,mode:initialMod
     let view=null,stopped=false;
     root.textContent='펫 도감을 불러오고 있습니다.';
     if(!document.querySelector('[data-pet-growth-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/pet-growth-v2.css?v=20261114-unified';link.dataset.petGrowthCss='';document.head.append(link);}
-    import('/js/pet-codex-growth-v3.mjs?v=20261116-ddung-joeun').then(({mountPetCodexGrowth})=>{if(!stopped)view=mountPetCodexGrowth(root,{growth,request,review});}).catch(()=>{if(!stopped)root.textContent='도감 화면을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';});
+    import('/js/pet-codex-growth-v3.mjs?v=20261120-heeya-together').then(({mountPetCodexGrowth})=>{if(!stopped)view=mountPetCodexGrowth(root,{growth,request,review});}).catch(()=>{if(!stopped)root.textContent='도감 화면을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';});
     return {dispose(){stopped=true;view?.dispose();},reload(){return view?.reload();},get animation(){return view?.animation||{active:false,updates:0};}};
   }
   let state=null,selected=null,busy=false,pending=null,pendingPotential=null,lastPotential=null,needsRefresh=false,disposed=false,controller=null;

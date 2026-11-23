@@ -2,6 +2,7 @@ import {REGION_EQUIPMENT,REGION_EQUIPMENT_SLOTS} from './legion-regions-v1.mjs';
 import {UNIQUE_MERCENARY_EQUIPMENT} from './mercenary-unique-equipment-v1.mjs';
 import {ASCENDANT_EQUIPMENT,ASCENDANT_EQUIPMENT_SETS,ascendantEquipment,ascendantEquipmentEffects,ascendantSet} from './mercenary-ascendant-equipment-v1.mjs';
 import {POLISH_EFFECT_KEYS} from './equipment-combat-growth-v1.mjs';
+import {rankedGearPower} from './mercenary-equipment-rank-v1.mjs';
 
 export const MERCENARY_EQUIPMENT_SLOTS=REGION_EQUIPMENT_SLOTS;
 export const MERCENARY_EQUIPMENT_CATALOG=Object.freeze([...REGION_EQUIPMENT,...ASCENDANT_EQUIPMENT,...UNIQUE_MERCENARY_EQUIPMENT]);
@@ -19,7 +20,7 @@ export function mercenaryEquipmentPower(snapshot,mode=snapshot?.equipment?.mode)
   const equipment=snapshot?.equipment;
   if(!equipment||equipment.schemaVersion!==1||equipment.mode!==mode)return 0;
   const power=equipment.power;
-  return Number.isSafeInteger(power)&&power>=0&&power<=100000000?power:0;
+  return Number.isSafeInteger(power)&&power>=0&&power<=100000000?rankedGearPower(snapshot.rank,power):0;
 }
 export function mercenaryEquipmentPolishEffects(equipment){
  if(equipment?.schemaVersion!==1||!['PVE','PVP'].includes(equipment.mode))return {};

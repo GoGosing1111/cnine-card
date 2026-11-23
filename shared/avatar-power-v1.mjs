@@ -13,5 +13,6 @@ export function avatarPoweredCard(card,percent=0){
   return {...card,power:avatarScaledPower(card.power,percent),
     ...(reference?{iconRole:{...card.iconRole,supremacy:reference}}:{}),
     ...(card.effectivePower==null?{}:{effectivePower:avatarScaledPower(card.effectivePower,percent)}),
-    ...(card.equipmentShare==null?{}:{equipmentShare:avatarScaledPower(card.equipmentShare,percent)})};
+    ...(card.equipmentShare==null?{}:{equipmentShare:avatarScaledPower(card.equipmentShare,percent)}),
+    ...(card.nonGearShare==null?{}:{nonGearShare:avatarScaledPower(card.nonGearShare,percent)})};
 }

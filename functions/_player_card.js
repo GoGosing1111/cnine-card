@@ -1,4 +1,5 @@
 import {readNewTrophyMilestones} from './_trophy_milestones.js';
+import { PVP_RANKING_INCLUDED_SQL } from './_ranked_eligibility.js';
 import {readCnineVipHonor} from './_cnine_vip_trophy.js';
 // A public, read-only projection. Viewing a card never settles a season or grants a bonus.
 import {readTrophyBonusSettings} from './_collection_bonuses.js';
@@ -9,7 +10,7 @@ export { TROPHY_CATALOG };
 
 import { OFFICIAL, CLAN_HONORS, RANKED_HONORS_SQL, CHAMPIONS_HONORS_SQL, trophyHonors, readRenewedTrophyHonors } from './_trophy_honors.js';
 import { readPredictionStakeHonors } from './_prediction_trophy.js';
-import {readCityTopHonors,readLichClearHonors} from './_milestone_trophies.js';
+import {readPlayerMilestoneHonors} from './_milestone_trophies.js';
 import {readWorldRaidClearHonors} from './_world_raid_trophy.js';
 import {readTrophyManualGrants,applyTrophyManualGrants} from './_trophy_manual_grants.js';
 import {organizationIdentity} from '../shared/organization-identity-v1.mjs?v=20261025-clan-eight';
@@ -54,7 +55,7 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
       env.DB.prepare(`WITH ranked AS (SELECT p.user_id,p.season_score,p.wins,p.losses,
         ROW_NUMBER() OVER (ORDER BY p.season_score DESC,p.wins DESC,u.nickname,u.id) position
         FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE'
-        AND UPPER(TRIM(COALESCE(u.role,'USER')))<>'OWNER' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')))
+        AND UPPER(TRIM(COALESCE(u.role,'USER')))<>'OWNER' AND ${PVP_RANKING_INCLUDED_SQL} AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')))
         SELECT * FROM ranked WHERE user_id=?`).bind(id).first(),
       env.DB.prepare('SELECT status FROM pvp_season_settlements WHERE season_key=?').bind(pvpSeasonKey(settings)).first(),
       env.DB.prepare(RANKED_HONORS_SQL).bind(id).first(),
@@ -70,15 +71,15 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
         JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP)
         JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 AND t.is_public=1 WHERE l.user_id=?`).bind(id).first(),
       env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(id).first(),
-      readPredictionStakeHonors(env, id),readCityTopHonors(env,id),readLichClearHonors(env,id),readWorldRaidClearHonors(env,id),readTrophyManualGrants(env,id),readNewTrophyMilestones(env,id),readRenewedTrophyHonors(env,id),readCnineVipHonor(env,id)
+      readPredictionStakeHonors(env, id),readPlayerMilestoneHonors(env,id),readWorldRaidClearHonors(env,id),readTrophyManualGrants(env,id),readNewTrophyMilestones(env,id),readRenewedTrophyHonors(env,id),readCnineVipHonor(env,id)
     ]);
-    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}, prediction, cityTop, lichClear, worldRaid, manualGrants, milestones, renewal, cnineVip] = result;
+    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}, prediction, playerMilestones, worldRaid, manualGrants, milestones, renewal, cnineVip] = result;
     const duo=deps.readDuoHonors?await deps.readDuoHonors(env,id):{count:0,acquiredAt:null};
     const endAt = settings.endsAt && Date.parse(settings.endsAt);
     const startAt = settings.startsAt && Date.parse(settings.startsAt);
     const openSeason = !settlement && (!endAt || endAt > now) && (!startAt || startAt <= now);
     const tier = rank && openSeason ? resolvePvpTier(n(rank.season_score), settings, n(rank.position)) : null;
-    const earned = applyTrophyManualGrants({...trophyHonors({ stats, clanStats, champions, duo, prediction, cityTop, lichClear, worldRaid, ...milestones, cnineVip }),...renewal},manualGrants);
+    const earned = applyTrophyManualGrants({...trophyHonors({ stats, clanStats, champions, duo, prediction, ...playerMilestones, worldRaid, ...milestones, cnineVip }),...renewal},manualGrants);
     const trophyBonuses=trophyBonusProjection((await readTrophyBonusSettings(env)).document,earned);
     return json({ version: PLAYER_CARD_VERSION, serverNow: new Date(now).toISOString(),
       player: { id, accountRank:deps.readAccountRank?await deps.readAccountRank(env,id):null, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,

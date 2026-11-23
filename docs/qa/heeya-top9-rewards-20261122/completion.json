@@ -1,0 +1,461 @@
+{
+  "status": "DIRECT_GRANT_VERIFIED",
+  "operationKey": "ops:heeya:top9-room-rewards:20261122:v1",
+  "completedAtKst": "2026-11-22 02:33:16",
+  "auditId": "69760",
+  "priorAwardAudit": "68304",
+  "totals": {
+    "accounts": 9,
+    "petsGranted": 5,
+    "petsSkipped": 4,
+    "boxes": 180,
+    "coins": "4500000000000000"
+  },
+  "recipients": [
+    {
+      "rank": 1,
+      "entrant": "몽랭",
+      "nickname": "모래",
+      "id": "295",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "GRANTED",
+        "before": 0,
+        "after": 1,
+        "speed": "SSS",
+        "instanceId": "PET-HEEYA-TOGETHER:1",
+        "requestId": "ops_heeya_top9_20261122_295",
+        "payloadHash": "2797bb10c7917c629fcb6a4b371c083b8e7e10782f995ca6636c777f6f6a5aab",
+        "auditId": "69757"
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323068",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031229"
+    },
+    {
+      "rank": 2,
+      "entrant": "[C9]센텀",
+      "nickname": "센텀신사",
+      "id": "792",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "GRANTED",
+        "before": 0,
+        "after": 1,
+        "speed": "SSS",
+        "instanceId": "PET-HEEYA-TOGETHER:1",
+        "requestId": "ops_heeya_top9_20261122_792",
+        "payloadHash": "41a2374616201e3a140520acd6d67a5f500c5e7ca5e4d5c5e5c1b75c4a43517b",
+        "auditId": "69758"
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323069",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031230"
+    },
+    {
+      "rank": 3,
+      "entrant": "rain",
+      "nickname": "씨나인택갓",
+      "id": "1195",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "GRANTED",
+        "before": 0,
+        "after": 1,
+        "speed": "SSS",
+        "instanceId": "PET-HEEYA-TOGETHER:1",
+        "requestId": "ops_heeya_top9_20261122_1195",
+        "payloadHash": "d7391d459b4d53ad612ad4a5807eb8784925c0a2cb95b8e5bb8c0faa36c304e2",
+        "auditId": "69759"
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323070",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031231"
+    },
+    {
+      "rank": 4,
+      "entrant": "학벌",
+      "nickname": "학벌",
+      "id": "4627",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "ALREADY_OWNED",
+        "before": 1,
+        "after": 1
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323072",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031233"
+    },
+    {
+      "rank": 5,
+      "entrant": "Culaa",
+      "nickname": "ShowMaker",
+      "id": "233",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "ALREADY_OWNED",
+        "before": 1,
+        "after": 1
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323067",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031228"
+    },
+    {
+      "rank": 6,
+      "entrant": "녹차맛좋댕",
+      "nickname": "x수댕",
+      "id": "216",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "GRANTED",
+        "before": 0,
+        "after": 1,
+        "speed": "SSS",
+        "instanceId": "PET-HEEYA-TOGETHER:1",
+        "requestId": "ops_heeya_top9_20261122_216",
+        "payloadHash": "ba9a9363d3b7be562d04ce2ead5d63bd6aa311059c2d80e85d7e1b883da3047d",
+        "auditId": "69755"
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323065",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031226"
+    },
+    {
+      "rank": 7,
+      "entrant": "현하루",
+      "nickname": "현하루",
+      "id": "218",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "GRANTED",
+        "before": 0,
+        "after": 1,
+        "speed": "SSS",
+        "instanceId": "PET-HEEYA-TOGETHER:1",
+        "requestId": "ops_heeya_top9_20261122_218",
+        "payloadHash": "9df430a4cf9fe30bb2edcff7c4df6af0d18ae94ae9a4243bdff87524db7e98a7",
+        "auditId": "69756"
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323066",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031227"
+    },
+    {
+      "rank": 8,
+      "entrant": "딸기찾는철구",
+      "nickname": "오일바른가지",
+      "id": "3011",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "ALREADY_OWNED",
+        "before": 1,
+        "after": 1
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323071",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031232"
+    },
+    {
+      "rank": 9,
+      "entrant": "하이타몽♡",
+      "nickname": "타몽",
+      "id": "5148",
+      "pet": {
+        "code": "PET-HEEYA-TOGETHER",
+        "status": "ALREADY_OWNED",
+        "before": 1,
+        "after": 1
+      },
+      "boxes": 20,
+      "boxCode": "CNINE_STREAMER_BOX",
+      "boxLedgerId": "90323073",
+      "coins": "500000000000000",
+      "coinLedgerId": "108031234"
+    }
+  ],
+  "validation": {
+    "coinLogs": 9,
+    "boxLogs": 9,
+    "petAudits": 5,
+    "individualReceipts": 9,
+    "petReceipts": 5,
+    "locksReleased": true,
+    "replayQueries": 1,
+    "replayWrites": 0,
+    "readOnlyReconciliation": true,
+    "partialRollback": [
+      "pets",
+      "credits"
+    ],
+    "fullRollback": true,
+    "protectedRecordsChecked": 26,
+    "priorAwardReceiptPreserved": true,
+    "conditionalPetTests": 5,
+    "existingPetsPreservedInTransaction": true,
+    "petGrowthSource": "새 희야투게더의 기본 성장값에 속도 SSS 적용"
+  },
+  "performance": {
+    "condition": "Windows CLI 운영 PostgreSQL. 모래 계정의 실제 펫 성장 서비스와 박스 선택 조회를 같은 조건에서 각 두 번 측정했다.",
+    "before": [
+      {
+        "entry": "first",
+        "ms": 223,
+        "growthMs": 151,
+        "sql": 3,
+        "pets": [],
+        "boxes": "20"
+      },
+      {
+        "entry": "repeat",
+        "ms": 218,
+        "growthMs": 146,
+        "sql": 3,
+        "pets": [],
+        "boxes": "20"
+      }
+    ],
+    "after": [
+      {
+        "entry": "first",
+        "ms": 224,
+        "growthMs": 151,
+        "sql": 3,
+        "pets": [
+          {
+            "id": "PET-HEEYA-TOGETHER:1",
+            "speed": "SSS"
+          }
+        ],
+        "boxes": "40"
+      },
+      {
+        "entry": "repeat",
+        "ms": 218,
+        "growthMs": 145,
+        "sql": 3,
+        "pets": [
+          {
+            "id": "PET-HEEYA-TOGETHER:1",
+            "speed": "SSS"
+          }
+        ],
+        "boxes": "40"
+      }
+    ],
+    "inventoryPlan": "Index Scan",
+    "inventoryDbMs": {
+      "before": 0.015,
+      "after": 0.018
+    },
+    "grant": [
+      {
+        "label": "rollback-after-pets",
+        "ms": 449,
+        "sql": 6
+      },
+      {
+        "label": "rollback-after-credits",
+        "ms": 613,
+        "sql": 8
+      },
+      {
+        "label": "full-rehearsal",
+        "ms": 814,
+        "sql": 11
+      },
+      {
+        "label": "grant",
+        "ms": 822,
+        "sql": 11
+      },
+      {
+        "label": "in-transaction-ledgers",
+        "ms": 439,
+        "sql": 6
+      }
+    ],
+    "verify": [
+      {
+        "label": "independent-ledgers",
+        "ms": 464,
+        "sql": 6
+      }
+    ],
+    "findings": "보유와 성장 조회의 DB 왕복이 주된 대기다. 지갑·인벤토리·펫 기록은 수령자별 일괄 SQL로 처리했다. 공개 도감은 Windows 헤드리스에서 첫 진입·재진입·프레임·퇴장 후 요청을 확인했다.",
+    "physicalDevices": false,
+    "browser": {
+      "condition": "Windows headless. Published pet codex page. Isolated read-only game API responses, all account identifiers and balances from a fixture. Before uses preflight ownership and after uses the independently read granted instance. Navigation starts at the codex URL. Per-context first entry and repeat document navigation.",
+      "samples": [
+        {
+          "platform": "PC Chrome",
+          "phase": "before",
+          "firstMs": 1076,
+          "repeatMs": 407,
+          "frames": {
+            "frames": 289,
+            "p95Ms": 4.3,
+            "maxMs": 4.3,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "PC Chrome",
+          "phase": "after",
+          "firstMs": 450,
+          "repeatMs": 385,
+          "frames": {
+            "frames": 280,
+            "p95Ms": 4.3,
+            "maxMs": 37.6,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "Android Chrome",
+          "phase": "before",
+          "firstMs": 461,
+          "repeatMs": 408,
+          "frames": {
+            "frames": 281,
+            "p95Ms": 4.3,
+            "maxMs": 24.9,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "Android Chrome",
+          "phase": "after",
+          "firstMs": 417,
+          "repeatMs": 380,
+          "frames": {
+            "frames": 279,
+            "p95Ms": 4.3,
+            "maxMs": 29.2,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "iOS WebKit",
+          "phase": "before",
+          "firstMs": 1077,
+          "repeatMs": 858,
+          "frames": {
+            "frames": 72,
+            "p95Ms": 29,
+            "maxMs": 79,
+            "over50ms": 1
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "iOS WebKit",
+          "phase": "after",
+          "firstMs": 847,
+          "repeatMs": 836,
+          "frames": {
+            "frames": 80,
+            "p95Ms": 22,
+            "maxMs": 25,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "Windows client URL",
+          "phase": "before",
+          "firstMs": 534,
+          "repeatMs": 349,
+          "frames": {
+            "frames": 284,
+            "p95Ms": 4.3,
+            "maxMs": 20.9,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "Windows client URL",
+          "phase": "after",
+          "firstMs": 430,
+          "repeatMs": 352,
+          "frames": {
+            "frames": 278,
+            "p95Ms": 4.3,
+            "maxMs": 33.4,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "H5 iframe",
+          "phase": "before",
+          "firstMs": 504,
+          "repeatMs": 436,
+          "frames": {
+            "frames": 284,
+            "p95Ms": 4.2,
+            "maxMs": 25,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        },
+        {
+          "platform": "H5 iframe",
+          "phase": "after",
+          "firstMs": 487,
+          "repeatMs": 442,
+          "frames": {
+            "frames": 279,
+            "p95Ms": 4.3,
+            "maxMs": 33.3,
+            "over50ms": 0
+          },
+          "petReadsAfterExit": 0,
+          "postExitObservationMs": 450,
+          "pageErrors": []
+        }
+      ]
+    }
+  },
+  "checkedAt": "2026-11-21T17:35:44.914Z"
+}

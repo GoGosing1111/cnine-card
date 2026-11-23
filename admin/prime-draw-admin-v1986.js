@@ -4,12 +4,14 @@
   const $=selector=>document.querySelector(selector);
   const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const state={data:null,kind:'equipment',busy:false,loadedAt:0,loadPromise:null};
-  const labels={suit_core:'슈트코어 전용 상자',equipment:'프라임 아머리 상자',vehicle:'프라임 하이퍼드라이브 팩'};
+  const labels={suit_core:'슈트코어 전용 상자',equipment:'프라임 아머리 상자',vehicle:'프라임 하이퍼드라이브 팩',new_hyperdrive:'뉴 하이퍼드라이브팩'};
+  const subtitles={suit_core:'SUIT CORE',equipment:'ARMORY',vehicle:'HYPERDRIVE',new_hyperdrive:'NEW HYPERDRIVE'};
   const tiers=[['STANDARD','일반'],['FEATURED','강조'],['HERO','영웅'],['CINEMATIC','시네마틱']];
+  const vehicleEffects=[['NONE','기본'],['SCARLET_VELOCITY','스칼렛 벨로시티'],['CRIMSON_APEX','크림슨 에이펙스'],['NOIRE_SOVEREIGN','누아르 소버린']];
   const effects={
     suit_core:[['NONE','간결한 개봉']],
     equipment:[['NONE','기본'],['PRIME_FORGE','프라임 포지'],['VIOLET_CORE','바이올렛 코어'],['ASTRAL_ARMORY','아스트랄 아머리']],
-    vehicle:[['NONE','기본'],['SCARLET_VELOCITY','스칼렛 벨로시티'],['CRIMSON_APEX','크림슨 에이펙스'],['NOIRE_SOVEREIGN','누아르 소버린']]
+    vehicle:vehicleEffects,new_hyperdrive:vehicleEffects
   };
   const visible=()=>{const view=$(`#view-${VIEW}`);return Boolean(view&&!view.hidden&&!$('#cms')?.hidden)};
   const call=(path,options={})=>typeof api==='function'?api(path,options):Promise.reject(new Error('CMS API를 찾을 수 없습니다.'));
@@ -54,6 +56,7 @@
 
   function render(){
     const root=$(`#${ROOT_ID}`),item=product(),rows=poolRows(),settings=item.settings||{},total=weightTotal(),special=rows.filter(row=>row.presentation?.enabled).length;
+    const direct=state.kind==='new_hyperdrive';
     if(!root)return;
     root.innerHTML=`
       <header class="primeDrawCmsHeroV1986">
@@ -61,18 +64,19 @@
         <div class="primeDrawCmsHeroActionsV1986"><span class="primeDrawCmsDbV1986">독립 풀 · ${esc(item.poolVersion||'-')}</span><button type="button" class="ghost" id="primeDrawReloadV1986">새로고침</button></div>
       </header>
       <nav class="primeDrawCmsTabsV1986" aria-label="프라임 상품 선택">
-        ${['equipment','suit_core','vehicle'].map(kind=>{const data=state.data?.[kind]||{};return `<button type="button" data-prime-kind="${kind}" class="${state.kind===kind?'active':''}"><span>${kind==='suit_core'?'SUIT CORE':kind==='equipment'?'ARMORY':'HYPERDRIVE'}</span><b>${esc(labels[kind])}</b><small>${fmt(data.shop?.unitPrice||0)}코인 · ${fmt(data.pool?.entryCount||0)}종</small></button>`}).join('')}
+        ${['equipment','suit_core','vehicle','new_hyperdrive'].filter(kind=>state.data?.[kind]).map(kind=>{const data=state.data[kind];return `<button type="button" data-prime-kind="${kind}" class="${state.kind===kind?'active':''}"><span>${subtitles[kind]}</span><b>${esc(labels[kind])}</b><small>${fmt(data.shop?.unitPrice||0)}코인 · ${fmt(data.pool?.entryCount||0)}종</small></button>`}).join('')}
       </nav>
       <section class="primeDrawCmsSummaryV1986">
-        <article><small>판매 가격</small><b>${fmt(item.shop?.unitPrice||0)} 코인</b><span>${state.kind==='suit_core'?'상자당 코어 1개 확정':`기존 대비 ${fmt(item.priceRatio||1)}배`}</span></article>
+        <article><small>판매 가격</small><b>${fmt(item.shop?.unitPrice||0)} 코인</b><span>${direct?'상점 1회 개봉 기준':state.kind==='suit_core'?'상자당 코어 1개 확정':`기존 대비 ${fmt(item.priceRatio||1)}배`}</span></article>
         <article><small>독립 드랍풀</small><b>${fmt(rows.length)}종</b><span>기존 상품과 공유하지 않음</span></article>
         <article class="${Math.abs(total-100)<=.0001?'ok':'bad'}"><small>활성 확률 합계</small><b id="primeDrawTotalV1986">${fmt(total,6)}%</b><span>저장 조건 100.000000%</span></article>
         <article><small>특별 연출 대상</small><b id="primeDrawSpecialV1986">${fmt(special)}종</b><span>항목별 즉시 선택</span></article>
       </section>
-      <section class="primeDrawCmsControlV1986">
-        <div><small>PRODUCT SWITCH</small><h3>${esc(item.name||labels[state.kind])} 운영</h3><p>가격은 확정값으로 고정됩니다. 판매와 보유분 개봉만 독립적으로 중지할 수 있습니다.</p></div>
+      <section class="primeDrawCmsControlV1986${direct?' primeDrawDirectControl':''}">
+        <div><small>PRODUCT SWITCH</small><h3>${esc(item.name||labels[state.kind])} 운영</h3><p>${direct?'상점 판매와 개봉 스위치가 모두 ON일 때 코인으로 개봉할 수 있습니다.':'가격은 확정값으로 고정됩니다. 판매와 보유분 개봉만 독립적으로 중지할 수 있습니다.'}</p></div>
+        ${direct?`<label><span>1회 가격 (코인)</span><input id="primeDrawPrice" type="number" min="1" max="${number(item.budgets?.[0])}" step="1" value="${number(settings.shopPrice)}"></label>`:''}
         <label><span>상점 판매</span><select id="primeDrawShopEnabledV1986"><option value="1" ${settings.shopEnabled!==false?'selected':''}>ON · 판매</option><option value="0" ${settings.shopEnabled===false?'selected':''}>OFF · 판매 중지</option></select></label>
-        <label><span>인벤토리 개봉</span><select id="primeDrawOpenEnabledV1986"><option value="1" ${settings.openEnabled!==false?'selected':''}>ON · 개봉</option><option value="0" ${settings.openEnabled===false?'selected':''}>OFF · 개봉 중지</option></select></label>
+        <label><span>${direct?'상점 개봉':'인벤토리 개봉'}</span><select id="primeDrawOpenEnabledV1986"><option value="1" ${settings.openEnabled!==false?'selected':''}>ON · 개봉</option><option value="0" ${settings.openEnabled===false?'selected':''}>OFF · 개봉 중지</option></select></label>
       </section>
       <section class="primeDrawCmsAddV1987" ${state.kind==='suit_core'?'hidden':''}>
         <div><small>POOL CATALOG</small><h3>드랍풀 품목 추가</h3><p>${state.kind==='equipment'?'장비·공개 아바타·배틀슈트 재료·스킬칩을 추가합니다. 품목과 확률을 설정한 뒤 저장하면 개봉에 반영됩니다.':'이동수단·공개 아바타를 현재 상품의 독립 풀에 추가합니다.'}</p></div>
@@ -117,6 +121,7 @@
   function capture(){
     const originals=new Map(poolRows().map(row=>[row.poolKey,row]));
     product().settings={...(product().settings||{}),shopEnabled:$('#primeDrawShopEnabledV1986')?.value==='1',openEnabled:$('#primeDrawOpenEnabledV1986')?.value==='1'};
+    if(state.kind==='new_hyperdrive')product().settings.shopPrice=number($('#primeDrawPrice')?.value);
     product().pool.entries=[...document.querySelectorAll('[data-prime-row]')].map(row=>{const poolKey=row.dataset.primeRow,source=originals.get(poolKey)||{};return {...source,poolKey,drawWeight:number(row.querySelector('[data-prime-weight]')?.value),presentation:{enabled:Boolean(row.querySelector('[data-prime-presentation]')?.checked),tier:row.querySelector('[data-prime-tier]')?.value||'STANDARD',effectKey:row.querySelector('[data-prime-effect]')?.value||'NONE'}}});
     product().pool.entryCount=product().pool.entries.length;
   }
@@ -150,9 +155,15 @@
     if(state.busy)return;
     const rows=[...document.querySelectorAll('[data-prime-row]')],entries=rows.map(row=>({poolKey:row.dataset.primeRow,drawWeight:number(row.querySelector('[data-prime-weight]')?.value),presentation:{enabled:Boolean(row.querySelector('[data-prime-presentation]')?.checked),tier:row.querySelector('[data-prime-tier]')?.value||'STANDARD',effectKey:row.querySelector('[data-prime-effect]')?.value||'NONE'}})),total=entries.reduce((sum,row)=>sum+row.drawWeight,0);
     if(Math.abs(total-100)>.0001)return alert(`활성 확률 합계를 100%로 맞춰주세요. 현재 ${total.toFixed(6)}%입니다.`);
-    const settings={shopEnabled:$('#primeDrawShopEnabledV1986')?.value==='1',openEnabled:$('#primeDrawOpenEnabledV1986')?.value==='1'},button=$('#primeDrawSaveV1986');
+    const kind=state.kind,settings={shopEnabled:$('#primeDrawShopEnabledV1986')?.value==='1',openEnabled:$('#primeDrawOpenEnabledV1986')?.value==='1'},button=$('#primeDrawSaveV1986');
+    if(kind==='new_hyperdrive'){
+      const price=$('#primeDrawPrice');
+      if(!price.value||!price.reportValidity())return alert('1회 가격을 양의 정수로 입력해 주세요.');
+      settings.shopPrice=number(price.value);
+      settings.revision=product().settings.revision;
+    }
     state.busy=true;if(button){button.disabled=true;button.textContent='저장 중'}
-    try{state.data[state.kind]=await call('admin/prime-draw/pool',{method:'POST',body:JSON.stringify({kind:state.kind,settings,entries})});state.loadedAt=Date.now();render();alert(`${labels[state.kind]} 설정을 저장했습니다.`)}
+    try{state.data[kind]=await call('admin/prime-draw/pool',{method:'POST',body:JSON.stringify({kind,settings,entries})});state.loadedAt=Date.now();render();alert(`${labels[kind]} 설정을 저장했습니다.`)}
     catch(error){alert(error.message||'프라임 설정 저장에 실패했습니다.')}
     finally{state.busy=false;if(button){button.disabled=false;button.textContent='현재 상품 설정 저장'}}
   }

@@ -7,24 +7,24 @@ test('한국시간 자정 경계와 고정 계정 예외: 닉네임만으로 한
  assert.equal(couponIssueDay('2026-10-29T14:59:59Z').dayKey,'2026-10-29');
  assert.deepEqual(couponIssueDay('2026-10-29T15:00:00Z'),{dayKey:'2026-10-30',start:'2026-10-29 15:00:00',end:'2026-10-30 15:00:00',createdAt:'2026-10-29 15:00:00'});
  assert.equal(couponOwnerDailyLimit({id:1,role:'OWNER',nickname:'changed'}),null);
- assert.equal(couponOwnerDailyLimit({id:2,role:'OWNER',nickname:'핑크빛유두'}),1e13);
+ assert.equal(couponOwnerDailyLimit({id:2,role:'OWNER',nickname:'핑크빛유두'}),3e13);
  assert.equal(couponOwnerDailyLimit({id:99,role:'ADMIN'}),null);
 });
 
-test('모든 발급 API를 합쳐 1조 10회: 인원 100만도 1조로 집계하고 11회째는 거부',async t=>{
+test('세 발급 API에서 5조씩 6회, 인원 100만도 액면가로 집계하고 30조에서 다음 1코인을 거부',async t=>{
  const f=await couponIssueFixture();t.after(f.close);
- for(let i=0;i<10;i++){const r=await f.call({path:COUPON_ISSUE_PATHS[i%3],body:{code:'TEN-'+i,maxUses:i%2?1000000:1}});assert.equal(r.status,201,JSON.stringify(r.body));}
- for(const path of COUPON_ISSUE_PATHS){const r=await f.call({path,body:{code:'OVER-'+path.replaceAll('/','-')}});assert.equal(r.status,409);assert.equal(r.body.code,'COUPON_OWNER_DAILY_LIMIT');assert.equal(r.body.issueLimit.remainingCoin,0);}
- const d=await f.call({path:'admin/coupons',method:'GET'});assert.equal(d.body.issueLimit.issuedCoin,1e13);assert.equal(d.body.issueLimit.countBy,'FACE_VALUE');
- assert.equal((await f.rows('SELECT * FROM coupons')).length,10);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,10);assert.equal((await f.rows('SELECT * FROM joint_atomic_guards_v1')).length,0);
+ for(let i=0;i<6;i++){const r=await f.call({path:COUPON_ISSUE_PATHS[i%3],body:{code:'LIMIT-'+i,rewardAmount:5e12,maxUses:i%2?1000000:1}});assert.equal(r.status,201,JSON.stringify(r.body));}
+ for(const path of COUPON_ISSUE_PATHS){const r=await f.call({path,body:{code:'OVER-'+path.replaceAll('/','-'),rewardAmount:1}});assert.equal(r.status,409);assert.equal(r.body.code,'COUPON_OWNER_DAILY_LIMIT');assert.equal(r.body.issueLimit.remainingCoin,0);}
+ const d=await f.call({path:'admin/coupons',method:'GET'});assert.equal(d.body.issueLimit.perCouponCoin,5e12);assert.equal(d.body.issueLimit.dailyCoinLimit,3e13);assert.equal(d.body.issueLimit.issuedCoin,3e13);assert.equal(d.body.issueLimit.countBy,'FACE_VALUE');
+ assert.equal((await f.rows('SELECT * FROM coupons')).length,6);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,6);assert.equal((await f.rows('SELECT * FROM joint_atomic_guards_v1')).length,0);
  assert.deepEqual((await f.rows('SELECT coin FROM users ORDER BY id')).map(x=>Number(x.coin)),[9,8,7,5,6]);
 });
 
-test('계정별 독립 한도와 핑크빛유두 일일 예외에도 1회 1조 상한을 적용한다',async t=>{
+test('계정별 독립 한도와 핑크빛유두 일일 예외에도 1회 5조 상한을 적용한다',async t=>{
  const f=await couponIssueFixture();t.after(f.close);
- for(const id of [2,6,5663]){await f.pg.query("INSERT INTO coupons(code,reward_type,reward_amount,max_uses,created_by) VALUES($1,'COIN',10000000000000,1,$2)",['HISTORY-'+id,id]);const r=await f.call({admin:{id,role:'OWNER'},body:{code:'NO-'+id,rewardAmount:1}});assert.equal(r.body.code,'COUPON_OWNER_DAILY_LIMIT');}
- for(let i=0;i<11;i++)assert.equal((await f.call({admin:{id:1,role:'OWNER'},body:{code:'EXEMPT-'+i}})).status,201);
- for(const path of COUPON_ISSUE_PATHS)assert.equal((await f.call({path,admin:{id:1,role:'OWNER'},body:{code:'EXEMPT-OVER',rewardAmount:1e12+1}})).status,400);
+ for(const id of [2,6,5663]){await f.pg.query("INSERT INTO coupons(code,reward_type,reward_amount,max_uses,created_by) VALUES($1,'COIN',30000000000000,1,$2)",['HISTORY-'+id,id]);const r=await f.call({admin:{id,role:'OWNER'},body:{code:'NO-'+id,rewardAmount:1}});assert.equal(r.body.code,'COUPON_OWNER_DAILY_LIMIT');}
+ for(let i=0;i<7;i++)assert.equal((await f.call({admin:{id:1,role:'OWNER'},body:{code:'EXEMPT-'+i,rewardAmount:5e12}})).status,201);
+ for(const path of COUPON_ISSUE_PATHS)assert.equal((await f.call({path,admin:{id:1,role:'OWNER'},body:{code:'EXEMPT-OVER',rewardAmount:5e12+1}})).status,400);
  assert.equal((await readCouponIssueLimit(f.env,{id:1,role:'OWNER'})).dailyCoinLimit,null);
  await f.pg.query('UPDATE coupons SET created_at=$1 WHERE created_by=6',['2026-10-01 00:00:00']);
  assert.equal((await f.call({admin:{id:6,role:'OWNER'},body:{code:'FRESH-SIX'}})).status,201);
@@ -32,9 +32,13 @@ test('계정별 독립 한도와 핑크빛유두 일일 예외에도 1회 1조 �
 
 test('더 작은 쿠폰은 금액으로 합산하고 한도 정확히 일치까지만 허용한다',async t=>{
  const f=await couponIssueFixture();t.after(f.close);
- for(let i=0;i<20;i++)assert.equal((await f.call({body:{code:'HALF-'+i,rewardAmount:5e11}})).status,201);
+ // Ten 1-trillion coupons issued under the previous limit already count today.
+ await f.pg.exec("INSERT INTO coupons(code,reward_type,reward_amount,max_uses,created_by) SELECT 'OLD-'||n,'COIN',1000000000000,1,2 FROM generate_series(1,10) AS n");
+ for(let i=0;i<4;i++)assert.equal((await f.call({body:{code:'NEW-'+i,rewardAmount:i===3?5e12-1:5e12}})).status,201);
+ assert.equal((await readCouponIssueLimit(f.env,f.owner)).remainingCoin,1);
+ assert.equal((await f.call({body:{code:'LAST-COIN',rewardAmount:1}})).status,201);
  assert.equal((await f.call({body:{code:'ONE-EXTRA',rewardAmount:1}})).body.code,'COUPON_OWNER_DAILY_LIMIT');
- for(const rewardAmount of [0,-1,1.5,1e12+1,'NaN'])assert.equal((await f.call({body:{code:'INVALID',rewardAmount}})).status,400);
+ for(const rewardAmount of [0,-1,1.5,5e12+1,'NaN'])assert.equal((await f.call({body:{code:'INVALID',rewardAmount}})).status,400);
 });
 
 test('삭제·중지·수령·사용 인원 변경·삭제 코드 재발행은 당일 발행량을 환급하지 않는다',async t=>{
@@ -57,7 +61,7 @@ test('운영에 이미 발행된 당일 쿠폰도 집계하고 어제·다른 �
  ('YESTERDAY',0,'COIN',1000000000000,1,2,'2026-10-28 14:59:59',NULL),
  ('ITEM',0,'MASTER_STAR',1000000,1,2,'2026-10-29 01:00:00',NULL),
  ('OTHER',0,'COIN',1000000000000,1,6,'2026-10-29 01:00:00',NULL);`);
- const usage=await readCouponIssueLimit(f.env,f.owner,new Date('2026-10-29T10:00:00Z'));assert.equal(usage.issuedCoin,1e11);assert.equal(usage.remainingCoin,9.9e12);
+ const usage=await readCouponIssueLimit(f.env,f.owner,new Date('2026-10-29T10:00:00Z'));assert.equal(usage.issuedCoin,1e11);assert.equal(usage.remainingCoin,2.99e13);
  assert.equal((await readCouponIssueLimit(f.env,f.owner,new Date('2026-10-29T15:00:00Z'))).issuedCoin,0);
 });
 
@@ -71,12 +75,12 @@ test('감사 저장 실패는 쿠폰·삭제 코드 이동·집계를 전부 원
  assert.equal((await f.call()).status,201);assert.equal((await f.call()).body.code,'COUPON_CODE_EXISTS');assert.equal((await readCouponIssueLimit(f.env,f.owner)).issuedCoin,2e12);
 });
 
-test('동시 요청은 거래 안에서 최신 합계를 확인해 마지막 1조를 한 번만 발급한다',async t=>{
+test('동시 요청은 거래 안에서 최신 합계를 확인해 마지막 5조를 한 번만 발급한다',async t=>{
  const f=await couponIssueFixture();t.after(f.close);
- await f.pg.exec("INSERT INTO coupons(code,reward_type,reward_amount,max_uses,created_by) VALUES('PRIOR','COIN',9000000000000,1,2)");
- const results=await Promise.all(Array.from({length:6},(_,i)=>f.call({path:COUPON_ISSUE_PATHS[i%3],body:{code:'RACE-'+i}})));
+ await f.pg.exec("INSERT INTO coupons(code,reward_type,reward_amount,max_uses,created_by) VALUES('PRIOR','COIN',25000000000000,1,2)");
+ const results=await Promise.all(Array.from({length:6},(_,i)=>f.call({path:COUPON_ISSUE_PATHS[i%3],body:{code:'RACE-'+i,rewardAmount:5e12}})));
  assert.equal(results.filter(r=>r.status===201).length,1);assert.equal(results.filter(r=>r.body.code==='COUPON_OWNER_DAILY_LIMIT').length,5);
- assert.equal((await readCouponIssueLimit(f.env,f.owner)).issuedCoin,1e13);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,1);
+ assert.equal((await readCouponIssueLimit(f.env,f.owner)).issuedCoin,3e13);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,1);
  const lock=f.queries.findIndex(q=>q==='SELECT id FROM users WHERE id=$1 FOR UPDATE');assert(lock>=0);assert.match(f.queries[lock+1],/^INSERT INTO joint_atomic_guards_v1/);
 });
 

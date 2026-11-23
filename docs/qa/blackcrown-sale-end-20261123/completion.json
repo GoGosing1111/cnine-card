@@ -1,0 +1,55 @@
+{
+  "action": "블랙크라운팩 판매 종료 및 상점 숨김",
+  "closedAtKst": "2026-11-23T14:41:38.496+09:00",
+  "receipt": {
+    "requestId": "blackcrown-sale-end-20261123-v1",
+    "packId": "mercenary-blackcrown-ss-limited",
+    "auditId": 71699,
+    "revisionBefore": 11,
+    "revisionAfter": 12,
+    "modeAfter": "OFF",
+    "openingScheduleCleared": true
+  },
+  "release": {
+    "source": "19af29b3bd8203f0bb0b9cf81e57527bcfd54977",
+    "previousSource": "620dba29ad0e4f6256d83d98dfe2d3ae806c2102",
+    "pages": "8e641203-14a9-4d8d-b717-d190a68241ac",
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "bbe504d0-33ac-4cf1-b029-8cac565958bd",
+        "trafficPercent": 100
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "c5d58b9c-db0a-4da0-adfd-50d8a8cb6665",
+        "trafficPercent": 100
+      }
+    ],
+    "scopedTestsPassed": 44,
+    "generatedOneStoreFilesVerified": 14
+  },
+  "verification": {
+    "publicShopIds": [
+      "pickup",
+      "ultimate",
+      "superstar",
+      "mercenary-reversecall-streamer",
+      "mercenary-blue-gear"
+    ],
+    "otherPackPricesAndDrawFlagsMatch": true,
+    "streamerPackMode": "ON",
+    "isolatedPurchases": "종료 후 1회·10회·대량 개봉 차단, 코인과 재고 미차감, 종료 전 영수증 재조회 및 재시도 확인.",
+    "browser": {
+      "desktop": "운영 상점 첫 진입",
+      "mobile": "판매 중이던 카탈로그가 남은 기기에서 이전 상점 링크로 진입",
+      "oneStore": "판매 중이던 카탈로그가 남은 기기에서 이전 상점 링크로 진입",
+      "packsRequestsPerProfile": 1,
+      "productionTestPurchases": 0
+    },
+    "independentReadOnly": {
+      "verifiedAtKst": "2026-11-23T14:45:18.513+09:00",
+      "completedNewRequestsAfterClosure": 0
+    }
+  }
+}

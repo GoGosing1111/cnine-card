@@ -1,7 +1,7 @@
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
-export const COUPON_COIN_MAX=1_000_000_000_000;
-export const OWNER_COUPON_DAILY_COIN_MAX=10_000_000_000_000;
+export const COUPON_COIN_MAX=5_000_000_000_000;
+export const OWNER_COUPON_DAILY_COIN_MAX=30_000_000_000_000;
 // Production identity verified on 2026-10-29. Nickname changes cannot transfer the exemption.
 export const COUPON_DAILY_EXEMPT_OWNER_ID=1;
 const dailySumSql=`SELECT COALESCE(SUM(CASE WHEN COALESCE(reward_amount,0)>0 THEN reward_amount ELSE COALESCE(reward_coin,0) END),0) AS issued_coin
@@ -28,7 +28,7 @@ export async function readCouponIssueLimit(env,admin,now=new Date()){
 // remain in the daily sum; max_uses never multiplies the face value or refunds it.
 export async function createCouponWithinIssueLimit(env,admin,{code,rewardType,rewardAmount,maxUses,actionType='COUPON_CREATE_V3'},now=new Date()){
   const DB=env.DB,p=(sql,...values)=>DB.prepare(sql).bind(...values);
-  if(rewardType==='COIN'&&(!Number.isSafeInteger(rewardAmount)||rewardAmount<1||rewardAmount>COUPON_COIN_MAX))throw issueError('COUPON_COIN_AMOUNT','코인 쿠폰은 1회 최대 1조 코인까지 발급할 수 있습니다.',400);
+  if(rewardType==='COIN'&&(!Number.isSafeInteger(rewardAmount)||rewardAmount<1||rewardAmount>COUPON_COIN_MAX))throw issueError('COUPON_COIN_AMOUNT',`코인 쿠폰은 1회 최대 ${COUPON_COIN_MAX.toLocaleString('ko-KR',{notation:'compact'})} 코인까지 발급할 수 있습니다.`,400);
   const existing=await p('SELECT id,code,deleted_at FROM coupons WHERE code=? LIMIT 1',code).first();
   if(existing&&!existing.deleted_at)throw issueError('COUPON_CODE_EXISTS','이미 존재하는 쿠폰 코드입니다.');
   const day=couponIssueDay(now),limit=rewardType==='COIN'?couponOwnerDailyLimit(admin):null,token=crypto.randomUUID(),list=[];
@@ -49,7 +49,7 @@ export async function createCouponWithinIssueLimit(env,admin,{code,rewardType,re
   try{await DB.batch(list);}catch(error){
     if(limit!==null&&/joint_atomic_guards/i.test(String(error?.message||''))){
       const issueLimit=await readCouponIssueLimit(env,admin,now);
-      throw Object.assign(issueError('COUPON_OWNER_DAILY_LIMIT',`하루 코인 쿠폰 발행 한도는 10조입니다. 오늘 남은 발행 가능 금액: ${issueLimit.remainingCoin.toLocaleString('ko-KR')} 코인. (한국시간 자정 초기화 · 사용 인원 무관)`),{issueLimit});
+      throw Object.assign(issueError('COUPON_OWNER_DAILY_LIMIT',`하루 코인 쿠폰 발행 한도는 ${limit.toLocaleString('ko-KR',{notation:'compact'})}입니다. 오늘 남은 발행 가능 금액은 ${issueLimit.remainingCoin.toLocaleString('ko-KR')} 코인입니다. (한국시간 자정 초기화 · 사용 인원 무관)`),{issueLimit});
     }
     throw error;
   }

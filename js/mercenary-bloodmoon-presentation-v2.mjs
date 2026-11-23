@@ -5,11 +5,12 @@ export const bloodmoonEscape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&
 const esc=bloodmoonEscape;
 const packImageAttrs=pack=>pack.imageSmall?`src="/${esc(pack.imageSmall)}" srcset="/${esc(pack.imageSmall)} 320w, /${esc(pack.image)} 768w" sizes="(max-width:600px) 135px, 220px" width="964" height="1632"`:`src="/${esc(pack.image)}"`;
 // Use authoritative pack stock; unprepared or missing stock is never shown as zero.
-export function bloodmoonStockText(card,stock){
+export function bloodmoonStockText(card,stock,showLimit=false){
  if(card?.stockPolicy==='UNLIMITED')return '발행 한도 없음';
  if(stock?.limit===null&&!stock.prepared)return '발행 한도 미정';
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
- return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+(stock.remaining===0?' · 소진':'');
+ const total=showLimit&&Number.isSafeInteger(stock.limit)?' / 총 '+stock.limit.toLocaleString('ko-KR')+'장':'';
+ return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+total+(stock.remaining===0?' · 소진':'');
 }
 const bloodmoonPresentation=Object.freeze({
  brand:'BLOODMOON', edition:'블러드', contract:'블러드문의 계약',
@@ -19,7 +20,7 @@ const bloodmoonPresentation=Object.freeze({
  ownershipScale:'0~1종 기본 · 2종 ½ · 3종 ¼ · 4종 ⅛ · 5종 1/16 · 6종 보유 시 SS 획득 종료',ownershipName:'블러드문'
 });
 export function bloodmoonCollectionMarkup(cards,stock=[],percents={},theme=bloodmoonPresentation){
- const portrait=c=>{const s=stock.find(row=>row.code===c.code);return `<figure class="bwp-portrait" data-rank="${esc(c.rank)}" data-code="${esc(c.code)}"><div class="bwp-art-frame"><img src="/${esc(c.thumbnailArt||c.displayArt)}" alt="${esc(c.name)} ${esc(c.rank)} 원화" loading="lazy"><span>${esc(c.rank)}</span></div><figcaption>${c.rewardType==='ITEM'?'<em>SSS · 제작 재료</em>':c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${esc(c.name)}</strong><small data-bwp-stock-code="${esc(c.code)}">${bloodmoonStockText(c,s)}</small><small data-bwp-chance-code="${esc(c.code)}">1회 확률 ${percents[c.code]==null?'미정':esc(percents[c.code])+'%'}</small></figcaption></figure>`;};
+ const portrait=c=>{const s=stock.find(row=>row.code===c.code);return `<figure class="bwp-portrait" data-rank="${esc(c.rank)}" data-code="${esc(c.code)}"><div class="bwp-art-frame"><img src="/${esc(c.thumbnailArt||c.displayArt)}" alt="${esc(c.name)} ${esc(c.rank)} 원화" loading="lazy"><span>${esc(c.rank)}</span></div><figcaption>${c.rewardType==='ITEM'?'<em>SSS · 제작 재료</em>':c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${esc(c.name)}</strong><small data-bwp-stock-code="${esc(c.code)}">${bloodmoonStockText(c,s,theme.showStockLimits)}</small><small data-bwp-chance-code="${esc(c.code)}">1회 확률 ${percents[c.code]==null?'미정':esc(percents[c.code])+'%'}</small></figcaption></figure>`;};
  return '<section class="bwp-seasonal-collection"><div class="bwp-section-heading"><h3>'+esc(theme.edition)+' SS 리미티드</h3><span>SS LIMITED · '+cards.filter(c=>c.rank==='SS').length+'</span></div><div class="bwp-roster">'+cards.filter(c=>c.rank==='SS').map(portrait).join('')+'</div></section><section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>'+esc(theme.legendTitle)+'</h3><span>'+esc(theme.legendLabel)+'</span></div><div class="bwp-sss-roster">'+cards.filter(c=>c.rank==='SSS'&&c.stockPolicy!=='UNLIMITED').map(portrait).join('')+'</div></section><section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bwp-sss-roster">'+cards.filter(c=>c.stockPolicy==='UNLIMITED').map(portrait).join('')+'</div></section>';
 }
 export function bloodmoonResultsMarkup(results,packImage){

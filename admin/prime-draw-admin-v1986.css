@@ -6,3 +6,5 @@
 /* The shared desktop sidebar's 100vh must not cover the mobile Prime editor. */
 .primeDrawTypeV1987{white-space:nowrap}
 @media(max-width:800px){body:has(#view-primedraw:not([hidden])) .layout>aside{height:auto}.primeDrawCmsViewV1986 button,.primeDrawCmsViewV1986 select,.primeDrawCmsViewV1986 input{scroll-margin-top:80px}}
+.primeDrawDirectControl input {min-width:0;min-height:40px;padding:8px 10px;border:1px solid #31465e;background:#050d16;color:#eaf6ff}
+@media(min-width:1100px){.primeDrawDirectControl{grid-template-columns:minmax(180px,1fr) repeat(3,minmax(120px,145px))}}

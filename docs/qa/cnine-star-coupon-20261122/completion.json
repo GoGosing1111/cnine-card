@@ -1,0 +1,1016 @@
+{
+  "status": "ISSUED_AND_VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:cnine-star-coupon:20261122:v1",
+    "authorization": "씨나인 스타대회 출정기념 쿠폰. 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개. 사용자 확정: 같은 조건으로 선착순 150명, 계정당 1회, 만료 없음.",
+    "title": "씨나인 스타대회 출정기념 쿠폰",
+    "couponCode": "CNINESTAR",
+    "couponId": "5782",
+    "rewardType": "NOVEMBER_GIFT_CNINE_STAR_20261122",
+    "coin": "1000000000000000",
+    "items": [
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "amount": 1000000000
+      },
+      {
+        "code": "ARDEN_ENERGY",
+        "name": "아르덴 에너지",
+        "amount": 10
+      }
+    ],
+    "maxUses": 150,
+    "perAccount": 1,
+    "expiresAt": null,
+    "completedAt": "2026-11-21T16:01:47.890Z",
+    "auditId": "69590"
+  },
+  "issuedAtKst": "2026-11-22 01:01:47 KST",
+  "verifiedAtKst": "2026-11-22 01:01:52 KST",
+  "availabilityAtVerification": {
+    "used": 8,
+    "remaining": 142
+  },
+  "liveClaimReconciliation": {
+    "code": "CNINESTAR",
+    "capacity": 150,
+    "used": 22,
+    "remaining": 128,
+    "active": 1,
+    "ends_at": null,
+    "checked_at": "2026-11-21T16:02:21.238Z",
+    "recipients": 22,
+    "exact_receipts": 22,
+    "matching_coin_entries": 22,
+    "item_entries": [
+      {
+        "item_code": "ARDEN_ENERGY",
+        "entries": 22,
+        "players": 22,
+        "smallest": "10",
+        "largest": "10"
+      },
+      {
+        "item_code": "MASTER_STAR",
+        "entries": 22,
+        "players": 22,
+        "smallest": "1000000000",
+        "largest": "1000000000"
+      }
+    ],
+    "queryMs": 2248,
+    "readOnly": true
+  },
+  "verification": {
+    "releaseTests": 39,
+    "issueWrites": [
+      {
+        "relname": "admin_logs",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      },
+      {
+        "relname": "app_meta",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      },
+      {
+        "relname": "coupons",
+        "inserted": 1,
+        "updated": 0,
+        "deleted": 0
+      }
+    ],
+    "issueMs": 1329,
+    "rollback": {
+      "failureRollback": true,
+      "stages": [
+        "coupon",
+        "audit",
+        "receipt"
+      ],
+      "successRollback": true,
+      "code": "CNINESTAR",
+      "accountsCredited": 0,
+      "oldCouponUnchanged": true,
+      "checkedAt": "2026-11-21T15:50:37.490Z",
+      "queryCount": 74
+    },
+    "issueReplayQueries": 1,
+    "lockReleased": true,
+    "previousCoupon": {
+      "definition": {
+        "id": "5771",
+        "code": "CNINEBOWL150",
+        "reward_type": "NOVEMBER_GIFT_CNINE_BOWLING_20261121",
+        "reward_coin": "1000000000000000",
+        "reward_amount": "1",
+        "max_uses": 150
+      },
+      "receiptSHA256": "095fee5ea86be8cf4dc1ce684dfdbdea86905f7fa09eda8ae0703d7f1060ab09"
+    },
+    "priorCouponUnchanged": true,
+    "isolatedCapacity": 150,
+    "firstDeniedRecipient": 151,
+    "redemptionFailureStages": 6,
+    "lostResponseReplay": true,
+    "liveTestRedemptions": 0
+  },
+  "release": {
+    "checkedAt": "2026-11-21T16:01:34.023Z",
+    "sourceCommit": "d5fa46e32102667cc511758b2304c5f6aecc45f0",
+    "pages": {
+      "id": "4b80dc8f-e2ba-41d1-8d3c-029ca5327682",
+      "commit": "d5fa46e32102667cc511758b2304c5f6aecc45f0",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "version": "102f9eaa-2468-4db2-9111-da7e48694f0e",
+        "percentage": 100,
+        "bundleSupported": true,
+        "code": "CNINESTAR",
+        "sharedRewardsFrom": "CNINEBOWL150",
+        "sourceSHA256": "b6f1cbd05b2b8fa1ec0d994df0dbbe535821e0817cf830fcaa46880123ec13f8"
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "version": "d897bf34-ba56-45d2-9ba1-47e9fc1c1799",
+        "percentage": 100,
+        "bundleSupported": true,
+        "code": "CNINESTAR",
+        "sharedRewardsFrom": "CNINEBOWL150",
+        "sourceSHA256": "9ff489f57611f8d9b2fe748115fc511ef2279d12c132c609ebcb9c7e32ad1f82"
+      }
+    ],
+    "unauthenticatedStatus": 401,
+    "releaseTests": 39,
+    "liveAccountRedemption": false,
+    "recovery": {
+      "sameBuild": true,
+      "privateServiceChecksPassed": true,
+      "credentialChanges": 0,
+      "stagedFiles": 19994,
+      "initialLog": "release-d5fa46e32-1795276408218.log",
+      "completedLog": "release-d5fa46e32-resumed.log"
+    }
+  },
+  "art": {
+    "title": "씨나인 스타대회 출정기념 쿠폰",
+    "couponCode": "CNINESTAR",
+    "size": [
+      2160,
+      936
+    ],
+    "artwork": "Built-in ImageGen",
+    "prompt": "prompt.txt",
+    "cnineLogo": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+    "cnineLogoSHA256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba",
+    "starcraftSource": "https://starcraftremastered.blizzard.com/en-us/",
+    "starcraftAsset": "https://blz-contentstack-images.akamaized.net/v3/assets/blt9c12f249ac15c7ec/bltc6e1328e8a822ef6/69641b190f2be20947ffc7ad/logo.webp",
+    "starcraftSHA256": "bd104a1b6a46b2e7c0bfd6469099ffdeb66080e2e079a6aa8240084f7b4ee69d",
+    "engravingSHA256": "17aa2f94a1de719a24cb63a9387b55ea960f49b1876950f65454931885e52e31",
+    "files": {
+      "cnine-star-coupon.png": {
+        "width": 2160,
+        "height": 936,
+        "size": 3715512,
+        "sha256": "6cb6eb878e4f318f33d77f2725d861e20c7010f93554b43ba435b447067f5ab3"
+      },
+      "cnine-star-coupon.jpg": {
+        "width": 1620,
+        "height": 702,
+        "size": 444135,
+        "sha256": "9e20b8e54699ccda5f3ffe2a18be6be91e4c53304250d85da09cf5bb311f9267"
+      }
+    }
+  },
+  "performance": {
+    "notes": {
+      "condition": "Windows headless Chrome, Android touch, WebKit mobile viewport, Windows client entry URL and H5 host iframe emulation. Public static releases with synthetic accounts, isolated PGlite redemption transaction. Input to editable coupon form is measured twice per platform.",
+      "server": "동일 보상인 볼링 쿠폰과 같은 일괄 저장 경로를 사용한다. 격리 DB에서 각 SQL에 6ms 고정 전송 지연을 줬다. 두 쿠폰 모두 수령에 15문장을 실행한다. 운영 응답 시간은 별도로 추정하지 않았다.",
+      "client": "공개 PC·H5 진입 HTML·메인 스크립트 네 파일의 바이트가 배포 전후 같았다. PC 첫/재진입은 121/21→106/21ms였다. WebKit은 두 빌드에서 ResizeObserver 경고를 기록했다. 해당 환경에서 변경 후 긴 프레임 3개(최대 62ms)가 관측됐으며, 매체별 단회 측정이다. 다섯 경로 모두 퇴장 후 쿠폰 폼·애니메이션·추가 요청이 0이었다. 설치 앱과 실기기 확인은 포함하지 않았다."
+    },
+    "server": {
+      "setup": "Isolated PGlite, actual coupon route, fixed 6 ms transport per SQL. First run is warm-up; eight matched different accounts follow. Not production network latency. Baseline is the shipped CNINEBOWL150 with identical rewards and 150 slots. After uses the new event. Both use the existing batch SQL.",
+      "roundTripMs": 6,
+      "before": {
+        "coldMs": 259.3,
+        "results": [
+          {
+            "ms": 229.9,
+            "queries": 15
+          },
+          {
+            "ms": 229.8,
+            "queries": 15
+          },
+          {
+            "ms": 231.5,
+            "queries": 15
+          },
+          {
+            "ms": 231.5,
+            "queries": 15
+          },
+          {
+            "ms": 230.4,
+            "queries": 15
+          },
+          {
+            "ms": 231.7,
+            "queries": 15
+          },
+          {
+            "ms": 231,
+            "queries": 15
+          },
+          {
+            "ms": 231,
+            "queries": 15
+          }
+        ],
+        "medianMs": 231,
+        "queries": 15
+      },
+      "after": {
+        "coldMs": 228.5,
+        "results": [
+          {
+            "ms": 233,
+            "queries": 15
+          },
+          {
+            "ms": 231.8,
+            "queries": 15
+          },
+          {
+            "ms": 233.1,
+            "queries": 15
+          },
+          {
+            "ms": 231.9,
+            "queries": 15
+          },
+          {
+            "ms": 231.7,
+            "queries": 15
+          },
+          {
+            "ms": 229.6,
+            "queries": 15
+          },
+          {
+            "ms": 229.9,
+            "queries": 15
+          },
+          {
+            "ms": 231.1,
+            "queries": 15
+          }
+        ],
+        "medianMs": 231.75,
+        "queries": 15
+      }
+    },
+    "staticComparison": {
+      "before": "3d7a06a9-c0d0-4d8d-8f24-fd5c33be87e1",
+      "after": "4b80dc8f-e2ba-41d1-8d3c-029ca5327682",
+      "files": [
+        {
+          "file": "index.html",
+          "bytes": 47041,
+          "sha256": "cc7419a7e5240f49701932400631018fa8214ba9d796bc6d3314bc40e77e19d2"
+        },
+        {
+          "file": "js/app.js",
+          "bytes": 826967,
+          "sha256": "da706007df47fd38c1657cac4e79a9cf35facd3d984203b4181a12331859a149"
+        },
+        {
+          "file": "onestore/index.html",
+          "bytes": 47165,
+          "sha256": "17f88e17147a65c59e00e41d9cac735f4eac5d8cb08eeb52eecb96ad3584c345"
+        },
+        {
+          "file": "onestore/js/app.js",
+          "bytes": 827879,
+          "sha256": "696daa08da7447fbc0a8106f3ff86596a2528d19ebef7938b387fc5b683f7776"
+        }
+      ]
+    },
+    "platforms": {
+      "pc": {
+        "before": {
+          "mode": "before",
+          "device": "pc",
+          "staticOrigin": "https://3d7a06a9.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 121,
+              "frames": {
+                "count": 50,
+                "p95Ms": 16.4,
+                "over50": 0,
+                "maxMs": 19.9
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 21,
+              "frames": {
+                "count": 49,
+                "p95Ms": 18.7,
+                "over50": 0,
+                "maxMs": 24.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 25.6,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.8,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1173
+        },
+        "after": {
+          "mode": "after",
+          "device": "pc",
+          "staticOrigin": "https://4b80dc8f.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 106,
+              "frames": {
+                "count": 151,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 12.6
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 21,
+              "frames": {
+                "count": 156,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.3
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 28.1,
+              "queries": 15,
+              "label": "씨나인 스타대회 출정기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1051
+        }
+      },
+      "android": {
+        "before": {
+          "mode": "before",
+          "device": "android",
+          "staticOrigin": "https://3d7a06a9.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 164,
+              "frames": {
+                "count": 132,
+                "p95Ms": 7.4,
+                "over50": 0,
+                "maxMs": 45.8
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 28,
+              "frames": {
+                "count": 152,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 12.4
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 38.3,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.6,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1637
+        },
+        "after": {
+          "mode": "after",
+          "device": "android",
+          "staticOrigin": "https://4b80dc8f.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 189,
+              "frames": {
+                "count": 145,
+                "p95Ms": 5.3,
+                "over50": 0,
+                "maxMs": 21.2
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 24,
+              "frames": {
+                "count": 148,
+                "p95Ms": 4.7,
+                "over50": 0,
+                "maxMs": 21
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 106.5,
+              "queries": 15,
+              "label": "씨나인 스타대회 출정기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 7,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1721
+        }
+      },
+      "ios": {
+        "before": {
+          "mode": "before",
+          "device": "ios",
+          "staticOrigin": "https://3d7a06a9.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 126,
+              "frames": {
+                "count": 36,
+                "p95Ms": 39,
+                "over50": 0,
+                "maxMs": 50
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 63,
+              "frames": {
+                "count": 33,
+                "p95Ms": 40,
+                "over50": 0,
+                "maxMs": 47
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 29.5,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 5.8,
+              "queries": 7
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldStartToLobbyMs": 1927
+        },
+        "after": {
+          "mode": "after",
+          "device": "ios",
+          "staticOrigin": "https://4b80dc8f.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 195,
+              "frames": {
+                "count": 32,
+                "p95Ms": 50,
+                "over50": 1,
+                "maxMs": 60
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 104,
+              "frames": {
+                "count": 31,
+                "p95Ms": 55,
+                "over50": 2,
+                "maxMs": 62
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 74.4,
+              "queries": 15,
+              "label": "씨나인 스타대회 출정기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 7.3,
+              "queries": 7
+            }
+          ],
+          "errors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ],
+          "coldStartToLobbyMs": 1831
+        }
+      },
+      "windows": {
+        "before": {
+          "mode": "before",
+          "device": "windows",
+          "staticOrigin": "https://3d7a06a9.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 142,
+              "frames": {
+                "count": 75,
+                "p95Ms": 12.9,
+                "over50": 2,
+                "maxMs": 141.7
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 29,
+              "frames": {
+                "count": 153,
+                "p95Ms": 4.4,
+                "over50": 0,
+                "maxMs": 16.8
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 39.2,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 7.2,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1376
+        },
+        "after": {
+          "mode": "after",
+          "device": "windows",
+          "staticOrigin": "https://4b80dc8f.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 167,
+              "frames": {
+                "count": 149,
+                "p95Ms": 4.5,
+                "over50": 0,
+                "maxMs": 16.7
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 24,
+              "frames": {
+                "count": 155,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 42,
+              "queries": 15,
+              "label": "씨나인 스타대회 출정기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 8.8,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "coldStartToLobbyMs": 1887
+        }
+      },
+      "h5": {
+        "before": {
+          "mode": "before",
+          "device": "h5",
+          "staticOrigin": "https://3d7a06a9.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 145,
+              "frames": {
+                "count": 140,
+                "p95Ms": 4.8,
+                "over50": 0,
+                "maxMs": 41.5
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 27,
+              "frames": {
+                "count": 152,
+                "p95Ms": 5.5,
+                "over50": 0,
+                "maxMs": 8.4
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 33.5,
+              "queries": 15,
+              "label": "씨나인 볼링대회 기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 7.6,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "hostIframe": true,
+          "coldStartToLobbyMs": 1652
+        },
+        "after": {
+          "mode": "after",
+          "device": "h5",
+          "staticOrigin": "https://4b80dc8f.cnine-card.pages.dev",
+          "conditions": "Shipped site on Windows; synthetic account and isolated local PGlite coupon route. No live account redemption.",
+          "rounds": [
+            {
+              "pass": "first",
+              "clickToEditableMs": 172,
+              "frames": {
+                "count": 149,
+                "p95Ms": 4.5,
+                "over50": 0,
+                "maxMs": 20.8
+              },
+              "feedback": "쿠폰 사용 완료! 코인 1,000조, 마스터의 별 10억 개, 아르덴 에너지 10개를 받았습니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            },
+            {
+              "pass": "re-entry",
+              "clickToEditableMs": 27,
+              "frames": {
+                "count": 150,
+                "p95Ms": 4.3,
+                "over50": 0,
+                "maxMs": 29.1
+              },
+              "feedback": "이미 사용한 쿠폰입니다.",
+              "exit": {
+                "forms": 0,
+                "animations": 0,
+                "newCouponRequests": 0
+              }
+            }
+          ],
+          "api": [
+            {
+              "status": 200,
+              "ms": 57.9,
+              "queries": 15,
+              "label": "씨나인 스타대회 출정기념 쿠폰",
+              "rewards": [
+                {
+                  "type": "COIN",
+                  "amount": 1000000000000000
+                },
+                {
+                  "type": "MASTER_STAR",
+                  "amount": 1000000000
+                },
+                {
+                  "type": "ARDEN_ENERGY",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "status": 409,
+              "ms": 6.8,
+              "queries": 7
+            }
+          ],
+          "errors": [],
+          "hostIframe": true,
+          "coldStartToLobbyMs": 1655
+        }
+      }
+    }
+  }
+}

@@ -21,9 +21,10 @@ test('large earned level gaps remove added grade bonuses without altering learne
  for(const code of SSS_LIMITED_COMBAT_CODES)for(const power of [100,250000,20000000]){
   const teams=[rankedTeam(code,1,'A',power),rankedTeam('V-058',21,'B',power)];
   applyMercenaryCombatLink(teams);const high=teams[0].at(-1),low=teams[1].at(-1);
-  assert.equal(high.mercenaryLink.tierGuard,1,code);assert.equal(high.mercenaryLink.tierOffense,1,code);
+  const exclusivePvp=['V-958','V-959','V-966','V-975','V-976'].includes(code);
+  assert.equal(high.mercenaryLink.tierGuard,1,code);assert.equal(high.mercenaryLink.tierOffense,exclusivePvp?1.3:1,code);
   assert.equal(high.mercenaryLink.rankGrowth,undefined);
-  assert.equal(mercenaryDamageCapHp(high),high.maxHp+high.mercenaryLink.openingShield);
+  assert.equal(mercenaryDamageCapHp(high),(high.maxHp+high.mercenaryLink.openingShield)/(exclusivePvp?6:1));
   assert.equal(low.mercenaryGrowth.total.attackPercent,1000);assert.equal(mercenaryGrowthBasicCapScale(low),Math.sqrt(11));assert.equal(mercenaryGrowthActionCredit([low]),.75);
   const once=structuredClone(teams);applyMercenaryCombatLink(teams);applyMercenaryRankGrowth(teams);assert.deepEqual(teams,once);
  }

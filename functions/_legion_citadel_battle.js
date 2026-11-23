@@ -30,7 +30,7 @@ export function citadelEnemies(tierId=FIRST_TIER,area=null){
  const forms=monsters.map((m,i)=>({...buildMonsterFighter(m),id:'B:T:'+i,slot:i,huntArtId:i,battleSprite:m.battleSprite,projectVMonsterArt:m.projectVMonsterArt,displayHeight:i===4?320:155,legionRegion:'CITADEL',legionRole:i===1?'SUPPORT':'ASSAULT'}));
  const initial=Array.from({length:CITADEL_ENEMY_CAPACITY},(_,slot)=>({...forms[slot%4],slot,id:'B:'+slot+':CITADEL'}));
  return {monster:monsters.at(-1),initial,pending:[],forms,encounter:{schemaVersion:1,initialIds:initial.map(f=>f.id),instances:initial.map(publicFighter)},
-  sustained:{barragePercent:tier.barragePercent,durationMs:c.huntDurationMs,continuousUntilMs:HUNT_DURATION_MS,regionId:'CITADEL',templates:forms.slice(0,4),finalBoss:{...forms[4],id:'B:4:CITADEL:BOSS',finalBoss:true}}};
+  sustained:{sharePartyTargetTies:area!==COW_AREA&&area!==DOCKYARD.id,barragePercent:tier.barragePercent,durationMs:c.huntDurationMs,continuousUntilMs:HUNT_DURATION_MS,regionId:'CITADEL',templates:forms.slice(0,4),finalBoss:{...forms[4],id:'B:4:CITADEL:BOSS',finalBoss:true}}};
 }
 export function buildCitadelBattle(squads,seed,tierId=FIRST_TIER,area=null){
  if(squads.length!==2||squads.some(s=>s.cards.length!==2||s.cards.some(c=>(c.grade||c.rarity)!=='ICON')||s.mercenaries.length!==2))throw Error('Invalid citadel squads');

@@ -10,7 +10,7 @@ export const PET_GROWTH_CAPS=Object.freeze(Object.fromEntries([
  ['A',['GILDED-DRAGON','WHITE-SPIRIT','PUMPKIN-BONGSOON','PUMPKIN-JOEUN','DAENGSORYONG']],
  ['S',['CRIMSON-DEMON']],
  ['SS',['HEUKGU','JJANGGU-HEEYA']],
- ['SSS',['BAZZI-BONGSOON','PEPEGU','SUDAL','DDUNG-JOEUN']]
+ ['SSS',['BAZZI-BONGSOON','PEPEGU','SUDAL','DDUNG-JOEUN','HEEYA-TOGETHER']]
 ].flatMap(([grade,codes])=>codes.map(code=>['PET-'+code,grade]))));
 // Saved growth contains grades, so existing and pending rolls receive these
 // effects without rerolling. Species buffs, caps, odds and costs are unchanged.

@@ -1,0 +1,52 @@
+{
+  "id": "new-hyperdrive",
+  "name": "뉴 하이퍼드라이브팩",
+  "generator": "ImageGen",
+  "prompts": [
+    {
+      "asset": "hangar",
+      "prompt": "Use case: stylized-concept. Create a polished original environment painting for the background of a 2.55:1 landscape rectangle in the Reverse Call game’s vehicle pack shop. A premium futuristic hyperdrive testing hangar, with dark charcoal and midnight-blue automotive bay architecture across the left 40 percent, and a large precision-engineered circular jump gate with teal-cyan and restrained hot-violet energy ring at the far right (center at 80 percent width). Brushed silver steel, cinematic LED strip lighting, black-glass track running from the foreground toward the gate, subtly reflective floor. Keep the central right (60–73 percent width) visually quiet enough for an independently composed tall product card. Wide horizontal establishing shot, straight verticals, crisp high-end detailed sci-fi game key art. Keep the top and bottom 15 percent expendable for panoramic cropping. The left side is dark and restrained for ordinary HTML text. Full-bleed scene only, no product box, no characters, no car, no interface, no letters, no logos, no watermarks. Landscape canvas, maximum wide framing.",
+      "transparent": false
+    },
+    {
+      "asset": "pack",
+      "prompt": "Use case: product-mockup. Generate the independent hero product cutout for an original Reverse Call game vehicle loot pack. A tall rectangular collectible pack card in a straight-on orthographic product photograph, centered, perfectly upright, flat front with only slight embossed depth, silhouette width:height about 0.60. Premium racing-inspired angular symmetrical outer frame, chamfered titanium corners, carbon-black and deep navy machinery, a thin continuous cyan energy seam and restrained violet secondary glows. In the center show the sharply recognizable front of a single original low-slung futuristic hypercar, sweeping cyan headlights, with restrained concentric jump-gate light behind it confined inside the card. Leave narrow solid dark inset branding plates at the very top and along the bottom, with no characters on them, so lettering can be added later. Fill about 85 percent of the canvas height, preserve all four corners with negative space. Actual 100 percent transparent canvas outside the product, no shadows or wisps extending outside the rectilinear card. Crisp premium realistic game-item rendering, clear hierarchy, symmetrical studio lighting. No text, no letters, no watermark, no second object. Portrait canvas.",
+      "transparent": true
+    },
+    {
+      "asset": "pack-labels",
+      "prompt": "Use case: text-localization. Image 1 is the final product artwork to edit. Make one change, filling the two empty dark title plaques on the same card. At the center of the upper plaque set exactly “REVERSE CALL” in small, tracked, metallic silver uppercase. At the center of the lower plaque set exactly “뉴 하이퍼드라이브팩” with precisely one space after 뉴, in bold clean white Korean sans-serif lettering. Fit the entire Korean title on one line with comfortable margins, using actual Hangul, crisp and very legible. No secondary tagline. Preserve the hypercar, steel frame, dimensions, margins, shape, colors and lighting. Preserve genuine transparency in all areas outside the card. Only the two dark plaques receive text, no other change.",
+      "transparent": true
+    }
+  ],
+  "outputs": [
+    {
+      "path": "pack-320.webp",
+      "width": 320,
+      "height": 529,
+      "bytes": 44170,
+      "sha256": "0528891dc8b920643dd232efcfb7bfcbe3d71a0d69d6c52cac677da8b403c38f"
+    },
+    {
+      "path": "pack-768.webp",
+      "width": 768,
+      "height": 1270,
+      "bytes": 173610,
+      "sha256": "89b4e528ba88c939d85438b6901ab4dd58a909426c2f80ec58c27225466db2ed"
+    },
+    {
+      "path": "hangar-wide.webp",
+      "width": 1920,
+      "height": 754,
+      "bytes": 157188,
+      "sha256": "181a32819716b20f38b7b0b69cf404d33259939bf0da163c937b81f8d1785174"
+    },
+    {
+      "path": "hangar-narrow.webp",
+      "width": 800,
+      "height": 604,
+      "bytes": 60044,
+      "sha256": "bd9473044967c06491d37c35eb1123043295683431d268e3332c59e6c6936d5c"
+    }
+  ]
+}

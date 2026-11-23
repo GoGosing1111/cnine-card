@@ -1,0 +1,1008 @@
+{
+  "변경": "일반 랭크전 챌린저 세트 승리 최소 8점",
+  "배포": {
+    "source": "745c5de2178dfa7d76f40fce6d0b49f16bbcf1ed",
+    "이전": "49c43fe39593b993873d20451afb7a4e42f6b9f6",
+    "운영완료": "2026-11-21 00:42:33 KST",
+    "확인": "2026-11-21 00:42:51 KST",
+    "pages": {
+      "id": "46dfdd20-dcb5-4a1d-aa27-5407a0a96d50",
+      "commit": "745c5de2178dfa7d76f40fce6d0b49f16bbcf1ed",
+      "status": "success"
+    },
+    "workers": [
+      {
+        "name": "cnine-card-api-runtime",
+        "deployments": [
+          {
+            "version_id": "e712e5cb-9ed8-4d59-abab-9efa69ec3f25",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "name": "cnine-card-clan-draft",
+        "deployments": [
+          {
+            "version_id": "c0296f2b-8c46-44cb-8724-007d534f9ddd",
+            "percentage": 100
+          }
+        ]
+      }
+    ],
+    "공개파일": [
+      {
+        "name": "shared/ranked-reform-v1.mjs",
+        "sha256": "0b459f6d8042a372e4bde3f021f3e5f7f47c45cef48952115e1226d9ab1a3e02",
+        "windows": true
+      },
+      {
+        "name": "shared/ranked-matchmaking-v2.mjs",
+        "sha256": "ba0327428a956e7926907735be35f12e0a06cfbcc2853485e4566643740c32af",
+        "windows": true
+      },
+      {
+        "name": "shared/martial-law-v1.mjs",
+        "sha256": "85ad690a1495ef90022b948d80c3d4afa5e533b9d10c8a2662b4e8466761dde9",
+        "windows": true
+      },
+      {
+        "name": "js/ranked-series-ui-v1.js",
+        "sha256": "9b86fb3f0d79334779e85ed86ebf61787367ca95084a9be76588ad720ca3147a",
+        "windows": true
+      },
+      {
+        "name": "index.html",
+        "sha256": "ecf561cbb167b0e5b3acfa944b38aaa7628b1b3d6255b05724b2fae18ae61b6f",
+        "windows": true
+      },
+      {
+        "name": "onestore/index.html",
+        "sha256": "96a491300ebe5e99578074c91ae64db661598bf22da5707b9a450ed9a7eb5541",
+        "windows": false
+      }
+    ],
+    "Windows배포": "a52e1f100e6689414d376cf0c0c4099b97ee51f6c1183b8cdf5ffb19c81062f2",
+    "서버버전서명": [
+      "challengerWinFloor",
+      "seriesScore",
+      "keepPromotionRetry",
+      "catchUpWinPoints"
+    ],
+    "API번들SHA256": "099fafbe4b72e840a57ca796be634e220ecd41aa2d9d8bb94d76101972ab8df7"
+  },
+  "규칙": {
+    "대상": "새로 발급한 일반 랭크전 매칭권의 도전자와 방어자 모두 챌린저일 때, 직접 도전한 플레이어가 세트를 이기면 시즌 점수가 최소 8점 오른다. 점수 차와 챌린저 내 순위에 관계없이 적용한다.",
+    "정산": "0~7점은 8점, 기존 8점 이상은 동일 점수. 기본 승점이 0점이고 기존 추격 조건을 모두 충족한 경기는 총 12점. 새 매칭권에 서버가 수치를 보관하고 경기 전 예상 점수·재접속·정산·영수증에 반영한다. 업데이트 전 매칭권과 완료 기록은 원래 조건을 사용한다.",
+    "승급": "승급전 진입, 승급 진행 중과 마지막 승리도 최소 8점을 즉시 반영한다. 5전 3선승과 실패 시 안내된 재도전 점수는 유지된다. 보장 점수로 올라간 최고 기록이 실패한 승급전을 자동 통과시키지 않으며 기존·새 매칭권을 번갈아도 승패 수와 자격을 보존한다.",
+    "기타": "통상 패배 산식, 방어 점수, 상대 추첨, 행동력과 다른 모드는 기존 규칙을 따른다."
+  },
+  "운영표본": {
+    "시각": "2026-11-21 00:34:22 KST",
+    "계정": "깅더듬",
+    "점수": 4145,
+    "편성검증": 145,
+    "챌린저상대": 19,
+    "상대별비교": {
+      "before": {
+        "opponents": [
+          {
+            "rank": 2,
+            "score": 4102,
+            "win": 21,
+            "loss": 27
+          },
+          {
+            "rank": 3,
+            "score": 3854,
+            "win": 8,
+            "loss": 40
+          },
+          {
+            "rank": 4,
+            "score": 2617,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 5,
+            "score": 2458,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 6,
+            "score": 1796,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 7,
+            "score": 1693,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 8,
+            "score": 1613,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 9,
+            "score": 1587,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 10,
+            "score": 1567,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 11,
+            "score": 1500,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 12,
+            "score": 1478,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 13,
+            "score": 1471,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 14,
+            "score": 1450,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 15,
+            "score": 1443,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 16,
+            "score": 1426,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 17,
+            "score": 1413,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 18,
+            "score": 1407,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 19,
+            "score": 1355,
+            "win": 0,
+            "loss": 48
+          },
+          {
+            "rank": 20,
+            "score": 1354,
+            "win": 0,
+            "loss": 48
+          }
+        ],
+        "zeroWins": 17,
+        "catchUp": 12,
+        "singleChallenger": 0,
+        "qualification": 0
+      },
+      "after": {
+        "opponents": [
+          {
+            "rank": 2,
+            "score": 4102,
+            "win": 21,
+            "loss": 27
+          },
+          {
+            "rank": 3,
+            "score": 3854,
+            "win": 8,
+            "loss": 40
+          },
+          {
+            "rank": 4,
+            "score": 2617,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 5,
+            "score": 2458,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 6,
+            "score": 1796,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 7,
+            "score": 1693,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 8,
+            "score": 1613,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 9,
+            "score": 1587,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 10,
+            "score": 1567,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 11,
+            "score": 1500,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 12,
+            "score": 1478,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 13,
+            "score": 1471,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 14,
+            "score": 1450,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 15,
+            "score": 1443,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 16,
+            "score": 1426,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 17,
+            "score": 1413,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 18,
+            "score": 1407,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 19,
+            "score": 1355,
+            "win": 8,
+            "loss": 48
+          },
+          {
+            "rank": 20,
+            "score": 1354,
+            "win": 8,
+            "loss": 48
+          }
+        ],
+        "zeroWins": 0,
+        "catchUp": 12,
+        "singleChallenger": 0,
+        "qualification": 8
+      }
+    },
+    "배포후자연발생표본": {
+      "checked": "2026-11-20T15:42:49.887Z",
+      "since": "2026-11-20T15:42:33.948Z",
+      "leader": {
+        "nickname": "깅더듬",
+        "score": 4145
+      },
+      "second": 4102,
+      "third": 3854,
+      "activeSample": [],
+      "description": "최신 챌린저별 매칭권 중 전체 배포 이후 새로 생긴 챌린저 대결만 확인함"
+    },
+    "운영시험경기": 0,
+    "운영계정직접지급": 0
+  },
+  "검증": {
+    "배포관련통과": 89,
+    "DB": "SQLite 및 PostgreSQL 호환 PGlite",
+    "확인": [
+      "원래 0·1·7·8·21·24·48점과 추격 12점",
+      "두 챌린저/한 명만 챌린저, 1위와 20위, 21위와 기존 매칭권",
+      "예상·새 매칭·재접속·승리/패배 정산·방어자 점수·중복 영수증",
+      "승급선 진입·승리 직후 점수·재접속·승패 혼합·3패 후 재도전·3승 승급·원장 실패 원복",
+      "공개 승점 모듈로 운영 스냅샷 재현, 두 Worker 100%, 공개 웹/H5 진입 문서와 Windows 매니페스트 바이트 검증"
+    ]
+  },
+  "성능": {
+    "서버": "Windows CLI, 같은 운영 PostgreSQL 읽기 전용 스냅샷을 사용해 매칭권 발급 함수의 실제 편성 조회를 관찰했다. 쓰기와 상대 공개는 격리했다. 동일 난수로 1위 대 13위가 나오는 첫 요청과 반복 요청을 각각 한 번 측정했다.",
+    "측정": [
+      {
+        "label": "before",
+        "visit": 0,
+        "ms": 2390,
+        "sql": 29,
+        "rank": 13,
+        "expectedWin": 0,
+        "expectedLoss": 48
+      },
+      {
+        "label": "before",
+        "visit": 1,
+        "ms": 2374,
+        "sql": 29,
+        "rank": 13,
+        "expectedWin": 0,
+        "expectedLoss": 48
+      },
+      {
+        "label": "after",
+        "visit": 0,
+        "ms": 2426,
+        "sql": 29,
+        "rank": 13,
+        "expectedWin": 8,
+        "expectedLoss": 48
+      },
+      {
+        "label": "after",
+        "visit": 1,
+        "ms": 2333,
+        "sql": 29,
+        "rank": 13,
+        "expectedWin": 8,
+        "expectedLoss": 48
+      }
+    ],
+    "병목": "편성의 DB 조회와 네트워크 왕복이 주요 대기다. 승점 보장은 기존 매칭권 JSON과 점수 정산 거래를 재사용해 네 측정 모두 SQL 29회였다.",
+    "화면": "Windows headless에서 PC Chrome, Android 터치, iOS WebKit, Windows URL, H5 iframe을 에뮬레이션했다. 공개 로비 → 전체 메뉴 → 랭크전 → 매칭 → 상대 공개 → 전투 진입 경계. 확인 대상 점수 스크립트만 이전/신규 버전으로 매핑했다. API는 25ms 지연의 격리 응답. 첫 입장 1위 대 4위, 재입장 승급전 1승 직후. 두 시점에 조작 가능한 시간·상대 표시 시간·프레임 간격과 퇴장 후 잔여 작업을 기록했다.",
+    "표본": [
+      {
+        "platform": "desktop",
+        "phase": "before",
+        "launchMs": 1479,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 202,
+            "visibleMs": 72,
+            "quote": {
+              "rank": 4,
+              "win": 0,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 57,
+              "p50": 4.199999999999818,
+              "p95": 74.90000000000009,
+              "max": 124.90000000000009,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 287,
+            "visibleMs": 72,
+            "quote": {
+              "rank": 5,
+              "win": 0,
+              "loss": 0,
+              "score": 1499,
+              "active": true
+            },
+            "frames": {
+              "count": 120,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 16.800000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "desktop",
+        "phase": "after",
+        "launchMs": 3060,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 196,
+            "visibleMs": 83,
+            "quote": {
+              "rank": 4,
+              "win": 8,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 74,
+              "p50": 4.199999999999818,
+              "p95": 33.30000000000018,
+              "max": 79.19999999999982,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 305,
+            "visibleMs": 71,
+            "quote": {
+              "rank": 5,
+              "win": 8,
+              "loss": 0,
+              "score": 1507,
+              "active": true
+            },
+            "frames": {
+              "count": 121,
+              "p50": 4.199999999998909,
+              "p95": 4.299999999999272,
+              "max": 12.600000000000364,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "android",
+        "phase": "before",
+        "launchMs": 1885,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 228,
+            "visibleMs": 82,
+            "quote": {
+              "rank": 4,
+              "win": 0,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 91,
+              "p50": 4.199999999999818,
+              "p95": 16.700000000000273,
+              "max": 95.80000000000018,
+              "over50": 1
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 84,
+            "visibleMs": 63,
+            "quote": {
+              "rank": 5,
+              "win": 0,
+              "loss": 0,
+              "score": 1499,
+              "active": true
+            },
+            "frames": {
+              "count": 116,
+              "p50": 4.200000000000728,
+              "p95": 4.299999999999272,
+              "max": 25,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "android",
+        "phase": "after",
+        "launchMs": 1688,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 168,
+            "visibleMs": 95,
+            "quote": {
+              "rank": 4,
+              "win": 8,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 126,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 20.800000000000182,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 118,
+            "visibleMs": 62,
+            "quote": {
+              "rank": 5,
+              "win": 8,
+              "loss": 0,
+              "score": 1507,
+              "active": true
+            },
+            "frames": {
+              "count": 92,
+              "p50": 4.199999999999818,
+              "p95": 16.600000000000364,
+              "max": 37.600000000000364,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "ios",
+        "phase": "before",
+        "launchMs": 1461,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 139,
+            "visibleMs": 225,
+            "quote": {
+              "rank": 4,
+              "win": 0,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 17,
+              "p50": 16,
+              "p95": 529,
+              "max": 529,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 74,
+            "visibleMs": 239,
+            "quote": {
+              "rank": 5,
+              "win": 0,
+              "loss": 0,
+              "score": 1499,
+              "active": true
+            },
+            "frames": {
+              "count": 17,
+              "p50": 16,
+              "p95": 292,
+              "max": 292,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 1,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "platform": "ios",
+        "phase": "after",
+        "launchMs": 1517,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 140,
+            "visibleMs": 230,
+            "quote": {
+              "rank": 4,
+              "win": 8,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 2,
+              "p50": 318,
+              "p95": 318,
+              "max": 318,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 77,
+            "visibleMs": 185,
+            "quote": {
+              "rank": 5,
+              "win": 8,
+              "loss": 0,
+              "score": 1507,
+              "active": true
+            },
+            "frames": {
+              "count": 14,
+              "p50": 16,
+              "p95": 279,
+              "max": 279,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 1,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": [
+          "ResizeObserver loop completed with undelivered notifications."
+        ]
+      },
+      {
+        "platform": "windows",
+        "phase": "before",
+        "launchMs": 1949,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 151,
+            "visibleMs": 75,
+            "quote": {
+              "rank": 4,
+              "win": 0,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 66,
+              "p50": 4.199999999999818,
+              "p95": 33.233999999999924,
+              "max": 91.70000000000027,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 108,
+            "visibleMs": 68,
+            "quote": {
+              "rank": 5,
+              "win": 0,
+              "loss": 0,
+              "score": 1499,
+              "active": true
+            },
+            "frames": {
+              "count": 119,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 16.600000000000364,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "windows",
+        "phase": "after",
+        "launchMs": 2328,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 192,
+            "visibleMs": 72,
+            "quote": {
+              "rank": 4,
+              "win": 8,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 36,
+              "p50": 4.199999999999818,
+              "p95": 99.90000000000009,
+              "max": 125,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 120,
+            "visibleMs": 77,
+            "quote": {
+              "rank": 5,
+              "win": 8,
+              "loss": 0,
+              "score": 1507,
+              "active": true
+            },
+            "frames": {
+              "count": 108,
+              "p50": 4.199999999999818,
+              "p95": 8.399999999999636,
+              "max": 33.399999999999636,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "h5",
+        "phase": "before",
+        "launchMs": 1338,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 305,
+            "visibleMs": 68,
+            "quote": {
+              "rank": 4,
+              "win": 0,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 63,
+              "p50": 4.199999999999818,
+              "p95": 45.80000000000018,
+              "max": 120.80000000000018,
+              "over50": 3
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 74,
+            "visibleMs": 69,
+            "quote": {
+              "rank": 5,
+              "win": 0,
+              "loss": 0,
+              "score": 1499,
+              "active": true
+            },
+            "frames": {
+              "count": 107,
+              "p50": 4.199999999999818,
+              "p95": 12.399999999999636,
+              "max": 20.900000000000546,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "platform": "h5",
+        "phase": "after",
+        "launchMs": 1302,
+        "visits": [
+          {
+            "visit": 0,
+            "readyMs": 207,
+            "visibleMs": 254,
+            "quote": {
+              "rank": 4,
+              "win": 8,
+              "loss": 48,
+              "score": 4145,
+              "active": false
+            },
+            "frames": {
+              "count": 105,
+              "p50": 4.199999999999818,
+              "p95": 8.300000000000182,
+              "max": 154.30000000000018,
+              "over50": 2
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          },
+          {
+            "visit": 1,
+            "readyMs": 69,
+            "visibleMs": 69,
+            "quote": {
+              "rank": 5,
+              "win": 8,
+              "loss": 0,
+              "score": 1507,
+              "active": true
+            },
+            "frames": {
+              "count": 120,
+              "p50": 4.199999999999818,
+              "p95": 4.300000000000182,
+              "max": 16.599999999999454,
+              "over50": 0
+            },
+            "exit": {
+              "extraRankedReads": 0,
+              "startupReads": 0,
+              "extraMatches": 0,
+              "previews": 0,
+              "battleCanvases": 0
+            }
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "관찰": "모든 화면에서 공개된 점수와 승급 점수 표기가 맞았다. 퇴장 후 랭크전 요청·추가 매칭·상대창·전투 캔버스는 0건이다. WebKit에서 기존 ResizeObserver 경고와 긴 프레임이 발생했다. 각 조건 1회 에뮬레이션으로 실기기 성능 또는 속도 개선을 단정하지 않는다."
+  }
+}

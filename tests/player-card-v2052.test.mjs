@@ -143,10 +143,17 @@ test('existing trophies and first dates are preserved; manual grants validate on
 test('city and Lich milestones share permanent counts, earned date and collection honors; the public card remains read-only',async()=>{
  const f=await fixture();try{
   const at='2026-10-11T03:00:00.000Z';
-  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2),($3,$4)',['trophy_city_top_v1:2',JSON.stringify({count:25,acquiredAt:at}),'trophy_lich_clear_v1:2',JSON.stringify({count:999,acquiredAt:null})]);
-  const before=await f.call();assert.equal(trophy(before,'CITY_TOP_25').owned,true);assert.equal(trophy(before,'CITY_TOP_25').acquiredAt,at);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').owned,false);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').progress,999);
+  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2),($3,$4)',['trophy_city_top_v1:2',JSON.stringify({count:25,acquiredAt:at}),'trophy_lich_clear_v1:2',JSON.stringify({count:199,acquiredAt:null})]);
+  const before=await f.call();assert.equal(trophy(before,'CITY_TOP_25').owned,true);assert.equal(trophy(before,'CITY_TOP_25').acquiredAt,at);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').owned,false);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').progress,199);
+  await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:275,acquiredAt:null}),'trophy_lich_clear_v1:2']);
+  const retro=trophy(await f.call(),'LICH_KING_CLEAR_1000');
+  assert.deepEqual([retro.owned,retro.progress,retro.goal,retro.acquiredAt],[true,275,200,null]);
+  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',['trophy_nox_clear_v1:2',JSON.stringify({count:30,acquiredAt:at})]);
   await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:1001,acquiredAt:at}),'trophy_lich_clear_v1:2']);
   const after=await f.call(),honors=await readTrophyHonors({DB:f.db},2);assert.equal(trophy(after,'LICH_KING_CLEAR_1000').count,1);assert.equal(honors.LICH_KING_CLEAR_1000.progress,1001);assert.equal(honors.CITY_TOP_25.count,1);assert.equal(trophy(await f.call('userId=3'),'CITY_TOP_25').owned,false);
+  assert.equal(trophy(after,'LICH_KING_CLEAR_1000').acquiredAt,at);
+  assert.deepEqual(honors.NOX_CLEAR_30,{count:1,progress:30,goal:30,acquiredAt:at});
+  assert.equal(trophy(after,'NOX_CLEAR_30').owned,true);assert.equal(trophy(await f.call('userId=3'),'NOX_CLEAR_30').owned,false);
   assert.ok(f.sql.every(s=>/^\s*(SELECT|WITH)\b/i.test(s)));
  }finally{await f.close();}
 });
@@ -379,7 +386,7 @@ test('live Hi Heeya and Cheon portrait paths render without widening trophy imag
         assert.match(html,/class="pc-portrait"/);assert.doesNotMatch(html,/class="pc-monogram"/);
         assert.ok(html.includes(`src="/${path}`),name);
       }
-      const metadata=await sharpCommittedAsset(new URL('../'+path,import.meta.url).pathname.replace(/^\/(?=[A-Z]:)/,'')).metadata();
+      const metadata=await sharpCommittedAsset(new URL('../'+path,import.meta.url)).metadata();
       assert.equal(metadata.format,'webp');assert.ok(metadata.width>=640);
     }
     async function pgAvatar(code,name,path) {
@@ -423,9 +430,9 @@ test('live connections use exact user IDs; FX remains lazy, cancellable and non-
 });
 test('all trophy assets are real transparent production assets with preserved high-resolution originals', async () => {
   for(const t of TROPHY_CATALOG) {
-    const path=new URL('..'+t.art,import.meta.url),meta=await sharpCommittedAsset(path.pathname.replace(/^\/(?=[A-Z]:)/,'' )).metadata();
+    const path=new URL('..'+t.art,import.meta.url),meta=await sharpCommittedAsset(path).metadata();
     assert.equal(meta.width,512); assert.equal(meta.height,512); assert.equal(meta.hasAlpha,true);
-    const file=new URL('..'+t.art.replace('.webp','.png'),import.meta.url),src=sharpCommittedAsset(file.pathname.replace(/^\/(?=[A-Z]:)/,''));
+    const file=new URL('..'+t.art.replace('.webp','.png'),import.meta.url),src=sharpCommittedAsset(file);
     const original=await src.metadata(); assert.ok(original.width>=1024); const {data}=await src.ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let transparent=0,opaque=0;for(let i=3;i<data.length;i+=4){if(data[i]===0)transparent++;if(data[i]>=250)opaque++;}assert.ok(transparent>100000);assert.ok(opaque>100000,'at least 98% opacity through the trophy body');
   }

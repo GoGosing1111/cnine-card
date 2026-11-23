@@ -26,7 +26,7 @@ export function mountPetCodexGrowth(root,{growth,request,review=false}){
   if(locked||disposed)return;lock(true);
   try{
    growth.adapter.invalidate?.();
-   const [next,portraits]=await Promise.all([request(review?'admin/pets/equipment/codex':'pets/v1/codex',{signal:controller.signal}),growth.live?fetch('/assets/ui/pets/rework-20261114/codex-v3/pets.json?v=20261116-ddung-joeun',{signal:controller.signal}).then(r=>r.json()):null,growth.live?growth.adapter.read():null]);if(disposed)return;
+   const [next,portraits]=await Promise.all([request(review?'admin/pets/equipment/codex':'pets/v1/codex',{signal:controller.signal}),growth.live?fetch('/assets/ui/pets/rework-20261114/codex-v3/pets.json?v=20261120-heeya-together',{signal:controller.signal}).then(r=>r.json()):null,growth.live?growth.adapter.read():null]);if(disposed)return;
    if(portraits)for(const row of next.cards)Object.assign(row,portraits[row.code]||{});
    if(growth.live)next.cards=next.cards.filter(row=>row.sourceArt&&row.growthCap);
    model=next;$('[data-pc-count]').textContent=next.ownedCount+' / '+next.cards.length+'종';

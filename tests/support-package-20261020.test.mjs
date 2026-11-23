@@ -24,7 +24,7 @@ for(const postgres of [false,true]){
    const beforePass=await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2');
    const rid=crypto.randomUUID(),paid=await f.process(order,'FULFILL',rid);assert.equal(paid.status,200,JSON.stringify(paid.body));assert.equal(paid.body.order.status,'FULFILLED');
    assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),1500000000001234);
-   for(const i of SUPPORT_PACKAGE.items){const owned=await f.one('SELECT * FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',i.code);assert.equal(Number(owned.quantity),i.quantity);assert.equal(Number(owned.unseen_quantity),i.quantity);}
+   for(const i of SUPPORT_PACKAGE.items){const owned=await f.one('SELECT * FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',i.code);const expected=i.quantity+(i.code==='MASTER_STAR'?5_000_000_000:0);assert.equal(Number(owned.quantity),expected);assert.equal(Number(owned.unseen_quantity),expected);}
    assert.equal((await f.process(order,'FULFILL',rid)).body.replayed,true);assert.equal((await f.process(order)).status,409);
    assert.equal((await f.process(order,'REJECT',rid)).status,409);
    assert.equal((await f.one('SELECT value FROM app_meta WHERE key=?','server_support_v1:2')).value,beforePass.value);

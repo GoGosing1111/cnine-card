@@ -1,7 +1,7 @@
 @font-face{font-family:NoxTitle;src:url('/assets/fonts/clan-camp/BlackHanSans-Regular.ttf') format('truetype');font-display:swap}
 :root{color-scheme:dark;--nox-ink:#0c080b;--nox-red:#ff535a;--nox-fg:#fff3ee;--nox-muted:#d5b7b5;--nox-metal:url('/assets/ui/raid-nox-v1/panel.webp');--nox-button:url('/assets/ui/raid-nox-v1/button.webp')}
 *{box-sizing:border-box}body{margin:0;background:var(--nox-ink);color:var(--nox-fg);font-family:'Malgun Gothic',system-ui,sans-serif;font-size:15px;overflow-x:hidden}body.in-combat{overflow:hidden}button,input,select{font:inherit}button{cursor:pointer;color:inherit}button:disabled{cursor:not-allowed;opacity:.5}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #ffbfad;outline-offset:3px}button,input{touch-action:manipulation}input{color:var(--nox-fg);background:#160e12;border:1px solid #86605e;padding:10px 12px;min-width:0;caret-color:var(--nox-red);border-radius:3px}::selection{background:#a72439;color:white}::-webkit-scrollbar{width:7px}::-webkit-scrollbar-thumb{background:#815053}a{color:inherit;text-underline-offset:4px}[hidden]{display:none!important}
-.nox-lobby{position:relative;min-height:100vh;min-height:100dvh;isolation:isolate;padding:0 5vw 24px;overflow:hidden}.nox-keyart{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 35%;z-index:-2}.nox-lobby:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#0c080bf5 0%,#0c080bc7 34%,#0c080b10 70%)}.nox-lobby-top{height:70px;display:flex;align-items:center;justify-content:space-between}.nox-brand{font-weight:800;text-decoration:none;font-size:18px}.nox-brand span{font-size:14px;color:var(--nox-muted);margin-left:12px}.nox-lobby-content{width:min(540px,49vw);padding-top:20px}.nox-lobby h1{font:clamp(46px,5.6vw,82px)/1.08 NoxTitle,sans-serif;margin:0 0 12px;letter-spacing:-.025em;text-wrap:balance}.nox-boss-name{font-size:21px;font-weight:700;color:#ff9e94;margin:8px 0 16px}.nox-intro{color:var(--nox-muted);line-height:1.7;margin:0 0 20px}.nox-difficulty{display:flex;align-items:center;gap:18px;margin:12px 0 20px}.nox-difficulty strong{color:#ffac8e}.nox-difficulty span{font-size:13px}.nox-console{background-image:var(--nox-metal);background-size:100% 100%;padding:24px 26px 26px}.nox-size{border:0;padding:0;margin:0 0 15px;display:flex;gap:12px}.nox-size legend{font-size:14px;margin-bottom:9px}.nox-size label{display:flex;align-items:center;gap:8px;flex:1;cursor:pointer}.nox-size input{accent-color:#ff535a;width:18px;height:18px}.nox-size span{font-weight:700}.nox-size small{display:block;margin-top:4px;color:var(--nox-muted);font-size:11px;font-weight:400}.nox-field{display:flex;align-items:center;gap:12px;font-size:13px;margin-bottom:12px}.nox-field input{flex:1;width:100%}.nox-practice{display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap;margin-bottom:12px}.nox-practice small{font-size:11px;color:var(--nox-muted);margin-left:24px}.nox-practice input{accent-color:#ff535a}.nox-button{background:var(--nox-button) center/100% 100% no-repeat;border:0;min-height:52px;padding:13px 24px;font-weight:700}.nox-primary{width:100%;color:#fff5e9;text-shadow:0 1px 2px #000}.nox-button:hover:not(:disabled){filter:brightness(1.25)}.nox-quiet{padding:9px 12px;background:#1c1018bb;border:1px solid #77565b;border-radius:3px;white-space:nowrap;font-size:13px}.nox-quiet:hover{background:#54202a}.nox-join{display:flex;gap:7px;margin-top:12px}.nox-join input{width:0;flex:1}.nox-join .nox-button{min-height:42px;padding:8px 22px}.nox-deck{margin-top:16px;max-width:100%}.nox-deck summary{cursor:pointer;font-size:14px}.nox-deck summary span{color:var(--nox-muted);margin-left:10px}.nox-deck p,.nox-review-note{color:var(--nox-muted);font-size:12px;line-height:1.5}.nox-review-note{margin:16px 0 0}.nox-deck #deckList{display:flex;gap:8px;margin-top:12px}.nox-deck figure{margin:0;min-width:0;flex:1}.nox-deck img{width:100%;aspect-ratio:3/4;object-fit:cover}.nox-deck figcaption{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}.nox-code{display:flex;align-items:center;gap:12px;font-size:13px}.nox-code strong{letter-spacing:.07em;font-size:18px}.nox-code button{margin-left:auto}#memberList{padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:17px 0}#memberList li{font-size:13px;border-bottom:1px solid #744d4c;padding-bottom:8px}#memberList span{display:block;font-size:11px;color:var(--nox-muted);margin-top:4px}#prepareStatus{font-size:13px;color:#ffd2b9;line-height:1.5}.nox-assembly-actions{display:flex;flex-wrap:wrap;gap:8px}
+.nox-lobby{position:relative;min-height:100vh;min-height:100dvh;isolation:isolate;padding:0 5vw 24px;overflow:hidden}.nox-keyart{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 35%;z-index:-2}.nox-lobby:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#0c080bf5 0%,#0c080bc7 34%,#0c080b10 70%)}.nox-lobby-top{height:70px;display:flex;align-items:center;justify-content:space-between}.nox-brand{font-weight:800;text-decoration:none;font-size:18px}.nox-brand span{font-size:14px;color:var(--nox-muted);margin-left:12px}.nox-lobby-content{width:min(540px,49vw);padding-top:20px}.nox-lobby h1{font:clamp(46px,5.6vw,82px)/1.08 NoxTitle,sans-serif;margin:0 0 12px;letter-spacing:-.025em;text-wrap:balance}.nox-boss-name{font-size:21px;font-weight:700;color:#ff9e94;margin:8px 0 16px}.nox-intro{color:var(--nox-muted);line-height:1.7;margin:0 0 20px}.nox-difficulty{display:flex;align-items:center;gap:18px;margin:12px 0 20px}.nox-difficulty strong{color:#ffac8e}.nox-difficulty span{font-size:13px}.nox-console{background-image:var(--nox-metal);background-size:100% 100%;padding:24px 26px 26px}.nox-size{border:0;padding:0;margin:0 0 15px;display:flex;gap:12px}.nox-size legend{font-size:14px;margin-bottom:9px}.nox-size label{display:flex;align-items:center;gap:8px;flex:1;cursor:pointer}.nox-size input{accent-color:#ff535a;width:18px;height:18px}.nox-size span{font-weight:700}.nox-size small{display:block;margin-top:4px;color:var(--nox-muted);font-size:11px;font-weight:400}.nox-field{display:flex;align-items:center;gap:12px;font-size:13px;margin-bottom:12px}.nox-field input{flex:1;width:100%}.nox-practice{display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap;margin-bottom:12px}.nox-practice small{font-size:11px;color:var(--nox-muted);margin-left:24px}.nox-practice input{accent-color:#ff535a}.nox-button{background:var(--nox-button) center/100% 100% no-repeat;border:0;min-height:52px;padding:13px 24px;font-weight:700}.nox-primary{width:100%;color:#fff5e9;text-shadow:0 1px 2px #000}.nox-button:hover:not(:disabled){filter:brightness(1.25)}.nox-quiet{padding:9px 12px;background:#1c1018bb;border:1px solid #77565b;border-radius:3px;white-space:nowrap;font-size:13px}.nox-quiet:hover{background:#54202a}.nox-deck{margin-top:16px;max-width:100%}.nox-deck summary{cursor:pointer;font-size:14px}.nox-deck summary span{color:var(--nox-muted);margin-left:10px}.nox-deck p,.nox-review-note{color:var(--nox-muted);font-size:12px;line-height:1.5}.nox-review-note{margin:16px 0 0}.nox-deck #deckList{display:flex;gap:8px;margin-top:12px}.nox-deck figure{margin:0;min-width:0;flex:1}.nox-deck img{width:100%;aspect-ratio:3/4;object-fit:cover}.nox-deck figcaption{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}#memberList{padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:17px 0}#memberList li{font-size:13px;border-bottom:1px solid #744d4c;padding-bottom:8px}#memberList span{display:block;font-size:11px;color:var(--nox-muted);margin-top:4px}#prepareStatus{font-size:13px;color:#ffd2b9;line-height:1.5}.nox-assembly-actions{display:flex;flex-wrap:wrap;gap:8px}
 .nox-combat{height:100vh;height:100dvh;display:grid;grid-template-rows:52px 110px minmax(0,1fr);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);background:#09070a}.nox-toolbar{display:flex;align-items:center;gap:10px;padding:4px 18px;background:#130b10}.nox-toolbar>div{display:flex;gap:20px;align-items:center;margin-right:auto}.nox-toolbar strong{font-size:17px}.nox-toolbar span{font-size:13px;color:var(--nox-muted)}.nox-toolbar time{font-size:20px;font-variant-numeric:tabular-nums;color:#ffb7a4;margin-right:10px}.nox-raid-hud{display:flex;gap:24px;padding:10px 20px;background:#100b10}.nox-boss-health{width:31%;min-width:200px;align-self:center}.nox-boss-health>div:first-child{display:flex;justify-content:space-between;font-size:13px;gap:6px}.nox-gauge{position:relative;height:40px;background:url('/assets/ui/raid-nox-v1/gauge.webp') center/100% 100% no-repeat;isolation:isolate;margin-top:5px}.nox-gauge-fill,.nox-gauge-trail{position:absolute;left:11%;top:35%;height:28%;width:78%;transform:scaleX(var(--hp,1));transform-origin:left;background:linear-gradient(#fff3d7 0%,#ff8790 15%,#b31136 53%,#e8324d 81%,#640b23 100%);box-shadow:inset 0 -2px 3px #3b0613;transition:transform .12s linear}.nox-gauge-trail{background:#ffcc9d;transition:transform .65s .15s ease-out}.nox-party{flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 12px;min-width:0}.nox-member{min-width:0}.nox-member>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:11px}.nox-member strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nox-member span{color:var(--nox-muted);font-size:11px;white-space:nowrap}.nox-member .nox-gauge{height:22px;margin:0}.nox-member.is-me strong{color:#ffc8a4}.nox-member.is-dead{opacity:.5}.nox-battle-pane{position:relative;min-height:0;overflow:hidden}.nox-battle-pane #battleMount{position:relative!important;inset:auto!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;padding:0!important;z-index:0!important;overflow:hidden!important}.nox-battle-pane #battleMount>.battle-stage{height:100%!important;min-height:0!important}
 .nox-mechanic-layer{position:absolute;inset:0;z-index:12;pointer-events:none;overflow:hidden;font-family:'Malgun Gothic',system-ui,sans-serif}.nox-mechanic-title{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:max-content;max-width:95%;text-align:center;text-shadow:0 2px 4px #000;background:#10080bdf;padding:7px 25px;border-radius:4px}.nox-mechanic-title h2{font-size:20px;margin:0;color:#ffbca9}.nox-mechanic-title p{font-size:13px;margin:4px 0}.nox-mechanic-title>strong{font-size:18px;color:#fff3df;font-variant-numeric:tabular-nums}.nox-rhythm{position:absolute;top:99px;bottom:10px;left:5%;width:min(390px,42%);display:flex;flex-direction:column;pointer-events:auto}.nox-chart{flex:1;min-height:80px;position:relative;background:#100c17eb;border:2px solid #7e454d;overflow:hidden}.nox-chart-columns{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr)}.nox-chart-columns i{border-right:1px solid #b56c7040;background:linear-gradient(0deg,#7c1c3822,transparent)}.nox-hit-line{position:absolute;left:0;right:0;bottom:17px;height:3px;background:#fff1b8;box-shadow:0 3px 8px #000}.nox-note{position:absolute;top:0;left:calc(var(--lane)*25% + 2%);width:21%;height:12px;background:linear-gradient(#fff5dc,#ff5e79 30%,#9a163d 75%,#fff0be);border-radius:2px;will-change:transform;box-shadow:0 2px 4px #000}.nox-note:nth-child(4n+2),.nox-note:nth-child(4n+3){background:linear-gradient(#fffad9,#d6b39b 30%,#965c63 75%,#fff0be)}#judgement{position:absolute;left:0;right:0;top:20%;text-align:center;font:bold clamp(20px,3vw,36px) NoxTitle,sans-serif;color:#fff3bd;text-shadow:0 3px 5px #000;pointer-events:none}#rhythmScore{position:absolute;top:8px;left:10px;color:#ffe5d2;font-size:12px}.nox-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;height:57px}.nox-keys button{background:var(--nox-button) center/100% 100% no-repeat;border:0;touch-action:none;user-select:none;font-size:24px;font-weight:800;padding:0}.nox-keys button.is-held{filter:brightness(1.8)}
 .nox-memory{position:absolute;left:8%;right:8%;bottom:16%;text-align:center}.nox-memory output{display:block;font:52px NoxTitle,sans-serif;color:#ffd6b5;text-shadow:0 3px 8px #000;min-height:58px}.nox-pads{display:flex;justify-content:center;gap:5%;margin-top:12px}.nox-pads button{position:relative;pointer-events:auto;touch-action:none;user-select:none;flex:1;max-width:190px;aspect-ratio:1.85;background:url('/assets/ui/raid-nox-v1/pad.webp') center/100% 100% no-repeat;border:0;color:white;padding:0 0 10px}.nox-pads b{font:34px NoxTitle,sans-serif}.nox-pads small{display:block;font-size:12px}.nox-pads button.is-cue{filter:brightness(2)}#memoryProgress{display:block;margin-top:14px;text-shadow:0 2px 3px #000;background:#170c13d9;width:max-content;max-width:100%;margin-inline:auto;padding:6px 18px;font-size:14px}.nox-coop{position:absolute;left:50%;bottom:19%;transform:translateX(-50%);width:min(600px,90%);text-align:center;padding:24px;background:var(--nox-metal) center/100% 100% no-repeat;pointer-events:auto}.nox-coop p{margin:0 0 12px;font-size:17px;font-weight:700;color:#ffd0ab}.nox-sync-track{position:relative;height:27px;background:#08060a;margin:14px 6px 18px;border:1px solid #8f6464;overflow:hidden}.nox-sync-track b{position:absolute;width:8%;left:46%;top:0;bottom:0;background:#e9b097}.nox-sync-track i{position:absolute;left:0;top:0;bottom:0;width:3px;background:white;box-shadow:0 1px 5px #fff;z-index:2}.nox-frequency-buttons{display:flex;gap:12px}.nox-frequency-buttons button{flex:1;border:0;background:var(--nox-button) center/100% 100% no-repeat;padding:16px 8px;font-size:16px;touch-action:none}.nox-frequency-buttons small{display:block;font-size:11px;margin-top:5px}.nox-coop>span{display:block;font-size:13px;margin-top:14px}.nox-spectator{position:absolute;right:3%;bottom:5%;display:flex;flex-direction:column;background:#140d16ea;padding:15px;gap:6px}.nox-spectator strong{font-size:20px;color:#ffb4b4}.nox-spectator span{font-size:13px}.nox-combat-message{position:absolute;right:3%;bottom:5%;font-size:14px;color:#ffe4cd;text-shadow:0 2px 4px black}
@@ -25,15 +25,24 @@
   .nox-memory{left:auto;right:2%;width:49%;bottom:0}.nox-memory output{font-size:24px;min-height:25px}.nox-pads{margin-top:3px}.nox-pads button{height:40px;max-width:115px;aspect-ratio:auto;padding-bottom:0}.nox-pads b{font-size:22px}.nox-pads small{font-size:11px}#memoryProgress{margin-top:3px;padding:3px 10px;font-size:11px}
 }
 /* F2: put content inside the metal asset's dark well, clear of both bevels. */
-.nox-console{padding:84px 54px 76px}.nox-code strong{font-size:16px}.nox-coop{padding:48px 40px 46px;bottom:5%}
+.nox-console{padding:84px 54px 76px}.nox-coop{padding:48px 40px 46px;bottom:5%}
 @media(max-width:800px){.nox-console{padding:84px 40px 72px}.nox-coop{padding:44px 28px 42px;bottom:8%}}
 @media(max-height:480px) and (min-width:650px){.nox-coop{left:auto;right:2%;transform:none;width:49%;bottom:0;padding:22px}.nox-coop p{font-size:12px;line-height:14px;margin:0}.nox-sync-track{height:10px;margin:2px 6px}.nox-frequency-buttons button{padding:2px 4px;min-height:30px;font-size:12px;line-height:12px}.nox-frequency-buttons small{margin-top:0;line-height:11px}.nox-coop>span{font-size:11px;line-height:13px;margin-top:2px}}
 
+.nox-difficulty-options label{align-items:flex-start}
+.nox-difficulty-options input{flex:none;margin:2px 0 0}
+.nox-difficulty-options small,.nox-create-policy{word-break:keep-all}
+.nox-mode-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.nox-mode-options label:first-of-type{grid-column:1/-1}
+.nox-create-policy{margin:0 0 12px}
+.nox-create-policy p{margin:3px 0 0}
+
 /* Rhythm focus uses the raid's own overlay, never restyles the V3 roster. */
-.nox-combat[data-stage="RHYTHM"]{grid-template-rows:52px 78px minmax(0,1fr)}
-.nox-combat[data-stage="RHYTHM"] .nox-raid-hud{padding-block:4px}
+.nox-combat[data-stage="RHYTHM"]{grid-template-rows:42px auto minmax(0,1fr)}
+.nox-combat[data-stage="RHYTHM"] .nox-raid-hud{padding-block:3px}
+.nox-combat[data-stage="RHYTHM"] .nox-boss-health .nox-gauge{height:24px;margin:0}
 .nox-combat[data-stage="RHYTHM"] .nox-member>div:first-child{line-height:14px}
-.nox-combat[data-stage="RHYTHM"] .nox-member .nox-gauge{height:16px}
+.nox-combat[data-stage="RHYTHM"] .nox-member .nox-gauge{height:13px}
 .nox-combat[data-stage="RHYTHM"] .nox-party{row-gap:2px}
 .nox-rhythm{left:50%;right:auto;transform:translateX(-50%);width:min(680px,82%);top:74px;bottom:4px}
 .nox-keys{height:70px;flex:0 0 70px;gap:6px}.nox-keys button{font-size:30px}
@@ -59,9 +68,9 @@
 #floorTargets{position:absolute;inset:0;pointer-events:none}
 .nox-floor-target{position:absolute;left:0;top:0;padding:0;border:0;background:transparent;pointer-events:auto;touch-action:none;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);opacity:1!important;color:#fff}
 .nox-floor-target:focus-visible{outline:0;background:#fff8}.nox-floor-target:hover:not(:disabled){background:#fff2}.nox-floor-target span{position:absolute;inset:20%;border:2px solid transparent;pointer-events:none}.nox-floor-target:focus-visible span{border-color:#fff}
-@media(max-width:800px){.nox-combat[data-stage="RHYTHM"]{grid-template-rows:52px 104px minmax(0,1fr)}.nox-rhythm{left:50%;width:96%;top:60px;bottom:4px}.nox-keys{height:66px;flex-basis:66px;gap:2px}.nox-keys button{font-size:27px}.nox-judgement{top:13%}#rhythmCombo{font-size:17px}.nox-memory-guide{top:115px;padding:8px 10px}.nox-memory output{font-size:19px}#memoryProgress{font-size:11px}}
+@media(max-width:800px){.nox-combat[data-stage="RHYTHM"]{grid-template-rows:44px auto minmax(0,1fr)}.nox-rhythm{left:50%;width:96%;top:60px;bottom:4px}.nox-keys{height:66px;flex-basis:66px;gap:2px}.nox-keys button{font-size:27px}.nox-judgement{top:13%}#rhythmCombo{font-size:17px}.nox-memory-guide{top:115px;padding:8px 10px}.nox-memory output{font-size:19px}#memoryProgress{font-size:11px}}
 @media(max-height:480px) and (min-width:650px){
-  .nox-combat[data-stage="RHYTHM"]{grid-template-rows:34px 44px minmax(0,1fr)}
+  .nox-combat[data-stage="RHYTHM"]{grid-template-rows:34px auto minmax(0,1fr)}
   .nox-rhythm{top:4px;bottom:4px;left:auto;right:8px;transform:none;width:70%}.nox-keys{height:56px;flex-basis:56px}.nox-keys button{font-size:26px}
   .nox-mechanic-layer[data-stage="RHYTHM"] .nox-mechanic-title{top:54px;left:8px;width:26%;max-width:26%;padding:7px}.nox-mechanic-layer[data-stage="RHYTHM"] .nox-mechanic-title p{line-height:1.6}
   .nox-judgement{top:24%}#judgement{font-size:25px}#timingDetail{font-size:11px}#rhythmCombo{font-size:14px}.nox-judgement{gap:1px}
@@ -84,37 +93,61 @@
 .nox-lobby,.nox-toolbar,.nox-raid-hud,.nox-mechanic-layer,.nox-dialog,.nox-toast{font-family:NoxText,'Malgun Gothic',sans-serif}
 .nox-lobby h1{font-family:NoxText,sans-serif;font-weight:900;letter-spacing:-.035em}.nox-dialog h2,.nox-memory output{font-family:NoxText,sans-serif;font-weight:850}.nox-mechanic-title h2{font-family:NoxText,sans-serif;font-weight:850;letter-spacing:-.025em}.nox-toolbar time{font-family:NoxHUD,sans-serif}
 .nox-mechanic-layer[data-stage="RHYTHM"] .nox-mechanic-title{display:none}
-.nox-rhythm{top:6px;bottom:6px;width:min(720px,96%);padding:52px 20px 20px;gap:5px;isolation:isolate}
-.nox-rhythm:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:54px 24px 24px;border-image:url('/assets/ui/raid-nox-v2/frame.webp') 210 70 80 70 stretch;pointer-events:none}
-.nox-rhythm:after{content:'';position:absolute;inset:40px 18px 16px;background:url('/assets/ui/raid-nox-v2/surface.webp') center/100% 100%;z-index:-2;pointer-events:none}
-.nox-track-heading{height:30px;flex:0 0 30px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding-inline:4px}
+.nox-mechanic-layer[data-stage="RHYTHM"]{top:0;bottom:0}
+.nox-rhythm{top:2px;bottom:2px;width:min(94%,64dvh,584px);padding:30px 16px 12px;gap:2px;isolation:isolate}
+.nox-rhythm:before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:32px 18px 15px;border-image:url('/assets/ui/raid-nox-v2/frame.webp') 210 70 80 70 stretch;pointer-events:none}
+.nox-rhythm:after{content:'';position:absolute;inset:23px 14px 10px;background:url('/assets/ui/raid-nox-v2/surface.webp') center/100% 100%;z-index:-2;pointer-events:none}
+.nox-track-heading{height:24px;flex:0 0 24px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding-inline:4px}
 .nox-track-heading strong{font-size:21px;font-weight:850;letter-spacing:-.025em}.nox-track-heading small{font-size:12px;color:#e6c7bf}.nox-track-heading>span{font-size:13px;color:#ffdfbd;font-variant-numeric:tabular-nums}
-.nox-rhythm-readout{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;min-height:42px;flex:0 0 42px;padding:0 6px}
+.nox-rhythm-readout{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;min-height:40px;flex:0 0 40px;padding:0 6px}
 .nox-judgement{position:static;display:flex;flex-direction:column;align-items:center;gap:1px}
 #judgement{font-family:NoxHUD,sans-serif;font-size:29px;font-weight:800;line-height:1;color:#fff2d2;text-shadow:0 2px 3px #000}
 #timingDetail{font-family:NoxText,sans-serif;font-size:11px;line-height:14px;white-space:nowrap;color:#e6c7bf}
 #rhythmScore{position:static;font-family:NoxText,sans-serif;font-size:13px;font-weight:650;line-height:1.45}
 #rhythmCombo{justify-self:end;font-family:NoxHUD,sans-serif;font-size:21px;font-weight:700;white-space:nowrap;color:#ffca9b}
-.nox-chart{--note-height:56px;border:0;min-height:64px;background:url('/assets/ui/raid-nox-v2/surface.webp') center/100% 100%;box-shadow:inset 0 3px 14px #000}
+.nox-chart{--note-height:40px;--bar-width:calc(var(--hold-width)*149/256);border:0;min-height:64px;background:url('/assets/ui/raid-nox-v2/surface.webp') center/100% 100%;box-shadow:inset 0 3px 14px #000}
 .nox-chart-columns i{background:none;border-right:1px solid #bea39530}.nox-chart-columns i:last-child{border:0}
 .nox-note,.nox-note:nth-child(4n+2),.nox-note:nth-child(4n+3){height:var(--note-height);border:0;border-radius:0;background:url('/assets/ui/raid-nox-v2/note.webp') center/100% 100% no-repeat;box-shadow:none}
+/* The rotated hold texture has 149 visible rows out of 256. */
+.nox-note{left:calc(var(--lane)*25% + 12.5% - var(--bar-width)/2);width:var(--bar-width)}
 .nox-note:after{content:none}.nox-note[data-tone="ivory"]{filter:saturate(.35) brightness(1.18)}
+.nox-note.is-long{
+  --hold-tint:saturate(1);
+  left:calc(var(--lane)*25% + 12.5% - var(--hold-width)/2);
+  width:var(--hold-width);height:var(--hold-length);background:none;filter:var(--hold-tint);
+}
+.nox-note.is-long::before{
+  content:'';position:absolute;top:50%;left:50%;
+  width:var(--hold-length);height:var(--hold-width);
+  transform:translate(-50%,-50%) rotate(90deg);
+  box-sizing:border-box;border:solid transparent;border-width:0 1px;
+  border-image:url('/assets/ui/raid-nox-v2/note.webp') 0 113 fill / 0 calc(var(--hold-width)*.14) stretch;
+}
+.nox-note.is-long[data-tone="ivory"]{--hold-tint:saturate(.35) brightness(1.18)}
+.nox-note.is-long.is-holding{filter:var(--hold-tint) brightness(1.28) drop-shadow(0 0 6px #ffa66b9c)}
 .nox-hit-line{top:calc(var(--hit-y, 1px) - var(--note-height)/2);height:var(--note-height);display:grid;grid-template-columns:repeat(4,1fr);background:none;box-shadow:none;pointer-events:none}
-.nox-hit-line i{margin-inline:8%;background:url('/assets/ui/raid-nox-v2/note.webp') center/100% 100% no-repeat;filter:grayscale(1) brightness(.75)}
-.nox-hit-fx{left:calc(var(--lane)*25% - 4%);width:33%;height:76px;top:calc(var(--hit-y, 1px) - 38px);background:url('/assets/ui/raid-nox-v2/impact.webp') center/100% 100% no-repeat}
+.nox-hit-line i{justify-self:center;width:var(--bar-width);background:url('/assets/ui/raid-nox-v2/note.webp') center/100% 100% no-repeat;filter:grayscale(1) brightness(.75)}
+.nox-hit-fx{left:calc(var(--lane)*25% + 12.5% - var(--bar-width)*.85);width:calc(var(--bar-width)*1.7);height:76px;top:calc(var(--hit-y, 1px) - 38px);background:url('/assets/ui/raid-nox-v2/impact.webp') center/100% 100% no-repeat}
 .nox-hit-fx:before,.nox-hit-fx:after{content:none}.nox-hit-fx b,.nox-hit-fx em{display:none}
-.nox-keys{height:70px;flex-basis:70px;gap:4px}.nox-keys button{background:url('/assets/ui/raid-nox-v2/key.webp') center/100% 100% no-repeat;font-family:NoxHUD,sans-serif;font-size:30px;font-weight:700;padding-bottom:8px;letter-spacing:0;text-shadow:0 2px 3px #000}.nox-keys button.is-held{filter:brightness(1.7)}
-@media(max-height:780px) and (min-width:650px){.nox-mechanic-layer[data-stage="RHYTHM"]{bottom:0}}
+.nox-keys{height:56px;flex-basis:56px;gap:4px}.nox-keys button{background:url('/assets/ui/raid-nox-v2/key.webp') center/100% 100% no-repeat;font-family:NoxHUD,sans-serif;font-size:27px;font-weight:700;padding-bottom:6px;letter-spacing:0;text-shadow:0 2px 3px #000}.nox-keys button.is-held{filter:brightness(1.7)}
 @media(max-width:800px){
-  .nox-rhythm{width:98%;padding:47px 14px 17px;top:2px;bottom:4px;gap:3px}.nox-rhythm:before{border-width:47px 17px 20px}.nox-rhythm:after{inset:38px 12px 14px}
-  .nox-track-heading{height:28px;flex-basis:28px;gap:4px}.nox-track-heading strong{font-size:18px}.nox-track-heading small{font-size:11px;max-width:138px;text-align:right;line-height:1.2}
-  .nox-rhythm-readout{grid-template-columns:1fr auto 1fr;gap:4px;padding:0 2px;min-height:42px;flex-basis:42px}#judgement{font-size:24px}#rhythmScore{font-size:11px;max-width:90px}#rhythmCombo{font-size:15px}#timingDetail{font-size:11px}
-  .nox-keys{height:66px;flex-basis:66px;gap:1px}.nox-keys button{font-size:27px;padding-bottom:6px}
+  .nox-combat[data-stage="RHYTHM"] .nox-boss-health .nox-gauge{height:20px}
+  .nox-combat[data-stage="RHYTHM"] .nox-party{margin-top:2px}
+  .nox-rhythm{width:min(90%,60dvh,550px);padding:28px 12px 10px;top:1px;bottom:2px}.nox-rhythm:before{border-width:29px 14px 13px}.nox-rhythm:after{inset:22px 10px 8px}
+  .nox-chart{--note-height:32px}
+  .nox-track-heading{height:22px;flex-basis:22px;gap:4px}.nox-track-heading strong{font-size:17px}.nox-track-heading small{font-size:11px;max-width:138px;text-align:right;line-height:1.2}
+  .nox-rhythm-readout{grid-template-columns:1fr auto 1fr;gap:4px;padding:0 2px;min-height:36px;flex-basis:36px}#judgement{font-size:24px}#rhythmScore{font-size:11px;max-width:90px}#rhythmCombo{font-size:15px}#timingDetail{font-size:11px}
+  .nox-keys{height:54px;flex-basis:54px;gap:1px}.nox-keys button{font-size:25px;padding-bottom:5px}
 }
 @media(max-height:480px) and (min-width:650px){
-  .nox-rhythm{top:0;right:7px;bottom:1px;width:71%;padding:30px 18px 10px;gap:2px}.nox-rhythm:before{border-width:32px 20px 15px}.nox-rhythm:after{inset:24px 16px 9px}
-  .nox-track-heading{display:none}.nox-rhythm-readout{min-height:31px;flex-basis:31px}#judgement{font-size:23px}#timingDetail{font-size:11px;line-height:11px}#rhythmScore{font-size:12px;max-width:none}#rhythmCombo{font-size:18px}
-  .nox-keys{height:52px;flex-basis:52px}.nox-keys button{font-size:25px}.nox-chart{--note-height:48px}
+  .nox-rhythm{top:0;left:50%;right:auto;transform:translateX(-50%);bottom:1px;width:min(56%,max(230px,68dvh),420px);padding:20px 10px 8px;gap:2px}.nox-rhythm:before{border-width:21px 12px 10px}.nox-rhythm:after{inset:15px 9px 6px}
+  .nox-track-heading{display:none}
+  .nox-rhythm-readout{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:repeat(2,1fr);gap:0 4px;min-height:34px;flex-basis:34px;padding:0 2px}
+  .nox-judgement{grid-area:1/1/3/2}
+  #judgement{font-size:20px}#timingDetail{font-size:10px;line-height:11px}
+  #rhythmScore{grid-area:1/2;justify-self:end;font-size:11px;line-height:1;max-width:none;white-space:nowrap}
+  #rhythmCombo{grid-area:2/2;font-size:15px;line-height:1}
+  .nox-keys{height:44px;flex-basis:44px}.nox-keys button{font-size:22px}.nox-chart{--note-height:30px}
   .nox-mechanic-layer[data-stage="RHYTHM"] .nox-mechanic-title{display:block;font-family:NoxText,sans-serif}
 }
 
@@ -131,3 +164,42 @@
 #judgement[data-grade="PERFECT"]{color:#fff1bd}#judgement[data-grade="GOOD"]{color:#9feaff}#judgement[data-grade="EMPTY"]{color:#dc8b96}
 .nox-keys button{transform-origin:center bottom;-webkit-tap-highlight-color:transparent}
 @media(prefers-reduced-motion:reduce){.nox-hit-fx b,.nox-hit-fx em{display:none}}
+
+.nox-lobby-actions,.nox-directory-actions{display:flex;align-items:center;gap:8px}
+.nox-lobby-actions .nox-quiet,.nox-directory-actions .nox-quiet{min-height:42px}
+#openRoomDirectory,#roomList button{border-color:#ad6965;background:#3b2026;color:#ffebe0}
+#openRoomDirectory:hover,#roomList button:hover{background:#552932}
+.nox-room-directory{
+  --room-columns:minmax(0,1fr) 80px 76px 68px;
+  width:min(680px,calc(100% - 28px));max-height:85dvh;margin:auto;padding:0;overflow:hidden;
+  background:linear-gradient(145deg,#271b22,#160f16 65%);border-color:#8d6060;
+}
+.nox-room-directory[open]{display:flex;flex-direction:column}
+.nox-directory-header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none;
+  padding:18px 24px;border-bottom:1px solid #624047;
+}
+.nox-directory-header h2{margin:0;font-size:clamp(21px,3vw,27px)}
+.nox-directory-body{min-height:min(152px,30dvh);overflow-y:auto;overscroll-behavior:contain;padding:8px 24px 18px}
+#roomListStatus{margin:0;padding:34px 0;text-align:center;color:var(--nox-muted)}
+#roomJoinStatus{margin:8px 0;color:#ffb5a5}
+.nox-room-columns,#roomList li{display:grid;grid-template-columns:var(--room-columns);align-items:center;column-gap:16px}
+.nox-room-columns{padding:8px 0;color:var(--nox-muted);font-size:12px}
+#roomList{list-style:none;margin:0;padding:0}
+#roomList li{margin:0;padding:12px 0;border-top:1px solid #d2a4a22e}
+#roomList .nox-room-host{min-width:0;overflow-wrap:anywhere;font-size:16px;color:var(--nox-fg)}
+.nox-room-mode,.nox-room-seats{font-size:14px;white-space:nowrap}
+.nox-room-mode[data-difficulty="HELL"]{color:#ffab98}
+.nox-room-seats{font-variant-numeric:tabular-nums;color:#dec7c4}
+#roomList button{min-height:44px}
+@media(max-width:520px){
+  .nox-lobby-top{flex-wrap:wrap;gap:6px 10px;height:auto;min-height:56px}
+  .nox-lobby-actions{margin-left:auto}
+  .nox-directory-header{padding:14px 16px}
+  .nox-directory-body{padding:4px 16px 12px}
+  .nox-room-columns{display:none}
+  #roomList li{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:'host host join' 'mode seats join';gap:4px 12px}
+  #roomList li:first-child{border-top:0}
+  .nox-room-host{grid-area:host}.nox-room-mode{grid-area:mode}.nox-room-seats{grid-area:seats}
+  #roomList button{grid-area:join;min-width:64px}
+}

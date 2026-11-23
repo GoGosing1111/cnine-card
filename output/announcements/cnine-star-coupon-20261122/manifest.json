@@ -1,0 +1,30 @@
+{
+  "title": "씨나인 스타대회 출정기념 쿠폰",
+  "couponCode": "CNINESTAR",
+  "size": [
+    2160,
+    936
+  ],
+  "artwork": "Built-in ImageGen",
+  "prompt": "prompt.txt",
+  "cnineLogo": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+  "cnineLogoSHA256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba",
+  "starcraftSource": "https://starcraftremastered.blizzard.com/en-us/",
+  "starcraftAsset": "https://blz-contentstack-images.akamaized.net/v3/assets/blt9c12f249ac15c7ec/bltc6e1328e8a822ef6/69641b190f2be20947ffc7ad/logo.webp",
+  "starcraftSHA256": "bd104a1b6a46b2e7c0bfd6469099ffdeb66080e2e079a6aa8240084f7b4ee69d",
+  "engravingSHA256": "17aa2f94a1de719a24cb63a9387b55ea960f49b1876950f65454931885e52e31",
+  "files": {
+    "cnine-star-coupon.png": {
+      "width": 2160,
+      "height": 936,
+      "size": 3715512,
+      "sha256": "6cb6eb878e4f318f33d77f2725d861e20c7010f93554b43ba435b447067f5ab3"
+    },
+    "cnine-star-coupon.jpg": {
+      "width": 1620,
+      "height": 702,
+      "size": 444135,
+      "sha256": "9e20b8e54699ccda5f3ffe2a18be6be91e4c53304250d85da09cf5bb311f9267"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "code": "NOX_CLEAR_30",
+  "original": "final-frequency-front.png",
+  "runtime": "final-frequency-front.webp",
+  "generator": "image_gen.imagegen",
+  "originalSize": [
+    1254,
+    1254
+  ],
+  "originalSha256": "56c0f2b33a4f2cc3bcc423e747b9766ed5fa88e76ec53485b791d68db30e485f",
+  "runtimeSize": [
+    512,
+    512
+  ],
+  "runtimeBytes": 45896,
+  "runtimeSha256": "5839f1d4fdaa19dbdf20b01379ff04549b093501b91cb78a436147ba13d91729",
+  "hasAlpha": true,
+  "revision": 2,
+  "alignment": {
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "opaqueBounds": [
+      332,
+      27,
+      922,
+      1221
+    ],
+    "crossSectionCentersPx": {
+      "fork": 626.5,
+      "rings": 626.5,
+      "midsection": 626,
+      "stem": 626.5,
+      "base": 626.5
+    },
+    "centerSpreadPixels": 0.5,
+    "centerSpreadPercentOfHeight": 0.04,
+    "forkToBaseAngleDegrees": 0
+  }
+}

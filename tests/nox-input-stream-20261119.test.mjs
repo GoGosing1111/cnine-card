@@ -18,16 +18,67 @@ test('overlapping and reordered stream packets score every physical press once',
   }
 });
 
+test('live hold scoring requires maintaining the note, handles reordered packets and credits the head grade once',async t=>{
+  const h=await noxFixture(t),{roomId,ids}=await h.party(3,'HELL');
+  assert.equal((await h.command('start',{roomId})).status,200);
+  const now=Date.now();
+  const r=await h.changeRoom(roomId,r=>{
+    r.clock=now-1000;
+    r.challenge.startsAt=r.challenge.musicStartAt=now-1300;
+    r.challenge.deadline=now+30000;
+    r.challenge.chart=[{lane:0,id:99,at:300,endAt:1120}];
+  });
+  const at=relative=>r.challenge.musicStartAt+relative;
+  const head={lane:0,at:at(390)},early={lane:0,at:at(500),release:true},tail={lane:0,at:at(1120),release:true};
+  const send=(user,seq,inputs)=>h.call('action',{user,body:{roomId,...stream(r,seq,inputs)}});
+  const pressed=await send(ids[0],1,[head]);
+  assert.equal(pressed.status,200);
+  assert.deepEqual(pressed.body.state.me.holdAttempts,[99]);
+  assert.equal(pressed.body.state.me.score,0);
+  const endedEarly=await send(ids[0],2,[head,early]);
+  assert.equal(endedEarly.status,200);
+  assert(endedEarly.body.state.events.some(e=>e.label==='HOLD_MISS'));
+  assert.equal((await send(ids[0],3,[tail])).body.state.me.score,0);
+  const results=await Promise.all([send(ids[1],2,[head,tail]),send(ids[1],1,[head])]);
+  assert(results.every(result=>result.status===200));
+  const replay=await send(ids[1],2,[head,tail]);
+  assert.deepEqual(replay.body.state.me.hits,[99]);
+  assert.equal(replay.body.state.me.score,NOX_RULES.goodScore);
+  assert.equal((await send(ids[1],3,[tail])).body.state.me.score,NOX_RULES.goodScore);
+  assert.equal((await send(ids[2],1,[tail])).body.state.me.score,0);
+  assert.equal((await send(ids[2],2,[head])).body.state.me.score,0);
+  const heldLate={...tail,at:tail.at+300};
+  assert.equal((await send(ids[2],3,[heldLate])).body.state.me.score,NOX_RULES.goodScore);
+  assert.deepEqual((await send(ids[2],3,[heldLate])).body.state.me.hits,[99]);
+});
+
 test('acknowledged overlap may be old; every new input retains receipt and lane validation',()=>{
   const r=party(),c=r.challenge,first=c.chart[0],last=c.chart.find(n=>n.at>first.at+2200),p={lane:first.lane,at:c.musicStartAt+first.at},q={lane:last.lane,at:c.musicStartAt+last.at};
   actNoxRoom(r,'1',stream(r,1,[p]),p.at);
   actNoxRoom(r,'1',stream(r,2,[p,q]),q.at);assert.equal(r.members[0].score,2);
-  for(const input of [{lane:0,at:q.at+NOX_RULES.inputLeadMs+1},{lane:0,at:q.at-NOX_RULES.receiptGraceMs-1},{lane:4,at:q.at},null]){
+  for(const input of [{lane:0,at:q.at+NOX_RULES.inputLeadMs+1},{lane:0,at:c.startsAt-1},{lane:4,at:q.at},null]){
     const before=JSON.stringify(r.members[0]);assert.throws(()=>actNoxRoom(r,'1',stream(r,3,[input]),q.at),{code:'INPUT_TIME'});assert.equal(JSON.stringify(r.members[0]),before);
   }
   for(const packet of [{...stream(r,3,[])} ,{...stream(r,1,[p,q])},{...stream(r,3,[q]),stream:'true'}])assert.throws(()=>actNoxRoom(r,'1',packet,q.at),{code:'INPUT'});
   // A fresh repeated key remains a penalized empty press, not an idempotent retry.
   actNoxRoom(r,'1',stream(r,3,[q]),q.at);assert.equal(r.members[0].score,1.5);
+});
+
+test('a delayed rhythm stream consumes expired inputs once and scores fresh keys in the same packet',()=>{
+  const r=party(),c=r.challenge,m=r.members[0];
+  c.chart=[{id:0,lane:0,at:500,endAt:1100},{id:1,lane:1,at:800},{id:2,lane:2,at:2300},{id:3,lane:3,at:2440}];
+  const key=(lane,relative,release=false)=>({lane,at:c.musicStartAt+relative,...(release?{release:true}:{})});
+  const head=key(0,500),early=key(0,700,true),expired=key(1,800),fresh=key(2,2300),next=key(3,2440);
+  actNoxRoom(r,'1',stream(r,1,[head]),head.at);
+  const packet=stream(r,5,[head,early,expired,fresh,next]);
+  actNoxRoom(r,'1',packet,next.at);
+  actNoxRoom(r,'1',stream(r,4,[head,early,expired,fresh]),next.at+10);
+  actNoxRoom(r,'1',packet,next.at+20);
+  actNoxRoom(r,'1',stream(r,6,[key(0,2480,true)]),next.at+40);
+  assert.deepEqual(m.hits,[2,3]);assert.equal(m.score,2);assert.equal(m.lastSequence,6);
+  const tooLate=stream(r,7,[expired]);actNoxRoom(r,'1',tooLate,next.at+50);
+  assert.equal(m.score,2);assert.equal(m.lastSequence,7);
+  assert.throws(()=>actNoxRoom(r,'1',{...tooLate,seq:8,stream:undefined},next.at+50),{code:'INPUT_TIME'});
 });
 
 test('cumulative floor input keeps order, once-only progress, and mine deaths',()=>{

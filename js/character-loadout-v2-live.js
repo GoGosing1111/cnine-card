@@ -18,9 +18,10 @@
   function request(path, init = {}) {
     if (typeof window.apiRequest !== 'function') return Promise.reject(new Error('서버 API 연결을 찾을 수 없습니다.'));
     const isLoadout = String(path) === 'character/loadout' && String(init.method || 'GET').toUpperCase() === 'GET';
+    const fresh = String(path) === 'season/status' || String(path).startsWith('character/garage/tuning?');
     const pending = window.apiRequest(isLoadout ? 'character/loadout?quantities=deferred' : path, init, isLoadout
       ? { ttl: 0, timeoutMs: 12000 }
-      : { timeoutMs: 20000, ...(String(path) === 'season/status' ? { ttl: 0, microcache: false, replaceInflight: true } : {}) });
+      : { timeoutMs: 20000, ...(fresh ? { ttl: 0, microcache: false, replaceInflight: true } : {}) });
     return isLoadout ? pending.then(data => { window.applyAvatarFeatureState?.(data?.avatarFeature); return data; }) : pending;
   }
 

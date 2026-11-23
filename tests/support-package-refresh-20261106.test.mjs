@@ -10,10 +10,10 @@ const apply=(f,quantity=1)=>f.call('server-support/package/apply',{user:2,body:{
 const state=async f=>{const row=await f.one('SELECT value FROM app_meta WHERE key=?',supportPackageBonusKey(2));return row?JSON.parse(row.value):null;};
 const balance=async f=>(await f.one('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=2')).coin;
 
-test('49,800-won 1+1 TOTALS are exact integers; only the refreshed product earns bonuses; November 24 midnight is exclusive',()=>{
+test('49,800-won 1+1 TOTALS are exact integers; only the refreshed product earns bonuses; both sides of the former sale deadline stay open',()=>{
  assert.equal(SUPPORT_PACKAGE.priceWon,49800);assert.equal(SUPPORT_PACKAGE.coins,500000000000000);assert.equal(SUPPORT_PACKAGE.eventLabel,'1+1 이벤트');assert.equal(SUPPORT_PACKAGE.packageQuantity,2);assert.deepEqual(items(SUPPORT_PACKAGE),expectedItems);
- assert.equal(new Date(SUPPORT_PACKAGE_SALES_ENDS_AT).toISOString(),'2026-11-23T15:00:00.000Z');
- assert(supportPackageSalesOpen(Date.parse('2026-11-23T23:59:59.999+09:00')));assert(!supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT));
+ assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT,null);
+ assert(supportPackageSalesOpen(Date.parse('2026-11-23T23:59:59.999+09:00')));assert(supportPackageSalesOpen(Date.parse('2027-02-01T00:00:00+09:00')));
  assert.equal(SUPPORT_PACKAGE_500T_BOGO.code,'SEASON_PASS_PACKAGE_20261101_500T');assert.equal(SUPPORT_PACKAGE_500T_BOGO.bonusPolicy,undefined);
  assert.deepEqual(items(SUPPORT_PACKAGE_500T_BOGO),{EMPEROR_ENERGY:400,MERCENARY_SSS_LIMITED_SHARD:10,WEAPON_ENHANCEMENT_SCROLL:10,ARMOR_ENHANCEMENT_SCROLL:10});
  assert.equal(supportPackageOrderProduct({product:{...SUPPORT_PACKAGE,coins:1000},quantity:1}),null);
@@ -29,6 +29,7 @@ for(const postgres of [false,true])test(`successive 1..10 paid purchases match e
  const f=await packageFixture({postgres});try{
   f.clock.now=Date.parse('2026-11-06T20:00:00+09:00');await f.activate();
   const expected=[1500,4000,7500,14000,22500,23000,23500,24000,24500,33000];
+  const starsInHundredMillions=[50,150,350,750,1550,1550,1550,1550,1550,2550];
   const stopAt=postgres?10:5;
   for(let n=1;n<=stopAt;n++){
    const applied=await apply(f);assert.equal(applied.status,200,JSON.stringify(applied.body));const order=applied.body.order;
@@ -36,7 +37,7 @@ for(const postgres of [false,true])test(`successive 1..10 paid purchases match e
    const quote=(await f.call('admin/server-support/package')).body.pending[0].quotedFulfillment;
    const id=crypto.randomUUID(),paid=await f.process(order,'FULFILL',id);assert.equal(paid.status,200,JSON.stringify(paid.body));assert.deepEqual(paid.body.order.fulfillment,quote);
    assert.equal(await balance(f),(BigInt(expected[n-1])*1000000000000n+1234n).toString());assert.equal((await state(f)).paidPurchases,n);
-   for(const [code,count] of Object.entries(expectedItems))assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),count*n);
+   for(const [code,count] of Object.entries(expectedItems))assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),count*n+(code==='MASTER_STAR'?starsInHundredMillions[n-1]*100_000_000:0));
    const start=f.queries.length,replay=await f.process(order,'FULFILL',id);assert.equal(replay.body.replayed,true);assert.deepEqual(replay.body.order,paid.body.order);assert(!f.queries.slice(start).some(q=>/^\s*(INSERT|UPDATE|DELETE)\b/.test(q)));
    assert.equal((await f.process(order)).status,409);
   }
@@ -51,7 +52,7 @@ test('100 purchases pay 330,000 trillion exactly into an odd balance above MAX_S
   await f.activate();await f.run('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=2','10000000000000001');
   const order=(await apply(f,100)).body.order,r=await f.process(order);assert.equal(r.status,200,JSON.stringify(r.body));
   assert.equal(r.body.order.fulfillment.coins,'330000000000000000');assert.equal(await balance(f),'340000000000000001');assert.equal((await state(f)).paidPurchases,100);
-  for(const [code,count] of Object.entries(expectedItems))assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),count*100);
+  for(const [code,count] of Object.entries(expectedItems))assert.equal(Number((await f.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code=?',code)).quantity),count*100+(code==='MASTER_STAR'?2_550_000_000_000:0));
   const second=await f.process((await apply(f,1)).body.order);assert.equal(second.status,200);assert.equal(second.body.order.fulfillment.purchaseBonus.coins,'1000000000000000');assert.equal(await balance(f),'341500000000000001');
  }finally{await f.close();}
 });

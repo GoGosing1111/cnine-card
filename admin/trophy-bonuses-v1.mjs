@@ -1,4 +1,4 @@
-import {validateTrophyBonuses} from '../shared/trophy-bonuses-v1.mjs?v=20261118-cnine-vip1';
+import {validateTrophyBonuses} from '../shared/trophy-bonuses-v1.mjs?v=20261121-raid-trophies';
 import {REWARD_BONUS_LABELS,REWARD_BONUS_HELP} from '../shared/collection-bonuses-v1.mjs?v=20261014-reward1';
 import {jointAdminRequest} from '../js/joint-account-transport.mjs';
 

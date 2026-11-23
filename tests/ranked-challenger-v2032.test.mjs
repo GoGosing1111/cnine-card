@@ -6,6 +6,7 @@ import {readFile} from 'node:fs/promises';
 import {DatabaseSync} from 'node:sqlite';
 import sharp from 'sharp';
 import {readRuntimeData,cacheRuntimeData} from '../functions/_runtime_data_cache.js';
+import {PVP_RANKING_EXCLUSION_PREFIX,PVP_RANKING_INCLUDED_SQL} from '../functions/_ranked_eligibility.js';
 import {normalizeRankedRechargeMinutes} from '../shared/ranked-reform-v1.mjs';
 
 const read=path=>readCommittedAsset(new URL(`../${path}`,import.meta.url),'utf8');
@@ -14,7 +15,7 @@ const resolveTier=server.split('\n').find(line=>line.startsWith('function resolv
 const settingsCode=server.slice(server.indexOf('function defaultPvpSettings()'),server.indexOf('async function readPvpSettings'));
 const rewardCode=server.split('\n').find(line=>line.startsWith('function pvpSettlementRewardFor('));
 const roleCode=server.split('\n').find(line=>line.startsWith('const PVP_RANKED_ROLE_SQL='));
-const {clean,resolve,rank,reward}=Function('readRuntimeData','cacheRuntimeData','normalizeRankedRechargeMinutes',`${resolveTier}\n${roleCode}\n${settingsCode}\n${rewardCode}\nreturn {clean:cleanPvpSettings,resolve:resolvePvpTier,rank:pvpChallengerRank,reward:pvpSettlementRewardFor};`)(readRuntimeData,cacheRuntimeData,normalizeRankedRechargeMinutes);
+const {clean,resolve,rank,reward}=Function('readRuntimeData','cacheRuntimeData','normalizeRankedRechargeMinutes','PVP_RANKING_INCLUDED_SQL',`${resolveTier}\n${roleCode}\n${settingsCode}\n${rewardCode}\nreturn {clean:cleanPvpSettings,resolve:resolvePvpTier,rank:pvpChallengerRank,reward:pvpSettlementRewardFor};`)(readRuntimeData,cacheRuntimeData,normalizeRankedRechargeMinutes,PVP_RANKING_INCLUDED_SQL);
 
 test('챌린저는 현 시즌부터 점수 절대값이 아닌 정확히 1~20위만 해당한다',()=>{
   const settings=clean();
@@ -37,7 +38,7 @@ test('설정으로 인원·점수 조건을 바꿀 수 없고 기존 최상위 �
 test('실제 SQL: 동점이어도 20명만, OWNER·정지·밴 유저 제외 및 순위 교체',async()=>{
   const db=new DatabaseSync(':memory:');
   try{
-    db.exec('CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,status TEXT,banned_until TEXT); CREATE TABLE pvp_profiles(user_id INTEGER PRIMARY KEY,season_score INTEGER,highest_score INTEGER,wins INTEGER,losses INTEGER);');
+    db.exec('CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT); CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,status TEXT,banned_until TEXT); CREATE TABLE pvp_profiles(user_id INTEGER PRIMARY KEY,season_score INTEGER,highest_score INTEGER,wins INTEGER,losses INTEGER);');
     for(let id=1;id<=24;id++){
       db.prepare('INSERT INTO users VALUES(?,?,?,?,?)').run(id,'동점',id===1?'OWNER':'USER',id===2?'BLOCKED':'ACTIVE',id===3?'2999-01-01':null);
       db.prepare('INSERT INTO pvp_profiles VALUES(?,?,?,?,?)').run(id,1000,10000,1,0);
@@ -45,6 +46,14 @@ test('실제 SQL: 동점이어도 20명만, OWNER·정지·밴 유저 제외 및
     const env={DB:{prepare:sql=>({all:async()=>({results:db.prepare(sql).all()})})}};
     assert.equal(await rank(env,1),0);assert.equal(await rank(env,2),0);assert.equal(await rank(env,3),0);
     assert.equal(await rank(env,4),1);assert.equal(await rank(env,23),20);assert.equal(await rank(env,24),0);
+    const exclusionKey=PVP_RANKING_EXCLUSION_PREFIX+4;
+    db.prepare("INSERT INTO app_meta VALUES(?,'1')").run(exclusionKey);
+    assert.equal(await rank(env,4,{fresh:true}),0);
+    assert.equal(await rank(env,5,{fresh:true}),1);
+    assert.equal(await rank(env,24,{fresh:true}),20);
+    assert.equal(db.prepare('SELECT season_score FROM pvp_profiles WHERE user_id=4').get().season_score,1000);
+    db.prepare('DELETE FROM app_meta WHERE key=?').run(exclusionKey);
+    assert.equal(await rank(env,4,{fresh:true}),1);
     db.prepare('UPDATE pvp_profiles SET season_score=2000 WHERE user_id=24').run();
     assert.equal(await rank(env,24),0,'display cache is bounded and stable within 10 seconds');
     assert.equal(await rank(env,24,{fresh:true}),1);assert.equal(await rank(env,23,{fresh:true}),0);
@@ -76,7 +85,7 @@ test('시즌 정산 칭호 SQL은 챌린저★★★★를 1회 지급하며 다
 });
 test('투명 원화와 저자극 칭호·WebGL 격리 계약',async()=>{
   const [css,fx,app,admin]=await Promise.all([read('css/ranked-challenger-v2032.css'),read('js/ranked-challenger-fx-v2032.src.js'),read('js/app.js'),read('admin/admin-v1276.js')]);
-  const art=sharpCommittedAsset(new URL('../assets/ui/tiers/challenger-v2032.png',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1'));
+  const art=sharpCommittedAsset(new URL('../assets/ui/tiers/challenger-v2032.png',import.meta.url));
   const metadata=await art.metadata();assert.ok(metadata.hasAlpha);assert.ok(metadata.width>=1024);
   const {data}=await art.ensureAlpha().raw().toBuffer({resolveWithObject:true});assert.equal(data[3],0);
   assert.match(css,/color:#83c9ef!important/);assert.match(css,/text-shadow:0 1px 1px #040c12/);

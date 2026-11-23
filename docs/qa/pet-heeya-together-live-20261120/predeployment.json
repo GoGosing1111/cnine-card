@@ -1,0 +1,228 @@
+{
+  "at": "2026-11-20T13:30:01.853Z",
+  "dryRun": {
+    "revisionFrom": 51,
+    "revisionTo": 52,
+    "existingPets": 28,
+    "successfulRollback": true,
+    "receiptFailureRollback": true,
+    "changedOpeningPool": false,
+    "changedRankedShop": false,
+    "accountGrants": 0
+  },
+  "isolatedBrowser": {
+    "conditions": "Windows host. Actual /pet-codex/ page and game API handlers with isolated PostgreSQL-compatible fixture. Chrome desktop/Android and WebKit iPhone emulation; hidden Electron renderer; iframe embedding smoke. No production account mutation or physical mobile measurements.",
+    "samples": [
+      {
+        "platform": "desktop",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 480,
+        "firstImagesMs": 1006,
+        "reentryInteractiveMs": 24,
+        "reentryImagesMs": 25,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "bytes": 37866,
+            "ms": 582
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 359,
+          "p95": 4.2999999999999545,
+          "max": 8.300000000000182,
+          "over50ms": 0
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 61
+        },
+        "documentReentryInteractiveMs": 226,
+        "documentReentryImagesMs": 678
+      },
+      {
+        "platform": "android",
+        "variant": "source-png",
+        "firstInteractiveMs": 1698,
+        "firstImagesMs": 4719,
+        "reentryInteractiveMs": 215,
+        "reentryImagesMs": 233,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-approved.png",
+            "width": 1024,
+            "height": 1536
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-approved.png",
+            "bytes": 2011180,
+            "ms": 3424
+          }
+        ],
+        "errors": [],
+        "documentReentryInteractiveMs": 1522,
+        "documentReentryImagesMs": 4796
+      },
+      {
+        "platform": "android",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 1590,
+        "firstImagesMs": 2490,
+        "reentryInteractiveMs": 103,
+        "reentryImagesMs": 104,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "bytes": 37866,
+            "ms": 264
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 184,
+          "p95": 16.59999999999991,
+          "max": 341.38599999701955,
+          "over50ms": 4
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 73
+        },
+        "documentReentryInteractiveMs": 1523,
+        "documentReentryImagesMs": 2390
+      },
+      {
+        "platform": "ios",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 367,
+        "firstImagesMs": 723,
+        "reentryInteractiveMs": 129,
+        "reentryImagesMs": 131,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "bytes": 37866,
+            "ms": 2
+          },
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-thumb.webp",
+            "bytes": 0,
+            "ms": 0
+          }
+        ],
+        "errors": [],
+        "frames": {
+          "samples": 103,
+          "p95": 20,
+          "max": 52,
+          "over50ms": 1
+        },
+        "afterExit": {
+          "active": 0,
+          "updates": 24
+        },
+        "documentReentryInteractiveMs": 363,
+        "documentReentryImagesMs": 445
+      },
+      {
+        "platform": "windows",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 471,
+        "firstImagesMs": 483,
+        "reentryInteractiveMs": 52,
+        "reentryImagesMs": 57,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "bytes": 37866,
+            "ms": 12
+          },
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-thumb.webp",
+            "bytes": 6604,
+            "ms": 15
+          }
+        ],
+        "errors": [],
+        "documentReentryInteractiveMs": 229,
+        "documentReentryImagesMs": 259
+      },
+      {
+        "platform": "iframe",
+        "variant": "runtime-webp",
+        "firstInteractiveMs": 451,
+        "firstImagesMs": 902,
+        "reentryInteractiveMs": 47,
+        "reentryImagesMs": 48,
+        "overflow": false,
+        "portrait": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "width": 560,
+            "height": 560
+          }
+        ],
+        "resources": [
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+            "bytes": 37866,
+            "ms": 4
+          },
+          {
+            "path": "/assets/ui/pets/heeya-together-20261120/pet-heeya-together-thumb.webp",
+            "bytes": 6604,
+            "ms": 9
+          }
+        ],
+        "errors": [],
+        "documentReentryInteractiveMs": 226,
+        "documentReentryImagesMs": 697
+      }
+    ]
+  },
+  "tests": {
+    "newPetAndGrowth": 17,
+    "equipmentRegression": 9,
+    "equipmentFixture": "Materialized unchanged original artwork in the sparse checkout before rerunning the nine equipment tests."
+  },
+  "assets": {
+    "deliveryFileCount": 19993,
+    "oneStoreVerifiedFiles": 14
+  }
+}

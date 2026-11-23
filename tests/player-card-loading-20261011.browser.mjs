@@ -12,17 +12,19 @@ try{
  for(const width of [1440,390]){
   const page=await browser.newPage({viewport:{width,height:950},reducedMotion:'reduce'});page.on('pageerror',e=>errors.push(e.message));
   try{
-   await page.goto(origin+'/preview/player-calling-card-v2052/index.html');await page.locator('.pc-card').waitFor();
+   await page.goto((process.env.TROPHY_QA_ORIGIN||origin)+'/preview/player-calling-card-v2052/index.html');await page.locator('.pc-card').waitFor();
    await page.evaluate(data=>{PlayerCallingCard.close();window.__profile=data;window.__signals=[];window.__hang=false;const timer=window.setTimeout;window.setTimeout=(fn,ms,...args)=>timer(fn,ms===12000?150:ms,...args);window.apiRequest=(_path,options)=>{window.__signals.push(options.signal);return window.__hang?new Promise(()=>{}):Promise.resolve(window.__profile);};},profile);
    await page.evaluate(()=>PlayerCallingCard.open({userId:window.__profile.player.id}));await page.locator('.pc-card').waitFor();
    assert.equal(await page.locator('.pc-identity h2').textContent(),profile.player.nickname);
-   await page.locator('[data-pc-page=next]').click();assert.equal(await page.locator('[data-pc-shelf-count]').textContent(),'2 / 2');
-   assert.match(await page.locator('[data-pc-trophy="7"]').textContent(),new RegExp('누적 '+profile.trophies[7].progress+' / 1,000회'));
-   await page.locator('[data-pc-trophy="7"]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,width+'-loading-fixed.png')});checks.push(width+': production DB profile renders all eight real trophy states and the second page');
+   const frost=profile.trophies.find(t=>t.code==='LICH_KING_CLEAR_1000');
+   const button=page.getByRole('button',{name:/^서리한 ·/}),next=page.locator('[data-pc-page=next]');
+   while(!await button.count()){assert(!await next.isDisabled());await next.click();}
+   assert((await button.textContent()).includes('누적 '+frost.progress.toLocaleString('ko-KR')+' / '+frost.goal.toLocaleString('ko-KR')+'회'));
+   await button.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,width+'-loading-fixed.png')});checks.push(width+': production DB profile renders the Frostmourne counter on its shelf');
    await page.evaluate(()=>{window.__hang=true;void PlayerCallingCard.open({userId:window.__profile.player.id});});
    await page.locator('[data-pc-retry]').waitFor();assert.match(await page.locator('.pc-status').textContent(),/연결이 지연/);assert.equal(await page.evaluate(()=>window.__signals.at(-1).aborted),true);
    await page.screenshot({path:path.join(out,width+'-loading-retry.png')});await page.evaluate(()=>window.__hang=false);await page.locator('[data-pc-retry]').click();await page.locator('.pc-card').waitFor();
-   assert.equal(await page.locator('[data-pc-shelf-count]').textContent(),'1 / 2');await page.keyboard.press('Escape');assert.equal(await page.locator('#player-card-dialog').isVisible(),false);
+   assert.equal(await page.locator('[data-pc-shelf-count]').textContent(),'1 / '+Math.ceil(profile.trophies.length/4));await page.keyboard.press('Escape');assert.equal(await page.locator('#player-card-dialog').isVisible(),false);
    checks.push(width+': hanging transport leaves loading state, aborts and retries successfully; close remains available');
   }finally{await page.close();}
  }

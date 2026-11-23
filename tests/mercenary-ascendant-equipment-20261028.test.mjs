@@ -80,7 +80,9 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: owne
 });
 
 test('all tiers produce higher PVE/PVP stats and actual combat payloads without applying personal set effects to ordinary cards',async t=>{
- const f=await ascendantEquipmentFixture(t),base=await releasedMercenarySnapshot(f.env,f.user,'PVE');
+ const f=await ascendantEquipmentFixture(t);
+ // Compare tier progression at full strength. The C–S caps have their own regression suite.
+ const base={...await releasedMercenarySnapshot(f.env,f.user,'PVE'),rank:'SS'};
  for(const mode of ['PVE','PVP']){
   let previous;
   for(let tier=1;tier<=10;tier++){

@@ -1,4 +1,5 @@
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {garageOwnershipRemoval} from './_garage_tuning.js';
 import {jointInventoryChange} from './_joint_transactions.js';
 import {AUCTION_TICKET,AUCTION_ASSET_TYPES} from '../shared/auction-user-policy-v1.mjs';
 import {RANKED_SERIES_RULES} from '../shared/ranked-series-v1.mjs';
@@ -93,7 +94,7 @@ export async function auctionAssetDebit(env,userId,definition,quantity,reference
   }else if(kind==='VEHICLE'){
     if(quantity!==1)fail('이동수단은 한 번에 1개씩 등록하세요.');
     const row=await p(DB,'SELECT * FROM user_garage_vehicles WHERE user_id=? AND garage_id=?',userId,ref).first();if(!row)fail('영구 보유한 이동수단이 아닙니다.');
-    statements.push(...guarded(DB,'EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?) AND NOT EXISTS(SELECT 1 FROM user_garage_loadout WHERE user_id=? AND garage_id=?)',[userId,ref,userId,ref],[p(DB,'DELETE FROM user_garage_vehicles WHERE user_id=? AND garage_id=?',userId,ref)]));asset.instance=row;
+    statements.push(...guarded(DB,'EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?) AND NOT EXISTS(SELECT 1 FROM user_garage_loadout WHERE user_id=? AND garage_id=?)',[userId,ref,userId,ref],await garageOwnershipRemoval(env,userId,ref)));asset.instance=row;
   }
   return {asset,statements};
 }

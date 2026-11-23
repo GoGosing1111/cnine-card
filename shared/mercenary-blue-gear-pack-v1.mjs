@@ -1,4 +1,4 @@
-import {BLUE_GEAR_CODES,BLUE_GEAR_MERCENARIES,BLUE_GEAR_PACK_ART} from './mercenary-blue-gear-catalog-v1.mjs';
+import {BLUE_GEAR_CODES,BLUE_GEAR_MERCENARIES,BLUE_GEAR_PACK_ART,BLUE_GEAR_LEGEND_LIMITS} from './mercenary-blue-gear-catalog-v1.mjs';
 import {ZERO_ART} from './mercenary-zero-v1.mjs';
 import {HAKUYA_ART} from './mercenary-hakuya-v1.mjs';
 import {ASTRA_ART,ASTRA_CODE} from './mercenary-astra-v1.mjs';
@@ -13,7 +13,7 @@ const route='mercenaries/v3/blue-gear-pack/';
 export const BLUE_GEAR_PACK=Object.freeze({id:'mercenary-blue-gear',name:'블루기어팩',image:BLUE_GEAR_PACK_ART+'pack-768.webp',
  featurePath:route+'feature',openPath:route+'open',receiptPath:route+'receipt',storageNamespace:'blue-gear-pack',maxBatch:10});
 export const BLUE_GEAR_LEGENDS=Object.freeze([ZERO_ART,HAKUYA_ART].map(card=>Object.freeze({code:card.code,name:card.name,rank:'SSS',
- group:'SSS_LIMITED',stockPolicy:'PACK_ONLY',serverLimit:3,thumbnailArt:BLUE_GEAR_PACK_ART+card.code+'-320.webp',displayArt:card.sourceArt,sourceArt:card.sourceArt})));
+ group:'SSS_LIMITED',stockPolicy:'PACK_ONLY',serverLimit:BLUE_GEAR_LEGEND_LIMITS[card.code],thumbnailArt:BLUE_GEAR_PACK_ART+card.code+'-320.webp',displayArt:card.sourceArt,sourceArt:card.sourceArt})));
 export const BLUE_GEAR_LIMITED_CARDS=Object.freeze([...BLUE_GEAR_MERCENARIES,...BLUE_GEAR_LEGENDS]);
 export const BLUE_GEAR_BULK_LIMITS=Object.freeze({maxCost:'1000000000000000',maxCount:1000000});
 export const BLUE_GEAR_DRAW_POLICY=Object.freeze({pool:Object.freeze([...BLUE_GEAR_LIMITED_CARDS,Object.freeze({...ASTRA_ART,group:'STANDARD_SSS'})]),

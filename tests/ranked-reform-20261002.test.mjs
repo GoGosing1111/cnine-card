@@ -73,6 +73,27 @@ test('match limits are hard, symmetric, and independent of available candidate c
  assert.equal(rankedCandidateAllowed({powerDiff:0,scoreDiff:251},cfg),false);
 });
 
+test('the catch-up quote affects only an otherwise zero-point ordinary win and respects promotion games',()=>{
+ const profile={season_score:3297,highest_score:3297},tier='challenger';
+ assert.deepEqual(rankedMatchForecast(profile,2505,[],'s',tier,12),{promotion:null,expectedWin:12,expectedLoss:48});
+ assert.equal(rankedLadderGame(true,3296,2505,null,tier,12).scoreAfter,3297,'a normal one-point win is not topped up');
+ assert.equal(rankedLadderGame(true,3297,2505,null,tier).scoreAfter,3297);
+ const run={status:'ACTIVE',wins:0,losses:0,targetScore:3298,retryScore:3274};
+ const result=rankedLadderGame(true,3297,2505,run,tier,12);assert.equal(result.scoreAfter,3297);assert.equal(result.promotion.wins,1);
+});
+
+test('a Challenger duel guarantees eight, preserves larger wins and catch-up, and does not change losses or legacy quotes',()=>{
+ for(const [opponent,ordinary,expected] of [[2500,0,8],[3354,1,8],[3838,7,8],[3854,8,8],[4102,21,21],[4145,24,24],[5700,48,48]]){
+  const profile={season_score:4145,highest_score:4145};
+  const before=rankedMatchForecast(profile,opponent,[],'s','challenger');
+  const after=rankedMatchForecast(profile,opponent,[],'s','challenger',0,8);
+  assert.equal(before.expectedWin,ordinary);assert.equal(after.expectedWin,expected);assert.equal(after.expectedLoss,before.expectedLoss);
+  const settled=rankedLadderGame(true,4145,opponent,null,'challenger',0,8);assert.equal(settled.scoreAfter,4145+expected);
+ }
+ assert.equal(rankedMatchForecast({season_score:4145},2500,[],'s','challenger',12,8).expectedWin,12);
+ assert.equal(rankedMatchForecast({season_score:4145},2500,[],'s','diamond',0,8).expectedWin,0);
+});
+
 const tiers=[{id:'bronze',name:'브론즈',min:250},{id:'silver',name:'실버',min:500},{id:'gold',name:'골드',min:750}];
 const seasonKey='시즌 19|2026-10-01 15:00:00|2026-10-06 15:00:00';
 function game(profile,won,season=seasonKey,tierId=profile.season_score>=500?'silver':'bronze'){
@@ -117,6 +138,41 @@ test('season changes discard prior runs, previous personal bests allow re-entry,
 
 for(const postgres of [false,true]){
  const dialect=postgres?'PostgreSQL pipeline':'SQLite';
+ test(`${dialect}: Challenger points are credited at the promotion gate, during all three wins and on a fresh retry`,async t=>{
+  const f=await fixture(t,postgres),q=f.q;
+  await q('UPDATE pvp_profiles SET season_score=497,highest_score=497 WHERE user_id=1').run();
+  let played=0;
+  async function play(win,minimum,opponent=497){
+   const profile=await q('SELECT p.*,m.value AS promotion_state FROM pvp_profiles p LEFT JOIN app_meta m ON m.key=? WHERE p.user_id=1','ranked_promotion_v1:1').first();
+   const tier=minimum?'challenger':'bronze',progress=rankedPromotionStatus(profile,tiers,seasonKey,tier);
+   const quote=rankedMatchForecast(profile,opponent,tiers,seasonKey,tier,0,minimum);
+   const result=rankedLadderGame(win,profile.season_score,opponent,progress,tier,0,minimum),delta=result.scoreAfter-profile.season_score;
+   assert.equal(delta,win?quote.expectedWin:(-quote.expectedLoss||0));
+   const token=played?'floor-'+played:'ticket',requestId='floor-game-'+played;
+   if(played)await q('INSERT INTO pvp_ranked_match_tickets_v1671 VALUES(?,?,NULL,?)',token,1,'2026-10-01 16:01:30').run();
+   const response={scoreAfter:result.scoreAfter,scoreChange:delta,rankedSeries:{promotion:result.promotion}},args={ticket:{token,season_key:seasonKey},requestId,beforeScore:profile.season_score,profile,
+    keepPromotionRetry:progress?.status==='CLIMBING'&&Number.isSafeInteger(progress.seriesScore),response,
+    writes:[q('UPDATE pvp_profiles SET season_score=?,highest_score=?,wins=wins+?,losses=losses+? WHERE user_id=1',result.scoreAfter,Math.max(profile.highest_score,result.scoreAfter),+win,+!win),
+     q('INSERT INTO pvp_match_history VALUES(?,?,?)',played+1,1,Math.abs(delta)),q("INSERT INTO coin_logs SELECT id,0,coin,'TEST' FROM users WHERE id=1")]};
+   if(played===1){f.fail('INSERT INTO coin_logs');await assert.rejects(f.commit(args));assert.equal((await q('SELECT season_score FROM pvp_profiles WHERE user_id=1').first()).season_score,profile.season_score);}
+   await f.commit(args);assert.equal((await rankedFightReceipt(f.env,1,requestId,token)).scoreChange,delta);await assert.rejects(f.commit(args));
+   played++;
+   return [result.scoreAfter,result.promotion?.status||null,result.promotion?.wins||0];
+  }
+  assert.deepEqual(await play(true,8),[505,'STARTED',0]);
+  assert.deepEqual(await play(true,8),[513,'ACTIVE',1]);
+  assert.deepEqual(await play(false,0),[513,'ACTIVE',1]);
+  assert.deepEqual(await play(false,0),[513,'ACTIVE',1]);
+  assert.deepEqual(await play(false,0),[475,'FAILED',1]);
+  // The 513-point personal best must not bypass a failed qualification.
+  assert.deepEqual(await play(false,0),[462,null,0]);
+  assert.deepEqual(await play(true,8,3000),[499,'STARTED',0]);
+  assert.deepEqual(await play(true,8),[507,'ACTIVE',1]);
+  assert.deepEqual(await play(true,8),[515,'ACTIVE',2]);
+  assert.deepEqual(await play(true,8),[523,'PROMOTED',3]);
+  const state=await f.state();assert.equal(state.profile.season_score,523);assert.equal(state.history.length,10);assert.equal(state.receipts.length,10);assert.equal(state.energy.energy,0);
+  assert.equal(await q('SELECT value FROM app_meta WHERE key=?','ranked_promotion_v1:1').first(),null);
+ });
  test(`${dialect}: retries, rollback and stale same-score tickets cannot advance a promotion twice`,async t=>{
   const f=await fixture(t,postgres),q=f.q,key='ranked_promotion_v1:1',snapshot=async()=>{
    const p=await q('SELECT season_score,highest_score FROM pvp_profiles WHERE user_id=1').first();

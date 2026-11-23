@@ -1,6 +1,6 @@
 import {mountSupportApplicationAdmin} from './supporter-application-admin-v1.mjs?v=20261114-month2-purchase';
-import {mountSupportPackageAdmin} from './support-package-admin-v1.mjs?v=20261118-package-repeat23-v1';
-import {mountPackageAlerts} from '../js/support-package-alerts-v1.mjs?v=20261118-package-repeat23-v1';
+import {mountSupportPackageAdmin} from './support-package-admin-v1.mjs?v=20261121-package-stars-v1';
+import {mountPackageAlerts} from '../js/support-package-alerts-v1.mjs?v=20261121-package-stars-v1';
 import {jointAdminRequest} from '../js/joint-account-transport.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';

@@ -33,6 +33,7 @@ export async function blackcrownPackShopRow(env){
  const scheduling=await processMercenaryStockSchedules(env);
  const {row,stock}=await readBlackcrownStockSnapshot(env);
  const scheduled=blackcrownScheduledSettings(row?JSON.parse(row.value):initial(),scheduling.serverNow);
+ if(!BLACKCROWN_PACK_RELEASE_ENABLED||(scheduled.settings.mode!=='ON'&&!scheduled.openingScheduled))return null;
  return {...blackcrownPackCatalogRow(scheduled.settings,stock),openingAt:scheduled.openingAt,openingScheduled:scheduled.openingScheduled};
 }
 export async function saveBlackcrownPack(env,actor,body){

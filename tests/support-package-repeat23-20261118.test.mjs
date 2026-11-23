@@ -51,9 +51,9 @@ test('migration and crossed-cycle payment roll back with inventory/audit/receipt
  }finally{await f.close();}
 });
 
-test('23 November is fully open; midnight on the 24th rejects new applications but preserves receipts',async()=>{
- assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT,Date.parse('2026-11-24T00:00:00+09:00'));for(const date of ['2026-11-19T00:00:00+09:00','2026-11-23T00:00:00+09:00','2026-11-23T23:59:59.999+09:00'])assert(supportPackageSalesOpen(Date.parse(date)));assert(!supportPackageSalesOpen(SUPPORT_PACKAGE_SALES_ENDS_AT));
- const f=await packageFixture({postgres:true});try{f.clock.now=SUPPORT_PACKAGE_SALES_ENDS_AT-1;await f.activate();const requestId=crypto.randomUUID(),applied=await f.call('server-support/package/apply',{user:2,body:{requestId,quantity:11}});assert.equal(applied.status,200);
-  f.clock.now=SUPPORT_PACKAGE_SALES_ENDS_AT;assert.equal((await f.call('server-support/info',{user:2})).body.packageVisible,false);assert.equal((await f.call('server-support/package/apply',{user:2,body:{requestId:crypto.randomUUID(),quantity:11}})).status,410);assert.equal((await f.call('server-support/package/apply',{user:2,body:{requestId,quantity:11}})).body.replayed,true);assert.equal((await f.process(applied.body.order)).status,200);
+test('permanent sale accepts applications after November 23 and preserves receipts across midnight',async()=>{
+ const midnight=Date.parse('2026-11-24T00:00:00+09:00');assert.equal(SUPPORT_PACKAGE_SALES_ENDS_AT,null);for(const date of ['2026-11-19T00:00:00+09:00','2026-11-23T00:00:00+09:00','2026-11-23T23:59:59.999+09:00'])assert(supportPackageSalesOpen(Date.parse(date)));assert(supportPackageSalesOpen(midnight));
+ const f=await packageFixture({postgres:true});try{f.clock.now=midnight-1;await f.activate();const requestId=crypto.randomUUID(),applied=await f.call('server-support/package/apply',{user:2,body:{requestId,quantity:11}});assert.equal(applied.status,200);
+  f.clock.now=midnight;assert.equal((await f.call('server-support/info',{user:2})).body.packageVisible,true);assert.equal((await f.call('server-support/package/apply',{user:2,body:{requestId:crypto.randomUUID(),quantity:11}})).status,200);assert.equal((await f.call('server-support/package/apply',{user:2,body:{requestId,quantity:11}})).body.replayed,true);assert.equal((await f.process(applied.body.order)).status,200);
  }finally{await f.close();}
 });

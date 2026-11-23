@@ -14,6 +14,12 @@
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
   const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단', skillChips: '스킬칩' };
+  const TUNING_PATH = 'character/garage/tuning';
+  const TUNING_SLOTS = {
+    frame: { label: '프레임', effect: '긴급 구난' },
+    engine: { label: '엔진', effect: '재점화' },
+    tire: { label: '타이어', effect: '위기 이탈' }
+  };
   const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', ASURA_BALBALTA: '만 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원', CHAT_SQUAD:'채팅부대 · 함께 만드는 함성', CHAMPIONS_RULER:'챔스의 지배자', SPECIAL_OPS_COMMANDER:'특공사령관', SECRET_POLICE: '핑두의 비밀경찰', ADMINISTRATION: '헌신의 증표', FLAG_BRIGADE: '끝까지 깃발을 지켜낸 자', IMMORTAL_HEIR: '불멸의 왕 · 시즌 1' };
   const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어', COLLECTION_MASTERY: '카드 도감 100% · 대상 차량 90% 이상 (신규 4종 제외)', TROPHY_KINDS: '서로 다른 트로피 4종', PREDICTION_HITS: '승부예측 누적 적중 1,000회', CHALLENGER_TOTAL: '챌린저 누적 10회 달성', TERRITORY_VICTORIES: '영토전 30승 · 개인 교전 8,000승' };
 
@@ -38,6 +44,8 @@
       power: '<path d="M13 2 5 13h6l-1 9 8-12h-6l1-8Z"/>',
       shield: '<path d="m12 3 7 3v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3Z"/>',
       close: '<path d="M6 6l12 12M18 6 6 18"/>',
+      previous: '<path d="m15 6-6 6 6 6"/>',
+      next: '<path d="m9 6 6 6-6 6"/>',
       check: '<path d="m5 12 4 4L19 6"/>'
     };
     return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.equipment}</svg>`;
@@ -55,6 +63,8 @@
       search: '',
       busy: false,
       chipSlot: 1,
+      garagePreviewId: null,
+      garageFilter: null,
       titleProgress: {},
       notice: null,
       noticeTimer: 0
@@ -64,6 +74,7 @@
     let quantitiesLoading = false;
     let quantitiesFailed = false;
     let quantitiesCursor = 0;
+    const tuning = { snapshot: null, pending: null, slot: null, invoker: null, stage: 0, notice: '', error: '', loadError: '', saving: false };
     if (!TAB_LABELS[state.tab]) state.tab = 'equipment';
 
     const profile = options.profile || (typeof window.loadUser === 'function' ? window.loadUser() : null) || { nickname: '플레이어' };
@@ -96,8 +107,14 @@
     };
     const equippedVehicle = () => {
       const id = Number(state.data?.equippedVehicleId || 0);
+      if (state.data?.equippedVehicleId === null) return null;
       return state.data?.vehicles?.find((row) => Number(row.id) === id) || state.data?.bonuses?.garage || null;
     };
+    const garageRows = () => state.data?.vehicles || [];
+    const garageVehicle = () => garageRows().find(row => Number(row.id) === state.garagePreviewId)
+      || equippedVehicle() || garageRows().find(row => row.owned) || garageRows()[0] || null;
+    const activeGarageId = () => Number(state.data?.equippedVehicleId || 0);
+    const garageStatus = row => Number(row.id) === activeGarageId() ? '장착 중' : row.owned ? '보유' : '미획득';
 
     function recalculate() {
       if (!state.data) return;
@@ -337,29 +354,236 @@
       </section>`;
     }
 
-    function vehicleCard(row) {
-      return `<article class="clv2-vehicle-card ${row.owned ? 'is-owned' : 'is-locked'} ${row.equipped ? 'is-equipped' : ''} ${rarityClass(row.rarity)}">
-        <div class="clv2-vehicle-thumb">${row.image ? art(row) : '<span class="clv2-art-empty"></span>'}</div>
-        <div><span>${RARITY_LABELS[normalizeRarity(row.rarity)]}</span><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.description || '이동수단')}</small></div>
-        <dl><div><dt>PVE</dt><dd>+${formatNumber(row.pvePower)}</dd></div><div><dt>PVP</dt><dd>+${formatNumber(row.pvpPower)}</dd></div></dl>
-        ${row.owned ? (row.equipped ? '<button type="button" data-garage-unequip>장착 해제</button>' : `<button type="button" data-garage-equip="${row.id}">장착</button>`) : '<button type="button" disabled>미획득</button>'}
-      </article>`;
+    function vehicleCard(row, selectedId) {
+      const id = Number(row.id);
+      const status = garageStatus(row);
+      return `<button type="button" class="clv2-vehicle-card ${rarityClass(row.rarity)}" data-garage-preview="${id}" aria-pressed="${id === selectedId}" aria-label="${escapeHtml(row.name)} · ${status}">
+        <span class="clv2-vehicle-thumb">${row.image ? `<img src="${escapeHtml(resolveAsset(itemImage(row)))}" loading="lazy" decoding="async" alt="">` : icon('garage')}</span>
+        <span class="clv2-vehicle-card-name">${escapeHtml(row.name)}</span>
+        <span class="clv2-vehicle-card-meta"><span>${RARITY_LABELS[normalizeRarity(row.rarity)]}</span><span>${status}</span></span>
+      </button>`;
+    }
+
+    const tuningVehicleId = () => state.tab === 'garage' && Number(garageVehicle()?.id) === activeGarageId() ? activeGarageId() : 0;
+    const tuningSnapshot = () => tuning.snapshot?.vehicleId === tuningVehicleId() ? tuning.snapshot : null;
+    const tuningArt = (slot, stage) => `<img src="${escapeHtml(resolveAsset(`assets/ui/garage/tuning-v2/${slot}-${stage}.webp`))}" alt="" draggable="false" decoding="async">`;
+
+    function tuningSlots() {
+      const snapshot = tuningSnapshot();
+      return Object.entries(TUNING_SLOTS).map(([slot, { label }]) => {
+        const stage = Number(snapshot?.equipped[slot]) || 0;
+        const status = stage ? `${stage}단계` : snapshot ? '미장착' : tuning.loadError ? '다시 확인' : '확인 중';
+        return `<button type="button" class="clv2-tuning-slot clv2-tuning-slot-${slot}" data-tuning-slot="${slot}" data-part-stage="${stage}" aria-label="${label} · ${status}" aria-haspopup="dialog">
+          ${tuningArt(slot, stage || 1)}<b>${label}</b><span>${status}</span>
+        </button>`;
+      }).join('');
+    }
+
+    function renderTuningSlots() {
+      const slots = root.querySelector('[data-tuning-slots]');
+      if (!slots) return;
+      const focusedSlot = document.activeElement?.dataset.tuningSlot;
+      slots.innerHTML = tuningSlots();
+      if (focusedSlot) slots.querySelector(`[data-tuning-slot="${focusedSlot}"]`)?.focus({ preventScroll: true });
+    }
+
+    function renderTuningDialog(focus) {
+      const dialog = root.querySelector('[data-tuning-dialog]');
+      if (!dialog || !tuning.slot) return;
+      const { label, effect } = TUNING_SLOTS[tuning.slot];
+      const snapshot = tuningSnapshot();
+      const parts = snapshot?.parts.filter(part => part.slot === tuning.slot) || [];
+      const installed = snapshot?.equipped[tuning.slot] || 0;
+      const selected = parts.find(part => part.stage === tuning.stage) || parts.find(part => part.stage === installed) || parts.find(part => part.owned) || parts[0];
+      tuning.stage = selected?.stage || 0;
+      const previousFocus = dialog.contains(document.activeElement) ? document.activeElement : null;
+      const previousStage = previousFocus?.dataset.tuningStage;
+      const previousSlot = previousFocus?.dataset.tuningSwitch;
+      const stateLabel = part => part.stage === installed ? '장착 중' : part.owned ? '보유' : part.available ? '미획득' : '사용 불가';
+      const canEquip = selected?.owned && selected.stage !== installed;
+      dialog.innerHTML = `<header class="clv2-tuning-heading">
+        <div><h2 id="clv2-tuning-title">차량 튜닝</h2><p>${escapeHtml(equippedVehicle()?.name)}</p></div>
+        <button type="button" class="clv2-tuning-button clv2-tuning-close" data-tuning-close aria-label="닫기" autofocus>${icon('close')}</button>
+      </header>
+      <div class="clv2-tuning-categories" role="group" aria-label="튜닝 부위">
+        ${Object.entries(TUNING_SLOTS).map(([slot, category]) => {
+          const mounted = snapshot?.equipped[slot];
+          return `<button type="button" data-tuning-switch="${slot}" aria-pressed="${slot === tuning.slot}" ${tuning.saving ? 'disabled' : ''}>
+            <b>${category.label}</b><span>${mounted ? `${mounted}단계 장착` : snapshot ? '미장착' : '확인 중'}</span>
+          </button>`;
+        }).join('')}
+      </div>${selected ? `
+        <div class="clv2-tuning-detail" data-part-stage="${selected.stage}">
+          <div class="clv2-tuning-preview">${tuningArt(tuning.slot, selected.stage)}</div>
+          <div class="clv2-tuning-part-copy">
+            <h3>${escapeHtml(selected.name)}</h3>
+            <p class="clv2-tuning-part-meta"><b>${selected.stage}단계</b> <span>${stateLabel(selected)}</span></p>
+            <div class="clv2-tuning-effect"><p><strong>${effect}</strong> <span>예정 효과</span></p>
+              <p>${escapeHtml(selected.effect)}</p>
+              ${selected.extraEffect ? `<p>${escapeHtml(selected.extraEffect)}</p>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="clv2-tuning-stages" role="group" aria-label="${label} 단계">
+          ${parts.map(part => `<button type="button" class="clv2-tuning-stage" data-tuning-stage="${part.stage}" data-part-stage="${part.stage}" aria-pressed="${part.stage === tuning.stage}" ${tuning.saving ? 'disabled' : ''}>
+            ${tuningArt(tuning.slot, part.stage)}<b>${part.stage}단계</b><span>${stateLabel(part)}</span>
+          </button>`).join('')}
+        </div>
+        ${tuning.error ? `<p class="clv2-tuning-error" role="alert">${escapeHtml(tuning.error)}</p>` : ''}
+        <footer class="clv2-tuning-actions">
+          <span class="clv2-tuning-notice" role="status">${escapeHtml(tuning.notice)}</span>
+          ${installed ? `<button type="button" class="clv2-tuning-button" data-tuning-remove ${tuning.saving ? 'disabled' : ''}>장착 해제</button>` : ''}
+          <button type="button" class="clv2-tuning-button is-primary" data-tuning-apply ${tuning.saving || !canEquip ? 'disabled' : ''}>${tuning.saving ? '저장 중…' : canEquip ? `${selected.stage}단계 장착` : stateLabel(selected)}</button>
+        </footer>` : tuning.loadError ? `
+        <p class="clv2-tuning-error" role="alert">${escapeHtml(tuning.loadError)}</p>
+        <button type="button" class="clv2-tuning-button" data-tuning-retry>다시 시도</button>` : '<p class="clv2-tuning-pending" role="status">부품을 불러오는 중…</p>'}`;
+      if (!dialog.open) dialog.showModal();
+      const selector = focus || (previousStage ? `[data-tuning-stage="${previousStage}"]` : previousSlot ? `[data-tuning-switch="${previousSlot}"]` : '[data-tuning-close]');
+      if (selector) dialog.querySelector(selector)?.focus({ preventScroll: true });
+    }
+
+    function closeTuning() {
+      const slot = tuning.invoker;
+      tuning.slot = null;
+      tuning.invoker = null;
+      root.querySelector('[data-tuning-dialog]')?.close();
+      if (slot) root.querySelector(`[data-tuning-slot="${slot}"]`)?.focus({ preventScroll: true });
+    }
+
+    function cancelTuningRead() {
+      tuning.pending?.controller.abort();
+      tuning.pending = null;
+    }
+
+    function readTuningResponse(response, vehicleId) {
+      const snapshot = response?.tuning;
+      if (snapshot?.vehicleId !== vehicleId || !Array.isArray(snapshot.parts) || !snapshot.equipped ||
+          snapshot.parts.some(part => !Object.hasOwn(TUNING_SLOTS, part?.slot) || !Number.isInteger(part.stage) || part.stage < 1 || part.stage > 5)) {
+        throw new Error('차고지 튜닝 정보를 확인할 수 없습니다.');
+      }
+      return snapshot;
+    }
+
+    async function loadTuning(force = false) {
+      const vehicleId = tuningVehicleId();
+      if (!vehicleId || destroyed || tuning.saving || (!force && (tuningSnapshot() || tuning.pending?.vehicleId === vehicleId))) return;
+      cancelTuningRead();
+      const pending = { vehicleId, controller: new AbortController() };
+      tuning.pending = pending;
+      tuning.loadError = '';
+      renderTuningDialog();
+      try {
+        const response = await request(`${TUNING_PATH}?vehicleId=${vehicleId}`, { signal: pending.controller.signal });
+        if (tuning.pending !== pending || tuningVehicleId() !== vehicleId) return;
+        tuning.snapshot = readTuningResponse(response, vehicleId);
+      } catch (error) {
+        if (tuning.pending === pending && tuningVehicleId() === vehicleId) tuning.loadError = error?.message || '부품을 불러오지 못했습니다.';
+      } finally {
+        if (tuning.pending === pending) {
+          tuning.pending = null;
+          if (tuningVehicleId() === vehicleId) {
+            renderTuningSlots();
+            renderTuningDialog();
+          }
+        }
+      }
+    }
+
+    function selectTuningSlot(slot, fromShowcase = false) {
+      if (!tuningVehicleId() || !Object.hasOwn(TUNING_SLOTS, slot) || state.busy) return;
+      if (fromShowcase) tuning.invoker = slot;
+      tuning.slot = slot;
+      tuning.stage = 0;
+      tuning.notice = '';
+      tuning.error = '';
+      renderTuningDialog(fromShowcase ? '[data-tuning-close]' : `[data-tuning-switch="${slot}"]`);
+      if (!tuning.loadError) void loadTuning();
+    }
+
+    async function saveTuning(action) {
+      const snapshot = tuningSnapshot();
+      const slot = tuning.slot;
+      if (state.busy || !snapshot || !slot) return;
+      const installed = snapshot.equipped[slot];
+      const stage = action === 'unequip' ? installed : tuning.stage;
+      if (!stage || (action === 'equip' && (stage === installed || !snapshot.parts.some(part => part.slot === slot && part.stage === stage && part.owned)))) return;
+      cancelTuningRead();
+      state.busy = true;
+      tuning.saving = true;
+      tuning.notice = '';
+      tuning.error = '';
+      renderTuningDialog('[data-tuning-close]');
+      const { vehicleId } = snapshot;
+      let refresh = false;
+      try {
+        const response = await request(TUNING_PATH, { method: 'POST', body: JSON.stringify({ vehicleId, slot, stage, action }) });
+        if (destroyed || tuningVehicleId() !== vehicleId) return;
+        tuning.snapshot = readTuningResponse(response, vehicleId);
+        const updated = tuning.snapshot.equipped[slot];
+        const applied = action === 'equip' ? updated === stage : !updated;
+        renderTuningSlots();
+        const { label } = TUNING_SLOTS[slot];
+        const message = applied
+          ? `${label} ${action === 'equip' ? `${stage}단계 장착 완료` : '장착 해제'}`
+          : `${label}의 최신 장착 상태를 불러왔습니다.`;
+        if (tuning.slot) tuning.notice = message;
+        else showNotice(message);
+      } catch (error) {
+        if (destroyed || tuningVehicleId() !== vehicleId) return;
+        tuning.error = error?.message || '부품 장착을 처리하지 못했습니다.';
+        if (!tuning.slot) showNotice(tuning.error, true);
+        refresh = true;
+      } finally {
+        state.busy = false;
+        tuning.saving = false;
+        if (!destroyed) renderTuningDialog();
+        if (refresh) void loadTuning(true);
+      }
     }
 
     function garageView() {
-      const active = equippedVehicle();
-      const rows = state.data?.vehicles || [];
-      return `<section class="clv2-view clv2-garage-view">
-        <article class="clv2-garage-bay ${active ? 'has-vehicle' : 'is-empty'}">
-          <div class="clv2-garage-grid" aria-hidden="true"></div>
-          <header class="clv2-stage-status"><span><i></i> GARAGE LINK ONLINE</span><b>BAY 01</b></header>
-          ${active?.image ? `<img class="clv2-garage-vehicle" src="${escapeHtml(resolveAsset(active.image))}" alt="${escapeHtml(active.name)}" loading="eager" decoding="async">` : '<div class="clv2-garage-empty"><b>이동수단 미장착</b><span>보유 이동수단에서 장착할 수 있습니다.</span></div>'}
-          <div class="clv2-garage-active-copy"><small>${active ? RARITY_LABELS[normalizeRarity(active.rarity)] : 'NO VEHICLE'}</small><strong>${escapeHtml(active?.name || '장착된 이동수단 없음')}</strong><span>${escapeHtml(active?.description || '보유 이동수단에서 원하는 항목을 선택하세요.')}</span></div>
+      const vehicle = garageVehicle();
+      const rows = garageRows();
+      const owned = rows.filter(row => row.owned);
+      const filter = state.garageFilter || (owned.length ? 'owned' : 'all');
+      const listed = filter === 'owned' ? owned : rows;
+      const id = Number(vehicle?.id) || 0;
+      const hasTuning = Boolean(tuningVehicleId());
+      const action = hasTuning
+        ? '<button type="button" class="clv2-garage-action" data-garage-action data-garage-unequip>차량 장착 해제</button>'
+        : vehicle?.owned ? `<button type="button" class="clv2-garage-action is-primary" data-garage-action data-garage-equip="${id}">차량 장착</button>` : '';
+      return `<section class="clv2-view clv2-garage-view" aria-label="차고지">
+        <article class="clv2-garage-bay ${vehicle ? rarityClass(vehicle.rarity) : 'is-empty'}" aria-labelledby="clv2-garage-vehicle-name">
+          <header class="clv2-garage-heading">
+            <h2 id="clv2-garage-vehicle-name">${escapeHtml(vehicle?.name || '차고지')}</h2>
+            ${vehicle ? `<p><b>${RARITY_LABELS[normalizeRarity(vehicle.rarity)]}</b><span${hasTuning ? ' class="is-equipped"' : ''}>${garageStatus(vehicle)}</span></p>` : ''}
+          </header>
+          ${vehicle ? `<div class="clv2-garage-display"><div class="clv2-garage-stage">
+            ${vehicle.image ? `<img class="clv2-garage-vehicle" src="${escapeHtml(resolveAsset(vehicle.image))}" alt="${escapeHtml(vehicle.name)}" loading="eager" decoding="async" fetchpriority="high">` : '<div class="clv2-garage-empty"><p>차량 이미지 준비 중</p></div>'}
+            ${hasTuning ? `<div class="clv2-tuning-slots" data-tuning-slots role="group" aria-label="이동수단 부품 슬롯">${tuningSlots()}</div>` : ''}
+          </div></div>
+          <div class="clv2-garage-caption">
+            ${vehicle.description ? `<p>${escapeHtml(vehicle.description)}</p>` : ''}
+            <dl class="clv2-garage-power">
+              <div><dt>PvE 전투력</dt><dd>+${formatNumber(vehicle.pvePower)}</dd></div>
+              <div><dt>PvP 전투력</dt><dd>+${formatNumber(vehicle.pvpPower)}</dd></div>
+            </dl>${action}
+          </div>` : `<div class="clv2-garage-empty">${icon('garage')}<p>등록된 이동수단이 없습니다.</p></div>`}
         </article>
-        <aside class="clv2-vehicle-collection">
-          <header class="clv2-panel-heading"><span>VEHICLE STORAGE</span><i>${rows.filter((row) => row.owned).length} / ${rows.length}</i></header>
-          <div class="clv2-vehicle-list">${rows.map(vehicleCard).join('') || '<div class="clv2-empty-state"><b>등록된 이동수단이 없습니다.</b></div>'}</div>
-        </aside>
+        ${rows.length ? `<section class="clv2-vehicle-collection" aria-labelledby="clv2-garage-collection-title">
+          <header class="clv2-vehicle-collection-head">
+            <h3 id="clv2-garage-collection-title">차량 보관함</h3>
+            <div class="clv2-garage-controls">
+              <div class="clv2-garage-filters" role="group" aria-label="차량 보유 여부">
+                <button type="button" data-garage-filter="owned" aria-pressed="${filter === 'owned'}">보유 <b>${formatNumber(owned.length)}</b></button>
+                <button type="button" data-garage-filter="all" aria-pressed="${filter === 'all'}">전체 <b>${formatNumber(rows.length)}</b></button>
+              </div>
+              ${listed.length > 1 ? `<button type="button" class="clv2-garage-page" data-garage-page="-1" aria-label="이전 차량 목록" disabled>${icon('previous')}</button><button type="button" class="clv2-garage-page" data-garage-page="1" aria-label="다음 차량 목록">${icon('next')}</button>` : ''}
+            </div>
+          </header>
+          ${listed.length ? `<div class="clv2-vehicle-list" data-garage-list role="group" aria-label="차량 목록">${listed.map(row => vehicleCard(row, id)).join('')}</div>` : '<p class="clv2-vehicle-empty">보유한 이동수단이 없습니다.</p>'}
+        </section>` : ''}
+        ${hasTuning ? '<dialog class="clv2-tuning-dialog" data-tuning-dialog aria-labelledby="clv2-tuning-title"></dialog>' : ''}
       </section>`;
     }
 
@@ -418,16 +642,23 @@
           <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${menuIcon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
           <div class="clv2-live-status"><small>${titleBadge(activeTitle)}</small><b>${escapeHtml(profile.nickname || '플레이어')}</b></div>
         </header>
-        ${options.forgePublicEntry === true ? `<div class="clv2-growth-links"><a class="clv2-growth-link" href="/equipment-forge/">${menuIcon('forge')}<div><b>장비 강화</b><span>강화 · 보호 · 복구</span></div></a><a class="clv2-growth-link" href="/equipment-polish/">${menuIcon('polish-stone')}<div><b>장비 연마</b><span>랜덤 옵션 성장</span></div></a></div>` : ''}
+        ${options.forgePublicEntry === true && state.tab !== 'garage' ? `<div class="clv2-growth-links"><a class="clv2-growth-link" href="/equipment-forge/">${menuIcon('forge')}<div><b>장비 강화</b><span>강화 · 보호 · 복구</span></div></a><a class="clv2-growth-link" href="/equipment-polish/">${menuIcon('polish-stone')}<div><b>장비 연마</b><span>랜덤 옵션 성장</span></div></a></div>` : ''}
         <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : state.tab === 'skillChips' ? skillChipView() : garageView()}</main>
         <div class="clv2-notice" data-loadout-notice role="status" aria-live="polite"></div>
       </div>`;
     }
 
     function render() {
+      const garageScroll = state.tab === 'garage' ? (root.querySelector('[data-garage-list]')?.scrollLeft || 0) : 0;
       root.innerHTML = shell();
+      if (state.tab === 'garage') {
+        const list = root.querySelector('[data-garage-list]');
+        if (list) list.scrollLeft = garageScroll;
+        updateGaragePages();
+      }
       renderNotice();
       runes?.mount(root);
+      renderTuningDialog();
     }
 
     async function mutate(action, optimistic, rollback, successMessage) {
@@ -501,42 +732,123 @@
       );
     }
 
-    function setVehicle(vehicleId) {
+    async function setVehicle(vehicleId) {
+      if (state.busy) return;
       const previous = state.data.equippedVehicleId || null;
       const row = state.data.vehicles.find((entry) => Number(entry.id) === Number(vehicleId) && entry.owned);
       if (!row) return;
-      mutate(
+      state.garagePreviewId = Number(row.id);
+      await mutate(
         () => request('character/garage/equip', { method: 'POST', body: JSON.stringify({ vehicleId: Number(vehicleId) }) }),
         () => { state.data.equippedVehicleId = Number(vehicleId); state.data.vehicles.forEach((entry) => { entry.equipped = Number(entry.id) === Number(vehicleId); }); recalculate(); },
         () => { state.data.equippedVehicleId = previous; state.data.vehicles.forEach((entry) => { entry.equipped = Number(entry.id) === Number(previous); }); },
         `${row.name} 장착 완료`
       );
+      if (tuning.pending?.vehicleId !== tuningVehicleId()) cancelTuningRead();
+      void loadTuning();
+      root.querySelector('[data-garage-action]')?.focus({ preventScroll: true });
     }
 
-    function clearVehicle() {
+    async function clearVehicle() {
+      if (state.busy) return;
       const previous = state.data.equippedVehicleId || null;
-      mutate(
+      state.garagePreviewId = Number(garageVehicle()?.id) || null;
+      await mutate(
         () => request('character/garage/unequip', { method: 'POST', body: '{}' }),
         () => { state.data.equippedVehicleId = null; state.data.vehicles.forEach((entry) => { entry.equipped = false; }); recalculate(); },
         () => { state.data.equippedVehicleId = previous; state.data.vehicles.forEach((entry) => { entry.equipped = Number(entry.id) === Number(previous); }); },
         '이동수단 장착 해제'
       );
+      if (!tuningVehicleId()) cancelTuningRead();
+      void loadTuning();
+      root.querySelector('[data-garage-action]')?.focus({ preventScroll: true });
+    }
+
+    function updateGaragePages() {
+      const list = root.querySelector('[data-garage-list]');
+      if (!list) return;
+      const max = list.scrollWidth - list.clientWidth;
+      for (const button of root.querySelectorAll('[data-garage-page]')) {
+        button.hidden = max <= 1;
+        button.disabled = button.dataset.garagePage === '-1' ? list.scrollLeft <= 1 : list.scrollLeft >= max - 1;
+      }
+    }
+
+    function onGarageScroll(event) {
+      if (event.target?.matches?.('[data-garage-list]')) updateGaragePages();
+    }
+
+    function refreshGarage(focus) {
+      if (tuning.pending?.vehicleId !== tuningVehicleId()) cancelTuningRead();
+      tuning.loadError = '';
+      render();
+      root.querySelector(focus)?.focus({ preventScroll: true });
+      void loadTuning();
+    }
+
+    function selectGarageFilter(filter) {
+      if (state.busy || !['owned', 'all'].includes(filter)) return;
+      state.garageFilter = filter;
+      if (filter === 'owned' && !garageVehicle()?.owned) {
+        state.garagePreviewId = Number(equippedVehicle()?.id || garageRows().find(row => row.owned)?.id) || null;
+      }
+      const list = root.querySelector('[data-garage-list]');
+      if (list) list.scrollLeft = 0;
+      refreshGarage(`[data-garage-filter="${filter}"]`);
+    }
+
+    function setTab(tab) {
+      if (!TAB_LABELS[tab] || (tab === 'skillChips' && state.data?.skillChips?.visible !== true) || state.tab === tab) return;
+      cancelTuningRead();
+      tuning.snapshot = null;
+      tuning.slot = null;
+      tuning.invoker = null;
+      tuning.loadError = '';
+      state.tab = tab;
+      render();
+      void loadTuning();
+    }
+
+    function onTuningCancel(event) {
+      if (!event.target.matches('[data-tuning-dialog]')) return;
+      event.preventDefault();
+      closeTuning();
     }
 
     function onClick(event) {
       const target = event.target.closest('button');
       if (!target || !root.contains(target)) return;
       if (runes?.handleClick(target)) return;
-      if (target.hasAttribute('data-open-avatar-shop')) {
+      if (target.dataset.tuningSlot) selectTuningSlot(target.dataset.tuningSlot, true);
+      else if (target.dataset.tuningSwitch) selectTuningSlot(target.dataset.tuningSwitch);
+      else if (target.dataset.garagePreview) {
+        const id = Number(target.dataset.garagePreview);
+        if (state.busy || !garageRows().some(row => Number(row.id) === id)) return;
+        state.garagePreviewId = id;
+        refreshGarage(`[data-garage-preview="${id}"]`);
+      } else if (target.dataset.garageFilter) selectGarageFilter(target.dataset.garageFilter);
+      else if (target.dataset.garagePage) {
+        const list = root.querySelector('[data-garage-list]');
+        list?.scrollBy({ left: Number(target.dataset.garagePage) * list.clientWidth });
+      }
+      else if (target.hasAttribute('data-tuning-close')) closeTuning();
+      else if (target.hasAttribute('data-tuning-retry')) void loadTuning(true);
+      else if (target.hasAttribute('data-tuning-apply')) void saveTuning('equip');
+      else if (target.hasAttribute('data-tuning-remove')) void saveTuning('unequip');
+      else if (target.dataset.tuningStage) {
+        tuning.stage = Number(target.dataset.tuningStage);
+        tuning.notice = '';
+        tuning.error = '';
+        renderTuningDialog(`[data-tuning-stage="${tuning.stage}"]`);
+      } else if (target.hasAttribute('data-open-avatar-shop')) {
         options.onOpenAvatarShop?.();
       } else if (target.hasAttribute('data-quantities-retry')) {
         void loadQuantities();
       } else if (target.dataset.tab) {
-        state.tab = target.dataset.tab;
+        setTab(target.dataset.tab);
         const url = new URL(window.location.href);
         url.searchParams.set('tab', state.tab);
         history.replaceState(null, '', url);
-        render();
       } else if (target.dataset.slotFilter) {
         state.slot = target.dataset.slotFilter;
         render();
@@ -571,6 +883,7 @@
 
     async function load() {
       const generation = ++loadGeneration;
+      cancelTuningRead();
       quantitiesLoading = false;
       quantitiesFailed = false;
       quantitiesCursor = 0;
@@ -587,6 +900,7 @@
         if (state.tab === 'skillChips' && state.data.skillChips?.visible !== true) state.tab = 'equipment';
         recalculate();
         render();
+        void loadTuning(true);
         options.onLoad?.(state.data);
         void runes?.load();
         if (state.data.equipmentQuantitiesPending) void loadQuantities(generation);
@@ -644,23 +958,30 @@
     }
 
     root.addEventListener('click', onClick);
+    root.addEventListener('cancel', onTuningCancel, true);
+    root.addEventListener('scroll', onGarageScroll, true);
     root.addEventListener('change', onChange);
     root.addEventListener('input', onInput);
+    window.addEventListener?.('resize', updateGaragePages);
     load();
 
     return {
       reload: load,
       setTitleProgress(progress) { state.titleProgress = progress || {}; if (state.data && state.tab === 'title' && !destroyed) render(); },
-      setTab(tab) { if (TAB_LABELS[tab] && (tab !== 'skillChips' || state.data?.skillChips?.visible === true)) { state.tab = tab; render(); } },
+      setTab,
       getState() { return structuredClone(state.data); },
       destroy() {
         destroyed = true;
         loadGeneration++;
+        cancelTuningRead();
         runes?.destroy();
         window.clearTimeout(state.noticeTimer);
         root.removeEventListener('click', onClick);
+        root.removeEventListener('cancel', onTuningCancel, true);
+        root.removeEventListener('scroll', onGarageScroll, true);
         root.removeEventListener('change', onChange);
         root.removeEventListener('input', onInput);
+        window.removeEventListener?.('resize', updateGaragePages);
         root.innerHTML = '';
       }
     };

@@ -2,7 +2,7 @@ import {rankedFixture as fixture} from './helpers/ranked-series-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {rankedOwnedMercenaries,rankedSelectedMercenaries} from '../functions/_mercenary_account.js';
-import {readRankedRosters,saveRankedRoster,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../functions/_ranked_series.js';
+import {readRankedRosters,saveRankedRoster,saveRankedSeriesTicket,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../functions/_ranked_series.js';
 import {commitRankedFight,rankedFightReceipt,readRankedEnergy} from '../functions/_ranked_reform.js';
 import {RANKED_SINGLE_SERIES_RULES as rules,rankedSeriesCodes,simulateRankedSeries,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
@@ -12,6 +12,16 @@ const codes=['V-001','V-002','V-003'];
 test('requires three distinct types; copies and malformed inputs cannot qualify',()=>{
  for(const value of [[],codes.slice(0,2),[...codes,'V-004'],['V-001','V-001','V-002'],[null,...codes.slice(1)],'V-001'])assert.throws(()=>rankedSeriesCodes(value,rules));
  assert.deepEqual(rankedSeriesCodes(codes,rules),codes);
+});
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: the Challenger pairing and exact catch-up award are stored with the issued ticket`,async t=>{
+ const {env,q}=await fixture(t,postgres,{rules});
+ for(const id of [1,2])await saveRankedRoster(env,{id},{codes,revision:0},rules);
+ const token='catchup-proof',rosters=await readRankedRosters(env,[1,2],rules);
+ const options={ticket:{token},attacker:1,defender:2,rosters,scoringTier:'challenger',catchUpWinPoints:12,challengerPair:true,
+  insert:q('INSERT OR IGNORE INTO pvp_ranked_match_tickets_v1671 VALUES(?,?,?,NULL,?)',token,1,2,'2039-01-01 00:00:00')};
+ const saved=await saveRankedSeriesTicket(env,options,rules);assert.equal(saved.catchUpWinPoints,12);assert.equal(saved.challengerPair,true);assert.equal(saved.challengerWinFloor,8);
+ const reopened=await readRankedSeriesTicket(env,token,1,2,rules);assert.deepEqual(reopened,saved);
+ assert.equal(await readRankedSeriesTicket(env,token,2,1,rules),null);
 });
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ownership, frozen order, privacy, one set settlement and replay`,async t=>{
  const f=await fixture(t,postgres,{rules}),{env,q}=f;

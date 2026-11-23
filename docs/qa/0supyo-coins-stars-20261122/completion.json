@@ -1,0 +1,153 @@
+{
+  "status": "COMMITTED_AND_VERIFIED",
+  "completedAtKst": "2026-11-22 00:25:19 KST",
+  "userId": "88",
+  "nickname": "0수표",
+  "operationKey": "ops:0supyo:coin2g-star100b:20261122:v1",
+  "auditId": "69576",
+  "delivery": "지갑과 인벤토리에 직접 지급",
+  "coins": {
+    "amount": "20000000000000000",
+    "before": "10994683316366207",
+    "after": "30994683316366207",
+    "logId": "107911303"
+  },
+  "masterStars": {
+    "code": "MASTER_STAR",
+    "name": "마스터의 별",
+    "amount": "100000000000",
+    "before": "134127108115",
+    "after": "234127108115",
+    "unseenBefore": "11172877",
+    "unseenAfter": "100011172877",
+    "logId": "90311213"
+  },
+  "verification": {
+    "verifiedAt": "2026-11-21T15:25:55.608Z",
+    "accountIdentityVerified": true,
+    "readOnly": true,
+    "ledgerCounts": {
+      "coins": 1,
+      "masterStars": 1,
+      "audit": 1
+    },
+    "balancesReconciled": true,
+    "balancesAsVerified": {
+      "id": "88",
+      "nickname": "0수표",
+      "status": "ACTIVE",
+      "coin": "30994683316366207",
+      "master_stars": "234127108115",
+      "master_stars_unseen": "100011172877"
+    },
+    "subsequentCoinEntries": {
+      "delta": "0",
+      "entries": 0
+    },
+    "subsequentStarEntries": {
+      "delta": "0",
+      "entries": 0
+    },
+    "partiallyFailedTransactionRolledBack": true,
+    "fullRehearsalRolledBack": true,
+    "onlyExpectedWrites": true,
+    "accountLockReleased": true,
+    "lookupQueriesOnReplay": 1,
+    "additionalGrantsOnReplay": 0,
+    "messagesSent": 0
+  },
+  "predictionWallet": {
+    "auditId": "69576",
+    "ledgerId": "107911303",
+    "ordinaryCredit": true,
+    "packageLedgerChanged": false,
+    "auctionReservationsPreserved": true,
+    "underlyingPackageLimit": "19515250150000000",
+    "atGrantBefore": {
+      "total": "10994683316366207",
+      "restricted": "10994683316366207",
+      "predictionAvailable": "0"
+    },
+    "atGrantAfter": {
+      "total": "30994683316366207",
+      "restricted": "19515250150000000",
+      "predictionAvailable": "11479433166366207"
+    },
+    "note": "일반 코인 지급 원장은 기존 패키지 제한액을 변경하지 않는다. 승부예측 가능액은 지갑 총액에서 적용되는 제한액을 뺀 금액이다."
+  },
+  "performance": {
+    "conditions": "Windows CLI, production wallet accounting and Master Star mine services on one live PostgreSQL connection per phase, first and repeat visits including network.",
+    "before": [
+      {
+        "kind": "wallet",
+        "visit": "first",
+        "ms": 615,
+        "sql": 4,
+        "longestRoundTripMs": 303
+      },
+      {
+        "kind": "wallet",
+        "visit": "repeat",
+        "ms": 386,
+        "sql": 4,
+        "longestRoundTripMs": 124
+      },
+      {
+        "kind": "masterStarMine",
+        "visit": "first",
+        "ms": 298,
+        "sql": 4,
+        "longestRoundTripMs": 77
+      },
+      {
+        "kind": "masterStarMine",
+        "visit": "repeat",
+        "ms": 290,
+        "sql": 4,
+        "longestRoundTripMs": 73
+      }
+    ],
+    "after": [
+      {
+        "kind": "wallet",
+        "visit": "first",
+        "ms": 612,
+        "sql": 4,
+        "longestRoundTripMs": 310
+      },
+      {
+        "kind": "wallet",
+        "visit": "repeat",
+        "ms": 358,
+        "sql": 4,
+        "longestRoundTripMs": 116
+      },
+      {
+        "kind": "masterStarMine",
+        "visit": "first",
+        "ms": 304,
+        "sql": 4,
+        "longestRoundTripMs": 78
+      },
+      {
+        "kind": "masterStarMine",
+        "visit": "repeat",
+        "ms": 296,
+        "sql": 4,
+        "longestRoundTripMs": 75
+      }
+    ],
+    "grantAndVerificationMs": 1878,
+    "rehearsalMs": 1956,
+    "observations": "지갑과 마스터의 별 광산은 각각 4회 SQL 조회를 사용했다. 운영 DB 왕복 시간을 포함한다. 계정 데이터만 변경했으며 브라우저·실기기 프레임은 측정하지 않았다."
+  },
+  "tests": {
+    "direct": "지급 정수와 한 자리 오차, 잘못된 수령 계정, 별 1개 오차를 검증하고, 재실행 시 영수증 1조회만 수행하는 것을 확인했다.",
+    "supplementary": {
+      "run": 26,
+      "passed": 25,
+      "failed": 1,
+      "detail": "기존 월드 레이드 테스트가 정산 코드를 잘라 실행할 때 seasonAwardStatements를 제공하지 않아 ReferenceError가 발생했다. 해당 테스트 및 게임 실행 소스는 현재 작업에서 수정하지 않았다."
+    }
+  }
+}

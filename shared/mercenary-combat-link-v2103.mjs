@@ -27,6 +27,7 @@ import {isHelios,HELIOS_COMBAT} from './mercenary-helios-v1.mjs';
 import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './mercenary-ss-limited-v1.mjs';
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
 import {mercenaryEquipmentPower} from './mercenary-equipment-v1.mjs';
+import {mercenaryGearPercent,mercenaryGearRankText,rankedGearLink} from './mercenary-equipment-rank-v1.mjs';
 import {mercenaryGrowthDamageCapHp,mercenaryGrowthActionCredit} from './mercenary-growth-review-v2.mjs';
 import {mercenaryRankGap,mercenaryRankRetention,applyMercenaryRankGrowth,MERCENARY_RANK_GROWTH} from './mercenary-rank-growth-v1.mjs';
 // Ordinary rank base power stays fixed; limited fighters have explicit policies.
@@ -38,7 +39,7 @@ export const MERCENARY_COMBAT_LINK=Object.freeze({
  // 원거리 용병보다 훨씬 일찍 쓰러진다(실측: 전투 진행률 73~76% vs 93~97%).
  // 등급별 방벽에 이 비율을 더해 전열에 서는 대가를 보전한다.
  frontRowShieldBonusPercent:60,
- pvpFrontRowShieldBonusByRank:Object.freeze({S:20,SS:40,SSS:60}),
+ pvpFrontRowShieldBonusByRank:Object.freeze({C:5,B:10,A:15,S:20,SS:40,SSS:60}),
  pvpTierGuardPerStep:5,
  ranks:Object.freeze(Object.fromEntries([
   ['C',60,60,80],['B',75,70,100],['A',90,80,120],['S',120,90,150],['SS',160,120,200],['SSS',220,150,280],
@@ -54,7 +55,8 @@ export function mercenaryCombatLinkText(rank,position,actor=null){
  const tier=['S','SS','SSS'].includes(rank)?` PVP에서 S·SS·SSS 상대 용병보다 등급이 높으면 전투 시작 시 등급 차이 1단계마다 연계 공격·피해 상한 100%, 연계 체력·방벽 ${MERCENARY_COMBAT_LINK.pvpTierGuardPerStep*100}%를 추가합니다. 동일 등급과 PVE에는 이 등급 차이 보정을 적용하지 않습니다.`:'';
  const pvePolicy=rearPveCurrentPolicy(actor);
  const cadence=isImperialArcher(actor)?`신궁 강윤은 자연 행동 속도 ${IMPERIAL_ARCHER_COMBAT.speedScale}배, 아군 카드 행동당 ${IMPERIAL_ARCHER_COMBAT.actionCredit}회 추가 행동하며 자기 행동마다 에너지 ${IMPERIAL_ARCHER_COMBAT.actionEnergy}를 회복합니다. PVP 기본 공격 피해는 ${IMPERIAL_ARCHER_COMBAT.pvpBasicDamageScale*100}%, 기본 공격 피해 상한은 ${IMPERIAL_ARCHER_COMBAT.basicCapScale}배, 연환 파갑 피해 상한은 ${IMPERIAL_ARCHER_COMBAT.pvpSkillCapScale}배입니다. 후열 핵심 적 한 명을 집중 공격하고 PVE에서는 천궁 멸진으로 적 전체에 화살비를 내립니다.`:actor?.code===AZANT_CODE?`아잔트는 PVE·PVP 기본 속도와 아군 카드 행동당 추가 행동량이 ${Math.round((AZANT_COMBAT.actionCredit-1)*100)}% 증가합니다(카드 4회당 용병 추가 행동 5회). 베르칸과 동일하게 PVP 기본 공격 최종 피해는 ${AZANT_COMBAT.pvpBasicDamageScale*100}%이며, 후열 우선 최대 2명 결정창 포격의 피해 상한은 기본의 ${AZANT_COMBAT.pvpSkillCapScale}배입니다. 같은 타격의 95~105% 피해 편차를 적용합니다. PVE에서는 결정창 포격과 적 전체 청옥 강림을 각각의 자원·재사용 조건에 따라 번갈아 사용합니다.`:pvePolicy?`PVE에서는 아군 카드 ${pvePolicy.regularActionsPerTurn}회, PVP에서는 ${MERCENARY_COMBAT_LINK.regularActionsPerTurn}회 행동마다 추가 행동합니다. PVE에서는 적의 기본 공격 우선 대상이 됩니다.`:`아군 카드 ${MERCENARY_COMBAT_LINK.regularActionsPerTurn}회 행동마다 추가 행동합니다.`;
- return `아군 일반 카드 5명의 평균 공격력 ${row.attackPercent}%를 최소 공격력, 평균 최대 체력 ${row.hpPercent}%를 최소 최대 체력으로 사용합니다. 전투 시작 시 평균 최대 체력 ${row.shieldPercent}%의 기본 전용 방벽을 얻습니다.${frontText} ${cadence} PVP에서 아군 일반 카드가 모두 전투 불능이면 적 일반 카드 행동마다 반격 행동을 이어갑니다. 기본 공격과 피해·회복·보호 스킬 모두 연계 공격력을 사용합니다.${tier}`;
+ const gear=mercenaryGearRankText(rank);
+ return `아군 일반 카드 5명의 평균 공격력 ${row.attackPercent}%를 최소 공격력, 평균 최대 체력 ${row.hpPercent}%를 최소 최대 체력으로 사용합니다. 전투 시작 시 평균 최대 체력 ${row.shieldPercent}%의 기본 전용 방벽을 얻습니다.${frontText} ${cadence} PVP에서 아군 일반 카드가 모두 전투 불능이면 적 일반 카드 행동마다 반격 행동을 이어갑니다. 기본 공격과 피해·회복·보호 스킬 모두 연계 공격력을 사용합니다.${tier}${gear?' '+gear:''}`;
 }
 
 // Frozen at entry, only between released upper ranks. Never rewrites a winner,
@@ -98,6 +100,16 @@ export const mercenaryDamageCapHp=target=>{
   ?Math.max(hp,Math.max(0,Number(target.shield)||0)):hp;
 };
 
+function cardStatWithoutGear(card,stat){
+ const growth=card.equipmentGrowthBase;
+ const percent=growth?card.equipmentEffects?.[stat==='attack'?'attackPercent':'hpPercent']||0:0;
+ // Carry non-equipment multipliers (such as the season bonus) through the
+ // reference. Old serialized fighters may have just the aggregate gear share.
+ const ratio=card.mercenaryLinkWithoutGear?.[stat]??(card.equipmentShare>0&&card.power>0?Math.max(1,card.power-card.equipmentShare)/card.power:1);
+ const gearedBase=growth?Math.round(growth[stat]*(1+percent/100)):0;
+ return card[stat]*ratio*(gearedBase>0?growth[stat]/gearedBase:1);
+}
+
 export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
  const initialized=new Set();
  const formations=teams.flatMap(team=>team.some(c=>c.ownerId)?[...new Set(team.map(c=>c.ownerId))].map(ownerId=>team.filter(c=>c.ownerId===ownerId)):[team]);
@@ -106,12 +118,19 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   if(cards.length!==regularCardsPerOwner)continue;
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
+  let withoutGear;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
    const rule=isAstra(m)?ASTRA_COMBAT.link:isRazak(m)?RAZAK_COMBAT.link:isImperialArcher(m)?IMPERIAL_ARCHER_COMBAT.link:isAwakenedOmega(m)?AWAKENED_OMEGA_COMBAT.link:isHakuya(m)?HAKUYA_COMBAT.link:isRevan(m)?REVAN_COMBAT.link:isEunseol(m)?EUNSEOL_COMBAT.link:isCardgu(m)?CARDGU_COMBAT.link:isKamishiro(m)?KAMISHIRO_COMBAT.link:isJinJokro(m)?JIN_JOKRO_COMBAT.link:isRyujin(m)?RYUJIN_COMBAT.link:isHeliosKing(m)?HELIOS_KING_COMBAT.link:isHeukmu(m)?HEUKMU_COMBAT.link:isGeneralJok(m)?GENERAL_JOK_COMBAT.link:isPrime(m)?PRIME_COMBAT.link:isZero(m)?ZERO_COMBAT.link:isLeonel(m)?LEONEL_COMBAT.link:isJokro(m)?JOKRO_COMBAT.link:isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const matchupScale=ssLimitedPvpLinkScale(m,teams);
-   let attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);
-   let hpFloor=Math.round(averageHp*rule.hpPercent/100*tierGuard*matchupScale);
+   let sourceAttack=averageAttack,sourceHp=averageHp;
+   if(mercenaryGearPercent(m.rank)<100){
+    withoutGear??={attack:cards.reduce((sum,c)=>sum+cardStatWithoutGear(c,'attack'),0)/cards.length,hp:cards.reduce((sum,c)=>sum+cardStatWithoutGear(c,'maxHp'),0)/cards.length};
+    sourceAttack=rankedGearLink(m.rank,averageAttack,withoutGear.attack);
+    sourceHp=rankedGearLink(m.rank,averageHp,withoutGear.hp);
+   }
+   let attackFloor=Math.round(sourceAttack*rule.attackPercent/100*tierOffense*matchupScale);
+   let hpFloor=Math.round(sourceHp*rule.hpPercent/100*tierGuard*matchupScale);
    const personalGear=mercenaryEquipmentPower(m,m.battleMode)>0&&m.equipmentStats?.version===1;
    // Gear is additional to either the innate stats or the card-derived floor.
    // Otherwise strong decks would silently erase equipment and polish gains.
@@ -130,7 +149,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
    }
    const frontBonus=m.battleMode==='PVP'?(MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[mercenaryCombatRank(m)]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent):MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent;
    const shieldPercent=rule.shieldPercent+(m.position==='FRONT'?frontBonus:0);
-   const openingShield=Math.round(averageHp*shieldPercent/100*healthRatio*tierGuard*matchupScale);
+   const openingShield=Math.round(sourceHp*shieldPercent/100*healthRatio*tierGuard*matchupScale);
    if(!Number.isSafeInteger(attackFloor)||!Number.isSafeInteger(hpFloor)||!Number.isSafeInteger(openingShield))throw Error('INVALID_MERCENARY_COMBAT_LINK');
    const previousMaxHp=m.maxHp;
    m.maxHp=Math.max(m.maxHp,hpFloor);m.hp=Math.round(m.maxHp*healthRatio);

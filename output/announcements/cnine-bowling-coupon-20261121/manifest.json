@@ -1,0 +1,24 @@
+{
+  "title": "씨나인 볼링대회 기념 쿠폰",
+  "couponCode": "CNINEBOWL150",
+  "size": [
+    1080,
+    1350
+  ],
+  "generation": "Built-in ImageGen for the bowling photograph; original C9 PNG and native Korean/Latin type for the final print layout.",
+  "logo": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+  "logoSha256": "834d34ba8e6ca7235b9ee688699e959de53770758483fe6d07d4cb403cf64eba",
+  "sourceImageSha256": "f209ba5017a9b65653bc7363c7996a3400dedfd87ff4f203806429e6542e247e",
+  "prompt": "output/announcements/cnine-bowling-coupon-20261121/prompt.txt",
+  "artifacts": {
+    "png": {
+      "bytes": 1028598,
+      "sha256": "ca44b069102aa7e525798ba4f96fa1763a1988155b1e4e6c874b388c779e0b46"
+    },
+    "jpg": {
+      "bytes": 268891,
+      "sha256": "3028823ba14e3d6fb34ce73360ac7d3f0d6f83714077c89948f8c4260db4e125"
+    }
+  },
+  "visualReview": "한글 제목·원본 왕관 표범 C9 로고·12자리 코드·세 보상과 수량·선착순 150명·계정당 1회·입력 경로를 PNG/JPG에서 확인했다."
+}

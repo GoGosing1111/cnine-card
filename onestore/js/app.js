@@ -998,8 +998,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.PingduThanksGiftV1?.open==='function'
   },
   character:{
-    styles:['css/character-rune-socket.css?v=20261107-frame-fit1&s1=shared-five-v1','css/equipment-forge-entry-v1.css?v=2084&loading=20260918','css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=20261018-iyejun&enhanceGlow=20261019-original-rollback&advancedGlow=20261101-v1&polishHeader=20261114','css/character-skill-chips-v2046.css?v=1','css/achievement-titles-20260927.css?v=2-gambling-king&asura=20261007&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&heir=20261107-coronation-v2&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1'],
-    scripts:['js/item-rune-vfx.js?v=20261107-fire-v3','js/character-rune-socket.js?v=20261107-frame-fit1&s1=shared-five-v1','js/season-s1-rune-source.js?v=20261107-item-v2&s1=shared-five-v1','js/equipment-thumbnails-v1.js?v=20260918','js/equipment-v1274.js?v=2032-challenger-title&achievementTitles=20260927&gamblingKing=20260928&asura=20261007&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&heir=20261107-coronation-v2&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1','js/character-loadout-v2.js?v=defense15-20261008-growth&loading=20260923-forge&enhanceGlow=20261019-original-rollback&achievementTitles=20260927&gamblingKing=20260928&asura=20261007&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lgHeeya=20260930&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&advancedGlow=20261101-v1&runeSocket=20261107-royal-v4&s1=shared-five-v1&heir=20261107-paced-v3&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&polishHeader=20261114','js/character-loadout-v2-live.js?v=2084-forge-public&runeSocket=20261107-item-v3&loading=20260923-forge&achievementTitles=20260927'],
+    styles:['css/character-rune-socket.css?v=20261107-frame-fit1&s1=shared-five-v1','css/equipment-forge-entry-v1.css?v=2084&loading=20260918','css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=20261018-iyejun&enhanceGlow=20261019-original-rollback&advancedGlow=20261101-v1&polishHeader=20261114&lgHeeya=20260930&lgAyoon=20261003&garageTuning=20261123-v5','css/character-skill-chips-v2046.css?v=1','css/achievement-titles-20260927.css?v=2-gambling-king&asura=20261007&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&heir=20261107-coronation-v2&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1'],
+    scripts:['js/item-rune-vfx.js?v=20261107-fire-v3','js/character-rune-socket.js?v=20261107-frame-fit1&s1=shared-five-v1','js/season-s1-rune-source.js?v=20261107-item-v2&s1=shared-five-v1','js/equipment-thumbnails-v1.js?v=20260918','js/equipment-v1274.js?v=2032-challenger-title&achievementTitles=20260927&gamblingKing=20260928&asura=20261007&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&heir=20261107-coronation-v2&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1','js/character-loadout-v2.js?v=defense15-20261008-growth&loading=20260923-forge&enhanceGlow=20261019-original-rollback&achievementTitles=20260927&gamblingKing=20260928&asura=20261007&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lgHeeya=20260930&secretPolice=20261011&administrationTitle=20261012-staff-v4&flagBrigade=20261013&chatSquad=20261029&advancedGlow=20261101-v1&runeSocket=20261107-royal-v4&s1=shared-five-v1&heir=20261107-paced-v3&championsRuler=20261112-plate-v2&specialOps=20261113-red-v1&polishHeader=20261114&garageTuning=20261123-v4','js/character-loadout-v2-live.js?v=2084-forge-public&runeSocket=20261107-item-v3&loading=20260923-forge&achievementTitles=20260927&garageTuning=20261123-v4'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{
@@ -1909,8 +1909,8 @@ async function purchasePrimeDrawProduct(kind,count,unitPrice,button){
   }catch(error){showSupplyNotice(error.message||`${definition.name} 구매에 실패했습니다.`,true);if(button){button.disabled=false;button.innerHTML=button.dataset.label||'다시 구매';}}
 }
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
-function cardStoreSecondaryMarkup(user) {
-  return `${primeDrawShopMarkup('equipment')}${primeDrawShopMarkup('suit_core')}${primeDrawShopMarkup('vehicle')}`;
+function cardStoreSecondaryMarkup() {
+  return `<section id="newHyperdriveShop" class="nhd-shop" aria-label="뉴 하이퍼드라이브팩"><p>팩 상점을 불러오는 중입니다.</p></section>${primeDrawShopMarkup('equipment')}${primeDrawShopMarkup('suit_core')}`;
 }
 
 function superstarPackHero(pack) {
@@ -1953,11 +1953,12 @@ document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-bloodmoon-pack-enter]');if(!button||button.disabled)return;
  button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261113-contract1').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
-function bloodmoonShopStockText(stock){
+function bloodmoonShopStockText(stock,showLimit=false){
  if(stock?.stockPolicy==='UNLIMITED')return '발행 한도 없음';
  if(stock?.limit===null&&!stock.prepared)return '발행 한도 미정';
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
- return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+(stock.remaining===0?' · 소진':'');
+ const total=showLimit&&Number.isSafeInteger(stock.limit)?' / 총 '+stock.limit.toLocaleString('ko-KR')+'장':'';
+ return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+total+(stock.remaining===0?' · 소진':'');
 }
 window.addEventListener('bloodmoon-pack:stock',event=>{
  const stock=event.detail?.stock,pack=PACKS.find(row=>row.id==='mercenary-bloodmoon-ss-limited');if(!Array.isArray(stock)||!pack)return;
@@ -1971,12 +1972,12 @@ function bloodmoonPackHero(pack) {
  const ssCards=preview.filter(card=>card.rank==='SS');
  const legends=preview.filter(card=>card.rank==='SSS'&&card.stockPolicy!=='UNLIMITED');
  const unlimited=preview.filter(card=>card.stockPolicy==='UNLIMITED');
- const portrait=c=>`<figure class="bwp-portrait" data-rank="${escapeHtml(c.rank)}" data-code="${escapeHtml(c.code)}"><div class="bwp-art-frame"><img src="/${escapeHtml(c.thumbnailArt)}" alt="${escapeHtml(c.name)} 원화" loading="lazy" decoding="async"><span>${escapeHtml(c.rank)}</span></div><figcaption>${c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${escapeHtml(c.name)}</strong><small data-bwp-stock-code="${escapeHtml(c.code)}">${bloodmoonShopStockText(c)}</small></figcaption></figure>`;
+ const portrait=c=>`<figure class="bwp-portrait" data-rank="${escapeHtml(c.rank)}" data-code="${escapeHtml(c.code)}"><div class="bwp-art-frame"><img src="/${escapeHtml(c.thumbnailArt)}" alt="${escapeHtml(c.name)} 원화" loading="lazy" decoding="async"><span>${escapeHtml(c.rank)}</span></div><figcaption>${c.stockPolicy==='UNLIMITED'?'<em>일반 SSS</em>':c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${escapeHtml(c.name)}</strong><small data-bwp-stock-code="${escapeHtml(c.code)}">${bloodmoonShopStockText(c,blue)}</small></figcaption></figure>`;
  const action=pack.drawEnabled||blue?`<button class="bwp-button bwp-primary bloodmoon-shop-action" ${blue?'data-blue-gear-enter':'data-bloodmoon-pack-enter'}>${pack.drawEnabled?escapeHtml(pack.name)+' 개봉':'개봉실 미리보기'}</button>`:'<div class="bwp-button bloodmoon-shop-action bloodmoon-shop-status" role="status">출시 예정 · 개봉 OFF</div>';
  const prices=blue||pack.drawEnabled?`<p class="bloodmoon-shop-note"><span>1회 ${Number(pack.prices?.single??pack.price).toLocaleString()} 코인</span><span>10회 ${Number(pack.prices?.ten).toLocaleString()} 코인</span></p>`:'';
  return `<section class="bloodmoon-shop-hero${blue?' blue-gear-skin':''}"><div class="bloodmoon-shop-main"><div class="bloodmoon-shop-copy"><p class="bloodmoon-eyebrow">REVERSE CALL · ${blue?'BLUE GEAR':'BLOODMOON'}</p><h2>${escapeHtml(pack.name)}</h2><p class="bloodmoon-shop-description">${blue?(pack.drawEnabled?'판매 중':'11월 20일 00:00 판매 시작 · 한국시간'):'블러드문의 계약이 깨어나는 밤.'}</p><div class="bloodmoon-shop-facts"><span>${blue?'블루기어':'블러드'} <b>SS ${ssCards.length}종</b></span><span>${blue?'SSS 리미티드':'SSS 리미티드·재료'} <b>${legends.length}종</b></span><span>일반 SSS <b>${unlimited.map(c=>escapeHtml(c.name)).join(' · ')}</b></span></div>${action}${prices}</div><div class="bloodmoon-shop-art">${packResponsiveImage(pack,{hero:true})}</div></div>
- <section class="bloodmoon-shop-collection"><div class="bwp-section-heading"><h3>${blue?'블루기어':'블러드'} 한정 컬렉션</h3><span>SS LIMITED · ${ssCards.length}${blue?' · 각 45장':''}</span></div><div class="bwp-roster">${ssCards.map(portrait).join('')}</div>
- <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>${blue?'SSS 리미티드 · 제로 · 하쿠야 신':'SSS 리미티드 · 프라임 제작 재료'}</h3><span>${blue?'현재 잔여 수량은 카드별 표시':'SSS LIMITED · 재료 포함 4종'}</span></div><div class="bwp-sss-roster">${legends.map(portrait).join('')}</div></section>
+ <section class="bloodmoon-shop-collection"><div class="bwp-section-heading"><h3>${blue?'블루기어':'블러드'} 한정 컬렉션</h3><span>SS LIMITED · ${ssCards.length}</span></div><div class="bwp-roster">${ssCards.map(portrait).join('')}</div>
+ <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>${blue?'SSS 리미티드 · 제로 · 하쿠야 신':'SSS 리미티드 · 프라임 제작 재료'}</h3><span>${blue?'카드별 잔여 수량 / 총한도':'SSS LIMITED · 재료 포함 4종'}</span></div><div class="bwp-sss-roster">${legends.map(portrait).join('')}</div></section>
  <section class="bwp-legend-collection"><div class="bwp-section-heading"><h3>일반 SSS · 별도 획득</h3><span>발행 한도 없음</span></div><div class="bwp-sss-roster">${unlimited.map(portrait).join('')}</div></section></section></section>`;
 }
 
@@ -2013,7 +2014,7 @@ window.addEventListener('blue-gear-pack:stock',event=>{
  if(!hero)return;
  for(const label of hero.querySelectorAll('[data-bwp-stock-code]')){
   const card=pack.previewCards.find(row=>row.code===label.dataset.bwpStockCode);
-  if(card)label.textContent=bloodmoonShopStockText(card);
+  if(card)label.textContent=bloodmoonShopStockText(card,true);
  }
  hero.querySelector('.bloodmoon-shop-description').textContent=pack.drawEnabled?'판매 중':pack.openingScheduled?'11월 20일 00:00 판매 시작 · 한국시간':'현재 개봉 불가';
  hero.querySelector('[data-blue-gear-enter]').textContent=pack.drawEnabled?'블루기어팩 개봉':'개봉실 미리보기';
@@ -2021,7 +2022,7 @@ window.addEventListener('blue-gear-pack:stock',event=>{
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-legend-refill-20261120-v1');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-limits-20261122-v1');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {
@@ -2042,9 +2043,38 @@ function standardPackHero(pack) {
   return `<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${Number(pack.price).toLocaleString()}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>`;
 }
 
+function bindNewHyperdriveShop(){
+  const root=document.getElementById('newHyperdriveShop');
+  if(!root)return;
+  if(!document.querySelector('link[data-new-hyperdrive-style]')){
+    const link=document.createElement('link');
+    link.rel='stylesheet';link.href='/css/new-hyperdrive-pack-v1.css';link.dataset.newHyperdriveStyle='';
+    document.head.append(link);
+  }
+  const accountId=loadUser()?.serverUserId;
+  void import('/js/new-hyperdrive-pack-v1.mjs').then(({mountNewHyperdriveShop})=>{
+    if(!root.isConnected)return;
+    mountNewHyperdriveShop({
+      root,accountId,
+      api:API_MODE?(path,options)=>apiRequest(path,options,{ttl:0,microcache:false}):null,
+      async loadPrimeReveal(){
+        await ensureFeatureResources('primeDraw');
+        return window.PrimeDrawLiveV1985;
+      },
+      onResult(result){
+        const user=loadUser();
+        if(!user||user.serverUserId!==accountId)return;
+        saveUser({...user,coin:Number(result.coin),cardShards:Number(result.cardShards)},{source:'draw'});
+        for(const path of ['inventory','shell/summary','character/garage','vehicle-draw/prime/config'])clearApiCache(path);
+        window.dispatchEvent(new CustomEvent('cnine:account-sync',{detail:{domains:['wallet','inventory','equipment']}}));
+      }
+    });
+  }).catch(()=>{if(root.isConnected)root.textContent='뉴 하이퍼드라이브팩 화면을 불러오지 못했습니다.';});
+}
+
 function buyView(user) {
   const pack=getPack(selectedPackId),hero=pack.drawMode==='SUPERSTAR_CHANCE'?superstarPackHero(pack):standardPackHero(pack);
-  return `${summaryBar(user)}${packSelector()}${hero}${cardStoreSecondaryMarkup(user)}`;
+  return `${summaryBar(user)}${packSelector()}${hero}${cardStoreSecondaryMarkup()}`;
 }
 
 function hyperPackHero() {
@@ -3940,7 +3970,7 @@ function bindView(tab) {
   if(tab==='prison')bindPrisonView();
   if(tab==='coup')window.CoupPalace?.bind();
   if(tab==='jokgakCity')void window.JokgakCity?.bind();
-  if(tab==='buy'){loadPrimeDrawShop('equipment');loadPrimeDrawShop('suit_core');loadPrimeDrawShop('vehicle');}
+  if(tab==='buy'){bindNewHyperdriveShop();loadPrimeDrawShop('equipment');loadPrimeDrawShop('suit_core');}
   if(tab==='inventory')loadInventory();
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
   if(tab==='avatar'&&typeof window.bindAvatarShopView==='function')window.bindAvatarShopView();
@@ -4546,8 +4576,8 @@ function readStartupSnapshot(){
     if(!raw){raw=sessionStorage.getItem(STARTUP_SNAPSHOT_LEGACY_KEY);if(raw)localStorage.setItem(storageKey,raw)}
     if(!raw)return null;
     const data=JSON.parse(raw);if(!data||Date.now()-Number(data.savedAt||0)>STARTUP_SNAPSHOT_MAX_AGE){localStorage.removeItem(storageKey);return null}
-    // Confirm Bloodmoon sales with the live catalog before offering the pack.
-    if(Array.isArray(data.packs))data.packs=data.packs.filter(pack=>pack?.id!=='mercenary-bloodmoon-ss-limited');
+    // Confirm Bloodmoon and Black Crown availability with the live catalog.
+    if(Array.isArray(data.packs))data.packs=data.packs.filter(pack=>pack?.id!=='mercenary-bloodmoon-ss-limited'&&pack?.id!=='mercenary-blackcrown-ss-limited');
     return data;
   }catch(_){return null}
 }

@@ -32,7 +32,7 @@ test('approved atlas bytes, alpha, dimensions and tall-foot pivots survive promo
     assert.ok((await sharpCommittedAsset(data).metadata()).hasAlpha);
   }
   for(const spec of [Z_SWORD.attack,Z_SWORD.cast]){
-    const meta=await sharpCommittedAsset(new URL('..'+spec.url,import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1')).metadata();
+    const meta=await sharpCommittedAsset(new URL('..'+spec.url,import.meta.url)).metadata();
     assert.equal(meta.width,spec.columns*spec.frameWidth);assert.equal(meta.height,spec.rows*spec.frameHeight);
     assert.equal(new Set(spec.frames.map(f=>JSON.stringify(f.pivot))).size,1);
   }

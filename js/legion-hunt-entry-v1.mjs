@@ -1,4 +1,4 @@
-import {COW_AREA} from '../shared/legion-cow-room.mjs';
+import {COW_AREA,COW_TICKET_ONE_IN_PER_KIND} from '../shared/legion-cow-room.mjs?ticketRate=20261121';
 import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261116-recovery-event';
 import {legionRechargeLabel,legionRechargeMs} from '../shared/legion-hunt-energy-v1.mjs';
 import {CONTENT_ENERGY_RECHARGE_MS as LEGION_BASE} from '../shared/content-energy-v1.mjs';
@@ -116,7 +116,8 @@ export function openLegionHunt(button){
       if(data&&!region&&!posterThumbnail.hasAttribute('src'))posterThumbnail.src=art+'posters/legion-hunt-forgotten-island-v3.png';
       find('.legion-region-loot').hidden=!region;
       if(cow){
-        find('.legion-region-loot').innerHTML='<h2>카우방 전리품</h2><p>활성 군단토벌 지역 한 곳의 재앙 전리품이 등장합니다. 아이템·장비 드랍률 150%, 판당 최대 5조 코인.</p><p>군단토벌과 PVE 전투 정산마다 0.5% 확률로 솔로 또는 파티 입장권 1장을 획득합니다.</p>';
+        const perTicketPercent=100/COW_TICKET_ONE_IN_PER_KIND;
+        find('.legion-region-loot').innerHTML=`<h2>카우방 전리품</h2><p>활성 군단토벌 지역 한 곳의 재앙 전리품이 등장합니다. 아이템·장비 드랍률 150%, 판당 최대 5조 코인.</p><p>군단토벌과 PVE 전투 정산 시 카우방 입장권 획득 확률은 총 ${2*perTicketPercent}%입니다(솔로·파티 각각 ${perTicketPercent}%).</p>`;
       }else if(region){
         const gear=expansion.equipment.filter(i=>i.regionId===region.id);
         find('.legion-region-loot').innerHTML=`<div class="legion-section-heading"><div><span>REGION EXCLUSIVE</span><h2>용병장비 · ${escape(region.setName)}</h2></div><span class="legion-pve-tag">PVE 전용 효과</span></div><p class="legion-region-counter">${escape(region.counter)}</p><div class="legion-loot-grid">${gear.map(i=>`<figure class="${i.kind==='UNIQUE'?'unique':''}"><img src="${escape(imagePath(i.image))}" alt="${escape(i.name)}" loading="lazy"><figcaption><small>${i.kind==='UNIQUE'?'용병 고유장비':'용병 세트장비'}</small><strong>${escape(i.name)}</strong><span>${escape(i.kind==='UNIQUE'?i.description:'기본 전투력 '+power(i.totalPower))}</span></figcaption></figure>`).join('')}</div><div class="legion-set-effects"><p><b>2세트</b> ${escape(equipmentEffectText(region.two))}</p><p><b>4세트</b> ${escape(equipmentEffectText(region.four))}</p></div><p class="legion-stone-guide">보스 처치 시 연마석 <b></b> · 용병 장비 드랍률이 상향되었습니다.${expansion.ascendantAvailable?' 상위 1~10단계 장비도 보스에게서 획득할 수 있으며, 높은 단계일수록 더 희귀합니다. <a href="/mercenary-codex/equipment/">용병 장비 보기</a>':''}<br><small>확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요. </small></p>`;

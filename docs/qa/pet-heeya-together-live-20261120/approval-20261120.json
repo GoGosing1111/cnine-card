@@ -1,0 +1,74 @@
+{
+  "status": "SOURCE_ART_APPROVED",
+  "approvedAt": "2026-11-20T13:25:07.923Z",
+  "userApproval": "승인 속도펫 SSS 배찌 나무늘봉순 동급으로",
+  "nameApproval": "이름 희야투게더",
+  "liveAuthorization": "운영 도감에 공개",
+  "selectedDraft": "jjimjilbang-lamb-towel",
+  "name": "희야투게더",
+  "assets": [
+    {
+      "code": "PET-HEEYA-TOGETHER",
+      "name": "희야투게더",
+      "approvedAsset": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-approved.png",
+      "battleSprite": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+      "thumb": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-thumb.webp",
+      "sha256": "b80807ede3f6e42b635d945637dea0eb8f5d9a001aac9300e790fd00aac2ee06",
+      "bytes": 2010880,
+      "width": 1024,
+      "height": 1536
+    }
+  ],
+  "derivatives": [
+    {
+      "path": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-portrait.webp",
+      "width": 560,
+      "height": 560,
+      "bytes": 37566,
+      "sha256": "b718e7f2a9f2cced03fad2d9b9770cf6963c9b37985fc56113ce0bfceaf0e4ea"
+    },
+    {
+      "path": "assets/ui/pets/heeya-together-20261120/pet-heeya-together-thumb.webp",
+      "width": 144,
+      "height": 144,
+      "bytes": 6304,
+      "sha256": "c55dd359f9765dd6c2b6c3ad665d17c498e7064f6e4742c7431642b3b1d721a1"
+    }
+  ],
+  "referencePet": {
+    "code": "PET-BAZZI-BONGSOON",
+    "cmsRevision": 51,
+    "checkedAt": "2026-11-20T13:24:16.520Z",
+    "options": {
+      "enabled": true,
+      "liveEnabled": true,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "SPEED_PERCENT",
+          "percent": 55
+        }
+      ],
+      "rewardBonuses": {
+        "dropPercent": 25,
+        "accountXpPercent": 55,
+        "coinPercent": 55
+      }
+    },
+    "growthCap": "SSS"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "prompt": "generation-prompt.txt",
+    "referenceSource": "assets/ui/pets/jjanggu-heeya-20261104/pet-jjanggu-heeya-approved.png"
+  },
+  "scope": {
+    "liveRegistration": true,
+    "accountGrants": false,
+    "acquisitionChanged": false
+  }
+}

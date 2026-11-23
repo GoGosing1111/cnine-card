@@ -88,45 +88,45 @@ async function settleRun(env,user,{key,before,policyRaw,access}){
   const result=await settleLegionHuntRewards(env,user,{key,before:before.raw,run:before.run,policyRaw,regionPolicyRaw});
   return {saved:await loadRun(env,key),result};
 }
-// Entering the lobby/start of a new run abandons only an unfinished expedition.
-// A persisted finish intent always settles first, even after a lost reply or TTL.
-async function recoverRun(env,user,{key,before,policyRaw,access,at,support}){
-  const run=before.run,state=run?.state;
-  if(!state)return {saved:before,recovery:null};
-  if(run.rewardTiming==='FINISH'&&state.receipt&&run.rewardStatus!=='SETTLED'){
-    const settled=await settleRun(env,user,{key,before,policyRaw,access});
-    return {...settled,recovery:{kind:'SETTLED',receipt:settled.result}};
-  }
-  if(state.receipt)return {saved:before,recovery:null};
+// Plan the same interrupted-run transition for a personal return and a confirmed
+// party departure. The caller commits it with its own compare-and-swap.
+export function interruptedLegionRun(run,user,at,support,{keepCollected=false}={}){
+  const state=run?.state;
+  if(!state||state.receipt)return run;
   const hasCoins=Number(run.coins?.paid||0)>0;
-  if(hasCoins&&run.rewardTiming==='FINISH'&&state.startedAt!=null){
-    // A paid run consumes its entry, so retain its already collected bag too.
-    // Use only the persisted acknowledgement/items: reconnect must not roll
-    // unseen drops, advance combat, or credit coins a second time. This also
-    // repairs the old interrupted record while that record still exists.
+  const acknowledgedResult=keepCollected&&state.timeline?.[state.lastAck-1]?.type==='RESULT';
+  const consumeEntry=hasCoins||(keepCollected&&state.inventory?.length>0)||acknowledgedResult;
+  if(consumeEntry&&run.rewardTiming==='FINISH'&&state.startedAt!=null){
+    // Freeze only acknowledged progress. Settlement may run later without
+    // rolling unseen drops or crediting coins already paid by reveal.
     const session=restoreHuntSession({...state,ended:false},{now:()=>at});
     Object.assign(session.finish(state.lastAck,{collectedOnly:true}),{
       previewOnly:run.liveRewards!==true,liveRewards:false,
       entries:legionHuntEntries(run,at,user,support),...legionCoinSummary(run.coins)
     });
-    const pending={...run,entry:{...run.entry,status:'CONSUMED'},rewardStatus:'PENDING',finishRequestedAt:at,state:session.exportState()};
-    const saved=await saveRun(env,key,before.raw,pending);
+    return {...run,entry:{...run.entry,status:'CONSUMED'},rewardStatus:'PENDING',finishRequestedAt:at,state:session.exportState()};
+  }
+  if(run.interruption)return run;
+  const charged=run.entry?run.entry.charged:state.startedAt!=null&&user.role!=='OWNER';
+  const day=run.entry?.day||(state.startedAt!=null?new Date(state.startedAt+9*3600000).toISOString().slice(0,10):null);
+  const refund=!consumeEntry&&charged&&run.daily?.day===day&&Number(run.daily.used)>0;
+  const daily=refund?{...run.daily,used:run.daily.used-1}:run.daily;
+  const coinRefund=!consumeEntry&&run.entry?.coinCharged&&run.coinDaily?.day===run.entry.coinDay&&run.coinDaily.used>0;
+  const coinDaily=coinRefund?{...run.coinDaily,used:run.coinDaily.used-1}:run.coinDaily;
+  const balance=legionHuntEnergy(run,at,support,user);
+  const energyRefund=!consumeEntry&&(run.entry?.energyCharged??(charged||run.entry?.coinCharged));
+  const energy=contentEnergy({...balance,current:Math.min(balance.maximum,balance.current+(energyRefund?1:0))},{at,maximum:balance.maximum});
+  const interruption={id:state.id,kind:'INTERRUPTED',at,refunded:!!energyRefund,day,...legionCoinSummary(run.coins)};
+  return {...run,daily,coinDaily,energy,entry:{...run.entry,charged:!!charged,day,status:consumeEntry||run.entry?.cowTicket?'CONSUMED':'REFUNDED'},interruption,state:{...state,ended:true}};
+}
+async function recoverRun(env,user,{key,before,policyRaw,access,at,support}){
+  const run=interruptedLegionRun(before.run,user,at,support);
+  const saved=run===before.run?before:await saveRun(env,key,before.raw,run);
+  if(run?.rewardTiming==='FINISH'&&run.state?.receipt&&run.rewardStatus!=='SETTLED'){
     const settled=await settleRun(env,user,{key,before:saved,policyRaw,access});
     return {...settled,recovery:{kind:'SETTLED',receipt:settled.result}};
   }
-  if(run.interruption)return {saved:before,recovery:null};
-  const charged=run.entry?run.entry.charged:state.startedAt!=null&&user.role!=='OWNER';
-  const day=run.entry?.day||(state.startedAt!=null?new Date(state.startedAt+9*3600000).toISOString().slice(0,10):null);
-  const refund=!hasCoins&&charged&&run.daily?.day===day&&Number(run.daily.used)>0;
-  const daily=refund?{...run.daily,used:run.daily.used-1}:run.daily;
-  const coinRefund=!hasCoins&&run.entry?.coinCharged&&run.coinDaily?.day===run.entry.coinDay&&run.coinDaily.used>0;
-  const coinDaily=coinRefund?{...run.coinDaily,used:run.coinDaily.used-1}:run.coinDaily;
-  const balance=legionHuntEnergy(run,at,support,user);
-  const energyRefund=!hasCoins&&(run.entry?.energyCharged??(charged||run.entry?.coinCharged));
-  const energy=contentEnergy({...balance,current:Math.min(balance.maximum,balance.current+(energyRefund?1:0))},{at,maximum:balance.maximum});
-  const interruption={id:state.id,kind:'INTERRUPTED',at,refunded:!!energyRefund,day,...legionCoinSummary(run.coins)};
-  const saved=await saveRun(env,key,before.raw,{...run,daily,coinDaily,energy,entry:{...run.entry,charged:!!charged,day,status:hasCoins||run.entry?.cowTicket?'CONSUMED':'REFUNDED'},interruption,state:{...state,ended:true}});
-  return {saved,recovery:interruption};
+  return {saved,recovery:saved===before?null:run.interruption};
 }
 export async function handleLegionHunt({path,request,env,deps}){
   if(!path.startsWith('legion-hunt/')&&!['admin/legion-hunt','admin/legion-hunt/test-users','admin/legion-hunt/regions'].includes(path))return null;

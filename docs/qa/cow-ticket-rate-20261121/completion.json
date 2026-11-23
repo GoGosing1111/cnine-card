@@ -1,0 +1,675 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "verifiedAt": "2026-11-21T14:50:28.713Z",
+  "change": "군단토벌·PvE 카우방 입장권 드랍률 하향",
+  "odds": {
+    "unit": "eligible combat settlement",
+    "previousTotalPercent": 0.5,
+    "totalPercent": 0.1,
+    "soloPercent": 0.05,
+    "partyPercent": 0.05,
+    "mutuallyExclusive": true,
+    "meanBattlesPerTicket": 1000
+  },
+  "implementation": "기존 종류별 당첨 후보의 5분의 1을 같은 서버 HMAC의 다음 균등한 추첨값으로 선택한다. 이전 미당첨을 재시도해도 당첨으로 바뀌지 않는다. 이전에 실제 지급된 입장권은 기존 지급 영수증으로 복구한다.",
+  "verification": {
+    "checkedOutcomes": 2000,
+    "soloWins": 1,
+    "partyWins": 1,
+    "misses": 1998,
+    "testsPassed": 18,
+    "failures": 0,
+    "rejectionTail": true,
+    "idempotentRetry": true,
+    "oldReceiptRecovery": true,
+    "transactionRollback": true,
+    "partialEntryAndRetry": true,
+    "gates": [
+      "worker syntax",
+      "production release",
+      "Hyperdrive"
+    ],
+    "production": {
+      "verifiedAt": "2026-11-21T14:50:28.713Z",
+      "expected": "ee57a11e8c1d05b1462c29be73fca7c97ad13176",
+      "production": {
+        "pages": {
+          "id": "3d7a06a9-c0d0-4d8d-8f24-fd5c33be87e1",
+          "commit": "ee57a11e8c1d05b1462c29be73fca7c97ad13176",
+          "status": "success"
+        },
+        "workers": [
+          {
+            "name": "cnine-card-api-runtime",
+            "deployments": [
+              {
+                "version_id": "f8cda304-3a69-412a-965f-df480d6662cd",
+                "percentage": 100
+              }
+            ]
+          },
+          {
+            "name": "cnine-card-clan-draft",
+            "deployments": [
+              {
+                "version_id": "45e44fb2-66eb-4533-b009-ff7690ef77cf",
+                "percentage": 100
+              }
+            ]
+          }
+        ]
+      },
+      "publicWebAndH5Shells": true,
+      "windowsRelease": "9946b0562f5370beadea6abdca3848b2693a386ec32caa5aac8aedf9d6ee7d99",
+      "assets": [
+        {
+          "file": "js/legion-hunt-entry-v1.mjs",
+          "sha256": "308d883528b1a9178cf38608503e693fb8b58b8c6ae0343e2efb35dd9c451cff",
+          "windowsManifest": true
+        },
+        {
+          "file": "shared/legion-cow-room.mjs",
+          "sha256": "32559e52114bddcce924b7fc55bb2dc2ad4657e86de33820152cd109cd0c6160",
+          "windowsManifest": true
+        }
+      ],
+      "workerBundle": {
+        "http": 200,
+        "hasTicketDraw": true,
+        "oneIn2000PerKind": true,
+        "hasRetentionCheck": true,
+        "hasReceiptRecovery": true,
+        "workerVersion": "f8cda304-3a69-412a-965f-df480d6662cd"
+      },
+      "drawEnabled": true,
+      "manualGameWrites": 0
+    }
+  },
+  "performance": {
+    "conditions": "Windows. 완료된 배포 직전 소스와 새 소스를 같은 격리 PostgreSQL 호환 PGlite 계정 및 전투 ID로 차례로 측정했다. 브라우저는 실제 공개 로비 → PVE → 군단토벌 → 카우방 순서로 들어가 확률 안내가 보이고 난이도를 선택할 수 있는 시점까지 측정했다. 공개 화면은 격리 API·Chrome/WebKit과 모바일/H5 에뮬레이션 및 Electron 렌더러에서 확인했다.",
+    "server": {
+      "before": {
+        "phase": "before",
+        "environment": "Windows Node/PGlite. Same fixture and synthetic battles. Measured production PVE hunt settlement and cached ticket decisions.",
+        "settlement": [
+          {
+            "mode": "first",
+            "ms": 34.49359999999979,
+            "sql": 20,
+            "sqlMs": 29.17870000000039
+          },
+          {
+            "mode": "repeat",
+            "ms": 15.656399999999849,
+            "sql": 13,
+            "sqlMs": 13.734000000000378
+          }
+        ],
+        "decision": [
+          {
+            "mode": "first",
+            "samples": 2000,
+            "totalMs": 124.3782000000001,
+            "sql": 0,
+            "sqlMs": 0,
+            "wins": 8
+          },
+          {
+            "mode": "repeat",
+            "samples": 2000,
+            "totalMs": 136.1867000000002,
+            "sql": 0,
+            "sqlMs": 0,
+            "wins": 8
+          }
+        ]
+      },
+      "after": {
+        "phase": "after",
+        "environment": "Windows Node/PGlite. Same fixture and synthetic battles. Measured production PVE hunt settlement and cached ticket decisions.",
+        "settlement": [
+          {
+            "mode": "first",
+            "ms": 56.30540000000019,
+            "sql": 20,
+            "sqlMs": 44.972099999999955
+          },
+          {
+            "mode": "repeat",
+            "ms": 19.905900000000656,
+            "sql": 13,
+            "sqlMs": 15.283300000000054
+          }
+        ],
+        "decision": [
+          {
+            "mode": "first",
+            "samples": 2000,
+            "totalMs": 187.48059999999987,
+            "sql": 5,
+            "sqlMs": 4.90690000000086,
+            "wins": 3
+          },
+          {
+            "mode": "repeat",
+            "samples": 2000,
+            "totalMs": 176.4368000000004,
+            "sql": 5,
+            "sqlMs": 4.685600000000704,
+            "wins": 3
+          }
+        ]
+      },
+      "notes": "캐시가 비어 있는 첫 정산과 같은 서비스에서의 재진입으로 DB 문장 수와 대기 시간을 비교했다. 정산은 첫 20문장, 반복 13문장이다. 동일한 2,000개 예시 결정에서는 이전 당첨 후보에서 제외된 5개만 기존 지급 영수증을 인덱스로 한 번 조회했다. 추첨의 정확한 확률은 개별 예시의 빈도와 별도로 2,000개 균등 경우 전수 검사로 확인했다."
+    },
+    "screens": {
+      "desktop": {
+        "before": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 987,
+              "frames": {
+                "samples": 75,
+                "p95": 4.5,
+                "max": 16.699999999999818,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 214,
+              "frames": {
+                "samples": 75,
+                "p95": 4.300000000000182,
+                "max": 4.399999999999636,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 226
+            },
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 223
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 198
+            }
+          ],
+          "pageErrors": []
+        },
+        "after": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 770,
+              "frames": {
+                "samples": 75,
+                "p95": 10.699999999999818,
+                "max": 12.599999999999909,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 318,
+              "frames": {
+                "samples": 75,
+                "p95": 9.900000000000546,
+                "max": 27.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 197
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 173
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 169
+            }
+          ],
+          "pageErrors": []
+        }
+      },
+      "android": {
+        "before": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 1123,
+              "frames": {
+                "samples": 75,
+                "p95": 4.400000000000091,
+                "max": 4.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 607,
+              "frames": {
+                "samples": 75,
+                "p95": 4.699999999999818,
+                "max": 37.400000000000546,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 729
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 584
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 515
+            }
+          ],
+          "pageErrors": []
+        },
+        "after": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 1190,
+              "frames": {
+                "samples": 75,
+                "p95": 19.899999999999636,
+                "max": 31.5,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 355,
+              "frames": {
+                "samples": 75,
+                "p95": 20.599999999999454,
+                "max": 20.600000000000364,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 333
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 295
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 255
+            }
+          ],
+          "pageErrors": []
+        }
+      },
+      "ios": {
+        "before": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 2438,
+              "frames": {
+                "samples": 75,
+                "p95": 30,
+                "max": 249,
+                "over50": 2
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 1437,
+              "frames": {
+                "samples": 75,
+                "p95": 33,
+                "max": 177,
+                "over50": 3
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 165
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 165
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 129
+            }
+          ],
+          "pageErrors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        },
+        "after": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 3124,
+              "frames": {
+                "samples": 75,
+                "p95": 30,
+                "max": 257,
+                "over50": 2
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 1310,
+              "frames": {
+                "samples": 75,
+                "p95": 31,
+                "max": 180,
+                "over50": 3
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 161
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 160
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 128
+            }
+          ],
+          "pageErrors": [
+            "ResizeObserver loop completed with undelivered notifications."
+          ]
+        }
+      },
+      "windows": {
+        "before": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 1233,
+              "frames": {
+                "samples": 75,
+                "p95": 16.700000000000728,
+                "max": 16.800000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 269,
+              "frames": {
+                "samples": 75,
+                "p95": 16.80000000000109,
+                "max": 16.80000000000109,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 349
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 338
+            },
+            {
+              "path": "/shared/legion-hunt-energy-v1.mjs",
+              "ms": 254
+            }
+          ],
+          "pageErrors": []
+        },
+        "after": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 1409,
+              "frames": {
+                "samples": 75,
+                "p95": 16.700000000000728,
+                "max": 16.700000000000728,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 280,
+              "frames": {
+                "samples": 75,
+                "p95": 16.700000000000728,
+                "max": 16.799999999999272,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 420
+            },
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 385
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 278
+            }
+          ],
+          "pageErrors": []
+        }
+      },
+      "h5": {
+        "before": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 877,
+              "frames": {
+                "samples": 75,
+                "p95": 4.300000000000182,
+                "max": 4.400000000000091,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 317,
+              "frames": {
+                "samples": 75,
+                "p95": 4.300000000000182,
+                "max": 4.400000000000546,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 228
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 207
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 206
+            }
+          ],
+          "pageErrors": []
+        },
+        "after": {
+          "entries": [
+            {
+              "visit": "first",
+              "interactiveMs": 1326,
+              "frames": {
+                "samples": 75,
+                "p95": 13.599999999999454,
+                "max": 97.60000000000036,
+                "over50": 1
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            },
+            {
+              "visit": "reentry",
+              "interactiveMs": 388,
+              "frames": {
+                "samples": 75,
+                "p95": 12.099999999999454,
+                "max": 12.300000000000182,
+                "over50": 0
+              },
+              "afterExit": {
+                "connected": false,
+                "mutations": 0,
+                "legionRequests": 0
+              }
+            }
+          ],
+          "slowestObservedResources": [
+            {
+              "path": "/css/legion-hunt-entry-v2.css",
+              "ms": 260
+            },
+            {
+              "path": "/css/legion-hunt-coins-v1.css",
+              "ms": 122
+            },
+            {
+              "path": "/js/legion-hunt-entry-v1.mjs",
+              "ms": 121
+            }
+          ],
+          "pageErrors": []
+        }
+      }
+    },
+    "notes": "프레임 시간은 각 입장에서 75개 연속 프레임을 측정했다. 퇴장 후 1.2초간 대화상자에 남은 DOM 갱신·군단 조회가 없었다. 모드별 첫·반복 단회이며 기기/실제망 부하 차이를 포함한다.",
+    "physicalPhone": false
+  },
+  "accountGrantsByOperation": 0
+}

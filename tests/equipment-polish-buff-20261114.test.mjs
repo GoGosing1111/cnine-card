@@ -58,7 +58,7 @@ test('mercenary polish follows each mode selected gear instance',async t=>{
   const snapshot=await releasedMercenarySnapshot(f.env,f.user,'PVE');
   assert.equal(snapshot.equipment.polishEffects.attackPercent,40);
   const pve=buildMercenaryFighter(snapshot,'A','PVE',buildFighter);
-  assert.equal(pve.equipmentEffects.attackPercent,40);assert.equal(pve.attack,Math.round(pve.equipmentGrowthBase.attack*1.4));
+  assert.equal(pve.rank,'C');assert.equal(pve.equipmentEffects.attackPercent,.4);assert.equal(pve.attack,Math.round(pve.equipmentGrowthBase.attack*1.004));
   const pvp=buildMercenaryFighter({...snapshot,equipmentPolishEffects:{attackPercent:40}},'A','PVP',buildFighter);
   assert.equal(pvp.equipmentPolishEffects,undefined);assert.equal(pvp.attack,buildMercenaryFighter(snapshot,'A','PVP',buildFighter).attack);
   await f.equip('PVP',item);
@@ -66,8 +66,8 @@ test('mercenary polish follows each mode selected gear instance',async t=>{
   assert.equal(pvpSnapshot.equipment.effects.attackPercent,40);
   assert.equal(pvpSnapshot.equipment.polishEffects.attackPercent,40);
   const equipped=buildMercenaryFighter(pvpSnapshot,'A','PVP',buildFighter);
-  assert.equal(equipped.equipmentEffects.attackPercent,40);
-  assert.equal(equipped.attack,Math.round(equipped.equipmentGrowthBase.attack*1.4));
+  assert.equal(equipped.equipmentEffects.attackPercent,.4);
+  assert.equal(equipped.attack,Math.round(equipped.equipmentGrowthBase.attack*1.004));
 });
 
 const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'연마 PvP 검수',rarity:'FUR',power:100000,power_type:'ATTACK'}));
@@ -82,9 +82,10 @@ test('PvP, duo and ranked fights apply owned mercenary polish once and only to i
   const check=battle=>{
     assert(battle.result.timeline.length>0);
     const m=battle.teams.A.mercenaries.find(m=>m.code==='V-001'||m.cardId==='V-001');
-    assert.equal(m.equipmentPolishEffects.attackPercent,40);assert.equal(m.equipmentEffects.attackPercent,40);
-    assert.equal(m.equipmentEffects.criticalChancePoints,5);assert.equal(m.equipmentEffects.criticalDamagePoints,30);
-    assert.equal(m.equipmentEffects.bossDamagePercent,20);assert.equal(m.equipmentEffects.hpPercent,0);
+    const expected={C:.4,B:.8,A:1.2,S:2,SS:40,SSS:40}[m.rank];
+    assert.equal(m.equipmentPolishEffects.attackPercent,expected);assert.equal(m.equipmentEffects.attackPercent,expected);
+    assert.equal(m.equipmentEffects.criticalChancePoints,.25);assert.equal(m.equipmentEffects.criticalDamagePoints,1.5);
+    assert.equal(m.equipmentEffects.bossDamagePercent,1);assert.equal(m.equipmentEffects.hpPercent,0);
     assert(battle.teams.A.cards.every(c=>!c.equipmentPolishEffects));
     assert(battle.teams.B.mercenaries.every(c=>!c.equipmentPolishEffects));
   };
@@ -97,7 +98,8 @@ test('PvP, duo and ranked fights apply owned mercenary polish once and only to i
     defenderMercenaries:['V-979','V-004','V-996','V-005','V-058','V-006'].map(c=>rankedSnapshot(c,5)),seed:31});
   assert(series.rounds.length>=2);
   for(const round of series.rounds)for(const m of round.battleV2.teams.A.mercenaries){
-    assert.equal(m.equipmentPolishEffects.attackPercent,40);assert.equal(m.equipmentEffects.attackPercent,40);
+    const expected={C:.4,B:.8,A:1.2,S:2,SS:40,SSS:40}[m.rank];
+    assert.equal(m.equipmentPolishEffects.attackPercent,expected);assert.equal(m.equipmentEffects.attackPercent,expected);
   }
   const invalid=structuredClone(own.equipment);invalid.items.push(structuredClone(invalid.items[0]));
   assert.deepEqual(mercenaryEquipmentPolishEffects(invalid),{});

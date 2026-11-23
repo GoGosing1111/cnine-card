@@ -22,6 +22,7 @@ import {equipmentGrowthRuntime,attachPolishInventory} from './_equipment_growth.
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 import {equipmentPreviewRows,equipmentQuantities,equipmentEnhancementRows} from './_equipment_inventory.js';
 import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v1.js';
+import {garageOwnershipRemoval,handleGarageTuning} from './_garage_tuning.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const BATTLE_SUIT_SLOT='BATTLE_SUIT';
@@ -676,8 +677,9 @@ export async function userEquipmentBonuses(env,userId,{skillChips}={}){
     LEFT JOIN garage ON 1=1
     LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId,userId,userId).first();
   const [forge,growthRuntime,avatarPower]=await Promise.all([FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonus(env,userId):{pve:0,pvp:0},equipmentGrowthRuntime(env,userId),avatarBattlePowerPercents(env,[userId])]);
-  const avatarPowerPercent=avatarPower.get(Number(userId))||0,pveEquipmentRuntime=avatarPowerPercent?{...growthRuntime,avatarPowerPercent}:growthRuntime;
+  const avatarPowerPercent=avatarPower.get(Number(userId))||0;
   const equipmentPve=Number(row?.equipment_pve||0)+forge.pve,equipmentPvp=Number(row?.equipment_pvp||0)+forge.pvp,battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
+  const pveEquipmentRuntime={...growthRuntime,wornGearPower:equipmentPve,...(avatarPowerPercent?{avatarPowerPercent}:{})};
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
   const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');
   if(equippedBattleSuit&&battleSuitPve>0){const chips=skillChips?await skillChips:null;equippedBattleSuit.skillChips=chips?(chips.battleEnabled?chips.loadout.filter(Boolean):[]):await equippedSkillChipCodes(env,userId);}
@@ -804,6 +806,13 @@ export async function handleEquipment({path,request,env,deps}){
   if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')||path.startsWith('admin/garage')))return null;
   await ensureEquipmentFoundation(env);
   const {authenticate,readBody,json,writeAdminLog}=deps;
+  if(path==='character/garage/tuning'){
+    try{return await handleGarageTuning({path,request,env,deps});}
+    catch(error){
+      console.error('Garage tuning request failed',error?.code||error?.name);
+      return json({error:'차량 튜닝 요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.'},503);
+    }
+  }
   if(path.startsWith('character/skill-chips'))return handleSkillChips({path,request,env,deps});
   if(path==='character/loadout'&&request.method==='GET'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await characterPayload(env,user.id,{role:user.role,deferQuantities:new URL(request.url).searchParams.get('quantities')==='deferred'}));
@@ -1129,7 +1138,7 @@ export async function handleEquipment({path,request,env,deps}){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
     const b=await readBody(request),userId=cleanInt(b.userId,1,2147483647),garageId=cleanInt(b.garageId,1,2147483647),action=String(b.action||'GRANT').toUpperCase(),[targetUser,targetItem]=await Promise.all([env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first(),env.DB.prepare('SELECT id FROM character_garage_items WHERE id=?').bind(garageId).first()]);
     if(!targetUser)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);if(!targetItem)return json({error:'이동수단을 찾을 수 없습니다.'},404);
-    if(action==='REVOKE')await env.DB.batch([env.DB.prepare('DELETE FROM user_garage_loadout WHERE user_id=? AND garage_id=?').bind(userId,garageId),env.DB.prepare('DELETE FROM user_garage_vehicles WHERE user_id=? AND garage_id=?').bind(userId,garageId)]);
+    if(action==='REVOKE')await env.DB.batch([env.DB.prepare('DELETE FROM user_garage_loadout WHERE user_id=? AND garage_id=?').bind(userId,garageId),...await garageOwnershipRemoval(env,userId,garageId)]);
     else await env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) VALUES(?,?,?,?)`).bind(userId,garageId,'ADMIN',String(admin.id)).run();
     return json({ok:true});
   }

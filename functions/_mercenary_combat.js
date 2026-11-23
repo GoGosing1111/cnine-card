@@ -283,6 +283,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  delete fighter.equipmentIndividualEffects;
  delete fighter.equipmentStandardEffects;
  delete fighter.equipmentPolishEffects;
+ delete fighter.equipmentUnscaledPolish;
  if(snapshot.equipment?.schemaVersion===1&&snapshot.equipment.mode===mode){
   const individual=individualMercenaryBonuses(snapshot.equipment.items)?.effects;
   if(mode==='PVE')applyPveEquipmentGrowth([fighter],{effects:snapshot.equipment.effects||{},polishEffects:snapshot.equipment.polishEffects},individual);
