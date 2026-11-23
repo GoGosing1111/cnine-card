@@ -74,7 +74,7 @@ test('packed motion and five distinct effects retain real alpha and source hashe
  assert.equal(manifest.atlases.cast.frames.length,4);assert.equal(Object.keys(manifest.atlases).length,6);
  for(const [key,a]of Object.entries(manifest.atlases)){
   assert.equal(a.frames.length,key==='cast'?4:12);assert.equal(new Set(a.frames.map(f=>f.sha256)).size,a.frames.length);
-  const meta=await sharpCommittedAsset(new URL('../preview/madara-raid-v1/'+a.url,import.meta.url).pathname.slice(1)).metadata();assert.equal(meta.hasAlpha,true);
+  const meta=await sharpCommittedAsset(new URL('../preview/madara-raid-v1/'+a.url,import.meta.url)).metadata();assert.equal(meta.hasAlpha,true);
   assert.equal(meta.width,a.columns*a.frameSize);assert.equal(meta.height,a.rows*a.frameSize);
  }
 });
