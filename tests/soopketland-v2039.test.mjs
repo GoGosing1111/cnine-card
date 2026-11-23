@@ -5,14 +5,14 @@ import fs from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {handleSoopketLand,redeemLandCoupon,landAccess,LAND_TICKET,HYPER_TICKET,SUPERSTAR_TICKET,EMPEROR_ENERGY,LAND_THANKS_GIFT,LAND_REPAIR_COUPON,LAND_PRIZES,LAND_STREAMERS,LAND_IYEJUN_PRIZE,LAND_IYEJUN_CARD_ID,pickLandPrize,validateLandWeights,storedLandWeights,issueDailyLandTickets,landDayKey,LAND_DAILY_POLICY,LAND_COUPON_TTL_MS,landCouponTiming} from '../functions/_soopket_land.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-test('new land policy assigns 60% coins, 14% stars, 10% single repair and 1% thanks gifts and preserves explicit OWNER weights',async()=>{
+test('new land policy assigns 30% coins, 44% stars, 10% single repair and 1% thanks gifts and preserves explicit OWNER weights',async()=>{
  const weights=storedLandWeights(null);
- assert.deepEqual(weights,{COIN:18000,EMPEROR_ENERGY:1500,MASTER_STAR:4200,STARLIGHT_ARMOR_CORE:3000,PINGDU_THANKS_GIFT_BOX:300,PINGDU_REPAIR_COUPON:3000});
+ assert.deepEqual(weights,{COIN:9000,EMPEROR_ENERGY:1500,MASTER_STAR:13200,STARLIGHT_ARMOR_CORE:3000,PINGDU_THANKS_GIFT_BOX:300,PINGDU_REPAIR_COUPON:3000});
  const counts=Object.fromEntries(Object.keys(weights).map(k=>[k,0]));
  for(let draw=0;draw<30000;draw++){let i=0;const prize=pickLandPrize(weights,()=>i++?0:draw);counts[prize.key]++;if(prize.key===LAND_THANKS_GIFT){assert.equal(prize.amount,5);assert.equal(prize.jackpot,true);}}
  assert.deepEqual(counts,weights);
  const f=await fixture(),state=(await f.call()).body;
- assert.deepEqual(state.prizes.map(p=>Number(p.percent.toFixed(2))),[60,5,14,10,1,10]);
+ assert.deepEqual(state.prizes.map(p=>Number(p.percent.toFixed(2))),[30,5,44,10,1,10]);
  assert.equal(f.sqlite.prepare('SELECT name FROM inventory_items WHERE code=?').get(LAND_THANKS_GIFT).name,'핑두의 감사 선물');
  const edited={...weights,COIN:12900,[LAND_THANKS_GIFT]:0,[LAND_REPAIR_COUPON]:0};
  assert.equal((await f.call('settings',{requestId:crypto.randomUUID(),weights:edited})).status,200);
@@ -467,15 +467,37 @@ test('expanded ranges preserve discrete steps and reach both exact endpoints',()
   for(const [key,bounds] of Object.entries(expected)){
     const prize=LAND_PRIZES.find(p=>p.key===key);assert.deepEqual([prize.min,prize.max,prize.unit],bounds);
     const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===key?1:0]));
-    for(const step of new Set([0,Math.min(1,prize.max-prize.min),Math.floor((prize.max-prize.min)/2),Math.max(0,prize.max-prize.min-1),prize.max-prize.min])){let calls=0;assert.equal(pickLandPrize(weights,()=>calls++?step:0).amount,(prize.min+step)*prize.unit)}
+    for(const step of new Set([0,Math.min(1,prize.max-prize.min),Math.floor((prize.max-prize.min)/2),Math.max(0,prize.max-prize.min-1),prize.max-prize.min])){let calls=0;assert.equal(pickLandPrize(weights,()=>calls++?(key==='COIN'?step+9*Math.min(step,398000):step):0).amount,(prize.min+step)*prize.unit)}
   }
 });
+test('coin amounts use ten times the weight below 200 trillion',()=>{
+ const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,Number(p.key==='COIN')]));
+ for(const [sample,amount] of [[3_979_989,199_999_000_000_000],[3_979_990,199_999_500_000_000],[3_979_999,199_999_500_000_000],[3_980_000,200_000_000_000_000],[4_580_000,500_000_000_000_000]]){
+  let rolls=0;
+  const prize=pickLandPrize(weights,max=>{
+   if(rolls++===0)return 0;
+   assert.equal(max,4_580_001);
+   return sample;
+  });
+  assert.equal(prize.amount,amount);
+ }
+});
+
+test('the previous saved standard table is rebalanced and an explicit OWNER save is preserved',async()=>{
+ const f=await fixture();
+ const previous={...storedLandWeights(null),COIN:18000,MASTER_STAR:4200};
+ f.sqlite.prepare("UPDATE app_meta SET value=? WHERE key='soopketland_settings_v2039'").run(JSON.stringify({weights:previous}));
+ assert.deepEqual((await f.call()).body.owner.weights,storedLandWeights(null));
+ assert.equal((await f.call('settings',{requestId:crypto.randomUUID(),weights:previous})).status,200);
+ assert.deepEqual((await f.call()).body.owner.weights,previous);
+});
+
 test('a maximum coin spin persists a 500조 coupon and replay does not consume another ticket',async t=>{
   const f=await fixture();await f.force('COIN');await f.grant(2,2);f.current.id=2;
   const config=f.sqlite.prepare("SELECT value FROM app_meta WHERE key='soopketland_settings_v2039'").get().value;
   const state=(await f.call()).body,coin=state.prizes.find(p=>p.key==='COIN');
   assert.equal(coin.range,'1조 ~ 500조');assert.equal(coin.min,2000);assert.equal(coin.max,1000000);
-  let samples=0;t.mock.method(crypto,'getRandomValues',buffer=>{buffer[0]=samples++===0?0:998000;return buffer});
+  let samples=0;t.mock.method(crypto,'getRandomValues',buffer=>{buffer[0]=samples++===0?0:4580000;return buffer});
   const id=crypto.randomUUID(),first=await f.spin(id);assert.equal(first.status,200);assert.equal(first.body.prize.amount,500000000000000);
   assert.equal((await f.spin(id)).body.replayed,true);assert.equal(f.qty(LAND_TICKET),1);
   const coupon=f.sqlite.prepare('SELECT reward_json,max_uses,used_count FROM soopketland_coupons WHERE code=?').get(first.body.code);
@@ -582,7 +604,7 @@ test('Black Miracle redistribution preserves custom coin/star proportions, zero 
  const max=storedLandWeights({...legacy,COIN:40000,MASTER_STAR:0,BLACK_MIRACLE_PACK:40000});assert.equal(max.COIN,80000);assert.deepEqual(validateLandWeights(max),max);assert.deepEqual(storedLandWeights(max),max);
  assert.throws(()=>validateLandWeights({...max,COIN:80001}));
  const current=storedLandWeights(null);
- for(const [draw,key]of [[0,'COIN'],[17999,'COIN'],[18000,EMPEROR_ENERGY],[19499,EMPEROR_ENERGY],[19500,'MASTER_STAR'],[23699,'MASTER_STAR'],[23700,'STARLIGHT_ARMOR_CORE'],[26699,'STARLIGHT_ARMOR_CORE'],[26700,LAND_THANKS_GIFT],[26999,LAND_THANKS_GIFT],[27000,LAND_REPAIR_COUPON],[29999,LAND_REPAIR_COUPON]]){
+ for(const [draw,key]of [[0,'COIN'],[8999,'COIN'],[9000,EMPEROR_ENERGY],[10499,EMPEROR_ENERGY],[10500,'MASTER_STAR'],[23699,'MASTER_STAR'],[23700,'STARLIGHT_ARMOR_CORE'],[26699,'STARLIGHT_ARMOR_CORE'],[26700,LAND_THANKS_GIFT],[26999,LAND_THANKS_GIFT],[27000,LAND_REPAIR_COUPON],[29999,LAND_REPAIR_COUPON]]){
   let count=0;assert.equal(pickLandPrize(current,()=>count++?0:draw).key,key);
  }
 });
