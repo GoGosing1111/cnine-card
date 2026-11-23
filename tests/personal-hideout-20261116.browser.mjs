@@ -9,7 +9,7 @@ import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {htmlForStore} from '../functions/_onestore_web.js';
 import {canonicalDocument} from '../shared/onestore-web-v1.mjs';
 import prestige from '../assets/ui/project-v/characters/prestige/manifest-v1.json' with {type:'json'};
-const root=path.resolve(import.meta.dirname,'..'),project='C:/Users/User/Downloads/upload/cnine-card';
+const root=path.resolve(import.meta.dirname,'..'),project=process.env.HIDEOUT_QA_REFERENCE_ROOT||'C:/Users/User/Downloads/upload/cnine-card';
 const out=path.resolve(root,process.env.HIDEOUT_QA_OUTPUT||'docs/qa/personal-hideout-20261116');fs.mkdirSync(out,{recursive:true});
 const cache=new Map(),missing=[],errors=[],traffic=[],reports=[];
 let f,variant='after',loseNext=false;
