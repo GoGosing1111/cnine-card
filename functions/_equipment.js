@@ -22,6 +22,7 @@ import {equipmentGrowthRuntime,attachPolishInventory} from './_equipment_growth.
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 import {equipmentPreviewRows,equipmentQuantities,equipmentEnhancementRows} from './_equipment_inventory.js';
 import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v1.js';
+import {handleGarageTuning} from './_garage_tuning.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const BATTLE_SUIT_SLOT='BATTLE_SUIT';
@@ -805,6 +806,7 @@ export async function handleEquipment({path,request,env,deps}){
   if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')||path.startsWith('admin/garage')))return null;
   await ensureEquipmentFoundation(env);
   const {authenticate,readBody,json,writeAdminLog}=deps;
+  if(path==='character/garage/tuning')return handleGarageTuning({path,request,env,deps});
   if(path.startsWith('character/skill-chips'))return handleSkillChips({path,request,env,deps});
   if(path==='character/loadout'&&request.method==='GET'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await characterPayload(env,user.id,{role:user.role,deferQuantities:new URL(request.url).searchParams.get('quantities')==='deferred'}));

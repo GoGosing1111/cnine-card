@@ -110,5 +110,20 @@
   "tests/zenith-evolution-pity-compensation-runtime-v1718.mjs",
   "tests/zenith-evolution-pity-v1718.mjs",
   "tests/zenith-evolution-source-consumption-v1703.mjs",
-  "tests/zenith-ultimate-priority.mjs"
+  "tests/zenith-ultimate-priority.mjs",
+  "tools/balance-harness-v1903/ablate.mjs",
+  "tools/balance-harness-v1903/advancement-v1937.mjs",
+  "tools/balance-harness-v1903/autopsy.mjs",
+  "tools/balance-harness-v1903/aw2.mjs",
+  "tools/balance-harness-v1903/bfinal.mjs",
+  "tools/balance-harness-v1903/bfix.mjs",
+  "tools/balance-harness-v1903/bfix2.mjs",
+  "tools/balance-harness-v1903/break.mjs",
+  "tools/balance-harness-v1903/break3.mjs",
+  "tools/balance-harness-v1903/build.mjs",
+  "tools/balance-harness-v1903/comp.mjs",
+  "tools/balance-harness-v1903/counter.mjs",
+  "tools/balance-harness-v1903/diag.mjs",
+  "tools/balance-harness-v1903/dmgcurve.mjs",
+  "tools/balance-harness-v1903/final.mjs"
 ]
