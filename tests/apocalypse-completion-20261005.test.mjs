@@ -77,6 +77,8 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: Apoc
 test('manual Apocalypse defers every award and log; legacy/automatic calls cannot bypass required nonce',()=>{
  const source=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),fight=source.slice(source.indexOf("    if(path==='battle/fight'"),source.indexOf("    if(path==='tower/",source.indexOf("    if(path==='battle/fight'")));
  for(const name of ['settleRankedHunt','safeEquipmentDrop','rollBlackMiracleDrop','resolveMagicCrystalReward'])assert.ok(fight.includes("!deferred&&result==='WIN'?"+name));
- assert.ok(fight.includes('!deferred&&cardDropHit?grantBattleCard'));assert.ok(fight.includes("if(!deferred)deferWrite('battle_logs'"));assert.ok(fight.includes('deferred?null:discoverCowPortal'));assert.ok(fight.includes("result:deferred?'PENDING':result"));
+ assert.ok(fight.includes('!deferred&&cardDropHit?grantBattleCard'));assert.ok(fight.includes("if(!deferred)deferWrite('battle_logs'"));assert.ok(fight.includes("result:deferred?'PENDING':result"));
+ // Since the November 20 Legion hunt migration, the normal fight route must never roll a cow portal.
+ assert.doesNotMatch(fight,/\bdiscoverCowPortal(?:Ready)?\s*\(/);
  assert.ok(fight.indexOf('reserveApocalypseBattle')<fight.indexOf('consumePveEnergyForDifficulty'));assert.ok(fight.includes('APOCALYPSE_MANUAL_REQUIRED'));
 });

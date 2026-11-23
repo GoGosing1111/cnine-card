@@ -3,30 +3,128 @@
     "boss": "rahden",
     "width": 390,
     "settlement": "CLAIMED",
-    "facings": 1844,
+    "facings": 2051,
     "wrongFacing": 0,
     "textures": 1,
     "casts": {
-      "RAHDEN_SEAL": 2,
-      "RAHDEN_CURSE": 3,
-      "RAHDEN_ULTIMATE": 2
+      "RAHDEN_SEAL": {
+        "subjects": 2,
+        "contacts": 2,
+        "receipt": {
+          "code": "RAHDEN_SEAL",
+          "impacts": 1,
+          "targets": 2,
+          "damage": 0
+        },
+        "groundHits": 0,
+        "videoFrames": 61,
+        "recipients": 2,
+        "paintedFrames": 12,
+        "lightFrames": 24,
+        "contactMs": 831,
+        "visibleMs": 1744
+      },
+      "RAHDEN_CURSE": {
+        "subjects": 3,
+        "contacts": 3,
+        "receipt": {
+          "code": "RAHDEN_CURSE",
+          "impacts": 1,
+          "targets": 3,
+          "damage": 0
+        },
+        "groundHits": 0,
+        "videoFrames": 70,
+        "recipients": 3,
+        "paintedFrames": 12,
+        "lightFrames": 24,
+        "contactMs": 1053,
+        "visibleMs": 2058
+      },
+      "RAHDEN_ULTIMATE": {
+        "subjects": 2,
+        "contacts": 2,
+        "receipt": {
+          "code": "RAHDEN_ULTIMATE",
+          "impacts": 1,
+          "targets": 2,
+          "damage": 1547955570151
+        },
+        "groundHits": 0,
+        "videoFrames": 81,
+        "recipients": 2,
+        "paintedFrames": 12,
+        "lightFrames": 24,
+        "contactMs": 1293,
+        "visibleMs": 2600
+      }
     },
-    "remainingMarks": 0,
+    "remainingEffects": 0,
+    "active": false,
     "overflow": false
   },
   {
     "boss": "velsir",
     "width": 390,
     "settlement": "CLAIMED",
-    "facings": 1600,
+    "facings": 1828,
     "wrongFacing": 0,
     "textures": 1,
     "casts": {
-      "VELSIR_CURSE": 7,
-      "VELSIR_SEAL": 4,
-      "VELSIR_ULTIMATE": 7
+      "VELSIR_CURSE": {
+        "subjects": 1,
+        "contacts": 7,
+        "receipt": {
+          "code": "VELSIR_CURSE",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 0
+        },
+        "groundHits": 7,
+        "videoFrames": 73,
+        "recipients": 7,
+        "paintedFrames": 12,
+        "lightFrames": 24,
+        "contactMs": 1121,
+        "visibleMs": 2142
+      },
+      "VELSIR_SEAL": {
+        "subjects": 4,
+        "contacts": 4,
+        "receipt": {
+          "code": "VELSIR_SEAL",
+          "impacts": 1,
+          "targets": 4,
+          "damage": 0
+        },
+        "groundHits": 0,
+        "videoFrames": 71,
+        "recipients": 4,
+        "paintedFrames": 12,
+        "lightFrames": 24,
+        "contactMs": 1125,
+        "visibleMs": 2108
+      },
+      "VELSIR_ULTIMATE": {
+        "subjects": 1,
+        "contacts": 7,
+        "receipt": {
+          "code": "VELSIR_ULTIMATE",
+          "impacts": 1,
+          "targets": 7,
+          "damage": 1467087728551
+        },
+        "groundHits": 7,
+        "videoFrames": 90,
+        "recipients": 7,
+        "paintedFrames": 12,
+        "lightFrames": 24,
+        "contactMs": 1584,
+        "visibleMs": 2925
+      }
     },
-    "remainingMarks": 0,
+    "remainingEffects": 0,
+    "active": false,
     "overflow": false
   }
 ]

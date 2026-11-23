@@ -7,14 +7,18 @@ export class ApocalypseLegionFX{
  static unloading=new Map();
  static skills=new Map();
  static async preload(skill){
-  if(skill.visual==='KNIGHT_SIGIL')return null;
   if(skill.visual==='HOLLOW_LENS')return SahyeonFX.preload();
   if(skill.visual==='APOCALYPSE_TRIO')return TrioFX.preload(skill.boss);
   if(this.cache.has(skill.code))return this.cache.get(skill.code);
   this.skills.set(skill.code,skill);
   const pending=Promise.resolve(this.unloading.get(skill.code)).then(()=>Assets.load(skill.atlas)).then(sheet=>{
-   const frames=Array.from({length:12},(_,i)=>sheet.textures[`${skill.asset}_${String(i).padStart(2,'0')}`]);
-   if(frames.some(f=>!f))throw Error('INCOMPLETE_SKILL_ATLAS:'+skill.code);
+   const sequence=(key,length)=>{
+    const frames=Array.from({length},(_,i)=>sheet.textures[key+'_'+String(i).padStart(2,'0')]);
+    if(frames.some(f=>!f))throw Error('INCOMPLETE_SKILL_ATLAS:'+skill.code);
+    return frames;
+   };
+   const art=sequence(skill.asset,12);
+   const frames=skill.visual==='KNIGHT_SEQUENCE'?{art,light:sequence(skill.asset+'-light',24)}:art;
    if(this.cache.get(skill.code)!==pending)return null;
    return frames;
   }).catch(error=>{if(this.cache.get(skill.code)===pending)this.cache.delete(skill.code);throw error;});

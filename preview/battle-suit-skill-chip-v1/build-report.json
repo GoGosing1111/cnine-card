@@ -50,7 +50,7 @@
     "preview/apocalypse-sahyeon-20261019-v1/SahyeonFX.mjs",
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/TrioPlayback.js",
-    "preview/project-v-v3/source/battle/KnightSigils.js",
+    "preview/project-v-v3/source/battle/KnightSkillFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
     "preview/project-v-v3/source/battle/CameraController.js",
     "preview/project-v-v3/source/battle/BattleAnimation.js",
@@ -422,5 +422,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3868430
+  "outputBytes": 3872052
 }

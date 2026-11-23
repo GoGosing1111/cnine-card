@@ -5,6 +5,19 @@ function move(kind, name, description, properties) {
   return {kind, name, description, ...properties};
 }
 
+// Contact is expressed in painted exposures, zero-based. The same event owns the entire cast.
+const timing = {
+  'rahden-seal': [1.76, .82, 6], 'rahden-curse': [2.06, 1.04, 7], 'rahden-ultimate': [2.62, 1.30, 6],
+  'velsir-curse': [2.16, 1.13, 7], 'velsir-seal': [2.12, 1.12, 7], 'velsir-ultimate': [2.94, 1.58, 7]
+};
+
+function battleMove(def, skill) {
+  const asset = def.key + '-' + skill.kind;
+  const [duration, impactAt, collisionFrame] = timing[asset];
+  return {...skill, boss:def.key, code:asset.replace('-', '_').toUpperCase(), visual:'KNIGHT_SEQUENCE',
+    tint:def.color, atlas:artRoot+'/skills/'+asset+'-v2.json', asset, duration, impactAt, collisionFrame};
+}
+
 const definitions = [
   {
     monsterId: 84, key: 'rahden', name: '라흐덴', subtitle: '흑철의 집행관',
@@ -33,9 +46,7 @@ export const APOCALYPSE_KNIGHTS = Object.freeze(definitions.map(def => ({
   artFacing: -1, battleScale: 1.12,
   sourceArt: artRoot + '/' + def.key + '-portrait.png',
   battleSprite: artRoot + '/' + def.key + '-battle.png',
-  skills: def.skills.map(skill => ({...skill, boss: def.key, code: def.key.toUpperCase() + '_' + skill.kind.toUpperCase(),
-    visual: 'KNIGHT_SIGIL', tint: def.color, impactAt: skill.kind === 'ultimate' ? .72 : .37,
-    duration: skill.kind === 'ultimate' ? 1.32 : .82}))
+  skills: def.skills.map(skill => battleMove(def,skill))
 })));
 
 export function knightProfile(boss, morgas) {

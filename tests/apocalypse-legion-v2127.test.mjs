@@ -41,9 +41,13 @@ test('seven positions share existing lattice pitch and never collide with each o
 });
 test('all approved sprites and their distinct animation formats exist apart from source artwork',()=>{
  for(const boss of APOCALYPSE_LEGION_BOSSES){assert.notEqual(boss.sourceArt,boss.battleSprite);assert(existsCommittedAssetSync('.'+boss.sourceArt));assert(existsCommittedAssetSync('.'+boss.battleSprite));for(const s of boss.skills){
-  if(s.visual==='KNIGHT_SIGIL'){
+  if(s.visual==='KNIGHT_SEQUENCE'){
    assert([84,85].includes(boss.monsterId));assert.equal(boss.artFacing,-1);
    assert(s.duration>s.impactAt && s.impactAt>0);assert.equal(typeof s.tint,'number');
+   const sheet=JSON.parse(readCommittedAssetSync('.'+s.atlas));
+   assert.equal(Object.keys(sheet.frames).length,36);
+   assert(sheet.frames[s.asset+'_'+String(s.collisionFrame).padStart(2,'0')]);
+   assert(sheet.frames[s.asset+'-light_23']);assert(existsCommittedAssetSync(s.atlas.slice(1,s.atlas.lastIndexOf('/')+1)+sheet.meta.image));
    continue;
   }
   if(s.visual==='HOLLOW_LENS'){assert.equal(boss.code,'APOCALYPSE_SAHYEON');assert(s.duration>s.impactAt);continue;}if(s.visual==='APOCALYPSE_TRIO'){assert([81,82,83].includes(boss.monsterId));assert(s.duration>s.impactAt);for(const suffix of ['action-poses-v1.png','ultimate-sheet-v2.png','cutin-v1.png'])assert(existsCommittedAssetSync('.'+boss.battleSprite.replace('battle-ready-v1.png',suffix)));continue;}const atlas=JSON.parse(readCommittedAssetSync('.'+s.atlas));assert.equal(Object.keys(atlas.frames).length,12);assert.equal(s.collisionFrame,6);}}
