@@ -23,9 +23,9 @@ export const nearestNoxNote=judgeNoxNote;
 // Drawing and judging share this calibrated output clock. A positive offset
 // delays the visible chart as well as its judgment; it never shifts floor QTEs.
 export function noxRhythmTime(audioTime,calibration=0){return audioTime-calibration;}
-export function noxNoteY(noteAt,age,hitY,noteHeight=56){return hitY-(noteAt-age)*hitY/NOX_RHYTHM_RULES.travelMs-noteHeight/2;}
+export function noxNoteY(noteAt,age,hitY,noteHeight=56,travelMs=NOX_RHYTHM_RULES.travelMs){return hitY-(noteAt-age)*hitY/travelMs-noteHeight/2;}
 // Reserve the whole late window below the receptor, including the note body.
-export function noxHitY(height,noteHeight){return Math.max(1,(height-noteHeight/2-6)/(1+NOX_RHYTHM_RULES.goodMs/NOX_RHYTHM_RULES.travelMs));}
+export function noxHitY(height,noteHeight,travelMs=NOX_RHYTHM_RULES.travelMs){return Math.max(1,(height-noteHeight/2-6)/(1+NOX_RHYTHM_RULES.goodMs/travelMs));}
 // A full song may have hundreds of notes; visit only the visible time range.
 // Binary search also handles resyncs/backwards corrections without stale cursors.
 export function noxNoteStart(notes,at){let lo=0,hi=notes.length;while(lo<hi){const mid=(lo+hi)>>>1;if(notes[mid].at<at)lo=mid+1;else hi=mid;}return lo;}

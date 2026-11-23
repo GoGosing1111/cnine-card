@@ -1,8 +1,14 @@
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,leaveNoxRoom,tickNoxRoom,actNoxRoom,noxView,noxBattlePayload,loadNoxPveDeck} from './_raid_nox.js';
 import {readJointBody,jointError} from './_joint_request.js';
 import {noxClearKey,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
+import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 
-export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CLIENT_VERSION=4;
+export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CREATE_COINS='10000000000000',NOX_CLIENT_VERSION=5;
+export const NOX_WEEKLY_REWARD_LIMIT=3;
+const NOX_REWARDS=Object.freeze({
+  NORMAL:Object.freeze({coins:'100000000000000',masterStars:'1000000000'}),
+  HELL:Object.freeze({coins:'300000000000000',masterStars:'2500000000'})
+});
 export const NOX_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS raid_nox_rooms_v1(room_id TEXT PRIMARY KEY,state_json TEXT NOT NULL,version BIGINT NOT NULL DEFAULT 0,status TEXT NOT NULL,expires_at BIGINT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS raid_nox_active_v1(user_id BIGINT PRIMARY KEY,room_id TEXT NOT NULL)`,
@@ -16,7 +22,12 @@ export function validateNoxSettings(raw){
   if(!raw||!Number.isSafeInteger(raw.revision)||raw.revision<0||!['OFF','TEST','ON'].includes(raw.mode)||!Array.isArray(raw.testUserIds)||raw.testUserIds.length>500||raw.testUserIds.some(id=>!Number.isSafeInteger(id)||id<1)||new Set(raw.testUserIds).size!==raw.testUserIds.length)fail('SETTINGS','운영 모드와 테스트 참가자를 확인하세요.',400);
   return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b)};
 }
-export function noxAccess(user,cfg){const active=user&&(!user.status||user.status==='ACTIVE')&&!(Date.parse(user.banned_until||'')>Date.now());const accessible=Boolean(active&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(user.role==='OWNER'||cfg.testUserIds.includes(Number(user.id)))));return {mode:cfg.mode,accessible,visible:accessible,entryCoins:cfg.mode==='ON'?NOX_ENTRY_COINS:'0',openEntryCoins:NOX_ENTRY_COINS,rewardLocked:true};}
+export function noxAccess(user,cfg){
+  const active=user&&(!user.status||user.status==='ACTIVE')&&!(Date.parse(user.banned_until||'')>Date.now());
+  const official=cfg.mode==='ON';
+  const accessible=Boolean(active&&(official||cfg.mode==='TEST'&&(user.role==='OWNER'||cfg.testUserIds.includes(Number(user.id)))));
+  return {mode:cfg.mode,accessible,visible:accessible,entryCoins:official?NOX_ENTRY_COINS:'0',openEntryCoins:NOX_ENTRY_COINS,createCoins:official?NOX_CREATE_COINS:'0',rewardLocked:!official,rewards:NOX_REWARDS,weeklyRewardLimit:NOX_WEEKLY_REWARD_LIMIT};
+}
 function access(user,cfg){if(!noxAccess(user,cfg).accessible)fail(cfg.mode==='OFF'?'OFF':'TEST_ONLY',cfg.mode==='OFF'?'종언의 주파수는 현재 입장 중지 상태입니다.':'지정된 테스트 참가자만 입장할 수 있습니다.',cfg.mode==='OFF'?423:403);}
 function database(env){const DB=env.DB;if(DB?.dialect!=='postgres'||!DB.client||!DB.enqueue)fail('DATABASE','레이드 연결을 확인하고 있습니다. 잠시 후 다시 시도하세요.',503);return DB;}
 const query=DB=>(text,values=[])=>DB.client.query({text,values}).then(r=>r.rows);
@@ -27,7 +38,15 @@ const member=(room,user)=>{const me=room.members.find(m=>m.id===String(user.id)&
 const ongoing=r=>r.status==='LOBBY'||r.status==='ACTIVE';
 function tick(room,now){tickNoxRoom(room,Math.max(room.clock,now));if(room.status==='LOBBY'&&now>=room.lobbyEndsAt){room.status='CANCELLED';room.failure={reason:'공대 모집 시간이 끝났습니다.'};room.revision++;}}
 const signature=room=>[room.revision,room.eventSeq,room.status,room.lastAttackAt].join(':');
-function result(room,user,cfg,{payload=false,since=0}={}){const state=noxView(room,String(user.id),since);state.release={...noxAccess(user,cfg),mode:room.releaseMode,currentMode:cfg.mode,runtimeEnabled:true,scope:'LIVE'};state.entryCoins=room.entryCoins;state.feePaid=Boolean(room.feePaid);state.lobbyEndsAt=room.lobbyEndsAt;return {ok:true,roomId:room.id,state,...(payload?{payload:{...noxBattlePayload(room,String(user.id)),reviewOnly:false}}:{})};}
+function result(room,user,cfg,{payload=false,since=0}={}){
+  const state=noxView(room,String(user.id),since);
+  state.release={...noxAccess(user,cfg),mode:room.releaseMode,currentMode:cfg.mode,rewardLocked:room.releaseMode!=='ON',runtimeEnabled:true,scope:'LIVE'};
+  state.entryCoins=room.entryCoins;
+  state.feePaid=Boolean(room.feePaid);
+  state.lobbyEndsAt=room.lobbyEndsAt;
+  state.reward=room.rewards?.[user.id]??null;
+  return {ok:true,roomId:room.id,state,...(payload?{payload:{...noxBattlePayload(room,String(user.id)),reviewOnly:false}}:{})};
+}
 async function load(q,roomId,lock=''){if(typeof roomId!=='string'||!/^[A-F0-9]{10}$/.test(roomId))fail('ROOM_ID','공대 코드 10자리를 확인하세요.',400);const [row]=await q('SELECT * FROM raid_nox_rooms_v1 WHERE room_id=$1'+lock,[roomId]);if(!row)fail('ROOM_MISSING','참가 중인 공대를 찾을 수 없습니다.',404);return {row,room:JSON.parse(row.state_json)};}
 async function snapshot(q,roomId,user){
   if(typeof roomId!=='string'||!/^[A-F0-9]{10}$/.test(roomId))fail('ROOM_ID','공대 코드 10자리를 확인하세요.',400);
@@ -36,8 +55,6 @@ async function snapshot(q,roomId,user){
   return {row,room:JSON.parse(row.state_json),raw,cfg};
 }
 const SAVE_ROOM_SQL='UPDATE raid_nox_rooms_v1 SET state_json=$1,version=version+1,status=$2,expires_at=$3 WHERE room_id=$4 AND version=$5 RETURNING version';
-// Only the writer that wins the ACTIVE -> CLEAR transition can increment the
-// frozen roster. A counter failure rolls back the room update in the same SQL.
 const SAVE_OFFICIAL_CLEAR_SQL=`WITH saved AS (${SAVE_ROOM_SQL}), credited AS (
   INSERT INTO app_meta AS prior (key,value)
   SELECT member_key,jsonb_build_object('count',1,'acquiredAt',NULL)::text
@@ -47,13 +64,68 @@ const SAVE_OFFICIAL_CLEAR_SQL=`WITH saved AS (${SAVE_ROOM_SQL}), credited AS (
     'acquiredAt',CASE WHEN (prior.value::jsonb->>'count')::bigint=${NOX_CLEAR_GOAL-1}
                       THEN $7::text ELSE prior.value::jsonb->>'acquiredAt' END)::text
 ) SELECT version FROM saved`;
+const officialClear=(row,room)=>row.status==='ACTIVE'&&room.status==='CLEAR'&&room.releaseMode==='ON';
+const weekPrefix=weekKey=>'raid_nox_weekly_reward_v1:'+weekKey+':';
+const weeklyStatus=(week,used)=>({...week,limit:NOX_WEEKLY_REWARD_LIMIT,used,remaining:NOX_WEEKLY_REWARD_LIMIT-used});
+async function weeklyReward(q,userId,now){
+  const week=pigCoinRewardWeek(now);
+  const [count]=await q('SELECT value::integer AS used FROM app_meta WHERE key=$1',[weekPrefix(week.weekKey)+userId]);
+  return weeklyStatus(week,count?.used??0);
+}
+const GRANT_CLEAR_REWARDS_SQL=`WITH participants AS (
+  SELECT id,$2::text||id::text AS reward_key FROM users WHERE id=ANY($1::bigint[]) ORDER BY id FOR UPDATE
+), weekly AS (
+  INSERT INTO app_meta AS tally(key,value,updated_at)
+  SELECT reward_key,'1',CURRENT_TIMESTAMP FROM participants
+  ON CONFLICT(key) DO UPDATE SET value=(tally.value::integer+1)::text,updated_at=CURRENT_TIMESTAMP
+    WHERE tally.value::integer<$3::integer
+  RETURNING key,value::integer AS used
+), coins AS (
+  UPDATE users AS wallet SET coin=wallet.coin+$4::bigint
+  FROM participants JOIN weekly ON weekly.key=participants.reward_key
+  WHERE wallet.id=participants.id
+  RETURNING wallet.id,wallet.coin,weekly.used
+), coin_ledger AS (
+  INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
+  SELECT id,$4::bigint,coin,'종언의 주파수 클리어 #'||$6 FROM coins
+), stars AS (
+  INSERT INTO cnine_user_inventory AS inventory(user_id,item_code,quantity,unseen_quantity)
+  SELECT id,'MASTER_STAR',$5::bigint,$5::bigint FROM coins
+  ON CONFLICT(user_id,item_code) DO UPDATE SET
+    quantity=inventory.quantity+excluded.quantity,
+    unseen_quantity=inventory.unseen_quantity+excluded.unseen_quantity,
+    updated_at=CURRENT_TIMESTAMP
+  RETURNING user_id,quantity
+), star_ledger AS (
+  INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+  SELECT user_id,'MASTER_STAR',$5::bigint,quantity,'NOX_RAID_CLEAR','NOX_RAID',$6 FROM stars
+) SELECT participants.id::text AS id,coins.used FROM participants LEFT JOIN coins USING(id)`;
+async function grantClearRewards(q,room){
+  const week=pigCoinRewardWeek(room.finishedAt);
+  const reward=NOX_REWARDS[room.difficulty==='HELL'?'HELL':'NORMAL'];
+  const rows=await q(GRANT_CLEAR_REWARDS_SQL,[room.clearParticipantIds,weekPrefix(week.weekKey),NOX_WEEKLY_REWARD_LIMIT,reward.coins,reward.masterStars,room.id]);
+  return Object.fromEntries(rows.map(({id,used})=>[id,{
+    status:used===null?'LIMIT':'PAID',
+    ...(used===null?{}:reward),
+    weekly:weeklyStatus(week,used??NOX_WEEKLY_REWARD_LIMIT)
+  }]));
+}
 async function save(q,row,room){
+  const cleared=officialClear(row,room);
+  if(cleared){
+    // Only the writer holding the matching room version can settle this clear.
+    // Its rewards, trophy and result commit together, including the receipt.
+    const [locked]=await q('SELECT room_id FROM raid_nox_rooms_v1 WHERE room_id=$1 AND version=$2 FOR UPDATE',[room.id,row.version]);
+    if(!locked)return false;
+    room.rewards=await grantClearRewards(q,room);
+  }
   const params=[JSON.stringify(room),room.status,room.endsAt?room.endsAt+600000:room.lobbyEndsAt,room.id,row.version];
-  const officialClear=row.status==='ACTIVE'&&room.status==='CLEAR'&&room.releaseMode==='ON';
-  if(officialClear)params.push(room.clearParticipantIds.map(noxClearKey),new Date(room.finishedAt).toISOString());
-  const rows=await q(officialClear?SAVE_OFFICIAL_CLEAR_SQL:SAVE_ROOM_SQL,params);
+  if(cleared)params.push(room.clearParticipantIds.map(noxClearKey),new Date(room.finishedAt).toISOString());
+  const rows=await q(cleared?SAVE_OFFICIAL_CLEAR_SQL:SAVE_ROOM_SQL,params);
+  if(cleared&&!rows.length)fail('BUSY','공대를 갱신하고 있습니다.',503);
   return rows.length>0;
 }
+function persist(env,row,room){return (officialClear(row,room)?transaction:read)(env,q=>save(q,row,room));}
 async function activeRoom(q,user,now){const [active]=await q('SELECT room_id FROM raid_nox_active_v1 WHERE user_id=$1',[user.id]);if(!active)return null;const {room}=await load(q,active.room_id);if(ongoing(room)&&(room.status!=='LOBBY'||now<room.lobbyEndsAt)&&(room.status!=='ACTIVE'||now<room.endsAt))return room.id;await q('DELETE FROM raid_nox_active_v1 WHERE user_id=$1 AND room_id=$2',[user.id,active.room_id]);return null;}
 async function selected(q,ids,lock=''){return ids.length?await q('SELECT id,nickname,role,status,banned_until,coin::text AS coin FROM users WHERE id=ANY($1::bigint[]) ORDER BY id'+lock,[ids]):[];}
 const publicUsers=rows=>rows.map(({coin,...u})=>({...u,id:Number(u.id)}));
@@ -70,7 +142,7 @@ async function state(env,user,roomId,options,now){
   for(let attempt=0;attempt<8;attempt++){
     const loaded=await read(env,async q=>{if(!roomId){const [a]=await q('SELECT room_id FROM raid_nox_active_v1 WHERE user_id=$1',[user.id]);roomId=a?.room_id;if(!roomId)fail('ROOM_MISSING','참가 중인 공대가 없습니다.',404);}const found=await snapshot(q,roomId,user);member(found.room,user);return found;});
     const before=signature(loaded.room);tick(loaded.room,Date.now());if(signature(loaded.room)===before)return result(loaded.room,user,loaded.cfg,options);
-    if(await read(env,q=>save(q,loaded.row,loaded.room)))return result(loaded.room,user,loaded.cfg,options);
+    if(await persist(env,loaded.row,loaded.room))return result(loaded.room,user,loaded.cfg,options);
   }fail('BUSY','공대 전황을 갱신하고 있습니다. 다시 시도하세요.',503);
 }
 async function command(env,user,kind,body,deps,now){
@@ -86,8 +158,16 @@ async function command(env,user,kind,body,deps,now){
     const {cfg}=await config(q,' FOR SHARE');if(kind!=='leave')access(user,cfg);let room,row;
     if(kind==='create'){
       if(await activeRoom(q,user,now))fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다.');
-      room=createNoxRoom({id:crypto.randomUUID().replaceAll('-','').slice(0,10).toUpperCase(),hostId:String(user.id),size:body.size,seed:crypto.getRandomValues(new Uint32Array(1))[0],now});
+      room=createNoxRoom({id:crypto.randomUUID().replaceAll('-','').slice(0,10).toUpperCase(),hostId:String(user.id),size:body.size,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],now});
       Object.assign(room,{releaseMode:cfg.mode,entryCoins:cfg.mode==='ON'?NOX_ENTRY_COINS:'0',lobbyEndsAt:now+900000,feePaid:false});addNoxMember(room,{id:String(user.id),name:user.nickname,cards:deck.cards,deckSnapshot:deck},now);
+      if(cfg.mode==='ON'){
+        if(body.acceptedCreateCoins!==NOX_CREATE_COINS)fail('CREATE_FEE_CONSENT','공대 생성비 10조 코인을 확인해 주세요.');
+        const charged=await q(`WITH debit AS (
+          UPDATE users SET coin=coin-$1::bigint WHERE id=$2 AND coin>=$1::bigint RETURNING id,coin
+        ) INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
+        SELECT id,-$1::bigint,coin,$3 FROM debit RETURNING user_id`,[NOX_CREATE_COINS,user.id,'종언의 주파수 공대 생성 #'+room.id]);
+        if(!charged.length)fail('CREATE_COINS','공대 생성에 필요한 10조 코인이 부족합니다.');
+      }
       await q('INSERT INTO raid_nox_rooms_v1(room_id,state_json,status,expires_at) VALUES($1,$2,$3,$4)',[room.id,JSON.stringify(room),room.status,room.lobbyEndsAt]);
       await q('INSERT INTO raid_nox_active_v1(user_id,room_id) VALUES($1,$2)',[user.id,room.id]);
     }else{
@@ -132,11 +212,11 @@ async function action(env,user,body,since,arrival){
     if(room.status==='CLEAR')return result(room,user,cfg,{since});
     const before=signature(room);tick(room,Math.max(room.clock,arrival));
     if(signature(room)!==before){
-      if(await read(env,q=>save(q,row,room))&&room.status==='CLEAR')return result(room,user,cfg,{since});
+      if(await persist(env,row,room)&&room.status==='CLEAR')return result(room,user,cfg,{since});
       continue;
     }
     actNoxRoom(room,String(user.id),body,room.clock,{receiptNow:arrival});
-    if(room.status!=='ACTIVE'){if(await read(env,q=>save(q,row,room)))return result(room,user,cfg,{since});continue;}
+    if(room.status!=='ACTIVE'){if(await persist(env,row,room))return result(room,user,cfg,{since});continue;}
     const events=room.events.filter(e=>e.seq>previousEvent),strike=room.challenge.stage==='COOP'?{[user.id]:room.challenge.strikes[user.id]}:{};
     // Independent players merge only their own state. A global room CAS made
     // six simultaneous rhythm streams retry/queue behind each other. This one
@@ -162,13 +242,17 @@ export async function handleNoxLive({path,request,env,deps}){
     const kind=path.slice('raid/nox/'.length),since=Math.max(0,Number(url.searchParams.get('since'))||0);
     if(kind==='state'&&request.method==='GET')return send(await state(env,user,url.searchParams.get('roomId'),{since,payload:url.searchParams.get('payload')==='1'},arrival));
     if(kind==='action'&&request.method==='POST'){const body=await readJointBody(request,{fields:['roomId','seq','challengeId','inputs','stream'],maxBytes:8192});return send(await action(env,user,body,since,arrival));}
+    if(kind==='feature'&&request.method==='GET')return send(await read(env,async q=>{
+      const {cfg}=await config(q),feature=noxAccess(user,cfg);
+      if(feature.accessible&&!feature.rewardLocked&&url.searchParams.get('weekly')==='1')feature.weeklyReward=await weeklyReward(q,user.id,arrival);
+      return {ok:true,...feature};
+    }));
     const {cfg}=await read(env,q=>config(q));
-    if(kind==='feature'&&request.method==='GET')return send({ok:true,...noxAccess(user,cfg)});
     if(kind!=='leave')access(user,cfg);
     if(kind==='deck'&&request.method==='GET'){const deck=await loadNoxPveDeck(env,user.id,deps);const roomId=await read(env,async q=>(await q('SELECT room_id FROM raid_nox_active_v1 WHERE user_id=$1',[user.id]))[0]?.room_id||null);return send({ok:true,cards:deck.cards,account:{id:Number(user.id),name:user.nickname},roomId,feature:noxAccess(user,cfg)});}
     if(request.method!=='POST')fail('METHOD','지원하지 않는 요청입니다.',405);
-    const fields=kind==='action'?['roomId','seq','challengeId','inputs']:['roomId','requestId','clientVersion','size','ready','acceptedCoins'];
+    const fields=['roomId','requestId','clientVersion','size','ready','acceptedCoins',...(kind==='create'?['difficulty','acceptedCreateCoins']:[])];
     const body=await readJointBody(request,{fields,maxBytes:8192});
-    return send(kind==='action'?await action(env,user,body,since,arrival):await command(env,user,kind,body,deps,arrival));
+    return send(await command(env,user,kind,body,deps,arrival));
   }catch(error){const known=Number.isInteger(error.status);return send({ok:false,error:known?error.message:'요청을 완료하지 못했습니다. 잠시 후 다시 시도하세요.',code:known?error.code:'NOX_RETRYABLE',retryable:!known||error.status>=500},known?error.status:503);}
 }

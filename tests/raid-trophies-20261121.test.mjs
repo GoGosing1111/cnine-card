@@ -5,12 +5,13 @@ import sharp from 'sharp';
 import {readCommittedAssetSync} from './helpers/sparse-media-fixture.mjs';
 import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
 import {noxFixture} from './helpers/nox-live-fixture.mjs';
+import {NOX_CREATE_COINS} from '../functions/_raid_nox_live.js';
 import {lichMilestoneValue,noxClearKey,readPlayerMilestoneHonors} from '../functions/_milestone_trophies.js';
 import {emptyTrophyBonuses,validateTrophyBonuses} from '../shared/trophy-bonuses-v1.mjs';
 import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js';
 
-async function start(h,size=3){
-  const {roomId}=await h.party(size);
+async function start(h,size=3,difficulty='NORMAL'){
+  const {roomId}=await h.party(size,difficulty);
   assert.equal((await h.command('start',{roomId})).status,200);
   return roomId;
 }
@@ -45,9 +46,13 @@ test('official 30th Nox clear commits with the room, survives a competing poll a
   assert.equal((await poll(h,roomId)).status,503);
   assert.deepEqual(await h.one('SELECT status,version FROM raid_nox_rooms_v1 WHERE room_id=$1',[roomId]),{status:'ACTIVE',version:failed.version});
   assert.deepEqual(await honor(h,1),{count:0,progress:29,goal:30,acquiredAt:null});
+  assert.equal((await h.one('SELECT count(*)::int n FROM coin_logs WHERE change_amount>0')).n,0);
+  assert.equal((await h.one('SELECT count(*)::int n FROM cnine_user_inventory')).n,0);
+  assert.equal((await h.call('feature?weekly=1')).body.weeklyReward.used,0);
   await h.pg.exec('DROP TRIGGER fail_credit ON app_meta');
   const responses=await Promise.all([poll(h,roomId),poll(h,roomId,2)]);
-  for(const r of responses){assert.equal(r.status,200);assert.equal(r.body.state.status,'CLEAR');}
+  for(const r of responses){assert.equal(r.status,200);assert.equal(r.body.state.status,'CLEAR');assert.equal(r.body.state.reward.status,'PAID');}
+  assert.deepEqual(await h.all('SELECT user_id::int FROM inventory_logs ORDER BY user_id'),[{user_id:1},{user_id:2}]);
   const stored=JSON.parse((await h.one('SELECT state_json FROM raid_nox_rooms_v1 WHERE room_id=$1',[roomId])).state_json);
   const at=new Date(stored.finishedAt).toISOString();
   assert.deepEqual(stored.clearParticipantIds,['1','2']);
@@ -70,9 +75,11 @@ test('a leave request that resolves the killing blow credits the frozen six-pers
   const body={roomId,requestId:h.uid()};
   h.failAt('INSERT INTO raid_nox_receipts_v1');assert.equal((await h.call('leave',{user:2,body})).status,503);
   h.failAt('');assert.equal((await honor(h,2)).progress,0);
+  assert.equal((await h.one('SELECT count(*)::int n FROM inventory_logs')).n,0);
   assert.equal((await h.call('leave',{user:2,body})).status,200);
   assert.equal((await h.call('leave',{user:2,body})).status,200);
   for(const id of [1,2,3,6,7,8])assert.equal((await honor(h,id)).progress,1);
+  assert.equal((await h.one('SELECT count(*)::int n FROM inventory_logs')).n,6);
   assert.equal((await honor(h,4)).progress,0);
 });
 
@@ -80,15 +87,65 @@ test('TEST clear, failed official raid and a disbanded lobby do not advance the 
   const h=await noxFixture(t);
   const trial=await start(h);await finalHit(h,trial);
   await h.configure({mode:'ON'}); // The room keeps the mode under which it started.
-  assert.equal((await poll(h,trial)).body.state.status,'CLEAR');
+  const testClear=(await poll(h,trial)).body.state;
+  assert.equal(testClear.status,'CLEAR');
+  assert.equal(testClear.reward,null);
   const failed=await start(h);await h.changeRoom(failed,r=>{r.endsAt=Date.now()-1;});
   assert.equal((await poll(h,failed)).body.state.status,'FAILED');
   for(const id of [1,2,3])assert.equal((await h.command('leave',{roomId:failed},id)).status,200);
   assert.equal((await h.one('SELECT status FROM raid_nox_rooms_v1 WHERE room_id=$1',[failed])).status,'FAILED');
-  const lobby=(await h.command('create',{size:3})).body.roomId;
+  const lobby=(await h.command('create',{size:3,acceptedCreateCoins:NOX_CREATE_COINS})).body.roomId;
   assert.equal((await h.command('leave',{roomId:lobby})).status,200);
   assert.equal((await h.one('SELECT status FROM raid_nox_rooms_v1 WHERE room_id=$1',[lobby])).status,'CANCELLED');
   for(const id of [1,2,3])assert.equal((await honor(h,id)).progress,0);
+  assert.equal((await h.one('SELECT count(*)::int n FROM inventory_logs')).n,0);
+});
+
+test('official Normal and Hell share three payouts per account and reset at Monday midnight KST',async t=>{
+  t.mock.timers.enable({apis:['Date'],now:Date.parse('2026-11-22T14:59:59Z')});
+  const h=await noxFixture(t);
+  await h.configure({mode:'ON'});
+
+  const difficulties=['NORMAL','HELL','NORMAL','HELL'];
+  for(let index=0;index<difficulties.length;index++){
+    const difficulty=difficulties[index],roomId=await start(h,3,difficulty);
+    await finalHit(h,roomId);
+    const response=await poll(h,roomId);
+    assert.equal(response.status,200,JSON.stringify(response));
+    assert.equal(response.body.state.difficulty,difficulty);
+    assert.equal(response.body.state.status,'CLEAR');
+    const reward=response.body.state.reward;
+    assert.equal(reward.weekly.used,Math.min(3,index+1));
+    if(index===3){
+      assert.equal(reward.status,'LIMIT');
+      assert.equal(reward.coins,undefined);
+    }else{
+      assert.equal(reward.status,'PAID');
+      assert.equal(reward.coins,difficulty==='HELL'?'300000000000000':'100000000000000');
+      assert.equal(reward.masterStars,difficulty==='HELL'?'2500000000':'1000000000');
+    }
+    assert.deepEqual((await poll(h,roomId)).body.state.reward,reward);
+  }
+  const coinLedger=await h.one('SELECT count(*)::int n,sum(change_amount)::text total FROM coin_logs WHERE user_id=1 AND change_amount>0');
+  assert.deepEqual(coinLedger,{n:3,total:'500000000000000'});
+  assert.deepEqual(await h.one("SELECT quantity::text,unseen_quantity::text FROM cnine_user_inventory WHERE user_id=1 AND item_code='MASTER_STAR'"),{quantity:'4500000000',unseen_quantity:'4500000000'});
+  assert.deepEqual(await h.one('SELECT count(*)::int n,sum(change_amount)::text total FROM inventory_logs WHERE user_id=1'),{n:3,total:'4500000000'});
+  assert.equal((await honor(h,1)).progress,4);
+  assert.equal((await h.call('feature?weekly=1',{user:4})).body.weeklyReward.used,0);
+  const {weeklyReward}= (await h.call('feature?weekly=1')).body;
+  assert.equal(weeklyReward.weekKey,'2026-11-16');
+  assert.equal(weeklyReward.remaining,0);
+
+  t.mock.timers.setTime(Date.parse('2026-11-22T15:00:00Z'));
+  const nextWeek=(await h.call('feature?weekly=1')).body.weeklyReward;
+  assert.equal(nextWeek.weekKey,'2026-11-23');
+  assert.equal(nextWeek.remaining,3);
+  const roomId=await start(h,3,'HELL');
+  await finalHit(h,roomId);
+  const nextReward=(await poll(h,roomId)).body.state.reward;
+  assert.equal(nextReward.status,'PAID');
+  assert.equal(nextReward.weekly.used,1);
+  assert.equal((await h.one("SELECT quantity::text FROM cnine_user_inventory WHERE user_id=1 AND item_code='MASTER_STAR'")).quantity,'7000000000');
 });
 
 test('old Frostmourne dates and CMS bonuses survive the goal reduction; existing settings gain only a zero-rate Nox trophy',()=>{

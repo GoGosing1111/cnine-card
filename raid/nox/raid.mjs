@@ -1,4 +1,4 @@
-import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,noxNoteStart,eventTime} from '/js/nox-input-v1.mjs?v=20261120-full1';
+import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,noxNoteStart,eventTime} from '/js/nox-input-v1.mjs?v=20261123-difficulty1';
 import {NOX_TRACK,NOX_RHYTHM_RULES,noxTrack} from '/shared/nox-raid-chart-v1.mjs?v=20261120-full1';
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clockText=(id,value)=>{const el=$(id);if(el.textContent!==value)el.textContent=value;};
@@ -9,6 +9,10 @@ let retryAt=0,retryDelay=250;
 let calibration=Math.max(-150,Math.min(150,Number(localStorage.getItem('noxTimingOffset'))||0));
 const audio=new NoxAudio(),serverNow=()=>performance.now()+offset;
 let chartObserver=null,hitY=1,noteHeight=56,combo=0,floorAbort=null;
+let lobbyFeature=null,establishing=false;
+const difficultyLabel=key=>key==='HELL'?'헬':'노말';
+const memorySteps=challenge=>challenge.cues?.length??3;
+const chartTravelMs=()=>state?.challenge?.travelMs??NOX_RHYTHM_RULES.travelMs;
 const trackUrls=()=>state?.playlist?.length?state.playlist.map(id=>noxTrack(id).source):[NOX_TRACK.source];
 let frameSummary={count:0,total:0,max:0,over50:0};
 const hitAnimations=new Map();
@@ -46,7 +50,7 @@ async function api(route,body,{keepalive=false,controller=new AbortController()}
   const auth=playerToken();requests.add(controller);const timeout=setTimeout(()=>controller.abort(),7000);
   const kind=route.split('?')[0];let endpoint='/api/raid/nox/'+route;
   if(body===undefined&&token)endpoint+=(endpoint.includes('?')?'&':'?')+'roomId='+encodeURIComponent(token);
-  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:4,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
+  if(body!==undefined){body={...body,...(token?{roomId:token}:{})};if(kind!=='action')body={requestId:crypto.randomUUID(),clientVersion:5,...body};if(kind==='ready'&&body.ready)body.acceptedCoins=state?.entryCoins||'0';}
   try{
     let result;
     for(let attempt=0;attempt<2;attempt++){
@@ -60,7 +64,7 @@ async function api(route,body,{keepalive=false,controller=new AbortController()}
       if(Number.isFinite(clock)&&networkRtt<bestRtt+10){bestRtt=Math.min(bestRtt,networkRtt);offset=((result.serverReceivedAt??clock)-started+clock-received)/2;}
       if(!response.ok){if(response.status>=500&&body&&kind!=='action'&&!attempt)continue;throw Object.assign(new Error(result.error||'요청에 실패했습니다.'),{status:response.status,code:result.code});}break;
     }
-    if(kind==='start')window.parent.dispatchEvent(new Event('cnine:account-mutation'));
+    if(kind==='start'||kind==='create'&&result.state?.release.mode==='ON')window.parent.dispatchEvent(new Event('cnine:account-mutation'));
     return result;
   }finally{clearTimeout(timeout);requests.delete(controller);}
 }
@@ -71,18 +75,37 @@ function render(result){
   const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;seq=Math.max(seq,next.me.lastSequence);outbox=outbox.filter(p=>p.seq>next.me.lastSequence);for(const end of sentPackets.keys())if(end<=next.me.lastSequence)sentPackets.delete(end);if(result.payload)payload=result.payload;
   if(state.status==='LOBBY'){
     screen(false);$('createForm').hidden=true;$('assembly').hidden=false;$('roomCode').textContent=state.id;showFee(state.release.mode,state.entryCoins);
+    $('roomDifficulty').textContent=difficultyLabel(state.difficulty);
     $('memberList').innerHTML=state.members.map(m=>`<li>${esc(m.name)}<span>${roles[m.role]} · ${m.ready?'준비 완료':'준비 중'}${m.bot?' · 연습 동료':''}</span></li>`).join('');
     $('startButton').hidden=!state.me.isHost||!state.me.ready||!mounted;$('startButton').disabled=state.members.length!==state.size||state.members.some(m=>!m.ready);$('readyButton').hidden=state.me.ready&&mounted;$('readyButton').disabled=preparing;
-    $('prepareStatus').textContent=preparing?'음원과 전장을 준비하고 있습니다…':state.me.ready?`준비 ${state.members.filter(m=>m.ready).length}/${state.size} · 전원 준비 후 출전`:(state.entryCoins==='0'?'무료 TEST · 음원과 전장을 준비하세요.':'출전 시 1인 50조 차감 · 전투 준비로 동의합니다.');return;
+    $('prepareStatus').textContent=preparing?'음원과 전장을 준비하고 있습니다…':state.me.ready?`준비 ${state.members.filter(m=>m.ready).length}/${state.size} · 전원 준비 후 출전`:(state.entryCoins==='0'?'무료 TEST · 음원과 전장을 준비하세요.':`출전 시 1인 ${formatAmount(state.entryCoins)} 차감 · 전투 준비로 동의합니다.`);return;
   }
   screen(true);if(!mounted){void mountBattle().catch(error=>toast(error.message));return;}
-  $('roundLabel').textContent=`${state.size}인 · ${state.round}/3회차`;const pct=Math.max(0,state.bossHp/state.bossMaxHp*100);$('bossPercent').textContent=pct.toFixed(1)+'%';$('bossGauge').style.setProperty('--hp',pct/100);$('bossGauge').setAttribute('aria-valuenow',pct.toFixed(1));
+  $('roundLabel').textContent=`${difficultyLabel(state.difficulty)} · ${state.size}인 · ${state.round}/3회차`;const pct=Math.max(0,state.bossHp/state.bossMaxHp*100);$('bossPercent').textContent=pct.toFixed(1)+'%';$('bossGauge').style.setProperty('--hp',pct/100);$('bossGauge').setAttribute('aria-valuenow',pct.toFixed(1));
   const sig=JSON.stringify(state.members.map(m=>[m.id,m.hp,m.ready,m.left]));if(sig!==hudSignature){hudSignature=sig;$('partyHud').innerHTML=state.members.map(healthMarkup).join('');}
   updateMechanic();
   // Apply the stage's layout before V3 projects its floor and click targets.
   window.NoxBattle.update(state,events);
   const last=events.filter(e=>e.type==='NOX_DEATH'||e.type==='NOX_COOP').at(-1);if(last)$('combatMessage').textContent=last.label;
-  if(state.status!=='ACTIVE'&&!ended){ended=true;stopLoops();input?.destroy();input=null;audio.stop();window.NoxBattle.finish(state);$('resultTitle').textContent=state.status==='CLEAR'?'종언의 지휘를 끊었다':'공략 실패';$('resultReason').textContent=state.failure?.reason||'적관의 지휘자 녹스를 쓰러뜨렸습니다.';$('resultDetail').textContent=`${state.round}/3회차 · ${state.members.filter(m=>m.hp>0).length}/${state.size}명 생존`;$('resultDialog').showModal();}
+  if(state.status!=='ACTIVE'&&!ended){
+    ended=true;stopLoops();input?.destroy();input=null;audio.stop();window.NoxBattle.finish(state);
+    $('resultTitle').textContent=state.status==='CLEAR'?'종언의 지휘를 끊었다':'공략 실패';
+    $('resultReason').textContent=state.failure?.reason||'적관의 지휘자 녹스를 쓰러뜨렸습니다.';
+    $('resultDetail').textContent=`${difficultyLabel(state.difficulty)} · ${state.round}/3회차 · ${state.members.filter(m=>m.hp>0).length}/${state.size}명 생존`;
+    const payout=state.reward,paid=payout?.status==='PAID',reward=$('resultReward');
+    reward.textContent=paid?`코인 ${formatAmount(payout.coins)} · 마스터의 별 ${formatAmount(payout.masterStars)} 개 지급 · 주간 ${payout.weekly.used}/${payout.weekly.limit}회`:
+      payout?.status==='LIMIT'?`이번 주 보상 ${payout.weekly.limit}회를 모두 수령했습니다.`:state.status==='CLEAR'&&state.release.mode==='TEST'?'TEST 클리어 · 보상 없음':'';
+    reward.hidden=!reward.textContent;
+    if(paid)window.parent.dispatchEvent(new Event('cnine:account-mutation'));
+    $('resultDialog').showModal();
+  }
+}
+function layoutChart(){
+  const chart=$('chart');
+  if(!chart)return;
+  noteHeight=parseFloat(getComputedStyle(chart).getPropertyValue('--note-height'))||56;
+  hitY=noxHitY(chart.clientHeight,noteHeight,chartTravelMs());
+  chart.style.setProperty('--hit-y',hitY+'px');
 }
 function loadScript(src){return new Promise((resolve,reject)=>{const existing=document.querySelector(`script[data-nox-src="${src}"]`);if(existing?.dataset.loaded)return resolve();const script=existing||document.createElement('script');script.dataset.noxSrc=src;script.src=src;script.onload=()=>{script.dataset.loaded='1';resolve();};script.onerror=()=>{script.remove();reject(new Error('전투 리소스를 불러오지 못했습니다. 다시 준비해 주세요.'));};if(!existing)document.head.append(script);});}
 async function mountBattle(){
@@ -92,7 +115,7 @@ async function mountBattle(){
     await loadScript('/raid/nox/battle.bundle.js?astraLifecycle=20261120-v1&nox=20261119-input4&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
-    chartObserver=new ResizeObserver(()=>{noteHeight=parseFloat(getComputedStyle($('chart')).getPropertyValue('--note-height'))||56;hitY=noxHitY($('chart').clientHeight,noteHeight);$('chart').style.setProperty('--hit-y',hitY+'px');});chartObserver.observe($('chart'));
+    chartObserver=new ResizeObserver(layoutChart);chartObserver.observe($('chart'));
     const canInput=()=>state?.status==='ACTIVE'&&state.me.hp>0&&!document.hidden&&!$('guideDialog').open&&!$('resultDialog').open;
     input=new NoxInput(layer,press,{active:()=>canInput()&&state.stage!=='MEMORY',onHeld:(lane,held)=>layer?.querySelectorAll(`[data-nox-lane="${lane}"]`).forEach(b=>b.classList.toggle('is-held',held))});
     floorAbort=new AbortController();const floorPress=e=>{const b=e.target.closest('[data-nox-tile]');if(!b||b.disabled||!canInput()||state.stage!=='MEMORY'||e.type==='pointerdown'&&e.button!==0||e.type==='click'&&e.detail!==0)return;e.preventDefault();press(Number(b.dataset.noxTile),eventTime(e));};
@@ -111,9 +134,9 @@ function updateMechanic(){
   if(c.id!==stageId){stageId=c.id;for(const p of posts.values())p.controller.abort();posts.clear();retryAt=0;retryDelay=250;layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;outbox=[];sentPackets.clear();localHits=new Set(state.me.hits||[]);nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();combo=0;$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 밝은 선에 맞추세요';$('rhythmCombo').textContent='';$('combatMessage').textContent='';
     $('rhythm').hidden=c.stage!=='RHYTHM';$('memory').hidden=c.stage!=='MEMORY';$('coop').hidden=c.stage!=='COOP';
     $('mechanicName').textContent=({RHYTHM:'종언의 악보',MEMORY:'잔향의 발판',COOP:'삼중 공명',EXPOSED:'왕관 붕괴'})[c.stage];
-    $('mechanicHint').textContent=({RHYTHM:'D · F · J · K  /  정확도 90% · MISS 3 이하',MEMORY:'바닥의 1 → 2 → 3 위치 기억 · 지뢰를 피하세요',COOP:'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
+    $('mechanicHint').textContent=({RHYTHM:'D · F · J · K  /  정확도 90% · MISS 3 이하',MEMORY:`안전 발판 ${memorySteps(c)}개의 순서를 기억하세요`,COOP:'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
     if(c.stage==='MEMORY')$('floorTargets').innerHTML=c.tiles.map(tile=>`<button type="button" class="nox-floor-target" data-nox-tile="${tile.id}" aria-label="${tile.id+1}번 위치 ${tile.kind==='mine'?'지뢰지대':'안전지대'}"><span></span></button>`).join('');
-    if(c.stage==='RHYTHM')$('rhythmTrack').textContent=(noxTrack(c.trackId).name||'경매 BGM')+' · '+c.chart.length+' NOTES';
+    if(c.stage==='RHYTHM'){$('rhythmTrack').textContent=(noxTrack(c.trackId).name||'경매 BGM')+' · '+c.chart.length+' NOTES';layoutChart();}
     else audio.stop();
   }
   for(const id of state.me.hits||[])localHits.add(id);
@@ -123,11 +146,11 @@ function updateMechanic(){
     const age=noxRhythmTime(audio.timeAt()??serverNow()-c.musicStartAt,calibration),passed=c.chart.filter(n=>n.at<=age-NOX_RHYTHM_RULES.goodMs).length;$('rhythmScore').textContent=`정확도 ${Math.min(100,Math.round(state.me.score/Math.max(1,passed)*100))}% · ${state.me.hits.length}/${c.chart.length}`;
   }
   if(c.stage==='MEMORY'){
-    const showing=serverNow()<c.revealEnd,dead=state.me.hp<=0,complete=state.me.memoryIndex===3;
+    const steps=memorySteps(c),showing=serverNow()<c.revealEnd,dead=state.me.hp<=0,complete=state.me.memoryIndex===steps;
     $('memoryCue').textContent=dead?'전투 불능':complete?'안전지대 도착':showing?'안전 경로 기억':'바닥을 누르세요';
     $('memoryCue').parentElement.dataset.state=dead?'dead':complete?'complete':'active';
     layer.querySelectorAll('.nox-floor-target').forEach(b=>{b.disabled=showing||dead||complete;b.dataset.kind=c.tiles[Number(b.dataset.noxTile)].kind;});
-    $('memoryProgress').textContent=dead?`${state.me.deathReason||'공략 실패'} · 관전 중`:complete?'1 → 2 → 3 성공 · 다음 기믹 대기':showing?'정답 3개 · 지뢰 27개 · 순서를 기억하세요':`${state.me.memoryIndex}/3 · 순서 오류·미입력 시 즉사`;
+    $('memoryProgress').textContent=dead?`${state.me.deathReason||'공략 실패'} · 관전 중`:complete?`${steps}개 발판 통과 · 다음 기믹 대기`:showing?`안전 발판 ${steps}개 · 지뢰 ${c.tiles.length-steps}개`:`${state.me.memoryIndex}/${steps} · 순서 오류·미입력 시 즉사`;
   }
   if(c.stage==='COOP'){
     $('coopRole').textContent=`내 주파수: ${roles[state.me.role]} · ${keys[state.me.role]}`;
@@ -143,11 +166,11 @@ function paint(now){
     clockText('rhythmClock',t<c.startsAt?$('mechanicClock').textContent:fmt(noxTrack(c.trackId).chartEndMs-(audio.timeAt()??t-c.musicStartAt)));
     // RAF's shared timestamp can precede expensive V3 callbacks. Sample when
     // actually drawing, using the same clock/calibration as the input event.
-    const age=noxRhythmTime(audio.timeAt()??t-c.musicStartAt,calibration),visible=new Set();
-    for(let i=noxNoteStart(c.chart,age-NOX_RHYTHM_RULES.goodMs);i<c.chart.length;i++){const n=c.chart[i];if(n.at>age+NOX_RHYTHM_RULES.travelMs)break;if(localHits.has(n.id))continue;visible.add(n.id);let el=nodes.get(n.id);if(!el){el=document.createElement('div');el.className='nox-note';el.dataset.noteId=n.id;el.dataset.tone=n.lane===1||n.lane===2?'ivory':'ruby';el.style.setProperty('--lane',n.lane);$('notes').append(el);nodes.set(n.id,el);}el.style.transform=`translateY(${noxNoteY(n.at,age,hitY,noteHeight)}px)`;}
+    const age=noxRhythmTime(audio.timeAt()??t-c.musicStartAt,calibration),travelMs=chartTravelMs(),visible=new Set();
+    for(let i=noxNoteStart(c.chart,age-NOX_RHYTHM_RULES.goodMs);i<c.chart.length;i++){const n=c.chart[i];if(n.at>age+travelMs)break;if(localHits.has(n.id))continue;visible.add(n.id);let el=nodes.get(n.id);if(!el){el=document.createElement('div');el.className='nox-note';el.dataset.noteId=n.id;el.dataset.tone=n.lane===1||n.lane===2?'ivory':'ruby';el.style.setProperty('--lane',n.lane);$('notes').append(el);nodes.set(n.id,el);}el.style.transform=`translateY(${noxNoteY(n.at,age,hitY,noteHeight,travelMs)}px)`;}
     for(const [id,el]of nodes)if(!visible.has(id)){el.remove();nodes.delete(id);}
   }else if(c.stage==='MEMORY'){
-    const cue=c.cues?.find(cue=>t>=cue.from&&t<cue.to);const cueId=cue?.tile??null;if(c.cue!==cueId){c.cue=cueId;c.cueStep=cue?.step??null;window.NoxBattle.memoryCue(state);}const showing=t<c.revealEnd;layer.querySelectorAll('.nox-floor-target').forEach(b=>{b.disabled=showing||state.me.hp<=0||state.me.memoryIndex>=3;});window.NoxBattle.placeFloorTargets($('floorTargets'));
+    const cue=c.cues?.find(cue=>t>=cue.from&&t<cue.to);const cueId=cue?.tile??null;if(c.cue!==cueId){c.cue=cueId;c.cueStep=cue?.step??null;window.NoxBattle.memoryCue(state);}const blocked=t<c.revealEnd||state.me.hp<=0||state.me.memoryIndex>=memorySteps(c);layer.querySelectorAll('.nox-floor-target').forEach(b=>{b.disabled=blocked;});window.NoxBattle.placeFloorTargets($('floorTargets'));
   }else if(c.stage==='COOP'){
     const ratio=Math.min(1,Math.max(0,(t-(c.targetAt-1800))/3600));$('syncNeedle').style.left=`${ratio*100}%`;
   }
@@ -159,7 +182,7 @@ function press(lane,perfTime){
   const audioTime=c.stage==='RHYTHM'?audio.timeAt(perfTime):null;
   if(c.stage==='RHYTHM'&&(audio.context?.state!=='running'||audioTime===null)){toast('소리 재개를 눌러 음원을 연결하세요.');return;}
   const at=audioTime===null?perfTime+offset:c.musicStartAt+noxRhythmTime(audioTime,calibration);
-  if(at<c.startsAt||c.stage==='MEMORY'&&(at<c.revealEnd||state.me.memoryIndex>=3)||c.stage==='COOP'&&state.me.cooperated)return;
+  if(at<c.startsAt||c.stage==='MEMORY'&&(at<c.revealEnd||state.me.memoryIndex>=memorySteps(c))||c.stage==='COOP'&&state.me.cooperated)return;
   let noteId;
   if(c.stage==='RHYTHM'){const judged=nearestNoxNote(c.chart,localHits,lane,at-c.musicStartAt);showHit(lane,judged,at-c.musicStartAt);if(judged){noteId=judged.note.id;localHits.add(noteId);nodes.get(noteId)?.remove();nodes.delete(noteId);}}
   outbox.push({lane,at,seq:++seq,noteId});scheduleFlush();
@@ -186,11 +209,35 @@ async function leave(notify=true){
   const oldToken=token;epoch++;stopLoops();requests.forEach(c=>c.abort());requests.clear();posts.clear();sentPackets.clear();retryAt=0;retryDelay=250;input?.destroy();input=null;floorAbort?.abort();chartObserver?.disconnect();await audio.suspend();window.NoxBattle?.teardown();mounted=false;mountPromise=null;layer?.remove();layer=null;nodes.clear();outbox=[];stageId='';token='';sessionStorage.removeItem('noxLiveRoom');state=null;payload=null;eventSeq=0;seq=0;ended=false;preparing=false;hudSignature='';bestRtt=Infinity;frameTimes=[];frameSummary={count:0,total:0,max:0,over50:0};screen(false);$('createForm').hidden=false;$('assembly').hidden=true;$('createButton').disabled=false;$('audioResume').hidden=true;
   if(notify&&oldToken)try{await api('leave',{roomId:oldToken},{keepalive:true});}catch(error){toast(error.message);}
 }
-async function establish(action,body){$('createButton').disabled=true;$('joinButton').disabled=true;try{await leave();const result=await api(action,body);token=result.roomId;sessionStorage.setItem('noxLiveRoom',token);render(result);schedulePoll();}catch(error){toast(error.message);}finally{$('createButton').disabled=false;$('joinButton').disabled=false;}}
-$('createForm').addEventListener('submit',e=>{e.preventDefault();void establish('create',{size:Number(new FormData(e.target).get('size'))});});
+async function establish(action,body){
+  if(establishing)return;
+  establishing=true;
+  $('createButton').disabled=$('joinButton').disabled=true;
+  try{
+    await leave();
+    $('createButton').disabled=true;
+    const result=await api(action,body);
+    token=result.roomId;sessionStorage.setItem('noxLiveRoom',token);render(result);schedulePoll();
+  }catch(error){
+    toast(error.message);
+    if(error.code==='NOX_CREATE_FEE_CONSENT')void loadLobbyFeature().catch(()=>{});
+  }finally{
+    establishing=false;
+    $('createButton').disabled=$('joinButton').disabled=false;
+  }
+}
+$('createForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const form=new FormData(e.target);
+  void establish('create',{size:Number(form.get('size')),difficulty:form.get('difficulty'),acceptedCreateCoins:lobbyFeature?.createCoins||'0'});
+});
 $('joinButton').onclick=()=>void establish('join',{roomId:$('joinCode').value.trim().toUpperCase()});
 $('readyButton').onclick=()=>void prepare();$('startButton').onclick=async()=>{const b=$('startButton');b.disabled=true;try{await audio.unlock();render(await api('start',{}));schedulePoll();}catch(error){toast(error.message);b.disabled=false;}};
-$('leaveButton').onclick=$('lobbyLeave').onclick=()=>void leave();$('retryButton').onclick=()=>{$('resultDialog').close();void leave();};
+$('leaveButton').onclick=$('lobbyLeave').onclick=()=>void leave();
+$('retryButton').onclick=async()=>{
+  $('resultDialog').close();await leave();
+  if(lobbyFeature?.mode==='ON')void loadLobbyFeature().catch(error=>toast(error.message));
+};
 $('copyCode').onclick=async()=>{try{await navigator.clipboard.writeText(state.id);toast('공대 코드를 복사했습니다.');}catch{toast('공대 코드: '+state.id);}};
 document.querySelectorAll('[data-guide]').forEach(b=>b.onclick=()=>{input?.reset();$('guideDialog').showModal();});$('closeGuide').onclick=()=>$('guideDialog').close();
 $('calibration').value=calibration;$('calibrationValue').textContent=calibration+' ms';$('calibration').oninput=e=>{calibration=Number(e.target.value);$('calibrationValue').textContent=calibration+' ms';localStorage.setItem('noxTimingOffset',String(calibration));};
@@ -198,11 +245,36 @@ $('audioResume').onclick=async()=>{const version=epoch;try{await audio.unlock();
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopLoops();input?.reset();audio.stop();window.NoxBattle?.visible(false);}else if(token){window.NoxBattle?.visible(true);lastPaint=0;void sync();}});
 window.addEventListener('pagehide',()=>{stopLoops();requests.forEach(c=>c.abort());input?.destroy();floorAbort?.abort();chartObserver?.disconnect();void audio.destroy();window.NoxBattle?.teardown();});
 window.addEventListener('resize',()=>window.NoxBattle?.resize());
-function showFee(mode,coins){$('feeMode').textContent=mode==='TEST'?'TEST · 지정 참가자 무료':'ON · 전투 입장료 1인 50조';$('feeDetail').textContent=coins==='0'?'테스트 중 입장료 무료 · 보상 없음':'전원 출전 시 각 50조 코인 소모 · 대기실 입장/해산 무료 · 보상 미설정';$('readyButton').textContent=coins==='0'?'무료 전투 준비':'50조 입장료 확인 · 준비';}
+function formatAmount(amount){
+  const value=BigInt(amount),trillion=1000000000000n,hundredMillion=100000000n;
+  if(value>=trillion&&value%trillion===0n)return value/trillion+'조';
+  if(value>=hundredMillion&&value%hundredMillion===0n)return value/hundredMillion+'억';
+  return value.toLocaleString('ko-KR');
+}
+function showFee(mode,coins){
+  const official=mode==='ON',fee=official&&lobbyFeature?.createCoins;
+  $('feeMode').textContent=official?'공식 레이드':mode==='TEST'?'TEST · 지정 참가자 무료':'입장 중지';
+  $('feeDetail').textContent=official?`출전 시 1인 ${formatAmount(coins)} 코인 차감`:'TEST 클리어 보상 없음';
+  $('createButton').textContent=fee?`공대 만들기 · ${formatAmount(fee)} 코인`:'공대 만들기';
+  $('readyButton').textContent=official?`${formatAmount(coins)} 입장료 확인 · 준비`:'무료 전투 준비';
+  const weekly=official&&lobbyFeature?.weeklyReward;
+  $('weeklyReward').textContent=weekly?`노말·헬 합산 보상 ${weekly.used}/${weekly.limit}회 수령 · 월요일 00:00 초기화`:'';
+  $('weeklyReward').hidden=!weekly;
+  for(const [id,key] of [['normalReward','NORMAL'],['hellReward','HELL']]){
+    const reward=official&&lobbyFeature?.rewards?.[key];
+    $(id).textContent=reward?`코인 ${formatAmount(reward.coins)} · 마스터의 별 ${formatAmount(reward.masterStars)} 개`:'';
+    $(id).hidden=!reward;
+  }
+}
+async function loadLobbyFeature(){
+  lobbyFeature=await api('feature?weekly=1');
+  showFee(lobbyFeature.mode,lobbyFeature.entryCoins);
+  return lobbyFeature;
+}
 $('exitRaid').onclick=async e=>{e.preventDefault();await leave();if(window.parent!==window)window.parent.postMessage({type:'nox-exit'},location.origin);else location.href='/';};
 async function boot(){
   $('createButton').disabled=$('joinButton').disabled=true;
-  try{const feature=await api('feature');showFee(feature.mode,feature.entryCoins);if(!feature.accessible)throw new Error(feature.mode==='OFF'?'현재 입장 중지 상태입니다.':'지정된 테스트 참가자만 입장할 수 있습니다.');
+  try{const feature=await loadLobbyFeature();if(!feature.accessible)throw new Error(feature.mode==='OFF'?'현재 입장 중지 상태입니다.':'지정된 테스트 참가자만 입장할 수 있습니다.');
     const result=await api('deck');$('deckList').innerHTML=result.cards.map(c=>`<figure><img src="${esc(c.image)}" alt="${esc(c.title)}" loading="lazy"><figcaption>${esc(c.title)}</figcaption></figure>`).join('');$('deckNotice').textContent='저장된 PVE 덱으로 출전합니다. · '+result.account.name;token=result.roomId||'';if(token){sessionStorage.setItem('noxLiveRoom',token);await sync();}else sessionStorage.removeItem('noxLiveRoom');$('createButton').disabled=$('joinButton').disabled=false;
   }catch(error){$('deckNotice').textContent=error.message;$('feeDetail').textContent=error.message;token='';}
 }

@@ -18,9 +18,38 @@ test('61 full songs continue into the final half-second; denser charts keep sepa
   assert.deepEqual([NOX_RULES.perfectMs,NOX_RULES.goodMs,NOX_RULES.maxMiss,NOX_RULES.accuracy],[80,160,3,.9]);
 });
 
+test('Hell adds 50% more playable notes without changing song timing or Normal chart data',()=>{
+  const lobby=createNoxRoom({id:'DIFFICULTY',hostId:'1',size:3,difficulty:'HELL',seed:7});
+  for(let i=1;i<=3;i++){
+    addNoxMember(lobby,{id:String(i),cards:NOX_DECK});
+    readyNoxMember(lobby,String(i));
+  }
+  for(const track of NOX_TRACKS){
+    const hell=structuredClone(lobby),legacy=structuredClone(lobby);
+    delete legacy.difficulty;
+    hell.playlist[0]=legacy.playlist[0]=track.id;
+    startNoxRoom(hell,'1',0);startNoxRoom(legacy,'1',0);
+    assert.deepEqual(legacy.challenge.chart,track.notes);
+    assert.equal(legacy.challenge.travelMs,1250);
+    assert.equal(hell.challenge.travelMs,1000);
+    assert.equal(hell.challenge.deadline,legacy.challenge.deadline);
+    const notes=hell.challenge.chart;
+    assert.equal(notes.length,Math.round(track.notes.length*1.5),track.id);
+    assert.equal(notes[0].at,track.notes[0].at);
+    assert.equal(notes.at(-1).at,track.notes.at(-1).at);
+    const last=[-Infinity,-Infinity,-Infinity,-Infinity],counts=new Map();
+    for(const note of notes){
+      assert(note.at-last[note.lane]>=330,track.id);
+      last[note.lane]=note.at;
+      counts.set(note.at,(counts.get(note.at)||0)+1);
+      assert(counts.get(note.at)<=2,track.id);
+    }
+  }
+});
+
 test('longest three songs finish every mechanic in 3/6 players without early enrage or early music cutoff',()=>{
- for(const size of [3,6]){
-  const room=createNoxRoom({id:'FULLSONG01',hostId:'1',size,seed:7});room.playlist=[...NOX_TRACKS].sort((a,b)=>b.durationMs-a.durationMs).slice(0,3).map(t=>t.id);
+ for(const difficulty of ['NORMAL','HELL'])for(const size of [3,6]){
+  const room=createNoxRoom({id:'FULLSONG01',hostId:'1',size,difficulty,seed:7});room.playlist=[...NOX_TRACKS].sort((a,b)=>b.durationMs-a.durationMs).slice(0,3).map(t=>t.id);
   for(let i=1;i<=size;i++){addNoxMember(room,{id:String(i),cards:NOX_DECK});readyNoxMember(room,String(i));}startNoxRoom(room,'1',0);
   assert.equal(room.endsAt-room.startedAt,120000+room.playlist.reduce((s,id)=>s+noxTrack(id).durationMs,0));
   const send=(m,inputs,now)=>actNoxRoom(room,m.id,{seq:m.lastSequence+1,challengeId:room.challenge.id,inputs},now);
@@ -29,6 +58,10 @@ test('longest three songs finish every mechanic in 3/6 players without early enr
     for(const n of c.chart){const at=c.musicStartAt+n.at;for(const m of room.members)send(m,[{lane:n.lane,at}],at+40);}
     tickNoxRoom(room,c.musicStartAt+noxTrack(c.trackId).durationMs);assert.equal(room.stage,'RHYTHM');
     tickNoxRoom(room,c.deadline);assert.equal(room.stage,'MEMORY');c=room.challenge;
+    const steps=difficulty==='HELL'?5:3;
+    assert.equal(c.sequence.length,steps);
+    assert.equal(c.tiles.filter(t=>t.kind==='mine').length,30-steps);
+    assert.equal(c.revealEnd-c.startsAt,steps*(c.cueMs+c.gapMs));
     for(const m of room.members)send(m,c.sequence.map(lane=>({lane,at:c.revealEnd+30})),c.revealEnd+300);
     tickNoxRoom(room,c.deadline+NOX_RULES.receiptGraceMs);assert.equal(room.stage,'COOP');c=room.challenge;
     for(const m of room.members)send(m,[{lane:m.role,at:c.targetAt}],c.targetAt+500);

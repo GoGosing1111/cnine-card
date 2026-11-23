@@ -29,6 +29,12 @@
 @media(max-width:800px){.nox-console{padding:84px 40px 72px}.nox-coop{padding:44px 28px 42px;bottom:8%}}
 @media(max-height:480px) and (min-width:650px){.nox-coop{left:auto;right:2%;transform:none;width:49%;bottom:0;padding:22px}.nox-coop p{font-size:12px;line-height:14px;margin:0}.nox-sync-track{height:10px;margin:2px 6px}.nox-frequency-buttons button{padding:2px 4px;min-height:30px;font-size:12px;line-height:12px}.nox-frequency-buttons small{margin-top:0;line-height:11px}.nox-coop>span{font-size:11px;line-height:13px;margin-top:2px}}
 
+.nox-difficulty-options label{align-items:flex-start}
+.nox-difficulty-options input{flex:none;margin:2px 0 0}
+.nox-difficulty-options small,.nox-create-policy{word-break:keep-all}
+.nox-create-policy{margin:0 0 12px}
+.nox-create-policy p{margin:3px 0 0}
+
 /* Rhythm focus uses the raid's own overlay, never restyles the V3 roster. */
 .nox-combat[data-stage="RHYTHM"]{grid-template-rows:52px 78px minmax(0,1fr)}
 .nox-combat[data-stage="RHYTHM"] .nox-raid-hud{padding-block:4px}

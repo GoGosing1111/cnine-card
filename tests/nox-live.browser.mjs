@@ -2,7 +2,9 @@ import {variantPaths} from '../shared/onestore-web-assets-v1.mjs';
 import {htmlForStore} from '../functions/_onestore_web.js';
 import {canonicalDocument} from '../shared/onestore-web-v1.mjs';
 import fs from 'node:fs';import os from 'node:os';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';import path from 'node:path';import {pathToFileURL} from 'node:url';import http from 'node:http';import assert from 'node:assert/strict';
-import {chromium,webkit} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+const {chromium,webkit}=await import(process.env.NOX_PLAYWRIGHT_PATH
+  ?pathToFileURL(process.env.NOX_PLAYWRIGHT_PATH)
+  :'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
 const sourceRoot=process.env.NOX_QA_SOURCE||path.resolve(import.meta.dirname,'..');
 const sourceImport=file=>import(pathToFileURL(path.join(sourceRoot,file)));
 const {noxFixture}=await sourceImport('tests/helpers/nox-live-fixture.mjs');
@@ -12,6 +14,10 @@ const {noxTrack,NOX_TRACKS}=await sourceImport('shared/nox-raid-chart-v1.mjs');
 import sharp from 'sharp';
 const root=sourceRoot,out=process.env.NOX_QA_OUTPUT||fs.mkdtempSync(path.join(os.tmpdir(),'nox-browser-')),profile=process.argv[2]||'mobile',mobile=['mobile','webkit','h5'].includes(profile);
 const f=await noxFixture(),mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.json':'application/json','.woff2':'font/woff2','.mp3':'audio/mpeg'},requests=[],errors=[],broken=[];
+const difficulty=process.env.NOX_DIFFICULTY||'NORMAL',steps=difficulty==='HELL'?5:3;
+const official=process.env.NOX_OFFICIAL==='1';
+if(official)await f.configure({mode:'ON'});
+const {entryCoins}= (await f.call('feature')).body;
 const user={id:1,serverUserId:1,nickname:'녹스 검수',role:'OWNER',coin:999999999999999999,cardShards:0,masterStars:100,owned:[],quantities:{},breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
 let origin,actionResponses=0;
 const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,origin),store=url.pathname.startsWith('/onestore/'),pathname=store?url.pathname.slice('/onestore'.length):url.pathname;
@@ -73,10 +79,10 @@ async function pressMemory(raid,roomId,label){
   await assertFloorPainted(raid);if(captureStages)await captureStage(raid,label);
   const memory=JSON.parse((await f.one('SELECT state_json FROM raid_nox_rooms_v1 WHERE room_id=$1',[roomId])).state_json).challenge;
   for(const tile of memory.sequence){const b=raid.locator('[data-nox-tile="'+tile+'"]');if(mobile)await b.tap();else await b.click();}
-  await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.me.memoryIndex===3,{},{timeout:7000});
+  await raid.waitForFunction(steps=>window.NoxRaid.diagnostics().state.me.memoryIndex===steps,steps,{timeout:7000});
 }
 async function finishCoop(raid,roomId){
-  await f.changeRoom(roomId,r=>{for(const m of r.members)if(m.id!=='1')m.memoryIndex=3;});
+  await f.changeRoom(roomId,r=>{for(const m of r.members)if(m.id!=='1')m.memoryIndex=steps;});
   await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.stage==='COOP');
   await raid.waitForFunction(()=>{const d=window.NoxRaid.diagnostics();return d.serverNowEstimate>=d.state.challenge.targetAt;},{},{polling:'raf'});
   await raid.evaluate(()=>{const code=['KeyD','KeyF','KeyJ'][window.NoxRaid.diagnostics().state.me.role];document.dispatchEvent(new KeyboardEvent('keydown',{code,bubbles:true}));document.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));});
@@ -104,10 +110,19 @@ try{
     const openAt=performance.now();if(!retainedRaid)await shell.locator('#noxRaidTab').click();let raid=retainedRaid;for(let i=0;i<100&&!raid;i++){raid=page.frames().find(f=>f.url().includes('/raid/nox/'));if(!raid)await page.waitForTimeout(50);}assert(raid);
     if(process.env.NOX_SAME_PAGE==='1'){retainedRaid=raid;(report.timeOrigins??=[]).push(await raid.evaluate(()=>performance.timeOrigin));}
     await raid.waitForFunction(()=>!document.getElementById('createButton')?.disabled);const lobbyMs=performance.now()-openAt;
-    const viewport=await raid.evaluate(()=>({w:innerWidth,h:innerHeight,root:document.querySelector('#lobby').getBoundingClientRect().toJSON(),fee:document.getElementById('feeMode').textContent}));assert.match(viewport.fee,/TEST.*무료/);
+    const viewport=await raid.evaluate(()=>({w:innerWidth,h:innerHeight,root:document.querySelector('#lobby').getBoundingClientRect().toJSON(),fee:document.getElementById('feeMode').textContent}));
+    assert.match(viewport.fee,official?/공식 레이드/:/TEST.*무료/);
+    if(official){
+      assert.match(await raid.locator('#createButton').innerText(),/10조 코인/);
+      assert.match(await raid.locator('#normalReward').innerText(),/100조.*10억/);
+      assert.match(await raid.locator('#hellReward').innerText(),/300조.*25억/);
+      assert.match(await raid.locator('#weeklyReward').innerText(),/노말·헬 합산 보상/);
+    }
+    await raid.locator('input[name=difficulty][value="'+difficulty+'"]').check();
     if(visit===0)await page.screenshot({path:path.join(out,profile+'-lobby.png')});
     await raid.locator('input[name=size][value="3"]').check();await raid.locator('#createButton').click();await raid.locator('#assembly').waitFor({state:'visible'});const roomId=await raid.locator('#roomCode').innerText();
-    for(const id of [2,3]){assert.equal((await f.command('join',{roomId},id)).status,200);assert.equal((await f.command('ready',{roomId,ready:true,acceptedCoins:'0'},id)).status,200);}
+    assert.equal(await raid.locator('#roomDifficulty').innerText(),difficulty==='HELL'?'헬':'노말');
+    for(const id of [2,3]){assert.equal((await f.command('join',{roomId},id)).status,200);assert.equal((await f.command('ready',{roomId,ready:true,acceptedCoins:entryCoins},id)).status,200);}
     await replayParty(roomId);
     const prepareAt=performance.now();await raid.locator('#readyButton').click();await raid.locator('#startButton').waitFor({state:'visible',timeout:30000});const prepareMs=performance.now()-prepareAt;
     const preparation=await raid.evaluate(()=>({...window.__noxPerf,slowResources:performance.getEntriesByType('resource').sort((a,b)=>b.duration-a.duration).slice(0,10).map(r=>({file:new URL(r.name).pathname,ms:r.duration,bytes:r.transferSize}))}));
@@ -123,8 +138,10 @@ try{
     if(process.env.NOX_CAPTURE_HIT==='1')await raid.evaluate(()=>{const s=document.getElementById('judgement');window.__noxHitObserver=new MutationObserver(()=>{if(!['PERFECT','GOOD'].includes(s.textContent))return;window.__noxHitSample={grade:s.textContent,at:performance.now(),voices:window.NoxRaid.diagnostics().hitVoices,animations:document.getAnimations().filter(a=>a.playState==='running').length};});window.__noxHitObserver.observe(s,{childList:true});});
     const captureHit=process.env.NOX_CAPTURE_HIT==='1'?raid.waitForFunction(()=>window.__noxHitSample?.voices>0).then(async()=>{report.hitFeedback=await raid.evaluate(()=>window.__noxHitSample);await page.screenshot({path:path.join(out,profile+'-hit-'+visit+'.png')});}):Promise.resolve();
     const full=process.env.NOX_FULL_RHYTHM==='1'&&visit===0&&!mobile;
-    const music=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics();return {playlist:d.state.playlist,trackId:d.state.challenge.trackId,url:d.trackUrl,prepared:d.preparedTracks,bufferBytes:d.audioBufferBytes,calibration:document.getElementById('calibration').value};});
+    const music=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics();return {playlist:d.state.playlist,trackId:d.state.challenge.trackId,travelMs:d.state.challenge.travelMs,notes:d.state.challenge.chart.length,url:d.trackUrl,prepared:d.preparedTracks,bufferBytes:d.audioBufferBytes,calibration:document.getElementById('calibration').value};});
     assert.equal(music.url,noxTrack(music.trackId).source);assert.equal(music.prepared,3);assert.equal(music.calibration,'0');assert(music.bufferBytes<=3*68*48000*2*4);
+    assert.equal(music.travelMs,difficulty==='HELL'?1000:1250);
+    assert.equal(music.notes,Math.round(noxTrack(music.trackId).notes.length*(difficulty==='HELL'?1.5:1)));
     // Drive the real input listener at the audio clock's first eight notes.
     let hits;
     if(mobile&&profile!=='webkit'){
@@ -143,7 +160,7 @@ try{
     await captureHit;
     if(process.env.NOX_ACTION_RESPONSE_DELAY_MS||process.env.NOX_ACTION_PROCESS_DELAY_MS){await page.waitForTimeout(Math.max(Number(process.env.NOX_ACTION_RESPONSE_DELAY_MS||0),Number(process.env.NOX_ACTION_PROCESS_DELAY_MS||0))*2+300);hits=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me.hits.length);}
     assert(hits>=(process.env.NOX_ACTION_RESPONSE_DELAY_MS||process.env.NOX_ACTION_PROCESS_DELAY_MS?8:7),'key inputs should score: '+hits);
-    if(full){const result=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me);assert(result.score/result.hits.length>=.9);assert.equal(result.hits.length,noxTrack(music.trackId).notes.length);report.fullRhythm={hits:result.hits.length,score:result.score,totalNotes:noxTrack(music.trackId).notes.length,durationMs:noxTrack(music.trackId).durationMs,lastNoteAt:noxTrack(music.trackId).notes.at(-1).at,calibration:0,targetDelayMs:Number(process.env.NOX_INPUT_DELAY_MS??110)};}
+    if(full){const result=await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me);assert(result.score/result.hits.length>=.9);assert.equal(result.hits.length,music.notes);report.fullRhythm={hits:result.hits.length,score:result.score,totalNotes:music.notes,durationMs:noxTrack(music.trackId).durationMs,lastNoteAt:noxTrack(music.trackId).notes.at(-1).at,calibration:0,targetDelayMs:Number(process.env.NOX_INPUT_DELAY_MS??110)};}
     await page.screenshot({path:path.join(out,profile+'-rhythm-'+visit+'.png')});
     const stats=await raid.evaluate(()=>{const d=window.NoxRaid.diagnostics(),a=d.frameTimes.sort((a,b)=>a-b);return {wholeRun:d.frameSummary,samples:a.length,p95:a[Math.floor(a.length*.95)]||0,max:a.at(-1)||0,over50:a.filter(t=>t>50).length,hits:d.state.me.hits.length,score:d.state.me.score,clockError:d.serverNowEstimate-Date.now(),inflight:d.inflight};});
     if(process.env.NOX_INTERRUPTED_RENDERER==='1'){
@@ -152,14 +169,15 @@ try{
     await f.changeRoom(roomId,r=>{for(const m of r.members){if(full&&m.id==='1')continue;m.hits=r.challenge.chart.map(n=>n.id);m.score=r.challenge.chart.length;}if(!full){r.challenge.deadline=Date.now();tickNoxRoom(r,Date.now());}});
     await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.stage==='MEMORY');assert(await raid.evaluate(()=>window.NoxRaid.diagnostics().state.me.hp>0));await raid.locator('.nox-floor-target').first().waitFor({state:'visible'});assert.equal(await raid.locator('.nox-floor-target').count(),30);
     const memory=JSON.parse((await f.one('SELECT state_json FROM raid_nox_rooms_v1 WHERE room_id=$1',[roomId])).state_json).challenge;
+    assert.equal(memory.sequence.length,steps);
     await raid.waitForFunction(()=>!document.querySelector('.nox-floor-target').disabled);
     if(captureStages)await captureStage(raid,'memory-first-'+visit);
     await assertFloorPainted(raid);
     for(const tile of memory.sequence){const b=raid.locator('[data-nox-tile="'+tile+'"]');if(mobile)await b.tap();else await b.click();}
-    await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.me.memoryIndex===3,{},{timeout:5000});
+    await raid.waitForFunction(steps=>window.NoxRaid.diagnostics().state.me.memoryIndex===steps,steps,{timeout:5000});
     await page.screenshot({path:path.join(out,profile+'-floor-'+visit+'.png')});
     if(full||captureStages){
-      await f.changeRoom(roomId,r=>{for(const m of r.members)if(m.id!=='1')m.memoryIndex=3;});
+      await f.changeRoom(roomId,r=>{for(const m of r.members)if(m.id!=='1')m.memoryIndex=steps;});
       await raid.waitForFunction(()=>window.NoxRaid.diagnostics().state.stage==='COOP');
       if(captureStages)await captureStage(raid,'coop-first-'+visit);
       await raid.waitForFunction(()=>{const d=window.NoxRaid.diagnostics();return d.serverNowEstimate>=d.state.challenge.targetAt;},{},{polling:'raf'});
@@ -175,7 +193,20 @@ try{
         await pressMemory(raid,roomId,'memory-round'+round+'-'+visit);await finishCoop(raid,roomId);
       }
     }
-    if(process.env.NOX_RETRY_FAILURE==='1'){
+    if(official){
+      await f.changeRoom(roomId,room=>{
+        const now=Date.now();
+        room.round=3;room.stage='EXPOSED';room.boss.hp=1;room.lastAttackAt=now-1500;
+        room.challenge={id:roomId+':3:EXPOSED',stage:'EXPOSED',startsAt:now-1500,deadline:now+5000};
+      });
+      await raid.locator('#resultReward').waitFor({state:'visible'});
+      assert.match(await raid.locator('#resultReward').innerText(),difficulty==='HELL'?/300조.*25억/:/100조.*10억/);
+      await page.screenshot({path:path.join(out,profile+'-reward-'+visit+'.png')});
+      const used=(await f.call('feature?weekly=1')).body.weeklyReward.used;
+      const policyReload=page.waitForResponse(response=>response.url().includes('/api/raid/nox/feature?weekly=1'));
+      await raid.locator('#retryButton').click();await policyReload;
+      await raid.locator('#weeklyReward').filter({hasText:used+'/3회 수령'}).waitFor();
+    }else if(process.env.NOX_RETRY_FAILURE==='1'){
       await f.changeRoom(roomId,r=>{r.status='FAILED';r.failure={code:'QA_RETRY',reason:'연속 재도전 검수'};r.revision++;});
       await raid.locator('#resultDialog').waitFor({state:'visible'});await raid.locator('#retryButton').click();
     }else await raid.locator('#leaveButton').click();
