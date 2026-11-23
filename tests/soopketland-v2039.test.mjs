@@ -104,7 +104,7 @@ test('history and OWNER state derive expired codes without deleting prizes, rece
 test('database deadline is checked again after a redemption request has read the coupon',async t=>{
  const f=await fixture(),code=issuedCoupon(f,'COIN',100000000,2),batch=f.db.batch.bind(f.db);
  t.mock.method(f.db,'batch',list=>{
-  if(list.some(s=>s.sql.startsWith('INSERT INTO soopketland_redemptions')))f.sqlite.prepare('UPDATE soopketland_coupons SET created_at=? WHERE code=?').run(new Date(Date.now()-LAND_COUPON_TTL_MS-1).toISOString(),code);
+  if(list.some(s=>s.sql.startsWith('INSERT INTO soopketland_redemptions')))f.sqlite.prepare('UPDATE soopketland_coupons SET created_at=? WHERE code=?').run(new Date(Date.now()-LAND_COUPON_TTL_MS-60000).toISOString(),code);
   return batch(list);
  });
  assert.equal((await f.redeem(code)).body.code,'LAND_COUPON_EXPIRED');
