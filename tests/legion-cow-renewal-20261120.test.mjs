@@ -161,9 +161,12 @@ for(const withHideout of [false,true])test((withHideout?'with a personal hideout
   const active=(await call(1,'state?id='+id)).state;
   f.clock.now=active.startsAt+active.duration+1;
   for(const uid of [1,2]){
-   await call(uid,'state?id='+id);await call(uid,'state?id='+id);
+   const final=(await call(uid,'state?id='+id)).state;await call(uid,'state?id='+id);
    const home=await saved(f,HIDEOUT_KEY(uid));
-   assert.equal(home.parts.STEEL,8);assert.equal(home.parts.DRIVE,1);assert([0,1].includes(home.parts.CORE));
+   assert(['VICTORY','DEFEAT'].includes(final.status));
+   const win=final.status==='VICTORY';
+   assert.equal(home.parts.STEEL,win?12:8);assert.equal(home.parts.DRIVE,win?2:1);
+   assert.equal(home.parts.HOUSING_PLAN,win?1:0);assert((win?[0,1]:[0]).includes(home.parts.CORE));
   }
  }
 });

@@ -57,9 +57,9 @@ const additionalDecor=[
 }));
 export const HIDEOUT_SKINS=Object.freeze([
  {code:'sofa-cognac-leather',target:'sofa',name:'코냑 가죽 소파',image:HIDEOUT_ART+'skin-sofa-cognac-leather.webp',
-  level:3,coin:1000000000000000,stars:5000000,parts:{CORE:8,LEATHER_KIT:20}},
+  level:3,coin:1000000000000000,stars:50000000,parts:{CORE:8,LEATHER_KIT:20}},
  {code:'bench-expedition-frame',target:'workbench',name:'탐사형 작업대',image:HIDEOUT_ART+'decor-fabrication-bench.webp',
-  level:3,coin:1500000000000000,stars:8000000,parts:{CORE:12,ALLOY_PANEL:30}}
+  level:3,coin:1500000000000000,stars:80000000,parts:{CORE:12,ALLOY_PANEL:30}}
 ]);
 export const HIDEOUT_DECOR=Object.freeze([
  {code:'sofa',name:'휴식 소파',image:HIDEOUT_ART+'furniture-sofa.webp',cost:{STEEL:6,WIRE:4}},
