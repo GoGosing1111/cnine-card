@@ -32,6 +32,8 @@
 .nox-difficulty-options label{align-items:flex-start}
 .nox-difficulty-options input{flex:none;margin:2px 0 0}
 .nox-difficulty-options small,.nox-create-policy{word-break:keep-all}
+.nox-mode-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.nox-mode-options label:first-of-type{grid-column:1/-1}
 .nox-create-policy{margin:0 0 12px}
 .nox-create-policy p{margin:3px 0 0}
 

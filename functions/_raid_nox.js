@@ -25,13 +25,15 @@ function finish(room,status,code,reason){
   if(status==='CLEAR')room.clearParticipantIds=room.members.filter(m=>!m.left&&!m.bot).map(m=>m.id);
   event(room,'RESULT',reason,{winner:status==='CLEAR'?'A':'B'});
 }
-function kill(room,m,reason,extra={}){if(m.hp<=0)return;m.hp=0;m.deathReason=reason;for(const f of m.fighters){f.hp=0;f.alive=false;}event(room,'NOX_DEATH',m.name+' · '+reason,{...extra,memberId:m.id,stage:room.stage});if(!live(room).length)finish(room,'FAILED','PARTY_DEAD','공대 전원 사망');}
+function kill(room,m,reason,extra={}){if(m.hp<=0)return;m.hp=0;m.deathReason=reason;for(const f of m.fighters){f.hp=0;f.alive=false;}event(room,'NOX_DEATH',m.name+' · '+reason,{...extra,memberId:m.id,stage:room.stage});if(!live(room).length)finish(room,'FAILED','PARTY_DEAD',room.practice?reason:'공대 전원 사망');}
 function validateDeck(cards){if(!Array.isArray(cards)||cards.length!==5||new Set(cards.map(c=>c.id)).size!==5||cards.some(c=>!c.id||!Number.isFinite(c.power)||c.power<=0||!c.image))fail('PVE_DECK','저장된 PVE 덱에 서로 다른 카드 5장을 편성하세요.',400);}
-export function createNoxRoom({id,hostId,size=6,difficulty='NORMAL',seed=1,now=0}={}){
-  if(!id||!hostId||!NOX_RULES.sizes.includes(size)||!Number.isFinite(now))fail('INVALID_ROOM','3인 또는 6인 공대를 선택하세요.',400);
+export function createNoxRoom({id,hostId,size=6,practice=false,difficulty='NORMAL',seed=1,now=0}={}){
+  const solo=practice===true;
+  const validSize=solo?size===1:NOX_RULES.sizes.includes(size);
+  if(!id||!hostId||!validSize||!Number.isFinite(now))fail('INVALID_ROOM',solo?'1인 연습 출전 인원을 확인하세요.':'3인 또는 6인 공대를 선택하세요.',400);
   if(difficulty!=='NORMAL'&&difficulty!=='HELL')fail('DIFFICULTY','노말 또는 헬 난이도를 선택하세요.',400);
-  const maxHp=size===3?NOX_RULES.hp3:NOX_RULES.hp6;
-  return {id,hostId,size,difficulty,seed:seed>>>0,playlist:noxPlaylist(seed),clock:now,createdAt:now,status:'LOBBY',members:[],boss:{...buildMonsterFighter(NOX_BOSS),hp:maxHp,maxHp},round:0,stage:'LOBBY',challenge:null,revision:0,eventSeq:0,events:[],startedAt:null,endsAt:null,finishedAt:null,failure:null,lastAttackAt:0};
+  const maxHp=solo?NOX_RULES.hp3/3:size===3?NOX_RULES.hp3:NOX_RULES.hp6;
+  return {id,hostId,size,practice:solo,difficulty,seed:seed>>>0,playlist:noxPlaylist(seed),clock:now,createdAt:now,status:'LOBBY',members:[],boss:{...buildMonsterFighter(NOX_BOSS),hp:maxHp,maxHp},round:0,stage:'LOBBY',challenge:null,revision:0,eventSeq:0,events:[],startedAt:null,endsAt:null,finishedAt:null,failure:null,lastAttackAt:0};
 }
 export function addNoxMember(room,{id,name,cards,deckSnapshot=null,deckSource='PVE',bot=false},now=room.clock){
   if(room.status!=='LOBBY')fail('STARTED','전투가 시작된 공대입니다.');
@@ -78,6 +80,7 @@ function openStage(room,stage,at){
   room.stage=stage;const c=room.challenge={id:room.id+':'+room.round+':'+stage,stage,startsAt:at,deadline:at,round:room.round};
   const hell=room.difficulty==='HELL';
   if(stage==='RHYTHM'){
+    if(room.practice)room.members[0].role=room.round-1;
     const track=noxTrack(room.playlist?.[room.round-1]);c.trackId=track.id||null;
     const rhythm=hell?(room.hellRhythm??LEGACY_HELL_RHYTHM):null;
     const notes=rhythm?hellChart(track.notes,rhythm.noteMultiplier):track.notes;
@@ -89,7 +92,7 @@ function openStage(room,stage,at){
     c.sequence=cells.slice(0,hell?HELL_MEMORY_STEPS:NORMAL_MEMORY_STEPS);c.tiles=Array.from({length:30},(_,id)=>({id,kind:c.sequence.includes(id)?'safe':'mine'}));c.cueMs=350;c.gapMs=100;c.revealEnd=at+c.sequence.length*(c.cueMs+c.gapMs);c.deadline=c.revealEnd+2200;for(const m of room.members){m.memoryIndex=0;m.memoryTiles=[];}
   }else if(stage==='COOP'){
     c.targetAt=at+6000;c.deadline=c.targetAt+700;c.strikes={};for(const m of room.members)m.cooperated=false;
-    if([0,1,2].some(role=>!live(room).some(m=>m.role===role)))finish(room,'FAILED','MISSING_FREQUENCY','저음·중음·고음 중 생존한 담당자가 없습니다.');
+    if(!room.practice&&[0,1,2].some(role=>!live(room).some(m=>m.role===role)))finish(room,'FAILED','MISSING_FREQUENCY','저음·중음·고음 중 생존한 담당자가 없습니다.');
   }else if(stage==='EXPOSED'){c.deadline=at+15000;room.lastAttackAt=at;}
   event(room,'NOX_STAGE',({RHYTHM:'종언의 악보',MEMORY:'잔향의 발판',COOP:'삼중 공명',EXPOSED:'왕관 붕괴 · 집중 공격'})[stage],{stage});
 }
@@ -128,7 +131,7 @@ export function tickNoxRoom(room,now){
     if(room.status==='ACTIVE')openStage(room,'COOP',c.deadline+NOX_RULES.receiptGraceMs+300);
   }else if(c.stage==='COOP'){
     const values=live(room).map(m=>c.strikes[m.id]);
-    if(values.some(v=>!Number.isFinite(v))||Math.max(...values)-Math.min(...values)>450)finish(room,'FAILED','COOP_FAILED','모든 생존 공대원이 같은 박자에 공명하지 못했습니다.');
+    if(values.some(v=>!Number.isFinite(v))||Math.max(...values)-Math.min(...values)>450)finish(room,'FAILED','COOP_FAILED',room.practice?'정해진 박자에 공명하지 못했습니다.':'모든 생존 공대원이 같은 박자에 공명하지 못했습니다.');
     else openStage(room,'EXPOSED',c.deadline+NOX_RULES.receiptGraceMs+300);
   }else finish(room,'FAILED','DPS_CHECK','집중 공격 시간 안에 왕관을 파괴하지 못했습니다.');
   if(room.status==='ACTIVE'&&now>=room.challenge.deadline)return tickNoxRoom(room,now);
