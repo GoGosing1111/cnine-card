@@ -386,7 +386,7 @@ test('live Hi Heeya and Cheon portrait paths render without widening trophy imag
         assert.match(html,/class="pc-portrait"/);assert.doesNotMatch(html,/class="pc-monogram"/);
         assert.ok(html.includes(`src="/${path}`),name);
       }
-      const metadata=await sharpCommittedAsset(new URL('../'+path,import.meta.url).pathname.replace(/^\/(?=[A-Z]:)/,'')).metadata();
+      const metadata=await sharpCommittedAsset(new URL('../'+path,import.meta.url)).metadata();
       assert.equal(metadata.format,'webp');assert.ok(metadata.width>=640);
     }
     async function pgAvatar(code,name,path) {
@@ -430,9 +430,9 @@ test('live connections use exact user IDs; FX remains lazy, cancellable and non-
 });
 test('all trophy assets are real transparent production assets with preserved high-resolution originals', async () => {
   for(const t of TROPHY_CATALOG) {
-    const path=new URL('..'+t.art,import.meta.url),meta=await sharpCommittedAsset(path.pathname.replace(/^\/(?=[A-Z]:)/,'' )).metadata();
+    const path=new URL('..'+t.art,import.meta.url),meta=await sharpCommittedAsset(path).metadata();
     assert.equal(meta.width,512); assert.equal(meta.height,512); assert.equal(meta.hasAlpha,true);
-    const file=new URL('..'+t.art.replace('.webp','.png'),import.meta.url),src=sharpCommittedAsset(file.pathname.replace(/^\/(?=[A-Z]:)/,''));
+    const file=new URL('..'+t.art.replace('.webp','.png'),import.meta.url),src=sharpCommittedAsset(file);
     const original=await src.metadata(); assert.ok(original.width>=1024); const {data}=await src.ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let transparent=0,opaque=0;for(let i=3;i<data.length;i+=4){if(data[i]===0)transparent++;if(data[i]>=250)opaque++;}assert.ok(transparent>100000);assert.ok(opaque>100000,'at least 98% opacity through the trophy body');
   }

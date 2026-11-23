@@ -30,7 +30,7 @@ test('all H-BODY RGBA source pixels reassemble exactly once without artwork chan
   const raw=await sharpCommittedAsset(source).ensureAlpha().raw().toBuffer();
   const sum=new Uint16Array(raw.length);const coverage=new Uint8Array(raw.length/4);
   for(const name of report.parts){
-    const piece=await sharpCommittedAsset(new URL(`assets/parts/${name}.png`,folder).pathname.replace(/^\/([A-Za-z]:)/,'$1')).raw().toBuffer();
+    const piece=await sharpCommittedAsset(new URL(`assets/parts/${name}.png`,folder)).raw().toBuffer();
     assert.equal(piece.length,raw.length);for(let i=0;i<piece.length;i++)sum[i]+=piece[i];
     for(let i=3;i<piece.length;i+=4)if(piece[i])coverage[(i-3)/4]++;
   }

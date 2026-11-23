@@ -76,7 +76,7 @@ test('시즌 정산 칭호 SQL은 챌린저★★★★를 1회 지급하며 다
 });
 test('투명 원화와 저자극 칭호·WebGL 격리 계약',async()=>{
   const [css,fx,app,admin]=await Promise.all([read('css/ranked-challenger-v2032.css'),read('js/ranked-challenger-fx-v2032.src.js'),read('js/app.js'),read('admin/admin-v1276.js')]);
-  const art=sharpCommittedAsset(new URL('../assets/ui/tiers/challenger-v2032.png',import.meta.url).pathname.replace(/^\/([A-Z]:)/,'$1'));
+  const art=sharpCommittedAsset(new URL('../assets/ui/tiers/challenger-v2032.png',import.meta.url));
   const metadata=await art.metadata();assert.ok(metadata.hasAlpha);assert.ok(metadata.width>=1024);
   const {data}=await art.ensureAlpha().raw().toBuffer({resolveWithObject:true});assert.equal(data[3],0);
   assert.match(css,/color:#83c9ef!important/);assert.match(css,/text-shadow:0 1px 1px #040c12/);
