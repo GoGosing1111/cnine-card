@@ -1896,8 +1896,8 @@ async function purchasePrimeDrawProduct(kind,count,unitPrice,button){
   }catch(error){showSupplyNotice(error.message||`${definition.name} 구매에 실패했습니다.`,true);if(button){button.disabled=false;button.innerHTML=button.dataset.label||'다시 구매';}}
 }
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
-function cardStoreSecondaryMarkup(user) {
-  return `${primeDrawShopMarkup('equipment')}${primeDrawShopMarkup('suit_core')}${primeDrawShopMarkup('vehicle')}`;
+function cardStoreSecondaryMarkup() {
+  return `<section id="newHyperdriveShop" class="nhd-shop" aria-label="뉴 하이퍼드라이브팩"><p>팩 상점을 불러오는 중입니다.</p></section>${primeDrawShopMarkup('equipment')}${primeDrawShopMarkup('suit_core')}`;
 }
 
 function superstarPackHero(pack) {
@@ -2030,9 +2030,38 @@ function standardPackHero(pack) {
   return `<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${Number(pack.price).toLocaleString()}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>`;
 }
 
+function bindNewHyperdriveShop(){
+  const root=document.getElementById('newHyperdriveShop');
+  if(!root)return;
+  if(!document.querySelector('link[data-new-hyperdrive-style]')){
+    const link=document.createElement('link');
+    link.rel='stylesheet';link.href='/css/new-hyperdrive-pack-v1.css';link.dataset.newHyperdriveStyle='';
+    document.head.append(link);
+  }
+  const accountId=loadUser()?.serverUserId;
+  void import('/js/new-hyperdrive-pack-v1.mjs').then(({mountNewHyperdriveShop})=>{
+    if(!root.isConnected)return;
+    mountNewHyperdriveShop({
+      root,accountId,
+      api:API_MODE?(path,options)=>apiRequest(path,options,{ttl:0,microcache:false}):null,
+      async loadPrimeReveal(){
+        await ensureFeatureResources('primeDraw');
+        return window.PrimeDrawLiveV1985;
+      },
+      onResult(result){
+        const user=loadUser();
+        if(!user||user.serverUserId!==accountId)return;
+        saveUser({...user,coin:Number(result.coin),cardShards:Number(result.cardShards)},{source:'draw'});
+        for(const path of ['inventory','shell/summary','character/garage','vehicle-draw/prime/config'])clearApiCache(path);
+        window.dispatchEvent(new CustomEvent('cnine:account-sync',{detail:{domains:['wallet','inventory','equipment']}}));
+      }
+    });
+  }).catch(()=>{if(root.isConnected)root.textContent='뉴 하이퍼드라이브팩 화면을 불러오지 못했습니다.';});
+}
+
 function buyView(user) {
   const pack=getPack(selectedPackId),hero=pack.drawMode==='SUPERSTAR_CHANCE'?superstarPackHero(pack):standardPackHero(pack);
-  return `${summaryBar(user)}${packSelector()}${hero}${cardStoreSecondaryMarkup(user)}`;
+  return `${summaryBar(user)}${packSelector()}${hero}${cardStoreSecondaryMarkup()}`;
 }
 
 function hyperPackHero() {
@@ -3925,7 +3954,7 @@ function bindView(tab) {
   if(tab==='prison')bindPrisonView();
   if(tab==='coup')window.CoupPalace?.bind();
   if(tab==='jokgakCity')void window.JokgakCity?.bind();
-  if(tab==='buy'){loadPrimeDrawShop('equipment');loadPrimeDrawShop('suit_core');loadPrimeDrawShop('vehicle');}
+  if(tab==='buy'){bindNewHyperdriveShop();loadPrimeDrawShop('equipment');loadPrimeDrawShop('suit_core');}
   if(tab==='inventory')loadInventory();
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
   if(tab==='avatar'&&typeof window.bindAvatarShopView==='function')window.bindAvatarShopView();

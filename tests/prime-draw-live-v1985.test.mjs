@@ -3,6 +3,7 @@ import {existsSync,readFileSync,statSync} from 'node:fs';
 import {test} from 'node:test';
 import {runInNewContext} from 'node:vm';
 import {__primeDrawTest,ensurePrimeDrawFoundation} from '../functions/_prime_draw.js';
+import {mountNewHyperdriveShop} from '../js/new-hyperdrive-pack-v1.mjs';
 
 const root=new URL('../',import.meta.url);
 const read=path=>readFileSync(new URL(path,root),'utf8');
@@ -99,7 +100,7 @@ test('레거시 상품은 판매만 잠기고 보유분 개봉 라우트는 남�
 
 test('상점은 원하는 수량 구매와 보유분 전체 자동 분할 일괄 개봉을 연결한다',()=>{
   const app=read('js/app.js');
-  assert.match(app,/primeDrawShopMarkup\('equipment'\).*primeDrawShopMarkup\('vehicle'\)/);
+  assert.match(app,/primeDrawShopMarkup\('equipment'\).*primeDrawShopMarkup\('suit_core'\)/);
   assert.doesNotMatch(app,/return `\$\{supplyBoxShopMarkup\(\)\}\$\{vehicleDrawShopMarkup\(\)\}/);
   assert.match(app,/data-prime-custom-buy/);
   assert.match(app,/data-prime-count="1000"/);
@@ -111,6 +112,17 @@ test('상점은 원하는 수량 구매와 보유분 전체 자동 분할 일괄
   assert.match(app,/mergePrimeDrawOpenChunks/);
   assert.match(app,/equipment\/prime-supply-box\/open/);
   assert.match(app,/vehicle-draw\/prime\/open/);
+});
+
+test('팩 상점은 카드팩 아래에 뉴 하이퍼드라이브를 표시하고 기존 팩 보유분 개봉을 연결한다',()=>{
+  assert.equal(typeof mountNewHyperdriveShop,'function');
+  for(const path of ['js/app.js','onestore/js/app.js']){
+    const app=read(path);
+    assert.match(app,/\$\{hero\}\$\{cardStoreSecondaryMarkup\(\)\}/);
+    assert.match(app,/id="newHyperdriveShop".*primeDrawShopMarkup\('suit_core'\)/);
+    assert.doesNotMatch(app,/primeDrawShopMarkup\('vehicle'\)|loadPrimeDrawShop\('vehicle'\)|newHyperdriveChoice\(/);
+    assert.match(app,/if\(itemCode==='PRIME_VEHICLE_DRAW_TICKET'\)return openPrimeDrawPack\('vehicle',ownedQuantity\)/);
+  }
 });
 
 test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출을 관리한다',()=>{

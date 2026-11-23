@@ -5255,7 +5255,7 @@ async function handleRequest(context){
     // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
     const vehicleDrawPath=path==='vehicle-draw/config'||path==='vehicle-draw/open'||path==='vehicle-draw/purchase'||path==='admin/vehicle-draw/settings'||path==='admin/vehicle-draw/grant';
     const equipmentDrawPath=path==='equipment/supply-box/config'||path==='equipment/supply-box/open'||path==='equipment/supply-box/purchase';
-    const primeDrawPath=path.startsWith('equipment/prime-supply-box/')||path.startsWith('vehicle-draw/prime/')||path.startsWith('suit-core-box/')||path==='admin/prime-draw/status'||path==='admin/prime-draw/pool';
+    const primeDrawPath=path.startsWith('equipment/prime-supply-box/')||path.startsWith('vehicle-draw/prime/')||path.startsWith('vehicle-draw/new-hyperdrive/')||path.startsWith('suit-core-box/')||path==='admin/prime-draw/status'||path==='admin/prime-draw/pool';
     // High-traffic routes must never wait for the legacy all-schema runtime gate.
     // Route-local guards below still validate the small set of tables they mutate.
     // Full migrations belong to deployment/setup, not the player request path.
@@ -5306,7 +5306,7 @@ async function handleRequest(context){
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
     const newUserGiftResponse=await handleNewUserGift({path,request,env,deps:{authenticate,readBody,json,requirePermission,ensureSecondVerificationFoundation}});if(newUserGiftResponse)return newUserGiftResponse;
     const uniqueAdvancementResponse=await handleUniqueAdvancement({path,request,env,deps:{authenticate,readBody,json}});if(uniqueAdvancementResponse)return uniqueAdvancementResponse;
-    const primeDrawResponse=await handlePrimeDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation}});if(primeDrawResponse)return primeDrawResponse;
+    const primeDrawResponse=await handlePrimeDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation,withUserMutationLock:withJointUserMutationLock}});if(primeDrawResponse)return primeDrawResponse;
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const polishResponse=await handleEquipmentPolish({path,request,env,deps:{authenticate,requirePermission,json}});if(polishResponse)return polishResponse;
     const forgeRuntimeResponse=await handleForgeRuntime({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(forgeRuntimeResponse)return forgeRuntimeResponse;
