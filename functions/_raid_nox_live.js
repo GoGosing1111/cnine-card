@@ -3,7 +3,7 @@ import {readJointBody,jointError} from './_joint_request.js';
 import {noxClearKey,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 
-export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='50000000000000',NOX_CREATE_COINS='10000000000000',NOX_CLIENT_VERSION=5;
+export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='3000000000000',NOX_CREATE_COINS='10000000000000',NOX_CLIENT_VERSION=5;
 export const NOX_WEEKLY_REWARD_LIMIT=3;
 const NOX_REWARDS=Object.freeze({
   NORMAL:Object.freeze({coins:'100000000000000',masterStars:'1000000000'}),
@@ -36,12 +36,17 @@ async function transaction(env,work){return read(env,async q=>{await q('BEGIN');
 async function config(q,lock=''){const [row]=await q('SELECT value FROM app_meta WHERE key=$1'+lock,[NOX_SETTINGS]);return {raw:row?.value??null,cfg:row?validateNoxSettings(JSON.parse(row.value)):defaultNoxSettings()};}
 const member=(room,user)=>{const me=room.members.find(m=>m.id===String(user.id)&&!m.left);if(!me)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);return me;};
 const ongoing=r=>r.status==='LOBBY'||r.status==='ACTIVE';
+function entryCoinsFor(room){
+  // An unstarted official room can use a lower fee than its original quote.
+  if(room.status==='LOBBY'&&room.releaseMode==='ON'&&BigInt(room.entryCoins)>BigInt(NOX_ENTRY_COINS))return NOX_ENTRY_COINS;
+  return room.entryCoins;
+}
 function tick(room,now){tickNoxRoom(room,Math.max(room.clock,now));if(room.status==='LOBBY'&&now>=room.lobbyEndsAt){room.status='CANCELLED';room.failure={reason:'공대 모집 시간이 끝났습니다.'};room.revision++;}}
 const signature=room=>[room.revision,room.eventSeq,room.status,room.lastAttackAt].join(':');
 function result(room,user,cfg,{payload=false,since=0}={}){
   const state=noxView(room,String(user.id),since);
   state.release={...noxAccess(user,cfg),mode:room.releaseMode,currentMode:cfg.mode,rewardLocked:room.releaseMode!=='ON',runtimeEnabled:true,scope:'LIVE'};
-  state.entryCoins=room.entryCoins;
+  state.entryCoins=entryCoinsFor(room);
   state.feePaid=Boolean(room.feePaid);
   state.lobbyEndsAt=room.lobbyEndsAt;
   state.reward=room.rewards?.[user.id]??null;
@@ -179,21 +184,23 @@ async function command(env,user,kind,body,deps,now){
       if(kind==='join'){addNoxMember(room,{id:String(user.id),name:user.nickname,cards:deck.cards,deckSnapshot:deck},now);await q('INSERT INTO raid_nox_active_v1(user_id,room_id) VALUES($1,$2) ON CONFLICT(user_id) DO NOTHING',[user.id,room.id]);}
       else if(kind==='ready'){
         if(typeof body.ready!=='boolean')fail('READY','준비 상태를 확인하세요.',400);
-        if(body.ready){if(body.acceptedCoins!==room.entryCoins)fail('FEE_CONSENT','표시된 입장료를 확인하고 전투 준비를 눌러 주세요.');if(room.status!=='LOBBY')fail('STARTED','이미 출전한 공대입니다.');const index=room.members.findIndex(m=>m.id===String(user.id));room.members.splice(index,1);addNoxMember(room,{id:String(user.id),name:user.nickname,cards:deck.cards,deckSnapshot:deck},now);const refreshed=room.members.pop();refreshed.role=index%3;refreshed.acceptedCoins=body.acceptedCoins;room.members.splice(index,0,refreshed);}
+        if(body.ready){if(body.acceptedCoins!==entryCoinsFor(room))fail('FEE_CONSENT','표시된 입장료를 확인하고 전투 준비를 눌러 주세요.');if(room.status!=='LOBBY')fail('STARTED','이미 출전한 공대입니다.');const index=room.members.findIndex(m=>m.id===String(user.id));room.members.splice(index,1);addNoxMember(room,{id:String(user.id),name:user.nickname,cards:deck.cards,deckSnapshot:deck},now);const refreshed=room.members.pop();refreshed.role=index%3;refreshed.acceptedCoins=body.acceptedCoins;room.members.splice(index,0,refreshed);}
         readyNoxMember(room,String(user.id),body.ready);
       }else if(kind==='start'){
         if(room.status!=='LOBBY')fail('STARTED','이미 출전했거나 종료된 공대입니다.');
-        if(room.members.some(m=>m.acceptedCoins!==room.entryCoins))fail('FEE_CONSENT','전원이 입장료를 확인하고 준비해야 합니다.');
+        const entryCoins=entryCoinsFor(room);
+        // A player who accepted the original quote has consented to the lower fee.
+        if(room.members.some(m=>m.acceptedCoins!==entryCoins&&m.acceptedCoins!==room.entryCoins))fail('FEE_CONSENT','전원이 입장료를 확인하고 준비해야 합니다.');
         const users=await selected(q,room.members.map(m=>Number(m.id)),' FOR UPDATE');
         if(users.length!==room.size||users.some(u=>!noxAccess(u,cfg).accessible))fail('MEMBER_ACCESS','공대원의 계정 상태와 입장 권한을 확인하세요.',403);
-        if(users.some(u=>BigInt(u.coin)<BigInt(room.entryCoins)))fail('COINS','입장료 50조 코인이 부족한 공대원이 있습니다. 전원 입장료가 차감되지 않았습니다.');
+        if(users.some(u=>BigInt(u.coin)<BigInt(entryCoins)))fail('COINS','입장료 잔액이 부족한 공대원이 있어 출전이 취소됐습니다.');
         // One transaction: all wallet debits, exact ledgers, unique fee receipts,
         // room start and request receipt either commit together or roll back.
-        startNoxRoom(room,String(user.id),Date.now());room.feePaid=true;
-        for(const u of users){if(room.entryCoins!=='0'){
-          await q('UPDATE users SET coin=coin-$1::bigint WHERE id=$2',[room.entryCoins,u.id]);
-          await q('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,-$1::bigint,coin,$2 FROM users WHERE id=$3',[room.entryCoins,'종언의 주파수 입장 #'+room.id,u.id]);
-        }await q('INSERT INTO raid_nox_entry_fees_v1(room_id,user_id,mode,coins) VALUES($1,$2,$3,$4::bigint)',[room.id,u.id,room.releaseMode,room.entryCoins]);}
+        startNoxRoom(room,String(user.id),Date.now());room.entryCoins=entryCoins;room.feePaid=true;
+        for(const u of users){if(entryCoins!=='0'){
+          await q('UPDATE users SET coin=coin-$1::bigint WHERE id=$2',[entryCoins,u.id]);
+          await q('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,-$1::bigint,coin,$2 FROM users WHERE id=$3',[entryCoins,'종언의 주파수 입장 #'+room.id,u.id]);
+        }await q('INSERT INTO raid_nox_entry_fees_v1(room_id,user_id,mode,coins) VALUES($1,$2,$3,$4::bigint)',[room.id,u.id,room.releaseMode,entryCoins]);}
       }else if(kind==='leave'){leaveNoxRoom(room,String(user.id),Date.now());if(room.status==='LOBBY'&&!room.members.length){room.status='CANCELLED';room.revision++;}await q('DELETE FROM raid_nox_active_v1 WHERE user_id=$1 AND room_id=$2',[user.id,room.id]);}
       else fail('ROUTE','지원하지 않는 요청입니다.',404);
       if(!await save(q,row,room))fail('BUSY','공대를 갱신하고 있습니다.',503);

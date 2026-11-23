@@ -12,7 +12,9 @@ test('Nox runtime ships within the real Pages limit; unreferenced receipts remai
   for(const track of NOX_TRACKS){const file=decodeURIComponent(track.source.slice(1));assert(files.includes(file),file);assert(isProductionFile(file),file);}
   assert(!isProductionFile('scripts/build-nox-charts.mjs'));
   assert(files.includes('scripts/lib/nox-chart-authoring.mjs'));assert(!isProductionFile('scripts/lib/nox-chart-authoring.mjs'));
-  assert.match(readFileSync('onestore/index.html','utf8'),/src="js\/nox-raid-entry-v1\.js\?v=20261119-test1"/,'generated H5 entry must expose the same gated Nox menu');
+  const loader=readFileSync('index.html','utf8').match(/src="js\/nox-raid-entry-v1\.js\?v=[^"]+"/)?.[0];
+  assert(loader);
+  assert(readFileSync('onestore/index.html','utf8').includes(loader),'generated H5 entry must expose the same gated Nox menu');
   for(const file of noxHistoricalAuditOnly){assert(files.includes(file));assert(!isProductionFile(file));assert.equal(git('rev-parse','48238db09:'+file),git('rev-parse','HEAD:'+file),'preserve historical source '+file);}
   assert.equal(noxHistoricalAuditOnly.size,50);
   const packedNotes=JSON.parse(readFileSync('functions/_data/blue-gear-release-note-paths.json','utf8'));

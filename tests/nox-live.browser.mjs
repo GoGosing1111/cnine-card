@@ -105,6 +105,7 @@ try{
   const raidMenu=shell.locator('#menu-dialog [data-route="raid"]:visible').first();
   if(!await raidMenu.count()){console.log('routes',await shell.locator('[data-route]:visible').evaluateAll(es=>es.map(e=>({route:e.dataset.route,text:e.textContent.slice(0,30)}))));throw Error('raid menu missing');}
   await raidMenu.click();await shell.locator('#noxRaidTab').waitFor({state:'visible'});
+  if(official)assert.match(await shell.locator('#noxRaidTab small').innerText(),/3조/);
   let retainedRaid;
   for(let visit=0;visit<Number(process.env.NOX_QA_VISITS||2);visit++){
     const openAt=performance.now();if(!retainedRaid)await shell.locator('#noxRaidTab').click();let raid=retainedRaid;for(let i=0;i<100&&!raid;i++){raid=page.frames().find(f=>f.url().includes('/raid/nox/'));if(!raid)await page.waitForTimeout(50);}assert(raid);
@@ -113,6 +114,7 @@ try{
     const viewport=await raid.evaluate(()=>({w:innerWidth,h:innerHeight,root:document.querySelector('#lobby').getBoundingClientRect().toJSON(),fee:document.getElementById('feeMode').textContent}));
     assert.match(viewport.fee,official?/공식 레이드/:/TEST.*무료/);
     if(official){
+      assert.match(await raid.locator('#feeDetail').innerText(),/출전 시 1인 3조/);
       assert.match(await raid.locator('#createButton').innerText(),/10조 코인/);
       assert.match(await raid.locator('#normalReward').innerText(),/100조.*10억/);
       assert.match(await raid.locator('#hellReward').innerText(),/300조.*25억/);

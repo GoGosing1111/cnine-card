@@ -5,7 +5,7 @@ import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,tickNoxRoom,actNo
 import {nearestNoxNote,noxRhythmTime,noxNoteY} from '../js/nox-input-v1.mjs';
 test('closed default; TEST allowlist, OWNER exception, ADMIN denial and OFF block',async t=>{const h=await noxFixture(t);assert.equal(defaultNoxSettings().mode,'OFF');for(const [user,visible]of [[1,true],[2,true],[4,false],[5,false]])assert.equal((await h.call('feature',{user})).body.visible,visible);assert.equal((await h.command('create',{size:3},4)).status,403);assert.equal((await h.call('admin/raid/nox/settings',{user:5})).status,403);await h.configure({mode:'OFF'});assert.equal((await h.command('create',{size:3})).status,423);assert.equal((await h.call('feature',{user:0})).status,401);});
 test('TEST entry is free for 3 and 6; exact roster and PVE payload; no wallets or ledgers change',async t=>{const h=await noxFixture(t);for(const size of [3,6]){const {roomId,ids}=await h.party(size);const start=await h.command('start',{roomId});assert.equal(start.status,200,JSON.stringify(start));assert.equal(start.body.state.status,'ACTIVE');assert.equal(start.body.state.entryCoins,'0');assert.equal(start.body.state.bossMaxHp,size===3?18000000:12000000);assert.equal((await h.one('SELECT count(*)::int n FROM raid_nox_entry_fees_v1 WHERE room_id=$1 AND coins=0',[roomId])).n,size);assert.equal((await h.one('SELECT count(*)::int n FROM coin_logs')).n,0);for(const id of ids)await h.command('leave',{roomId},id);}});
-test('ON charges only the host 10T when creating, then 50T per player when starting',async t=>{
+test('ON charges only the host 10T when creating, then 3T per player when starting',async t=>{
   const h=await noxFixture(t);
   await h.configure({mode:'ON'});
   const {roomId,ids}=await h.party(3);
@@ -13,6 +13,7 @@ test('ON charges only the host 10T when creating, then 50T per player when start
   const body={requestId:h.uid(),clientVersion:NOX_CLIENT_VERSION,roomId};
   const [first,replay]=await Promise.all([h.call('start',{body}),h.call('start',{body})]);
   assert.equal(first.status,200,JSON.stringify(first));
+  assert.equal(first.body.state.entryCoins,'3000000000000');
   assert.equal(replay.status,200);
   for(const id of ids){
     const hostFee=id===1?BigInt(NOX_CREATE_COINS):0n;
@@ -22,6 +23,27 @@ test('ON charges only the host 10T when creating, then 50T per player when start
   assert.equal((await h.command('start',{roomId})).status,409);
   assert.equal((await h.one('SELECT count(*)::int n FROM coin_logs')).n,4);
   assert.equal((await h.call('start',{body:{...body,roomId:'0123456789'}})).body.code,'NOX_REQUEST_CONFLICT');
+});
+test('an already prepared official lobby starts at 3T even with an older 50T quote',async t=>{
+  const h=await noxFixture(t);
+  await h.configure({mode:'ON'});
+  const {roomId}=await h.party(3);
+  const previousFee='50000000000000',newFee='3000000000000';
+  await h.changeRoom(roomId,room=>{
+    room.entryCoins=previousFee;
+    for(const member of room.members)member.acceptedCoins=previousFee;
+  });
+  const {body}=await h.call('state?roomId='+roomId);
+  assert.equal(body.state.entryCoins,newFee);
+  assert(body.state.members.every(member=>member.ready));
+  assert.equal((await h.command('ready',{roomId,ready:true,acceptedCoins:previousFee},2)).body.code,'NOX_FEE_CONSENT');
+  assert.equal((await h.command('ready',{roomId,ready:true,acceptedCoins:newFee},2)).status,200);
+  await h.pg.query('UPDATE users SET coin=$1 WHERE id=2',[newFee]);
+  const started=await h.command('start',{roomId});
+  assert.equal(started.status,200,JSON.stringify(started));
+  assert.equal(started.body.state.entryCoins,newFee);
+  assert.equal((await h.one('SELECT coin::text FROM users WHERE id=2')).coin,'0');
+  assert.deepEqual(await h.all('SELECT coins::text FROM raid_nox_entry_fees_v1 WHERE room_id=$1',[roomId]),Array.from({length:3},()=>({coins:newFee})));
 });
 test('creation checks the chosen difficulty and exact 10T fee before committing a single debit',async t=>{
   const h=await noxFixture(t);
