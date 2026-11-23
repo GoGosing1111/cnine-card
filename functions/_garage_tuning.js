@@ -2,14 +2,41 @@ import { ensureRuntimeFoundation } from './_runtime_foundation.js';
 
 const ROUTE = 'character/garage/tuning';
 const MIGRATION = 'safe_runtime_upgrade_garage_tuning_v2';
-const SCHEMA = `CREATE TABLE IF NOT EXISTS user_garage_tuning_loadout (
-  user_id INTEGER NOT NULL,
-  garage_id INTEGER NOT NULL,
+const STORAGE_MIGRATION = 'safe_runtime_upgrade_garage_tuning_storage_v1';
+
+const tuningSchema = (idType, ownershipConstraint = '') => `CREATE TABLE IF NOT EXISTS user_garage_tuning_loadout (
+  user_id ${idType} NOT NULL,
+  garage_id ${idType} NOT NULL,
   slot TEXT NOT NULL CHECK(slot IN ('engine','frame','tire')),
   stage INTEGER NOT NULL CHECK(stage BETWEEN 1 AND 5),
-  PRIMARY KEY(user_id,garage_id,slot),
-  FOREIGN KEY(user_id,garage_id) REFERENCES user_garage_vehicles(user_id,garage_id) ON DELETE CASCADE
+  PRIMARY KEY(user_id,garage_id,slot)${ownershipConstraint}
 )`;
+const SQLITE_SCHEMA = tuningSchema('INTEGER', `,
+  FOREIGN KEY(user_id,garage_id) REFERENCES user_garage_vehicles(user_id,garage_id) ON DELETE CASCADE`);
+const markMigration = (db, key) => db.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)
+  ON CONFLICT(key) DO NOTHING`).bind(key);
+
+// The PostgreSQL runtime role can read and lock legacy ownership rows, while
+// its new tables cannot declare foreign keys to those rows.
+function ensurePostgresTuningStorage(env) {
+  return ensureRuntimeFoundation(env, STORAGE_MIGRATION, [STORAGE_MIGRATION], async () => {
+    await env.DB.execSchema([
+      "SELECT pg_advisory_xact_lock(hashtext('user_garage_tuning_loadout'))",
+      tuningSchema('BIGINT')
+    ]);
+    await markMigration(env.DB, STORAGE_MIGRATION).run();
+  });
+}
+
+// Execute both deletes in the caller’s transaction. Deleting ownership first
+// waits for any equip operation holding a shared lock on that ownership row.
+export async function garageOwnershipRemoval(env, userId, garageId) {
+  const { DB } = env;
+  const removeOwnership = DB.prepare('DELETE FROM user_garage_vehicles WHERE user_id=? AND garage_id=?').bind(userId, garageId);
+  if (DB.dialect !== 'postgres') return [removeOwnership];
+  await ensurePostgresTuningStorage(env);
+  return [removeOwnership, DB.prepare('DELETE FROM user_garage_tuning_loadout WHERE user_id=? AND garage_id=?').bind(userId, garageId)];
+}
 
 const STAGES = ['NORMAL', 'MAGIC', 'RARE', 'EPIC', 'LEGENDARY'];
 const PARTS = {
@@ -49,9 +76,9 @@ const activeVehicle = `SELECT l.user_id,l.garage_id FROM user_garage_loadout l
 
 function ensureGarageTuning(env) {
   return ensureRuntimeFoundation(env, MIGRATION, [MIGRATION], async () => {
-    if (env.DB.dialect === 'postgres') await env.DB.execSchema([SCHEMA]);
+    if (env.DB.dialect === 'postgres') await ensurePostgresTuningStorage(env);
     await env.DB.batch([
-      ...(env.DB.dialect === 'postgres' ? [] : [env.DB.prepare(SCHEMA)]),
+      ...(env.DB.dialect === 'postgres' ? [] : [env.DB.prepare(SQLITE_SCHEMA)]),
       ...catalog.map((part, index) => env.DB.prepare(`INSERT INTO inventory_items
         (code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
         VALUES(?,?,?,?,?,?,?,?,1)
@@ -59,8 +86,7 @@ function ensureGarageTuning(env) {
         part.code, part.name, `이동수단 튜닝 · ${part.stage}단계`, '차고지에서 장착하는 튜닝 부품입니다.',
         'MATERIAL', STAGES[part.stage - 1], part.image, 601 + index, part.image.replace('/tuning-v2/', '/tuning-v1/')
       )),
-      env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)
-        ON CONFLICT(key) DO NOTHING`).bind(MIGRATION)
+      markMigration(env.DB, MIGRATION)
     ]);
   });
 }
@@ -106,8 +132,9 @@ export async function handleGarageTuning({ path, request, env, deps }) {
   await ensureGarageTuning(env);
 
   if (write && body.action === 'equip') {
+    const ownedVehicle = env.DB.dialect === 'postgres' ? activeVehicle + ' FOR KEY SHARE OF u' : activeVehicle;
     const result = await env.DB.prepare(`INSERT INTO user_garage_tuning_loadout(user_id,garage_id,slot,stage)
-      SELECT vehicle.user_id,vehicle.garage_id,?,? FROM (${activeVehicle}) vehicle
+      SELECT vehicle.user_id,vehicle.garage_id,?,? FROM (${ownedVehicle}) vehicle
       WHERE EXISTS(SELECT 1 FROM cnine_user_inventory u JOIN inventory_items i ON i.code=u.item_code AND i.is_active=1
         WHERE u.user_id=vehicle.user_id AND u.item_code=? AND u.quantity>0)
       ON CONFLICT(user_id,garage_id,slot) DO UPDATE SET stage=excluded.stage`).bind(

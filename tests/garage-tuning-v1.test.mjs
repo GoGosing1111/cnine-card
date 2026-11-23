@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { access } from 'node:fs/promises';
 import test from 'node:test';
 import { PGlite } from '@electric-sql/pglite';
-import { handleGarageTuning } from '../functions/_garage_tuning.js';
+import { garageOwnershipRemoval, handleGarageTuning } from '../functions/_garage_tuning.js';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { JointSQLiteDB } from './helpers/joint-db.mjs';
 
@@ -32,6 +32,12 @@ async function fixture(t, postgres) {
     await pg.exec(`CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$
       SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS') $$;`);
     await pg.exec(schema.replaceAll('INTEGER', 'BIGINT'));
+    await pg.exec(`CREATE ROLE garage_runtime;
+      GRANT USAGE,CREATE ON SCHEMA public TO garage_runtime;
+      GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO garage_runtime;
+      SET ROLE garage_runtime;`);
+    const acl = await pg.query("SELECT has_table_privilege(current_user,'user_garage_vehicles','REFERENCES') AS can_reference");
+    assert.equal(acl.rows[0].can_reference, false);
     DB = new __postgresCompatTest.PostgresD1Database({
       async query(input) {
         const result = typeof input === 'string' ? await pg.query(input) : await pg.query(input.text, input.values || []);
@@ -55,12 +61,13 @@ async function fixture(t, postgres) {
     } });
     return { status: response.status, ...await response.json() };
   }
-  return { call, sql: (query, ...values) => DB.prepare(query).bind(...values) };
+  return { call, sql: (query, ...values) => DB.prepare(query).bind(...values),
+    removeVehicle: async (userId, vehicleId) => DB.batch(await garageOwnershipRemoval({ DB }, userId, vehicleId)) };
 }
 
 for (const postgres of [false, true]) {
   test(`garage tuning persists three independent slots and enforces ownership (${postgres ? 'PostgreSQL' : 'SQLite'})`, async t => {
-    const { call, sql } = await fixture(t, postgres);
+    const { call, sql, removeVehicle } = await fixture(t, postgres);
     const equip = (slot, stage, options = {}) => call({ ...options, body: { action: 'equip', slot, stage } });
     assert.equal((await call({ userId: null })).status, 401);
     assert.equal((await call({ vehicleId: 38 })).status, 409);
@@ -98,8 +105,10 @@ for (const postgres of [false, true]) {
     assert.deepEqual((await call()).tuning.equipped, { frame: 4 });
     assert.deepEqual((await call({ userId: 8 })).tuning.equipped, {});
     assert.equal(Number((await sql('SELECT SUM(quantity) AS total FROM cnine_user_inventory').first()).total), 49);
-    await sql('DELETE FROM user_garage_vehicles WHERE user_id=7 AND garage_id=37').run();
+    await removeVehicle(7, 37);
     assert.equal((await call()).status, 409);
     assert.equal(Number((await sql('SELECT COUNT(*) AS total FROM user_garage_tuning_loadout').first()).total), 0);
+    await sql('INSERT INTO user_garage_vehicles VALUES(7,37)').run();
+    assert.deepEqual((await call()).tuning.equipped, {});
   });
 }
