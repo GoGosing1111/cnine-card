@@ -6,6 +6,7 @@ import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { NEW_HYPERDRIVE_PACK as pack, newHyperdriveBudgetQuote } from '../shared/new-hyperdrive-pack-v1.mjs';
 import { sampleHyperdriveBinomial, sampleHyperdriveBulk } from '../functions/_new_hyperdrive_bulk.js';
+import { isProductionFile } from '../scripts/prepare-production-assets.mjs';
 
 let fixtureId = 0;
 
@@ -110,6 +111,17 @@ const save = (f, settings, weights, user) => f.call('admin/prime-draw/pool', {
 const wallet = async f => (await f.query('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7'))[0].coin;
 const prices = rows => rows.map(row => [row.code, row.drawWeight]);
 const coinsBefore = '9007199254740993';
+
+test('deployable pack assets include the shop art and client modules', () => {
+  const assetRoot = pack.assetRoot.slice(1);
+  for (const file of ['pack-320.webp', 'pack-768.webp', 'hangar-wide.webp', 'hangar-narrow.webp']) {
+    assert.ok(isProductionFile(assetRoot + '/' + file));
+  }
+  for (const file of ['css/new-hyperdrive-pack-v1.css', 'js/new-hyperdrive-pack-v1.mjs', 'shared/new-hyperdrive-pack-v1.mjs']) {
+    assert.ok(isProductionFile(file));
+  }
+  assert.ok(!isProductionFile(assetRoot + '/manifest.json'));
+});
 
 for (const dialect of ['sqlite', 'postgres']) {
   test(`${dialect}: inherits the saved Prime base and extra pool, starts OFF, and saves new vehicles independently`, async t => {
