@@ -107,6 +107,8 @@
 .nox-chart{--note-height:56px;border:0;min-height:64px;background:url('/assets/ui/raid-nox-v2/surface.webp') center/100% 100%;box-shadow:inset 0 3px 14px #000}
 .nox-chart-columns i{background:none;border-right:1px solid #bea39530}.nox-chart-columns i:last-child{border:0}
 .nox-note,.nox-note:nth-child(4n+2),.nox-note:nth-child(4n+3){height:var(--note-height);border:0;border-radius:0;background:url('/assets/ui/raid-nox-v2/note.webp') center/100% 100% no-repeat;box-shadow:none}
+/* The rotated hold texture has 149 visible rows out of 256. */
+.nox-note{--tap-width:calc(var(--hold-width)*149/256);left:calc(var(--lane)*25% + 12.5% - var(--tap-width)/2);width:var(--tap-width)}
 .nox-note:after{content:none}.nox-note[data-tone="ivory"]{filter:saturate(.35) brightness(1.18)}
 .nox-note.is-long{
   --hold-tint:saturate(1);
