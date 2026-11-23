@@ -7,6 +7,7 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {RANKED_CATCH_UP_WIN_POINTS,RANKED_CHALLENGER_WIN_FLOOR,rankedPowerDifference,rankedMatchForecast,rankedScoreAdjustment,rankedPromotionStatus} from '../shared/ranked-reform-v1.mjs';
 import {rankedRosterPrefix} from '../functions/_ranked_series.js';
 import {rankedPromotionKey} from '../functions/_ranked_reform.js';
+import {PVP_RANKING_EXCLUSION_PREFIX,PVP_RANKING_INCLUDED_SQL} from '../functions/_ranked_eligibility.js';
 import {pvpDeckGradeAllowed,PVP_MINIMUM_GRADE_MESSAGE} from '../functions/_pvp_deck_policy.js';
 import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,RANKED_MATCH_RECENT_AVOID,rankedMatchPower,rankedMatchBands,rankedMatchScoreBounds,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
 
@@ -14,7 +15,7 @@ const settings={matchSeasonRange:250,matchCardRange:20};
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const matching=source.slice(source.indexOf('async function createRankedMatchTicket('),source.indexOf('async function claimRankedMatchTicket('));
 const standingsSource=source.slice(source.indexOf('async function pvpChallengerStandings('),source.indexOf('async function pvpChallengerRank('));
-const readStandings=Function('PVP_RANKED_ROLE_SQL','readRuntimeData','cacheRuntimeData',standingsSource+'\nreturn pvpChallengerStandings;')("UPPER(TRIM(COALESCE(u.role,'USER'))) <> 'OWNER'",()=>undefined,()=>{});
+const readStandings=Function('PVP_RANKED_ROLE_SQL','PVP_RANKING_INCLUDED_SQL','readRuntimeData','cacheRuntimeData',standingsSource+'\nreturn pvpChallengerStandings;')("UPPER(TRIM(COALESCE(u.role,'USER'))) <> 'OWNER'",PVP_RANKING_INCLUDED_SQL,()=>undefined,()=>{});
 const schema=`CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,status TEXT,banned_until TEXT);
 CREATE TABLE pvp_profiles(user_id INTEGER PRIMARY KEY,season_score INTEGER,highest_score INTEGER,wins INTEGER DEFAULT 0,losses INTEGER DEFAULT 0,updated_at TEXT);
 CREATE TABLE pvp_decks(user_id INTEGER PRIMARY KEY,card_ids TEXT);
@@ -69,6 +70,14 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: pre-
  other.blockedDecks.add(2);other.powers.get(2).deckReady=false;
  const next=await other.call();assert.equal(next.opponent.id,3);assert.notEqual(next.token,first.token);
  assert.ok(other.writes.every(sql=>/^(DELETE FROM|INSERT OR IGNORE INTO) pvp_ranked_match_tickets/.test(sql)));
+});
+
+test('ranking exclusions still allow the attacker and defender to match',async t=>{
+ const f=await fixture(t,{realStandings:true,rows:[{id:2,power:100}]});
+ for(const id of [1,2])await f.db.prepare('INSERT INTO app_meta VALUES(?,?)').bind(PVP_RANKING_EXCLUSION_PREFIX+id,'1').run();
+ const ticket=await f.call();
+ assert.equal(ticket.opponent.id,2);
+ assert.equal(f.ticketPayloads.get(ticket.token).challengerPair,false);
 });
 
 test('widening keeps symmetric finite power caps and CMS baseline, with no unlimited fallback',()=>{
