@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readHideout} from '../functions/_personal_hideout.js';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {operatingTowerFixture} from './helpers/tower-live-route.mjs';
 import {TOWER_ABYSS_PROTOCOL,towerAbyssFinish} from '../functions/_tower_abyss.js';
@@ -8,6 +9,7 @@ const call=(tower,path,body,id)=>tower.handle(path,request(path,body,id));
 for(const postgres of [false,true]){
  test(`${postgres?'PostgreSQL':'SQLite'} tower: server deadline, pending recovery, immutable encounter and exactly-once settlement`,async t=>{
   const f=await jointFixture(t,{postgres}),tower=await operatingTowerFixture(f,{floorNo:69,maxFloor:120,rewardCoin:75000000000});
+  f.env.PERSONAL_HIDEOUT_ENABLED='1';
   const body={requestId:'tower-abyss-live-0001',floorNo:69,protocol:TOWER_ABYSS_PROTOCOL},before=await f.coin();
   assert.equal((await call(tower,'tower/fight',body)).status,409);
   assert.equal((await call(tower,'tower/start',{...body,protocol:'OLD'})).status,409);
@@ -25,6 +27,8 @@ for(const postgres of [false,true]){
   f.setClock(start.settlement.notBefore);
   const finished=await(await call(tower,'tower/finish',{requestId:body.requestId})).json();assert.equal(finished.reward,75000000000);assert.equal(finished.settlement.status,'COMPLETED');assert.equal(await f.coin(),before+75000000000);
   const again=await(await call(tower,'tower/finish',{requestId:body.requestId})).json();assert.equal(again.reward,finished.reward);assert.equal(await f.coin(),before+75000000000);
+  assert.equal((await readHideout(f.env,7)).state.parts.HOUSING_PLAN,1);
+  assert.equal((await readHideout(f.env,7)).state.parts.STEEL,16);
   assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM coin_logs WHERE user_id=7').first()).n),1);
   assert.equal(Number((await f.p('SELECT current_floor FROM tower_user_progress WHERE user_id=7').first()).current_floor),70);
   assert.equal((await(await call(tower,'tower/pending')).json()).pending,null);

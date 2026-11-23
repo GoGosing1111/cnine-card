@@ -6,26 +6,29 @@ export const HIDEOUT_MAX_LEVEL=4;
 export const HIDEOUT_MAX_FACILITY_LEVEL=5;
 export const HIDEOUT_STAGES=Object.freeze([
  {level:1,code:'shanty',name:'판자촌',description:'회수한 자재로 세운 첫 보금자리',width:2400,facilityLevel:1,cost:{}},
- {level:2,code:'apartment',name:'일반 아파트',description:'생활과 작업 공간을 갖춘 내 집',width:3200,facilityLevel:2,cost:{STEEL:240,WIRE:150,CIRCUIT:60,COOLANT:48,DRIVE:30,CORE:18}},
- {level:3,code:'luxury',name:'고급 아파트',description:'넓은 거실과 전용 전시 공간',width:4000,facilityLevel:4,cost:{STEEL:560,WIRE:350,CIRCUIT:140,COOLANT:112,DRIVE:70,CORE:42}},
- {level:4,code:'penthouse',name:'펜트하우스',description:'도시를 내려다보는 가장 넓은 은신처',width:4800,facilityLevel:5,cost:{STEEL:1040,WIRE:650,CIRCUIT:260,COOLANT:208,DRIVE:130,CORE:78}}
+ {level:2,code:'apartment',name:'일반 아파트',description:'생활과 작업 공간을 갖춘 내 집',width:3200,facilityLevel:2,cost:{STEEL:240,WIRE:150,CIRCUIT:60,COOLANT:48,DRIVE:30,HOUSING_PLAN:21}},
+ {level:3,code:'luxury',name:'고급 아파트',description:'넓은 거실과 전용 전시 공간',width:4000,facilityLevel:4,cost:{STEEL:560,WIRE:350,CIRCUIT:140,COOLANT:112,DRIVE:70,HOUSING_PLAN:48}},
+ {level:4,code:'penthouse',name:'펜트하우스',description:'도시를 내려다보는 가장 넓은 은신처',width:4800,facilityLevel:5,cost:{STEEL:1040,WIRE:650,CIRCUIT:260,COOLANT:208,DRIVE:130,HOUSING_PLAN:87}}
 ].map(stage=>Object.freeze({...stage,image:HIDEOUT_ART+'residence-'+stage.code+'.webp'})));
 export const hideoutFacilityLimit=level=>level>0?(HIDEOUT_STAGES[level-1]?.facilityLevel||0):0;
 export function hideoutSpace(raw){
  const state=hideoutState(raw),stage=HIDEOUT_STAGES[Math.max(0,state.level-1)];let start=0;
  const rooms=(state.rooms.length?state.rooms:['main']).map(code=>{const room=HIDEOUT_ROOMS.find(r=>r.code===code),width=code==='main'?stage.width:1920;const zone={code,name:room.name,start,width};start+=width;return zone;});
- return {height:640,bayWidth:960,width:start,rooms,furnitureWidths:{workbench:480,fridge:180,garage:480,armory:300,sofa:420,lamp:100,trophy:460}};
+ return {height:640,bayWidth:960,width:start,rooms,furnitureWidths:{workbench:480,fridge:180,garage:480,armory:300,sofa:420,lamp:100,trophy:460,...Object.fromEntries(HIDEOUT_DECOR.filter(d=>d.width).map(d=>[d.code,d.width]))}};
 }
-const CORE_DROP_BASIS_POINTS=250;
-export const HIDEOUT_CORE_DROP=Object.freeze({percent:CORE_DROP_BASIS_POINTS/100,legionRolls:1,raidRolls:3});
+const CORE_DROP_BASIS_POINTS=175;
+export const HIDEOUT_CORE_DROP=Object.freeze({percent:CORE_DROP_BASIS_POINTS/100,legionRolls:1,raidRolls:3,apocalypseRolls:1,towerRolls:1});
 export const HIDEOUT_PARTS=Object.freeze([
- {code:'STEEL',name:'회수 철판',source:'몬스터 토벌 · 군단토벌 · 레이드'},
- {code:'WIRE',name:'구리 배선',source:'몬스터 토벌 · 군단토벌 · 레이드'},
- {code:'CIRCUIT',name:'제어 회로',source:'악몽·아포칼립스 토벌 · 군단토벌 · 레이드'},
- {code:'COOLANT',name:'냉각 장치',source:'군단토벌 · 레이드'},
- {code:'DRIVE',name:'구동 부품',source:'군단토벌 · 레이드'},
- {code:'CORE',name:'동력 코어',source:'군단토벌 클리어 시 '+HIDEOUT_CORE_DROP.legionRolls+'회, 레이드 클리어 시 '+HIDEOUT_CORE_DROP.raidRolls+'회 추첨 · 매회 '+HIDEOUT_CORE_DROP.percent+'% 확률로 1개'}
-].map((p,i)=>Object.freeze({...p,image:HIDEOUT_ART+'part-'+p.code.toLowerCase()+'.webp',index:i})));
+ {code:'STEEL',name:'회수 철판',source:'몬스터 토벌 · 군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
+ {code:'WIRE',name:'구리 배선',source:'몬스터 토벌 · 군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
+ {code:'CIRCUIT',name:'제어 회로',source:'악몽 토벌 · 군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
+ {code:'COOLANT',name:'냉각 장치',source:'군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
+ {code:'DRIVE',name:'구동 부품',source:'군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
+ {code:'CORE',name:'동력 코어',source:'군단토벌·아포칼립스 승리와 무한의탑 당일 첫 승리 1회 · 레이드 클리어 3회 · 매회 '+HIDEOUT_CORE_DROP.percent+'%'},
+ {code:'HOUSING_PLAN',name:'은신처 건축 설계도',source:'군단토벌(1인·파티 공통) · 아포칼립스 · 무한의탑의 한국 시간 기준 콘텐츠별 첫 승리'},
+ {code:'LEATHER_KIT',name:'가죽 마감 키트',source:'아포칼립스 첫 승리 보너스'},
+ {code:'ALLOY_PANEL',name:'합금 외장 패널',source:'군단토벌(1인·파티 공통) 첫 승리 보너스'}
+].map((p,i)=>Object.freeze({...p,image:HIDEOUT_ART+'part-'+({HOUSING_PLAN:'circuit',LEATHER_KIT:'wire',ALLOY_PANEL:'steel'}[p.code]||p.code.toLowerCase())+'.webp',index:i})));
 export const HIDEOUT_FURNITURE=Object.freeze([
  {code:'workbench',name:'작업대',description:'다른 시설과 은신처 업그레이드의 부품 소모량 감소',effect:'부품 비용',step:3,unit:'%'},
  {code:'fridge',name:'냉장고',description:'일반 군단토벌 최대 행동력 증가',effect:'군단토벌 최대 행동력',step:1,unit:''},
@@ -41,13 +44,31 @@ export const HIDEOUT_ROOMS=Object.freeze([
  {code:'gallery',name:'트로피 전시관',requiredLevel:2,cost:{STEEL:60,WIRE:40,CIRCUIT:20,CORE:5}},
  {code:'annex',name:'확장 공간',requiredLevel:3,cost:{STEEL:120,WIRE:80,CIRCUIT:30,COOLANT:20,DRIVE:20,CORE:10}}
 ]);
+const additionalDecor=[
+ ['safe','금고',150],['fridge-decor','장식 냉장고',180],['coffee-table','커피 테이블',300],
+ ['rubber-plant','고무나무 화분',100],['walnut-sideboard','월넛 수납장',320],['abstract-print','벽 액자',240,'wall'],
+ ['media-console','트래버틴 콘솔',360],['lounge-chair','부클 라운지체어',190],
+ ['glass-display','황동 유리 진열장',220],['writing-desk','월넛 서재 책상',360],
+ ['fabrication-bench','미래형 제작 작업대',480],['sealed-locker','밀폐형 보급함',200],
+ ['hydroponic-cabinet','수경 재배기',220],['energy-unit','전력 저장 모듈',240]
+].map(([code,name,width,surface='floor'])=>Object.freeze({
+ code,name,width,surface,image:HIDEOUT_ART+'decor-'+code+'.webp',
+ cost:surface==='wall'?{STEEL:8,WIRE:6}:{STEEL:24,WIRE:15,CIRCUIT:4}
+}));
+export const HIDEOUT_SKINS=Object.freeze([
+ {code:'sofa-cognac-leather',target:'sofa',name:'코냑 가죽 소파',image:HIDEOUT_ART+'skin-sofa-cognac-leather.webp',
+  level:3,coin:1000000000000000,stars:5000000,parts:{CORE:8,LEATHER_KIT:20}},
+ {code:'bench-expedition-frame',target:'workbench',name:'탐사형 작업대',image:HIDEOUT_ART+'decor-fabrication-bench.webp',
+  level:3,coin:1500000000000000,stars:8000000,parts:{CORE:12,ALLOY_PANEL:30}}
+]);
 export const HIDEOUT_DECOR=Object.freeze([
  {code:'sofa',name:'휴식 소파',image:HIDEOUT_ART+'furniture-sofa.webp',cost:{STEEL:6,WIRE:4}},
  {code:'lamp',name:'산업용 조명',image:HIDEOUT_ART+'furniture-lamp.webp',cost:{STEEL:4,WIRE:6}},
- {code:'trophy',name:'대형 트로피 진열장',image:HIDEOUT_ART+'trophy-stand.webp',cost:{STEEL:8,WIRE:4,CIRCUIT:2}}
+ {code:'trophy',name:'대형 트로피 진열장',image:HIDEOUT_ART+'trophy-stand.webp',cost:{STEEL:8,WIRE:4,CIRCUIT:2}},
+ ...additionalDecor
 ]);
 export const HIDEOUT_TROPHY_SLOTS=6;
-export const emptyHideout=()=>({version:2,revision:0,level:0,facilities:Object.fromEntries(codes.map(c=>[c,0])),rooms:[],placements:[],parts:Object.fromEntries(HIDEOUT_PARTS.map(p=>[p.code,0]))});
+export const emptyHideout=()=>({version:2,revision:0,level:0,facilities:Object.fromEntries(codes.map(c=>[c,0])),rooms:[],placements:[],unlockedSkins:[],parts:Object.fromEntries(HIDEOUT_PARTS.map(p=>[p.code,0]))});
 const fail=(message,code='HIDEOUT_INPUT',status=400)=>{throw Object.assign(Error(message),{code,status});};
 export function hideoutState(raw){
  if(raw==null)return emptyHideout();
@@ -56,6 +77,8 @@ export function hideoutState(raw){
  // reading it into the four residence tiers; facility growth still reaches 5.
  if(out.version===1&&Number.isInteger(out.level)&&out.level>=0&&out.level<=5){out.level=Math.min(out.level,HIDEOUT_MAX_LEVEL);out.version=2;}
  delete out.activityDates; // Older candidate snapshots stored a retired activity counter.
+ out.unlockedSkins??=[];
+ if(!Array.isArray(out.unlockedSkins)||new Set(out.unlockedSkins).size!==out.unlockedSkins.length||out.unlockedSkins.some(code=>!HIDEOUT_SKINS.some(skin=>skin.code===code)))fail('가구 스킨 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
  out.facilities={...defaults.facilities,...out.facilities};out.parts={...defaults.parts,...out.parts};
  if(out.version!==2||!Number.isSafeInteger(out.revision)||out.revision<0||!Number.isInteger(out.level)||out.level<0||out.level>HIDEOUT_MAX_LEVEL)fail('은신처 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
  if(!out.facilities||codes.some(c=>!Number.isInteger(out.facilities[c])||out.facilities[c]<0||out.facilities[c]>hideoutFacilityLimit(out.level))||!out.parts||HIDEOUT_PARTS.some(p=>!Number.isSafeInteger(out.parts[p.code])||out.parts[p.code]<0||out.parts[p.code]>1000000000))fail('시설·부품 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
@@ -66,6 +89,7 @@ export function hideoutState(raw){
    p.trophyCode=p.trophyCodes[0]||null;
   }
   validatePlacement(p,out.rooms);
+  if(p.skin!=null&&(!out.unlockedSkins.includes(p.skin)||!HIDEOUT_SKINS.some(skin=>skin.code===p.skin&&skin.target===p.code)))fail('가구 스킨 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
  }
  return out;
 }
@@ -86,7 +110,7 @@ export function hideoutCost(raw,target){
   {STEEL:12*level,WIRE:8*level,...(level>1?{CIRCUIT:3*level}:{}),...(level>2?{COOLANT:2*level,DRIVE:2*level}:{}),...(level>3?{CORE:level}:{})};
  const scale=room?1:[1,2,4,7,12][level-1];
  const discount=target==='workbench'?0:s.facilities.workbench*3;
- return Object.fromEntries(Object.entries(base).map(([c,n])=>[c,Math.ceil(n*scale*(100-discount)/100)]));
+ return Object.fromEntries(Object.entries(base).map(([c,n])=>[c,c==='HOUSING_PLAN'?n:Math.ceil(n*scale*(100-discount)/100)]));
 }
 export function changeHideout(raw,action,body,{newId,ownedTrophies=[]}={}){
  const s=hideoutState(raw);
@@ -96,6 +120,16 @@ export function changeHideout(raw,action,body,{newId,ownedTrophies=[]}={}){
   if(!s.level)fail('먼저 은신처를 개방하세요.');
   if(!Array.isArray(body.placements)||body.placements.length!==s.placements.length||new Set(body.placements.map(p=>p.id)).size!==s.placements.length)fail('보유한 가구 전체의 배치를 확인하세요.');
   s.placements=body.placements.map(p=>{const old=s.placements.find(o=>o.id===p.id);if(!old)fail('보유하지 않은 가구입니다.');const next={...old,room:p.room,x:p.x,y:p.y,flipped:p.flipped};validatePlacement(next,s.rooms);return next;});
+ }else if(action==='unlockSkin'){
+  const skin=HIDEOUT_SKINS.find(skin=>skin.code===body.skin);
+  if(!skin||s.level<skin.level||!s.placements.some(p=>p.code===skin.target))fail('스킨 해금 조건을 확인하세요.');
+  if(s.unlockedSkins.includes(skin.code))fail('이미 해금한 스킨입니다.','HIDEOUT_SKIN_OWNED',409);
+  spend(skin.parts);
+  s.unlockedSkins.push(skin.code);
+ }else if(action==='equipSkin'){
+  const item=s.placements.find(p=>p.id===body.id);
+  if(!item||(body.skin!==null&&(!s.unlockedSkins.includes(body.skin)||!HIDEOUT_SKINS.some(skin=>skin.code===body.skin&&skin.target===item.code))))fail('가구와 보유 스킨을 확인하세요.');
+  item.skin=body.skin;
  }else if(action==='expand'){
   const room=HIDEOUT_ROOMS.find(r=>r.code===body.room);
   if(!room||s.rooms.includes(room.code)||s.level<room.requiredLevel)fail('확장할 공간과 은신처 레벨을 확인하세요.');
@@ -103,7 +137,7 @@ export function changeHideout(raw,action,body,{newId,ownedTrophies=[]}={}){
  }else if(action==='decorate'){
   const item=HIDEOUT_DECOR.find(d=>d.code===body.item);
   if(!s.level||!item||!s.rooms.includes(body.room)||s.placements.filter(p=>p.kind==='decor').length>=114||!newId)fail('장식과 배치할 공간을 확인하세요.');
-  spend(item.cost);s.placements.push({id:newId,kind:'decor',code:item.code,room:body.room,x:item.code==='trophy'?585:500,y:item.code==='trophy'?450:800,flipped:false,trophyCode:null,...(item.code==='trophy'?{trophyCodes:Array(HIDEOUT_TROPHY_SLOTS).fill(null)}:{})});
+  spend(item.cost);s.placements.push({id:newId,kind:'decor',code:item.code,room:body.room,x:item.code==='trophy'?585:500,y:item.surface==='wall'?500:item.code==='trophy'?450:800,flipped:false,trophyCode:null,...(item.code==='trophy'?{trophyCodes:Array(HIDEOUT_TROPHY_SLOTS).fill(null)}:{})});
  }else if(action==='trophy'){
   const item=s.placements.find(p=>p.id===body.id&&p.kind==='decor'&&p.code==='trophy');
   const slot=body.slot??0;if(!Number.isInteger(slot)||slot<0||slot>=HIDEOUT_TROPHY_SLOTS)fail('진열칸을 선택하세요.');
@@ -129,15 +163,25 @@ function coreReward(rolls,randomInt){
 export function hideoutAward(event,randomInt=secureRandomInt){
  if(event.eligible===false||event.seasonReplay===true)return null;
  const source=event.source,win=event.won===true;
- if(['HUNT','NIGHTMARE','APOCALYPSE'].includes(source))return win?{STEEL:2,WIRE:1,...(source!=='HUNT'?{CIRCUIT:1}:{})}:null;
+ if(['HUNT','NIGHTMARE'].includes(source))return win?{STEEL:2,WIRE:1,...(source==='NIGHTMARE'?{CIRCUIT:1}:{})}:null;
+ if(source==='APOCALYPSE')return win?{STEEL:16,WIRE:8,CIRCUIT:3,COOLANT:3,DRIVE:2,...coreReward(HIDEOUT_CORE_DROP.apocalypseRolls,randomInt)}:null;
  if(source==='LEGION')return {STEEL:8,WIRE:5,CIRCUIT:2,COOLANT:2,DRIVE:1,...(win?coreReward(HIDEOUT_CORE_DROP.legionRolls,randomInt):{})};
  if(source==='RAID')return win?{STEEL:20,WIRE:12,CIRCUIT:6,COOLANT:4,DRIVE:4,...coreReward(HIDEOUT_CORE_DROP.raidRolls,randomInt)}:null;
+ return null;
+}
+export function hideoutDailyAward(event,randomInt=secureRandomInt){
+ if(event.won!==true||event.eligible===false||!Number.isSafeInteger(event.startedAt)||event.startedAt<1||event.startedAt>8.64e15-32400000)return null;
+ const day=new Date(event.startedAt+32400000).toISOString().slice(0,10);
+ if(event.source==='TOWER')return {day,gains:{HOUSING_PLAN:1,STEEL:16,WIRE:10,CIRCUIT:4,COOLANT:3,DRIVE:2,...coreReward(HIDEOUT_CORE_DROP.towerRolls,randomInt)}};
+ if(event.seasonReplay===true)return null;
+ if(event.source==='LEGION')return {day,gains:{HOUSING_PLAN:1,ALLOY_PANEL:1,STEEL:4,WIRE:3,CIRCUIT:1,COOLANT:1,DRIVE:1}};
+ if(event.source==='APOCALYPSE')return {day,gains:{HOUSING_PLAN:1,LEATHER_KIT:1}};
  return null;
 }
 export function publicHideout(raw){
  const state=hideoutState(raw);
  // Cached clients read this array's length. It is never consulted for progression.
- return {state:{...state,activityDates:[]},benefits:hideoutBenefits(state),parts:HIDEOUT_PARTS,rooms:HIDEOUT_ROOMS,decor:HIDEOUT_DECOR,facilities:HIDEOUT_FURNITURE.map(f=>({...f,level:state.facilities[f.code],cost:hideoutCost(state,f.code)})),roomCost:hideoutCost(state,'room'),maximumLevel:HIDEOUT_MAX_LEVEL,trophySlots:HIDEOUT_TROPHY_SLOTS,stages:HIDEOUT_STAGES,stage:HIDEOUT_STAGES[Math.max(0,state.level-1)],nextStage:HIDEOUT_STAGES[state.level]||null,facilityMaximum:hideoutFacilityLimit(state.level),space:hideoutSpace(state)};
+ return {state:{...state,activityDates:[]},benefits:hideoutBenefits(state),parts:HIDEOUT_PARTS,rooms:HIDEOUT_ROOMS,decor:HIDEOUT_DECOR,skins:HIDEOUT_SKINS,facilities:HIDEOUT_FURNITURE.map(f=>({...f,level:state.facilities[f.code],cost:hideoutCost(state,f.code)})),roomCost:hideoutCost(state,'room'),maximumLevel:HIDEOUT_MAX_LEVEL,trophySlots:HIDEOUT_TROPHY_SLOTS,stages:HIDEOUT_STAGES,stage:HIDEOUT_STAGES[Math.max(0,state.level-1)],nextStage:HIDEOUT_STAGES[state.level]||null,facilityMaximum:hideoutFacilityLimit(state.level),space:hideoutSpace(state)};
 }
 export function hideoutCardRates(rows,bonus){
  if(!(bonus>0))return rows;

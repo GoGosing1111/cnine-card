@@ -132,7 +132,7 @@ export async function settleRankedHunt(env,userId,source,eventId,coin,reason,sea
   const cow=await cowTicketAward(env,userId,season.sweep?'PVE_SWEEP':'PVE_HUNT',eventId,{guard,values:[writes.token]});
   const results=await env.DB.batch([...writes,...cow.statements]);
   let cowTicket=cow.ticket,hideoutReward=progression.hideoutAward||null;
-  const checkTicket=cowTicket&&Number(results[writes.length]?.meta?.changes)===0;
+  const checkTicket=cowTicket&&cow.statements.length>0&&Number(results[writes.length]?.meta?.changes)===0;
   // The last progression statement seals the salvage receipt. Only replays need a read.
   const checkParts=hideoutReward&&Number(results[writes.length-1]?.meta?.changes)===0;
   if(checkTicket||checkParts){

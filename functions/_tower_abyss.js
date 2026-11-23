@@ -1,5 +1,5 @@
 import {cowTicketAward} from './_legion_cow_tickets.js';
-import {seasonAwardStatements} from './_season_s1.js';
+import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
 import {ensureTowerWeek,towerWeek,towerWeekMatches,towerSeasonLock,towerFloorRewardRef} from './_tower_weekly.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointHash,jointInventoryChange} from './_joint_transactions.js';

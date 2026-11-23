@@ -4,7 +4,7 @@
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const n=v=>Number(v||0).toLocaleString('ko-KR');
  let noticeText='',noticeError=false;
- let root=null,data=null,draft=[],room='main',tab='facilities',selected=null,selectedSlot=0,editing=false,dirty=false,busy=false,controller=null,epoch=0,trophies=null,uid=0,drag=null;
+ let root=null,data=null,draft=[],room='main',tab='facilities',selected=null,selectedSlot=0,editing=false,dirty=false,busy=false,controller=null,epoch=0,trophies=null,uid=0,drag=null,targeting=false;
  let camera=0,scale=1,stopSizing=null;
  const view=()=>'<section id="personalHideoutRoot" class="ph-root" aria-label="나의 은신처"><div class="ph-loading" role="status">은신처를 불러오는 중…</div></section>';
  const key=()=> 'cnine-hideout-pending:'+uid;
@@ -22,15 +22,16 @@
  const definition=p=>(p.kind==='facility'?data.facilities:data.decor).find(f=>f.code===p.code);
  function pickerHtml(){return '<label class="ph-picker">가구 선택<select data-ph-piece-select aria-label="가구 선택"><option value="">선택하기</option>'+draft.map(p=>'<option value="'+esc(p.id)+'" '+(selected===p.id?'selected':'')+'>'+esc(definition(p)?.name||p.code)+' · '+esc(p.room===null?'보관함':data.rooms.find(r=>r.code===p.room)?.name)+'</option>').join('')+'</select></label>';}
  const partName=code=>data.parts.find(p=>p.code===code)?.name||code;
- function costHtml(cost){return cost?'<ul class="ph-cost">'+Object.entries(cost).map(([c,q])=>'<li class="'+(data.state.parts[c]<q?'short':'')+'"><img src="'+ART+'part-'+c.toLowerCase()+'.webp" width="32" height="32" alt=""><span>'+esc(partName(c))+'</span><b>'+n(data.state.parts[c])+' / '+n(q)+'</b></li>').join('')+'</ul>':'';}
+ function costHtml(cost){return cost?'<ul class="ph-cost">'+Object.entries(cost).map(([c,q])=>'<li class="'+(data.state.parts[c]<q?'short':'')+'"><img src="'+esc(data.parts.find(part=>part.code===c)?.image||ART+'part-'+c.toLowerCase()+'.webp')+'" width="32" height="32" alt=""><span>'+esc(partName(c))+'</span><b>'+n(data.state.parts[c])+' / '+n(q)+'</b></li>').join('')+'</ul>':'';}
  const button=(action,label,extra='',disabled=false)=>'<button type="button" class="ph-button" data-ph-action="'+action+'" '+extra+' '+(disabled||busy?'disabled':'')+'>'+esc(label)+'</button>';
  const pieceWidth=p=>data.space.furnitureWidths[p.code]||320;
  const zoneFor=p=>data.space.rooms.find(z=>z.code===p.room);
  const worldX=p=>{const z=zoneFor(p),w=pieceWidth(p);return z.start+20+w/2+p.x/1000*(z.width-w-40);};
- const worldY=p=>512+p.y*.1024;
+ const wall=p=>definition(p)?.surface==='wall';
+ const worldY=p=>wall(p)?262+p.y*.20:512+p.y*.1024;
  const slotNames=['윗칸 왼쪽','윗칸 오른쪽','가운데 왼쪽','가운데 오른쪽','아랫칸 왼쪽','아랫칸 오른쪽'];
  const trophyCodes=p=>p.trophyCodes||[p.trophyCode||null,null,null,null,null,null];
- function placementStyle(p){return 'left:'+(worldX(p)*scale)+'px;top:'+(worldY(p)*scale)+'px;width:'+(pieceWidth(p)*scale)+'px;z-index:'+Math.round(p.y+10)+';';}
+ function placementStyle(p){return 'left:'+(worldX(p)*scale)+'px;top:'+(worldY(p)*scale)+'px;width:'+(pieceWidth(p)*scale)+'px;z-index:'+(wall(p)?4:Math.round(p.y+10))+';';}
  function viewport(){return root?.querySelector('[data-ph-viewport]');}
  function syncCamera(){
   const view=viewport();if(!view||!data)return;
@@ -82,16 +83,24 @@
  function propHtml(p){
   const f=definition(p);if(!f)return '';
   const label=f.name+(p.kind==='facility'?' · Lv.'+data.state.facilities[p.code]:p.code==='trophy'?' · '+trophyCodes(p).filter(Boolean).length+'/6':'');
-  return '<button type="button" class="ph-prop ph-prop-'+esc(p.code)+(selected===p.id?' selected':'')+'" data-ph-prop="'+esc(p.id)+'" style="'+placementStyle(p)+'" aria-label="'+esc(label)+'" aria-pressed="'+(selected===p.id)+'"><span class="ph-prop-art" style="transform:scaleX('+(p.flipped?-1:1)+')">'+(p.code==='trophy'?cabinetArt(p):'<img src="'+esc(f.image)+'" draggable="false" alt="">')+'</span><span class="ph-prop-label">'+esc(label)+'</span></button>';
+  return '<button type="button" class="ph-prop ph-prop-'+esc(p.code)+(selected===p.id?' selected':'')+'" data-ph-prop="'+esc(p.id)+'" style="'+placementStyle(p)+'" aria-label="'+esc(label)+'" aria-pressed="'+(selected===p.id)+'"><span class="ph-prop-art" style="transform:scaleX('+(p.flipped?-1:1)+')">'+(p.code==='trophy'?cabinetArt(p):'<img src="'+esc(data.skins?.find(s=>s.code===p.skin)?.image||f.image)+'" draggable="false" alt="">')+'</span><span class="ph-prop-label">'+esc(label)+'</span></button>';
  }
  function benefitsHtml(){const b=data.benefits;return '<dl class="ph-benefits"><div><dt>군단 행동력</dt><dd>+'+b.legionEnergy+'</dd></div><div><dt>파티 행동력</dt><dd>+'+b.partyEnergy+'</dd></div><div><dt>용병 장비 드랍</dt><dd>+'+b.mercenaryEquipmentPercent+'%</dd></div><div><dt>카드 고등급 가중치</dt><dd>+'+b.cardWeightPercent+'%</dd></div></dl>';}
+ function skinHtml(p){
+  const skin=data.skins?.find(s=>s.target===p.code);if(!skin)return '';
+  const owned=data.state.unlockedSkins?.includes(skin.code),equipped=p.skin===skin.code;
+  return '<div class="ph-skin"><h4>'+esc(skin.name)+'</h4>'+
+   (owned?button('equipSkin',equipped?'기본 외형으로':'스킨 적용',equipped?'':'data-skin="'+esc(skin.code)+'"',dirty):
+    '<p>고급 아파트 이상 · 코인 '+n(skin.coin)+' · 마스터의 별 '+n(skin.stars)+'</p>'+costHtml(skin.parts)+
+    button('unlockSkin','스킨 해금','data-skin="'+esc(skin.code)+'"',dirty||data.state.level<skin.level||!allowed(skin.parts)))+'</div>';
+ }
  function selectedHtml(){
   const p=draft.find(v=>v.id===selected);if(!p)return '<p class="ph-help">가구를 선택하면 배치와 진열을 변경할 수 있습니다.</p>';
   const f=definition(p);
-  return '<section class="ph-selected ph-panel"><h3>'+esc(f.name)+'</h3><label>배치 공간<select data-ph-room-select '+(!editing?'disabled':'')+'>'+data.state.rooms.map(r=>'<option value="'+r+'" '+(p.room===r?'selected':'')+'>'+esc(data.rooms.find(v=>v.code===r).name)+'</option>').join('')+'<option value="storage" '+(p.room===null?'selected':'')+'>보관함</option></select></label><div class="ph-actions">'+button('flip','방향 전환','',!editing)+button('store',p.room===null?'현재 방에 꺼내기':'보관하기','',!editing)+(p.code==='trophy'?button('trophies','진열장 크게 보기','',dirty):'')+'</div><p class="ph-help">가구를 끌거나 방향키로 배치합니다. 빈 공간을 끌면 화면이 이동합니다.</p></section>';
+  return '<section class="ph-selected ph-panel"><h3>'+esc(f.name)+'</h3><label>배치 공간<select data-ph-room-select '+(!editing?'disabled':'')+'>'+data.state.rooms.map(r=>'<option value="'+r+'" '+(p.room===r?'selected':'')+'>'+esc(data.rooms.find(v=>v.code===r).name)+'</option>').join('')+'<option value="storage" '+(p.room===null?'selected':'')+'>보관함</option></select></label><div class="ph-actions">'+button('flip','방향 전환','',!editing)+button('target',targeting?'방에서 위치 선택':'위치 지정','aria-pressed="'+targeting+'"',!editing)+button('store',p.room===null?'현재 방에 꺼내기':'보관하기','',!editing)+(p.code==='trophy'?button('trophies','진열장 크게 보기','',dirty):'')+'</div><p class="ph-help">가구를 끌거나 방향키로 배치합니다. 빈 공간을 끌면 화면이 이동합니다.</p>'+skinHtml(p)+'</section>';
  }
  function panelHtml(){
-  if(tab==='facilities')return '<article class="ph-panel ph-room-upgrade"><div><small>거주 등급 '+data.state.level+' / '+data.maximumLevel+'</small><h3>'+esc(data.stage.name)+'</h3><p>'+esc(data.stage.description)+'</p><strong>'+(data.nextStage?'다음 거주지 · '+esc(data.nextStage.name):'최종 거주지')+'</strong>'+(data.state.level&&data.nextStage?'<p>표시된 부품을 모두 모으면 바로 승급할 수 있습니다.</p>':'')+'<p>시설은 Lv.'+data.facilityMaximum+'까지 성장할 수 있습니다.</p></div>'+costHtml(data.roomCost)+button('upgrade',data.state.level===0?'은신처 무료 개방':data.roomCost?'다음 거주지로 업그레이드':'최종 단계','data-target="room"',!data.roomCost||!allowed(data.roomCost)||dirty)+'</article>'+data.facilities.map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" alt=""><div><h3>'+esc(f.name)+' <small>Lv.'+f.level+'</small></h3><p>'+esc(f.description)+'</p><strong>'+esc(f.effect)+' '+(f.code==='workbench'?'-':'+')+(f.level*f.step)+f.unit+'</strong></div></div>'+costHtml(f.cost)+button('upgrade',!f.cost?'최대 레벨':f.level===0?'시설 설치':'시설 업그레이드','data-target="'+f.code+'"',!f.cost||!allowed(f.cost)||f.level>=data.facilityMaximum||dirty)+'</article>').join('');
+  if(tab==='facilities')return '<article class="ph-panel ph-room-upgrade"><div><small>거주 등급 '+data.state.level+' / '+data.maximumLevel+'</small><h3>'+esc(data.stage.name)+'</h3><p>'+esc(data.stage.description)+'</p><strong>'+(data.nextStage?'다음 거주지 · '+esc(data.nextStage.name):'최종 거주지')+'</strong>'+(data.state.level&&data.nextStage?'<p>표시된 부품을 모두 모으면 바로 승급할 수 있습니다.</p>':'')+'<p>건축 설계도는 한국 시간 기준 군단토벌(1인·파티 공통), 아포칼립스, 무한의탑의 하루 첫 승리에서 각각 1개를 얻습니다.</p><p>시설은 Lv.'+data.facilityMaximum+'까지 성장할 수 있습니다.</p></div>'+costHtml(data.roomCost)+button('upgrade',data.state.level===0?'은신처 무료 개방':data.roomCost?'다음 거주지로 업그레이드':'최종 단계','data-target="room"',!data.roomCost||!allowed(data.roomCost)||dirty)+'</article>'+data.facilities.map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" alt=""><div><h3>'+esc(f.name)+' <small>Lv.'+f.level+'</small></h3><p>'+esc(f.description)+'</p><strong>'+esc(f.effect)+' '+(f.code==='workbench'?'-':'+')+(f.level*f.step)+f.unit+'</strong></div></div>'+costHtml(f.cost)+button('upgrade',!f.cost?'최대 레벨':f.level===0?'시설 설치':'시설 업그레이드','data-target="'+f.code+'"',!f.cost||!allowed(f.cost)||f.level>=data.facilityMaximum||dirty)+'</article>').join('');
   if(tab==='decor')return '<p class="ph-help">가구를 추가 제작해 자유롭게 꾸미세요. 장식 복제와 위치 변경은 시설 혜택을 중복시키지 않습니다.</p>'+data.decor.map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" alt=""><h3>'+esc(f.name)+'</h3></div>'+costHtml(f.cost)+button('decorate','추가 제작','data-item="'+f.code+'"',!data.state.level||!allowed(f.cost)||dirty||draft.filter(p=>p.kind==='decor').length>=114)+'</article>').join('')+'<h3>보관한 가구</h3><div class="ph-storage">'+draft.filter(p=>p.room===null).map(p=>button('select',definition(p)?.name||p.code,'data-id="'+esc(p.id)+'"')).join('')+'</div>';
   if(tab==='rooms')return '<p class="ph-help">새 구역이 집 옆으로 이어집니다. 이동하면서 구역마다 꾸밀 수 있습니다. 시설 6개와 장식 114개를 보관·배치할 수 있습니다.</p>'+data.rooms.map(r=>'<article class="ph-panel"><h3>'+esc(r.name)+'</h3><p>은신처 Lv.'+r.requiredLevel+'부터 확장 가능</p>'+costHtml(r.cost)+button('expand',data.state.rooms.includes(r.code)?'개방 완료':'공간 확장','data-room="'+r.code+'"',data.state.rooms.includes(r.code)||data.state.level<r.requiredLevel||!allowed(r.cost)||dirty)+'</article>').join('');
   const stand=draft.find(p=>p.id===selected&&p.code==='trophy');
@@ -113,14 +122,19 @@
   finally{if(id===epoch){busy=false;root?.querySelectorAll('button').forEach(b=>{if(b.dataset.phBusy)b.disabled=false;});render();}}
  }
  function updateSelection(){if(!root)return;for(const el of root.querySelectorAll('[data-ph-prop]')){const active=el.dataset.phProp===selected;el.classList.toggle('selected',active);el.setAttribute('aria-pressed',String(active));}const picker=root.querySelector('[data-ph-piece-select]');if(picker)picker.value=selected||'';const panel=root.querySelector('[data-ph-selection]');if(panel)panel.innerHTML=selectedHtml();}
- function move(x,y){const p=draft.find(p=>p.id===selected);if(!p)return;p.x=Math.max(0,Math.min(1000,Math.round(x)));p.y=Math.max(0,Math.min(1000,Math.round(y)));if(!dirty)root.querySelectorAll('[data-ph-action="upgrade"],[data-ph-action="expand"],[data-ph-action="decorate"],[data-ph-action="trophy"]').forEach(b=>b.disabled=true);dirty=true;const el=root.querySelector('[data-ph-prop="'+CSS.escape(p.id)+'"]');if(el)el.setAttribute('style',placementStyle(p));root.querySelectorAll('[data-ph-action="save"],[data-ph-action="reset"]').forEach(b=>b.disabled=busy);const edit=root.querySelector('[data-ph-action="edit"]');if(edit)edit.disabled=true;const hint=root.querySelector('.ph-editbar > span');if(hint)hint.textContent='아직 저장하지 않은 배치입니다.';}
+ function move(x,y){const p=draft.find(p=>p.id===selected);if(!p)return;p.x=Math.max(0,Math.min(1000,Math.round(x)));p.y=Math.max(0,Math.min(1000,Math.round(y)));if(!dirty)root.querySelectorAll('[data-ph-action="upgrade"],[data-ph-action="expand"],[data-ph-action="decorate"],[data-ph-action="trophy"],[data-ph-action="unlockSkin"],[data-ph-action="equipSkin"]').forEach(b=>b.disabled=true);dirty=true;const el=root.querySelector('[data-ph-prop="'+CSS.escape(p.id)+'"]');if(el)el.setAttribute('style',placementStyle(p));root.querySelectorAll('[data-ph-action="save"],[data-ph-action="reset"]').forEach(b=>b.disabled=busy);const edit=root.querySelector('[data-ph-action="edit"]');if(edit)edit.disabled=true;const hint=root.querySelector('.ph-editbar > span');if(hint)hint.textContent='아직 저장하지 않은 배치입니다.';}
  function worldPoint(event){const view=viewport(),rect=view.getBoundingClientRect();return {x:(event.clientX-rect.left+view.scrollLeft)/scale,y:(event.clientY-rect.top)/scale};}
  function moveWorld(x,y){
   const p=draft.find(p=>p.id===selected);if(!p)return;
   const z=data.space.rooms.find(z=>x>=z.start&&x<z.start+z.width)||data.space.rooms[x<0?0:data.space.rooms.length-1];
-  p.room=z.code;move((x-z.start-20-pieceWidth(p)/2)/(z.width-pieceWidth(p)-40)*1000,(y-512)/.1024);
+  p.room=z.code;move((x-z.start-20-pieceWidth(p)/2)/(z.width-pieceWidth(p)-40)*1000,wall(p)?(y-262)/.20:(y-512)/.1024);
  }
  async function click(event){
+  if(targeting&&editing&&!busy&&event.target.closest('[data-ph-world]')&&!event.target.closest('[data-ph-prop]')){
+   const p=draft.find(p=>p.id===selected);
+   if(p){const pt=worldPoint(event);targeting=false;moveWorld(pt.x,pt.y);render();}
+   return;
+  }
   if(event.detail===0&&event.target.closest('[data-ph-prop]')){selected=event.target.closest('[data-ph-prop]').dataset.phProp;updateSelection();return;}
   const b=event.target.closest('[data-ph-action]');if(!b||busy)return;const a=b.dataset.phAction;
   if(a==='refresh')return refresh();if(a==='retry')return mutate();
@@ -128,8 +142,9 @@
   if(a==='room'){const z=data.space.rooms.find(z=>z.code===b.dataset.room);if(!viewport()){tab='facilities';editing=false;render();}setCamera(z.start);return;}
   if(a==='tab'){tab=b.dataset.tab;if(tab==='trophies'&&!dirty){editing=false;if(!draft.find(p=>p.id===selected&&p.code==='trophy'))selected=(draft.find(p=>p.code==='trophy'&&p.room===room)||draft.find(p=>p.code==='trophy'))?.id||null;}render();return;}
   if(a==='select'){selected=b.dataset.id;render();focusPlacement();return;}
-  if(a==='edit'){editing=!editing;render();focusPlacement();return;}
-  if(a==='reset'){draft=structuredClone(data.state.placements);dirty=false;render();return;}
+  if(a==='target'){targeting=!targeting;updateSelection();return;}
+  if(a==='edit'){targeting=false;editing=!editing;render();focusPlacement();return;}
+  if(a==='reset'){targeting=false;draft=structuredClone(data.state.placements);dirty=false;render();return;}
   if(a==='save')return mutate('arrange',{placements:draft.map(({id,room,x,y,flipped})=>({id,room,x,y,flipped}))});
   if(a==='flip'||a==='store'){const p=draft.find(p=>p.id===selected);if(p&&editing){if(a==='flip')p.flipped=!p.flipped;else p.room=p.room===null?room:null;dirty=true;render();}return;}
   if(a==='trophies'){tab='trophies';editing=false;selectedSlot=0;render();return;}
@@ -139,11 +154,13 @@
   if(a==='upgrade')return mutate(a,{target:b.dataset.target,room});
   if(a==='decorate')return mutate(a,{item:b.dataset.item,room});
   if(a==='expand')return mutate(a,{room:b.dataset.room});
+  if(a==='unlockSkin'){if(confirm('표시된 코인, 마스터의 별, 은신처 재료를 사용해 스킨을 해금할까요?'))return mutate(a,{skin:b.dataset.skin});return;}
+  if(a==='equipSkin')return mutate(a,{id:selected,skin:b.dataset.skin||null});
   if(a==='trophy')return mutate(a,{id:selected,slot:selectedSlot,trophyCode:b.dataset.trophy||null});
  }
  function destroy(){
   if(root&&uid)try{sessionStorage.setItem('cnine-hideout-camera:'+uid,String(camera));}catch{}
-  epoch++;controller?.abort();stopSizing?.();stopSizing=null;controller=null;root=null;data=null;trophies=null;drag=null;busy=false;editing=false;dirty=false;selected=null;noticeText='';camera=0;room='main';tab='facilities';
+  epoch++;controller?.abort();stopSizing?.();stopSizing=null;controller=null;root=null;data=null;trophies=null;drag=null;targeting=false;busy=false;editing=false;dirty=false;selected=null;noticeText='';camera=0;room='main';tab='facilities';
  }
  async function bind(user){
   destroy();uid=Number(user?.serverUserId||user?.id||user?.userId||0);root=document.getElementById('personalHideoutRoot');if(!root)return;
@@ -153,13 +170,14 @@
   root.addEventListener('scroll',e=>{if(e.target.matches('[data-ph-viewport]'))syncCamera();},{signal,capture:true});
   root.addEventListener('input',e=>{if(e.target.matches('[data-ph-camera]')){const view=viewport();setCamera(Number(e.target.value)/1000*Math.max(0,data.space.width-view.clientWidth/scale));}},{signal});
   root.addEventListener('change',e=>{
-   if(e.target.matches('[data-ph-piece-select]')){selected=e.target.value||null;selectedSlot=0;if(tab==='trophies')render();else updateSelection();focusPlacement();}
+   if(e.target.matches('[data-ph-piece-select]')){targeting=false;selected=e.target.value||null;selectedSlot=0;if(tab==='trophies')render();else updateSelection();focusPlacement();}
    else if(e.target.matches('[data-ph-room-select]')){const p=draft.find(p=>p.id===selected);if(!editing||!p)return;p.room=e.target.value==='storage'?null:e.target.value;dirty=true;render();focusPlacement();}
   },{signal});
   root.addEventListener('pointerdown',e=>{
    if(!e.target.closest('[data-ph-viewport]')||busy)return;
    const el=e.target.closest('[data-ph-prop]');
-   if(el){selected=el.dataset.phProp;updateSelection();}
+   if(el){targeting=false;selected=el.dataset.phProp;updateSelection();}
+   else if(targeting)return;
    if(el&&editing){const p=draft.find(v=>v.id===selected),pt=worldPoint(e);drag={kind:'furniture',id:e.pointerId,x:pt.x-worldX(p),y:pt.y-worldY(p)};root.setPointerCapture(e.pointerId);e.preventDefault();}
    else if(e.pointerType==='mouse'){drag={kind:'camera',id:e.pointerId,x:e.clientX,camera};root.setPointerCapture(e.pointerId);e.preventDefault();}
   },{signal});

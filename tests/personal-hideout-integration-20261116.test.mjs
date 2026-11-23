@@ -1,12 +1,12 @@
 import test from 'node:test';
 import {prepareApiRuntimeRequest,openApiRuntimeRequest} from '../functions/_api_runtime_transport.js';
 import assert from 'node:assert/strict';
-import {citadelFixture} from './helpers/legion-citadel-fixture.mjs';
+import {citadelFixture,veteranCitadelSquads} from './helpers/legion-citadel-fixture.mjs';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {settleRankedHunt} from '../functions/_account_rank.js';
-import {COW_DRAW_KEY,cowTicketCount} from '../functions/_legion_cow_tickets.js';
+import {COW_DRAW_KEY,cowTicketCount,cowTicketOutcome} from '../functions/_legion_cow_tickets.js';
 import {collectionFixture} from './helpers/collection-bonuses-fixture.mjs';
-import {emptyHideout,HIDEOUT_KEY,hideoutBenefits} from '../shared/personal-hideout-v1.mjs';
+import {emptyHideout,HIDEOUT_KEY,HIDEOUT_SKINS,hideoutBenefits} from '../shared/personal-hideout-v1.mjs';
 import {hideoutTrophies,mutateHideout,readHideout} from '../functions/_personal_hideout.js';
 import {planUnifiedDropRoll,resolveUnifiedDrops} from '../functions/_drop_pool.js';
 import {readCollectionBonuses} from '../functions/_collection_bonuses.js';
@@ -21,14 +21,20 @@ for(const postgres of [false,true]){
   const f=await jointFixture(t,{postgres});
   f.env.PERSONAL_HIDEOUT_ENABLED='1';
   await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,'hideout-local-qa').run();
+  const ids=[];
+  for(let i=0;ids.length<2&&i<5000;i++){
+   const id='hideout-hunt-hit-'+i,source=ids.length?'PVE_SWEEP':'PVE_HUNT';
+   if((await cowTicketOutcome(f.env,7,source,id))?.code==='LEGION_COW_SOLO_TICKET')ids.push(id);
+  }
+  assert.equal(ids.length,2);
   const before=await f.coin();
   const settle=(id,sweep)=>settleRankedHunt(f.env,7,'HUNT',id,100,'QA',{source:'HUNT',sweep});
   f.fail('INSERT INTO inventory_logs');
-  await assert.rejects(settle('fixture-hunt-72',false));
+  await assert.rejects(settle(ids[0],false));
   f.fail('');
   assert.equal((await readHideout(f.env,7)).state.parts.STEEL,0);
   assert.equal(await f.coin(),before);
-  for(const [id,sweep] of [['fixture-hunt-72',false],['fixture-hunt-63',true]]){
+  for(const [id,sweep] of [[ids[0],false],[ids[1],true]]){
    const earned=await settle(id,sweep);
    assert.equal(earned.cowTicket.code,'LEGION_COW_SOLO_TICKET');
    assert.deepEqual(earned.hideoutReward,{STEEL:2,WIRE:1});
@@ -39,8 +45,8 @@ for(const postgres of [false,true]){
   assert.equal(home.parts.CORE,0);assert.equal(await cowTicketCount(f.env.DB,7,'solo'),2);
   assert.equal(await f.coin(),before+200);
  });
- test((postgres?'PostgreSQL':'SQLite')+' party consumes expanded personal energy once and settles parts without a season',async t=>{
-  const f=await citadelFixture({postgres});t.after(()=>f.close());f.env.PERSONAL_HIDEOUT_ENABLED='1';
+ test((postgres?'PostgreSQL':'SQLite')+' party win settles one daily part per player and consumes expanded energy once',async t=>{
+  const f=await citadelFixture({postgres,squads:veteranCitadelSquads({gear:48000000})});t.after(()=>f.close());f.env.PERSONAL_HIDEOUT_ENABLED='1';
   f.clock.now=Date.parse('2026-11-17T12:00:00+09:00');
   for(const uid of [1,2])await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',HIDEOUT_KEY(uid),JSON.stringify(unlocked()));
   const call=async(uid,path,body)=>{const r=await f.action(uid,path,body);assert.equal(r.status,200,JSON.stringify(r.body));return r.body;};
@@ -50,8 +56,11 @@ for(const postgres of [false,true]){
   await call(1,'start',{id});await call(1,'loaded',{id});const {state:active}=await call(2,'loaded',{id});await call(2,'loaded',{id});
   assert.equal((await call(1,'lobby')).partyEnergy.current,1);
   f.clock.now=active.startsAt+active.duration+1;await call(1,'state?id='+id);await call(2,'state?id='+id);
-  const paid=(await readHideout(f.env,1)).state.parts.STEEL;assert.equal(paid,8);assert.equal((await readHideout(f.env,2)).state.parts.STEEL,8);
-  await call(1,'state?id='+id);assert.equal((await readHideout(f.env,1)).state.parts.STEEL,paid);
+  for(const uid of [1,2]){
+   const parts=(await readHideout(f.env,uid)).state.parts;
+   assert.equal(parts.STEEL,12);assert.equal(parts.HOUSING_PLAN,1);assert.equal(parts.ALLOY_PANEL,1);
+  }
+  await call(1,'state?id='+id);assert.equal((await readHideout(f.env,1)).state.parts.HOUSING_PLAN,1);
   f.clock.now=active.startsAt+3*3600000;assert.equal((await call(1,'lobby')).partyEnergy.current,2);
  });
  test((postgres?'PostgreSQL':'SQLite')+' real trophy ownership, reward bonuses and generic monster CARD pools',async t=>{
@@ -109,3 +118,40 @@ test('Pages forwards the enabled or closed hideout state to the actual regional 
   assert.equal(opened.env.PERSONAL_HIDEOUT_ENABLED,setting);
  }
 });
+
+for(const postgres of [false,true]){
+ const engine=postgres?'PostgreSQL':'SQLite';
+ test(engine+' premium skin debits three balances atomically, retries once and equips free',async t=>{
+  const f=await jointFixture(t,{postgres}),skin=HIDEOUT_SKINS[0];
+  f.env.PERSONAL_HIDEOUT_ENABLED='1';
+  const state={...unlocked(),level:3};
+  state.placements.push({id:'sofa-01',kind:'decor',code:'sofa',room:'main',x:500,y:600,flipped:false});
+  for(const [code,amount] of Object.entries(skin.parts))state.parts[code]=amount;
+  await f.setting(HIDEOUT_KEY(7),state);
+  await f.p("INSERT INTO inventory_items(code,name,rarity,image_url) VALUES('MASTER_STAR','Master Star','SPECIAL','/star.png') ON CONFLICT(code) DO NOTHING").run();
+  await f.p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,'MASTER_STAR',?)",skin.stars-1).run();
+  await f.p('UPDATE users SET coin=? WHERE id=7',skin.coin+200).run();
+  const stars=async()=>Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='MASTER_STAR'").first()).quantity);
+  const unlock={requestId:crypto.randomUUID(),revision:state.revision,skin:skin.code};
+  await assert.rejects(mutateHideout(f.env,7,'unlockSkin',unlock),e=>e.code==='HIDEOUT_SKIN_FUNDS');
+  await f.p("UPDATE cnine_user_inventory SET quantity=? WHERE user_id=7 AND item_code='MASTER_STAR'",skin.stars+100).run();
+  f.fail('INSERT INTO inventory_logs');
+  await assert.rejects(mutateHideout(f.env,7,'unlockSkin',unlock),/INJECTED/);
+  f.fail('');
+  assert.equal(await f.coin(),skin.coin+200);
+  assert.equal(await stars(),skin.stars+100);
+  assert.deepEqual((await readHideout(f.env,7)).state.unlockedSkins,[]);
+  const paid=await mutateHideout(f.env,7,'unlockSkin',unlock);
+  assert.deepEqual(paid.state.unlockedSkins,[skin.code]);
+  assert.deepEqual(paid.skinPayment.parts,skin.parts);
+  assert.equal(paid.state.parts.CORE,0);
+  assert.equal((await mutateHideout(f.env,7,'unlockSkin',unlock)).replayed,true);
+  await assert.rejects(mutateHideout(f.env,7,'unlockSkin',{...unlock,requestId:crypto.randomUUID(),revision:paid.state.revision}),e=>e.code==='HIDEOUT_SKIN_OWNED');
+  const equipped=await mutateHideout(f.env,7,'equipSkin',{requestId:crypto.randomUUID(),revision:paid.state.revision,id:'sofa-01',skin:skin.code});
+  assert.equal(equipped.state.placements[0].skin,skin.code);
+  const base=await mutateHideout(f.env,7,'equipSkin',{requestId:crypto.randomUUID(),revision:equipped.state.revision,id:'sofa-01',skin:null});
+  assert.equal(base.state.placements[0].skin,null);
+  assert.equal(await f.coin(),200);
+  assert.equal(await stars(),100);
+ });
+}

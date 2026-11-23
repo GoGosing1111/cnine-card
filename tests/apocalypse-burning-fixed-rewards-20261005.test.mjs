@@ -7,6 +7,7 @@ import * as miracle from '../functions/_miracle_burning.js';
 import {normalizeApocalypseSettings} from '../functions/_pve_nightmare.js';
 import {reserveApocalypseBattle,registerApocalypseChallenge,apocalypseChallengeAction} from '../functions/_apocalypse_challenge.js';
 import {__avatarDropPoolTest} from '../functions/_drop_pool.js';
+import {readHideout} from '../functions/_personal_hideout.js';
 import {apocalypseFixture} from './helpers/apocalypse-fixture.mjs';
 
 const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
@@ -25,14 +26,15 @@ const modes=[['OFF',1],['BURNING',1.5],['BURNING',10],['HYPER',2.5],['HYPER',30]
 const bonuses={75:{coinPercent:25,masterStars:300,mysticEnergy:4},76:{coinPercent:10,masterStars:1200,mysticEnergy:9}};
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: every Burning mode preserves boss-specific star and mystic quantities through completion and replay`,async t=>{
-  const f=await apocalypseFixture({postgres});t.after(()=>f.close());
+  const f=await apocalypseFixture({postgres});t.after(()=>f.close());f.env.PERSONAL_HIDEOUT_ENABLED='1';
+  const now=Date.parse('2026-11-24T12:00:00+09:00');
   const quantity=async code=>Number((await f.p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',f.user.id,code).first())?.quantity||0);
   for(const [mode,multiplier] of modes){
     const event=burning.cleanBurningEventSettings({enabled:mode!=='OFF',endsAt:new Date(Date.now()+3600000).toISOString(),battleRewardMultiplier:multiplier},mode==='OFF'?'BURNING':mode);
     const base={apocalypse:normalizeApocalypseSettings({monsterProfiles:Object.fromEntries(Object.entries(bonuses).map(([id,bonus])=>[id,{clearBonus:bonus}]))})};
     const settings=burning.applyBurningPveSettings(base,event);
     for(const [id,expected] of Object.entries(bonuses)){
-      const requestId=crypto.randomUUID(),runToken=crypto.randomUUID(),monsterId=Number(id),now=Date.now(),reward=burning.burningRewardAmount(400,event);
+      const requestId=crypto.randomUUID(),runToken=crypto.randomUUID(),monsterId=Number(id),reward=burning.burningRewardAmount(400,event);
       const bonus=settings.apocalypse.monsterProfiles[id].clearBonus;
       const plan=await planRewards(f.env,{user:f.user,requestId,monster:{id:monsterId,is_boss:1},reward,won:true,card:null,duplicateShards:0,pveMagic:{enabled:false},bonus});
       assert.equal(plan.bonuses.masterStars,expected.masterStars,`${mode} ${multiplier}x boss ${id} stars`);
@@ -61,6 +63,8 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ever
     const unset=await planRewards(f.env,{user:f.user,requestId:crypto.randomUUID(),monster:{id:77},reward:400*multiplier,won:true,pveMagic:{enabled:false},bonus:{}});
     assert.equal(unset.bonuses.masterStars,0);assert.equal(unset.bonuses.mysticEnergy,0);
   }
+  const salvage=(await readHideout(f.env,f.user.id)).state.parts;
+  assert.equal(salvage.HOUSING_PLAN,1);assert.equal(salvage.LEATHER_KIT,1);assert.equal(salvage.STEEL,16*16);
 });
 
 test('Miracle unified drops change probability only, never the configured star or mystic quantity',()=>{

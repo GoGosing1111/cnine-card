@@ -63,7 +63,7 @@ test('a pre-change winning settlement replays its original receipt after its buc
   const f=await jointFixture(t,{postgres:true}),seed='historical-ticket-fixture';
   await exec(f,'INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,seed);
   const source='PVE_SWEEP',id=winningId(7,source,401,seed);
-  const settle=()=>settleRankedHunt(f.env,7,'HUNT',id,100,'historical sweep',{sweep:true});
+  const settle=async()=>(await settleRankedHunt(f.env,7,'HUNT',id,100,'historical sweep',{sweep:true})).cowTicket;
   assert.equal(await cowTicketOutcome(f.env,7,source,id),null);
   const miss=await cowTicketAward(f.env,7,source,id);assert.deepEqual(miss,{ticket:null,statements:[]});
   // Settle the original party win, then restore the digest that the new policy rejects.

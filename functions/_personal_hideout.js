@@ -1,6 +1,6 @@
-import {HIDEOUT_KEY,emptyHideout,hideoutState,hideoutBenefits,hideoutAward,publicHideout,changeHideout} from '../shared/personal-hideout-v1.mjs';
+import {HIDEOUT_KEY,emptyHideout,hideoutState,hideoutBenefits,hideoutAward,hideoutDailyAward,HIDEOUT_SKINS,publicHideout,changeHideout} from '../shared/personal-hideout-v1.mjs';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
-import {jointHash} from './_joint_transactions.js';
+import {jointHash,jointInventoryChange} from './_joint_transactions.js';
 import {readJointBody} from './_joint_request.js';
 import {readTrophyHonors} from './_trophy_honors.js';
 import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261101-renewal1';
@@ -21,10 +21,19 @@ export async function hideoutTrophies(env,uid){
 // transaction; an event receipt and the material delta can never commit apart.
 // SQL applies deltas to the latest JSON row, without a read per swept battle.
 export function hideoutAwardStatements(env,event,{guard='1=1',values=[],randomInt}={}){
- const gains=hideoutEnabled(env)?hideoutAward(event,randomInt):null;if(!gains)return [];
+ if(!hideoutEnabled(env))return [];
+ const gains=hideoutAward(event,randomInt),daily=hideoutDailyAward(event,randomInt);
+ if(!gains&&!daily)return [];
  const uid=Number(event.userId);
  if(!Number.isSafeInteger(uid)||uid<1||typeof event.eventId!=='string'||!event.eventId||event.eventId.length>220)throw Error('Invalid hideout combat event');
- const key=HIDEOUT_KEY(uid),receipt='personal_hideout_reward_v1:'+uid+':'+event.source+':'+event.eventId;
+ const standard=gains?rewardStatements(env,uid,event,'personal_hideout_reward_v1:'+uid+':'+event.source+':'+event.eventId,gains,guard,values):[];
+ const bonus=daily?rewardStatements(env,uid,event,'personal_hideout_daily_v1:'+uid+':'+event.source+':'+daily.day,daily.gains,guard,values):[];
+ const writes=[...bonus,...standard];
+ writes.hideoutAward=standard.hideoutAward;writes.hideoutReceipt=standard.hideoutReceipt;
+ return writes;
+}
+function rewardStatements(env,uid,event,receipt,gains,guard,values){
+ const key=HIDEOUT_KEY(uid);
  const token=crypto.randomUUID(),raw=JSON.stringify({version:1,token,source:event.source,eventId:event.eventId,gains});
  const entries=Object.entries(gains),pg=env.DB.dialect==='postgres';
  let expression;
@@ -58,13 +67,27 @@ export async function mutateHideout(env,uid,action,body){
  const old=await replay();if(old)return old;
  const before=await readHideout(env,uid),token=crypto.randomUUID(),ownedTrophies=action==='trophy'?await hideoutTrophies(env,uid):[];
  const state={...changeHideout(before.state,action,body,{newId:token,ownedTrophies}),mutationToken:token};
- const response={ok:true,action,requestId:body.requestId,...publicHideout(state)};
+ const skin=action==='unlockSkin'?HIDEOUT_SKINS.find(x=>x.code===body.skin):null;
+ if(skin){
+  const wallet=await p(env,"SELECT u.coin,COALESCE(i.quantity,0) AS stars FROM users u LEFT JOIN cnine_user_inventory i ON i.user_id=u.id AND i.item_code='MASTER_STAR' WHERE u.id=?",uid).first();
+  if(!wallet||BigInt(wallet.coin)<BigInt(skin.coin)||Number(wallet.stars)<skin.stars)throw Object.assign(Error('코인 또는 마스터의 별이 부족합니다.'),{code:'HIDEOUT_SKIN_FUNDS',status:409});
+ }
+ const response={ok:true,action,requestId:body.requestId,...publicHideout(state),...(skin?{skinPayment:{coin:skin.coin,stars:skin.stars,parts:skin.parts}}:{})};
  await ensureJointAtomicSchema(env);
  const raw=JSON.stringify(state),stateKey=HIDEOUT_KEY(uid);
  const cas=before.raw===null?p(env,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',stateKey,raw):p(env,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,stateKey,before.raw);
  const writes=[cas,jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[stateKey,raw]),
   p(env,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',key,JSON.stringify({hash,response})),
   jointGuardEnd(env.DB,token)];
+ if(skin){
+  const paymentToken=crypto.randomUUID(),reason='은신처 스킨 해금 · '+skin.name;
+  writes.unshift(
+   jointGuard(env.DB,paymentToken,"EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=CAST(? AS BIGINT))",[uid,skin.coin]),
+   p(env,'UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=CAST(? AS BIGINT)',skin.coin,uid,skin.coin),
+   p(env,'INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-skin.coin,reason,uid),
+   ...jointInventoryChange(env.DB,uid,'MASTER_STAR',-skin.stars,reason,key),jointGuardEnd(env.DB,paymentToken)
+  );
+ }
  if(env.DB.dialect==='postgres')writes.unshift(p(env,'SELECT id FROM users WHERE id=? FOR UPDATE',uid));
  try{await env.DB.batch(writes);}catch(error){
   const saved=await replay();if(saved)return saved;
@@ -81,7 +104,7 @@ export async function handlePersonalHideout({path,request,env,deps}){
   if(path==='hideout'&&request.method==='GET')return reply({ok:true,enabled:hideoutEnabled(env),...publicHideout((await readHideout(env,user.id)).state),trophyCatalog:TROPHY_CATALOG.map(t=>({code:t.code,name:t.name,image:t.art}))});
   if(path==='hideout/trophies'&&request.method==='GET')return reply({ok:true,trophies:await hideoutTrophies(env,user.id)});
   const action=path.slice(8);
-  const fields={upgrade:['target','room'],arrange:['placements'],expand:['room'],decorate:['item','room'],trophy:['id','trophyCode','slot']};
+  const fields={upgrade:['target','room'],arrange:['placements'],expand:['room'],decorate:['item','room'],trophy:['id','trophyCode','slot'],unlockSkin:['skin'],equipSkin:['id','skin']};
   if(request.method!=='POST'||!Object.hasOwn(fields,action))return reply({error:'지원하지 않는 은신처 요청입니다.'},405);
   const body=await readJointBody(request,{fields:['requestId','revision',...fields[action]],maxBytes:32768});
   return reply(await deps.withUserMutationLock(env,user.id,path,()=>mutateHideout(env,user.id,action,body)));
