@@ -294,11 +294,15 @@
     const difficultyButtons = PVE_MONSTER_TABS.map(tab =>
       `<button type="button" class="${state.tab === tab ? 'active' : ''}" aria-pressed="${state.tab === tab}" data-monster-tab="${tab}">${monsterCategoryLabel(tab)}</button>`
     ).join('');
+    const gearLabel = monster => {
+      const gear = monster.equipmentBenchmark;
+      return gear ? number(gear.tier) + '단 +' + number(gear.level) + '강' : '';
+    };
     const targets = rows.map(monster => {
       const active = Number(monster.id) === Number(selected?.id);
       const thumb = monster.image ? `<img src="${esc(monster.image)}" alt="" loading="lazy" decoding="async">` : lobbyIcon('hunt');
       return `<button type="button" class="pvev2-monster${active ? ' active' : ''}" aria-pressed="${active}" data-monster="${Number(monster.id)}">
-        ${thumb}<span><b>${esc(monster.name)}</b><em>전투력 ${number(monster.battlePower)}</em></span></button>`;
+        ${thumb}<span><b>${esc(monster.name)}</b><em>${monster.equipmentBenchmark ? '용병 장비 ' + gearLabel(monster) : '전투력 ' + number(monster.battlePower)}</em></span></button>`;
     }).join('');
     const options = rows.map(monster =>
       `<option value="${Number(monster.id)}"${monster === selected ? ' selected' : ''}>${esc(monster.name)}</option>`
@@ -320,6 +324,7 @@
     function renderTarget() {
       const hero = root.querySelector('.pvev2-hunt-hero');
       if (!hero || !selected) return;
+      const benchmark = gearLabel(selected);
       const requiredPower = Math.max(0, Number(selected.recommendedPower ?? selected.battlePower ?? 0));
       const powerDelta = myPower - requiredPower, powerReady = powerDelta >= 0;
       const apocalypse = state.tab === 'APOCALYPSE', huntEnergy = battleEnergySnapshot(apocalypse), energyState = huntEnergy.state;
@@ -340,12 +345,12 @@
           <h2 id="pveTargetName">${esc(selected.name)}</h2>
           ${minions ? `<p>보스 1마리와 쫄몹 ${minions}마리를 모두 처치하세요. 봉인·회복 불가·궁극기에 대비하세요.${suitDefense > 0 ? ` 배틀슈트 스킬 피해 ${number(suitDefense)}% 감소.` : ''}</p>` : ''}
           <dl class="pvev2-target-facts">
-            <div><dt>권장 전투력</dt><dd>${number(requiredPower)}</dd></div>
+            <div><dt>${benchmark ? '비교 용병 장비' : '권장 전투력'}</dt><dd>${benchmark || number(requiredPower)}</dd></div>
             <div><dt>내 전투력</dt><dd>${number(myPower)}</dd></div>
             <div class="pvev2-target-reward"><dt>승리 보상</dt><dd>${number(selected.rewardCoin)} <span>코인</span></dd></div>
           </dl>
-          <details class="pvev2-power-guide"><summary>권장 대비 ${powerReady ? '+' : ''}${number(powerDelta)}${requiredPower ? ` (${powerReady ? '+' : ''}${(powerDelta / requiredPower * 100).toFixed(1)}%)` : ''}</summary>
-            <p>${selected.recommendedPowerSource === 'ENGINE_ESTIMATE' ? '아포칼립스 권장 전투력은 전투 엔진의 승률 50% 추정치입니다.' : '권장 전투력에 미달해도 도전할 수 있습니다.'}</p></details>
+          ${benchmark ? `<details class="pvev2-power-guide"><summary>장비 비교 기준</summary><p>용병 2명 모두 다섯 부위를 ${benchmark}으로 갖춘 편성에서 검증했습니다. 펫 성장과 장비 연마도 전투에 반영됩니다.</p></details>` : `<details class="pvev2-power-guide"><summary>권장 대비 ${powerReady ? '+' : ''}${number(powerDelta)}${requiredPower ? ` (${powerReady ? '+' : ''}${(powerDelta / requiredPower * 100).toFixed(1)}%)` : ''}</summary>
+            <p>${selected.recommendedPowerSource === 'ENGINE_ESTIMATE' ? '아포칼립스 권장 전투력은 전투 엔진의 승률 50% 추정치입니다.' : '권장 전투력에 미달해도 도전할 수 있습니다.'}</p></details>`}
           <div class="pvev2-hunt-attempts${apocalypse ? ' apocalypse-energy' : ''}" data-energy-kind="${apocalypse ? 'APOCALYPSE' : 'STANDARD'}"><span><small>${esc(huntEnergy.label)}</small><b>${esc(huntEnergy.text)}</b></span><em>${esc(huntEnergy.timer)}</em></div>
           ${ruleViolation ? `<div class="pvev2-hunt-rule-block">${esc(pveGradeLimitLabel(ruleViolation.grade))} ${ruleViolation.count}장 편성 · 최대 ${ruleViolation.limit}장까지 편성할 수 있습니다.</div>` : ''}
           ${!deckReady ? '<p>덱 편성에서 출전 카드 5장을 저장하세요.</p>' : ''}

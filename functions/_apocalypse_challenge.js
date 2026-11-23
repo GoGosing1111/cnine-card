@@ -1,5 +1,5 @@
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
-import {apocalypseTrioLimits} from '../shared/apocalypse-trio-v1.mjs';
+import {apocalypseMonsterLimits} from '../shared/apocalypse-legion-v1.mjs';
 import {prepareApocalypseRewards} from './_apocalypse_rewards.js';
 
 const PREFIX='apocalypse_battle_v2:',WINDOW_MS=6000,GRACE_MS=1000,LEASE_MS=20000,RETENTION_MS=20*60*1000;
@@ -7,7 +7,7 @@ const fail=(message,status=409)=>{throw Object.assign(new Error(message),{status
 const integer=(value,max)=>value==null||value===''?null:Math.max(0,Math.min(max,Math.floor(Number(value)||0)));
 export function normalizeApocalypseBonus(raw={},monsterId=0){
   raw=raw&&typeof raw==='object'?raw:{};
-  return {coinPercent:integer(raw.coinPercent,1000),masterStars:integer(raw.masterStars,apocalypseTrioLimits(monsterId).masterStars),mysticEnergy:integer(raw.mysticEnergy,10000)};
+  return {coinPercent:integer(raw.coinPercent,1000),masterStars:integer(raw.masterStars,apocalypseMonsterLimits(monsterId).masterStars),mysticEnergy:integer(raw.mysticEnergy,10000)};
 }
 export function validateApocalypseRequestId(requestId){
   if(!/^[A-Za-z0-9:_.-]{8,120}$/.test(String(requestId||'')))fail('전투 요청 번호를 확인하세요.',400);

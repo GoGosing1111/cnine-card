@@ -17,8 +17,10 @@ export function configureTrioActors(engine){
 export function configureTrioActor(actor,defaultFacing){
  const boss=draftBoss(actor.battleCard||actor);
  if(!boss){
-  if(actor.trioBossKey||defaultFacing!==undefined){
-   actor.artFacing=defaultFacing??1;
+  const facing=actor.battleCard?.projectVMonsterArt?.artFacing;
+  if(actor.trioBossKey||actor.hasDirectedMonsterArt||facing!==undefined||defaultFacing!==undefined){
+   actor.hasDirectedMonsterArt=facing!==undefined;
+   actor.artFacing=facing??defaultFacing??1;
    actor.applyFacing();
   }
   if(actor.trioBossKey){

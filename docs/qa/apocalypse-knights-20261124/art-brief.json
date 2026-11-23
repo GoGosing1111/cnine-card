@@ -1,0 +1,42 @@
+{
+  "generator": "ImageGen",
+  "nativeBattleFacing": "LEFT",
+  "assets": [
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-knights-20261124/rahden-portrait.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "transparentPixels": 0,
+      "sha256": "32d1cfd1eae21e6b8008a06ab94f8ed261778e2bf746150d399617c00458b4c1",
+      "prompt": "Commission a NEW original premium Korean dark fantasy game boss key illustration, an infernal crimson swordsman. The attached reference is the art-direction benchmark for silhouette, long blade, oppressive power, and rendering. Get ALL THREE right: (1) a razor-sharp, long tapered black helm and fully closed facial visor, sculptural overlapping bladed black plate and torn flowing cloak, sharp long V ridges reflecting crimson; (2) high-end painted anime fantasy game illustration with clean graphic planes, razor-sharp edges on blackened polished surfaces, saturated molten crimson against deep cold indigo night, handsome coherent adult anatomy, absolutely avoid photographic European historical-knight realism or dirty brown muted palettes; (3) a truly long, straight, elegantly tapered pointed greatsword, hard bevel, black volcanic steel with luminous scarlet interlocking wire inlay and an intense red core/edge. He is tall and imposing, with natural adult proportions, small anatomical human head and long limbs. Design a unique helm using THREE backward sweeping obsidian lance fins, a luminous diagonal crimson split beneath its brow, and a layered chainmail jaw; asymmetric sawtooth glass shoulder and split flowing black mantle, red lining. Design a new sculpted swept-wing crossguard with a suspended deep-red ember jewel. Pose is powerful, moment before a duel: both hands firmly around the sword grip at mid-chest, long blade nearly vertical and leaning forwards to screen LEFT, tip by leading foot. Side three-quarter stance looking left with upper body subtly turned toward camera, eyes toward opponent on left. Lower viewpoint, one leading leg bent, rear leg extended; powerful, not just standing in profile. In a night landscape of shattered basalt spires and driving rain. Captivating ink-black, crimson and steel-blue palette, cinematic crimson reflections on armor, broad graphic black-to-red flowing shapes, clear focal point visor and blade. Entire figure and sword comfortably framed; use a vertical 2:3 game illustration composition, character large with cape receding into depth. No logos, captions, UI or typography. NO round metal kettle hat, no halo or astrolabe, no rusty bell foundry, no flat-ended cleaver, no potbelly or squat anatomy, no chibi. Do not copy original marks or exact costume. This is a new designed boss, not a rendering of the existing reference."
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-knights-20261124/rahden-battle.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "transparentPixels": 723363,
+      "sha256": "94ff0402708a4f2159f3f79a23ba126443fd150a2a25b4ea1f22cb867ebf245e",
+      "prompt": "Isolate the single original full-length crimson knight and his sword from this attached commissioned splash illustration as a transparent battle actor. Identity and proportional fidelity are paramount: preserve the narrow angular three-fin backswept black helm with single scarlet slit and chainmail below, fractured jasper armor planes, red-inlaid black cuirass and long split black-and-red mantle, exact pointed sword and winged black guard with hanging ember jewel. Keep the adult full anatomical proportions from the illustration: small human head, articulated torso, long arms and legs, long blade tip to hilt. Same premium sharp painted game illustration style and scarlet/indigo lighting. Standing braced, weight on the hind foot, helmet and gaze in 3/4 profile turned LEFT, two natural gauntlets on the handle near mid-chest, sword downward and a little to screen LEFT and full blade visible. Bring the boots onto a common invisible floor and slightly closer together than the original extreme low-angle pose so it reads at game scale; keep the height, physique and gaze. Fully frame boots, helmet fins, weapon tip and cape inside transparent padding. Actual transparent alpha everywhere beyond body and equipment. Remove all background, plinth, floor, rain and landscape. Do not draw smaller superdeformed characters, do not enlarge head, do not swap weapon, no motion pose sheets, text, label, cast shadow or glow mat. Single full-body static artwork at normal human proportions."
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-knights-20261124/velsir-portrait.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "transparentPixels": 0,
+      "sha256": "429b7442a7e64d3d33b8c26825e983290d7d5db64d93dd84323e94366f775e9f",
+      "prompt": "Create a finished ORIGINAL boss illustration for the Korean dark fantasy RPG ReverseCall. Input image #2 is a MOOD reference ONLY for the cobalt ghost-fire and the idea of a swordsman. Design a completely distinct character Velsir, keeper of a drowned observatory. A long-limbed, elegant adult duelist, human proportions with a modest human-sized helm, physically convincing thighs, shins and forearms. His silhouette is defined by a smooth blackened silver funerary helm with an off-centre crescent forehead plate, a horizontal glowing pale-cyan eye line and a low, ribbon-like blue flame curving behind the helm. Polished ceremonial midnight plate over a long desaturated petrol-blue divided surcoat; three asymmetrical orbit bands of silver along the left shoulder and hip. His original, single, needle-straight translucent cobalt estoc has a silver pierced circular astrolabe guard and a double luminous core. Broad sweeping drapery hangs in one gravity-weighted diagonal. Pose different to the red executioner: on a broken stone bridge above a submerged observatory, the duelist stands sideways on the RIGHT, the LEFTWARD gaze and breastplate in three-quarter side view, near foot leading left and lowered blade aligned horizontally toward the unseen challenger on screen LEFT. Composition viewed slightly from above, flooded blue optical instruments far below reflecting silver moonlight. Full figure from helmet to boots and entire sword visible. Premium painterly dark fantasy Korean RPG key art, refined hand-wrought material detail, sophisticated blues, dramatic wet atmospheric depth. One character, portrait aspect, fully painted environment. No text, frames, numbers, UI or logos, no chibi or SD, no short legs or inflated head. Distinctly original costume, weapon, and composition; do not reproduce the attached knight."
+    },
+    {
+      "file": "assets/ui/project-v/monsters/apocalypse-knights-20261124/velsir-battle.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "transparentPixels": 868952,
+      "sha256": "a6395d7d8b18771d7148af666168e4b75da1a80410fa9b1845ab8fb3fa0a318d",
+      "prompt": "Production art extraction of OUR ATTACHED ORIGINAL Velsir illustration, isolated game combat actor on a genuinely transparent background. Precisely preserve the design, style, long adult anatomy and proportions from the reference: small crescent-visored helm and cool blue flame ribbon, lean torso, metallic ring orrery on the shoulder, hanging divided blue astronomical robes, straight blue estoc with pierced astrolabe hilt. NO redraw into SD, chibi, shortened legs or oversized head. Keep the original naturally proportioned adult character geometry, rendered materials, and dark painted tone exactly as shown. Show him standing, both feet firmly planted, full boots, head, mantle, flame and entire blade with breathing room. Clear three-quarter LEFTWARD profile, eyes, weapon and front boot looking to the LEFT side of the picture. Hold the sword a little down and forward, in a compact guard nearly diagonal toward lower LEFT so the blade fits. Empty alpha beyond the edges; remove the entire landscape, ground, platform, moon, instruments, sky, external stars and reflections. Normal adult full-length combat art; retain contrast so the helm and silhouette are readable in game. No ground shadow, border, label, typography or UI. Portrait canvas with proportional scaling; preserve adult head-to-heel ratio."
+    }
+  ]
+}

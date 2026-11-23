@@ -1,5 +1,6 @@
 import {Text} from 'pixi.js';
 import {playTrioSkill} from './TrioPlayback.js';
+import {playKnightSigils} from './KnightSigils.js';
 import {apocalypseLegionSkill} from '../../../../shared/apocalypse-legion-v1.mjs';
 import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
 import {SahyeonFX} from '../../../apocalypse-sahyeon-20261019-v1/SahyeonFX.mjs';
@@ -18,6 +19,11 @@ export async function playApocalypseLegionSkill(engine,event){
  const record=hollowLens?(engine.lastSahyeonPlayback={code:skill.code,kind:skill.kind,impacts:0,targets:0,damage:0,duration:skill.duration,authority:'SERVER_TIMELINE'}):null;
  let applied=false;
  const apply=()=>{if(applied||engine.battleData!==session||engine.playbackEpoch!==epoch||engine.disposed)return;applied=true;if(record)record.impacts++;for(const hit of hits){const t=engine.combatantById(hit.targetId);if(!t)continue;if(hit.statuses)showApocalypseStatus(engine,{targetId:hit.targetId,statuses:hit.statuses});if(Number.isFinite(hit.targetHpAfter))engine.syncTargetHp(t,engine.eventHpPercent(t,hit.targetHpAfter,hit.targetMaxHp));if(Number.isFinite(hit.targetShieldAfter))engine.syncTargetShield(t,hit.targetShieldAfter);if(hit.damage>0)engine.showAccountBattleUnitDamage(t,{damage:hit.damage+Number(hit.absorbed||0),critical:false,playbackRate:engine.paceScale||1});if(record){record.targets++;record.damage+=Number(hit.damage||0);}}};
+ if(skill.visual==='KNIGHT_SIGIL'){
+  engine.queueBanner(skill.name,skill.tint,'아포칼립스');
+  await playKnightSigils(engine,skill,targets,apply);
+  return true;
+ }
  let timer;const frames=await Promise.race([ApocalypseLegionFX.preload(skill).catch(()=>null),new Promise(resolve=>{timer=setTimeout(()=>resolve(null),1800);})]);clearTimeout(timer);
  if(engine.battleData!==session||engine.playbackEpoch!==epoch||engine.disposed)return false;
  engine.queueBanner(skill.name,skill.kind==='curse'?0xd79cff:0xff809a,'아포칼립스');

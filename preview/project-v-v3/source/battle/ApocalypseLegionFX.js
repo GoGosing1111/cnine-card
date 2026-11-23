@@ -7,6 +7,7 @@ export class ApocalypseLegionFX{
  static unloading=new Map();
  static skills=new Map();
  static async preload(skill){
+  if(skill.visual==='KNIGHT_SIGIL')return null;
   if(skill.visual==='HOLLOW_LENS')return SahyeonFX.preload();
   if(skill.visual==='APOCALYPSE_TRIO')return TrioFX.preload(skill.boss);
   if(this.cache.has(skill.code))return this.cache.get(skill.code);

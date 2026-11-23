@@ -1,0 +1,32 @@
+[
+  {
+    "boss": "rahden",
+    "width": 390,
+    "settlement": "CLAIMED",
+    "facings": 1844,
+    "wrongFacing": 0,
+    "textures": 1,
+    "casts": {
+      "RAHDEN_SEAL": 2,
+      "RAHDEN_CURSE": 3,
+      "RAHDEN_ULTIMATE": 2
+    },
+    "remainingMarks": 0,
+    "overflow": false
+  },
+  {
+    "boss": "velsir",
+    "width": 390,
+    "settlement": "CLAIMED",
+    "facings": 1600,
+    "wrongFacing": 0,
+    "textures": 1,
+    "casts": {
+      "VELSIR_CURSE": 7,
+      "VELSIR_SEAL": 4,
+      "VELSIR_ULTIMATE": 7
+    },
+    "remainingMarks": 0,
+    "overflow": false
+  }
+]

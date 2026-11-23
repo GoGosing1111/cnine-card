@@ -47,7 +47,7 @@ function gearItem(row,userId,advanced=null){
 }
 const gearColumns='x.user_id,x.id AS instance_id,x.equipment_id,i.code,i.name,i.slot,i.rarity,i.total_power,i.pve_power,i.pvp_power,COALESCE(s.level,0) AS level,p.value';
 const gearJoins="LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT))";
-function runtime(rows,id,mode,revision,advanced){
+export function buildMercenaryEquipmentRuntime(rows,id,mode,revision,advanced){
  const items=rows.map(r=>gearItem(r,id,advanced));
  const standard=mode==='PVE'?equipmentGrowthFromRows(rows.map(r=>({...r,id:r.instance_id})),id):ascendantEquipmentEffects(rows.map(r=>r.code),'PVP');
  if(mode==='PVP'){
@@ -65,7 +65,7 @@ export async function mercenaryEquipmentRuntimes(env,userIds,mode='PVE',{records
  mode=mercenaryMode(mode);records??=await readMercenaryEquipmentRecords(env,userIds);
  const selected=[...records].flatMap(([id,r])=>Object.entries(r.state.loadouts).filter(([code])=>!selections||selections.get(id)?.includes(code)).flatMap(([code,modes])=>SLOTS.filter(s=>modes[mode][s]).map(s=>[id,code,s,modes[mode][s]])));
  const rows=[];for(let offset=0;offset<selected.length;offset+=200){const chunk=selected.slice(offset,offset+200);rows.push(...(await env.DB.prepare(`WITH selected(user_id,mercenary_code,slot,instance_id) AS (VALUES ${chunk.map(()=>'(CAST(? AS BIGINT),CAST(? AS TEXT),CAST(? AS TEXT),CAST(? AS BIGINT))').join(',')}) SELECT l.mercenary_code,${gearColumns} FROM selected l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.slot=l.slot AND i.is_active=1 AND i.is_public=1 ${gearJoins} WHERE i.code IN (${SQL_CODES})`).bind(...chunk.flat()).all()).results);}const advanced=await readForgeAdvancedForLevels(env.DB,rows);
- return new Map([...records].map(([id,r])=>{const byMercenary=Object.fromEntries(Object.keys(r.state.loadouts).map(code=>[code,runtime(rows.filter(x=>Number(x.user_id)===id&&x.mercenary_code===code),id,mode,r.state.revision,advanced)]));return [id,{...(byMercenary[r.selection.loadouts[mode].mercenaryCode]??runtime([],id,mode,r.state.revision,advanced)),byMercenary}];}));
+ return new Map([...records].map(([id,r])=>{const byMercenary=Object.fromEntries(Object.keys(r.state.loadouts).map(code=>[code,buildMercenaryEquipmentRuntime(rows.filter(x=>Number(x.user_id)===id&&x.mercenary_code===code),id,mode,r.state.revision,advanced)]));return [id,{...(byMercenary[r.selection.loadouts[mode].mercenaryCode]??buildMercenaryEquipmentRuntime([],id,mode,r.state.revision,advanced)),byMercenary}];}));
 }
 export const equipmentForMercenary=(map,id,code)=>map.get(Number(id))?.byMercenary?.[code];
 export async function attachMercenaryEquipment(env,snapshots,mode){

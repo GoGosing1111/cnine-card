@@ -12,6 +12,8 @@ import zenith from '../assets/ui/project-v/characters/zenith/manifest-v1.json' w
 import fur from '../assets/ui/project-v/characters/fur/manifest-v2.json' with {type:'json'};
 import superstar from '../assets/ui/project-v/characters/superstar/manifest-v1.json' with {type:'json'};
 import {BOSSES,apocalypseTrioLiveProfile} from '../shared/apocalypse-trio-v1.mjs';
+import {APOCALYPSE_KNIGHTS,knightProfile} from '../shared/apocalypse-knights-v1.mjs';
+import {verifyKnightScreen} from './helpers/apocalypse-knight-browser.mjs';
 import {snapshot} from './helpers/helios-king-balance-20261106.mjs';
 import {createHash} from 'node:crypto';
 import {pveDifficultyRuntime} from '../functions/_pve_nightmare.js';
@@ -20,15 +22,16 @@ import {apocalypseFixture} from './helpers/apocalypse-fixture.mjs';
 import {reserveApocalypseBattle,registerApocalypseChallenge,apocalypseChallengeAction} from '../functions/_apocalypse_challenge.js';
 
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
-const root=path.resolve(import.meta.dirname,'..'),out=process.env.TRIO_QA_OUTPUT||path.join(root,'docs/qa/apocalypse-trio-live-20261106/browser'),production=process.argv.includes('--production'),captureOnly=process.argv.includes('--capture-only');
+const knights=process.argv.includes('--knights');
+const root=path.resolve(import.meta.dirname,'..'),out=process.env.TRIO_QA_OUTPUT||path.join(root,knights?'docs/qa/apocalypse-knights-20261124/browser':'docs/qa/apocalypse-trio-live-20261106/browser'),production=process.argv.includes('--production'),captureOnly=process.argv.includes('--capture-only');
 fs.mkdirSync(out,{recursive:true});
 const useSaved=process.env.TRIO_SAVED_PARTY==='1';
-const cards=useSaved?savedParty.samples[0].teams.A.cards.map(c=>({...c,id:c.cardId,name:c.title,rarity:c.grade,power_type:c.type})):[...fur.characters.slice(0,2),...zenith.characters.slice(0,2),superstar.characters[0]].map((c,i)=>({id:c.cardId,cardId:c.cardId,title:c.member,name:c.member,image:'/'+c.sourceArt,rarity:i<2?'FUR':i<4?'ZENITH':'SUPERSTAR',power:2e8,basePower:2e8,power_type:['HP','DEFENSE','DEFENSE','ATTACK','SPEED'][i]})),deck=cards.map(c=>c.id);
-const scenarios=BOSSES.map(boss=>{
- const profile=apocalypseTrioLiveProfile(boss,reference.profile),runtime=pveDifficultyRuntime({apocalypse:{enabled:true,monsterProfiles:{[boss.monsterId]:profile}}},{id:boss.monsterId,name:boss.name,pve_tab:'APOCALYPSE',is_boss:1,image_url:boss.sourceArt});
+const cards=useSaved?savedParty.samples[0].teams.A.cards.map(c=>({...c,id:c.cardId,name:c.title,rarity:c.grade,power_type:c.type})):[...fur.characters.slice(0,2),...zenith.characters.slice(0,2),superstar.characters[0]].map((c,i)=>({id:c.cardId,cardId:c.cardId,title:c.member,name:c.member,image:'/'+c.sourceArt,rarity:i<2?'FUR':i<4?'ZENITH':'SUPERSTAR',power:knights?5e9:2e8,basePower:knights?5e9:2e8,power_type:['HP','DEFENSE','DEFENSE','ATTACK','SPEED'][i]})),deck=cards.map(c=>c.id);
+const scenarios=(knights?APOCALYPSE_KNIGHTS:BOSSES).map(boss=>{
+ const profile=knights?knightProfile(boss,apocalypseTrioLiveProfile(BOSSES.at(-1),reference.profile)):apocalypseTrioLiveProfile(boss,reference.profile),runtime=pveDifficultyRuntime({apocalypse:{enabled:true,monsterProfiles:{[boss.monsterId]:profile}}},{id:boss.monsterId,name:boss.name,pve_tab:'APOCALYPSE',is_boss:1,image_url:boss.sourceArt});
  let battle=createPveBattleV2({cards,mercenaries:['V-966','V-953'].map(c=>snapshot(c,21,'PVE',1e8)),monster:runtime.engineMonster,seed:17});
  if(useSaved){const sample=savedParty.samples[0],r=replaySavedBattle(sample,{boss,profile,seed:17});r.supports={A:r.final.A.filter(c=>c.isBattleSuit),B:[]};r.final.mercenaries={A:r.final.A.filter(c=>c.isMercenary),B:[]};r.final.A=r.final.A.filter(c=>!c.isBattleSuit&&!c.isMercenary);battle={...battle,seed:17,rules:sample.rules,teams:{...battle.teams,A:structuredClone(sample.teams.A)},result:r};}
- const monster={id:boss.monsterId,name:boss.name,image:boss.sourceArt,battlePower:profile.battlePower,rewardCoin:runtime.effectiveRewardCoin,isBoss:true,pveTab:'APOCALYPSE',pve_difficulty:'APOCALYPSE'};
+ const monster={id:boss.monsterId,name:boss.name,image:boss.sourceArt,battlePower:profile.battlePower,rewardCoin:runtime.effectiveRewardCoin,isBoss:true,pveTab:'APOCALYPSE',pve_difficulty:'APOCALYPSE',...(knights?{equipmentBenchmark:runtime.equipmentBenchmark,recommendedPowerSource:'EQUIPMENT_BENCHMARK',apocalypse:{skill:runtime.apocalypseSkill,battleSuitSkillDefensePercent:runtime.battleSuitSkillDefensePercent}}:{})};
  return {boss,profile,runtime,battle,monster};
 });
 let active=scenarios[0];
@@ -61,7 +64,7 @@ const server=http.createServer(async(req,res)=>{try{
   }else if(key==='battle/fight'){
    latestAttempt=body.requestId;traffic.push(key);
    await reserveApocalypseBattle(f.env,{userId:2,requestId:body.requestId,runToken:body.apocalypseRunToken,monsterId:boss.monsterId});
-   const challenge=await registerApocalypseChallenge(f.env,{userId:2,requestId:body.requestId,runToken:body.apocalypseRunToken,monsterId:boss.monsterId,won:battle.result.winner==='A',battleV2:battle,plan:{reward:boss.clearRewards.coin,card:null,items:[],magic:null,unified:null,bonuses:{coin:0,masterStars:boss.clearRewards.masterStars,mysticEnergy:0}},log:{ids:deck,playerPower:10000000,monsterPower:profile.battlePower}});
+   const challenge=await registerApocalypseChallenge(f.env,{userId:2,requestId:body.requestId,runToken:body.apocalypseRunToken,monsterId:boss.monsterId,won:battle.result.winner==='A',battleV2:battle,plan:{reward:active.runtime.effectiveRewardCoin,card:null,items:[],magic:null,unified:null,bonuses:{coin:0,masterStars:profile.clearBonus.masterStars,mysticEnergy:0}},log:{ids:deck,playerPower:10000000,monsterPower:profile.battlePower}});
    data={result:'PENDING',reward:0,battleV2:structuredClone(battle),apocalypseChallenge:challenge,monster,difficulty:{isApocalypse:true,difficulty:'APOCALYPSE'},equippedBattleSuit:useSaved?{code:'BATTLE_SUIT_Z_BODY',name:'Z-BODY',pvePower:26125000}:{code:'BATTLE_SUIT_03',name:'G-BODY',pvePower:3500000},equippedWeapon:{code:'EQ_1786966923833',name:'DMR'},characterBonus:{battleSuitPve:3500000},user,energy,energyKind:'APOCALYPSE',serverNow:new Date().toISOString()};
   }else if(key.startsWith('battle/apocalypse-challenge/')){
    traffic.push(key);data={...await apocalypseChallengeAction(f.env,user,key.split('/').at(-1),body),serverNow:Date.now(),user};
@@ -76,7 +79,7 @@ const server=http.createServer(async(req,res)=>{try{
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const origin='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),reports=[];
 try{
- for(const width of process.env.TRIO_QA_ONE?[1440]:(production||process.env.TRIO_QA_MOBILE)?[390]:[1440,390])for(const scenario of process.env.TRIO_QA_ONE?scenarios.slice(0,1):scenarios){
+ for(const width of process.env.KNIGHT_QA_WIDTH?[Number(process.env.KNIGHT_QA_WIDTH)]:process.env.TRIO_QA_ONE?[1440]:(production||process.env.TRIO_QA_MOBILE)?[390]:[1440,390])for(const scenario of process.env.TRIO_QA_ONE?scenarios.slice(0,1):scenarios){
   active=scenario;const {boss,profile,battle,monster}=scenario;
   const page=await browser.newPage({viewport:{width,height:width===390?844:1000},isMobile:width===390,hasTouch:width===390,serviceWorkers:'block'}),errors=[];
   page.on('console',m=>{if(m.type()==='error'&&!m.text().includes('WebSocket connection'))console.log('CONSOLE',m.text().slice(0,1200));});page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>{console.log('DIALOG',d.message());void d.accept();});
@@ -84,8 +87,26 @@ try{
   if(production)await page.route('**/api/**',async route=>{const req=route.request();const response=await fetch(origin+new URL(req.url()).pathname,{method:req.method(),headers:{'content-type':'application/json'},body:['GET','HEAD'].includes(req.method())?undefined:req.postData()});await route.fulfill({status:response.status,contentType:'application/json',body:await response.text()});});
   await page.goto((production?'https://cnine-card.pages.dev':origin)+'/?screen=battle');await page.locator('#battleStart, #pveV2GoHunt').first().waitFor({timeout:30000});
   if(await page.locator('#pveV2GoHunt').count())await page.locator('#pveV2GoHunt').click();
-  await page.locator('[data-monster-tab="APOCALYPSE"]').click();await page.locator('[data-monster="'+boss.monsterId+'"]').click();await page.locator('#battleStart').click();
+  await page.locator('[data-monster-tab="APOCALYPSE"]').click();
+  const selector = page.locator('.pvev2-target-select');
+  if(await selector.isVisible())await selector.selectOption(String(boss.monsterId));
+  else await page.locator('[data-monster="'+boss.monsterId+'"]').click();
+  if(knights){
+   const facts=page.locator('.pvev2-target-facts');
+   assert.match(await facts.innerText(),/비교 용병 장비/);
+   assert((await facts.innerText()).includes(boss.equipmentBenchmark.tier+'단 +'+boss.equipmentBenchmark.level+'강'));
+   if(width===1440)await page.locator('.pvev2-hunt-hero').screenshot({path:path.join(out,boss.key+'-target.png')});
+  }
+  await page.locator('#battleStart').click();
   await page.locator('.apocalypse-dodge').waitFor({timeout:60000});
+  if(knights){
+   const result=await verifyKnightScreen(page,{boss,battle,width,out});
+   const saved=await apocalypseChallengeAction(f.env,user,'status',{requestId:latestAttempt});
+   assert.equal(saved.status,'CLAIMED');assert.deepEqual(errors,[]);
+   reports.push({boss:boss.key,width,settlement:saved.status,...result});
+   fs.writeFileSync(path.join(out,'browser-'+width+'.json'),JSON.stringify(reports.filter(r=>r.width===width),null,2)+'\n');
+   console.log(boss.key,width,result);await page.close();continue;
+  }
   await page.evaluate(async()=>{
    const engine=await ProjectVPixiBattle.mount(),play=engine.playEvents.bind(engine);window.__trioEngine=engine;window.__playbackQa={casts:[],visuals:{},startedAt:performance.now()};
    window.__facingSamples=[];window.__facingProbe=setInterval(()=>{const a=engine.enemies.find(a=>a.battleCard?.cardId==='MONSTER:81');if(!a?.fullBodySprite||a.hp<=0)return;const b=a.fullBodySprite,p=b.toGlobal({x:-b.texture.width*.43,y:-b.texture.height*.6}),q=b.toGlobal({x:b.texture.width*.1,y:-b.texture.height*.6});__facingSamples.push({state:a.state,view:a.view.scale.x,body:b.scale.x,muzzleX:p.x,shoulderX:q.x,skill:engine.activeTrioFX?.skill?.kind||null,visible:a.root.visible&&b.visible,renderable:a.root.renderable,bodyRotation:b.rotation,viewRotation:a.view.rotation,rootRotation:a.root.rotation,texture:[b.texture.width,b.texture.height],worldAlpha:b.worldAlpha,rootScale:a.root.scale.x});},20);

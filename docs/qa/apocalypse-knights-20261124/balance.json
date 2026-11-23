@@ -1,0 +1,423 @@
+{
+  "capturedAt": "2026-11-23T16:38:43.892Z",
+  "seedOffset": 8192,
+  "parties": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "outcomes": [
+    {
+      "id": 83,
+      "power": 6600000000,
+      "scenario": "actual",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "winRate": 1,
+      "meanSurvivorsOnWin": [
+        7,
+        7,
+        7,
+        6.9,
+        7
+      ],
+      "survivorsOnWin": {
+        "2": 3,
+        "7": 1277
+      }
+    },
+    {
+      "id": 83,
+      "power": 6600000000,
+      "scenario": "8+10",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "winRate": 1,
+      "meanSurvivorsOnWin": [
+        2.8,
+        7,
+        7,
+        4.8,
+        7
+      ],
+      "survivorsOnWin": {
+        "2": 155,
+        "3": 217,
+        "7": 908
+      }
+    },
+    {
+      "id": 83,
+      "power": 6600000000,
+      "scenario": "8+12",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "winRate": 1,
+      "meanSurvivorsOnWin": [
+        2.9,
+        7,
+        7,
+        4.8,
+        7
+      ],
+      "survivorsOnWin": {
+        "2": 128,
+        "3": 243,
+        "7": 909
+      }
+    },
+    {
+      "id": 83,
+      "power": 6600000000,
+      "scenario": "8+15",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "winRate": 1,
+      "meanSurvivorsOnWin": [
+        2.8,
+        7,
+        7,
+        4.9,
+        7
+      ],
+      "survivorsOnWin": {
+        "2": 138,
+        "3": 230,
+        "7": 912
+      }
+    },
+    {
+      "id": 83,
+      "power": 6600000000,
+      "scenario": "10+15",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "winRate": 1,
+      "meanSurvivorsOnWin": [
+        3.1,
+        7,
+        7,
+        5,
+        7
+      ],
+      "survivorsOnWin": {
+        "2": 111,
+        "3": 240,
+        "7": 929
+      }
+    },
+    {
+      "id": 84,
+      "power": 3000000000000,
+      "scenario": "actual",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        159,
+        59,
+        237,
+        0,
+        46
+      ],
+      "winRate": 0.3914,
+      "meanSurvivorsOnWin": [
+        3.6,
+        4,
+        2.9,
+        null,
+        4.9
+      ],
+      "survivorsOnWin": {
+        "1": 34,
+        "2": 71,
+        "3": 155,
+        "4": 167,
+        "5": 36,
+        "6": 38
+      }
+    },
+    {
+      "id": 84,
+      "power": 3000000000000,
+      "scenario": "8+10",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        91,
+        208,
+        0,
+        56
+      ],
+      "winRate": 0.2773,
+      "meanSurvivorsOnWin": [
+        null,
+        5,
+        2.1,
+        null,
+        4.1
+      ],
+      "survivorsOnWin": {
+        "1": 88,
+        "2": 45,
+        "3": 95,
+        "4": 10,
+        "5": 72,
+        "6": 45
+      }
+    },
+    {
+      "id": 84,
+      "power": 3000000000000,
+      "scenario": "8+12",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        96,
+        211,
+        0,
+        62
+      ],
+      "winRate": 0.2883,
+      "meanSurvivorsOnWin": [
+        null,
+        5.1,
+        2.1,
+        null,
+        4.1
+      ],
+      "survivorsOnWin": {
+        "1": 93,
+        "2": 43,
+        "3": 96,
+        "4": 11,
+        "5": 69,
+        "6": 57
+      }
+    },
+    {
+      "id": 84,
+      "power": 3000000000000,
+      "scenario": "8+15",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        110,
+        216,
+        0,
+        74
+      ],
+      "winRate": 0.3125,
+      "meanSurvivorsOnWin": [
+        null,
+        5.1,
+        2.2,
+        null,
+        2.8
+      ],
+      "survivorsOnWin": {
+        "1": 109,
+        "2": 52,
+        "3": 102,
+        "4": 7,
+        "5": 92,
+        "6": 38
+      }
+    },
+    {
+      "id": 84,
+      "power": 3000000000000,
+      "scenario": "10+15",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        120,
+        219,
+        0,
+        97
+      ],
+      "winRate": 0.3406,
+      "meanSurvivorsOnWin": [
+        null,
+        5.3,
+        2.4,
+        null,
+        2.4
+      ],
+      "survivorsOnWin": {
+        "1": 117,
+        "2": 56,
+        "3": 102,
+        "4": 18,
+        "5": 84,
+        "6": 58,
+        "7": 1
+      }
+    },
+    {
+      "id": 85,
+      "power": 3400000000000,
+      "scenario": "actual",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        82,
+        0,
+        9,
+        0,
+        0
+      ],
+      "winRate": 0.0711,
+      "meanSurvivorsOnWin": [
+        1,
+        null,
+        1,
+        null,
+        null
+      ],
+      "survivorsOnWin": {
+        "1": 91
+      }
+    },
+    {
+      "id": 85,
+      "power": 3400000000000,
+      "scenario": "8+10",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        0,
+        48,
+        0,
+        0
+      ],
+      "winRate": 0.0375,
+      "meanSurvivorsOnWin": [
+        null,
+        null,
+        1,
+        null,
+        null
+      ],
+      "survivorsOnWin": {
+        "1": 48
+      }
+    },
+    {
+      "id": 85,
+      "power": 3400000000000,
+      "scenario": "8+12",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        0,
+        49,
+        0,
+        86
+      ],
+      "winRate": 0.1055,
+      "meanSurvivorsOnWin": [
+        null,
+        null,
+        1,
+        null,
+        1
+      ],
+      "survivorsOnWin": {
+        "1": 135
+      }
+    },
+    {
+      "id": 85,
+      "power": 3400000000000,
+      "scenario": "8+15",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        0,
+        51,
+        0,
+        86
+      ],
+      "winRate": 0.107,
+      "meanSurvivorsOnWin": [
+        null,
+        null,
+        1,
+        null,
+        1
+      ],
+      "survivorsOnWin": {
+        "1": 137
+      }
+    },
+    {
+      "id": 85,
+      "power": 3400000000000,
+      "scenario": "10+15",
+      "countPerParty": 256,
+      "trials": 1280,
+      "wins": [
+        0,
+        0,
+        53,
+        0,
+        105
+      ],
+      "winRate": 0.1234,
+      "meanSurvivorsOnWin": [
+        null,
+        null,
+        1,
+        null,
+        1
+      ],
+      "survivorsOnWin": {
+        "1": 158
+      }
+    }
+  ]
+}
