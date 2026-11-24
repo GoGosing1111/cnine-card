@@ -6,13 +6,13 @@ import {legionHuntEnergy,restoreExtremeLegionEnergy} from '../functions/_legion_
 import {citadelFixture} from './helpers/legion-citadel-fixture.mjs';
 const H=3600000,S=EVENT.startsAt,E=EVENT.endsAt,record=(at,current=0)=>({version:1,current,maximum:10,updatedAt:at});
 
-test('November 23 is inclusive in Korea; only the two legion recovery rates change',()=>{
- assert.equal(new Date(E).toISOString(),'2026-11-23T15:00:00.000Z');
- for(const [at,rate] of [[S-1,1],[S,2],[E-1,2],[E,1]]){
+test('November 25 is inclusive in Korea; only the two legion recovery rates change',()=>{
+ assert.equal(new Date(E).toISOString(),'2026-11-25T15:00:00.000Z');
+ for(const [at,rate] of [[S-1,1],[S,2],[Date.parse('2026-11-24T00:00:00+09:00'),2],[E-1,2],[E,1]]){
   assert.equal(legionRechargeMs(3*H,at),3*H/rate);assert.equal(legionRechargeMs(6*H,at),6*H/rate);
  }
  assert.equal(contentEnergyView(record(S),{at:S+1.5*H,maximum:3}).current,0,'cooperative battleground remains three hours');
- assert.match(legionHuntEnergyText(record(S),S),/1시간 30분마다 1회.*11월 23일 23:59까지/);
+ assert.match(legionHuntEnergyText(record(S),S),/1시간 30분마다 1회.*11월 25일 23:59까지/);
  assert.match(legionHuntEnergyText(record(E),E),/3시간마다 1회/);assert.doesNotMatch(legionHuntEnergyText(record(E),E),/50%/);
 });
 
