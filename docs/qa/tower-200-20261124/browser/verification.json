@@ -1,0 +1,71 @@
+{
+  "environment": "local Chrome headless",
+  "reports": [
+    {
+      "width": 1440,
+      "floor": 160,
+      "regular": "혈월의 화염살쾡이",
+      "guardian": "혈월 군주",
+      "actors": 28,
+      "canvas": 1,
+      "overflow": false,
+      "entry": "1440-160-entry.webp",
+      "battle": "1440-160-battle.webp"
+    },
+    {
+      "width": 1440,
+      "floor": 180,
+      "regular": "가시뼈 포식충",
+      "guardian": "가시왕 모르가",
+      "actors": 28,
+      "canvas": 1,
+      "overflow": false,
+      "entry": "1440-180-entry.webp",
+      "battle": "1440-180-battle.webp"
+    },
+    {
+      "width": 1440,
+      "floor": 200,
+      "regular": "식월의 파수조",
+      "guardian": "나락의 군주",
+      "actors": 28,
+      "canvas": 1,
+      "overflow": false,
+      "entry": "1440-200-entry.webp",
+      "battle": "1440-200-battle.webp"
+    },
+    {
+      "width": 390,
+      "floor": 160,
+      "regular": "혈월의 화염살쾡이",
+      "guardian": "혈월 군주",
+      "actors": 28,
+      "canvas": 1,
+      "overflow": false,
+      "entry": "390-160-entry.webp",
+      "battle": "390-160-battle.webp"
+    },
+    {
+      "width": 390,
+      "floor": 180,
+      "regular": "가시뼈 포식충",
+      "guardian": "가시왕 모르가",
+      "actors": 28,
+      "canvas": 1,
+      "overflow": false,
+      "entry": "390-180-entry.webp",
+      "battle": "390-180-battle.webp"
+    },
+    {
+      "width": 390,
+      "floor": 200,
+      "regular": "식월의 파수조",
+      "guardian": "나락의 군주",
+      "actors": 28,
+      "canvas": 1,
+      "overflow": false,
+      "entry": "390-200-entry.webp",
+      "battle": "390-200-battle.webp"
+    }
+  ]
+}

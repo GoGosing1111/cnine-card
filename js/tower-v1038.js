@@ -17,9 +17,24 @@
   function leaveWeeklyView(){stopWeeklyRefresh();weeklyDeadline=0;}
   let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
   const pendingKey=()=>`cnine:tower:battle:v2094:${currentUserId()||0}`;
-  function pendingBattle(){if(!currentUserId())return null;try{const p=JSON.parse(sessionStorage.getItem(pendingKey())||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}}
-  function rememberBattle(value,key=pendingKey()){try{sessionStorage.setItem(key,JSON.stringify(value));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}}
-  function acknowledgeBattle(){try{sessionStorage.removeItem(pendingKey());}catch{}}
+  let upperBattle=null;
+  function pendingBattle(){
+    if(!currentUserId())return null;
+    const key=pendingKey();
+    if(upperBattle?.key===key)return upperBattle.value;
+    try{const p=JSON.parse(sessionStorage.getItem(key)||'null');return p&&typeof p.requestId==='string'&&Number.isSafeInteger(p.floorNo)&&p.floorNo>0?p:null;}catch{return null;}
+  }
+  function rememberBattle(value,key=pendingKey()){
+    let stored=value;
+    if(value.floorNo>=160&&value.floorNo<=200&&value.result?.settlement?.protocol===PROTOCOL){
+      if(key===pendingKey())upperBattle={key,value};
+      // The server already holds the full encounter. Persist only its ticket and playback position across reloads.
+      stored={requestId:value.requestId,floorNo:value.floorNo,weekKey:value.weekKey,startedAt:value.result.settlement.startedAt,
+        seasonReplay:value.result.seasonReplay===true,playbackComplete:value.playbackComplete===true};
+    }else if(upperBattle?.key===key)upperBattle=null;
+    try{sessionStorage.setItem(key,JSON.stringify(stored));}catch(error){console.warn('무한의탑 전투 복구 기록을 저장하지 못했습니다.',error);}
+  }
+  function acknowledgeBattle(){const key=pendingKey();if(upperBattle?.key===key)upperBattle=null;try{sessionStorage.removeItem(key);}catch{}}
   function currentDeckCards(){const list=typeof cards==='undefined'?[]:cards;return (S.data?.deck||[]).map(id=>list.find(x=>String(x.id)===String(id))).filter(Boolean);}
   function currentPower(deckCards){const state=typeof battleState==='undefined'?{}:battleState;return deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,user(),state.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||state.characterBonus?.pve||0);}
   function privileged(){return String(user()?.role||'').toUpperCase()==='OWNER';}
@@ -108,12 +123,13 @@
       if(recovery.pending){const old=pendingBattle();rememberBattle({requestId:recovery.pending.requestId,floorNo:recovery.pending.floorNo,result:recovery.pending,playbackComplete:old?.requestId===recovery.pending.requestId&&old?.playbackComplete===true});}
       const previous=pendingBattle();
       if(!recovery.pending&&previous&&data.weekly?.weekKey){
-        const started=previous.result?.settlement?.startedAt;
+        const started=previous.result?.settlement?.startedAt??previous.startedAt;
         if(previous.weekKey!==undefined?previous.weekKey!==data.weekly.weekKey:!started||started<Date.parse(data.weekly.startsAt))acknowledgeBattle();
       }
       S.data=data;render();
       if(data.weekly){weeklyDeadline=Date.now()+Date.parse(data.weekly.resetsAt)-data.weekly.serverNow;scheduleWeeklyRefresh();}
-      if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();
+      const recoverable=pendingBattle();
+      if(restoreBattle&&(recoverable?.result||recoverable?.startedAt)&&!S.busy)void startFight();
       return true;
     }catch(error){if(token===S.request&&box.isConnected&&!box.hidden)ui().state(box,{title:'도전 정보를 불러오지 못했습니다',description:error.message,error:true});return false;}
   }
@@ -177,7 +193,7 @@
     const accountId=currentUserId();
     if(!accountId){const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'로그인 정보를 확인해 주세요',description:'새로고침 후 다시 도전해 주세요.',error:true});return;}
     const pending=pendingBattle(),saved=pending?.result,deckCards=currentDeckCards();
-    if(!saved&&deckCards.length!==5){setAutoNext(false);S.tab='formation';render();return;}
+    if(!saved&&!pending?.startedAt&&deckCards.length!==5){setAutoNext(false);S.tab='formation';render();return;}
     if(!pending&&!replayFloor&&(S.data?.completed||S.data?.blocked||!S.data?.floor)){setAutoNext(false);return;}
     const floorNo=pending?.floorNo||replayFloor||Number(S.data.floor.floorNo);
     const f=saved?{floorNo,monsterName:saved.monster?.name}:S.data.floor||{floorNo};
@@ -199,7 +215,7 @@
       let data=saved||await apiRequest('tower/start',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo,seasonReplay:ticket.seasonReplay===true,weekKey:ticket.weekKey,protocol:PROTOCOL})});
       data.requestId||=ticket.requestId;rememberBattle({...ticket,requestId:data.requestId,floorNo:data.floorNo,result:data},recordKey);
       if(!isCurrent())return;
-      const playbackComplete=Boolean(saved?.settlement?.protocol===PROTOCOL&&ticket.playbackComplete);
+      const playbackComplete=Boolean(data.settlement?.protocol===PROTOCOL&&data.requestId===ticket.requestId&&ticket.playbackComplete);
       const renderer=playbackComplete?{showResult(){modal.classList.remove('battle-v3-preparing');view.stage.querySelector('.battle-v3-loader')?.remove();}}:await window.playTowerBattleV3Live({...view,modal,data,floor:{...f,floorNo:data.floorNo},cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});
       if(!renderer||!isCurrent()){if(isCurrent()){setAutoNext(false);S.releaseFocus?.();S.busy=false;}return;}
       modal.__battleV2Renderer=renderer;
@@ -230,8 +246,8 @@
     }catch(error){
       if(!isCurrent())return;
       setAutoNext(false);S.autoResult=null;
-      const stale=['TOWER_FLOOR_CHANGED','TOWER_COMPLETED','TOWER_CLIENT_UPDATE'].includes(error.code);
-      if(stale)acknowledgeBattle();
+      const discardTicket=['TOWER_FLOOR_CHANGED','TOWER_COMPLETED','TOWER_CLIENT_UPDATE','TOWER_UNIQUE_REQUIRED'].includes(error.code);
+      if(discardTicket)acknowledgeBattle();
       if(!view){disposeBattle();const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'전장을 열지 못했습니다',description:error.message,error:true});return;}
       modal.classList.remove('battle-v3-preparing');view.stage.querySelector('.battle-v3-loader')?.remove();
       ui().errorResult(view,error.message,Boolean(pendingBattle()));

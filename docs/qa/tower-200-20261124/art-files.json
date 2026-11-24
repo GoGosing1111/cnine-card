@@ -1,0 +1,144 @@
+{
+  "canvas": [
+    640,
+    640
+  ],
+  "footY": 576,
+  "sprites": [
+    {
+      "key": "ember-lynx",
+      "name": "혈월의 화염살쾡이",
+      "source": "source/ember-lynx.png",
+      "sourceSha256": "52cb8ec064d877158f783e6d281b63b2cd7a3c2369938e5b08ca09356ba9c355",
+      "sourceBounds": {
+        "left": 25,
+        "top": 131,
+        "width": 1198,
+        "height": 980
+      },
+      "image": "/assets/ui/tower-monsters-20261124/ember-lynx.webp",
+      "sha256": "ccecab2515ff17000d536f2e22cf6294255e720f14b8f877352fefb4ddf4e3b7",
+      "bytes": 79674
+    },
+    {
+      "key": "cinder-marshal",
+      "name": "잿불 파수장",
+      "source": "source/cinder-marshal.png",
+      "sourceSha256": "d2d888dbccb8191c692770f4561bc4703e4b4ca742cb039c0bde1de6c0e5b347",
+      "sourceBounds": {
+        "left": 26,
+        "top": 55,
+        "width": 1203,
+        "height": 1128
+      },
+      "image": "/assets/ui/tower-monsters-20261124/cinder-marshal.webp",
+      "sha256": "421860bbca318e9da27dcd04fefa828c1d7e1c9db28d30b19a686f5c6bd1e350",
+      "bytes": 101894
+    },
+    {
+      "key": "bloodmoon-regent",
+      "name": "혈월 군주",
+      "source": "source/bloodmoon-regent.png",
+      "sourceSha256": "3d18dab9662d79191c76c33ad8285086d9da1364eeda0d19601f4693e660b756",
+      "sourceBounds": {
+        "left": 6,
+        "top": 31,
+        "width": 1234,
+        "height": 1201
+      },
+      "image": "/assets/ui/tower-monsters-20261124/bloodmoon-regent.webp",
+      "sha256": "4057880f46aa87b4250e78614a6bba9bb2df2fe2a284f9fb0db7a8a51cf42c3f",
+      "bytes": 80842
+    },
+    {
+      "key": "thorn-ossivore",
+      "name": "가시뼈 포식충",
+      "source": "source/thorn-ossivore.png",
+      "sourceSha256": "34c38be4084e1427c4c28454f1bb97ac29f57571ee7933bfbefd9212c494088d",
+      "sourceBounds": {
+        "left": 9,
+        "top": 233,
+        "width": 1244,
+        "height": 827
+      },
+      "image": "/assets/ui/tower-monsters-20261124/thorn-ossivore.webp",
+      "sha256": "f99df3d809bd1176db07f3a943d694545a66a00f93dcb4ba5c3aefe38ca4df70",
+      "bytes": 83180
+    },
+    {
+      "key": "oblivion-executioner",
+      "name": "망각의 집행자",
+      "source": "source/oblivion-executioner.png",
+      "sourceSha256": "cae0ab24bf2e396f631e2c8f45355a1654a4a3d29abce5aef855fb793e2633b5",
+      "sourceBounds": {
+        "left": 14,
+        "top": 0,
+        "width": 1215,
+        "height": 1247
+      },
+      "image": "/assets/ui/tower-monsters-20261124/oblivion-executioner.webp",
+      "sha256": "209d8abb74fff68bcc7882a6d948bd3395e645daf25979cfaac3f5fd32226932",
+      "bytes": 95900
+    },
+    {
+      "key": "morga-thorn-king",
+      "name": "가시왕 모르가",
+      "source": "source/morga-thorn-king.png",
+      "sourceSha256": "7c0ee3f9bd5947b95c4357b8fc338fda09068c4ccf9cd5f6c6b63ce080daca81",
+      "sourceBounds": {
+        "left": 13,
+        "top": 12,
+        "width": 1208,
+        "height": 1223
+      },
+      "image": "/assets/ui/tower-monsters-20261124/morga-thorn-king.webp",
+      "sha256": "708883128b9f5aede0dbe2fbea0a7f1ab0afa62869c0eeeb6c2e1782dd7ac1ae",
+      "bytes": 109386
+    },
+    {
+      "key": "eclipse-raptor",
+      "name": "식월의 파수조",
+      "source": "source/eclipse-raptor.png",
+      "sourceSha256": "4360f6367c397926adf40592be69e4dc60105cd5e0e2862c73a8cb5a9bba1340",
+      "sourceBounds": {
+        "left": 83,
+        "top": 37,
+        "width": 1130,
+        "height": 1180
+      },
+      "image": "/assets/ui/tower-monsters-20261124/eclipse-raptor.webp",
+      "sha256": "4d8447be21a90af9829d9e25b5a315bbdfd3fa9d5fb7abadf05e5c3cb529851c",
+      "bytes": 92310
+    },
+    {
+      "key": "eclipse-seer",
+      "name": "식월의 예언자",
+      "source": "source/eclipse-seer.png",
+      "sourceSha256": "f12d7f3a865b2e152f69616719093069739a092a2bf65749d0eac2da6ec61897",
+      "sourceBounds": {
+        "left": 123,
+        "top": 4,
+        "width": 1022,
+        "height": 1240
+      },
+      "image": "/assets/ui/tower-monsters-20261124/eclipse-seer.webp",
+      "sha256": "f10e6781c11473f2122d03fa61f1be4132160497f8905897a5568adc568b6a78",
+      "bytes": 86980
+    },
+    {
+      "key": "abyss-emperor",
+      "name": "나락의 군주",
+      "source": "source/abyss-emperor.png",
+      "sourceSha256": "4091ee7308af2b61a1c51ebb45dcc0bae94ad6b25fdef358da6a96cce58ad4c9",
+      "sourceBounds": {
+        "left": 10,
+        "top": 6,
+        "width": 1244,
+        "height": 1187
+      },
+      "image": "/assets/ui/tower-monsters-20261124/abyss-emperor.webp",
+      "sha256": "c80e39a05bd36cddd4a3e5bbd7522f96472411f9fc5c120f006df3c9477a514a",
+      "bytes": 117140
+    }
+  ]
+}

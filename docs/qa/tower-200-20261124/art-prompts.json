@@ -1,0 +1,43 @@
+{
+  "tool": "Built-in ImageGen",
+  "transparentBackground": true,
+  "common": "Use case: stylized-concept. A finished original single full-body battle enemy cutout for a Korean dark-fantasy mobile turn-based RPG. Polished finely hand-painted 2D illustrated fantasy bestiary, sturdy grounded detailed anatomy and weight, ink-crisp silhouette, concentrated luminous focal point, highlight chiseled metals, dark mids plus legible edge lighting, angles like an isometric RPG enemy portrait. Three-quarter facing screen LEFT towards the party, moderately side-on, all extremities and weapon in the frame, no cropping, one subject only, tight centered square composition with at least 5% clear margin. Deliver a real transparent alpha background. No text, numbers, border, UI, floor, base, cast shadow, scene, vignette, floating particles or extra characters. Readable at mobile battle size.",
+  "subjects": {
+    "ember-lynx": {
+      "name": "혈월의 화염살쾡이",
+      "prompt": "An attacking quadrupedal ember lynx, oversized saber fangs and tufted ears, deep vermilion obsidian fur, bronze blade plates along the shoulders like fortress crenellations, glowing coals below the ribs. Crouched four paws and short ember-tipped cat tail. Lean, predatory ordinary foe. Distinct sturdy silhouette, crimson-hot copper fortress faction."
+    },
+    "cinder-marshal": {
+      "name": "잿불 파수장",
+      "prompt": "A colossal furnace sentinel, asymmetrical walking gatehouse made from fire-blackened iron and dark copper, enclosed furnace-bright slit face, conical iron horns short on its helm, squat legs, right fist clasps a heavy square-headed hammer pointing down-left; right shoulder shaped like a brazier with short flame. Heavy red-copper fortress captain."
+    },
+    "bloodmoon-regent": {
+      "name": "혈월 군주",
+      "prompt": "Crowned predatory vampire war-regent in oxblood velvet and burgundy enameled battlegear, upswept lunar crown with one smooth crimson cabochon, pale elegant face viewed left, angular batwing-shaped high collar, long braided white hair, crescent-tipped poleaxe angled out and DOWN to the left. Legs in a commanding forward lunge and asymmetric cape; red-copper fortress royal boss."
+    },
+    "thorn-ossivore": {
+      "name": "가시뼈 포식충",
+      "prompt": "One large, low, stag-beetle-like crypt predator, six load-bearing bone-clad legs and two dense sickle antler mandibles pointing left, moss-covered oxidized bronze shell with pale jade cracks, ivory rib-like carapace ribs, dark teal thorn-vine sinews. Vivid jade eyes. Powerful beetle shape, no human anatomy, not an ordinary insect. The thorn crypt enemy faction."
+    },
+    "oblivion-executioner": {
+      "name": "망각의 집행자",
+      "prompt": "Hooded headless haunted executioner, faint pale jade spindle flame sheltered inside a chainmail cowl, massive two-handed executioner's cleaver with one notched broad blade angled down towards screen left, broken bronze funerary bell fastened on its back, chain wraps and worn black layered tabard, oxidized teal bronze armor. Strong dire walking silhouette. Master of the thorn crypt."
+    },
+    "morga-thorn-king": {
+      "name": "가시왕 모르가",
+      "prompt": "A regal ancient humanoid tree monarch with a gnarled wooden face, an imposing crown of branching pale antler-like black thorns, broad mantle of dark turquoise moss with aged brass ornament, warm ivory wood and streaks of glowing green sap, one clawed forearm transformed into a long jagged thorn lance pointed left, feet root-shaped. A towering dark forest boss, distinct apex guardian of the thorn crypt."
+    },
+    "eclipse-raptor": {
+      "name": "식월의 파수조",
+      "prompt": "One arcane armored carrion owl raptor, striding low on two large bronze taloned feet, head and luminous amethyst beak facing left, two upward swept crescent wing blades folded partway back and a pointed fan tail. Deep midnight indigo plumage with antique gold eclipse filigree, polished violet crystal at breast. Strong owl silhouette, physical animal rather than a ghost. Eclipse abyss faction."
+    },
+    "eclipse-seer": {
+      "name": "식월의 예언자",
+      "prompt": "A solitary robed faceless eclipse prophet, a single luminous amethyst eye beneath a dark veil, huge thin broken antique-gold crescent headdress framing head, layered indigo and dark plum priestly cloth edged in gold, ornate orbit astrolabe scepter carried to the left. Long robes part to show feet on the ground. Eerie slender upright eclipse abyss guardian silhouette, no wings."
+    },
+    "abyss-emperor": {
+      "name": "나락의 군주",
+      "prompt": "The sovereign final boss, massive black-plated dragon knight with an iconic crown of three golden spear-shaped horns and a brilliant amethyst furnace heart, precisely TWO enormous folded torn purple dragon wings form a high jagged outline, one immense wide serrated obsidian greatsword traced with gold and violet angled down to screen left, hooved feet spread for battle, battle-scarred antique gold edges. Imposing silhouette and regal menace, the ultimate abyss lord."
+    }
+  }
+}

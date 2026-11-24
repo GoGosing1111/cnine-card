@@ -5,16 +5,29 @@ import {pathToFileURL} from 'node:url';
 import {createPveBattleV2} from '../../functions/_battle_v2_preview.js';
 import {pveDifficultyRuntime} from '../../functions/_pve_nightmare.js';
 import {buildMercenaryEquipmentRuntime} from '../../functions/_mercenary_equipment_v2.js';
+import {UNIQUE_MERCENARY_EQUIPMENT} from '../../shared/mercenary-unique-equipment-v1.mjs';
 import {APOCALYPSE_KNIGHTS, knightProfile} from '../../shared/apocalypse-knights-v1.mjs';
 
 // Transfer the observed polish per wearer and slot. A previously empty slot has zero polish.
 export function equipmentScenario(study, sample, name) {
   if (name === 'actual') return sample.input;
   const sssOnly = name.startsWith('sss:');
-  const [tier, level] = (sssOnly ? name.slice(4) : name).split('+').map(Number);
-  assert([8, 10].includes(tier) && level >= 10 && level <= 15);
-  const prefix = 'MERC_ASC_' + String(tier).padStart(2, '0') + '_';
-  const pieces = study.catalog.filter(item => item.code.startsWith(prefix));
+  const [family, enhancement] = (sssOnly ? name.slice(4) : name).split('+');
+  const level = Number(enhancement);
+  assert(Number.isInteger(level) && level >= 0 && level <= 15);
+  const unique = /^unique([1-3])$/.exec(family);
+  let pieces;
+  if (unique) {
+    const tier = Number(unique[1]);
+    pieces = UNIQUE_MERCENARY_EQUIPMENT.filter(item => item.tier === tier).map((item, i) => ({
+      id:7000 + tier * 5 + i, code:item.code, name:item.name, slot:item.slot, rarity:item.rarity,
+      total_power:item.totalPower, pve_power:item.pvePower, pvp_power:item.pvpPower
+    }));
+  } else {
+    assert(['8','10'].includes(family) && level >= 10);
+    const prefix = 'MERC_ASC_' + family.padStart(2, '0') + '_';
+    pieces = study.catalog.filter(item => item.code.startsWith(prefix));
+  }
   assert.equal(pieces.length, 5);
   assert.equal(new Set(pieces.map(item => item.slot)).size, 5);
   const mercenaries = sample.input.mercenaries.map((mercenary, seat) => {

@@ -1,0 +1,79 @@
+{
+  "version": "TOWER_UPPER_20261124",
+  "cohorts": [
+    {
+      "first": 150,
+      "last": 169,
+      "regular": "ember-lynx"
+    },
+    {
+      "first": 170,
+      "last": 189,
+      "regular": "thorn-ossivore"
+    },
+    {
+      "first": 190,
+      "last": 200,
+      "regular": "eclipse-raptor"
+    }
+  ],
+  "guardians": {
+    "150": "cinder-marshal",
+    "160": "bloodmoon-regent",
+    "170": "oblivion-executioner",
+    "180": "morga-thorn-king",
+    "190": "eclipse-seer",
+    "200": "abyss-emperor"
+  },
+  "footAnchor": {
+    "x": 0.5,
+    "y": 0.9
+  },
+  "sprites": [
+    {
+      "key": "ember-lynx",
+      "name": "혈월의 화염살쾡이",
+      "image": "/assets/ui/tower-monsters-20261124/ember-lynx.webp"
+    },
+    {
+      "key": "cinder-marshal",
+      "name": "잿불 파수장",
+      "image": "/assets/ui/tower-monsters-20261124/cinder-marshal.webp"
+    },
+    {
+      "key": "bloodmoon-regent",
+      "name": "혈월 군주",
+      "image": "/assets/ui/tower-monsters-20261124/bloodmoon-regent.webp"
+    },
+    {
+      "key": "thorn-ossivore",
+      "name": "가시뼈 포식충",
+      "image": "/assets/ui/tower-monsters-20261124/thorn-ossivore.webp"
+    },
+    {
+      "key": "oblivion-executioner",
+      "name": "망각의 집행자",
+      "image": "/assets/ui/tower-monsters-20261124/oblivion-executioner.webp"
+    },
+    {
+      "key": "morga-thorn-king",
+      "name": "가시왕 모르가",
+      "image": "/assets/ui/tower-monsters-20261124/morga-thorn-king.webp"
+    },
+    {
+      "key": "eclipse-raptor",
+      "name": "식월의 파수조",
+      "image": "/assets/ui/tower-monsters-20261124/eclipse-raptor.webp"
+    },
+    {
+      "key": "eclipse-seer",
+      "name": "식월의 예언자",
+      "image": "/assets/ui/tower-monsters-20261124/eclipse-seer.webp"
+    },
+    {
+      "key": "abyss-emperor",
+      "name": "나락의 군주",
+      "image": "/assets/ui/tower-monsters-20261124/abyss-emperor.webp"
+    }
+  ]
+}

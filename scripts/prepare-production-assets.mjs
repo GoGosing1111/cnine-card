@@ -66,7 +66,7 @@ const mercenaryEquipmentArchive = new Set([
   'fusion-live-20260925', 'loading-cms-20260925', 'ranged-pvp-balance-20260917',
   'solvain-ss-balance-20260917', 'wolryeong-target-fix-20260917', 'sss-weighting-20260922'
 ].map(name=>'docs/mercenary-'+name+'.md'));
-const nodeBuildCommand=file=>/^scripts\/(?:build|measure)-[^/]+\.mjs$/.test(file);
+const nodeBuildCommand=file=>/^scripts\/(?:qa\/)?(?:build|measure)-[^/]+\.mjs$/.test(file);
 // Zero uses the packed atlases directly in both live combat and its frame gallery.
 // Authoring originals, prompts, rejected variants and QA remain preserved in Git.
 const zeroRoot='preview/mercenary-cyan-knight-battle-20261020-v1/';
@@ -421,6 +421,17 @@ const noxBundledOnly=file=>file==='raid/nox/assets.mjs'||file==='scripts/lib/nox
 // These manifests record art prompts, originals, and hashes for repository QA.
 // The store reads the released images directly.
 const packArtManifests=new Set([
+ // Source briefs stay in Git. Only their finished art is consumed by the game.
+ 'assets/effects/equipment-sets-20261019/prompts.json',
+ 'assets/items/icon-card-choice-20261020/prompts.json',
+ 'assets/ui/clan/war-operations-20261005/prompts.json',
+ 'assets/ui/cooperative-arke-v1/prompts.json',
+ 'assets/ui/cooperative-roster-v3/prompts.json',
+ 'assets/ui/events/golden-axe-v1/prompts.json',
+ 'assets/ui/icon-fusion-20261004/prompts.json',
+ 'assets/ui/jokgak-city/supply-20261018/prompts.json',
+ 'assets/ui/loading/reverse-call-purple-20261024/prompts.json',
+ 'assets/ui/master-star-mine-v1/prompts.json',
  'assets/ui/packs/halloween-auto-20261017/manifest.json',
  'assets/ui/packs/halloween-limited-20261011-v2/manifest.json',
  'assets/ui/packs/new-hyperdrive-v1/manifest.json',

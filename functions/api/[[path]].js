@@ -175,9 +175,9 @@ import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
 import { handleScrapyard } from '../_scrapyard.js';
 import {handlePveV3,isPveV3Path} from '../_pve_v3_routes.js';
 import {loadScrapyardV3Snapshot} from '../_scrapyard_v3.js';
-import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../_tower_v3.js';
+import {buildTowerV3Battle,TOWER_V3_DRAFT,towerRequiredUniqueTier} from '../_tower_v3.js';
 import {ensureTowerWeek,towerFloorRewardRef} from '../_tower_weekly.js';
-import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL} from '../_tower_abyss.js';
+import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL,TOWER_MAX_CLEAR_COIN} from '../_tower_abyss.js';
 import {cowTicketAward} from '../_legion_cow_tickets.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../../shared/equipment-forge-release-v1.mjs';
@@ -6916,8 +6916,9 @@ async function handleRequest(context){
       let floor=completed?null:await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();if(!floor)floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
       if(!floor)return json({active:true,weekly,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
       if(floor){floor.monster_image=String(floor.monster_image||'').trim().replace(/\\/g,'/');floor.monster_power=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1)));}
+      const requiredUniqueTier = towerRequiredUniqueTier(floorNo);
       const floorIsBoss=Boolean(floor)&&(Number(floor.is_boss||0)===1||Number(floor.monster_is_boss||0)===1||floorNo%10===0);
-      return json({active:true,weekly,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:await rankResult,completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
+      return json({active:true,weekly,seasonReplayFloors:await seasonTowerFloors(env,progress.highest_floor,user.id),completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:await rankResult,completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss,...(requiredUniqueTier?{requiredUniqueTier}:{})}:null,deck,characterBonus,ranking});
     }
     if(path==='tower/fight'&&request.method==='POST')return json({error:'무한의탑 전투가 개편됐습니다. 새로고침 후 다시 도전하세요.',code:'TOWER_CLIENT_UPDATE'},409);
     if(path==='tower/pending'&&request.method==='GET'){
@@ -7007,7 +7008,8 @@ async function handleRequest(context){
         operatingFloor:{id:floor.linked_battle_monster_id||floor.monster_id,name:floor.monster_name,image:floor.monster_image,power:monsterPower},
         bossUltimatePercent:Number(towerBossUltimate?.damagePercent||0)});
       const result=towerBattle.success?'WIN':'LOSE',completed=!seasonReplay&&result==='WIN'&&floorNo>=maxFloor,nextFloor=seasonReplay?Number(progress.current_floor):result==='WIN'?floorNo+1:floorNo;
-      const rewardCoin=result==='WIN'&&!seasonReplay?await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER'):0;
+      const coinCap = floorNo >= 151 && floorNo <= 200 ? TOWER_MAX_CLEAR_COIN : undefined;
+      const rewardCoin=result==='WIN'&&!seasonReplay?await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER',coinCap):0;
       const magicCfg=await magicSettings(env),magic={enabled:magicCfg.acquisition?.tower?.enabled===true,amount:magicRewardForTowerFloor(magicCfg,floorNo)};
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));
       const towerBattleCards=owned.results.map(c=>{const uniqueCard=towerUniqueCardMap.get(String(c.id))||{};return {...c,...uniqueCard,id:String(c.id),title:c.title,image:c.image,grade:c.rarity,rarity:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)};});

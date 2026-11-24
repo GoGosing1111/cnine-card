@@ -8,6 +8,7 @@ import {prepareTowerForgeProtectionClear} from './_forge_tower_protection.js';
 import {resolveAvatarDropRate} from './_avatar_drop.js';
 
 export const TOWER_ABYSS_PROTOCOL='TOWER_ABYSS_20261022';
+export const TOWER_MAX_CLEAR_COIN=100_000_000_000_000;
 const KIND='TOWER_ABYSS',pointer=uid=>`tower_abyss_active:${uid}`;
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const fail=(code,message,status=409,extra={})=>{throw Object.assign(new Error(message),{code,status,...extra});};
@@ -17,10 +18,17 @@ function identity(user,body){
  return {uid,requestId,rid:`tower-abyss:${uid}:${requestId}`};
 }
 const read=(env,uid,rid)=>p(env,'SELECT * FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND kind=?',rid,uid,KIND).first();
+const RECORD_BYTES = 4_000_000;
+const UPPER_RECORD_RAW_BYTES = 16_000_000;
+const oversizedRecord = () => fail('TOWER_RECORD_SIZE','전투 기록을 저장하지 못했습니다. 다시 시도하세요.',503);
 async function encodePlan(plan){
- const raw=new TextEncoder().encode(JSON.stringify(plan.response));
- if(raw.byteLength>4000000)fail('TOWER_RECORD_SIZE','전투 기록을 저장하지 못했습니다. 다시 시도하세요.',503);
- const compressed=new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer());
+ const payload = new Blob([JSON.stringify(plan.response)]);
+ const upperFloor = plan.response.floorNo >= 160 && plan.response.floorNo <= 200;
+ const rawLimit = upperFloor ? UPPER_RECORD_RAW_BYTES : RECORD_BYTES;
+ if(payload.size > rawLimit) oversizedRecord();
+ const compressed = new Uint8Array(await new Response(payload.stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer());
+ // Four-hit waves can produce long, highly compressible combat timelines. Check their stored base64 size before allocating it.
+ if(payload.size > RECORD_BYTES && 4 * Math.ceil(compressed.byteLength / 3) > RECORD_BYTES) oversizedRecord();
  let binary='';for(let i=0;i<compressed.length;i+=8192)binary+=String.fromCharCode(...compressed.subarray(i,i+8192));
  const {response,...rest}=plan;return JSON.stringify({...rest,responseGzip:btoa(binary)});
 }
@@ -59,7 +67,7 @@ export async function towerAbyssStart(env,user,body,prepare,{now=Date.now}={}){
  const response=prepared.response;
  if(response.floorNo!==floor||!['WIN','LOSE'].includes(response.result))throw Error('Invalid tower encounter');
  const rewardCoin=response.result==='WIN'?Number(prepared.rewardCoin):0;
- if(!Number.isSafeInteger(rewardCoin)||rewardCoin<0||rewardCoin>1e14)throw Error('Invalid tower reward');
+ if(!Number.isSafeInteger(rewardCoin)||rewardCoin<0||rewardCoin>TOWER_MAX_CLEAR_COIN)throw Error('Invalid tower reward');
  const events=response.battleV2?.result?.timeline||[],actions=events.filter(e=>['TURN','COUNTER','MERCENARY_WINDUP'].includes(e.type)).length;
  // Server time is a minimum progression gate, not a claim that a browser has
  // displayed every frame. The shipping client also requires full playback.

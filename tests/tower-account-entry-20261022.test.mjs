@@ -16,7 +16,7 @@ function harness(){
  context.window=context;context.addEventListener=(name,fn)=>events[name]=fn;
  context.TowerAbyssUI={starting(){},prepareBattle(){},remember:id=>records.push(id),readRecords:()=>[],result(){},state:(_box,state)=>errors.push(state),render(_box,props){context.lastRender=props;},errorResult(){}};
  context.ProjectVBattleV3Live={ready:()=>true};context.prepareBattleV2LiveLoading=()=>view;context.playTowerBattleV3Live=async()=>({showResult(){}});context.ensureFeatureResources=async()=>{};
- const source=fs.readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8').replace('  const observer=new MutationObserver','  window.__entry={S,startFight,pendingKey,pendingBattle,render};\n  const observer=new MutationObserver');
+ const source=fs.readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8').replace('  const observer=new MutationObserver','  window.__entry={S,startFight,pendingKey,pendingBattle,rememberBattle,acknowledgeBattle,render};\n  const observer=new MutationObserver');
  vm.runInNewContext(source,context);context.__entry.S.data={active:true,maxFloor:120,floor:{floorNo:1},deck:['1','2','3','4','5']};
  return {context,calls,records,values,errors,events,setAccount:id=>account=mapUser({id,nickname:'격리 계정',role:'USER'}),getAccount:()=>account};
 }
@@ -32,6 +32,40 @@ test('Tower recovery ignores the legacy zero key and stays isolated after accoun
  const h=harness();h.values.set('cnine:tower:battle:v2094:0',JSON.stringify({requestId:'other-account',floorNo:120,result:{}}));
  assert.equal(h.context.__entry.pendingBattle(),null);await h.context.__entry.startFight();assert.notEqual(h.calls[0].body.requestId,'other-account');
  h.setAccount(8);assert.equal(h.context.__entry.pendingBattle(),null);assert.equal(h.context.__entry.pendingKey(),'cnine:tower:battle:v2094:8');
+});
+
+test('a refused equipment requirement leaves no local battle to recover', async () => {
+ const h=harness(),entry=h.context.__entry;
+ entry.S.data={...entry.S.data,maxFloor:200,floor:{floorNo:180,requiredUniqueTier:1}};
+ h.context.apiRequest=async()=>{throw Object.assign(new Error('출전 용병 유니크 1단계'),{code:'TOWER_UNIQUE_REQUIRED'});};
+ let message;
+ h.context.TowerAbyssUI.errorResult=(_view,text,pending)=>{message={text,pending};};
+ await entry.startFight();
+ assert.deepEqual(message,{text:'출전 용병 유니크 1단계',pending:false});
+ assert.equal(entry.pendingBattle(),null);
+});
+
+test('a long upper encounter fits a small session quota and the completed server receipt resumes after reload', async () => {
+ const h=harness(),entry=h.context.__entry,requestId='tower-200-long-encounter';
+ const response={requestId,floorNo:200,result:'WIN',reward:1000,completed:true,
+  settlement:{protocol:'TOWER_ABYSS_20261022',status:'COMPLETED',startedAt:1795471200000},battleV2:{padding:'a'.repeat(8500000)}};
+ const key=entry.pendingKey();
+ h.context.sessionStorage.setItem=(k,value)=>{if(value.length>5000000)throw Error('QuotaExceededError');h.values.set(k,value);};
+ entry.rememberBattle({requestId,floorNo:200,result:response,playbackComplete:true});
+ assert.equal(entry.pendingBattle().result,response);
+ assert(h.values.get(key).length<300);
+ h.setAccount(8);
+ assert.equal(entry.pendingBattle(),null);
+ const resumed=harness(),next=resumed.context.__entry;
+ resumed.values.set(key,h.values.get(key));
+ next.S.data={active:true,completed:true,maxFloor:200,floor:null,deck:[]};
+ const reads=[];
+ resumed.context.apiRequest=async(path,opts)=>{reads.push([path,JSON.parse(opts.body).requestId]);return response;};
+ resumed.context.playTowerBattleV3Live=async()=>{throw Error('playback was already completed');};
+ await next.startFight();
+ assert.deepEqual(reads,[['tower/start',requestId]]);
+ assert.deepEqual(resumed.records,[7]);
+ next.acknowledgeBattle();assert.equal(next.pendingBattle(),null);
 });
 
 test('Tower double clicks and account changes during resource loading cannot send a stale start',async()=>{
