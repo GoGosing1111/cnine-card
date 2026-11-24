@@ -38,11 +38,13 @@ test('only Halloween Diim PvP barriers lose 40%; other shield skills and PvE kee
 });
 
 test('absorbed shield is spent and a recast never heals HP or accumulates the previous barrier',()=>{
- const h=harness();h.turn();
- assert.deepEqual(h.damage(h.actor,1000),{absorbed:1000,hpDamage:0});assert.equal(h.actor.hp,8000);
- h.turn();h.turn();assert.equal(h.actor.shield,2516);assert.equal(h.actor.hp,8000);
- assert.deepEqual(h.damage(h.actor,2716),{absorbed:2516,hpDamage:200});assert.equal(h.actor.hp,7800);
- h.turn();h.turn();assert.equal(h.actor.shield,2016);assert.equal(h.actor.hp,7800);
+ for(const [mode,amount] of [['PVP',2016],['PVE',3360]]){
+  const h=harness(mode);h.turn();
+  assert.deepEqual(h.damage(h.actor,1000),{absorbed:1000,hpDamage:0});assert.equal(h.actor.hp,8000);
+  h.turn();h.turn();assert.equal(h.actor.shield,500+amount);assert.equal(h.actor.hp,8000);
+  assert.deepEqual(h.damage(h.actor,500+amount+200),{absorbed:500+amount,hpDamage:200});assert.equal(h.actor.hp,7800);
+  h.turn();h.turn();assert.equal(h.actor.shield,amount);assert.equal(h.actor.hp,7800);
+ }
 });
 
 test('the last surviving Diim keeps a finite reduced shield and cannot buff dead allies',()=>{

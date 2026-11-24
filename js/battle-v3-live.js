@@ -291,14 +291,23 @@
     stage?.__v3Hud?.finalState(finalState);
   }
 
+  function finalTeam(result, side) {
+    const final = result?.final;
+    return [
+      ...(Array.isArray(final?.[side]) ? final[side] : []),
+      ...(Array.isArray(final?.mercenaries?.[side]) ? final.mercenaries[side] : [])
+    ];
+  }
+
+  function livingCount(team) {
+    return team.filter(card => Number(card?.hp) > 0).length;
+  }
+
   function survivorCounts(result) {
-    const counted = side => (Array.isArray(result?.final?.[side]) ? result.final[side] : [])
-      .filter(card => Number(card?.hp || 0) > 0).length;
     const declared = result?.survivorCount || {};
-    return {
-      A: Number.isFinite(Number(declared.A)) ? Number(declared.A) : counted('A'),
-      B: Number.isFinite(Number(declared.B)) ? Number(declared.B) : counted('B')
-    };
+    const count = side => declared[side] != null && Number.isFinite(Number(declared[side]))
+      ? Number(declared[side]) : livingCount(finalTeam(result, side));
+    return { A: count('A'), B: count('B') };
   }
 
   // 서버가 확정한 승패 근거. 연출(타임라인)이 타임아웃으로 일부 생략돼도
@@ -1184,12 +1193,7 @@
     const coins = Math.max(0, n(pvp ? data.coinReward : data.reward));
     const magic = Math.max(0, n(data.magicReward?.amount));
     const bonus=data.apocalypseBonus?.rewards;
-    const finalTeam = side => [
-      ...(Array.isArray(result.final?.[side]) ? result.final[side] : []),
-      ...(Array.isArray(result.final?.mercenaries?.[side]) ? result.final.mercenaries[side] : [])
-    ];
-    const finalA = finalTeam('A'), finalB = finalTeam('B');
-    const alive = team => team.filter(c => n(c.hp) > 0).length;
+    const finalA = finalTeam(result,'A'), finalB = finalTeam(result,'B');
     const hp = team => {
       const max = team.reduce((sum,c) => sum + Math.max(0,n(c.maxHp)) + Math.max(0,n(c.maxShield)),0);
       const remaining = team.reduce((sum,c) => sum + (n(c.hp) > 0 ? n(c.hp) + Math.max(0,n(c.shield)) : 0),0);
@@ -1210,8 +1214,8 @@
         (card ? '<div class="v3-report-drop"><span>카드 획득</span><strong>' + esc(card.grade) + ' · ' + esc(card.title) + '</strong><small>' + (data.cardReward.duplicate ? '중복 카드 · 조각 +' + fmt(data.cardReward.shardGained) : '새로운 카드') + '</small></div>' : '') +
         (pvp && adjustment?.label && Number.isFinite(Number(adjustment.multiplier)) ? '<p class="v3-report-adjustment">' + esc(adjustment.label) + ' · ' + signed(adjustment.multiplier) + '%</p>' : '') +
         '<details class="v3-report-details"><summary>전투 상세<span>' + (n(result.actions) > 0 ? fmt(result.actions) + '회 행동' : '기록 확인') + '</span></summary><dl>' + stat('아군 전투력',fmt(playerPower)) + stat('상대 전투력',fmt(opponentPower)) +
-        (finalA.length ? stat('아군 생존',alive(finalA) + ' / ' + finalA.length) + stat('아군 체력 · 보호막',hp(finalA)) : '') +
-        (finalB.length ? stat('상대 생존',alive(finalB) + ' / ' + finalB.length) + stat('상대 체력 · 보호막',hp(finalB)) : '') + '</dl>' +
+        (finalA.length ? stat('아군 생존',livingCount(finalA) + ' / ' + finalA.length) + stat('아군 체력 · 보호막',hp(finalA)) : '') +
+        (finalB.length ? stat('상대 생존',livingCount(finalB) + ' / ' + finalB.length) + stat('상대 체력 · 보호막',hp(finalB)) : '') + '</dl>' +
         (battleSuit ? '<div class="v3-report-suit" data-battle-suit-live-result="SERVER_TIMELINE"><b>' + esc(battleSuit.name) + '</b><span>피해 ' + fmt(battleSuit.damage) + ' · ' + fmt(battleSuit.actions) + '회 사격</span></div>' : '') + '</details></div>' +
       '<footer class="v3-report-footer"><button type="button" id="' + confirmId + '" class="v3-report-confirm">' + (pvp ? '랭크전으로 돌아가기' : 'PVE로 돌아가기') + '<span aria-hidden="true">→</span></button></footer></section>';
   }

@@ -88,16 +88,19 @@ export function mercenaryPvpTierGuard(actor,teams){
 
 export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,actor.isMercenary?Number(actor.mercenaryLink?.attackFloor)||0:0);
 export const mercenaryPvpTierOffense=actor=>actor.isMercenary&&actor.battleMode==='PVP'?Math.max(1,Number(actor.mercenaryLink?.tierOffense)||1):1;
+// Only the remaining ward above normal durability expands a monster's hit cap.
+// A mercenary's own opening shield already has a separate durability budget.
+export function pveMonsterDamageCapHp(target,baseHp=target.maxHp){
+ if(target.isMonster||target.battleMode==='PVP')return baseHp;
+ const normalShield=Math.max(target.maxHp,Number(target.mercenaryLink?.openingShield)||0);
+ return baseHp+Math.max(0,(Number(target.shield)||0)-normalShield);
+}
 // Tier durability must not increase the incoming hit budget by the same factor;
 // otherwise a lower-rank capped skill erases the entire defensive correction.
-export const mercenaryDamageCapHp=target=>{
+export const mercenaryDamageCapHp=(target,attacker)=>{
  const hp=(mercenaryGrowthDamageCapHp(target)/Math.max(1,Number(target.mercenaryLink?.rankGrowth?.hpScale)||1)+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1)*Math.max(1,Number(target.mercenaryLink?.primeZeroPvp?.durabilityScale)||1):1);
- // A small PVP card can receive a much larger ally barrier. Capping every hit
- // only by its base HP made that finite barrier take hundreds of attacks.
- // Use remaining durability, not historical maxShield: once it is consumed,
- // the original HP cap resumes. Raw attack/mitigation still limits damage.
- return target.battleMode==='PVP'&&!target.isMercenary&&!target.isMonster
-  ?Math.max(hp,Math.max(0,Number(target.shield)||0)):hp;
+ if(target.battleMode==='PVP'&&!target.isMercenary&&!target.isMonster)return Math.max(hp,Number(target.shield)||0);
+ return attacker?.isMonster?pveMonsterDamageCapHp(target,hp):hp;
 };
 
 function cardStatWithoutGear(card,stat){

@@ -38,10 +38,10 @@ test('closing a hidden battle releases only its clock hold and still cancels the
  assert.equal(engine.visible,false);assert.equal(gsap.globalTimeline.paused(),wasPaused);
 });
 
-function rendererHarness(t){
+function rendererHarness(t,verdict=null){
  const timers=new Map(),listeners=new Set(),calls=[];let now=0,id=0;
  const document={hidden:false,querySelectorAll:()=>[],addEventListener:(name,fn)=>{if(name==='visibilitychange')listeners.add(fn);},removeEventListener:(name,fn)=>listeners.delete(fn)};
- const labels=new Set(),stage={classList:{add:(...v)=>v.forEach(x=>labels.add(x)),remove:(...v)=>v.forEach(x=>labels.delete(x)),contains:v=>labels.has(v)},querySelector:()=>null,querySelectorAll:()=>[]};
+ const labels=new Set(),stage={classList:{add:(...v)=>v.forEach(x=>labels.add(x)),remove:(...v)=>v.forEach(x=>labels.delete(x)),contains:v=>labels.has(v)},querySelector:selector=>selector==='[data-v3-verdict]'?verdict:null,querySelectorAll:()=>[]};
  const canvas={width:1600,height:820,getContext:()=>({isContextLost:()=>false})};
  const runtime=fs.readFileSync('preview/project-v-v3/source/project-v-pixi-battle.src.js','utf8').match(/runtimeVersion:'([^']+)'/)[1];
  const context={__testCreateBattleHud:createBattleHud,console,document,Date:{now:()=>now},setTimeout:(fn,ms)=>{timers.set(++id,{fn,at:now+ms});return id;},clearTimeout:key=>timers.delete(key),requestAnimationFrame:fn=>{fn();return 1;},ProjectVPixiBattle:{
@@ -55,6 +55,24 @@ function rendererHarness(t){
  const create=extra=>context.ProjectVBattleV3Live.createRenderer({stage,host:{querySelector:selector=>selector==='canvas'?canvas:null,querySelectorAll:()=>[]},modal:{classList:{remove(){}}},mode:'PVE',data,...extra});
  return {calls,context,create,hide(value){document.hidden=value;for(const fn of [...listeners])fn();},async advance(ms){now+=ms;for(const [key,row] of [...timers])if(row.at<=now){timers.delete(key);row.fn();}await flush();}};
 }
+
+test('the verdict includes surviving mercenaries from split and older inline rosters',async t=>{
+ const verdict={classList:{remove(){},toggle(){}}},h=rendererHarness(t,verdict);
+ const split={A:[{hp:0}],B:[{hp:0}],mercenaries:{A:[{hp:12},{hp:6}],B:[{hp:0}]}};
+ for(const [final,survivorCount,expected] of [
+  [split,undefined,'2 : 0'],
+  [{A:[{hp:0},{hp:8}],B:[{hp:10}]},undefined,'1 : 1'],
+  [split,{A:1,B:0},'1 : 0']
+ ]){
+  const result={winner:'A',reason:'ELIMINATION',final,survivorCount,timeline:[]};
+  const data={result:'WIN',battleV2:{teams:{A:{cards:[]},B:{cards:[]}},result}};
+  const renderer=await h.create({data});
+  renderer.showResult();
+  assert.ok(verdict.textContent.endsWith('생존 '+expected),verdict.textContent);
+  if(final===split&&!survivorCount)assert.match(h.context.ProjectVBattleV3Live.resultHtml({data,win:true}),/아군 생존<\/dt><dd>2 \/ 3</);
+  renderer.destroy();
+ }
+});
 
 test('a successful dodge in a hidden tab cannot skip attacks or reach completion',async t=>{
  const h=rendererHarness(t),renderer=await h.create({afterDeployment:()=>h.hide(true)});let completed=false;

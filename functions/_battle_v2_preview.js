@@ -615,7 +615,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   // Skills/counters retain their own budgets; this is only the basic packet.
   const growthCapScale=options.basicAttack&&!counter?mercenaryGrowthBasicCapScale(actor):1;
   const rankCapScale=options.basicAttack&&!counter?mercenaryRankBasicCapScale(actor):1;
-  const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4)*growthCapScale*rankCapScale*(options.varyDamageCap?variance:1);
+  const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target,actor)*capPct*clamp(Number(options.damageCapScale??1),0,4)*growthCapScale*rankCapScale*(options.varyDamageCap?variance:1);
   const capped = Math.min(raw * (1 - reduction), hitCap);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.

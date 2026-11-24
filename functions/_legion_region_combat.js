@@ -1,3 +1,5 @@
+import {pveMonsterDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
+
 // Opt-in enemy mechanics; all hits run through the canonical damage/KO pipeline.
 const living=team=>team.filter(c=>c.alive&&c.hp>0&&!c.isBattleSuit&&!c.untargetable);
 export function legionIncomingMultiplier(target){return target?.legionRegion?Math.max(.25,Math.min(1.75,target.legionVulnerability??1)):1;}
@@ -6,7 +8,7 @@ export function castLegionRegionAction(actor,allies,enemies,{damage,knockout,emi
   const targets=living(enemies);if(!targets.length)return false;
   const strongest=[...targets].sort((a,b)=>(a.row==='FRONT'?0:1)-(b.row==='FRONT'?0:1)||a.slot-b.slot)[0];
   const attack=(target,scale,label)=>{
-    const raw=Math.min(target.maxHp*.34,Math.max(1,actor.attack*scale*.42));
+    const raw=Math.min(pveMonsterDamageCapHp(target)*.34,Math.max(1,actor.attack*scale*.42));
     const state=damage(target,raw,{actor,direct:true});actor.damageDealt+=state.hpDamage+state.absorbed;
     emit('TURN',{actorId:actor.id,actorKind:'MONSTER',targetId:target.id,damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield,legionPattern:label,label});
     knockout(target);

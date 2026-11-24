@@ -10,12 +10,12 @@ test('small PVP card with a large allied barrier takes real damage and dies befo
  assert.equal(result.final.B[0].hp,0);assert.equal(result.final.B[0].shield,0);
  assert(result.actions<50);assert(result.timeline.some(e=>e.type==='KO'&&e.targetId===b.id));
 });
-test('cap follows remaining shield, never historic maxShield; ordinary wards and PVE retain HP basis',()=>{
+test('PvP cards use remaining shields; a non-monster attacker cannot expand the PvE hit cap',()=>{
  const card=unit('card','A',10000),hp=mercenaryDamageCapHp(card);
  assert.equal(mercenaryDamageCapHp({...card,shield:hp/2,maxShield:hp*1000}),hp);
  assert.equal(mercenaryDamageCapHp({...card,shield:hp*1000}),hp*1000);
  assert.equal(mercenaryDamageCapHp({...card,shield:0,maxShield:hp*1000}),hp);
- for(const mode of ['PVE','RAID'])assert.equal(mercenaryDamageCapHp({...card,battleMode:mode,shield:hp*1000}),hp);
+ for(const mode of ['PVE','RAID'])assert.equal(mercenaryDamageCapHp({...card,battleMode:mode,shield:hp*1000},card),hp);
  assert.equal(mercenaryDamageCapHp({...card,isMonster:true,shield:hp*1000}),hp);
  const merc={...card,isMercenary:true,mercenaryLink:{openingShield:hp*2,tierGuard:2}};
  assert.equal(mercenaryDamageCapHp({...merc,shield:hp*1000}),mercenaryDamageCapHp({...merc,shield:0}));
