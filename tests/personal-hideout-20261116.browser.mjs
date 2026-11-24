@@ -76,7 +76,18 @@ async function openPage(browser,profile){
  await outer.addLocatorHandler((profile.h5?outer.frameLocator('iframe'):game).locator('.soop-consent-dialog[open]'),()=>game.locator('[data-soop-close]').first().click());
  const lobby=game.locator('soop-adventure-lobby');await lobby.locator('#depart-button').waitFor();return {context,page:game,outer,lobby};
 }
-async function seed(){f=await collectionFixture();f.env.PERSONAL_HIDEOUT_ENABLED='1';let state=emptyHideout();for(const key of Object.keys(state.parts))state.parts[key]=10000;state=changeHideout(state,'upgrade',{revision:0,target:'room'});for(const code of Object.keys(state.facilities))state=changeHideout(state,'upgrade',{revision:state.revision,target:code});for(let i=0;i<2;i++)state=changeHideout(state,'upgrade',{revision:state.revision,target:'room'});state=changeHideout(state,'expand',{revision:state.revision,room:'gallery'});state=changeHideout(state,'decorate',{revision:state.revision,item:'trophy',room:'main'},{newId:'display-1'});state.placements.find(p=>p.id==='display-1').x=585;state.placements.find(p=>p.id==='display-1').y=450;await f.write(HIDEOUT_KEY(7),state);}
+async function seed(){
+ f=await collectionFixture();f.env.PERSONAL_HIDEOUT_ENABLED='1';
+ await f.p('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=7','2500000000000001').run();
+ let state=emptyHideout();for(const key of Object.keys(state.parts))state.parts[key]=10000;
+ state=changeHideout(state,'upgrade',{revision:0,target:'room'});
+ for(const code of Object.keys(state.facilities))state=changeHideout(state,'upgrade',{revision:state.revision,target:code});
+ for(let i=0;i<2;i++)state=changeHideout(state,'upgrade',{revision:state.revision,target:'room'});
+ state=changeHideout(state,'expand',{revision:state.revision,room:'gallery'});
+ state=changeHideout(state,'decorate',{revision:state.revision,item:'trophy',room:'main'},{newId:'display-1'});
+ const stand=state.placements.find(p=>p.id==='display-1');stand.x=585;stand.y=450;
+ await f.write(HIDEOUT_KEY(7),state);
+}
 const saveReport=()=>fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({reports,traffic,errors,missing,condition:'Windows headless Chrome/WebKit; mobile and H5 emulation; localhost assets, isolated SQLite handlers; no real device or production account writes'},null,2));
 try{
  const profiles=[{name:'pc',width:1440,engine:chromium},{name:'android-emulated',width:390,engine:chromium},{name:'iphone-webkit-emulated',width:390,engine:webkit},{name:'onestore-h5-emulated',width:390,engine:chromium,h5:true}];
@@ -127,7 +138,16 @@ try{
     assert.equal((await readHideout(f.env,7)).state.placements.find(p=>p.id==='display-1').trophyCodes.filter(Boolean).length,3);assert.equal(await page.locator('.ph-cabinet-focus [data-ph-action="slot"]').count(),6);
     const cabinet=await page.locator('.ph-cabinet-focus .ph-cabinet-art').boundingBox();assert(cabinet.width>230,'cabinet close-up keeps trophies readable');await page.locator('.ph-scene').scrollIntoViewIfNeeded();if(profile.width<800)assert(await page.locator('[data-ph-action="slot"][data-slot="5"]').evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<innerHeight&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}),'bottom cabinet tier stays visible and usable');await outer.screenshot({path:path.join(out,profile.name+'-trophy-cabinet.png'),fullPage:true});
 
-    await page.locator('[data-ph-action="tab"][data-tab="facilities"]').click();loseNext=true;await page.locator('[data-ph-action="upgrade"][data-target="fridge"]').click();await page.locator('[data-ph-action="retry"]').waitFor();await page.waitForFunction(()=>document.querySelector('[data-ph-notice]')?.dataset.error==='true');await page.locator('[data-ph-action="retry"]').click();await page.getByText('저장된 결과를 복구했습니다.',{exact:true}).waitFor();assert.equal((await readHideout(f.env,7)).state.facilities.fridge,2);
+    await page.locator('[data-ph-action="tab"][data-tab="facilities"]').click();
+    const fridgeUpgrade=page.locator('[data-ph-action="upgrade"][data-target="fridge"]');
+    await fridgeUpgrade.locator('..').getByText('2,500조',{exact:true}).waitFor();
+    loseNext=true;await fridgeUpgrade.click();await page.locator('[data-ph-action="retry"]').waitFor();
+    await page.waitForFunction(()=>document.querySelector('[data-ph-notice]')?.dataset.error==='true');
+    await page.locator('[data-ph-action="retry"]').click();
+    await page.getByText('저장된 결과를 복구했습니다.',{exact:true}).waitFor();
+    assert.equal((await readHideout(f.env,7)).state.facilities.fridge,2);
+    assert.equal(await page.locator('[data-ph-coin-balance]').innerText(),'1');
+    assert.equal(await f.p('SELECT COUNT(*) AS count FROM coin_logs WHERE user_id=7').first().then(row=>Number(row.count)),1);
     await page.locator('[data-ph-action="tab"][data-tab="rooms"]').click();await page.locator('[data-ph-action="expand"][data-room="workshop"]').click();await page.getByText('저장했습니다.',{exact:true}).waitFor();assert((await readHideout(f.env,7)).state.rooms.includes('workshop'));
     await page.locator('[data-ph-action="tab"][data-tab="decor"]').click();await page.locator('[data-ph-action="decorate"][data-item="sofa"]').click();await page.getByText('저장했습니다.',{exact:true}).waitFor();
     const extra=(await readHideout(f.env,7)).state.placements.at(-1).id;await page.locator('[data-ph-action="edit"]').click();await page.locator('[data-ph-piece-select]').selectOption('facility-workbench');await prop.focus();await prop.press('Shift+ArrowLeft');await prop.press('Shift+ArrowLeft');
@@ -142,10 +162,20 @@ try{
     house=changeHideout(house,'upgrade',{revision:0,target:'room'});
     house=changeHideout(house,'upgrade',{revision:house.revision,target:'workbench'});
     house=changeHideout(house,'decorate',{revision:house.revision,item:'trophy',room:'main'},{newId:'progression-cabinet'});
+    let coinBalance=16000000000000001n;
+    await f.p('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=7',coinBalance.toString()).run();
     await f.write(HIDEOUT_KEY(7),house);await enter();await page.locator('.ph-materials').getByText(/군단토벌.*무한의탑.*매회 1\.75%/).waitFor();row.residences=[];
     const kept=JSON.stringify(house.placements),stages=['shanty','apartment','luxury','penthouse'];
+    const upgradeFees=[['1,000조',1000000000000000n],['5,000조',5000000000000000n],['1경',10000000000000000n]];
     for(let tier=1;tier<=4;tier++){
-     if(tier>1){const upgrade=page.locator('[data-ph-action="upgrade"][data-target="room"]');assert(await upgrade.isEnabled());await page.getByText('표시된 부품을 모두 모으면 바로 승급할 수 있습니다.',{exact:true}).waitFor();await upgrade.click();await page.getByText('저장했습니다.',{exact:true}).waitFor();}
+     if(tier>1){
+      const [label,amount]=upgradeFees[tier-2],upgrade=page.locator('[data-ph-action="upgrade"][data-target="room"]');
+      await page.locator('.ph-room-upgrade .ph-cost').getByText(label,{exact:true}).waitFor();
+      assert(await upgrade.isEnabled());
+      await upgrade.click();await page.getByText('저장했습니다.',{exact:true}).waitFor();
+      coinBalance-=amount;
+      assert.equal(await page.locator('[data-ph-coin-balance]').getAttribute('title'),coinBalance.toLocaleString('ko-KR'));
+     }
      await page.waitForFunction(()=>[...document.querySelectorAll('.ph-backdrop')].every(i=>i.complete&&i.naturalWidth));
      const state=(await readHideout(f.env,7)).state;assert.equal(state.level,tier);assert.equal(JSON.stringify(state.placements),kept);
      await page.locator('[data-ph-piece-select]').selectOption('facility-workbench');await page.locator('.ph-scene').scrollIntoViewIfNeeded();
@@ -153,6 +183,9 @@ try{
      row.residences.push({tier,...dimensions,workbenchWidth:(await page.locator('[data-ph-prop="facility-workbench"]').boundingBox()).width});
      await outer.screenshot({path:path.join(out,profile.name+'-residence-'+stages[tier-1]+'.png')});
     }
+    const workbenchUpgrade=page.locator('[data-ph-action="upgrade"][data-target="workbench"]');
+    await workbenchUpgrade.locator('..').getByText('코인 부족',{exact:true}).waitFor();
+    assert(await workbenchUpgrade.isDisabled());
     assert(row.residences.every((r,i)=>!i||r.width>row.residences[i-1].width));
     assert(row.residences.every(r=>Math.abs(r.workbenchWidth-row.residences[0].workbenchWidth)<1));
     const field=page.locator('[data-ph-viewport]'),originalHeight=await field.evaluate(el=>el.clientHeight);

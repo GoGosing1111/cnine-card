@@ -38,6 +38,12 @@ export const HIDEOUT_FURNITURE=Object.freeze([
  {code:'lamp',name:'분석 조명',description:'일반 카드팩 SSR 이상 추첨 가중치 증가 · 한정·확정·천장 제외',effect:'일반 카드팩 고등급 가중치',step:2,unit:'%'}
 ].map((p,i)=>Object.freeze({...p,image:HIDEOUT_ART+'furniture-'+p.code+'.webp',index:i})));
 const codes=HIDEOUT_FURNITURE.map(f=>f.code);
+const residenceUpgradeCoins=Object.freeze(['0','1000000000000000','5000000000000000','10000000000000000']);
+const facilityUpgradeCoins=Object.freeze(['1000000000000000','2500000000000000','5000000000000000','7500000000000000','10000000000000000']);
+export function hideoutUpgradeCoinCost(target,level){
+ if(target==='room')return residenceUpgradeCoins[level-1]??null;
+ return codes.includes(target)?facilityUpgradeCoins[level-1]??null:null;
+}
 export const HIDEOUT_ROOMS=Object.freeze([
  {code:'main',name:'주거 공간',requiredLevel:1,cost:{}},
  {code:'workshop',name:'작업 구역',requiredLevel:2,cost:{STEEL:80,WIRE:50,CIRCUIT:20,DRIVE:10}},
@@ -180,8 +186,12 @@ export function hideoutDailyAward(event,randomInt=secureRandomInt){
 }
 export function publicHideout(raw){
  const state=hideoutState(raw);
+ const facilities=HIDEOUT_FURNITURE.map(f=>{
+  const level=state.facilities[f.code];
+  return {...f,level,cost:hideoutCost(state,f.code),coinCost:hideoutUpgradeCoinCost(f.code,level+1)};
+ });
  // Cached clients read this array's length. It is never consulted for progression.
- return {state:{...state,activityDates:[]},benefits:hideoutBenefits(state),parts:HIDEOUT_PARTS,rooms:HIDEOUT_ROOMS,decor:HIDEOUT_DECOR,skins:HIDEOUT_SKINS,facilities:HIDEOUT_FURNITURE.map(f=>({...f,level:state.facilities[f.code],cost:hideoutCost(state,f.code)})),roomCost:hideoutCost(state,'room'),maximumLevel:HIDEOUT_MAX_LEVEL,trophySlots:HIDEOUT_TROPHY_SLOTS,stages:HIDEOUT_STAGES,stage:HIDEOUT_STAGES[Math.max(0,state.level-1)],nextStage:HIDEOUT_STAGES[state.level]||null,facilityMaximum:hideoutFacilityLimit(state.level),space:hideoutSpace(state)};
+ return {state:{...state,activityDates:[]},benefits:hideoutBenefits(state),parts:HIDEOUT_PARTS,rooms:HIDEOUT_ROOMS,decor:HIDEOUT_DECOR,skins:HIDEOUT_SKINS,facilities,roomCost:hideoutCost(state,'room'),roomCoinCost:hideoutUpgradeCoinCost('room',state.level+1),maximumLevel:HIDEOUT_MAX_LEVEL,trophySlots:HIDEOUT_TROPHY_SLOTS,stages:HIDEOUT_STAGES,stage:HIDEOUT_STAGES[Math.max(0,state.level-1)],nextStage:HIDEOUT_STAGES[state.level]||null,facilityMaximum:hideoutFacilityLimit(state.level),space:hideoutSpace(state)};
 }
 export function hideoutCardRates(rows,bonus){
  if(!(bonus>0))return rows;

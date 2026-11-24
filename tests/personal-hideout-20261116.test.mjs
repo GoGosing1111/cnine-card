@@ -3,18 +3,28 @@ import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {SeasonSQLiteDB} from './helpers/season-s1-db.mjs';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {emptyHideout,HIDEOUT_KEY,changeHideout,hideoutBenefits,hideoutCardRates,hideoutAward,hideoutDailyAward,hideoutCost,hideoutState,publicHideout} from '../shared/personal-hideout-v1.mjs';
+import {emptyHideout,HIDEOUT_KEY,HIDEOUT_FURNITURE,changeHideout,hideoutBenefits,hideoutCardRates,hideoutAward,hideoutDailyAward,hideoutCost,hideoutState,publicHideout} from '../shared/personal-hideout-v1.mjs';
 import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
 import {LEGION_RECOVERY_EVENT} from '../shared/legion-hunt-energy-v1.mjs';
 import {hideoutAwardStatements,mutateHideout,readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
 import {contentProgressionStatements} from '../functions/_content_progression.js';
 
 async function fixture(t,postgres=false){
- let DB,pg,failure='';const schema='CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);CREATE TABLE users(id INTEGER PRIMARY KEY);INSERT INTO users(id) VALUES(7)';
+ let DB,pg,failure='';const schema=[
+  'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)',
+  'CREATE TABLE users(id INTEGER PRIMARY KEY,coin BIGINT NOT NULL)',
+  'CREATE TABLE coin_logs(user_id INTEGER,change_amount BIGINT,balance_after BIGINT,reason TEXT)',
+  'INSERT INTO users(id,coin) VALUES(7,100000000000000000)'
+ ].join(';');
  if(postgres){pg=new PGlite();await pg.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS') $$;"+schema);DB=new __postgresCompatTest.PostgresD1Database({async query(input){const sql=typeof input==='string'?input:input.text;if(failure&&sql.includes(failure))throw Error('INJECTED_FAILURE');const r=await pg.query(sql,typeof input==='string'?[]:input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length};}});}
  else {DB=new SeasonSQLiteDB();DB.sql.exec(schema);}
  t.after(()=>pg?pg.close():DB.sql.close());const env={DB,PERSONAL_HIDEOUT_ENABLED:'1'};
- return {env,DB,fail:s=>{failure=s;DB.failAt=s;},state:async()=>(await readHideout(env,7)).state,seed:async state=>DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(HIDEOUT_KEY(7),JSON.stringify(state)).run()};
+ return {env,DB,fail:s=>{failure=s;DB.failAt=s;},
+  state:async()=>(await readHideout(env,7)).state,
+  setWallet:coin=>DB.prepare('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=7').bind(String(coin)).run(),
+  balance:async()=>(await DB.prepare('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7').first()).coin,
+  ledger:async()=>(await DB.prepare('SELECT CAST(change_amount AS TEXT) AS change,CAST(balance_after AS TEXT) AS balance,reason FROM coin_logs WHERE user_id=7').all()).results.map(row=>({...row})),
+  seed:async state=>DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(HIDEOUT_KEY(7),JSON.stringify(state)).run()};
 }
 const funded=()=>{const s=emptyHideout();for(const c of Object.keys(s.parts))s.parts[c]=10000;return s;};
 const event=(eventId,source='HUNT')=>({userId:7,eventId,source,won:true});
@@ -57,6 +67,21 @@ test('free unlock, level-gated facilities and rooms, independent decorative copi
  assert.throws(()=>changeHideout(s,'arrange',{revision:s.revision,placements:[]}),/전체/);
  assert.throws(()=>changeHideout(s,'upgrade',{revision:0,target:'room'}),/갱신/);
 });
+test('all six facility tracks and three residence upgrades expose exact coin prices',()=>{
+ let state=funded();
+ for(const cost of ['0','1000000000000000','5000000000000000','10000000000000000']){
+  assert.equal(publicHideout(state).roomCoinCost,cost);
+  state=changeHideout(state,'upgrade',{revision:state.revision,target:'room'});
+ }
+ assert.equal(publicHideout(state).roomCoinCost,null);
+ for(const {code} of HIDEOUT_FURNITURE){
+  for(const cost of ['1000000000000000','2500000000000000','5000000000000000','7500000000000000','10000000000000000']){
+   assert.equal(publicHideout(state).facilities.find(f=>f.code===code).coinCost,cost);
+   state=changeHideout(state,'upgrade',{revision:state.revision,target:code});
+  }
+  assert.equal(publicHideout(state).facilities.find(f=>f.code===code).coinCost,null);
+ }
+});
 test('normal pack bonus changes relative high-grade weights only; combat eligibility is explicit',()=>{
  const rates=[{rarity:'C',rate:80},{rarity:'SSR',rate:19},{rarity:'ICON',rate:1},{rarity:'SSS',rate:0.01}],next=hideoutCardRates(rates,10);
  assert.deepEqual(next.map(r=>r.rate),[80,20.900000000000002,1.1,0.01]);assert.equal(rates[1].rate,19);
@@ -78,7 +103,10 @@ for(const postgres of [false,true]){
   const s=await f.state();s.parts.STEEL=999999999;await f.seed(s);await f.DB.batch(hideoutAwardStatements(f.env,event('ceiling')));assert.equal((await f.state()).parts.STEEL,1000000000);
  });
  test(engine+' mutations enforce replay identity, costs, rollback and concurrent reward CAS',async t=>{
-  const f=await fixture(t,postgres),unlock=body(0,{target:'room'});const opened=await mutateHideout(f.env,7,'upgrade',unlock);assert.equal(opened.state.level,1);
+  const f=await fixture(t,postgres),unlock=body(0,{target:'room'});
+  await f.setWallet(0);
+  const opened=await mutateHideout(f.env,7,'upgrade',unlock);assert.equal(opened.state.level,1);
+  assert.equal(opened.upgradePayment.coin,'0');assert.equal(opened.coinBalance,'0');assert.deepEqual(await f.ledger(),[]);
   assert.equal((await mutateHideout(f.env,7,'upgrade',unlock)).replayed,true);
   const receiptKey='personal_hideout_mutation_v1:7:'+unlock.requestId;
   const legacyReceipt=JSON.parse((await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(receiptKey).first()).value);
@@ -88,19 +116,65 @@ for(const postgres of [false,true]){
 
   await assert.rejects(mutateHideout(f.env,7,'upgrade',{...unlock,target:'fridge'}),e=>e.code==='HIDEOUT_REQUEST_CONFLICT');
   await assert.rejects(mutateHideout(f.env,7,'upgrade',body(1,{target:'fridge'})),e=>e.code==='HIDEOUT_PARTS');
+  await f.setWallet('100000000000000000');
   const fundedState={...funded(),level:1,revision:1,rooms:['main']};await f.seed(fundedState);
   const upgrade=body(1,{target:'garage'});f.fail('INSERT INTO joint_atomic_guards');await assert.rejects(mutateHideout(f.env,7,'upgrade',upgrade),/INJECTED/);f.fail('');assert.equal((await f.state()).facilities.garage,0);assert.equal((await f.state()).parts.STEEL,10000);
   const realBatch=f.DB.batch.bind(f.DB);let inject=true;f.DB.batch=async writes=>{if(inject){inject=false;await realBatch(hideoutAwardStatements(f.env,event('race')));}return realBatch(writes);};
   await assert.rejects(mutateHideout(f.env,7,'upgrade',upgrade),e=>e.code==='HIDEOUT_CONFLICT');f.DB.batch=realBatch;
   let s=await f.state();assert.equal(s.parts.STEEL,10002);assert.equal(s.facilities.garage,0);
   const completed=await mutateHideout(f.env,7,'upgrade',body(s.revision,{target:'garage'}));assert.equal(completed.state.facilities.garage,1);assert.equal(completed.state.parts.STEEL,9990);
+  assert.equal(completed.coinBalance,'99000000000000000');
+  assert.equal((await f.ledger()).length,1);
+ });
+ test(engine+' upgrade debits 1경 exactly with materials and rolls back both on settlement failure',async t=>{
+  const f=await fixture(t,postgres),fee=10000000000000000n;
+  const state={...funded(),level:3,revision:9,rooms:['main'],facilities:{...emptyHideout().facilities,workbench:4}};
+  state.placements=[{id:'facility-workbench',kind:'facility',code:'workbench',room:'main',x:20,y:700,flipped:false,trophyCode:null}];
+  await f.seed(state);
+  const request=body(state.revision,{target:'room'});
+  await f.setWallet(fee-1n);
+  await assert.rejects(mutateHideout(f.env,7,'upgrade',request),e=>e.code==='HIDEOUT_COINS');
+  assert.equal(await f.balance(),String(fee-1n));
+  assert.deepEqual(await f.state(),state);
+
+  // Simulate an independent debit between the quote and the transaction.
+  await f.setWallet(fee+1n);
+  const batch=f.DB.batch.bind(f.DB);
+  f.DB.batch=async writes=>{
+   f.DB.batch=batch;
+   await f.setWallet(fee-1n);
+   return batch(writes);
+  };
+  await assert.rejects(mutateHideout(f.env,7,'upgrade',request),e=>e.code==='HIDEOUT_COINS');
+  assert.deepEqual(await f.state(),state);assert.deepEqual(await f.ledger(),[]);
+
+  await f.setWallet(fee+1n);
+  f.fail('INSERT INTO app_meta(key,value,updated_at)');
+  await assert.rejects(mutateHideout(f.env,7,'upgrade',request),/INJECTED/);
+  f.fail('');
+  assert.equal(await f.balance(),String(fee+1n));assert.deepEqual(await f.state(),state);assert.deepEqual(await f.ledger(),[]);
+
+  const upgraded=await mutateHideout(f.env,7,'upgrade',request);
+  assert.equal(upgraded.state.level,4);assert.equal(upgraded.upgradePayment.coin,String(fee));assert.equal(upgraded.coinBalance,'1');
+  assert.equal(upgraded.state.parts.HOUSING_PLAN,state.parts.HOUSING_PLAN-87);
+  assert.equal((await mutateHideout(f.env,7,'upgrade',request)).replayed,true);
+  assert.equal(await f.balance(),'1');
+  assert.deepEqual(await f.ledger(),[{change:String(-fee),balance:'1',reason:'은신처 승급 · 펜트하우스'}]);
+
+  await f.setWallet(fee);
+  const facility=await mutateHideout(f.env,7,'upgrade',body(upgraded.state.revision,{target:'workbench'}));
+  assert.equal(facility.state.facilities.workbench,5);assert.equal(facility.coinBalance,'0');assert.equal(await f.balance(),'0');
+  assert.equal((await f.ledger()).length,2);
  });
 }
 test('authentication, request fields and feature gate are enforced by the real handler',async t=>{
  const f=await fixture(t),deps={json:(v,status)=>Response.json(v,{status}),authenticate:async()=>null,withUserMutationLock:(_e,_u,_p,fn)=>fn()};
  const call=(path='hideout',body)=>handlePersonalHideout({path,env:f.env,deps,request:new Request('https://game.test/api/'+path,{method:body?'POST':'GET',headers:{'content-type':'application/json',origin:'https://game.test'},...(body?{body:JSON.stringify(body)}:{})})});
- assert.equal((await call()).status,401);deps.authenticate=async()=>({id:7});assert.equal((await (await call()).json()).state.level,0);
+ assert.equal((await call()).status,401);deps.authenticate=async()=>({id:7});
+ await f.setWallet('10000000000000001');
+ const initial=await (await call()).json();assert.equal(initial.state.level,0);assert.equal(initial.coinBalance,'10000000000000001');
  assert.equal((await call('hideout/upgrade',{...body(0,{target:'room'}),parts:{STEEL:100}})).status,400);
+ assert.equal((await call('hideout/upgrade',{...body(0,{target:'room'}),coinCost:'0'})).status,400);
  f.env.PERSONAL_HIDEOUT_ENABLED='0';assert.equal((await call('hideout/upgrade',body(0,{target:'room'}))).status,423);
 });
 test('party capacity preserves partial recovery, legacy deadline, event boundaries and extreme pulses',()=>{
