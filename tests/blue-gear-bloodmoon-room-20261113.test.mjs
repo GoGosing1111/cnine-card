@@ -27,13 +27,13 @@ test('the two pack skins expose the same ordered opening, confirmation, recovery
  assert.match(blue,/data-bwp-auto-count><option value="1">1회씩<\/option><option value="10" selected>/);
 });
 
-test('the same results view aggregates Blue Gear receipts and selects an SS film before an SSS film',()=>{
+test('Blue Gear shows both results and selects the SSS film',()=>{
  const [ss,sss]=[BLUE_GEAR_DRAW_POLICY.pool[0],BLUE_GEAR_DRAW_POLICY.pool.find(c=>c.rank==='SSS')];
  const row=(c,index)=>({outcomeId:'BLUE_GEAR_'+c.rank,mercenaryCode:c.code,name:c.name,rank:c.rank,quantity:1,drawIndex:index,serial:1});
  const receipt={status:'COMPLETED',packId:BLUE_GEAR_PACK.id,format:BLUE_GEAR_DRAW_POLICY.bulkFormat,requestId:'saved-bulk',count:100,draws:[row(ss,5),row(sss,40)],missCount:90,normalDraws:[{mercenaryCode:'V-001',name:'일반 용병',rank:'C',quantity:8}]};
  const results=blackcrownReceiptResults(receipt,BLUE_GEAR_PACK,BLUE_GEAR_DRAW_POLICY);
  const markup=bloodmoonResultsMarkup(results,BLUE_GEAR_PACK.image);
- assert.deepEqual(bloodmoonBatchCinematics(results).map(r=>r.mercenaryCode),[ss.code,sss.code]);
+ assert.deepEqual(bloodmoonBatchCinematics(results).map(r=>r.mercenaryCode),[sss.code]);
  assert.match(markup,/획득 없음 <b>90<\/b>/);
  assert.match(markup,/<td>일반 용병<\/td><td>8장<\/td>/);
  assert.equal((markup.match(/class="bwp-result is-limited"/g)||[]).length,2);

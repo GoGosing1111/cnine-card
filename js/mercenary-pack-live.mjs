@@ -1,6 +1,6 @@
 import {jointAccountRequest as api} from './joint-account-transport.mjs?v=20260924-response';
 import {MERCENARY_PACK,mercenaryPackResults} from '../shared/mercenary-pack-contract-v1.mjs?v=2134-receipt-art-v2';
-import {MercenaryAcquisitionVideo,withPresentationDeadline} from './mercenary-acquisition-video.mjs?v=2145';
+import {MercenaryAcquisitionVideo,withPresentationDeadline} from './mercenary-acquisition-video.mjs?v=20261125-sss-only';
 
 let busy=false,activeAuto=null,access={connected:true,userOpeningEnabled:null},statusText='개봉 상태를 확인하고 있습니다.';
 const temporaryResponse=error=>error?.code==='JOINT_RESPONSE_INVALID'?error.retryable===true:error?.name==='AbortError'||error?.name==='TypeError'&&/fetch|network|load failed/i.test(error.message)||Number(error?.status)>=500;
@@ -113,7 +113,7 @@ export async function showMercenaryReceipt(receipt,{onClose,onRepeat,autoSession
   window.addEventListener('pagehide',leave,{once:true});document.body.append(dialog);dialog.showModal();
   try{
     await script('/js/ui-fx-vendor-v2045.bundle.js',()=>Boolean(globalThis.CNineUiFxVendor));
-    await script('/js/hyper-pack-fx-v2076.bundle.js?v=2145',()=>globalThis.HyperPackFX?.version>=2145);
+    await script('/js/hyper-pack-fx-v2076.bundle.js?v=2148',()=>globalThis.HyperPackFX?.version>=2148);
     if(closed)return;
     fx=globalThis.HyperPackFX.create(dialog.querySelector('.mercenary-pack-stage'),event=>{if(closed)return;dialog.dataset.phase=event.state;pause.disabled=!fx?.running||fx.loading;skip.disabled=!fx?.running;pause.textContent=event.state==='paused'?'계속 재생':'일시정지';},{live:true,cinematic});
     await withDeadline(fx.init(),20000,'개봉 연출 자원을 불러오지 못했습니다.');if(closed){fx.destroy();return;}

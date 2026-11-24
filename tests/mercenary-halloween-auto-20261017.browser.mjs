@@ -54,15 +54,14 @@ try{
   await page.locator('.hwp-dialog').screenshot({path:path.join(out,'auto-settings-'+width+'.png')});
   const before=posts;await page.locator('[data-hwp-auto-start]').click();assert.match(await page.locator('[data-hwp-confirm-text]').innerText(),/10회씩 2회 반복/);await page.locator('.hwp-confirm-inner').screenshot({path:path.join(out,'auto-confirm-'+width+'.png')});await page.keyboard.press('Escape');assert.equal(posts,before);
   samples=[0,0,5000000000,9999999999,0,...Array(8).fill([0,0]).flat()];
-  await page.locator('[data-hwp-auto-start]').click();await page.locator('[data-hwp-confirm-start]').click();await page.locator('.hwp-result').nth(9).waitFor();await page.waitForFunction(()=>document.querySelector('.hwp-video')?.dataset.cinematic==='SS'&&document.querySelector('video')?.currentTime>0);
+  await page.locator('[data-hwp-auto-start]').click();await page.locator('[data-hwp-confirm-start]').click();await page.locator('.hwp-result').nth(9).waitFor();await page.waitForFunction(()=>document.querySelector('.hwp-video')?.dataset.cinematic==='SSS'&&document.querySelector('video')?.currentTime>0);
   assert.equal(posts,before+1);assert.match(await page.locator('[data-hwp-auto-progress]').innerText(),/1 \/ 2회 반복 · 10회 개봉 · 900 코인 사용/);assert.equal(await page.locator('video').evaluate(v=>v.muted),true);
-  await page.locator('[data-hwp-pause]').click();assert.equal(await page.locator('video').evaluate(v=>v.paused),true);assert.equal(posts,before+1);await page.locator('[data-hwp-skip]').click();
-  await page.waitForFunction(()=>document.querySelector('.hwp-video')?.dataset.cinematic==='SSS'&&document.querySelector('video')?.currentTime>0);assert.equal(posts,before+1);
+  await page.locator('[data-hwp-pause]').click();assert.equal(await page.locator('video').evaluate(v=>v.paused),true);assert.equal(posts,before+1);
   await page.locator('.hwp-dialog').screenshot({path:path.join(out,'sss-auto-'+width+'.png')});await page.locator('[data-hwp-auto-stop]').click();await page.locator('[data-hwp-skip]').click();await page.locator('[data-hwp-auto-toggle]:not([disabled])').waitFor();assert.equal(posts,before+1);assert.match(await page.locator('[data-hwp-status]').innerText(),/총 10회/);
-  // Let a real SS video finish naturally; only then may the second batch start.
+  // An SS result does not hold up the next automatic opening.
   samples=[0,0,9900000000];const second=posts;
-  await page.locator('[data-hwp-auto-toggle]').click();await page.locator('[data-hwp-auto-count]').selectOption('1');await page.locator('[data-hwp-auto-repeats]').fill('2');await page.locator('[data-hwp-auto-start]').click();await page.locator('[data-hwp-confirm-start]').click();await page.waitForFunction(()=>document.querySelector('.hwp-video')?.dataset.cinematic==='SS'&&document.querySelector('video')?.currentTime>0);assert.equal(posts,second+1);
-  await page.waitForFunction(()=>document.querySelector('[data-hwp-status]')?.textContent.includes('설정한 자동뽑기를 완료했습니다.'),{},{timeout:25000});assert.equal(posts,second+2);assert.match(await page.locator('[data-hwp-status]').innerText(),/총 2회 · 200 코인/);
+  await page.locator('[data-hwp-auto-toggle]').click();await page.locator('[data-hwp-auto-count]').selectOption('1');await page.locator('[data-hwp-auto-repeats]').fill('2');await page.locator('[data-hwp-auto-start]').click();await page.locator('[data-hwp-confirm-start]').click();
+  await page.waitForFunction(()=>document.querySelector('[data-hwp-status]')?.textContent.includes('설정한 자동뽑기를 완료했습니다.'),{},{timeout:25000});assert.equal(posts,second+2);assert.match(await page.locator('[data-hwp-status]').innerText(),/총 2회 · 200 코인/);assert.equal(await page.locator('.hwp-video video').count(),0);
   // A completed but locally pending result restores on entry without a POST.
   await page.evaluate(()=>{const r=JSON.parse(localStorage.getItem('cnine.halloween-pack.receipt:1'));localStorage.setItem('cnine.halloween-pack.pending:1',JSON.stringify({accountId:1,body:{requestId:r.requestId,count:r.count,expectedRevision:r.revision}}));});
   const beforeReload=posts;await page.reload();await page.locator('[data-hwp-auto-toggle]:not([disabled])').waitFor();
@@ -77,7 +76,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('.hwp-result')&&localStorage.getItem('cnine.halloween-pack.pending:1')===null);
   assert.equal(posts,beforeReload+1);assert.equal((await f.pg.query('SELECT status FROM joint_operations_v1 WHERE request_id=$1',[missingId])).rows[0].status,'COMPLETED');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1||document.querySelector('.hwp-dialog').scrollWidth>document.querySelector('.hwp-dialog').clientWidth+1),false);assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
-  reports.push({width,partialStockKeepsOpeningEnabled:true,cancelledRequestClearedWithoutPost:true,completedRequestRecoveredWithoutPost:true,unknownRequestRequiresExplicitRecovery:true,cmsIncompleteOnBlocked:true,cmsRemainder:'92.975',cmsOwnerOnSavedInIsolatedDatabase:true,confirmationCancelNoPurchase:true,ssThenSssVideo:true,noPurchaseDuringVideo:true,stopAfterCurrentBatch:true,ssNaturalEndResumes:true,completedSingleDraws:2,errors,failed});await context.close();
+  reports.push({width,partialStockKeepsOpeningEnabled:true,cancelledRequestClearedWithoutPost:true,completedRequestRecoveredWithoutPost:true,unknownRequestRequiresExplicitRecovery:true,cmsIncompleteOnBlocked:true,cmsRemainder:'92.975',cmsOwnerOnSavedInIsolatedDatabase:true,confirmationCancelNoPurchase:true,sssVideo:true,noPurchaseDuringVideo:true,stopAfterCurrentBatch:true,ssWithoutVideoContinues:true,completedSingleDraws:2,errors,failed});await context.close();
  }
  fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify(reports,null,2)+'\n');console.log(JSON.stringify(reports));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));for(const fn of cleanup)await fn();}

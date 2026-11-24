@@ -3,15 +3,15 @@ import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shar
 import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261021-mobile-recovery-v1';
 import {HalloweenReceiptRecovery,halloweenReceiptRetryable} from '../shared/mercenary-halloween-recovery-v1.mjs?v=20261021-mobile-recovery-v1';
 import {HalloweenAutoOpening,halloweenAutoQuote} from '../shared/mercenary-halloween-auto-v1.mjs?v=20261017-auto-v1';
-import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=2145';
-import {halloweenStockText,halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=jokro-pack-20261021-v1';
+import {MercenaryAcquisitionVideo,mercenaryBatchCinematics as halloweenBatchCinematics} from './mercenary-acquisition-video.mjs?v=20261125-sss-only';
+import {halloweenStockText,halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=jokro-pack-20261021-v1&cinematic=20261125-sss-only';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const scheduledSale=state=>state?.shopEnabled===false&&state.settings.mode==='ON'&&state.saleLabel;
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 할로윈팩을 처리 중입니다.');return work();});};
 let active=null;
-export function halloweenBatchCinematics(results){return ['SS','SSS'].map(rank=>results.find(r=>r.rank===rank&&mercenaryCinematicFor(r))).filter(Boolean);}
-export function halloweenBatchCinematic(results){return halloweenBatchCinematics(results).at(-1)??null;}
+export {halloweenBatchCinematics};
+export function halloweenBatchCinematic(results){return halloweenBatchCinematics(results)[0]??null;}
 export function openHalloweenPack(){return mountHalloweenPack();}
 export async function mountHalloweenPack({api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
@@ -140,12 +140,12 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
  $('[data-hwp-auto-start]').onclick=()=>{
   if(busy||!config?.userOpeningEnabled||!$('[data-hwp-auto-repeats]').reportValidity())return;
   const count=Number($('[data-hwp-auto-count]').value),repeats=Number($('[data-hwp-auto-repeats]').value);
-  try{const q=halloweenAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-hwp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.hwp-confirm-note').textContent='한 번씩 결제하며, SS·SSS 연출이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-hwp-confirm-start]').textContent='자동뽑기 확인';$('[data-hwp-shell]').inert=true;$('[data-hwp-confirm]').hidden=false;$('[data-hwp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
+  try{const q=halloweenAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-hwp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.hwp-confirm-note').textContent='한 번씩 결제하며, SSS 획득 영상이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-hwp-confirm-start]').textContent='자동뽑기 확인';$('[data-hwp-shell]').inert=true;$('[data-hwp-confirm]').hidden=false;$('[data-hwp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
  };
  dialog.querySelectorAll('[data-hwp-buy]').forEach(button=>button.onclick=()=>{
   if(busy||!config?.userOpeningEnabled)return;const count=Number(button.dataset.hwpBuy);quote={config:structuredClone(config),count};
   $('[data-hwp-confirm-text]').textContent=count+'회 개봉 · '+fmt(halloweenPackPrice(config.settings,count))+' 코인을 사용합니다.';
-  $('.hwp-confirm-note').textContent='개봉 후 모든 결과를 한 번에 확인합니다. SS·SSS 획득 연출을 제공합니다.';$('[data-hwp-confirm-start]').textContent='개봉 확인';
+  $('.hwp-confirm-note').textContent='개봉 후 모든 결과를 한 번에 확인합니다. SSS 획득 시 영상이 재생됩니다.';$('[data-hwp-confirm-start]').textContent='개봉 확인';
   $('[data-hwp-shell]').inert=true;$('[data-hwp-confirm]').hidden=false;$('[data-hwp-confirm-cancel]').focus();
  });
  $('[data-hwp-confirm-cancel]').onclick=dismissConfirm;

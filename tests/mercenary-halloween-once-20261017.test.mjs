@@ -25,7 +25,7 @@ test('automatic ten-opening uses the same public route and exactly one forced sl
  const f=await fixture(t),body=f.body(10);f.loseAck();
  const response=await handleHalloweenPack({path:HALLOWEEN_PACK.openPath,request:new Request('https://qa.test/api/'+HALLOWEEN_PACK.openPath,{method:'POST',headers:{origin:'https://qa.test','content-type':'application/json'},body:JSON.stringify(body)}),env:f.env,deps:{authenticate:async()=>f.user,withUserMutationLock:async(_e,_u,_p,fn)=>fn(),json:(body,status)=>({body,status})}});
  assert.equal(response.status,200);assert.equal(response.body.draws[0].edition,'HALLOWEEN_LIMITED');assert.equal(response.body.count,10);assert.equal(await f.coin(),999100);
- const recovered=await f.service.receipt(f.env,f.user,body.requestId);assert.deepEqual(recovered.draws,response.body.draws);assert.equal(halloweenBatchCinematic(halloweenReceiptResults(recovered)).rank,'SS');
+ const recovered=await f.service.receipt(f.env,f.user,body.requestId);assert.deepEqual(recovered.draws,response.body.draws);assert.equal(halloweenBatchCinematic(halloweenReceiptResults(recovered)),null);
  assert.equal((await f.pg.query("SELECT * FROM admin_logs WHERE action_type='MERCENARY_HALLOWEEN_SS_ONCE_CONSUMED'")).rows.length,1);
  const next=await f.service.open(f.env,f.user,f.body(10));assert(next.draws.every(d=>d.outcomeId==='NONE'));assert.equal(await f.coin(),998200);
 });

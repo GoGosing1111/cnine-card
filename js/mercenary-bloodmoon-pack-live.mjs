@@ -4,14 +4,14 @@ import {BloodmoonOpeningSession} from '../shared/mercenary-bloodmoon-session-v2.
 import {BloodmoonReceiptRecovery,bloodmoonReceiptRetryable} from '../shared/mercenary-bloodmoon-recovery-v1.mjs?v=20261024-namsudaeng-v1';
 import {BloodmoonAutoOpening,bloodmoonAutoQuote} from '../shared/mercenary-bloodmoon-auto-v1.mjs?v=20261024-namsudaeng-v1';
 import {bloodmoonBulkQuote,bloodmoonBulkPriceSource,bloodmoonCoinText} from '../shared/mercenary-bloodmoon-bulk-v1.mjs?v=20261103-unique-v1';
-import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261024-namsudaeng-v1';
-import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261113-contract1';
+import {MercenaryAcquisitionVideo,mercenaryBatchCinematics as bloodmoonBatchCinematics} from './mercenary-acquisition-video.mjs?v=20261125-sss-only';
+import {bloodmoonStockText,bloodmoonCollectionMarkup,bloodmoonResultsMarkup,bloodmoonRoomMarkup} from './mercenary-bloodmoon-presentation-v2.mjs?v=20261113-contract1&cinematic=20261125-sss-only';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 이 팩을 개봉하고 있습니다.');return work();});};
 let active=null;
-export function bloodmoonBatchCinematics(results){return ['SS','SSS'].map(rank=>results.find(r=>r.rank===rank&&(r.limited||rank==='SSS')&&mercenaryCinematicFor(r))).filter(Boolean);}
-export function bloodmoonBatchCinematic(results){return bloodmoonBatchCinematics(results).at(-1)??null;}
+export {bloodmoonBatchCinematics};
+export function bloodmoonBatchCinematic(results){return bloodmoonBatchCinematics(results)[0]??null;}
 export function openBloodmoonPack(){return mountBloodmoonPack();}
 export function mountBloodmoonPack(options){
  return mountContractRoom({
@@ -66,7 +66,7 @@ export async function mountContractRoom(profile,{api=jointAccountRequest,getAcco
    const rankRates=$('[data-bwp-rank-rates]');
    if(rankRates)rankRates.textContent=Object.entries(config.settings.normalRankRatesPpm).filter(([rank])=>rank!=='SSS').map(([rank,n])=>rank+' '+n/10000+'%').join(' · ')+' · 일반 SSS '+config.effectiveNormalSssPercent+'% · 미획득 '+config.settings.missRatePpm/10000+'%';
    $('[data-bwp-ownership]').textContent=config.personalOddsKnown?'현재 '+config.ownedDistinctCount+'종 보유 · 보유한 SS 중복 획득 불가 · '+(config.ownedDistinctCount===ssCount?'SS '+ssCount+'종 수집 완료':'미보유 SS 확률 '+(config.ssProbabilityDivisor===1?'기본':'기본의 1/'+config.ssProbabilityDivisor))+' · 카드별 확률은 아래 표시':'로그인 후 현재 보유 종류와 개인 확률을 확인할 수 있습니다.';
-   for(const label of dialog.querySelectorAll('[data-bwp-stock-code]'))label.textContent=bloodmoonStockText(config.cards.find(c=>c.code===label.dataset.bwpStockCode),config.stock?.find(row=>row.code===label.dataset.bwpStockCode),theme.showStockLimits);
+   for(const label of dialog.querySelectorAll('[data-bwp-stock-code]'))label.textContent=bloodmoonStockText(config.cards.find(c=>c.code===label.dataset.bwpStockCode),config.stock?.find(row=>row.code===label.dataset.bwpStockCode),theme?.showStockLimits);
    for(const label of dialog.querySelectorAll('[data-bwp-chance-code]')){const code=label.dataset.bwpChanceCode,percent=config.effectiveCardPercents?.[code],owned=config.ownedCodes?.includes(code);label.textContent=owned?'보유 중 · 중복 획득 불가 (0%)':'1회 확률 '+(percent==null?'미정':percent+'%');}
    for(const count of [1,10]){const price=count===10?config.settings.prices.ten:config.settings.prices.single;$('[data-bwp-price="'+count+'"]').textContent=price==null?'가격 미정':fmt(price)+' 코인';}
    $('[data-bwp-availability]').textContent=config.openingScheduled?theme.saleLabel:config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
@@ -181,7 +181,7 @@ export async function mountContractRoom(profile,{api=jointAccountRequest,getAcco
  $('[data-bwp-auto-start]').onclick=()=>{
   if(busy||!config?.userOpeningEnabled||!$('[data-bwp-auto-repeats]').reportValidity())return;
   const count=Number($('[data-bwp-auto-count]').value),repeats=Number($('[data-bwp-auto-repeats]').value);
-  try{const q=bloodmoonAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-bwp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.bwp-confirm-note').textContent='한 번씩 결제하며, SS 리미티드·SSS 연출이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-bwp-confirm-start]').textContent='자동뽑기 확인';$('[data-bwp-shell]').inert=true;$('[data-bwp-confirm]').hidden=false;$('[data-bwp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
+  try{const q=bloodmoonAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-bwp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.bwp-confirm-note').textContent='한 번씩 결제하며, SSS 획득 영상이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-bwp-confirm-start]').textContent='자동뽑기 확인';$('[data-bwp-shell]').inert=true;$('[data-bwp-confirm]').hidden=false;$('[data-bwp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
  };
  dialog.querySelectorAll('[data-bwp-buy]').forEach(button=>button.onclick=()=>{
   if(busy||!config?.userOpeningEnabled)return;const count=Number(button.dataset.bwpBuy);quote={config:structuredClone(config),count};

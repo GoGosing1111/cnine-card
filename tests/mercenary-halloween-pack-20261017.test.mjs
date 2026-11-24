@@ -69,9 +69,9 @@ test('prepared request cancels on settings change without charging or resampling
  f.settings.prices.single=200;await f.configure(2);await assert.rejects(f.service.open(f.env,f.user,b),e=>e.code==='MERCENARY_HALLOWEEN_CHANGED');assert.equal(calls,before);assert.equal(await f.coin(),1000000);
 });
 
-test('SS videos use the awarded rank, never the SSS entry gate or fake preview results',()=>{
+test('SS rewards skip video even when drawn through the SSS entry gate',()=>{
  const receipt={status:'COMPLETED',packId:HALLOWEEN_PACK.id,count:1,requestId:'qa-halloween-video',draws:[{outcomeId:'HALLOWEEN_SS',mercenaryCode:'V-980',rank:'SS',gateRank:'SSS'}]};
- assert.equal(halloweenBatchCinematic(halloweenReceiptResults(receipt)).rank,'SS');assert.equal(halloweenBatchCinematic(halloweenReceiptResults(receipt).map(r=>({...r,preview:true}))),null);
+ assert.equal(halloweenBatchCinematic(halloweenReceiptResults(receipt)),null);assert.equal(halloweenBatchCinematic(halloweenReceiptResults(receipt).map(r=>({...r,preview:true}))),null);
 });
 
 test('client persists one request before POST, recovers without a new lottery, and isolates accounts',async()=>{

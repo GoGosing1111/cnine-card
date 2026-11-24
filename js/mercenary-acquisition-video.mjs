@@ -1,11 +1,15 @@
 // Presentation only: a completed receipt is required. No draw/payment API here.
 export const MERCENARY_CINEMATICS=Object.freeze({
-  SS:Object.freeze({src:'/assets/ui/project-v/mercenary-acquisition/ss-contract-v1.mp4',bytes:3137541,width:1280,height:720,duration:8}),
   SSS:Object.freeze({src:'/assets/ui/project-v/mercenary-acquisition/sss-contract-v1.mp4',bytes:4462564,width:1280,height:720,duration:10.006}),
 });
 export function mercenaryCinematicFor(result){
-  return result?.kind==='MERCENARY'&&result.granted===true&&result.preview===false&&result.receiptId
-    ?MERCENARY_CINEMATICS[result.rank]||null:null;
+  return result?.kind==='MERCENARY'&&result.rank==='SSS'&&result.granted===true&&result.preview===false&&result.receiptId
+    ?MERCENARY_CINEMATICS.SSS:null;
+}
+
+export function mercenaryBatchCinematics(results){
+  const featured=results.find(mercenaryCinematicFor);
+  return featured?[featured]:[];
 }
 
 export class MercenaryAcquisitionVideo {
@@ -13,8 +17,7 @@ export class MercenaryAcquisitionVideo {
     this.host=host;this.loadTimeout=loadTimeout;this.stallTimeout=stallTimeout;
     this.assets=new Map();this.active=null;this.disposed=false;this.muted=true;
   }
-  // At most two small blobs per dialog. The entire file is validated before play,
-  // so a network drop cannot interrupt an already started cinematic.
+  // Validate the entire file before play so playback can finish through a network drop.
   load(asset){
     if(this.disposed)return Promise.resolve(null);
     if(this.assets.has(asset.src))return this.assets.get(asset.src).promise;

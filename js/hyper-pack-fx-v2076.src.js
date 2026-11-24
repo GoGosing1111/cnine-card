@@ -178,7 +178,7 @@ class HyperPackPresentation {
     this.loading=false;if(this.skipRequested){this.complete();return true;}this.app?.start();this.emit('playing',{count:results.length});
     for(let index=0;index<results.length;index++){
       let cinematic=false;
-      if(this.live&&!this.fastReveal&&this.cinematic&&results[index].kind==='MERCENARY'&&['SS','SSS'].includes(results[index].rank)){
+      if(this.live&&!this.fastReveal&&this.cinematic&&results[index].kind==='MERCENARY'&&results[index].rank==='SSS'){
         this.clear();this.app.stop();this.inCinematic=true;
         cinematic=await this.cinematic.play(results[index],state=>{
           if(generation!==this.generation)return;
@@ -219,4 +219,4 @@ class HyperPackPresentation {
     if(this.initialized){this.app?.destroy(true,{children:true,texture:false,textureSource:false});this.app=null;}this.root=null;this.emit('destroyed');
   }
 }
-globalThis.HyperPackFX=Object.freeze({version:2147,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});
+globalThis.HyperPackFX=Object.freeze({version:2148,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});

@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {MERCENARY_CINEMATICS,mercenaryCinematicFor} from '../js/mercenary-acquisition-video.mjs';
 const read=path=>readCommittedAssetSync(new URL('../'+path,import.meta.url),'utf8');
-const result=(rank='SS')=>({kind:'MERCENARY',rank,granted:true,preview:false,receiptId:'saved-receipt',mercenaryCode:rank==='SSS'?'V-021':'V-004'});
+const result=(rank='SSS')=>({kind:'MERCENARY',rank,granted:true,preview:false,receiptId:'saved-receipt',mercenaryCode:rank==='SSS'?'V-021':'V-004'});
 const settle=()=>new Promise(resolve=>setImmediate(resolve));
 
 function harness({fetcher,playError}={}){
@@ -20,7 +20,7 @@ function harness({fetcher,playError}={}){
     remove(){if(this.parent)this.parent.children=this.parent.children.filter(node=>node!==this);}
     setAttribute(key,value){this.attributes.set(key,value);}
     removeAttribute(key){this.attributes.delete(key);if(key==='src')this.src='';}
-    load(){if(!this.src)return;this.readyState=2;this.videoWidth=1280;this.videoHeight=720;this.duration=this.src.includes('sss-')?10.006:8;queueMicrotask(()=>{this.dispatchEvent(new Event('loadedmetadata'));this.dispatchEvent(new Event('canplay'));});}
+    load(){if(!this.src)return;this.readyState=2;this.videoWidth=1280;this.videoHeight=720;this.duration=10.006;queueMicrotask(()=>{this.dispatchEvent(new Event('loadedmetadata'));this.dispatchEvent(new Event('canplay'));});}
     play(){if(playingError)return Promise.reject(playingError);this.paused=false;return Promise.resolve();}
     pause(){this.paused=true;this.dispatchEvent(new Event('pause'));}
   }
@@ -38,24 +38,25 @@ function harness({fetcher,playError}={}){
   };
 }
 
-test('only authoritative SS and SSS mercenary results select their distinct videos',()=>{
-  assert.equal(mercenaryCinematicFor(result('SS')),MERCENARY_CINEMATICS.SS);
+test('the acquisition video requires an authoritative SSS mercenary result',()=>{
   assert.equal(mercenaryCinematicFor(result('SSS')),MERCENARY_CINEMATICS.SSS);
-  for(const rank of ['C','B','A','S','SSSS','ss'])assert.equal(mercenaryCinematicFor(result(rank)),null);
+  for(const rank of ['C','B','A','S','SS','SSSS','ss','sss'])assert.equal(mercenaryCinematicFor({...result(rank),gateRank:'SSS',limited:true}),null);
   for(const patch of [{kind:'MASTER_STAR'},{preview:true},{granted:false},{receiptId:''}])assert.equal(mercenaryCinematicFor({...result(),...patch}),null);
 });
 
-test('lazy fetch; mixed ten-draws download each rank once and release both blob URLs',async()=>{
+test('SS draws skip the player and mixed draws only fetch the SSS video once',async()=>{
   const h=harness();assert.equal(h.requests.length,0);
+  h.controller.prepare([result('SS')]);assert.equal(await h.controller.play(result('SS')),false);
+  assert.equal(h.requests.length,0);assert.equal(h.video(),undefined);assert.equal(h.host.children.length,0);
   h.controller.prepare(Array.from({length:10},(_,i)=>result(i%2?'SSS':'SS')));await settle();
-  assert.equal(h.requests.length,2);assert.equal(h.urls.length,2);
-  for(const rank of ['SS','SSS','SS']){const played=h.controller.play(result(rank));await settle();const video=h.video();assert(video.src.includes(rank==='SSS'?'sss-':'ss-'));video.ended=true;video.dispatchEvent(new Event('ended'));assert.equal(await played,true);}
-  assert.equal(h.requests.length,2);h.controller.destroy();assert.equal(h.revoked.length,2);assert.equal(h.timers.size,0);assert.equal(h.host.children.length,0);
+  assert.deepEqual(h.requests.map(r=>r.src),[MERCENARY_CINEMATICS.SSS.src]);assert.equal(h.urls.length,1);
+  for(let i=0;i<2;i++){const played=h.controller.play(result());await settle();const video=h.video();assert(video.src.includes('sss-'));video.ended=true;video.dispatchEvent(new Event('ended'));assert.equal(await played,true);}
+  assert.equal(h.requests.length,1);h.controller.destroy();assert.equal(h.revoked.length,1);assert.equal(h.timers.size,0);assert.equal(h.host.children.length,0);
 });
 
 test('playback waits for the entire blob, not just response headers',async()=>{
-  let finishBody;const h=harness({fetcher:async src=>({status:200,headers:{get:()=> 'video/mp4'},blob:()=>new Promise(resolve=>finishBody=()=>resolve({size:MERCENARY_CINEMATICS.SS.bytes,src}))})});
-  const played=h.controller.play(result());await settle();assert.equal(h.video(),undefined);assert.equal(h.host.dataset.cinematic,'SS');
+  let finishBody;const h=harness({fetcher:async src=>({status:200,headers:{get:()=> 'video/mp4'},blob:()=>new Promise(resolve=>finishBody=()=>resolve({size:MERCENARY_CINEMATICS.SSS.bytes,src}))})});
+  const played=h.controller.play(result());await settle();assert.equal(h.video(),undefined);assert.equal(h.host.dataset.cinematic,'SSS');
   finishBody();await settle();assert(h.video().src.startsWith('blob:'));h.controller.cancel();assert.equal(await played,false);h.controller.destroy();
 });
 
@@ -75,7 +76,7 @@ test('pause/resume lasts beyond watchdog and browser autoplay denial exposes res
 });
 
 test('truncated files, HTML fallbacks, HTTP failures and decode errors fail closed to existing reveal',async()=>{
-  for(const [status,type,size] of [[200,'video/mp4',32],[200,'text/html',MERCENARY_CINEMATICS.SS.bytes],[404,'video/mp4',0],[206,'video/mp4',MERCENARY_CINEMATICS.SS.bytes]]){
+  for(const [status,type,size] of [[200,'video/mp4',32],[200,'text/html',MERCENARY_CINEMATICS.SSS.bytes],[404,'video/mp4',0],[206,'video/mp4',MERCENARY_CINEMATICS.SSS.bytes]]){
     const h=harness({fetcher:async()=>({status,headers:{get:()=>type},blob:async()=>({size})})});assert.equal(await h.controller.play(result()),false);assert.equal(h.video(),undefined);h.controller.destroy();
   }
   const h=harness(),played=h.controller.play(result());await settle();h.video().dispatchEvent(new Event('error'));assert.equal(await played,false);h.controller.destroy();
@@ -87,7 +88,7 @@ test('stalled download and stalled decoding are bounded without losing saved rew
 });
 
 test('skip/close while loading settles immediately and late fetch cannot revive removed video',async()=>{
-  let respond;const h=harness({fetcher:src=>new Promise(resolve=>respond=()=>resolve({status:200,headers:{get:()=> 'video/mp4'},blob:async()=>({size:MERCENARY_CINEMATICS.SS.bytes,src})}))});
+  let respond;const h=harness({fetcher:src=>new Promise(resolve=>respond=()=>resolve({status:200,headers:{get:()=> 'video/mp4'},blob:async()=>({size:MERCENARY_CINEMATICS.SSS.bytes,src})}))});
   const played=h.controller.play(result());h.controller.destroy();assert.equal(await played,false);respond();await settle();
   assert.equal(h.host.children.length,0);assert.equal(h.urls.length,0);assert.equal(h.timers.size,0);assert(h.requests[0].options.signal.aborted);
 });
@@ -109,8 +110,9 @@ function child(buffer,parent,type){return atoms(buffer,parent.start,parent.end).
 test('compressed assets retain 720p/24fps/full frame counts, AAC and fast-start; hashes and sizes are locked',()=>{
   const manifest=JSON.parse(read('assets/ui/project-v/mercenary-acquisition/manifest-v1.json'));
   for(const row of manifest.videos){
-    const asset=MERCENARY_CINEMATICS[row.rank],buffer=readCommittedAssetSync(new URL('..'+asset.src,import.meta.url));
-    assert.equal(buffer.length,row.bytes);assert.equal(asset.bytes,row.bytes);assert(buffer.length<row.sourceBytes*.6);assert(buffer.length<5*1024*1024);
+    const buffer=readCommittedAssetSync(new URL('../assets/ui/project-v/mercenary-acquisition/'+row.file,import.meta.url));
+    assert.equal(buffer.length,row.bytes);if(row.rank==='SSS')assert.equal(MERCENARY_CINEMATICS.SSS.bytes,row.bytes);
+    assert(buffer.length<row.sourceBytes*.6);assert(buffer.length<5*1024*1024);
     assert.equal(createHash('sha256').update(buffer).digest('hex'),row.sha256);
     const top=atoms(buffer),moov=top.find(a=>a.type==='moov'),mdat=top.find(a=>a.type==='mdat');assert(moov.start<mdat.start);
     const tracks=atoms(buffer,moov.start,moov.end).filter(a=>a.type==='trak');let video,audio;
@@ -127,8 +129,28 @@ test('live wiring is receipt-only, cache versions match, no eager video download
   const live=read('js/mercenary-pack-live.mjs'),fx=read('js/hyper-pack-fx-v2076.src.js'),helper=read('js/mercenary-acquisition-video.mjs');
   assert.match(live,/withPresentationDeadline\(fx\.play\(results\)/);assert.match(live,/cinematic\.destroy\(\)/);
   assert.match(fx,/await this\.cinematic\.play\(results\[index\]/);assert.match(fx,/this\.app\.stop\(\)/);assert.match(fx,/this\.cinematic\?\.destroy\(\)/);
+  assert.match(fx,/results\[index\]\.rank==='SSS'/);
+  assert.match(read('js/hyper-pack-fx-v2076.bundle.js'),/\.rank==="SSS"\)\{[^{}]*\.cinematic\.play/);
   assert.doesNotMatch(helper,/\/api\/|localStorage|requestId\s*=/);assert.doesNotMatch(read('index.html'),/\.mp4|<script[^>]+hyper-pack-fx/);
   for(const path of ['index.html','js/app.js'])assert.match(read(path),/mercenary-pack-live\.mjs\?v=2145-acquisition-video/);
   assert.match(read('css/mercenary-pack-live.css'),/object-fit:contain/);assert.match(read('css/mercenary-pack-live.css'),/aspect-ratio:16\/9/);
   assert.match(read('css/mercenary-pack-live.css'),/@media\(max-height:500px\)/);assert.match(read('css/mercenary-pack-live.css'),/100dvh - 200px/);
+});
+
+test('direct room modules and shipped bundles select a single SSS film from a mixed receipt',async()=>{
+  const ss={...result('SS'),limited:true,gateRank:'SSS'},sss=result();
+  const selectors=[
+    (await import('../js/mercenary-halloween-pack-live.mjs')).halloweenBatchCinematics,
+    (await import('../js/mercenary-bloodmoon-pack-live.mjs')).bloodmoonBatchCinematics,
+    (await import('../js/mercenary-blackcrown-pack-live.bundle.mjs')).blackcrownBatchCinematics,
+  ];
+  for(const select of selectors){
+    assert.deepEqual(select([ss]),[]);
+    assert.deepEqual(select([ss,sss,{...sss,receiptId:'second-receipt'}]),[sss]);
+  }
+  for(const name of ['mercenary-blackcrown-pack-live','mercenary-blue-gear-pack-live','reversecall-streamer-pack-live']){
+    const bundle=read('js/'+name+'.bundle.mjs');
+    assert(!bundle.includes('/ss-contract-v1.mp4'),name);
+    assert(bundle.includes(MERCENARY_CINEMATICS.SSS.src),name);
+  }
 });

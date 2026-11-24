@@ -25,9 +25,9 @@ test('bounded automatic quote includes exact maximum cost and rejects malformed 
  for(const [count,repeats] of [[0,10],[11,10],[10,0],[10,101],[1,1.5],[10,NaN]])assert.throws(()=>halloweenAutoQuote(c,count,repeats));
 });
 
-test('a mixed confirmed batch shows SS then SSS once per grade, never previews or gate ranks',()=>{
+test('a mixed confirmed batch only selects the actual SSS award for video',()=>{
  const receipt={status:'COMPLETED',packId:HALLOWEEN_PACK.id,count:10,requestId:'test-cinematics',draws:Array.from({length:10},(_,i)=>({mercenaryCode:i===0?'V-989':'V-980',rank:i===0?'SSS':'SS',gateRank:'SSS'}))};
- const results=halloweenReceiptResults(receipt);assert.deepEqual(halloweenBatchCinematics(results).map(r=>r.rank),['SS','SSS']);
+ const results=halloweenReceiptResults(receipt);assert.deepEqual(halloweenBatchCinematics(results).map(r=>r.rank),['SSS']);
  assert.deepEqual(halloweenBatchCinematics(results.map(r=>({...r,preview:true}))),[]);
  assert.deepEqual(halloweenBatchCinematics([{...results[1],rank:'S',gateRank:'SSS'}]),[]);
 });

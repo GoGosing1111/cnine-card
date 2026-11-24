@@ -76,9 +76,9 @@ test('prepared request cancels on settings change without charging or resampling
  f.settings.prices.single=200;await f.configure(2);await assert.rejects(f.service.open(f.env,f.user,b),e=>e.code==='MERCENARY_BLOODMOON_CHANGED');assert.equal(calls,before);assert.equal(await f.coin(),1000000);
 });
 
-test('SS videos use the awarded rank, never the SSS entry gate or fake preview results',()=>{
+test('SS rewards skip video even when drawn through the SSS entry gate',()=>{
  const receipt={status:'COMPLETED',packId:BLOODMOON_PACK.id,count:1,requestId:'qa-bloodmoon-video',draws:[{outcomeId:'BLOODMOON_SS',mercenaryCode:'V-960',rank:'SS',gateRank:'SSS'}]};
- assert.equal(bloodmoonBatchCinematic(bloodmoonReceiptResults(receipt)).rank,'SS');assert.equal(bloodmoonBatchCinematic(bloodmoonReceiptResults(receipt).map(r=>({...r,preview:true}))),null);
+ assert.equal(bloodmoonBatchCinematic(bloodmoonReceiptResults(receipt)),null);assert.equal(bloodmoonBatchCinematic(bloodmoonReceiptResults(receipt).map(r=>({...r,preview:true}))),null);
 });
 
 test('client persists one request before POST, recovers without a new lottery, and isolates accounts',async()=>{

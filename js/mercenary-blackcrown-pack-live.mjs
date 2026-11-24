@@ -4,14 +4,14 @@ import {BlackcrownOpeningSession} from '../shared/mercenary-blackcrown-session-v
 import {BlackcrownReceiptRecovery,blackcrownReceiptRetryable} from '../shared/mercenary-blackcrown-recovery-v1.mjs?v=20261027-v1';
 import {BlackcrownAutoOpening,blackcrownAutoQuote} from '../shared/mercenary-blackcrown-auto-v1.mjs?v=20261027-v1';
 import {blackcrownBulkQuote,blackcrownBulkPriceSource,blackcrownCoinText} from '../shared/mercenary-blackcrown-bulk-v1.mjs';
-import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=20261024-namsudaeng-v1';
+import {MercenaryAcquisitionVideo,mercenaryBatchCinematics as blackcrownBatchCinematics} from './mercenary-acquisition-video.mjs?v=20261125-sss-only';
 import {blackcrownStockText,blackcrownCollectionMarkup,blackcrownResultsMarkup,blackcrownRoomMarkup,playBlackcrownBulkOpening,blackcrownLargeOpening} from './mercenary-blackcrown-presentation-v2.mjs?v=20261030-opening-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 블랙크라운팩을 처리 중입니다.');return work();});};
 let active=null;
-export function blackcrownBatchCinematics(results){return ['SS','SSS'].map(rank=>results.find(r=>r.rank===rank&&(r.limited||rank==='SSS')&&mercenaryCinematicFor(r))).filter(Boolean);}
-export function blackcrownBatchCinematic(results){return blackcrownBatchCinematics(results).at(-1)??null;}
+export {blackcrownBatchCinematics};
+export function blackcrownBatchCinematic(results){return blackcrownBatchCinematics(results)[0]??null;}
 export function openBlackcrownPack(){return mountBlackcrownPack();}
 export async function mountBlackcrownPack({pack=BLACKCROWN_PACK,api=jointAccountRequest,accountId=currentAccount(),getAccountId=currentAccount,storage=localStorage,lock=browserLock,videoFactory=host=>new MercenaryAcquisitionVideo(host)}={}){
  if(active)return active;
@@ -149,7 +149,7 @@ export async function mountBlackcrownPack({pack=BLACKCROWN_PACK,api=jointAccount
  $('[data-bcp-auto-start]').onclick=()=>{
   if(busy||!config?.userOpeningEnabled||!$('[data-bcp-auto-repeats]').reportValidity())return;
   const count=Number($('[data-bcp-auto-count]').value),repeats=Number($('[data-bcp-auto-repeats]').value);
-  try{const q=blackcrownAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-bcp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.bcp-confirm-note').textContent='한 번씩 결제하며, SS 리미티드·SSS 연출이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-bcp-confirm-start]').textContent='자동뽑기 확인';$('[data-bcp-shell]').inert=true;$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
+  try{const q=blackcrownAutoQuote(config,count,repeats);quote={auto:true,config:structuredClone(config),count,repeats};$('[data-bcp-confirm-text]').textContent=count+'회씩 '+repeats+'회 반복 · 총 '+q.totalDraws+'회 · 최대 '+fmt(q.maxCost)+' 코인을 사용합니다.';$('.bcp-confirm-note').textContent='한 번씩 결제하며, SSS 획득 영상이 끝나면 이어서 뽑습니다. 중지하면 진행 중인 개봉 결과까지만 처리합니다.';$('[data-bcp-confirm-start]').textContent='자동뽑기 확인';$('[data-bcp-shell]').inert=true;$('[data-bcp-confirm]').hidden=false;$('[data-bcp-confirm-cancel]').focus();}catch(e){say(e.message,true);}
  };
  dialog.querySelectorAll('[data-bcp-buy]').forEach(button=>button.onclick=()=>{
   if(busy||!config?.userOpeningEnabled)return;const count=Number(button.dataset.bcpBuy);quote={config:structuredClone(config),count};

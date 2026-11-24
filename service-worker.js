@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-vhalloween-preview-20261124';
+const SHELL_CACHE='soop-card-shell-vmercenary-sss-video-20261125';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const APPROVED_CNINE_CREST='/assets/ui/brand/cnine-crowned-c9.webp';
 const RETIRED_LOGO_PATHS=new Set([

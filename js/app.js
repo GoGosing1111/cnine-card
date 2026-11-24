@@ -1957,7 +1957,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-halloween-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261124-preview-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261124-preview-v1&cinematic=20261125-sss-only').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function halloweenShopStockText(stock){
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
@@ -1978,7 +1978,7 @@ function halloweenPackHero(pack) {
 
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-bloodmoon-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261113-contract1').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-bloodmoon-pack-live.mjs?v=20261113-contract1&cinematic=20261125-sss-only').then(module=>module.openBloodmoonPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function bloodmoonShopStockText(stock,showLimit=false){
  if(stock?.stockPolicy==='UNLIMITED')return '발행 한도 없음';
@@ -2010,9 +2010,9 @@ function bloodmoonPackHero(pack) {
 
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-blackcrown-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-blackcrown-pack-live.bundle.mjs?blackcrownBalance=20261031-v1&sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-unique-v1').then(module=>module.openBlackcrownPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-blackcrown-pack-live.bundle.mjs?blackcrownBalance=20261031-v1&sss=20261027-cardgu-revan-v1&v=20261027-buttons-v4&opening=20261031-unique-v1&cinematic=20261125-sss-only').then(module=>module.openBlackcrownPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
-document.addEventListener('click',event=>{const button=event.target.closest?.('[data-streamer-pack-enter]');if(!button||button.disabled)return;button.disabled=true;import('/js/reversecall-streamer-pack-live.bundle.mjs?v=20261105-v1').then(module=>module.openStreamerPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});});
+document.addEventListener('click',event=>{const button=event.target.closest?.('[data-streamer-pack-enter]');if(!button||button.disabled)return;button.disabled=true;import('/js/reversecall-streamer-pack-live.bundle.mjs?v=20261105-v1&cinematic=20261125-sss-only').then(module=>module.openStreamerPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});});
 window.addEventListener('reversecall-streamer-pack:stock',event=>{const pack=PACKS.find(row=>row.id==='mercenary-reversecall-streamer');if(!pack||!Array.isArray(event.detail?.stock))return;for(const stock of event.detail.stock){const card=pack.previewCards.find(c=>c.code===stock.code);if(card)Object.assign(card,stock);}for(const node of document.querySelectorAll('.streamer-pack-hero [data-bcp-stock-code]'))node.textContent=blackcrownShopStockText(pack.previewCards.find(c=>c.code===node.dataset.bcpStockCode));});
 function blackcrownShopStockText(stock){
  if(stock?.stockPolicy==='UNLIMITED')return '발행 한도 없음';
@@ -2049,7 +2049,7 @@ window.addEventListener('blue-gear-pack:stock',event=>{
 document.addEventListener('click',async event=>{
  const button=event.target.closest?.('[data-blue-gear-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-limits-20261122-v1');await module.openBlueGearPack();}
+ try{const module=await import('/js/mercenary-blue-gear-pack-live.bundle.mjs?v=bluegear-limits-20261122-v1&cinematic=20261125-sss-only');await module.openBlueGearPack();}
  catch(error){alert(error.message);}finally{if(button.isConnected)button.disabled=false;}
 });
 function blackcrownPackHero(pack) {
@@ -6246,7 +6246,7 @@ openPack=async function(packId,count,cost,options={}){
   if(hasPendingSuperstarBulk()&&!readPendingDraw())return openSuperstarBulk();
   if(hasPendingUltimateBulk()&&!readPendingDraw())return openUltimateBulk();
   if(String(packId)==='ultimate'&&Number(count)>=1000)return openUltimateBulk(Number(count));
-  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2145-acquisition-video&draw=20260922-weighted&auto=20260924-response&sync=20261015-v1');return globalThis.MercenaryPack.open(Number(count));}
+  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2145-acquisition-video&draw=20260922-weighted&auto=20260924-response&sync=20261015-v1&cinematic=20261125-sss-only');return globalThis.MercenaryPack.open(Number(count));}
   if(String(packId)==='premium'&&!readPendingDraw())return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';
