@@ -1,14 +1,14 @@
-import {isKairon,KAIRON_AREA_EVENT,KAIRON_AREA_MECHANIC} from '../shared/mercenary-kairon-v1.mjs';
+import {isKairon,KAIRON_COMBAT,KAIRON_AREA_EVENT,KAIRON_AREA_MECHANIC} from '../shared/mercenary-kairon-v1.mjs';
 const living=t=>t?.alive!==false&&t?.hp>0&&!t?.untargetable&&!t?.isBattleSuit;
 
 // All straight tracers, descending missiles and explosions are one cast.
-// Its total budget and one receipt per living target match Jinmu exactly.
+// Apply one hit per living target.
 export function resolveKaironArea({actor,skill,targets,hit,damage,knockout,emit,damageScale=1}){
  if(!isKairon(actor)||actor.battleMode!=='PVE'||skill.mechanic!==KAIRON_AREA_MECHANIC||!living(actor)||actor.stunned||actor.silenced)return [];
  const fixed=[...new Map(targets.filter(living).map(t=>[t.id,t])).values()];if(!fixed.length)return [];
  const share=1/fixed.length,ratio=skill.balance.damageRatio*share*damageScale,hits=[];
  for(const target of fixed){
-  const result=ratio>0?hit(actor,target,ratio,{rangedSkill:false,castShare:share}):{damage:0,dodge:false};
+  const result=ratio>0?hit(actor,target,ratio,{rangedSkill:false,castShare:share,pveCapScale:KAIRON_COMBAT.areaDamageCapScale}):{damage:0,dodge:false};
   const outcome=result.dodge?{hpDamage:0,absorbed:0}:damage(target,Math.max(0,result.damage));
   actor.damageDealt+=outcome.hpDamage+outcome.absorbed;
   hits.push({targetId:target.id,damage:outcome.hpDamage,absorbed:outcome.absorbed,dodge:!!result.dodge,

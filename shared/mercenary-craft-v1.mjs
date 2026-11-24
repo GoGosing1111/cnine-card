@@ -8,7 +8,7 @@ export const PRIME_CRAFT_KEY='mercenary_prime_craft_v1';
 export const PRIME_RECIPE_CODE='WORKSHOP_PRIME_REQUIEM';
 export const KAIRON_CRAFT_KEY='mercenary_kairon_craft_v1';
 export const KAIRON_RECIPE_CODE='WORKSHOP_KAIRON';
-export const KAIRON_CRAFT_LIMIT=8;
+export const KAIRON_CRAFT_LIMIT=13;
 export const JOKRO_CRAFT_KEY='mercenary_jokro_craft_v1';
 export const JOKRO_RECIPE_CODE='WORKSHOP_JOKRO';
 export const JOKRO_CRAFT_LIMIT=2;
@@ -16,7 +16,7 @@ export const AWAKENED_OMEGA_CRAFT=Object.freeze({key:'mercenary_awakened_omega_c
 export const isAwakenedOmegaCraft=recipe=>(recipe?.recipeCode||recipe?.code)===AWAKENED_OMEGA_CRAFT.recipeCode;
 export const awakenedOmegaCraftDraft=()=>({revision:0,coinCost:AWAKENED_OMEGA_CRAFT.coinCost,masterStarCost:0,successRate:10,pityAfter:10,materials:[{itemCode:AWAKENED_OMEGA_CRAFT.materialCode,quantity:50}],isActive:false,isPublic:false});
 export const MERCENARY_CRAFTS=Object.freeze([
- Object.freeze({key:KAIRON_CRAFT_KEY,recipeCode:KAIRON_RECIPE_CODE,code:KAIRON_CODE,limit:KAIRON_CRAFT_LIMIT,art:KAIRON_ART,power:KAIRON_COMBAT.basePower,name:'카이론 · 흑탄의 집행관',description:'제작 전용 SSS 리미티드 · 팩 획득 불가 · 진무와 동일한 전투 밸런스',prefix:'KAIRON',sort:988,masterStarMax:1000000}),
+ Object.freeze({key:KAIRON_CRAFT_KEY,recipeCode:KAIRON_RECIPE_CODE,code:KAIRON_CODE,limit:KAIRON_CRAFT_LIMIT,art:KAIRON_ART,power:KAIRON_COMBAT.basePower,name:'카이론 · 흑탄의 집행관',description:'제작 전용 SSS 리미티드 · 팩 획득 불가 · 기본 전투력 235만',prefix:'KAIRON',sort:988,masterStarMax:1000000}),
  Object.freeze({key:JOKRO_CRAFT_KEY,recipeCode:JOKRO_RECIPE_CODE,code:JOKRO_CODE,limit:JOKRO_CRAFT_LIMIT,art:JOKRO_ART,power:JOKRO_COMBAT.basePower,name:'족로 · 청룡의 발도',description:'SSS 리미티드 · 서버 전체 제작 2장 한정 · 팩 발행 한도와 별도',prefix:'JOKRO',sort:989,masterStarMax:100000000}),
  Object.freeze({key:PRIME_CRAFT_KEY,recipeCode:PRIME_RECIPE_CODE,code:PRIME_CODE,limit:null,art:PRIME_ART,power:PRIME_COMBAT.basePower,name:'프라임 레퀴엠',description:'기운잃은 프라임 카드와 설정된 재료·비용으로 프라임 레퀴엠을 제작합니다.',prefix:'PRIME',scope:'PRIME_MATERIAL',sort:990,masterStarMax:100000000,releaseEnabled:PRIME_CRAFT_RELEASE_ENABLED,requiredMaterial:PRIME_MATERIAL.code}),
  Object.freeze({key:AWAKENED_OMEGA_CRAFT.key,recipeCode:AWAKENED_OMEGA_CRAFT.recipeCode,code:AWAKENED_OMEGA_CODE,limit:null,art:AWAKENED_OMEGA_ART,power:AWAKENED_OMEGA_COMBAT.basePower,name:'각성 오메가',description:'오메가-X 50장 + 100조 코인 · 성공률 10% · 10회 연속 실패 후 11회째 확정 성공. 성공·실패 모두 재료와 코인을 소모하며 성공 시 누적 초기화.',prefix:'AWAKENED_OMEGA',scope:'AWAKENED_OMEGA',sort:991,masterStarMax:0,releaseEnabled:true,requiredMaterial:AWAKENED_OMEGA_CRAFT.materialCode}),
