@@ -20,7 +20,8 @@ const planRewards=vm.runInNewContext(source.slice(source.indexOf('const p='),sou
   supplyBoxSettings:async()=>({enabled:false,sources:{}}),
   blackMiracleSettings:async()=>({sources:{}}),
   resolveAvatarDropRate:async()=>{throw Error('Unexpected unrelated drop roll')},
-  planUnifiedDropRoll:async()=>({pools:[],rewards:[]})
+  planUnifiedDropRoll:async()=>({pools:[],rewards:[]}),
+  drawBlueprintDrop:()=>null
 });
 const modes=[['OFF',1],['BURNING',1.5],['BURNING',10],['HYPER',2.5],['HYPER',30],['MIRACLE',1],['MIRACLE',100],['MIRACLE',300]];
 const bonuses={75:{coinPercent:25,masterStars:300,mysticEnergy:4},76:{coinPercent:10,masterStars:1200,mysticEnergy:9}};
@@ -64,7 +65,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ever
     assert.equal(unset.bonuses.masterStars,0);assert.equal(unset.bonuses.mysticEnergy,0);
   }
   const salvage=(await readHideout(f.env,f.user.id)).state.parts;
-  assert.equal(salvage.HOUSING_PLAN,1);assert.equal(salvage.LEATHER_KIT,1);assert.equal(salvage.STEEL,16*16);
+  assert.equal(salvage.HOUSING_PLAN,1);assert.equal(salvage.LEATHER_KIT,1);assert.equal(salvage.STEEL,10);assert.equal(salvage.WIRE,6);assert.equal(salvage.STRUCTURE,1);
 });
 
 test('Miracle unified drops change probability only, never the configured star or mystic quantity',()=>{

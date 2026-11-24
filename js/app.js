@@ -966,7 +966,7 @@ function bindFullscreenPlayLink(header){
 }
 
 const FEATURE_RESOURCE_MANIFEST={
-  hideout:{parallelStyles:true,styles:['css/personal-hideout-v1.css?v=20261124-room-first'],scripts:['js/personal-hideout-v1.js?v=20261124-upgrade-coins'],ready:()=>typeof window.PersonalHideout?.view==='function'},
+  hideout:{parallelStyles:true,styles:['css/personal-hideout-v1.css?v=20261124-room-first'],scripts:['js/personal-hideout-v1.js?v=20261124-salvage-limits'],ready:()=>typeof window.PersonalHideout?.view==='function'},
   season:{parallelStyles:true,styles:['css/season-s1.css?v=20261107-v3-materials1&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-1'],scripts:['js/season-s1.bundle.js?v=20261107-royal-v4&s1=shared-five-v1&heir=20261107-paced-v3&screen=20261108-duo-v1'],ready:()=>typeof window.SeasonS1?.view==='function'},
   sigHunterBox:{
     styles:['css/sig-hunter-box-v1.css?v=20261022-v1'],

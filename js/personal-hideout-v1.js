@@ -186,7 +186,7 @@
    </section>
    <section class="ph-materials ph-panel">
     <h2>부품 보관함</h2>
-    <div>${data.parts.map(p=>'<article><img src="'+esc(p.image)+'" width="72" height="72" loading="lazy" alt=""><b>'+esc(p.name)+'</b><strong>'+n(data.state.parts[p.code])+'</strong><small>'+esc(p.source)+'</small></article>').join('')}</div>
+    <div>${data.parts.map(p=>'<article><img src="'+esc(p.image)+'" width="72" height="72" loading="lazy" alt=""><b>'+esc(p.name)+'</b><strong>'+n(data.state.parts[p.code])+(p.stockLimit?' / '+n(p.stockLimit):'')+'</strong><small>'+esc(p.source)+'</small></article>').join('')}</div>
    </section>`;
   stopSizing=observeWorld();
  }

@@ -132,7 +132,7 @@ test('hunt, sweep and Apocalypse results present only tickets the account actual
  assert.deepEqual(await settleRankedHunt(f.env,7,'HUNT',hunt,100,'old result'),{cowTicket:null,hideoutReward:null});
  assert.equal(await cowTicketCount(f.DB,7,'solo'),0);
  const roll=()=>settleRankedHunt(f.env,7,'HUNT',sweep,100,'sweep',{sweep:true});
- const first=await roll();assert.equal(first.cowTicket.code,COW_TICKETS.party.code);assert.deepEqual(first.hideoutReward,{STEEL:2,WIRE:1});assert.deepEqual(await roll(),first);
+ const first=await roll();assert.equal(first.cowTicket.code,COW_TICKETS.party.code);assert.equal(first.hideoutReward,null);assert.deepEqual(await roll(),first);
  assert.equal(await cowTicketCount(f.DB,7,'party'),1);
  const state={requestId:hunt,won:false,plan:{bonuses:{}},monsterId:1};
  const apo=await prepareApocalypseRewards(f.env,f.user,state);await f.DB.batch(apo.statements);
@@ -165,8 +165,8 @@ for(const withHideout of [false,true])test((withHideout?'with a personal hideout
    const home=await saved(f,HIDEOUT_KEY(uid));
    assert(['VICTORY','DEFEAT'].includes(final.status));
    const win=final.status==='VICTORY';
-   assert.equal(home.parts.STEEL,win?12:8);assert.equal(home.parts.DRIVE,win?2:1);
-   assert.equal(home.parts.HOUSING_PLAN,win?1:0);assert((win?[0,1]:[0]).includes(home.parts.CORE));
+   assert.equal(home.parts.STEEL,win?8:0);assert.equal(home.parts.WIRE,win?5:0);assert.equal(home.parts.DRIVE,win?2:1);
+   assert.equal(home.parts.HOUSING_PLAN,win?1:0);assert.equal(home.parts.STRUCTURE,win?1:0);assert((win?[0,1]:[0]).includes(home.parts.CORE));
   }
  }
 });

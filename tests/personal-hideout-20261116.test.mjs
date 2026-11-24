@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {SeasonSQLiteDB} from './helpers/season-s1-db.mjs';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {emptyHideout,HIDEOUT_KEY,HIDEOUT_FURNITURE,changeHideout,hideoutBenefits,hideoutCardRates,hideoutAward,hideoutDailyAward,hideoutCost,hideoutState,publicHideout} from '../shared/personal-hideout-v1.mjs';
+import {emptyHideout,HIDEOUT_KEY,HIDEOUT_FURNITURE,HIDEOUT_STOCK_LIMITS,changeHideout,hideoutBenefits,hideoutCardRates,hideoutAward,hideoutDailyAward,hideoutCost,hideoutState,publicHideout} from '../shared/personal-hideout-v1.mjs';
 import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
 import {LEGION_RECOVERY_EVENT} from '../shared/legion-hunt-energy-v1.mjs';
 import {hideoutAwardStatements,mutateHideout,readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
@@ -27,7 +27,7 @@ async function fixture(t,postgres=false){
   seed:async state=>DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(HIDEOUT_KEY(7),JSON.stringify(state)).run()};
 }
 const funded=()=>{const s=emptyHideout();for(const c of Object.keys(s.parts))s.parts[c]=10000;return s;};
-const event=(eventId,source='HUNT')=>({userId:7,eventId,source,won:true});
+const event=(eventId,source='NIGHTMARE')=>({userId:7,eventId,source,won:true});
 const body=(revision,extra={})=>({requestId:crypto.randomUUID(),revision,...extra});
 
 test('six cabinet slots preserve legacy display and share ownership limits across cabinets',()=>{
@@ -85,22 +85,22 @@ test('all six facility tracks and three residence upgrades expose exact coin pri
 test('normal pack bonus changes relative high-grade weights only; combat eligibility is explicit',()=>{
  const rates=[{rarity:'C',rate:80},{rarity:'SSR',rate:19},{rarity:'ICON',rate:1},{rarity:'SSS',rate:0.01}],next=hideoutCardRates(rates,10);
  assert.deepEqual(next.map(r=>r.rate),[80,20.900000000000002,1.1,0.01]);assert.equal(rates[1].rate,19);
- for(const source of ['PVP','TOWER','SCRAPYARD'])assert.equal(hideoutAward(event('x',source)),null);
+ for(const source of ['PVP','TOWER','SCRAPYARD','HUNT'])assert.equal(hideoutAward(event('x',source)),null);
  for(const extra of [{won:false},{eligible:false},{seasonReplay:true}])assert.equal(hideoutAward({...event('x'),...extra}),null);
- assert.deepEqual(hideoutAward({...event('x','LEGION'),won:false}),{STEEL:8,WIRE:5,CIRCUIT:2,COOLANT:2,DRIVE:1});
+ assert.deepEqual(hideoutAward({...event('x','LEGION'),won:false}),{CIRCUIT:2,COOLANT:2,DRIVE:1});
 });
 
 for(const postgres of [false,true]){
  const engine=postgres?'PostgreSQL':'SQLite';
  test(engine+' combat rewards are atomic, work without season/unlock, and identical statement replay is inert',async t=>{
   const f=await fixture(t,postgres),writes=await contentProgressionStatements(f.env,event('first'));assert.equal(writes.length,4);
-  await f.DB.batch(writes);assert.equal((await f.state()).parts.STEEL,2);assert.equal((await f.state()).level,0);
-  await f.DB.batch(writes);await f.DB.batch(await contentProgressionStatements(f.env,event('first')));assert.equal((await f.state()).parts.STEEL,2);
-  await f.DB.batch(hideoutAwardStatements(f.env,event('guarded'),{guard:'1=0'}));assert.equal((await f.state()).parts.STEEL,2);
+  await f.DB.batch(writes);assert.equal((await f.state()).parts.CIRCUIT,1);assert.equal((await f.state()).level,0);
+  await f.DB.batch(writes);await f.DB.batch(await contentProgressionStatements(f.env,event('first')));assert.equal((await f.state()).parts.CIRCUIT,1);
+  await f.DB.batch(hideoutAwardStatements(f.env,event('guarded'),{guard:'1=0'}));assert.equal((await f.state()).parts.CIRCUIT,1);
   f.fail(postgres?'jsonb_set':'json_set');await assert.rejects(f.DB.batch(hideoutAwardStatements(f.env,event('rollback','RAID'),{randomInt:()=>0})),/INJECTED/);f.fail('');
-  assert.equal((await f.state()).parts.STEEL,2);assert.equal(await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('personal_hideout_reward_v1:7:RAID:rollback').first(),null);
+  assert.equal((await f.state()).parts.CIRCUIT,1);assert.equal(await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('personal_hideout_reward_v1:7:RAID:rollback').first(),null);
   await f.DB.batch(hideoutAwardStatements(f.env,event('rollback','RAID'),{randomInt:()=>0}));assert.equal((await f.state()).parts.CORE,3);
-  const s=await f.state();s.parts.STEEL=999999999;await f.seed(s);await f.DB.batch(hideoutAwardStatements(f.env,event('ceiling')));assert.equal((await f.state()).parts.STEEL,1000000000);
+  const s=await f.state();s.parts.CIRCUIT=999999999;await f.seed(s);await f.DB.batch(hideoutAwardStatements(f.env,event('ceiling')));assert.equal((await f.state()).parts.CIRCUIT,1000000000);
  });
  test(engine+' mutations enforce replay identity, costs, rollback and concurrent reward CAS',async t=>{
   const f=await fixture(t,postgres),unlock=body(0,{target:'room'});
@@ -121,8 +121,8 @@ for(const postgres of [false,true]){
   const upgrade=body(1,{target:'garage'});f.fail('INSERT INTO joint_atomic_guards');await assert.rejects(mutateHideout(f.env,7,'upgrade',upgrade),/INJECTED/);f.fail('');assert.equal((await f.state()).facilities.garage,0);assert.equal((await f.state()).parts.STEEL,10000);
   const realBatch=f.DB.batch.bind(f.DB);let inject=true;f.DB.batch=async writes=>{if(inject){inject=false;await realBatch(hideoutAwardStatements(f.env,event('race')));}return realBatch(writes);};
   await assert.rejects(mutateHideout(f.env,7,'upgrade',upgrade),e=>e.code==='HIDEOUT_CONFLICT');f.DB.batch=realBatch;
-  let s=await f.state();assert.equal(s.parts.STEEL,10002);assert.equal(s.facilities.garage,0);
-  const completed=await mutateHideout(f.env,7,'upgrade',body(s.revision,{target:'garage'}));assert.equal(completed.state.facilities.garage,1);assert.equal(completed.state.parts.STEEL,9990);
+  let s=await f.state();assert.equal(s.parts.STEEL,10000);assert.equal(s.parts.CIRCUIT,10001);assert.equal(s.facilities.garage,0);
+  const completed=await mutateHideout(f.env,7,'upgrade',body(s.revision,{target:'garage'}));assert.equal(completed.state.facilities.garage,1);assert.equal(completed.state.parts.STEEL,9988);
   assert.equal(completed.coinBalance,'99000000000000000');
   assert.equal((await f.ledger()).length,1);
  });
@@ -225,7 +225,7 @@ test('core salvage rolls once per legion clear and three times independently per
  assert.equal(hits,175);
  for(const [rolls,cores] of [[[175,9999,500],0],[[174,175,176],1],[[0,9999,174],2],[[174,174,174],3]]){
   const tickets=[...rolls];const gains=hideoutAward(raid,()=>{assert(tickets.length);return tickets.shift();});
-  assert.equal(tickets.length,0);assert.deepEqual(gains,{STEEL:20,WIRE:12,CIRCUIT:6,COOLANT:4,DRIVE:4,...(cores?{CORE:cores}:{})});
+  assert.equal(tickets.length,0);assert.deepEqual(gains,{CIRCUIT:6,COOLANT:4,DRIVE:4,...(cores?{CORE:cores}:{})});
  }
 });
 
@@ -240,21 +240,28 @@ for(const postgres of [false,true]){
    const receipt=await readReceipt();assert.equal(receipt.applied,true);assert.equal(receipt.gains.CORE??0,cores);
    await f.DB.batch(hideoutAwardStatements(f.env,e,{randomInt:()=>second}));assert.deepEqual(await readReceipt(),receipt);
   }
-  const saved=await f.state();assert.equal(saved.parts.CORE,1);assert.equal(saved.parts.STEEL,16);assert.equal(saved.revision,2);
+  const saved=await f.state();assert.equal(saved.parts.CORE,1);assert.equal(saved.parts.STEEL,0);assert.equal(saved.parts.CIRCUIT,4);assert.equal(saved.revision,2);
   assert(!Object.hasOwn(JSON.parse((await readHideout(f.env,7)).raw),'activityDates'));
  });
  test(engine+' all residence tiers can be built immediately from materials, with one debit per upgrade',async t=>{
   const f=await fixture(t,postgres);
   let state={...funded(),level:1,rooms:['main'],activityDates:[20000]};await f.seed(state);
-  for(const [steel,plans] of [[240,21],[560,48],[1040,87]]){
-   assert.equal(hideoutCost(state,'room').STEEL,steel);assert.equal(hideoutCost(state,'room').HOUSING_PLAN,plans);
-   state.parts.HOUSING_PLAN=plans-1;await f.seed(state);
+  for(const [steel,plans,structure] of [[240,21,7],[560,48,16],[1040,87,29]]){
+   const cost=hideoutCost(state,'room');
+   assert.equal(cost.STEEL,steel);assert.equal(cost.HOUSING_PLAN,plans);assert.equal(cost.STRUCTURE,structure);
+   const storedStructure=state.parts.STRUCTURE;
+   state.parts.HOUSING_PLAN=plans;state.parts.STRUCTURE=structure-1;await f.seed(state);
+   const wallet=await f.balance();
+   await assert.rejects(mutateHideout(f.env,7,'upgrade',body(state.revision,{target:'room'})),e=>e.code==='HIDEOUT_PARTS');
+   assert.equal(await f.balance(),wallet);assert.equal((await f.state()).parts.STRUCTURE,structure-1);
+   state.parts.STRUCTURE=storedStructure;state.parts.HOUSING_PLAN=plans-1;await f.seed(state);
    const upgrade=body(state.revision,{target:'room'});
    await assert.rejects(mutateHideout(f.env,7,'upgrade',upgrade),e=>e.code==='HIDEOUT_PARTS');
    const before=await f.state();assert.equal(before.parts.HOUSING_PLAN,plans-1);assert.equal(before.revision,state.revision);
    await f.DB.batch(hideoutAwardStatements(f.env,{...event('plan-for-'+plans,'LEGION'),startedAt:Date.UTC(2026,10,plans)},{randomInt:()=>0}));
    const ready=await f.state(),request=body(ready.revision,{target:'room'}),result=await mutateHideout(f.env,7,'upgrade',request);
    assert.equal(result.state.level,state.level+1);assert.equal(result.state.parts.HOUSING_PLAN,0);assert.equal(result.state.parts.STEEL,ready.parts.STEEL-steel);
+   assert.equal(result.state.parts.STRUCTURE,ready.parts.STRUCTURE-structure);
    assert.deepEqual(result.state.activityDates,[]);assert(result.stages.every(stage=>!Object.hasOwn(stage,'activeDays')));
    assert.equal((await mutateHideout(f.env,7,'upgrade',request)).replayed,true);
    state=await f.state();assert.equal(state.parts.STEEL,result.state.parts.STEEL);
@@ -263,21 +270,22 @@ for(const postgres of [false,true]){
  });
 }
 
-test('standard clear schedules reach the final residence on days 52, 78 or 156 with zero rare drops',()=>{
+test('ordinary progression retains a 50-day horizon with capped materials and no rare drops',()=>{
  for(const [sources,expected] of [
-  [['LEGION','APOCALYPSE','TOWER'],52],
-  [['LEGION','TOWER'],78],
+  [['LEGION','APOCALYPSE','TOWER'],58],
+  [['LEGION','TOWER'],84],
   [['APOCALYPSE','TOWER'],78],
-  [['LEGION','APOCALYPSE'],78],
-  [['LEGION'],156],[['APOCALYPSE'],156],[['TOWER'],156]
+  [['LEGION','APOCALYPSE'],105],
+  [['LEGION'],230],[['APOCALYPSE'],192],[['TOWER'],156]
  ]){
   let state=changeHideout(emptyHideout(),'upgrade',{target:'room',revision:0}),day=0;
-  for(;state.level<4&&day<200;){
+  for(;state.level<4&&day<250;){
    day++;
+   state.parts.STRUCTURE=Math.min(HIDEOUT_STOCK_LIMITS.STRUCTURE,state.parts.STRUCTURE+1);
    for(const source of sources){
     const e={...event('simulation',source),startedAt:Date.UTC(2026,10,day)};
     for(const award of [hideoutAward(e,()=>9999),hideoutDailyAward(e,()=>9999)?.gains]){
-     for(const [key,value] of Object.entries(award||{}))state.parts[key]+=value;
+     for(const [key,value] of Object.entries(award||{}))state.parts[key]=Math.min(HIDEOUT_STOCK_LIMITS[key]??Infinity,state.parts[key]+value);
     }
    }
    const cost=hideoutCost(state,'room');
@@ -288,6 +296,9 @@ test('standard clear schedules reach the final residence on days 52, 78 or 156 w
  }
  const upgraded={...funded(),level:3,rooms:['main'],facilities:{...funded().facilities,workbench:4}};
  assert.equal(hideoutCost(upgraded,'room').HOUSING_PLAN,87);
+ assert.equal(hideoutCost(upgraded,'room').STRUCTURE,29);
+ upgraded.parts.STRUCTURE=28;
+ assert.throws(()=>changeHideout(upgraded,'upgrade',{target:'room',revision:upgraded.revision}),e=>e.code==='HIDEOUT_PARTS');
 });
 for(const postgres of [false,true]){
  const engine=postgres?'PostgreSQL':'SQLite';
@@ -300,14 +311,39 @@ for(const postgres of [false,true]){
   await settle('APOCALYPSE','loss',{won:false});
   await settle('APOCALYPSE','win');await settle('APOCALYPSE','second');
   await settle('TOWER','replay',{seasonReplay:true});await settle('TOWER','second');
-  assert.equal((await f.state()).parts.HOUSING_PLAN,3);
-  assert.equal((await f.state()).parts.LEATHER_KIT,1);
+  const today=(await f.state()).parts;
+  assert.equal(today.HOUSING_PLAN,3);assert.equal(today.STRUCTURE,1);
+  assert.equal(today.STEEL,32);assert.equal(today.WIRE,20);assert.equal(today.LEATHER_KIT,1);
   await settle('LEGION','next-day',{startedAt:startedAt+1000});
   assert.equal((await f.state()).parts.HOUSING_PLAN,4);
   f.fail(postgres?'jsonb_set':'json_set');
   await assert.rejects(settle('TOWER','failure',{startedAt:startedAt+1000}),/INJECTED/);
   f.fail('');assert.equal((await f.state()).parts.HOUSING_PLAN,4);
   await settle('TOWER','failure',{startedAt:startedAt+1000});
-  assert.equal((await f.state()).parts.HOUSING_PLAN,5);
+  const tomorrow=(await f.state()).parts;
+  assert.equal(tomorrow.HOUSING_PLAN,5);assert.equal(tomorrow.STRUCTURE,2);
+ });
+ test(engine+' daily stock limits stop gains without reducing old stock',async t=>{
+  const f=await fixture(t,postgres),startedAt=Date.parse('2026-11-24T13:00:00+09:00');
+  const settle=(eventId,source,days=0)=>f.DB.batch(hideoutAwardStatements(f.env,{
+   ...event(eventId,source),startedAt:startedAt+days*86400000
+  },{randomInt:()=>9999}));
+  const state=emptyHideout();
+  state.parts.STEEL=1045;state.parts.WIRE=648;delete state.parts.STRUCTURE;
+  await f.seed(state);
+  await settle('apocalypse','APOCALYPSE');
+  await settle('tower','TOWER');
+  let saved=await f.state();
+  assert.equal(saved.parts.STEEL,1045);assert.equal(saved.parts.WIRE,650);assert.equal(saved.parts.STRUCTURE,1);
+  const inventory={...saved.parts,STEEL:1039,WIRE:649,STRUCTURE:28};
+  await f.seed({...saved,parts:inventory});
+  await settle('legion','LEGION',1);
+  await settle('party','LEGION',1);
+  await settle('apocalypse-next','APOCALYPSE',1);
+  saved=await f.state();
+  assert.equal(saved.parts.STEEL,1040);assert.equal(saved.parts.WIRE,650);assert.equal(saved.parts.STRUCTURE,29);
+  await settle('tower-next','TOWER',2);
+  saved=await f.state();
+  assert.deepEqual(Object.fromEntries(Object.keys(HIDEOUT_STOCK_LIMITS).map(code=>[code,saved.parts[code]])),HIDEOUT_STOCK_LIMITS);
  });
 }

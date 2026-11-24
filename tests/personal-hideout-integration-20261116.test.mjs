@@ -17,7 +17,7 @@ import {createUltimateBulkService} from '../functions/_ultimate_pack_bulk.js';
 import {ultimateBulkDependencies} from '../functions/api/[[path]].js';
 const unlocked=()=>({...emptyHideout(),level:1,revision:1,rooms:['main']});
 for(const postgres of [false,true]){
- test((postgres?'PostgreSQL':'SQLite')+' hunt and sweep settle hideout salvage, coin and cow tickets together',async t=>{
+ test((postgres?'PostgreSQL':'SQLite')+' hunt and sweep still settle coin and cow tickets without daily hideout materials',async t=>{
   const f=await jointFixture(t,{postgres});
   f.env.PERSONAL_HIDEOUT_ENABLED='1';
   await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',COW_DRAW_KEY,'hideout-local-qa').run();
@@ -37,11 +37,11 @@ for(const postgres of [false,true]){
   for(const [id,sweep] of [[ids[0],false],[ids[1],true]]){
    const earned=await settle(id,sweep);
    assert.equal(earned.cowTicket.code,'LEGION_COW_SOLO_TICKET');
-   assert.deepEqual(earned.hideoutReward,{STEEL:2,WIRE:1});
+   assert.equal(earned.hideoutReward,null);
    await settle(id,sweep);
   }
   const home=(await readHideout(f.env,7)).state;
-  assert.equal(home.parts.STEEL,4);assert.equal(home.parts.WIRE,2);
+  assert.equal(home.parts.STEEL,0);assert.equal(home.parts.WIRE,0);assert.equal(home.parts.STRUCTURE,0);
   assert.equal(home.parts.CORE,0);assert.equal(await cowTicketCount(f.env.DB,7,'solo'),2);
   assert.equal(await f.coin(),before+200);
  });
@@ -58,7 +58,7 @@ for(const postgres of [false,true]){
   f.clock.now=active.startsAt+active.duration+1;await call(1,'state?id='+id);await call(2,'state?id='+id);
   for(const uid of [1,2]){
    const parts=(await readHideout(f.env,uid)).state.parts;
-   assert.equal(parts.STEEL,12);assert.equal(parts.HOUSING_PLAN,1);assert.equal(parts.ALLOY_PANEL,1);
+   assert.equal(parts.STEEL,8);assert.equal(parts.WIRE,5);assert.equal(parts.HOUSING_PLAN,1);assert.equal(parts.ALLOY_PANEL,1);assert.equal(parts.STRUCTURE,1);
   }
   await call(1,'state?id='+id);assert.equal((await readHideout(f.env,1)).state.parts.HOUSING_PLAN,1);
   f.clock.now=active.startsAt+3*3600000;assert.equal((await call(1,'lobby')).partyEnergy.current,2);

@@ -1,4 +1,4 @@
-import {HIDEOUT_KEY,emptyHideout,hideoutState,hideoutBenefits,hideoutAward,hideoutDailyAward,HIDEOUT_SKINS,publicHideout,changeHideout,hideoutUpgradeCoinCost} from '../shared/personal-hideout-v1.mjs';
+import {HIDEOUT_KEY,emptyHideout,hideoutState,hideoutBenefits,hideoutAward,hideoutDailyAward,HIDEOUT_SKINS,HIDEOUT_STOCK_LIMITS,publicHideout,changeHideout,hideoutUpgradeCoinCost} from '../shared/personal-hideout-v1.mjs';
 import {coinInteger} from '../shared/coin-integer-v1.mjs';
 import {coinChangeStatements} from './_coin_settlement.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
@@ -34,29 +34,46 @@ export function hideoutAwardStatements(env,event,{guard='1=1',values=[],randomIn
  const uid=Number(event.userId);
  if(!Number.isSafeInteger(uid)||uid<1||typeof event.eventId!=='string'||!event.eventId||event.eventId.length>220)throw Error('Invalid hideout combat event');
  const standard=gains?rewardStatements(env,uid,event,'personal_hideout_reward_v1:'+uid+':'+event.source+':'+event.eventId,gains,guard,values):[];
- const bonus=daily?rewardStatements(env,uid,event,'personal_hideout_daily_v1:'+uid+':'+event.source+':'+daily.day,daily.gains,guard,values):[];
+ const bonus=daily?[
+  ...rewardStatements(env,uid,event,'personal_hideout_daily_v1:'+uid+':'+event.source+':'+daily.day,daily.gains,guard,values),
+  ...rewardStatements(env,uid,event,'personal_hideout_daily_v1:'+uid+':STRUCTURE:'+daily.day,{STRUCTURE:1},guard,values)
+ ]:[];
  const writes=[...bonus,...standard];
  writes.hideoutAward=standard.hideoutAward;writes.hideoutReceipt=standard.hideoutReceipt;
  return writes;
 }
+function rewardBalance(code,amount,balance,min,max){
+ const limit=HIDEOUT_STOCK_LIMITS[code];
+ // A cap limits the award even if a player already holds more than the cap.
+ return limit===undefined?`${min}(1000000000,${balance}+${amount})`:`${balance}+${min}(${amount},${max}(0,${limit}-${balance}))`;
+}
 function rewardStatements(env,uid,event,receipt,gains,guard,values){
- const key=HIDEOUT_KEY(uid);
- const token=crypto.randomUUID(),raw=JSON.stringify({version:1,token,source:event.source,eventId:event.eventId,gains});
+ const key=HIDEOUT_KEY(uid),token=crypto.randomUUID();
  const entries=Object.entries(gains),pg=env.DB.dialect==='postgres';
+ const capped=entries.some(([code])=>HIDEOUT_STOCK_LIMITS[code]!==undefined);
+ const record={version:1,source:event.source,eventId:event.eventId,...(capped?{offered:gains}:{gains})};
+ const raw=JSON.stringify({...record,token});
  let expression;
  if(pg){
   const json='CAST(value AS JSONB)';
-  const parts=entries.map(([code,amount])=>"'"+code+"',LEAST(1000000000,COALESCE(CAST("+json+" #>> '{parts,"+code+"}' AS BIGINT),0)+"+amount+')').join(',');
+  const parts=entries.map(([code,amount])=>{
+   const balance=`COALESCE(CAST(${json} #>> '{parts,${code}}' AS BIGINT),0)`;
+   return `'${code}',${rewardBalance(code,amount,balance,'LEAST','GREATEST')}`;
+  }).join(',');
   expression="jsonb_set(jsonb_set("+json+",'{parts}',("+json+"->'parts') || jsonb_build_object("+parts+")),'{revision}',to_jsonb(CAST("+json+"->>'revision' AS BIGINT)+1))";
   expression='CAST('+expression+' AS TEXT)';
  }else{
-  expression="json_set(value,'$.revision',json_extract(value,'$.revision')+1,"+entries.map(([code,amount])=>"'$.parts."+code+"',MIN(1000000000,COALESCE(json_extract(value,'$.parts."+code+"'),0)+"+amount+')').join(',')+')';
+  const parts=entries.map(([code,amount])=>{
+   const path=`'$.parts.${code}'`,balance=`COALESCE(json_extract(value,${path}),0)`;
+   return `${path},${rewardBalance(code,amount,balance,'MIN','MAX')}`;
+  }).join(',');
+  expression="json_set(value,'$.revision',json_extract(value,'$.revision')+1,"+parts+')';
  }
  const writes=[
   p(env,'INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,CURRENT_TIMESTAMP WHERE '+guard+' ON CONFLICT(key) DO NOTHING',key,JSON.stringify(emptyHideout()),...values),
   p(env,'INSERT INTO app_meta(key,value,updated_at) SELECT ?,?,CURRENT_TIMESTAMP WHERE '+guard+' ON CONFLICT(key) DO NOTHING',receipt,raw,...values),
   p(env,'UPDATE app_meta SET value='+expression+',updated_at=CURRENT_TIMESTAMP WHERE key=? AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',key,receipt,raw),
-  p(env,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',JSON.stringify({version:1,source:event.source,eventId:event.eventId,gains,applied:true}),receipt,raw)
+  p(env,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',JSON.stringify({...record,applied:true}),receipt,raw)
  ];
  writes.hideoutAward=gains;writes.hideoutReceipt=receipt;return writes;
 }

@@ -28,7 +28,8 @@ for(const postgres of [false,true]){
   const finished=await(await call(tower,'tower/finish',{requestId:body.requestId})).json();assert.equal(finished.reward,75000000000);assert.equal(finished.settlement.status,'COMPLETED');assert.equal(await f.coin(),before+75000000000);
   const again=await(await call(tower,'tower/finish',{requestId:body.requestId})).json();assert.equal(again.reward,finished.reward);assert.equal(await f.coin(),before+75000000000);
   assert.equal((await readHideout(f.env,7)).state.parts.HOUSING_PLAN,1);
-  assert.equal((await readHideout(f.env,7)).state.parts.STEEL,16);
+  const parts=(await readHideout(f.env,7)).state.parts;
+  assert.equal(parts.STEEL,14);assert.equal(parts.WIRE,9);assert.equal(parts.STRUCTURE,1);
   assert.equal(Number((await f.p('SELECT COUNT(*) AS n FROM coin_logs WHERE user_id=7').first()).n),1);
   assert.equal(Number((await f.p('SELECT current_floor FROM tower_user_progress WHERE user_id=7').first()).current_floor),70);
   assert.equal((await(await call(tower,'tower/pending')).json()).pending,null);
