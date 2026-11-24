@@ -1,7 +1,7 @@
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 
 // Base odds per eligible result, without equipment, collection or event multipliers.
-const thresholds=Object.freeze({LEGION:6,APOCALYPSE:6,NOX:200});
+const thresholds=Object.freeze({LEGION:5,APOCALYPSE:5,NOX:20});
 const codes=['SCAR','M14'].flatMap(weapon=>[1,2,3].map(chapter=>weapon+'_BLUEPRINT_CHAPTER_'+chapter));
 
 export function drawBlueprintDrop(source,randomInt=mercenaryRandomInt){

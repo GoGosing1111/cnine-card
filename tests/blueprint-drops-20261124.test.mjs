@@ -8,7 +8,7 @@ import {defaultLegionHuntPolicy,LEGION_HUNT_SETTINGS_KEY} from '../functions/_le
 
 
 test('one base roll per result and six equally likely chapters only on a hit',()=>{
- for(const [source,threshold] of [['LEGION',6],['APOCALYPSE',6],['NOX',200]]){
+ for(const [source,threshold] of [['LEGION',5],['APOCALYPSE',5],['NOX',20]]){
   const wins=Array.from({length:10000},(_,sample)=>drawBlueprintDrop(source,bound=>bound===10000?sample:0)).filter(Boolean);
   assert.equal(wins.length,threshold);
   assert.equal(drawBlueprintDrop(source,bound=>{assert.equal(bound,10000);return threshold;}),null);
