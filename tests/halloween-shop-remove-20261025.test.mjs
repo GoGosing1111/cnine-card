@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
-import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_PACK_SHOP_ENABLED} from '../shared/mercenary-halloween-pack-v1.mjs';
+import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_PACK_SHOP_ENABLED,HALLOWEEN_RERUN_OPENS_AT} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {BLOODMOON_PACK_RELEASE_ENABLED} from '../shared/mercenary-bloodmoon-pack-v1.mjs';
 import {halloweenPackShopRow,handleHalloweenPack,readHalloweenPackState,saveHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
 import {createHalloweenPackService} from '../functions/_mercenary_halloween_opening.js';
 
-test('removed Halloween pack has no shop row and every new open stops before account, body or DB access',async()=>{
+test('removed Halloween pack has no shop row and every new open stops before account, body or DB access',async t=>{
+ t.mock.method(Date,'now',()=>Date.parse(HALLOWEEN_RERUN_OPENS_AT)-1);
  assert.equal(HALLOWEEN_PACK_SHOP_ENABLED,false);assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,true);
  const env={DB:new Proxy({},{get(){throw Error('no DB access');}})},json=(body,status=200)=>({body,status});
  assert.equal(await halloweenPackShopRow(env),null);
@@ -30,7 +31,7 @@ test('OWNER saving a ready ON configuration cannot reopen the removed shop',asyn
 });
 test('a historical paid receipt remains authenticated and recoverable after shop removal without new grants',async t=>{
  const f=await halloweenFixture(t),paid=await f.service.open(f.env,f.user,f.body(10)),coin=await f.coin(),before=(await f.pg.query('SELECT * FROM mercenary_limited_stock_v1 ORDER BY code')).rows;
- const retired=createHalloweenPackService({readState:readHalloweenPackState});
+ const retired=createHalloweenPackService({readState:readHalloweenPackState,shopEnabled:false});
  const recovered=await retired.receipt(f.env,f.user,paid.requestId);assert.deepEqual(recovered.draws,paid.draws);assert.equal(recovered.coinCost,paid.coinCost);
  const path=HALLOWEEN_PACK.receiptPath,request=new Request('https://qa.test/api/'+path+'?requestId='+paid.requestId),json=(body,status=200)=>({body,status});
  const response=await handleHalloweenPack({path,request,env:f.env,deps:{json,authenticate:async()=>f.user}});assert.equal(response.status,200);assert.equal(response.body.status,'COMPLETED');

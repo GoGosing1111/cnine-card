@@ -66,9 +66,33 @@ function packRangeFromAllowed(allowed = []) {
   return allowed.includes('LIMITED') ? `${base} + LIMITED` : base;
 }
 
+const HALLOWEEN_RERUN_PACK_ID='mercenary-halloween-ss-limited';
+const HALLOWEEN_RERUN_OPENS_AT='2026-11-24T15:00:00.000Z';
+const isHalloweenRerunRow=row=>row?.id===HALLOWEEN_RERUN_PACK_ID&&row.saleOpensAt===HALLOWEEN_RERUN_OPENS_AT;
+let halloweenCatalogTimer=0;
+
+function scheduleHalloweenCatalogRefresh(){
+  clearTimeout(halloweenCatalogTimer);
+  if(!API_MODE||PACKS.some(pack=>pack.id===HALLOWEEN_RERUN_PACK_ID))return;
+  const delay=Math.max(0,Date.parse(HALLOWEEN_RERUN_OPENS_AT)-burningClientNow());
+  halloweenCatalogTimer=setTimeout(async()=>{
+    if(!document.querySelector('#app .pack-selector')||PACKS.some(pack=>pack.id===HALLOWEEN_RERUN_PACK_ID))return;
+    try{
+      const result=await apiRequest('packs',{}, {ttl:0,microcache:false,replaceInflight:true});
+      syncBurningServerClock(result.serverNow);
+      if(!result.packs?.some(isHalloweenRerunRow)){
+        if(document.querySelector('#app .pack-selector')&&burningClientNow()<Date.parse(HALLOWEEN_RERUN_OPENS_AT))scheduleHalloweenCatalogRefresh();
+        return;
+      }
+      applyServerPacks(result.packs);
+      if(document.querySelector('#app .pack-selector'))refreshBuyShellAfterStartup(startupRunId);
+    }catch(error){console.warn('할로윈팩 판매 상태 확인 실패:',error);}
+  },delay);
+}
+
 function applyServerPacks(rows = []) {
   if (!Array.isArray(rows) || !rows.length) return;
-  PACKS = rows.filter(row => row&&!['basic','premium','hyper','halloween','mercenary-halloween-ss-limited'].includes(String(row.id))).map(row => {
+  PACKS = rows.filter(row => row&&!['basic','premium','hyper','halloween'].includes(String(row.id))&&(row.id!==HALLOWEEN_RERUN_PACK_ID||isHalloweenRerunRow(row))).map(row => {
     let allowed = row.allowed;
     if (!Array.isArray(allowed)) {
       try { allowed = JSON.parse(row.allowed_rarities || '[]'); } catch { allowed = []; }
@@ -1538,6 +1562,7 @@ function renderShell(tab,routeOptions={}) {
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
   deferShellLoad(80,loadShellSummary);
   if(tab==='buy'){
+    if(!lobbyFrameOnly)scheduleHalloweenCatalogRefresh();
     deferShellLoad(100,loadLiveOperations);
     deferShellLoad(120,loadHallOfFame);deferShellLoad(700,()=>{if(!pendingPlaydkVerificationToken&&!playdkVerificationInFlight)void openSoopWatchConsent({automatic:true});});
   }
@@ -4566,8 +4591,8 @@ function readStartupSnapshot(){
     if(!raw){raw=sessionStorage.getItem(STARTUP_SNAPSHOT_LEGACY_KEY);if(raw)localStorage.setItem(storageKey,raw)}
     if(!raw)return null;
     const data=JSON.parse(raw);if(!data||Date.now()-Number(data.savedAt||0)>STARTUP_SNAPSHOT_MAX_AGE){localStorage.removeItem(storageKey);return null}
-    // Confirm Bloodmoon and Black Crown availability with the live catalog.
-    if(Array.isArray(data.packs))data.packs=data.packs.filter(pack=>pack?.id!=='mercenary-bloodmoon-ss-limited'&&pack?.id!=='mercenary-blackcrown-ss-limited');
+    // Confirm limited sale availability with the live catalog.
+    if(Array.isArray(data.packs))data.packs=data.packs.filter(pack=>pack?.id!=='mercenary-bloodmoon-ss-limited'&&pack?.id!=='mercenary-blackcrown-ss-limited'&&pack?.id!==HALLOWEEN_RERUN_PACK_ID);
     return data;
   }catch(_){return null}
 }

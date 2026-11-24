@@ -6,9 +6,16 @@ import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 // 2026-10-17: OWNER can open only after readiness validation. Default and saved
 // OFF remain OFF; enabling this capability never changes the persisted mode.
 export const HALLOWEEN_PACK_RELEASE_ENABLED=true;
-// 2026-10-25: removed from the shop; preserve saved economics and past receipts.
+// The previous sale remains closed. Only the prepared rerun can open the shop.
 export const HALLOWEEN_PACK_SHOP_ENABLED=false;
 export const HALLOWEEN_PACK_KEY='mercenary_halloween_ss_pack_v1';
+export const HALLOWEEN_RERUN_KEY='mercenary_halloween_rerun_20261125_v1';
+export const HALLOWEEN_RERUN_OPENS_AT='2026-11-24T15:00:00.000Z'; // 2026-11-25 00:00 KST
+export const HALLOWEEN_RERUN_LIMITS=Object.freeze(Object.fromEntries(
+ HALLOWEEN_PACK_CARDS.map(card=>[card.code,card.rank==='SSS'?5:20])
+));
+export const halloweenRerunStockKey=code=>'HALLOWEEN_RERUN_20261125:'+code;
+export const halloweenRerunHasStarted=()=>Date.now()>=Date.parse(HALLOWEEN_RERUN_OPENS_AT);
 export {HALLOWEEN_SERVER_LIMIT};
 export const HALLOWEEN_PACK=Object.freeze({id:'mercenary-halloween-ss-limited',name:'할로윈 리미티드 용병팩',rank:'SSS',edition:'HALLOWEEN_LIMITED',maxBatch:10,featurePath:'mercenary-halloween-pack/config',openPath:'mercenary-halloween-pack/open',receiptPath:'mercenary-halloween-pack/receipt',adminPath:'admin/mercenaries/halloween-pack',image:'assets/ui/packs/reverse-call-20261016/halloween-768.webp'});
 export const HALLOWEEN_NORMAL_RANKS=MERCENARY_RANKS;
@@ -96,21 +103,26 @@ export function halloweenCurrentRates(settings,stock){
  }
  return {cardRatesPpm,normalSssRatePpm:ordinary===null?null:ordinary/LIMITED_RATE_SCALE};
 }
-export function halloweenPackState(settings=halloweenPackDraft(),stockRows=[],normalCards=[],{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,shopEnabled=HALLOWEEN_PACK_SHOP_ENABLED}={}){
+export function halloweenPackState(settings=halloweenPackDraft(),stockRows=[],normalCards=[],{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,shopEnabled=HALLOWEEN_PACK_SHOP_ENABLED,rerun=false}={}){
  const legacyAbsoluteRates=settings.format==='MERCENARY_HALLOWEEN_SS_PACK_V1'?structuredClone(settings.cardRatesPpm):null;
  settings=readHalloweenPackSettings(settings,{releaseEnabled});
  const stock=HALLOWEEN_PACK_CARDS.map(c=>{
-  const row=stockRows.find(s=>s.code===c.code),expected=settings.stockLimits[c.code],limit=row?Number(row.stock_limit):expected,issued=Number(row?.issued??0);
+  const row=stockRows.find(s=>s.code===c.code),expected=rerun?HALLOWEEN_RERUN_LIMITS[c.code]:settings.stockLimits[c.code],limit=row?Number(row.stock_limit):expected,issued=Number(row?.issued??0);
   if(!Number.isSafeInteger(issued)||issued<0||limit!==null&&(!Number.isSafeInteger(limit)||limit<1||issued>limit)||row&&expected!==null&&limit!==expected)throw Error('리미티드 발행 수량을 확인해야 합니다.');
-  return {code:c.code,limit,issued,remaining:row?limit-issued:null,prepared:Boolean(row),scope:c.stockPolicy==='EXISTING_SHARED'?'EXISTING_SHARED':c.stockPolicy==='PACK_ONLY'?'PACK_ONLY_EXCLUDING_EXCLUSIVE':'SEASONAL'};
+  return {code:c.code,limit,issued,remaining:row?limit-issued:null,prepared:Boolean(row),scope:rerun?'HALLOWEEN_RERUN':c.stockPolicy==='EXISTING_SHARED'?'EXISTING_SHARED':c.stockPolicy==='PACK_ONLY'?'PACK_ONLY_EXCLUDING_EXCLUSIVE':'SEASONAL'};
  });
  const readiness=halloweenPackReadiness(settings,stock,normalCards),currentRates=halloweenCurrentRates(settings,stock);
+ if(rerun&&stock.some(s=>!s.prepared)){
+  readiness.ready=false;
+  readiness.blockers.push('복각 수량이 모두 준비되어야 합니다.');
+ }
  return {pack:HALLOWEEN_PACK,settings,cards:HALLOWEEN_PACK_CARDS,stock,normalCards,readiness,legacyAbsoluteRates,releaseEnabled,shopEnabled,userOpeningEnabled:shopEnabled&&releaseEnabled&&settings.mode==='ON'&&readiness.ready,acquisitionSource:HALLOWEEN_PACK.id,limitScope:'PER_CHARACTER_SERVER_WIDE',illustrationsPublished:true,drawModel:'SSS_THEN_HALLOWEEN',soldOutPolicy:'STANDARD_SSS',currentRates,effectiveNormalSssPercent:halloweenEffectivePercent(settings.normalRankRatesPpm.SSS,currentRates.normalSssRatePpm),effectiveCardPercents:Object.fromEntries(codes.map(code=>[code,halloweenEffectivePercent(settings.normalRankRatesPpm.SSS,currentRates.cardRatesPpm[code])]))};
 }
-export function halloweenPackCatalogRow(settings=halloweenPackDraft(),stockRows=[]){
+export function halloweenPackCatalogRow(settings=halloweenPackDraft(),stockRows=[],{shopEnabled=HALLOWEEN_PACK_SHOP_ENABLED,rerun=false}={}){
  settings=readHalloweenPackSettings(settings);
- const enabled=HALLOWEEN_PACK_SHOP_ENABLED&&HALLOWEEN_PACK_RELEASE_ENABLED&&settings.mode==='ON',stock=halloweenPackState(settings,stockRows).stock;
- return {id:HALLOWEEN_PACK.id,name:HALLOWEEN_PACK.name,subtitle:'HALLOWEEN LIMITED',theme:'halloween',description:'할로윈 SS 8종 · SSS 리미티드 헬리오스·진무·발테르·족로',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_HALLOWEEN',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:HALLOWEEN_PACK.image,revealMode:'HALLOWEEN_FAST_GRID',comingSoon:!enabled,previewCards:HALLOWEEN_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
+ const {stock}=halloweenPackState(settings,stockRows,[],{rerun});
+ const enabled=shopEnabled&&HALLOWEEN_PACK_RELEASE_ENABLED&&settings.mode==='ON'&&(!rerun||stock.every(s=>s.prepared));
+ return {id:HALLOWEEN_PACK.id,name:HALLOWEEN_PACK.name,subtitle:'HALLOWEEN LIMITED',theme:'halloween',description:'할로윈 SS 8종 · SSS 리미티드 헬리오스·진무·발테르·족로',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_HALLOWEEN',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:HALLOWEEN_PACK.image,revealMode:'HALLOWEEN_FAST_GRID',comingSoon:!enabled,...(rerun?{saleOpensAt:HALLOWEEN_RERUN_OPENS_AT}:{}),previewCards:HALLOWEEN_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
 }
 export function halloweenPackPrice(settings,count){
  if(![1,10].includes(count))throw Error('1회 또는 10회를 선택하세요.');

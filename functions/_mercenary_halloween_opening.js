@@ -1,5 +1,5 @@
 import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
-import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_OPEN_KIND,HALLOWEEN_PACK_RELEASE_ENABLED,HALLOWEEN_PACK_SHOP_ENABLED,halloweenPackPrice,validateHalloweenOpeningBody,pickHalloweenBatch,pickHalloweenNormalCard} from '../shared/mercenary-halloween-pack-v1.mjs';
+import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_OPEN_KIND,HALLOWEEN_PACK_RELEASE_ENABLED,HALLOWEEN_RERUN_KEY,halloweenRerunHasStarted,halloweenRerunStockKey,halloweenPackPrice,validateHalloweenOpeningBody,pickHalloweenBatch,pickHalloweenNormalCard} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {limitedPackRandomInt} from './_mercenary_limited_pack.js';
 import {mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
 import {runJointOperation,readJointOperation,jointCoinDebit} from './_joint_transactions.js';
@@ -9,6 +9,7 @@ import {readHalloweenSsOnce,pickHalloweenSsOnceCode,consumeHalloweenSsOnce} from
 
 const halloween=code=>HALLOWEEN_PACK_CARDS.some(c=>c.code===code);
 const terminal=(code,message)=>Object.assign(jointError('MERCENARY_HALLOWEEN_'+code,message,409),{terminal:true});
+const saleChanged=(state,plan)=>!state.shopEnabled||state.rawRerun!==(plan.rawRerun??null)||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision;
 // Only uncommitted, unavailable limited slots may change. Save their ordinary
 // SSS replacement before charging so retries (including old pending plans) keep it.
 async function reconcileHalloweenStock(DB,userId,requestId,plan,state,randomInt){
@@ -34,11 +35,11 @@ async function reconcileHalloweenStock(DB,userId,requestId,plan,state,randomInt)
  Object.assign(plan,next);
 }
 // No HTTP release override. Tests use this factory against isolated databases.
-export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,shopEnabled=HALLOWEEN_PACK_SHOP_ENABLED,randomInt=limitedPackRandomInt}={}){
+export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,shopEnabled,randomInt=limitedPackRandomInt}={}){
  if(typeof readState!=='function')throw Error('Halloween state reader required');
  const stateFor=env=>readState(env,{releaseEnabled,shopEnabled});
  async function open(env,user,raw){
-  if(!shopEnabled)throw jointError('MERCENARY_HALLOWEEN_SHOP_REMOVED','할로윈팩 판매가 종료되었습니다. 기존 구매 결과는 다시 확인할 수 있습니다.',423);
+  if(shopEnabled===false||shopEnabled===undefined&&!halloweenRerunHasStarted())throw jointError('MERCENARY_HALLOWEEN_SHOP_REMOVED','현재 할로윈팩을 판매하지 않습니다. 기존 구매 결과는 다시 확인할 수 있습니다.',423);
   if(!releaseEnabled)throw jointError('MERCENARY_HALLOWEEN_CLOSED','할로윈팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
   const {requestId,count,expectedRevision}=validateHalloweenOpeningBody(raw);
   let result;
@@ -48,7 +49,7 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
    try{result=await runJointOperation(env,user,{requestId,kind:HALLOWEEN_OPEN_KIND,input:{count,expectedRevision},
    prepare:async()=>{
     const state=await stateFor(env);
-    if(state.settings.mode!=='ON')throw terminal('CLOSED','할로윈팩 개봉이 중지됐습니다.');
+    if(!state.shopEnabled||state.settings.mode!=='ON')throw terminal('CLOSED','할로윈팩 개봉이 중지됐습니다.');
     if(state.revision!==expectedRevision)throw terminal('CHANGED','가격·확률이 변경됐습니다. 새 설정을 확인하세요.');
     if(!state.readiness.ready)throw terminal('NOT_READY',state.readiness.blockers.join(' '));
     const coinCost=halloweenPackPrice(state.settings,count),wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
@@ -61,11 +62,12 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
     // Generate the guaranteed card first to reserve its stock, then place it
     // in the requested slot without rerolling the ordinary results.
     if(firstLimitedCode&&once.slotIndex){const [guaranteed]=draws.splice(0,1);draws.splice(once.slotIndex,0,guaranteed);}
-    return {count,coinCost,draws,...(once&&firstLimitedCode?{once}:{}),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
+    return {count,coinCost,draws,...(once&&firstLimitedCode?{once}:{}),revision:state.revision,rawPack:state.rawPack,...(state.rawRerun?{rawRerun:state.rawRerun}:{}),normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
    },
    statements:async plan=>{
     const state=await stateFor(env);
-    if(state.settings.mode!=='ON'||state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision)throw terminal('CHANGED','개봉 설정이 변경되어 미완료 요청을 취소했습니다.');
+    if(state.settings.mode!=='ON'||saleChanged(state,plan))throw terminal('CHANGED','개봉 설정이 변경되어 미완료 요청을 취소했습니다.');
+    if(!state.readiness.ready)throw terminal('NOT_READY',state.readiness.blockers.join(' '));
     await reconcileHalloweenStock(env.DB,user.id,requestId,plan,state,randomInt);
     const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),grouped=new Map(),token=crypto.randomUUID(),timestamp=new Date().toISOString();
     plan.draws.forEach((r,i)=>{
@@ -76,11 +78,22 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
     const guaranteedDraw=plan.draws[plan.once?.slotIndex??0];
     const list=await consumeHalloweenSsOnce(DB,user.id,requestId,halloween(guaranteedDraw?.mercenaryCode)?plan.once:null,guaranteedDraw);
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',HALLOWEEN_PACK_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
+    if(plan.rawRerun){
+     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',HALLOWEEN_RERUN_KEY));
+     const scheduleClaim=token+':rerun';
+     list.push(jointGuard(DB,scheduleClaim,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[HALLOWEEN_RERUN_KEY,plan.rawRerun]),jointGuardEnd(DB,scheduleClaim));
+    }
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?) AND EXISTS(SELECT 1 FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND status='PENDING' AND plan_json=?)",[HALLOWEEN_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision,requestId,user.id,JSON.stringify(plan)]));
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
-     const size=indices.length,claim=crypto.randomUUID();
-     list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,code,plan.draws[indices[0]].stockLimit,size),
-      jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]),
+     const size=indices.length,claim=crypto.randomUUID(),stockCode=plan.rawRerun?halloweenRerunStockKey(code):code;
+     list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,stockCode,plan.draws[indices[0]].stockLimit,size));
+     if(plan.rawRerun){
+      const quotaClaim=claim+':quota';
+      // Extend the serial ledger only by the quantity issued. Other shops' available stock stays constant.
+      list.push(jointGuard(DB,quotaClaim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[stockCode,claim]),jointGuardEnd(DB,quotaClaim),
+       p('UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+?,issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit+?<=1000000',size,size,claim,code,size));
+     }
+     list.push(jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]),
       p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,timestamp,timestamp));
      indices.forEach((index,j)=>{const aid=requestId+':'+index,offset=size-j-1;
       list.push(p('INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at) SELECT ?,?,?,code,issued-?,? FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?',aid,requestId,user.id,offset,timestamp,code,claim),
@@ -97,7 +110,7 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
     const plan=JSON.parse(row.plan_json),state=await stateFor(env),counts={};
     for(const r of plan.draws)if(halloween(r.mercenaryCode))counts[r.mercenaryCode]=(counts[r.mercenaryCode]||0)+1;
     const stockChanged=Object.entries(counts).some(([code,n])=>{const stock=state.stock.find(s=>s.code===code);return stock?.prepared&&(stock.remaining<n||stock.limit!==plan.draws.find(r=>r.mercenaryCode===code).stockLimit);});
-    const changed=state.rawPack!==plan.rawPack||state.normalCmsRevision!==plan.normalCmsRevision||state.normalDrawRevision!==plan.normalDrawRevision;
+    const changed=saleChanged(state,plan);
     if(changed){await env.DB.prepare("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'").bind(new Date().toISOString(),requestId,user.id).run();throw terminal('CHANGED','설정이 변경되어 개봉을 취소했습니다. 코인은 차감되지 않았습니다.');}
     if(stockChanged&&attempt<=count)continue;
    }throw error;

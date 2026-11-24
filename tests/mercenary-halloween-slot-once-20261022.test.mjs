@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
-import {HALLOWEEN_PACK} from '../shared/mercenary-halloween-pack-v1.mjs';
+import {HALLOWEEN_PACK,HALLOWEEN_RERUN_KEY,HALLOWEEN_RERUN_LIMITS,HALLOWEEN_RERUN_OPENS_AT,halloweenRerunStockKey} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {halloweenSsOnceKey,readHalloweenSsOnce} from '../functions/_mercenary_halloween_once.js';
 import {handleHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
 
@@ -28,7 +28,13 @@ test('third-slot guarantee affects only the target account once and waits throug
  assert.equal((await f.issues()).length,1);assert.equal(JSON.stringify((await f.state()).settings),settings);
 });
 test('automatic public ten-opening and lost acknowledgment preserve third-slot receipt and one debit',async t=>{
- const f=await fixture(t),body=f.body(10);f.loseAck();
+ const f=await fixture(t),body=f.body(10);
+ t.mock.method(Date,'now',()=>Date.parse(HALLOWEEN_RERUN_OPENS_AT));
+ await f.setting(HALLOWEEN_RERUN_KEY,{version:1,opensAt:HALLOWEEN_RERUN_OPENS_AT});
+ for(const [code,limit] of Object.entries(HALLOWEEN_RERUN_LIMITS)){
+  await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES(?,?)',halloweenRerunStockKey(code),limit).run();
+ }
+ f.loseAck();
  const result=await handleHalloweenPack({path:HALLOWEEN_PACK.openPath,request:new Request('https://qa.test/api/'+HALLOWEEN_PACK.openPath,{method:'POST',headers:{origin:'https://qa.test','content-type':'application/json'},body:JSON.stringify(body)}),env:f.env,deps:{authenticate:async()=>f.user,withUserMutationLock:async(_e,_u,_p,fn)=>fn(),json:(body,status)=>({body,status})}});
  assert.equal(result.status,200);assert.equal(result.body.draws[2].mercenaryCode,'V-979');
  assert.deepEqual((await f.service.receipt(f.env,f.user,body.requestId)).draws,result.body.draws);assert.equal(await f.coin(),999100);assert.equal((await f.issues()).length,1);
