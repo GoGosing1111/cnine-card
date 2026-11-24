@@ -16,16 +16,34 @@
         "trials": 320,
         "wins": 320,
         "decksWithWins": 20
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
       }
     },
     {
-      "floor": 160,
-      "power": 15000000000,
+      "floor": 159,
+      "power": 14253003200,
       "bossUltimatePercent": 0,
       "fixed": {
         "decks": 8,
         "trials": 128,
-        "wins": 79,
+        "wins": 80,
         "decksWithWins": 5
       },
       "huntReference": {
@@ -33,75 +51,284 @@
         "trials": 320,
         "wins": 320,
         "decksWithWins": 20
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
       }
     },
     {
-      "floor": 170,
-      "power": 25000000000,
+      "floor": 160,
+      "power": 60000000000,
       "bossUltimatePercent": 0,
       "fixed": {
         "decks": 8,
         "trials": 128,
-        "wins": 64,
-        "decksWithWins": 4
-      },
-      "huntReference": {
-        "decks": 20,
-        "trials": 320,
-        "wins": 320,
-        "decksWithWins": 20
-      }
-    },
-    {
-      "floor": 180,
-      "power": 40000000000,
-      "bossUltimatePercent": 25,
-      "fixed": {
-        "decks": 8,
-        "trials": 128,
-        "wins": 40,
-        "decksWithWins": 4
-      },
-      "huntReference": {
-        "decks": 20,
-        "trials": 320,
-        "wins": 320,
-        "decksWithWins": 20
-      }
-    },
-    {
-      "floor": 190,
-      "power": 65000000000,
-      "bossUltimatePercent": 50,
-      "fixed": {
-        "decks": 8,
-        "trials": 128,
-        "wins": 38,
-        "decksWithWins": 4
-      },
-      "huntReference": {
-        "decks": 20,
-        "trials": 320,
-        "wins": 320,
-        "decksWithWins": 20
-      }
-    },
-    {
-      "floor": 200,
-      "power": 100000000000,
-      "bossUltimatePercent": 100,
-      "fixed": {
-        "decks": 8,
-        "trials": 128,
-        "wins": 32,
+        "wins": 16,
         "decksWithWins": 2
       },
       "huntReference": {
         "decks": 20,
         "trials": 320,
-        "wins": 320,
+        "wins": 168,
+        "decksWithWins": 15
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 208,
+        "decksWithWins": 17
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 303,
+        "decksWithWins": 20
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 305,
         "decksWithWins": 20
       }
+    },
+    {
+      "floor": 161,
+      "power": 62482784600,
+      "bossUltimatePercent": 0,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 17,
+        "decksWithWins": 2
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 160,
+        "decksWithWins": 14
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 201,
+        "decksWithWins": 14
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 303,
+        "decksWithWins": 20
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 304,
+        "decksWithWins": 20
+      }
+    },
+    {
+      "floor": 170,
+      "power": 90000000000,
+      "bossUltimatePercent": 0,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 15,
+        "decksWithWins": 2
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 131,
+        "decksWithWins": 11
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 156,
+        "decksWithWins": 10
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 199,
+        "decksWithWins": 16
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 272,
+        "decksWithWins": 20
+      }
+    },
+    {
+      "floor": 180,
+      "power": 130000000000,
+      "bossUltimatePercent": 25,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 3,
+        "decksWithWins": 2
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 103,
+        "decksWithWins": 7
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 142,
+        "decksWithWins": 9
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 157,
+        "decksWithWins": 11
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 160,
+        "decksWithWins": 12
+      }
+    },
+    {
+      "floor": 190,
+      "power": 200000000000,
+      "bossUltimatePercent": 50,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 0,
+        "decksWithWins": 0
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 84,
+        "decksWithWins": 6
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 108,
+        "decksWithWins": 8
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 143,
+        "decksWithWins": 9
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 139,
+        "decksWithWins": 9
+      }
+    },
+    {
+      "floor": 200,
+      "power": 300000000000,
+      "bossUltimatePercent": 100,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 0,
+        "decksWithWins": 0
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 78,
+        "decksWithWins": 5
+      },
+      "abyss10": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 92,
+        "decksWithWins": 7
+      },
+      "abyss15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 111,
+        "decksWithWins": 8
+      },
+      "crown15": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 129,
+        "decksWithWins": 9
+      }
     }
-  ]
+  ],
+  "ascent": {
+    "from": 160,
+    "attemptsPerFloor": 3,
+    "seedOffset": 8192,
+    "groups": {
+      "abyss10": {
+        "decks": 20,
+        "battles": 394,
+        "medianHighestFloor": 168,
+        "reached": {
+          "160": 14,
+          "170": 9,
+          "180": 8,
+          "190": 7,
+          "200": 5
+        }
+      },
+      "abyss15": {
+        "decks": 20,
+        "battles": 499,
+        "medianHighestFloor": 172.5,
+        "reached": {
+          "160": 19,
+          "170": 12,
+          "180": 9,
+          "190": 8,
+          "200": 6
+        }
+      },
+      "crown15": {
+        "decks": 20,
+        "battles": 555,
+        "medianHighestFloor": 178,
+        "reached": {
+          "160": 20,
+          "170": 18,
+          "180": 10,
+          "190": 8,
+          "200": 7
+        }
+      }
+    },
+    "sameSetEnhancement": {
+      "improved": 13,
+      "same": 7,
+      "lower": 0,
+      "largestGain": 11
+    }
+  }
 }

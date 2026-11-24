@@ -18,10 +18,17 @@ function identity(user,body){
  return {uid,requestId,rid:`tower-abyss:${uid}:${requestId}`};
 }
 const read=(env,uid,rid)=>p(env,'SELECT * FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND kind=?',rid,uid,KIND).first();
+const RECORD_BYTES = 4_000_000;
+const UPPER_RECORD_RAW_BYTES = 16_000_000;
+const oversizedRecord = () => fail('TOWER_RECORD_SIZE','전투 기록을 저장하지 못했습니다. 다시 시도하세요.',503);
 async function encodePlan(plan){
- const raw=new TextEncoder().encode(JSON.stringify(plan.response));
- if(raw.byteLength>4000000)fail('TOWER_RECORD_SIZE','전투 기록을 저장하지 못했습니다. 다시 시도하세요.',503);
- const compressed=new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer());
+ const payload = new Blob([JSON.stringify(plan.response)]);
+ const upperFloor = plan.response.floorNo >= 160 && plan.response.floorNo <= 200;
+ const rawLimit = upperFloor ? UPPER_RECORD_RAW_BYTES : RECORD_BYTES;
+ if(payload.size > rawLimit) oversizedRecord();
+ const compressed = new Uint8Array(await new Response(payload.stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer());
+ // Four-hit waves can produce long, highly compressible combat timelines. Check their stored base64 size before allocating it.
+ if(payload.size > RECORD_BYTES && 4 * Math.ceil(compressed.byteLength / 3) > RECORD_BYTES) oversizedRecord();
  let binary='';for(let i=0;i<compressed.length;i+=8192)binary+=String.fromCharCode(...compressed.subarray(i,i+8192));
  const {response,...rest}=plan;return JSON.stringify({...rest,responseGzip:btoa(binary)});
 }

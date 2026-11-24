@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
+import {createHash, randomBytes} from 'node:crypto';
 import test from 'node:test';
 import proposal from '../docs/qa/tower-200-20261124/floor-plan.json' with {type:'json'};
 import priorBase from '../docs/qa/tower-boss-rewards-20261022/floor-plan.json' with {type:'json'};
-import {fixture, plan as priorExtension, reviewSnapshot} from './helpers/tower-expansion-20261102.mjs';
+import {fixture, PAIRS, plan as priorExtension, reviewSnapshot} from './helpers/tower-expansion-20261102.mjs';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {collectionFixture} from './helpers/collection-bonuses-fixture.mjs';
 import {operatingTowerFixture} from './helpers/tower-live-route.mjs';
-import {TOWER_ABYSS_PROTOCOL, TOWER_MAX_CLEAR_COIN} from '../functions/_tower_abyss.js';
+import {TOWER_ABYSS_PROTOCOL, TOWER_MAX_CLEAR_COIN, towerAbyssStart} from '../functions/_tower_abyss.js';
 import {buildTowerV3Battle, TOWER_V3_DRAFT} from '../functions/_tower_v3.js';
 import {ensureTowerWeek} from '../functions/_tower_weekly.js';
 import {PET_CMS_KEY} from '../shared/pet-cms-v1.mjs';
@@ -31,7 +32,12 @@ test('the 50 new CMS rows continue the reviewed tower and the proposed weekly bu
     if (row.boss) guardianCoin = row.coin;
     else ordinaryCoin = row.coin;
   }
-  assert.deepEqual(floors.filter(row => row.boss).map(row => row.power), [15e9, 25e9, 40e9, 65e9, 100e9]);
+  for (const row of floors.slice(0, 9)) {
+    const earlierCurve = Math.round(9e9 * (15 / 9) ** ((row.floor - 150) / 10) / 100) * 100;
+    assert.equal(row.power, earlierCurve);
+  }
+  assert(floors[9].power >= 4 * floors[8].power);
+  assert.deepEqual(floors.filter(row => row.boss).map(row => row.power), [60e9, 90e9, 130e9, 200e9, 300e9]);
   assert.equal(floors.reduce((total, row) => total + row.coin, 0), proposal.totalNewBaseCoin);
   assert.equal(proposal.totalNewBaseCoin, 90.8e12);
   assert.equal(priorBase.totalCoin + priorExtension.totalCoin + proposal.totalNewBaseCoin, 131803847600000);
@@ -48,11 +54,36 @@ test('the expanded combat limit is confined to floors 151 through 200', () => {
   const snapshot = reviewSnapshot();
   const config = {...TOWER_V3_DRAFT, maxTier:201, powerGrowth:1.001};
   const run = (tier, power) => buildTowerV3Battle({snapshot, tier, seed:1, config, operatingFloor:{id:69, power}});
-  for (const [tier, power] of [[150, 1e10 + 1], [201, 1e10 + 1], [200, 1e11 + 1], [151, 0], [200, NaN]]) {
+  for (const [tier, power] of [[150, 1e10 + 1], [159, 1e11 + 1], [201, 1e10 + 1], [200, 3e11 + 1], [151, 0], [200, NaN]]) {
     assert.throws(() => run(tier, power), {code:'TOWER_V3_CONFIG'});
   }
   assert.equal(run(150, 1e10).tier, 150);
-  assert.equal(run(200, 1e11).continuousEncounter.total, 28);
+  assert.equal(run(159, 1e11).tier, 159);
+  assert.equal(run(200, 3e11).continuousEncounter.total, 28);
+});
+
+test('the 160F jump reaches all 28 enemies and carries onto ordinary floors above the gate', () => {
+  const snapshot = reviewSnapshot({codes:PAIRS[1], power:1000000});
+  const config = {...TOWER_V3_DRAFT, maxTier:201, powerGrowth:1.001, rulesVersion:TOWER_ABYSS_PROTOCOL};
+  for (const tier of [159, 160, 161, 199, 200, 201]) {
+    const row = proposal.floors.find(f => f.floor === tier);
+    const operatingFloor = row ? {id:row.monsterId, power:row.power} : {id:19, power:1e10};
+    const battle = buildTowerV3Battle({snapshot, tier, seed:1, config, operatingFloor});
+    const upper = tier >= 160 && tier <= 200;
+    assert.equal(battle.rulesVersion, upper ? TOWER_ABYSS_PROTOCOL + '_UPPER_2' : TOWER_ABYSS_PROTOCOL);
+    assert.equal(battle.battleV2.encounter.forcedMonsterEvery, upper ? 2 : 6);
+    for (const enemy of battle.continuousEncounter.instances) {
+      assert.equal(enemy.pveBuffs.difficultyHpPercent, upper ? 600 : 100);
+      assert.equal(enemy.pveBuffs.difficultyShieldPercent, upper ? 150 + 2 * (tier - 160) : 0);
+      assert.equal(enemy.pveBuffs.difficultyAttackPercent, upper ? 150 : 100);
+      assert.equal(enemy.pveBuffs.difficultySpeedPercent, upper ? 300 : 100);
+      assert.equal(enemy.attackCount, upper ? 4 : 1);
+    }
+    if (tier === 159 || tier === 160) assert.equal(battle.success, tier === 159);
+  }
+  const prototype = buildTowerV3Battle({snapshot, tier:160, seed:1, config});
+  assert.equal(prototype.rulesVersion, config.rulesVersion);
+  assert.equal(prototype.continuousEncounter.instances[0].attackCount, 1);
 });
 
 async function route(tower, name, body) {
@@ -63,12 +94,16 @@ async function route(tower, name, body) {
   return {status:response.status, data:await response.json()};
 }
 
-test('a completed 150F account ascends all 50 additional floors through normal start and finish', async t => {
-  const f = await jointFixture(t, {postgres:true});
+function equipRouteTestParty(f) {
   f.setPower(150e9);
   const baseDeck = f.deps.raidDeckPower;
   const {mercenaries} = reviewSnapshot();
   f.deps.raidDeckPower = async (...args) => ({...await baseDeck(...args), mercenaries});
+}
+
+test('a completed 150F account ascends all 50 additional floors through normal start and finish', async t => {
+  const f = await jointFixture(t, {postgres:true});
+  equipRouteTestParty(f);
   const tower = await operatingTowerFixture(f, {floorNo:151, maxFloor:150});
   f.setClock(Date.parse('2026-11-24T12:00:00+09:00'));
   const week = await ensureTowerWeek(f.env, f.deps.now());
@@ -110,7 +145,7 @@ test('a completed 150F account ascends all 50 additional floors through normal s
 
 test('a high collection coin bonus fits the existing settlement limit at floor 200', async t => {
   const f = await collectionFixture(t);
-  f.setPower(150e9);
+  equipRouteTestParty(f);
   f.pet.rewardBonuses.coinPercent = 500;
   await f.write(PET_CMS_KEY, f.pets);
   const top = proposal.floors.at(-1);
@@ -123,4 +158,40 @@ test('a high collection coin bonus fits the existing settlement limit at floor 2
   f.setClock(start.data.settlement.notBefore);
   assert.equal((await route(tower, 'finish', ticket)).data.reward, TOWER_MAX_CLEAR_COIN);
   assert.equal(await f.coin() - before, TOWER_MAX_CLEAR_COIN);
+});
+
+test('long upper-floor timelines retain every event on reconnect and settle once, with bounded record sizes', async t => {
+  const f = await jointFixture(t);
+  const tower = await operatingTowerFixture(f, {floorNo:159, maxFloor:200});
+  const coin = proposal.floors.find(row => row.floor === 160).coin;
+  const start = (floorNo, requestId, timeline) => towerAbyssStart(f.env, f.user,
+    {floorNo, requestId, protocol:TOWER_ABYSS_PROTOCOL}, async () => ({
+      seasonId:1, rewardCoin:coin, magic:{enabled:false, amount:0}, response:{
+        floorNo, result:'WIN', playerPower:1e9, monsterPower:60e9, elapsedCombatMs:8000, battleV2:{result:{timeline}}
+      }
+    }), {now:f.deps.now});
+  const event = {type:'SKILL_CHIP_HIT', actorId:'A:SUIT', hits:Array.from({length:12}, (_, i) => ({
+    targetId:'B:ENCOUNTER:' + i, damage:2000000 + i, targetHpAfter:100000000 - i, absorbed:700000
+  }))};
+  const timeline = Array(Math.ceil(4100000 / Buffer.byteLength(JSON.stringify(event)))).fill(event);
+  const digest = events => createHash('sha256').update(JSON.stringify(events)).digest('hex');
+  await assert.rejects(start(159, 'tower-long-record-159', timeline), {code:'TOWER_RECORD_SIZE'});
+  await tower.setFloor(160);
+  await assert.rejects(start(160, 'tower-raw-record-limit', [{type:'TURN', label:'x'.repeat(16000001)}]), {code:'TOWER_RECORD_SIZE'});
+  await assert.rejects(start(160, 'tower-packed-record-limit', [{type:'TURN', label:randomBytes(3100000).toString('base64')}]), {code:'TOWER_RECORD_SIZE'});
+  assert.equal((await route(tower, 'pending')).data.pending, null);
+
+  const requestId = 'tower-long-record-160';
+  const before = await f.coin();
+  const first = await start(160, requestId, timeline);
+  const resumed = (await route(tower, 'pending')).data.pending;
+  assert.equal(digest(resumed.battleV2.result.timeline), digest(timeline));
+  f.setClock(first.settlement.notBefore);
+  for (let i = 0; i < 2; i++) {
+    const {status, data} = await route(tower, 'finish', {requestId});
+    assert.equal(status, 200);
+    assert.equal(data.reward, coin);
+    assert.equal(digest(data.battleV2.result.timeline), digest(timeline));
+  }
+  assert.equal(await f.coin() - before, coin);
 });

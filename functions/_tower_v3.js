@@ -71,24 +71,31 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
   const guardianArt=operatingFloor?monsterArt.sprites.find(row=>String(row.monsterId)===String(operatingFloor.id)&&row.qa?.visualApproval===true):null;
   // The live single-pass tower retains its CMS guardian and floor power. Only
   // its encounter uses the approved normal -> elite -> guardian composition.
-  const maxOperatingPower = tier >= 151 && tier <= 200 ? 100_000_000_000 : 10_000_000_000;
+  const upperAscent = Boolean(operatingFloor) && tier >= 160 && tier <= 200;
+  const expansionLimit = tier < 160 ? 100_000_000_000 : 300_000_000_000;
+  const maxOperatingPower = tier >= 151 && tier <= 200 ? expansionLimit : 10_000_000_000;
   if(operatingFloor&&(!Number.isSafeInteger(operatingFloor.power)||operatingFloor.power<1||operatingFloor.power>maxOperatingPower))throw towerError('TOWER_V3_CONFIG','운영 층 전투력을 확인하세요.');
+  const monsterStats = upperAscent ? {
+    pve_hp_percent:600, pve_attack_percent:150, pve_defense_percent:100, pve_speed_percent:300,
+    pve_shield_percent:150 + 2 * (tier - 160), pve_attack_count:4
+  } : {
+    pve_hp_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.hpGrowth),
+    pve_attack_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.attackGrowth),
+    pve_defense_percent:operatingFloor?100:Math.min(200,100+(tier-1)*.35)
+  };
   const base=operatingFloor?operatingFloor.power/c.guardianMultiplier:c.basePower*Math.pow(c.powerGrowth,tier-1), beforeBoss=c.normalCount+c.eliteCount;
   const instances=Array.from({length:beforeBoss+1},(_,i)=>{
     const boss=i===beforeBoss,elite=!boss&&i>=c.normalCount,offset=boss?3:0;
     const art=towerMonsterArt(boss&&operatingFloor?operatingFloor.id:f[offset]);
     const name=art?(elite?'정예 ':'')+art.name:boss&&operatingFloor?operatingFloor.name:(elite?'정예 ':'')+f[offset+1],power=Math.max(1,Math.round(base*(boss?c.guardianMultiplier:elite?c.eliteMultiplier:1)));
     return {instanceId:`TOWER:${tier}:${i+1}`,slot:boss?1:i%c.simultaneous,afterClear:boss||elite,
-      monster:{id:boss&&operatingFloor?operatingFloor.id:f[offset],name,battle_power:power,is_boss:boss?1:0,
-        pve_hp_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.hpGrowth),
-        pve_attack_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.attackGrowth),
-        pve_defense_percent:operatingFloor?100:Math.min(200,100+(tier-1)*.35)},
+      monster:{id:boss&&operatingFloor?operatingFloor.id:f[offset],name,battle_power:power,is_boss:boss?1:0,...monsterStats},
       name,elite,boss,points:boss?0:elite?c.elitePoints:c.normalPoints,sourceArt:art?.image||(boss&&operatingFloor?operatingFloor.image:null),
       battleSprite:art?.battleSprite||(boss&&operatingFloor?guardianArt?.battleSprite||null:root+f[offset+2])};
   });
   const battleV2=createPveBattleV2({pet:snapshot.pet,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,cards:snapshot.cards,magicCards:snapshot.magicCards||[],characterBonus:snapshot.cardSupportBonus||0,
     battleSuit:snapshot.battleSuit||null,...companionBattleOptions(snapshot),singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,bossUltimatePercent,seed,
-    encounter:{initialCount:c.simultaneous,instances,maxActions:c.maxActions,maxDuration:c.combatLimitMs/TOWER_CLOCK_UNIT_MS,forcedMonsterEvery:c.forcedMonsterEvery}});
+    encounter:{initialCount:c.simultaneous,instances,maxActions:c.maxActions,maxDuration:c.combatLimitMs/TOWER_CLOCK_UNIT_MS,forcedMonsterEvery:upperAscent?2:c.forcedMonsterEvery}});
   const rows=battleV2.encounter.instances.map((fighter,i)=>({...fighter,slot:instances[i].slot,boss:instances[i].boss,elite:instances[i].elite,
     points:instances[i].points,name:instances[i].name,displayName:instances[i].boss?instances[i].name:`${instances[i].name} ${i+1}`,sourceArt:instances[i].sourceArt||null,battleSprite:instances[i].battleSprite}));
   const byId=new Map(rows.map(row=>[row.id,row])),dead=new Set();let points=0,officialClock=0;
@@ -111,7 +118,7 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
   }
   const guardian=battleV2.result.final.B.find(row=>row.id===bossId);
   return {ok:true,mode:'TOWER',battlefieldMode:'TOWER',title:'무한의탑',phaseLabel:`${tier}층 · 한계 돌파`,tier,
-    engineVersion:TOWER_V3_ENGINE_VERSION,rulesVersion:c.rulesVersion,success,elapsedCombatMs,combatLimitMs:c.combatLimitMs,
+    engineVersion:TOWER_V3_ENGINE_VERSION,rulesVersion:upperAscent?c.rulesVersion+'_UPPER_2':c.rulesVersion,success,elapsedCombatMs,combatLimitMs:c.combatLimitMs,
     unlockStep:success?(operatingFloor?1:remaining>=c.fastUnlockThree?3:remaining>=c.fastUnlockTwo?2:1):0,
     failureReason:reason,guardianProgress:Math.min(100,points),guardianHpPercent:dead.has(bossId)?0:guardian?Math.round(guardian.hp/guardian.maxHp*100):100,
     defeated:dead.size,playerName:snapshot.accountNickname||'탑 원정대',opponentName:`${tier}층 수호자`,cards:snapshot.cards,
