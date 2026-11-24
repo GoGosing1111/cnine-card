@@ -130,8 +130,14 @@ function render(result){
     reward.textContent=practice?'연습 보상 없음':paid?`코인 ${formatAmount(payout.coins)} · 마스터의 별 ${formatAmount(payout.masterStars)} 개 지급 · 주간 ${payout.weekly.used}/${payout.weekly.limit}회`:
       payout?.status==='LIMIT'?`이번 주 보상 ${payout.weekly.limit}회를 모두 수령했습니다.`:state.status==='CLEAR'&&state.release.mode==='TEST'?'TEST 클리어 · 보상 없음':'';
     reward.hidden=!reward.textContent;
-    if(paid)window.parent.dispatchEvent(new Event('cnine:account-mutation'));
-    $('resultDialog').showModal();
+    const blueprint=payout?.blueprintDrop;
+    if(blueprint){reward.textContent+=(reward.textContent?' · ':'')+blueprint.name+' 1개 획득';reward.hidden=false;}
+    if(paid||blueprint)window.parent.dispatchEvent(new Event('cnine:account-mutation'));
+    const resultDialog=$('resultDialog');
+    resultDialog.showModal();
+    if(blueprint)void import('/js/blueprint-acquisition-v1.mjs?v=1').then(module=>{
+      if(resultDialog.open)module.showBlueprintAcquisition(blueprint,'nox',resultDialog);
+    }).catch(console.warn);
   }
 }
 function layoutChart(){

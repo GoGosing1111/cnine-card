@@ -3,6 +3,7 @@ import {supplyBoxSettings} from './_equipment.js';
 import {blackMiracleSettings} from './_black_miracle_pack.js';
 import {resolveAvatarDropRate} from './_avatar_drop.js';
 import {planUnifiedDropRoll,prepareUnifiedDropGrant,applyDailyLimits} from './_drop_pool.js';
+import {drawBlueprintDrop,activeBlueprintDrop} from './_blueprint_drop.js';
 import {cowTicketAward} from './_legion_cow_tickets.js';
 import {accountRankAward} from './_account_rank.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -18,6 +19,7 @@ export async function planApocalypseRewards(env,{user,requestId,monster,reward,w
   const plan={reward:won?reward:0,card:won?card:null,duplicateShards,items:[],magic:null,unified:null,
     bonuses:won?{coin:clamp(reward*Number(bonus?.coinPercent||0)/100,1000000000000),masterStars:Number(bonus?.masterStars||0),mysticEnergy:Number(bonus?.mysticEnergy||0)}:{coin:0,masterStars:0,mysticEnergy:0}};
   if(!won)return plan;
+  plan.blueprintCode=drawBlueprintDrop('APOCALYPSE');
   const [supply,black,rerollRow]=await Promise.all([supplyBoxSettings(env),blackMiracleSettings(env),p(env,"SELECT value FROM app_meta WHERE key='high_grade_reroll_settings_v1'").first()]);
   const source=supply.sources.PVE;
   if(supply.enabled&&source?.enabled&&source.rate>0){
@@ -70,6 +72,8 @@ export async function prepareApocalypseRewards(env,user,state,now=Date.now()){
   const coin=Number(plan.reward)+Number(plan.bonuses.coin);
   if(coin)statements.push(p(env,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',coin,user.id),p(env,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'아포칼립스 전투 완료 보상' FROM users WHERE id=?",coin,user.id));
   const items=[...plan.items];
+  const blueprint=await activeBlueprintDrop(env,plan.blueprintCode,requestId);
+  if(blueprint){items.push(blueprint);patch.blueprintDrop=blueprint;}
   if(plan.bonuses.masterStars)items.push({code:'MASTER_STAR',quantity:plan.bonuses.masterStars});
   if(plan.bonuses.mysticEnergy)items.push({code:'STARLIGHT_ARMOR_CORE',quantity:plan.bonuses.mysticEnergy});
   if(plan.card){

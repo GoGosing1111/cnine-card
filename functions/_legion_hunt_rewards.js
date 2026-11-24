@@ -1,3 +1,4 @@
+import {drawBlueprintDrop,activeBlueprintDrop} from './_blueprint_drop.js';
 import {cowTicketOutcome} from './_legion_cow_tickets.js';
 import {withoutHyperTickets,isRetiredHyperReward} from './_hyper_ticket_retirement.js';
 import {contentProgressionStatements as seasonAwardStatements} from './_content_progression.js';
@@ -29,6 +30,10 @@ export async function settleLegionHuntRewards(env,user,{key,before,run,policyRaw
   const result=run.state.receipt;
   if(run.liveRewards&&Number.isFinite(run.state.startedAt)&&['CLEAR','DEFEAT','TIME_LIMIT'].includes(result.reason)){
     const ticket=await cowTicketOutcome(env,user.id,'LEGION_SOLO',run.state.id);
+    if(run.entry?.status==='CONSUMED'){
+      const blueprint=await activeBlueprintDrop(env,drawBlueprintDrop('LEGION'),run.state.id);
+      if(blueprint)result.inventory=[...result.inventory,{...blueprint,code:'INVENTORY_ITEM:'+blueprint.code}];
+    }
     if(ticket)result.inventory=[...result.inventory,{type:'INVENTORY_ITEM',code:'INVENTORY_ITEM:'+ticket.code,ref:ticket.code,name:ticket.name,image:'/'+ticket.image,quantity:1}];
   }
   run.rewardStatus='SETTLED';

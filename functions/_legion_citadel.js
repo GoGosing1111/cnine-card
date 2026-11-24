@@ -1,4 +1,5 @@
 import {COW_AREA} from '../shared/legion-cow-room.mjs';
+import {drawBlueprintDrop,activeBlueprintDrop} from './_blueprint_drop.js';
 import {cowTicketCount,requireCowTicket,spendCowTicket,cowTicketOutcome} from './_legion_cow_tickets.js';
 import {HIDEOUT_KEY,hideoutBenefits} from '../shared/personal-hideout-v1.mjs';
 import {HIDEOUT_PARTY_ENERGY_KEY,hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
@@ -100,8 +101,12 @@ async function present(env,r,user,at){
  const f=JSON.parse(entry.value);if(!f)fail('FARM','개인 전리품을 읽지 못했습니다.',503);
  if(entry.party){state.partyEnergy=entry.party;state.nextEntryAt=entry.party.current>0?null:entry.party.nextRechargeAt;}else if(state.nextEntryAt!==null)state.nextEntryAt=entryDeadline(entry.deadline);
  const earned=farmView(f,Math.min(r.duration,at-r.startsAt),state.status==='ACTIVE');
- const ticket=r.members.find(m=>m.id===Number(user.id)).cowTicket;
- if(ticket&&['VICTORY','DEFEAT'].includes(state.status))earned.drops.push({type:'INVENTORY_ITEM',ref:ticket.code,name:ticket.name,image:'/'+ticket.image,quantity:1});
+ const member=r.members.find(m=>m.id===Number(user.id));
+ if(['VICTORY','DEFEAT'].includes(state.status)){
+  const ticket=member.cowTicket;
+  if(ticket)earned.drops.push({type:'INVENTORY_ITEM',ref:ticket.code,name:ticket.name,image:'/'+ticket.image,quantity:1});
+  if(member.blueprintDrop)earned.drops.push(member.blueprintDrop);
+ }
  return {...state,...earned,canClaim:['VICTORY','DEFEAT'].includes(state.status)&&(earned.drops.length>0||state.coins>0)&&!state.claimed};
 }
 const emptyMember=u=>({id:Number(u.id),name:String(u.nickname||'토벌대원').slice(0,64),ready:false,loaded:false});
@@ -281,6 +286,10 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
      if(confirmedAt>=r.expiresAt)fail('LOADING','전장 준비 시간이 종료됐습니다. 행동력은 차감되지 않습니다.');
      r.startsAt=confirmedAt+1200;
      if(r.paying)out.push(...await paidEntryStatements(env,us,r.members,confirmedAt,r.startsAt+PARTY_ENTRY_INTERVAL_MS,deps,cow?r.hostId:null,id,entryVersions));
+     if(r.paying){
+      const blueprints=await Promise.all(us.map(()=>activeBlueprintDrop(env,drawBlueprintDrop('LEGION'),id)));
+      for(const [i,blueprint] of blueprints.entries())if(blueprint)r.members[i].blueprintDrop=blueprint;
+     }
      r.phase='ACTIVE';
     }
    }else if(action==='pickup'){

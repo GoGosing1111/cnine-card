@@ -9,6 +9,7 @@ export async function noxFixture(t,{handler=handleNoxLive,queryDelayMs=0}={}){
     CREATE TABLE users(id BIGINT PRIMARY KEY,nickname TEXT,role TEXT,status TEXT DEFAULT 'ACTIVE',banned_until TEXT,coin BIGINT DEFAULT 999999999999999999);
     CREATE TABLE coin_logs(id BIGSERIAL PRIMARY KEY,user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT);
     CREATE TABLE cnine_user_inventory(user_id BIGINT,item_code TEXT,quantity BIGINT NOT NULL,unseen_quantity BIGINT NOT NULL,updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code));
+    CREATE TABLE inventory_items(code TEXT PRIMARY KEY,is_active INTEGER);
     CREATE TABLE inventory_logs(id BIGSERIAL PRIMARY KEY,user_id BIGINT,item_code TEXT,change_amount BIGINT,balance_after BIGINT,reason TEXT,reference_type TEXT,reference_id TEXT);
     CREATE TABLE admin_logs(id BIGSERIAL PRIMARY KEY,admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);
     INSERT INTO users(id,nickname,role) VALUES(1,'검수 공대장','OWNER'),(2,'테스터2','USER'),(3,'테스터3','USER'),(4,'미지정','USER'),(5,'관리자','ADMIN'),(6,'테스터6','USER'),(7,'테스터7','USER'),(8,'테스터8','USER');

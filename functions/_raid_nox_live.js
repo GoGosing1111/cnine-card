@@ -1,3 +1,4 @@
+import {drawBlueprintDrop,blueprintDropItem} from './_blueprint_drop.js';
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,leaveNoxRoom,tickNoxRoom,actNoxRoom,noxView,noxBattlePayload,loadNoxPveDeck} from './_raid_nox.js';
 import {readJointBody,jointError} from './_joint_request.js';
 import {noxClearKey,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
@@ -127,14 +128,28 @@ const GRANT_CLEAR_REWARDS_SQL=`WITH participants AS (
 ), star_ledger AS (
   INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
   SELECT user_id,'MASTER_STAR',$5::bigint,quantity,'NOX_RAID_CLEAR','NOX_RAID',$6 FROM stars
-) SELECT participants.id::text AS id,coins.used FROM participants LEFT JOIN coins USING(id)`;
+), blueprints AS (
+  INSERT INTO cnine_user_inventory AS inventory(user_id,item_code,quantity,unseen_quantity)
+  SELECT participants.id,catalog.code,1,1 FROM participants
+  JOIN jsonb_to_recordset($7::jsonb) AS picked(id bigint,code text) USING(id)
+  JOIN inventory_items AS catalog ON catalog.code=picked.code AND catalog.is_active=1
+  ON CONFLICT(user_id,item_code) DO UPDATE SET
+    quantity=inventory.quantity+1,unseen_quantity=inventory.unseen_quantity+1,updated_at=CURRENT_TIMESTAMP
+  RETURNING user_id,item_code,quantity
+), blueprint_ledger AS (
+  INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+  SELECT user_id,item_code,1,quantity,'NOX_RAID_BLUEPRINT','NOX_RAID',$6 FROM blueprints
+) SELECT participants.id::text AS id,coins.used,blueprints.item_code
+FROM participants LEFT JOIN coins USING(id) LEFT JOIN blueprints ON blueprints.user_id=participants.id`;
 async function grantClearRewards(q,room){
   const week=pigCoinRewardWeek(room.finishedAt);
   const reward=NOX_REWARDS[room.difficulty==='HELL'?'HELL':'NORMAL'];
-  const rows=await q(GRANT_CLEAR_REWARDS_SQL,[room.clearParticipantIds,weekPrefix(week.weekKey),NOX_WEEKLY_REWARD_LIMIT,reward.coins,reward.masterStars,room.id]);
-  return Object.fromEntries(rows.map(({id,used})=>[id,{
+  const picks=room.clearParticipantIds.map(id=>({id,code:drawBlueprintDrop('NOX')})).filter(pick=>pick.code);
+  const rows=await q(GRANT_CLEAR_REWARDS_SQL,[room.clearParticipantIds,weekPrefix(week.weekKey),NOX_WEEKLY_REWARD_LIMIT,reward.coins,reward.masterStars,room.id,JSON.stringify(picks)]);
+  return Object.fromEntries(rows.map(({id,used,item_code})=>[id,{
     status:used===null?'LIMIT':'PAID',
     ...(used===null?{}:reward),
+    ...(item_code?{blueprintDrop:blueprintDropItem(item_code,room.id)}:{}),
     weekly:weeklyStatus(week,used??NOX_WEEKLY_REWARD_LIMIT)
   }]));
 }

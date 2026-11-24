@@ -9,6 +9,8 @@
   for(const r of equipment){const items=Array.isArray(r.rewards)?r.rewards:r.items||[r.item||r.equipment||r];for(const item of items)add(item.name||item.rewardName||item.equipmentName||'장비 보상',Number(item.quantity||item.amount||1),item.image||item.imageUrl||item.image_url||'');}
   for(const r of sweep?data.blackMiracleRewards||[]:data.blackMiracleReward?[data.blackMiracleReward]:[])add(r.name||'블랙 미라클',Number(r.quantity||r.amount||1),r.image||'');
   for(const r of (sweep?data.unifiedDrops||[]:data.unifiedDrop?[data.unifiedDrop]:[]).flatMap(r=>r.rewards||[]))add(r.label||r.rewardName||r.name||r.type||'추가 보상',Number(r.quantity||r.amount||1),r.image||r.imageUrl||'');
+  const blueprint=data.blueprintDrop;
+  if(!sweep&&blueprint)add(blueprint.name,blueprint.quantity,blueprint.image);
   const bonus=data.apocalypseBonus?.rewards;
   if(bonus?.masterStars)add('마스터의 별',bonus.masterStars);if(bonus?.mysticEnergy)add('미스틱 에너지',bonus.mysticEnergy);
   return [...rows.values()];

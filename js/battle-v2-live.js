@@ -460,6 +460,12 @@
       modal.onclick=null;
       const confirm=msg.querySelector('#pveResultConfirm');
       if(confirm){confirm.onclick=event=>{event.stopPropagation();close()};confirm.focus({preventScroll:true})}
+      if (data.blueprintDrop) {
+        if (!window.HuntResults || !stage.classList.contains('battle-v3-live-shell')) {
+          const item=document.createElement('p');item.textContent=data.blueprintDrop.name+' 1개 획득';confirm?.before(item);
+        }
+        void import('/js/blueprint-acquisition-v1.mjs?v=1').then(module=>module.showBlueprintAcquisition(data.blueprintDrop,'apocalypse',msg)).catch(console.warn);
+      }
       if(data.cowTicket){const item=document.createElement('p');item.textContent=data.cowTicket.name+' 1장 획득';confirm?.before(item);}
     }
   }
