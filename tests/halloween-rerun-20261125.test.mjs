@@ -38,7 +38,7 @@ function serviceFor(code){
  return createHalloweenPackService({readState:readHalloweenPackState,randomInt:max=>max===LIMITED_RATE_TOTAL?nextStage++%2*ticket:0});
 }
 
-test('the staged rerun stays closed until precisely midnight KST and opens with twelve distinct limits',async t=>{
+test('the scheduled rerun is listed before midnight KST and permits purchases at precisely midnight',async t=>{
  const moveClock=mockClock(t),f=await soldOutFixture(t);
  const before=await f.p('SELECT value FROM app_meta WHERE key=?',HALLOWEEN_PACK_KEY).first();
  const dry=await prepareHalloweenRerun(f.db,{dryRun:true});
@@ -54,10 +54,21 @@ test('the staged rerun stays closed until precisely midnight KST and opens with 
  assert.equal((await f.pg.query('SELECT COUNT(*) AS n FROM admin_logs')).rows[0].n,1);
 
  const path=HALLOWEEN_PACK.openPath;
- const open=authenticate=>handleHalloweenPack({path,request:new Request('https://qa.test/api/'+path,{method:'POST'}),env:f.env,deps:{json,authenticate}});
- assert.equal(await halloweenPackShopRow(f.env),null);
- assert.equal((await readHalloweenPackState(f.env)).userOpeningEnabled,false);
+ const open=authenticate=>handleHalloweenPack({path,request:new Request('https://qa.test/api/'+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(f.body())}),env:f.env,deps:{json,authenticate}});
+ const preview=await halloweenPackShopRow(f.env),previewState=await readHalloweenPackState(f.env);
+ assert.equal(preview.id,HALLOWEEN_PACK.id);
+ assert.equal(preview.drawEnabled,false);
+ assert.equal(preview.ownerDrawEnabled,false);
+ assert.equal(preview.saleOpensAt,HALLOWEEN_RERUN_OPENS_AT);
+ assert.equal(preview.saleLabel,'11월 25일 00:00 (한국 시간)');
+ assert.deepEqual(preview.prices,f.settings.prices);
+ assert.deepEqual(preview.previewCards.filter(c=>c.rank==='SS').map(c=>c.remaining),Array(8).fill(20));
+ assert.deepEqual(preview.previewCards.filter(c=>c.rank==='SSS').map(c=>c.remaining),Array(4).fill(5));
+ assert.equal(previewState.userOpeningEnabled,false);
+ assert.equal(previewState.saleOpensAt,HALLOWEEN_RERUN_OPENS_AT);
  assert.equal((await open(()=>assert.fail('Opening before midnight reached authentication'))).status,423);
+ await assert.rejects(serviceFor('V-980').open(f.env,f.user,f.body()),{status:423});
+ assert.equal((await verifyHalloweenRerun(f.db)).stock.reduce((sum,row)=>sum+row.issued,0),0);
 
  moveClock(opens);
  const shop=await halloweenPackShopRow(f.env),state=await readHalloweenPackState(f.env);

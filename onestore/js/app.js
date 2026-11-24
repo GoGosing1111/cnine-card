@@ -73,19 +73,23 @@ let halloweenCatalogTimer=0;
 
 function scheduleHalloweenCatalogRefresh(){
   clearTimeout(halloweenCatalogTimer);
-  if(!API_MODE||PACKS.some(pack=>pack.id===HALLOWEEN_RERUN_PACK_ID))return;
-  const delay=Math.max(0,Date.parse(HALLOWEEN_RERUN_OPENS_AT)-burningClientNow());
+  const preview=PACKS.find(pack=>pack.id===HALLOWEEN_RERUN_PACK_ID);
+  if(!API_MODE||preview?.drawEnabled)return;
+  const opensAt=Date.parse(HALLOWEEN_RERUN_OPENS_AT);
+  const delay=preview?Math.max(0,opensAt-burningClientNow()):0;
   halloweenCatalogTimer=setTimeout(async()=>{
-    if(!document.querySelector('#app .pack-selector')||PACKS.some(pack=>pack.id===HALLOWEEN_RERUN_PACK_ID))return;
+    if(!document.querySelector('#app .pack-selector'))return;
     try{
       const result=await apiRequest('packs',{}, {ttl:0,microcache:false,replaceInflight:true});
       syncBurningServerClock(result.serverNow);
-      if(!result.packs?.some(isHalloweenRerunRow)){
-        if(document.querySelector('#app .pack-selector')&&burningClientNow()<Date.parse(HALLOWEEN_RERUN_OPENS_AT))scheduleHalloweenCatalogRefresh();
-        return;
+      if(!Array.isArray(result.packs))return;
+      const current=PACKS.find(pack=>pack.id===HALLOWEEN_RERUN_PACK_ID);
+      const latest=result.packs.find(isHalloweenRerunRow);
+      if(current?.drawEnabled!==latest?.drawEnabled){
+        applyServerPacks(result.packs);
+        if(document.querySelector('#app .pack-selector'))refreshBuyShellAfterStartup(startupRunId);
       }
-      applyServerPacks(result.packs);
-      if(document.querySelector('#app .pack-selector'))refreshBuyShellAfterStartup(startupRunId);
+      if(latest&&!latest.drawEnabled&&burningClientNow()<opensAt&&document.querySelector('#app .pack-selector'))scheduleHalloweenCatalogRefresh();
     }catch(error){console.warn('할로윈팩 판매 상태 확인 실패:',error);}
   },delay);
 }
@@ -106,6 +110,7 @@ function applyServerPacks(rows = []) {
       range: row.range || packRangeFromAllowed(allowed),
       price: Math.max(0, Number(row.originalPrice??row.price) || 0),
       prices: row.prices || null,
+      saleLabel: isHalloweenRerunRow(row)?row.saleLabel:null,
       originalPrice: Math.max(0, Number(row.originalPrice??row.price) || 0),
       burningDiscountPercent:0,
       allowed,
@@ -1849,9 +1854,15 @@ function superstarPackAccess(user=loadUser()){
   return {owner,early,allowed:owner||early};
 }
 
+function halloweenPackChoice(pack) {
+  const state=pack.drawEnabled?'판매 중':'판매 예정';
+  const details=pack.drawEnabled?'1회 '+Number(pack.prices?.single??pack.price).toLocaleString('ko-KR')+' 코인':pack.saleLabel;
+  return `<button class="pack-choice pack-choice-halloween ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack halloween">${packResponsiveImage(pack)}<b class="halloween-pack-state">${state}</b></span><strong>할로윈 리미티드 용병팩</strong><small>할로윈 SS 8종 · SSS 리미티드 4종</small><em>${escapeHtml(details||state)}</em></button>`;
+}
+
 function packSelector() {
   const access=superstarPackAccess();
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {if(pack.id==='mercenary-blue-gear')return blueGearChoice(pack);if(pack.id==='mercenary-reversecall-streamer')return `<button class="pack-choice pack-choice-blackcrown pack-choice-streamer ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack blackcrown">${packResponsiveImage(pack)}<b class="blackcrown-pack-state">스트리머 전용</b></span><strong>리버스콜 스트리머 팩</strong><small>블랙크라운 동일 구성·확률</small><em>리버스랜드 등록 스트리머 · 독립 재고</em></button>`;if(pack.id==='mercenary-blackcrown-ss-limited')return `<button class="pack-choice pack-choice-blackcrown ${pack.id===selectedPackId?'active':''} ${pack.drawEnabled?'':'opening-off'}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack blackcrown">${packResponsiveImage(pack)}<b class="blackcrown-pack-state">${pack.drawEnabled?'판매 중':'출시 예정'}</b></span><strong>블랙크라운팩</strong><small>블랙크라운 SS 6종</small><em>${pack.drawEnabled?'판매 ON · 1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인':'판매 OFF · 출시 준비 중'}</em></button>`;if(pack.id==='mercenary-bloodmoon-ss-limited')return `<button class="pack-choice pack-choice-bloodmoon ${pack.id===selectedPackId?'active':''} ${pack.drawEnabled?'':'opening-off'}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack bloodmoon">${packResponsiveImage(pack)}<b class="bloodmoon-pack-state">${pack.drawEnabled?'판매 중':'출시 예정'}</b></span><strong>블러드문팩</strong><small>블러드 SS 6종 · SSS 리미티드 3종</small><em>${pack.drawEnabled?'판매 ON · 1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인':'판매 OFF · 출시 준비 중'}</em></button>`;if(pack.id==='mercenary-halloween-ss-limited')return `<button class="pack-choice pack-choice-halloween ${pack.id===selectedPackId?'active':''} ${pack.drawEnabled?'':'opening-off'}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack halloween">${packResponsiveImage(pack)}<b class="halloween-pack-state">${pack.drawEnabled?'판매 중':'출시 예정'}</b></span><strong>할로윈 리미티드 용병팩</strong><small>할로윈 SS 8종 · SSS 리미티드 3종</small><em>${pack.drawEnabled?'판매 ON · 1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인':'판매 OFF · 출시 준비 중'}</em></button>`;const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&access.owner&&pack.ownerDrawEnabled===true,earlyAccess=superstar&&access.early,exceptionAccess=ownerAccess||earlyAccess,off=superstar&&pack.drawEnabled!==true&&!exceptionAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':earlyAccess?'early-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':earlyAccess?'<b class="pack-owner-access-badge">EARLY OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · ${['hyper','mercenary-limited'].includes(pack.id)?'1회':'1장'} ${pack.id==='mercenary-limited'&&pack.prices?.single==null?'출시 준비 중':pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {if(pack.id==='mercenary-blue-gear')return blueGearChoice(pack);if(pack.id==='mercenary-reversecall-streamer')return `<button class="pack-choice pack-choice-blackcrown pack-choice-streamer ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack blackcrown">${packResponsiveImage(pack)}<b class="blackcrown-pack-state">스트리머 전용</b></span><strong>리버스콜 스트리머 팩</strong><small>블랙크라운 동일 구성·확률</small><em>리버스랜드 등록 스트리머 · 독립 재고</em></button>`;if(pack.id==='mercenary-blackcrown-ss-limited')return `<button class="pack-choice pack-choice-blackcrown ${pack.id===selectedPackId?'active':''} ${pack.drawEnabled?'':'opening-off'}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack blackcrown">${packResponsiveImage(pack)}<b class="blackcrown-pack-state">${pack.drawEnabled?'판매 중':'출시 예정'}</b></span><strong>블랙크라운팩</strong><small>블랙크라운 SS 6종</small><em>${pack.drawEnabled?'판매 ON · 1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인':'판매 OFF · 출시 준비 중'}</em></button>`;if(pack.id==='mercenary-bloodmoon-ss-limited')return `<button class="pack-choice pack-choice-bloodmoon ${pack.id===selectedPackId?'active':''} ${pack.drawEnabled?'':'opening-off'}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack bloodmoon">${packResponsiveImage(pack)}<b class="bloodmoon-pack-state">${pack.drawEnabled?'판매 중':'출시 예정'}</b></span><strong>블러드문팩</strong><small>블러드 SS 6종 · SSS 리미티드 3종</small><em>${pack.drawEnabled?'판매 ON · 1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인':'판매 OFF · 출시 준비 중'}</em></button>`;if(pack.id===HALLOWEEN_RERUN_PACK_ID)return halloweenPackChoice(pack);const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&access.owner&&pack.ownerDrawEnabled===true,earlyAccess=superstar&&access.early,exceptionAccess=ownerAccess||earlyAccess,off=superstar&&pack.drawEnabled!==true&&!exceptionAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':earlyAccess?'early-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':earlyAccess?'<b class="pack-owner-access-badge">EARLY OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · ${['hyper','mercenary-limited'].includes(pack.id)?'1회':'1장'} ${pack.id==='mercenary-limited'&&pack.prices?.single==null?'출시 준비 중':pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
 }
 
 function supplyBoxShopMarkup(config=null){
@@ -1957,7 +1968,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-halloween-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261025-shop-remove-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261124-preview-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function halloweenShopStockText(stock){
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
@@ -1971,7 +1982,9 @@ window.addEventListener('halloween-pack:stock',event=>{
 function halloweenPackHero(pack) {
  const portrait=c=>'<figure class="hwp-portrait" data-rank="'+escapeHtml(c.rank)+'" data-code="'+escapeHtml(c.code)+'"><div class="hwp-art-frame"><img src="/'+escapeHtml(c.thumbnailArt)+'" alt="'+escapeHtml(c.name)+' 리미티드 원화" loading="lazy"><span>'+escapeHtml(c.rank)+'</span></div><figcaption>'+(c.rank==='SSS'?'<em>SSS LIMITED</em>':'')+'<strong>'+escapeHtml(c.name)+'</strong><small data-hwp-stock-code="'+escapeHtml(c.code)+'">'+halloweenShopStockText(c)+'</small></figcaption></figure>';
  const collection=(pack.previewCards||[]).filter(c=>c.rank==='SS').map(portrait).join(''),legends=(pack.previewCards||[]).filter(c=>c.rank==='SSS').map(portrait).join('');
- return '<section class="halloween-shop-hero"><div class="halloween-shop-main"><div class="halloween-shop-copy"><p class="halloween-eyebrow">REVERSE CALL · HALLOWEEN</p><h2>할로윈<br><em>리미티드 용병팩</em></h2><p class="halloween-shop-description">여덟 개의 계약,<br>네 개의 전설이 깨어나는 밤.</p><div class="halloween-shop-facts"><span>할로윈 <b>SS 8종</b></span><span>SSS 리미티드 <b>4종</b></span></div>'+(pack.drawEnabled?'<button class="hwp-button hwp-primary halloween-shop-action" data-halloween-pack-enter>할로윈 계약실 입장</button>':'<div class="hwp-button halloween-shop-action halloween-shop-status" role="status">출시 예정 · 개봉 OFF</div>')+(pack.drawEnabled?'<p class="halloween-shop-note"><span>1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인</span><span>10회 '+Number(pack.prices?.ten).toLocaleString()+' 코인</span></p>':'')+'</div><div class="halloween-shop-art">'+packResponsiveImage(pack,{hero:true})+'</div></div><section class="halloween-shop-collection"><div class="hwp-section-heading"><h3>할로윈 한정 컬렉션</h3><span>SS LIMITED · 8</span></div><div class="hwp-roster">'+collection+'</div><section class="hwp-legend-collection"><div class="hwp-section-heading"><h3>네 명의 SSS 리미티드</h3><span>SSS LIMITED · 4</span></div><div class="hwp-sss-roster">'+legends+'</div></section></section></section>';
+ const saleNotice=pack.drawEnabled?'':'<p class="halloween-shop-note" role="status">판매 시작 '+escapeHtml(pack.saleLabel)+'</p>';
+ const entry=pack.drawEnabled?'할로윈 계약실 입장':'팩 미리보기';
+ return '<section class="halloween-shop-hero"><div class="halloween-shop-main"><div class="halloween-shop-copy"><p class="halloween-eyebrow">REVERSE CALL · HALLOWEEN</p><h2>할로윈<br><em>리미티드 용병팩</em></h2><p class="halloween-shop-description">여덟 개의 계약,<br>네 개의 전설이 깨어나는 밤.</p><div class="halloween-shop-facts"><span>할로윈 <b>SS 8종</b></span><span>SSS 리미티드 <b>4종</b></span></div>'+saleNotice+'<button class="hwp-button hwp-primary halloween-shop-action" data-halloween-pack-enter>'+entry+'</button><p class="halloween-shop-note"><span>1회 '+Number(pack.prices?.single??pack.price).toLocaleString('ko-KR')+' 코인</span><span>10회 '+Number(pack.prices?.ten).toLocaleString('ko-KR')+' 코인</span></p></div><div class="halloween-shop-art">'+packResponsiveImage(pack,{hero:true})+'</div></div><section class="halloween-shop-collection"><div class="hwp-section-heading"><h3>할로윈 한정 컬렉션</h3><span>SS LIMITED · 8</span></div><div class="hwp-roster">'+collection+'</div><section class="hwp-legend-collection"><div class="hwp-section-heading"><h3>네 명의 SSS 리미티드</h3><span>SSS LIMITED · 4</span></div><div class="hwp-sss-roster">'+legends+'</div></section></section></section>';
 }
 
 document.addEventListener('click',event=>{

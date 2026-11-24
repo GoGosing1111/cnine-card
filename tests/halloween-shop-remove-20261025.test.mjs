@@ -6,11 +6,10 @@ import {BLOODMOON_PACK_RELEASE_ENABLED} from '../shared/mercenary-bloodmoon-pack
 import {halloweenPackShopRow,handleHalloweenPack,readHalloweenPackState,saveHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
 import {createHalloweenPackService} from '../functions/_mercenary_halloween_opening.js';
 
-test('removed Halloween pack has no shop row and every new open stops before account, body or DB access',async t=>{
+test('before the sale start every new open stops before account, body or DB access',async t=>{
  t.mock.method(Date,'now',()=>Date.parse(HALLOWEEN_RERUN_OPENS_AT)-1);
  assert.equal(HALLOWEEN_PACK_SHOP_ENABLED,false);assert.equal(BLOODMOON_PACK_RELEASE_ENABLED,true);
  const env={DB:new Proxy({},{get(){throw Error('no DB access');}})},json=(body,status=200)=>({body,status});
- assert.equal(await halloweenPackShopRow(env),null);
  for(const role of ['USER','OWNER']){
   const r=await handleHalloweenPack({path:HALLOWEEN_PACK.openPath,request:new Request('https://qa.test/api/'+HALLOWEEN_PACK.openPath,{method:'POST',body:'invalid body'}),env,deps:{json,authenticate(){throw Error(role+' must not reach account access');}}});
   assert.equal(r.status,423);assert.equal(r.body.code,'MERCENARY_HALLOWEEN_SHOP_REMOVED');
