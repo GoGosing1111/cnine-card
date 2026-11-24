@@ -16,7 +16,7 @@ const iconImages=Object.fromEntries(iconIds.map(id=>[id,'data:image/webp;base64,
 // The guide also opens on its own. Embed just its six original icons in the
 // existing module so both entry paths work without adding Pages asset slots.
 const guideApp=read('ui/growth-guide/app.js');
-const guideIcons=JSON.stringify(['gift','rank','iconfusion','mercenaryDex','equipmentForge','battle'].map(id=>iconImages[id]));
+const guideIcons=JSON.stringify(['gift','rank','iconfusion','mercenaryDex','equipmentForge','battle','raid','vehicle'].map(id=>iconImages[id]));
 const nextGuideApp=guideApp.replace(/const STEP_ICONS=Object\.freeze\([^\n]*\);/,()=>`const STEP_ICONS=Object.freeze(${guideIcons});`);
 if(process.argv.includes('--check')){if(guideApp!==nextGuideApp)throw Error('Growth guide icons differ from the original UI resources. Run the lobby build.');}
 else if(guideApp!==nextGuideApp)fs.writeFileSync(new URL('ui/growth-guide/app.js',root),nextGuideApp);

@@ -40,7 +40,8 @@ const REDEEM_PRIZES=[...LAND_PRIZES.map(p=>p.key===LAND_REPAIR_COUPON?p:({...p,m
 const SCHEMA='soopketland_schema_v2039',SETTINGS='soopketland_settings_v2039';
 const PREVIOUS_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK',HYPER_TICKET,'ZENITH_RANDOM_CARD','FUR_RANDOM_CARD','STARLIGHT_ARMOR_CORE'];
 const PREVIOUS_PRIZE_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK','STARLIGHT_ARMOR_CORE'];
-const defaults=()=>({weights:{COIN:18000,[EMPEROR_ENERGY]:1500,MASTER_STAR:4200,STARLIGHT_ARMOR_CORE:3000,[LAND_THANKS_GIFT]:300,[LAND_REPAIR_COUPON]:3000}});
+const PREVIOUS_DEFAULT_WEIGHTS={COIN:18000,[EMPEROR_ENERGY]:1500,MASTER_STAR:4200,STARLIGHT_ARMOR_CORE:3000,[LAND_THANKS_GIFT]:300,[LAND_REPAIR_COUPON]:3000};
+const defaults=()=>({rewardPolicyVersion:2,weights:{...PREVIOUS_DEFAULT_WEIGHTS,COIN:9000,MASTER_STAR:13200}});
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
 const fail=(message,status=400,code='LAND_INVALID')=>Object.assign(new Error(message),{status,code});
 const validId=value=>typeof value==='string'&&/^[A-Za-z0-9._:-]{8,100}$/.test(value);
@@ -123,9 +124,35 @@ export function storedLandWeights(raw){
   for(let i=0;i<remaining;i++)weights[ranked[i].key]++;
   return removeHyperWeight({...weights,[SUPERSTAR_TICKET]:500,STARLIGHT_ARMOR_CORE:1000});
 }
+function effectiveLandWeights(settings){
+  const weights=storedLandWeights(settings?.weights);
+  // Apply the rebalance to the previous standard table while preserving custom OWNER tables.
+  if(!settings?.rewardPolicyVersion&&Object.entries(PREVIOUS_DEFAULT_WEIGHTS).every(([key,weight])=>weights[key]===weight))return defaults().weights;
+  return weights;
+}
+
+const LARGE_COIN_AMOUNT=200_000_000_000_000;
+const SMALL_COIN_WEIGHT=10;
+
 export function pickLandPrize(weights,random=secureLandInt){
-  const total=Object.values(weights).reduce((a,b)=>a+b,0);let roll=random(total);
-  for(const p of LAND_PRIZES){roll-=weights[p.key];if(roll<0){const amount=(p.min+random(p.max-p.min+1))*p.unit;return {...p,amount,jackpot:p.key===LAND_THANKS_GIFT||p.key.endsWith('_CARD')||amount===p.max*p.unit&&p.min!==p.max}}}
+  const total=Object.values(weights).reduce((a,b)=>a+b,0);
+  let roll=random(total);
+  for(const p of LAND_PRIZES){
+    roll-=weights[p.key];
+    if(roll>=0)continue;
+    const count=p.max-p.min+1;
+    let offset;
+    if(p.key==='COIN'){
+      const smallCount=LARGE_COIN_AMOUNT/p.unit-p.min;
+      const smallWeight=smallCount*SMALL_COIN_WEIGHT;
+      const sample=random(smallWeight+count-smallCount);
+      offset=sample<smallWeight?Math.floor(sample/SMALL_COIN_WEIGHT):smallCount+sample-smallWeight;
+    }else{
+      offset=random(count);
+    }
+    const amount=(p.min+offset)*p.unit;
+    return {...p,amount,jackpot:p.key===LAND_THANKS_GIFT||p.key.endsWith('_CARD')||amount===p.max*p.unit&&p.min!==p.max};
+  }
   throw new Error('Invalid prize weights');
 }
 
@@ -260,7 +287,7 @@ async function state(db,user,access){
   const window=landDayWindow(),used=await usedToday(db,user.id,window),remaining=Math.max(0,LAND_DAILY_QUANTITY-used);
   Object.assign(dailyAllowance,{day:window.day,limit:LAND_DAILY_QUANTITY,used,remaining,carryover:false,resetsAt:window.end});
   const settingsRow=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),settings=parse(settingsRow?.value,defaults());
-  settings.weights=storedLandWeights(settings.weights);
+  settings.weights=effectiveLandWeights(settings);
   const tickets=await one(db,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,LAND_TICKET);
   const lots=await rows(db,`SELECT coupon_uses,remaining FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 AND ${duringDay(db)} ORDER BY created_at,id`,...dayArgs(user.id,window));
   const available=Math.max(0,Math.min(remaining,Number(tickets?.quantity||0),lots.reduce((n,l)=>n+Number(l.remaining),0)));
@@ -297,7 +324,7 @@ export async function handleSoopketLand({path,request,env,deps}){
     if(path==='soopketland/settings'){
       const plan={weights:validateLandWeights(body.weights)},prior=await replayAction(db,user,body.requestId,'SETTINGS',plan);if(prior)return deps.json(prior);
       const response={ok:true,message:'보상 가중치를 저장했습니다.'},list=[];lockUser(db,list,user.id);guardUser(db,list,user.id,true);
-      list.push(stmt(db,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?',JSON.stringify(plan),SETTINGS));actionReceipt(db,list,user,body.requestId,'SETTINGS',plan,response);
+      list.push(stmt(db,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?',JSON.stringify({...plan,rewardPolicyVersion:2}),SETTINGS));actionReceipt(db,list,user,body.requestId,'SETTINGS',plan,response);
       return deps.json(await commit(db,list,()=>replayAction(db,user,body.requestId,'SETTINGS',plan))||response);
     }
     if(path==='soopketland/coupon/disable'){
@@ -339,7 +366,7 @@ async function spin(db,user,body){
   if(await usedToday(db,user.id,window)>=LAND_DAILY_QUANTITY)throw dailyLimit();
   const lot=await one(db,`SELECT * FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 AND ${duringDay(db)} ORDER BY created_at,id LIMIT 1`,...dayArgs(user.id,window));
   if(!lot)throw fail('사용 가능한 리버스랜드 이용권이 없습니다. 등록 스트리머는 매일 이용권 10장을 자동 발급받습니다.',409,'LAND_NO_TICKET');
-  const cfg=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),prize=pickLandPrize(storedLandWeights(parse(cfg?.value)?.weights));
+  const cfg=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),prize=pickLandPrize(effectiveLandWeights(parse(cfg?.value)));
   const code=`SLD-${crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase()}`;
   const createdAt=now(),response={ok:true,requestId:body.requestId,prize,delivery:'VIEWER_COUPON',code,couponUses:Number(lot.coupon_uses),createdAt,...landCouponTiming(createdAt)};
   const list=[];lockUser(db,list,user.id);guardUser(db,list,user.id);

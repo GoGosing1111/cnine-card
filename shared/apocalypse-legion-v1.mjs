@@ -1,6 +1,7 @@
 import {APOCALYPSE_SHANKS_SHISUI_BOSSES} from './apocalypse-shanks-shisui-v1.mjs';
 import {SAHYEON} from './apocalypse-sahyeon-v1.mjs';
-import {BOSSES as APOCALYPSE_TRIO_BOSSES} from './apocalypse-trio-v1.mjs';
+import {BOSSES as APOCALYPSE_TRIO_BOSSES,apocalypseTrioLimits} from './apocalypse-trio-v1.mjs';
+import {APOCALYPSE_KNIGHTS,glancingHitDescription} from './apocalypse-knights-v1.mjs';
 export {apocalypseTrioLimits} from './apocalypse-trio-v1.mjs';
 // Stable registered monster IDs; client never calculates combat outcomes.
 export const APOCALYPSE_LEGION_BOSSES=Object.freeze([
@@ -154,8 +155,15 @@ export const APOCALYPSE_LEGION_BOSSES=Object.freeze([
   },
   ...APOCALYPSE_SHANKS_SHISUI_BOSSES,
   SAHYEON,
-  ...APOCALYPSE_TRIO_BOSSES
+  ...APOCALYPSE_TRIO_BOSSES,
+  ...APOCALYPSE_KNIGHTS
 ]);
+// The two post-Morgas stages have their own power range and his reward ceiling.
+export function apocalypseMonsterLimits(monster) {
+ const id=Number(monster?.monsterId ?? monster?.id ?? monster);
+ if(APOCALYPSE_KNIGHTS.some(boss=>boss.monsterId===id))return {battlePower:10_000_000_000_000,masterStars:3_000_000};
+ return apocalypseTrioLimits(monster);
+}
 export const APOCALYPSE_MINIONS=Object.freeze([
   {
     "monsterId": 19,
@@ -230,5 +238,11 @@ export function apocalypseLegionUltimate(monster,raw={}){
 
 export function configuredApocalypseLegionSkills(monster,raw){
  const boss=apocalypseLegionBoss(monster),ultimate=apocalypseLegionUltimate(monster,raw);
- return boss?.skills.map(skill=>skill.kind==='ultimate'?{...skill,...ultimate,description:ultimate.enabled?`적 전체에 공격력 ${ultimate.attackPercent}% 피해를 가하며 피해의 ${ultimate.shieldPiercePercent}%가 보호막을 관통합니다.`:'궁극기 사용이 중지되어 일반 공격으로 대체됩니다.'}:{...skill})||[];
+ return boss?.skills.map(skill=>{
+  if(skill.kind!=='ultimate')return {...skill};
+  const target=skill.targetOrder==='SHIELD'?'현재 보호막이 가장 많은 두 적에게':'적 전체에';
+  const curse=skill.cursedDamageBonusPercent?` 회복 차단 중인 적에게는 피해가 ${skill.cursedDamageBonusPercent}% 증가합니다.`:'';
+  const glancing=skill.glancingHit?' '+glancingHitDescription(skill.glancingHit):'';
+  return {...skill,...ultimate,description:ultimate.enabled?`${target} 공격력 ${ultimate.attackPercent}% 피해를 가하며 피해의 ${ultimate.shieldPiercePercent}%가 보호막을 관통합니다.${curse}${glancing}`:'궁극기 사용이 중지되어 일반 공격으로 대체됩니다.'};
+ })||[];
 }

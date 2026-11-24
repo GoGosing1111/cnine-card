@@ -1,5 +1,4 @@
-import {apocalypseLegionBoss,apocalypseLegionUltimate,apocalypseLegionSuitDefense,configuredApocalypseLegionSkills} from '../shared/apocalypse-legion-v1.mjs';
-import {apocalypseTrioLimits} from '../shared/apocalypse-trio-v1.mjs';
+import {apocalypseLegionBoss,apocalypseLegionUltimate,apocalypseLegionSuitDefense,configuredApocalypseLegionSkills,apocalypseMonsterLimits} from '../shared/apocalypse-legion-v1.mjs';
 import {normalizeApocalypseBonus} from './_apocalypse_challenge.js';
 import {apocalypseSignatureSkill} from '../shared/apocalypse-boss-skills-v2048.mjs';
 
@@ -42,7 +41,7 @@ function normalizeApocalypseMonsterProfiles(raw={}){
     const id=Math.floor(Number(rawId));
     if(!Number.isInteger(id)||id<1||!value||typeof value!=='object')continue;
     profiles[String(id)]={
-      battlePower:clamp(value.battlePower,1,apocalypseTrioLimits(id).battlePower,1),
+      battlePower:clamp(value.battlePower,1,apocalypseMonsterLimits(id).battlePower,1),
       rewardCoin:clamp(value.rewardCoin,0,1000000000,0),
       clearBonus:normalizeApocalypseBonus(value.clearBonus,id),
       hpPercent:clamp(value.hpPercent,240,1200,260),
@@ -203,7 +202,7 @@ export function pveDifficultyRuntime(settings={},monster={}){
   const battleSuitSkillDefensePercent=legion?apocalypseLegionSuitDefense(monster,tuning.battleSuitSkillDefensePercent):0;
   const apocalypseSkill=isApocalypse?{trigger:legion?'BOSS_ACTION':'OPENING',...(legion?{skills:configuredApocalypseLegionSkills(monster,tuning.legionUltimate),ultimate:apocalypseLegionUltimate(monster,tuning.legionUltimate),minionCount:6}:{}),enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
   return {
-    difficulty,isNightmare,isApocalypse,enabled:isNightmare?nightmare.enabled:isApocalypse?apocalypse.enabled:true,
+    difficulty,isNightmare,isApocalypse,...(legion?.equipmentBenchmark?{equipmentBenchmark:legion.equipmentBenchmark}:{}),enabled:isNightmare?nightmare.enabled:isApocalypse?apocalypse.enabled:true,
     hpPercent,attackPercent,defensePercent,speedPercent,
     rewardPercent:special?tuning.rewardPercent:100,
     shieldPercent,attackCount,actionFrequency,statCapsUnlocked,forcedActionEvery,apocalypseSkill,battleSuitSkillDefensePercent,

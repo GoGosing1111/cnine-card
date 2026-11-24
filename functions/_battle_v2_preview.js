@@ -1713,7 +1713,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const enemyTeam=coopRuntime?coopRuntime.targetTeam(actor,allEnemies):allEnemies;
     const monsterDamage=advancement&&actor.isMonster?(target,n,opt)=>applyDamage(target,n,{...opt,advancementSource:actor,advancementDirect:true}):applyDamage;
     if(castLegionRegionAction(actor,actor.side==='A'?a:b,enemyTeam,{damage:monsterDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
-    if(castApocalypseAction(actor,enemyTeam,{damage:monsterDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
+    if(castApocalypseAction(actor,enemyTeam,{random,damage:monsterDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.

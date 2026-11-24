@@ -1,5 +1,5 @@
 import {COW_AREA,COW_TICKET_ONE_IN_PER_KIND} from '../shared/legion-cow-room.mjs?ticketRate=20261121';
-import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261116-recovery-event';
+import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261124-recovery-extension';
 import {legionRechargeLabel,legionRechargeMs} from '../shared/legion-hunt-energy-v1.mjs';
 import {CONTENT_ENERGY_RECHARGE_MS as LEGION_BASE} from '../shared/content-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';

@@ -16,7 +16,9 @@ export function buildApocalypseLegion(monster,build){
  leader.apocalypseUltimate=apocalypseLegionUltimate(boss.monsterId,monster.pve_apocalypse_skill?.ultimate);
  const suitDefense=apocalypseLegionSuitDefense(boss.monsterId,monster.pve_battle_suit_skill_defense_percent);
  if(suitDefense>0)leader.battleSuitSkillDefensePercent=suitDefense;
- leader.sourceArt=boss.sourceArt;leader.battleSprite=boss.battleSprite;leader.projectVMonsterArt={scope:'BATTLE_ENGINE_ONLY',kind:'MONSTER_SD',name:boss.name,primaryUrl:boss.battleSprite,pngFallbackUrl:boss.battleSprite,isBoss:true,approved:true,...(boss.battleScale?{scaleMultiplier:boss.battleScale}:{})};
+ leader.sourceArt=boss.sourceArt;leader.battleSprite=boss.battleSprite;
+ const style=boss.artFacing?{kind:'MONSTER_FULL_BODY',artFacing:boss.artFacing}:{kind:'MONSTER_SD',approved:true};
+ leader.projectVMonsterArt={scope:'BATTLE_ENGINE_ONLY',...style,name:boss.name,primaryUrl:boss.battleSprite,pngFallbackUrl:boss.battleSprite,isBoss:true,...(boss.battleScale?{scaleMultiplier:boss.battleScale}:{})};
  const minions=Array.from({length:6},(_,index)=>{
   const source=APOCALYPSE_MINIONS[Math.floor(index/2)],slot=index+1;
   const fighter=build({id:source.monsterId,name:source.name,image_url:source.sourceArt||'',battle_power:Math.max(1,Math.round(Number(monster.battle_power)*.08)),is_boss:0,pve_difficulty:'APOCALYPSE',pve_hp_percent:100,pve_attack_percent:100,pve_defense_percent:100,pve_speed_percent:100,pve_shield_percent:0,pve_attack_count:1,pve_forced_action_every:0});
@@ -25,26 +27,35 @@ export function buildApocalypseLegion(monster,build){
  return [leader,...minions];
 }
 // One approved cast on each of the boss's first three actions. No legacy opening ultimate.
-export function castApocalypseAction(actor,targets,{damage,damageCombined=null,knockout,emit}){
+export function castApocalypseAction(actor,targets,{damage,damageCombined=null,knockout,emit,random}){
  const boss=actor?.apocalypseSkillsEnabled?apocalypseLegionBoss(actor):null,baseSkill=boss?.skills[actor.actions-1];
  const skill=baseSkill?.kind==='ultimate'?{...baseSkill,...apocalypseLegionUltimate(actor,actor.apocalypseUltimate)}:baseSkill;
  if(!skill||actor.hp<=0)return false;
  if(skill.kind==='ultimate'&&!skill.enabled)return false;
  const living=targets.filter(t=>t.alive&&t.hp>0&&!t.untargetable&&!t.isBattleSuit);
- const selected=skill.targetCount==='ALL'?living:[...living].sort((a,b)=>b.attack-a.attack||a.slot-b.slot).slice(0,skill.targetCount);
+ const selected=skill.targetCount==='ALL'?living:[...living].sort((a,b)=>{
+  const shieldOrder=skill.targetOrder==='SHIELD'?(b.shield||0)-(a.shield||0):0;
+  return shieldOrder||b.attack-a.attack||a.slot-b.slot;
+ }).slice(0,skill.targetCount);
+ const glancing=skill.glancingHit;
+ const glancingTargets=glancing?new Set(selected.filter(()=>random()*100<glancing.chancePercent)):null;
  const hits=[];
  for(const target of selected){
   if(skill.kind!=='ultimate'){
    target.apocalypseStatus??={};target.apocalypseStatus[skill.kind]={remaining:skill.statusActions,sourceId:actor.id,skillCode:skill.code};
    hits.push({targetId:target.id,status:skill.kind,remainingActions:skill.statusActions,statuses:structuredClone(target.apocalypseStatus),targetHpAfter:target.hp,targetShieldAfter:target.shield});
   }else{
-   const gross=Math.max(0,Math.round(actor.attack*skill.attackPercent/100)),pierce=Math.round(gross*skill.shieldPiercePercent/100);
+   const curseBonus=skill.cursedDamageBonusPercent&&apocalypseCursed(target)?skill.cursedDamageBonusPercent:0;
+   const fullDamage=Math.max(0,Math.round((actor.attack*skill.attackPercent/100)*(1+curseBonus/100)));
+   const glanced=glancingTargets?.has(target);
+   const gross=glanced?Math.min(fullDamage,Math.round(target.maxHp*glancing.maxHpPercent/100)):fullDamage;
+   const pierce=Math.round(gross*skill.shieldPiercePercent/100);
    const normal=Math.max(0,gross-pierce-Math.round(target.defense*.35));
    // S2 intercept/protection must see one logical impact, including its pierce.
    // Existing callers retain the exact split-damage path.
    const base=damageCombined?damageCombined(target,normal,pierce):damage(target,normal),direct=damageCombined?{hpDamage:0}:damage(target,pierce,{ignoreShield:true});
    actor.damageDealt+=base.hpDamage+base.absorbed+direct.hpDamage;
-   hits.push({targetId:target.id,damage:base.hpDamage+direct.hpDamage,absorbed:base.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
+   hits.push({targetId:target.id,...(glanced?{glancing:true}:{}),damage:base.hpDamage+direct.hpDamage,absorbed:base.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
   }
  }
  emit('APOCALYPSE_SKILL',{actorId:actor.id,skillCode:skill.code,label:skill.name,kind:skill.kind,...(skill.kind==='ultimate'?{attackPercent:skill.attackPercent,shieldPiercePercent:skill.shieldPiercePercent}:{}),hits});

@@ -2,6 +2,7 @@ import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {createBattleHud} from '../js/battle-v3-hud.mjs';
 import {gsap} from 'gsap';
 import {BattleEngine} from '../preview/project-v-v3/source/battle/BattleEngine.js';
 
@@ -43,11 +44,13 @@ function rendererHarness(t){
  const labels=new Set(),stage={classList:{add:(...v)=>v.forEach(x=>labels.add(x)),remove:(...v)=>v.forEach(x=>labels.delete(x)),contains:v=>labels.has(v)},querySelector:()=>null,querySelectorAll:()=>[]};
  const canvas={width:1600,height:820,getContext:()=>({isContextLost:()=>false})};
  const runtime=fs.readFileSync('preview/project-v-v3/source/project-v-pixi-battle.src.js','utf8').match(/runtimeVersion:'([^']+)'/)[1];
- const context={console,document,Date:{now:()=>now},setTimeout:(fn,ms)=>{timers.set(++id,{fn,at:now+ms});return id;},clearTimeout:key=>timers.delete(key),requestAnimationFrame:fn=>{fn();return 1;},ProjectVPixiBattle:{
+ const context={__testCreateBattleHud:createBattleHud,console,document,Date:{now:()=>now},setTimeout:(fn,ms)=>{timers.set(++id,{fn,at:now+ms});return id;},clearTimeout:key=>timers.delete(key),requestAnimationFrame:fn=>{fn();return 1;},ProjectVPixiBattle:{
   runtimeVersion:runtime,mount:async()=>{},setBattlePayload:async()=>{},setBattlefield:async()=>{},setVisible:async()=>{},destroy(){},
   playEvents:async events=>{calls.push(...events.map(x=>x.type));},completePlayback:()=>calls.push('complete')
  }};
- context.window=context;vm.runInNewContext(fs.readFileSync('js/battle-v3-live.js','utf8'),context);
+ context.window=context;
+ const bridge=fs.readFileSync('js/battle-v3-live.js','utf8');
+ vm.runInNewContext(bridge.replace("await import('/js/battle-v3-hud.mjs?v=20261102-v1')",'({createBattleHud:globalThis.__testCreateBattleHud})'),context);
  const data={result:'PENDING',apocalypseChallenge:{status:'ANSWERED'},battleV2:{teams:{A:{cards:[]},B:{cards:[]}},result:{timeline:[{type:'ATTACK'},{type:'RESULT',winner:'A'}]}}};
  const create=extra=>context.ProjectVBattleV3Live.createRenderer({stage,host:{querySelector:selector=>selector==='canvas'?canvas:null,querySelectorAll:()=>[]},modal:{classList:{remove(){}}},mode:'PVE',data,...extra});
  return {calls,context,create,hide(value){document.hidden=value;for(const fn of [...listeners])fn();},async advance(ms){now+=ms;for(const [key,row] of [...timers])if(row.at<=now){timers.delete(key);row.fn();}await flush();}};

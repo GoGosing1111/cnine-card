@@ -1,8 +1,8 @@
 import {contentEnergy,CONTENT_ENERGY_RECHARGE_MS as BASE} from './content-energy-v1.mjs';
 export const LEGION_RECOVERY_EVENT=Object.freeze({
   startsAt:Date.parse('2026-11-16T11:16:00+09:00'),
-  endsAt:Date.parse('2026-11-24T00:00:00+09:00'),
-  label:'회복시간 50% 단축 · 11월 23일 23:59까지'
+  endsAt:Date.parse('2026-11-26T00:00:00+09:00'),
+  label:'회복시간 50% 단축 · 11월 25일 23:59까지'
 });
 export const LEGION_PARTY_BASE_RECHARGE_MS=6*60*60*1000;
 export const legionRecoveryActive=at=>at>=LEGION_RECOVERY_EVENT.startsAt&&at<LEGION_RECOVERY_EVENT.endsAt;
