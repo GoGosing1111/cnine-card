@@ -5,6 +5,15 @@ import fs from 'node:fs';
 const code=fs.readFileSync(new URL('../js/tower-abyss-ui.js',import.meta.url),'utf8');
 const mem=()=>{const data=new Map();return {getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v)};};
 function harness(storage=mem()){const root={localStorage:storage};vm.runInNewContext(code,{window:root});return root.TowerAbyssUI;}
+test('challenge brief shows the server-provided unique equipment requirement before entry', () => {
+ const ui=harness(), body={}, box={classList:{add(){}},querySelector:()=>body};
+ for(const [floorNo,requiredUniqueTier] of [[179,0],[180,1],[190,2],[200,3]]){
+  const floor={floorNo,...(requiredUniqueTier?{requiredUniqueTier}:{})};
+  ui.render(box,{data:{maxFloor:200,progress:{currentFloor:floorNo,highestFloor:floorNo-1},floor},cards:[],records:[]});
+  if(requiredUniqueTier)assert.match(body.innerHTML,new RegExp('유니크 '+requiredUniqueTier+'단계 이상 1부위'));
+  else assert.doesNotMatch(body.innerHTML,/출전 용병 장비/);
+ }
+});
 const battle=(id='one',floor=30)=>({requestId:id,floorNo:floor,result:'LOSE',elapsedCombatMs:180000,combatLimitMs:180000,guardianHpPercent:63.7,guardianProgress:100,failureReason:'TIME_LIMIT',rulesVersion:'v1',battleV2:{teams:{A:{cards:[{id:'A:0:1'}]}},result:{timeline:[{type:'KO',targetId:'A:0:1',elapsedCombatMs:87000}],final:{A:[{hp:1},{hp:0},{hp:4},{hp:0},{hp:8}]}}}});
 test('double-click admission and leaving during renderer loading never submit a stale fight',async()=>{
  const source=fs.readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8').replace("  const observer=new MutationObserver","  window.__towerTest={S,startFight};\n  const observer=new MutationObserver");

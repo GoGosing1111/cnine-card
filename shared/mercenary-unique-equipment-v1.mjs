@@ -39,13 +39,14 @@ export const UNIQUE_MERCENARY_EQUIPMENT = Object.freeze(tiers.flatMap(tier =>
   })
 ));
 const byCode=new Map(UNIQUE_MERCENARY_EQUIPMENT.map(item=>[item.code,item]));
+export const uniqueMercenaryEquipment=code=>byCode.get(code)||null;
 
 // A combat snapshot can contribute at most one catalog item per real slot.
 export function individualMercenaryBonuses(items=[]) {
   if(!Array.isArray(items))return null;
   const slots=new Map();
   for(const item of items) {
-    const gear=byCode.get(item?.code);
+    const gear=uniqueMercenaryEquipment(item?.code);
     if(!gear || gear.slot!==item.slot)continue;
     const existing=slots.get(gear.slot);
     slots.set(gear.slot,existing===undefined || existing===gear ? gear : null);

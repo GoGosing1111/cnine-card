@@ -2,6 +2,7 @@ import {companionBattleOptions,companionReviewOptions} from '../shared/companion
 import {createPveBattleV2} from './_battle_v2_preview.js';
 import monsterArt from '../assets/ui/project-v/monsters/hunt-tower/manifest-v1.json' with {type:'json'};
 import {towerMonsterArt} from '../shared/tower-monsters-20261022.mjs';
+import {uniqueMercenaryEquipment} from '../shared/mercenary-unique-equipment-v1.mjs';
 
 // Extended re-ascent rules remain gated. Live single-pass combat uses operatingFloor
 // while retaining the existing tower API, CMS rewards and one-floor progression.
@@ -29,6 +30,26 @@ const liveFamilies=[...TOWER_V3_FAMILIES,
   [64,'커맨더 크리그','tower-064-commander-krieg-sd-v1.png',67,'나미카제 미나토','hunt-067-yellow-flash-boss-sd-v1.png'],
   [68,'오메가-09','hunt-068-omega-09-sd-v1.png',69,'쿠로사키 이치고','hunt-069-masked-soul-swordsman-boss-sd-v1.png']];
 export function towerError(code,message){return Object.assign(new Error(message),{code});}
+export function towerRequiredUniqueTier(floor) {
+  return floor >= 180 && floor <= 200 ? 1 + Math.floor((floor - 180) / 10) : 0;
+}
+const uniqueFloorStats = [
+  {pve_hp_percent:950, pve_attack_percent:260, pve_shield_percent:245, pve_speed_percent:390},
+  {pve_hp_percent:1000, pve_attack_percent:375, pve_shield_percent:270, pve_speed_percent:425},
+  {pve_hp_percent:1200, pve_attack_percent:550, pve_shield_percent:300, pve_speed_percent:480}
+];
+function ascentMonsterStats(tier, requiredTier) {
+  if (requiredTier) return {...uniqueFloorStats[requiredTier - 1], pve_defense_percent:100, pve_attack_count:5};
+  return {pve_hp_percent:600, pve_attack_percent:150, pve_defense_percent:100, pve_speed_percent:300,
+    pve_shield_percent:150 + 2 * (tier - 160), pve_attack_count:4};
+}
+function wearsRequiredUnique(mercenary, requiredTier) {
+  const equipment = mercenary?.equipment;
+  return equipment?.schemaVersion === 1 && equipment.mode === 'PVE' && equipment.items?.some(item => {
+    const definition = uniqueMercenaryEquipment(item?.code);
+    return definition && definition.slot === item.slot && definition.tier >= requiredTier;
+  });
+}
 export function towerInt(value,min,max,label){
   if(!Number.isSafeInteger(value)||value<min||value>max)throw towerError('TOWER_V3_CONFIG',`${label} 범위를 확인하세요.`);
   return value;
@@ -72,13 +93,16 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
   // The live single-pass tower retains its CMS guardian and floor power. Only
   // its encounter uses the approved normal -> elite -> guardian composition.
   const upperAscent = Boolean(operatingFloor) && tier >= 160 && tier <= 200;
-  const expansionLimit = tier < 160 ? 100_000_000_000 : 300_000_000_000;
+  const requiredTier = operatingFloor ? towerRequiredUniqueTier(tier) : 0;
+  const upperLimit = requiredTier ? 1_300_000_000_000 : 300_000_000_000;
+  const expansionLimit = tier < 160 ? 100_000_000_000 : upperLimit;
   const maxOperatingPower = tier >= 151 && tier <= 200 ? expansionLimit : 10_000_000_000;
   if(operatingFloor&&(!Number.isSafeInteger(operatingFloor.power)||operatingFloor.power<1||operatingFloor.power>maxOperatingPower))throw towerError('TOWER_V3_CONFIG','운영 층 전투력을 확인하세요.');
-  const monsterStats = upperAscent ? {
-    pve_hp_percent:600, pve_attack_percent:150, pve_defense_percent:100, pve_speed_percent:300,
-    pve_shield_percent:150 + 2 * (tier - 160), pve_attack_count:4
-  } : {
+  const companions = companionBattleOptions(snapshot);
+  if (requiredTier && !(companions.mercenaries ?? [companions.mercenary]).some(m => wearsRequiredUnique(m, requiredTier))) {
+    throw Object.assign(towerError('TOWER_UNIQUE_REQUIRED', `${tier}층은 출전 용병에게 유니크 ${requiredTier}단계 이상 장비를 1부위 이상 장착해야 합니다.`), {status:409});
+  }
+  const monsterStats = upperAscent ? ascentMonsterStats(tier, requiredTier) : {
     pve_hp_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.hpGrowth),
     pve_attack_percent:operatingFloor?100:Math.min(1200,100+(tier-1)*c.attackGrowth),
     pve_defense_percent:operatingFloor?100:Math.min(200,100+(tier-1)*.35)
@@ -94,7 +118,7 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
       battleSprite:art?.battleSprite||(boss&&operatingFloor?guardianArt?.battleSprite||null:root+f[offset+2])};
   });
   const battleV2=createPveBattleV2({pet:snapshot.pet,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,cards:snapshot.cards,magicCards:snapshot.magicCards||[],characterBonus:snapshot.cardSupportBonus||0,
-    battleSuit:snapshot.battleSuit||null,...companionBattleOptions(snapshot),singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,bossUltimatePercent,seed,
+    battleSuit:snapshot.battleSuit||null,...companions,singleHealerBonus:snapshot.singleHealerBonus||{},ultimateDamage:snapshot.ultimateDamage||0,bossUltimatePercent,seed,
     encounter:{initialCount:c.simultaneous,instances,maxActions:c.maxActions,maxDuration:c.combatLimitMs/TOWER_CLOCK_UNIT_MS,forcedMonsterEvery:upperAscent?2:c.forcedMonsterEvery}});
   const rows=battleV2.encounter.instances.map((fighter,i)=>({...fighter,slot:instances[i].slot,boss:instances[i].boss,elite:instances[i].elite,
     points:instances[i].points,name:instances[i].name,displayName:instances[i].boss?instances[i].name:`${instances[i].name} ${i+1}`,sourceArt:instances[i].sourceArt||null,battleSprite:instances[i].battleSprite}));
@@ -117,8 +141,9 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
     Object.assign(battleV2.result.timeline.at(-1),{winner:'B',reason});
   }
   const guardian=battleV2.result.final.B.find(row=>row.id===bossId);
+  const rulesVersion = requiredTier ? c.rulesVersion + '_UNIQUE_1' : upperAscent ? c.rulesVersion + '_UPPER_2' : c.rulesVersion;
   return {ok:true,mode:'TOWER',battlefieldMode:'TOWER',title:'무한의탑',phaseLabel:`${tier}층 · 한계 돌파`,tier,
-    engineVersion:TOWER_V3_ENGINE_VERSION,rulesVersion:upperAscent?c.rulesVersion+'_UPPER_2':c.rulesVersion,success,elapsedCombatMs,combatLimitMs:c.combatLimitMs,
+    engineVersion:TOWER_V3_ENGINE_VERSION,rulesVersion,success,elapsedCombatMs,combatLimitMs:c.combatLimitMs,
     unlockStep:success?(operatingFloor?1:remaining>=c.fastUnlockThree?3:remaining>=c.fastUnlockTwo?2:1):0,
     failureReason:reason,guardianProgress:Math.min(100,points),guardianHpPercent:dead.has(bossId)?0:guardian?Math.round(guardian.hp/guardian.maxHp*100):100,
     defeated:dead.size,playerName:snapshot.accountNickname||'탑 원정대',opponentName:`${tier}층 수호자`,cards:snapshot.cards,

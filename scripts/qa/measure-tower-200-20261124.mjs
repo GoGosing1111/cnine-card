@@ -17,13 +17,15 @@ const floors = [earlierPlan.floors.at(-1), ...proposal.floors].map(row => {
   return {tier:row.floor, config, operatingFloor:{id:row.monsterId, name:monster.name, image:monster.image_url, power:row.power},
     bossUltimatePercent:casts ? Number(monster.ultimate_tower_damage_percent) : 0};
 });
-const checkpoints = floors.filter(row => row.tier % 10 === 0 || row.tier === 159 || row.tier === 161);
+const checkpoints = floors.filter(row => row.tier % 10 === 0 || [159, 161, 179].includes(row.tier));
 const groups = {fixed:PAIRS.flatMap(codes => [250000, 1000000].map(power => reviewSnapshot({codes, power})))};
 
 // Rebuild both mercenaries' five equipment pieces while retaining each wearer's polish, cards, pet and suit.
 if (process.argv[2]) {
   const captured = JSON.parse(readFileSync(process.argv[2], 'utf8'));
-  for (const [group, scenario] of Object.entries({huntReference:'actual', abyss10:'8+10', abyss15:'8+15', crown15:'10+15'})) {
+  const scenarios = {huntReference:'actual', abyss10:'8+10', abyss15:'8+15', crown15:'10+15'};
+  for (const tier of [1, 2, 3]) for (const level of [10, 15]) scenarios[`unique${tier}Plus${level}`] = `unique${tier}+${level}`;
+  for (const [group, scenario] of Object.entries(scenarios)) {
     groups[group] = captured.samples.map(sample => {
       const input = equipmentScenario(captured, sample, scenario);
       return {...input, cardSupportBonus:input.characterBonus, characterBonus:{pveEquipmentRuntime:input.pveEquipmentRuntime}};
@@ -31,22 +33,34 @@ if (process.argv[2]) {
   }
 }
 
+function fight(encounter, snapshot, seed) {
+  try {
+    return buildTowerV3Battle({...encounter, snapshot, seed});
+  } catch (error) {
+    if (error.code === 'TOWER_UNIQUE_REQUIRED') return null;
+    throw error;
+  }
+}
+
 const measurements = [];
 for (const encounter of checkpoints) {
   const result = {floor:encounter.tier, power:encounter.operatingFloor.power, bossUltimatePercent:encounter.bossUltimatePercent};
   for (const [group, snapshots] of Object.entries(groups)) {
+    if (group.startsWith('unique') && encounter.tier < 180) continue;
     const wins = snapshots.map(snapshot => {
       let count = 0;
       for (const seed of seeds) {
-        const battle = buildTowerV3Battle({...encounter, snapshot, seed});
+        const battle = fight(encounter, snapshot, seed);
+        if (battle === null) return null;
         assert.equal(battle.continuousEncounter.total, 28);
         assert.equal(battle.battleV2.teams.A.mercenaries.length, 2);
         count += Number(battle.success);
       }
       return count;
     });
-    result[group] = {decks:snapshots.length, trials:snapshots.length * seeds.length,
-      wins:wins.reduce((sum, count) => sum + count, 0), decksWithWins:wins.filter(count => count > 0).length};
+    const eligible = wins.filter(count => count !== null);
+    result[group] = {decks:snapshots.length, eligibleDecks:eligible.length, trials:eligible.length * seeds.length,
+      wins:eligible.reduce((sum, count) => sum + count, 0), decksWithWins:eligible.filter(count => count > 0).length};
   }
   measurements.push(result);
 }
@@ -56,15 +70,19 @@ if (groups.abyss10) {
   const from = 160, attemptsPerFloor = 3, seedOffset = 8192;
   const ascentFloors = floors.filter(row => row.tier >= from);
   const ascents = {}, highestByGroup = {};
-  for (const group of ['abyss10', 'abyss15', 'crown15']) {
+  const progressingGear = tier => tier < 180 ? 'crown15' : tier < 190 ? 'unique1Plus15' : tier < 200 ? 'unique2Plus15' : 'unique3Plus15';
+  for (const group of ['abyss10', 'abyss15', 'crown15', 'progressingGear']) {
     let battles = 0;
-    const highest = groups[group].map(snapshot => {
+    const highest = groups.huntReference.map((_, index) => {
       let cleared = from - 1;
       for (const encounter of ascentFloors) {
+        const snapshot = groups[group === 'progressingGear' ? progressingGear(encounter.tier) : group][index];
         for (let attempt = 1; attempt <= attemptsPerFloor; attempt++) {
           const seed = seedFor(seedOffset + (encounter.tier - from) * attemptsPerFloor + attempt);
+          const battle = fight(encounter, snapshot, seed);
+          if (battle === null) break;
           battles++;
-          if (buildTowerV3Battle({...encounter, snapshot, seed}).success) {
+          if (battle.success) {
             cleared = encounter.tier;
             break;
           }

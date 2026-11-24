@@ -5,7 +5,7 @@ import {collectionRewardCoin} from '../../functions/_collection_bonuses.js';
 import {prepareTowerForgeProtectionClear} from '../../functions/_forge_tower_protection.js';
 import fs from 'node:fs';
 import {loadScrapyardV3Snapshot} from '../../functions/_scrapyard_v3.js';
-import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../../functions/_tower_v3.js';
+import {buildTowerV3Battle,TOWER_V3_DRAFT,towerRequiredUniqueTier} from '../../functions/_tower_v3.js';
 import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL,TOWER_MAX_CLEAR_COIN} from '../../functions/_tower_abyss.js';
 import {ensureJointTransactionSchema} from '../../functions/_joint_transactions.js';
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
@@ -14,7 +14,7 @@ import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presen
 const source=fs.readFileSync(new URL('../../functions/api/[[path]].js',import.meta.url),'utf8');
 const block=source.slice(source.indexOf("    if(path==='tower/config'"),source.indexOf("    if(path==='deck-synergy/status'"));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
-const names=['accountRankAward','collectionRewardCoin','prepareTowerForgeProtectionClear','authenticate','json','readBody','towerSettings','isAdminRole','raidDeckPower','battleSettings','evaluateDeckSynergies','resolveUniqueBattleRuntime','loadScrapyardV3Snapshot','cardBattlePower','magicBattleLoadout','selectActivatedUltimate','releasedMercenarySnapshot','buildTowerV3Battle','TOWER_V3_DRAFT','magicSettings','magicRewardForTowerFloor','resolveMagicCrystalReward','safeEquipmentDrop','rollBlackMiracleDrop','deferWrite','grantWeeklyPremiumCube','uniqueBattleResponsePayload','grantHighGradeRerollDrop','userEquipmentBonuses','pveDeckCards'];
+const names=['accountRankAward','collectionRewardCoin','prepareTowerForgeProtectionClear','authenticate','json','readBody','towerSettings','isAdminRole','raidDeckPower','battleSettings','evaluateDeckSynergies','resolveUniqueBattleRuntime','loadScrapyardV3Snapshot','cardBattlePower','magicBattleLoadout','selectActivatedUltimate','releasedMercenarySnapshot','buildTowerV3Battle','TOWER_V3_DRAFT','towerRequiredUniqueTier','magicSettings','magicRewardForTowerFloor','resolveMagicCrystalReward','safeEquipmentDrop','rollBlackMiracleDrop','deferWrite','grantWeeklyPremiumCube','uniqueBattleResponsePayload','grantHighGradeRerollDrop','userEquipmentBonuses','pveDeckCards'];
 names.push('towerAbyssStart','towerAbyssFinish','towerAbyssPending','TOWER_ABYSS_PROTOCOL','TOWER_MAX_CLEAR_COIN','withJointUserMutationLock','grantEquipmentDrop','seasonTowerFloors','ensureTowerWeek','towerFloorRewardRef');
 const execute=new AsyncFunction('path','request','env','deps',`const {${names.join(',')}}=deps;\n${block}`);
 export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPower=1000000,rewardCoin=1000000,mercenary=null}={}){
@@ -40,7 +40,7 @@ export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPowe
   const deps={ensureTowerWeek:env=>ensureTowerWeek(env,f.deps.now()),towerFloorRewardRef,accountRankAward,collectionRewardCoin,prepareTowerForgeProtectionClear,seasonTowerFloors,...f.deps,readBody:r=>r.json(),towerSettings:async()=>({enabled:true}),isAdminRole:u=>u.role==='OWNER',
     raidDeckPower:async(...args)=>{const d=await baseDeck(...args);return {...d,basePower:d.cards.reduce((n,c)=>n+Number(c.base_power),0)};},
     battleSettings:async()=>({engine:{}}),evaluateDeckSynergies:async()=>({totals:{attackPercent:0,bossDamagePercent:0}}),resolveUniqueBattleRuntime:()=>null,
-    loadScrapyardV3Snapshot,buildTowerV3Battle,TOWER_V3_DRAFT,releasedMercenarySnapshot:async()=>mercenary,
+    loadScrapyardV3Snapshot,buildTowerV3Battle,TOWER_V3_DRAFT,towerRequiredUniqueTier,releasedMercenarySnapshot:async()=>mercenary,
     magicSettings:async()=>({acquisition:{tower:{enabled:false}}}),magicRewardForTowerFloor:()=>0,resolveMagicCrystalReward:async()=>null,
     safeEquipmentDrop:async()=>null,grantEquipmentDrop:async()=>null,rollBlackMiracleDrop:async()=>null,grantWeeklyPremiumCube:async()=>null,
     TOWER_ABYSS_PROTOCOL,TOWER_MAX_CLEAR_COIN,withJointUserMutationLock:f.deps.withUserMutationLock,

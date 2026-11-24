@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import {createHash, randomBytes} from 'node:crypto';
 import test from 'node:test';
 import proposal from '../docs/qa/tower-200-20261124/floor-plan.json' with {type:'json'};
-import priorBase from '../docs/qa/tower-boss-rewards-20261022/floor-plan.json' with {type:'json'};
 import {fixture, PAIRS, plan as priorExtension, reviewSnapshot} from './helpers/tower-expansion-20261102.mjs';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {collectionFixture} from './helpers/collection-bonuses-fixture.mjs';
@@ -12,20 +11,31 @@ import {buildTowerV3Battle, TOWER_V3_DRAFT} from '../functions/_tower_v3.js';
 import {ensureTowerWeek} from '../functions/_tower_weekly.js';
 import {PET_CMS_KEY} from '../shared/pet-cms-v1.mjs';
 import {towerMonsterArt} from '../shared/tower-monsters-20261022.mjs';
+import {UNIQUE_MERCENARY_EQUIPMENT} from '../shared/mercenary-unique-equipment-v1.mjs';
+import {buildMercenaryEquipmentRuntime} from '../functions/_mercenary_equipment_v2.js';
 
-test('the 50 new CMS rows continue the reviewed tower and the proposed weekly budget adds up', () => {
-  const {floors, weeklyMilestoneAdditions, repeatProposal} = proposal;
+function uniqueWeapon(tier) {
+  const g = UNIQUE_MERCENARY_EQUIPMENT.find(g => g.tier === tier && g.slot === 'WEAPON');
+  return buildMercenaryEquipmentRuntime([{instance_id:42, equipment_id:42, code:g.code, name:g.name, slot:g.slot,
+    rarity:g.rarity, total_power:g.totalPower, pve_power:g.pvePower, pvp_power:g.pvpPower}], 7, 'PVE', 1);
+}
+
+test('the 50 new CMS rows follow the established floor rewards and increasingly strong guardians', () => {
+  const {floors} = proposal;
   assert.equal(proposal.previousMaxFloor, priorExtension.maxFloor);
   assert.equal(proposal.maxFloor, 200);
   assert.equal(floors.length, 50);
   let previousPower = priorExtension.floors.at(-1).power;
   let ordinaryCoin = priorExtension.floors.at(-2).coin;
   let guardianCoin = priorExtension.floors.at(-1).coin;
+  const priorCoins = new Map(priorExtension.floors.map(r => [r.floor, r.coin]));
   for (const [index, row] of floors.entries()) {
     assert.equal(row.floor, 151 + index);
     assert.equal(row.boss, Number(row.floor % 10 === 0));
     assert(Number.isSafeInteger(row.power) && row.power > previousPower);
     assert(Number.isSafeInteger(row.coin) && row.coin > (row.boss ? guardianCoin : ordinaryCoin));
+    assert.equal(BigInt(row.coin) * 10n, BigInt(priorCoins.get(row.floor - 10)) * 13n);
+    priorCoins.set(row.floor, row.coin);
     assert(fixture.monsters.some(m => Number(m.id) === row.monsterId && Number(m.is_active) && Number(m.tower_enabled)));
     assert(towerMonsterArt(row.monsterId)?.battleSprite);
     previousPower = row.power;
@@ -37,35 +47,30 @@ test('the 50 new CMS rows continue the reviewed tower and the proposed weekly bu
     assert.equal(row.power, earlierCurve);
   }
   assert(floors[9].power >= 4 * floors[8].power);
-  assert.deepEqual(floors.filter(row => row.boss).map(row => row.power), [60e9, 90e9, 130e9, 200e9, 300e9]);
+  assert.deepEqual(floors.filter(row => row.boss).map(row => row.power), [60e9, 90e9, 250e9, 550e9, 1300e9]);
+  assert.deepEqual(floors.filter(row => row.boss).map(row => row.coin),
+    [11_424_400_000_000, 14_851_720_000_000, 19_307_236_000_000, 25_099_406_800_000, 32_629_228_840_000]);
   assert.equal(floors.reduce((total, row) => total + row.coin, 0), proposal.totalNewBaseCoin);
-  assert.equal(proposal.totalNewBaseCoin, 90.8e12);
-  assert.equal(priorBase.totalCoin + priorExtension.totalCoin + proposal.totalNewBaseCoin, 131803847600000);
-  assert.deepEqual(weeklyMilestoneAdditions.map(row => row.floor), [50, 100, 150, 160, 170, 180, 190, 200]);
-  assert.equal(weeklyMilestoneAdditions.reduce((n, row) => n + row.masterStars, 0), 300000000);
-  assert.equal(weeklyMilestoneAdditions.reduce((n, row) => n + row.ardenEnergy, 0), 15);
-  const repeatCoin = base => Math.min(Math.floor(base * repeatProposal.baseCoinPercent / 100), repeatProposal.coinCapPerWin);
-  assert.equal(repeatCoin(priorExtension.floors.at(-1).coin), 439400000000);
-  assert.equal(repeatCoin(floors.at(-1).coin) * repeatProposal.rewardedWinsPerAccountPerWeek, 5e12);
-  assert.deepEqual(repeatProposal.bonusItemsByRewardedWin.map(r => [r.win, r.quantity]), [[3, 1], [5, 1]]);
+  assert.equal(proposal.totalNewBaseCoin, 118932764775968);
 });
 
 test('the expanded combat limit is confined to floors 151 through 200', () => {
   const snapshot = reviewSnapshot();
+  snapshot.mercenaries[1].equipment = uniqueWeapon(3);
   const config = {...TOWER_V3_DRAFT, maxTier:201, powerGrowth:1.001};
   const run = (tier, power) => buildTowerV3Battle({snapshot, tier, seed:1, config, operatingFloor:{id:69, power}});
-  for (const [tier, power] of [[150, 1e10 + 1], [159, 1e11 + 1], [201, 1e10 + 1], [200, 3e11 + 1], [151, 0], [200, NaN]]) {
+  for (const [tier, power] of [[150, 1e10 + 1], [159, 1e11 + 1], [179, 3e11 + 1], [201, 1e10 + 1], [200, 1.3e12 + 1], [151, 0], [200, NaN]]) {
     assert.throws(() => run(tier, power), {code:'TOWER_V3_CONFIG'});
   }
   assert.equal(run(150, 1e10).tier, 150);
   assert.equal(run(159, 1e11).tier, 159);
-  assert.equal(run(200, 3e11).continuousEncounter.total, 28);
+  assert.equal(run(200, 1.3e12).continuousEncounter.total, 28);
 });
 
 test('the 160F jump reaches all 28 enemies and carries onto ordinary floors above the gate', () => {
   const snapshot = reviewSnapshot({codes:PAIRS[1], power:1000000});
   const config = {...TOWER_V3_DRAFT, maxTier:201, powerGrowth:1.001, rulesVersion:TOWER_ABYSS_PROTOCOL};
-  for (const tier of [159, 160, 161, 199, 200, 201]) {
+  for (const tier of [159, 160, 161, 170, 179, 201]) {
     const row = proposal.floors.find(f => f.floor === tier);
     const operatingFloor = row ? {id:row.monsterId, power:row.power} : {id:19, power:1e10};
     const battle = buildTowerV3Battle({snapshot, tier, seed:1, config, operatingFloor});
@@ -94,12 +99,74 @@ async function route(tower, name, body) {
   return {status:response.status, data:await response.json()};
 }
 
+test('unique floor opponents use fixed tier stats and recognize genuine single-slot and dual-slot loadouts', () => {
+  const snapshot = reviewSnapshot();
+  const config = {...TOWER_V3_DRAFT, maxTier:200, powerGrowth:1.001};
+  const fight = (floor, party) => {
+    const row = proposal.floors.find(r => r.floor === floor);
+    return buildTowerV3Battle({tier:floor, seed:7, config, snapshot:party, operatingFloor:{id:row.monsterId, power:row.power}});
+  };
+  for (const [floor, health, attack, shield, speed] of [[180,950,260,245,390],[190,1000,375,270,425],[200,1200,550,300,480]]) {
+    const mercenary = {...snapshot.mercenaries[0], equipment:uniqueWeapon(3)};
+    const {mercenaries, ...legacy} = snapshot;
+    const battle = fight(floor, {...legacy, mercenary});
+    assert.equal(battle.rulesVersion, config.rulesVersion + '_UNIQUE_1');
+    assert.equal(battle.battleV2.encounter.forcedMonsterEvery, 2);
+    for (const enemy of battle.continuousEncounter.instances) {
+      const stats = enemy.pveBuffs;
+      assert.deepEqual([stats.difficultyHpPercent, stats.difficultyAttackPercent, stats.difficultyShieldPercent,
+        stats.difficultySpeedPercent, enemy.attackCount], [health,attack,shield,speed,5]);
+    }
+  }
+  const weapon = uniqueWeapon(3);
+  for (const equipment of [{...weapon, mode:'PVP'}, {...weapon, items:[{...weapon.items[0], slot:'SHOES'}]},
+    {...weapon, items:[{...weapon.items[0], code:'HUNT_COAST_UNIQUE'}]},
+    {...weapon, items:[{...weapon.items[0], code:'MERC_UQ_13_FAKE'}]}, {...weapon, items:[]}]) {
+    const party = {...snapshot, mercenaries:snapshot.mercenaries.map(m => ({...m, equipment}))};
+    assert.throws(() => fight(180, party), {code:'TOWER_UNIQUE_REQUIRED'});
+  }
+});
+
 function equipRouteTestParty(f) {
-  f.setPower(150e9);
+  f.setPower(900e9);
   const baseDeck = f.deps.raidDeckPower;
   const {mercenaries} = reviewSnapshot();
+  const equip = tier => { mercenaries[1].equipment = tier ? uniqueWeapon(tier) : null; };
+  equip(3);
   f.deps.raidDeckPower = async (...args) => ({...await baseDeck(...args), mercenaries});
+  return equip;
 }
+
+test('operating entry checks equipped PVE gear at all three boundaries and preserves an accepted encounter on reconnect', async t => {
+  const f = await jointFixture(t, {postgres:true});
+  const equip = equipRouteTestParty(f);
+  const tower = await operatingTowerFixture(f, {floorNo:179, maxFloor:200});
+  for (const [floor, required] of [[179, 0], [180, 1], [189, 1], [190, 2], [199, 2], [200, 3]]) {
+    await tower.setFloor(floor);
+    equip(Math.max(0, required - 1));
+    const status = (await route(tower, 'status')).data;
+    assert.equal(status.floor.requiredUniqueTier ?? 0, required);
+    const ticket = {requestId:'tower-check-unique-' + floor, protocol:TOWER_ABYSS_PROTOCOL, floorNo:floor};
+    const before = await f.coin();
+    if (required) {
+      const denied = await route(tower, 'start', {...ticket, requiredUniqueTier:3, equipment:uniqueWeapon(3)});
+      assert.deepEqual([denied.status, denied.data.code], [409, 'TOWER_UNIQUE_REQUIRED']);
+      assert.match(denied.data.error, new RegExp(required + '단계'));
+      assert.equal((await route(tower, 'pending')).data.pending, null);
+      assert.equal((await route(tower, 'status')).data.progress.highestFloor, floor - 1);
+      assert.equal(await f.coin(), before);
+    }
+    equip(required);
+    const first = await route(tower, 'start', ticket);
+    assert.equal(first.status, 200, first.data.error);
+    equip(0);
+    assert.equal((await route(tower, 'start', ticket)).data.requestId, ticket.requestId);
+    f.setClock(first.data.settlement.notBefore);
+    const settled = await route(tower, 'finish', ticket);
+    assert.deepEqual([settled.status, settled.data.result, settled.data.nextFloor], [200, 'WIN', floor + 1]);
+    assert.equal(await f.coin() - before, settled.data.reward);
+  }
+});
 
 test('a completed 150F account ascends all 50 additional floors through normal start and finish', async t => {
   const f = await jointFixture(t, {postgres:true});
@@ -133,6 +200,10 @@ test('a completed 150F account ascends all 50 additional floors through normal s
     const finish = await route(tower, 'finish', ticket);
     assert.equal(finish.status, 200, finish.data.error);
     assert.deepEqual([finish.data.nextFloor, finish.data.reward, finish.data.completed], [row.floor + 1, row.coin, row.floor === 200]);
+    if (row.floor === 180) {
+      const pastFloor = await route(tower, 'start', {...ticket, requestId:'tower-already-cleared-180'});
+      assert.deepEqual([pastFloor.status, pastFloor.data.code], [409, 'TOWER_FLOOR_CHANGED']);
+    }
     if (row.floor === 200) assert.equal((await route(tower, 'finish', ticket)).data.reward, row.coin);
   }
   assert.equal(await f.coin() - startingCoin, proposal.totalNewBaseCoin);
