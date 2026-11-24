@@ -8,6 +8,7 @@ import {prepareTowerForgeProtectionClear} from './_forge_tower_protection.js';
 import {resolveAvatarDropRate} from './_avatar_drop.js';
 
 export const TOWER_ABYSS_PROTOCOL='TOWER_ABYSS_20261022';
+export const TOWER_MAX_CLEAR_COIN=100_000_000_000_000;
 const KIND='TOWER_ABYSS',pointer=uid=>`tower_abyss_active:${uid}`;
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const fail=(code,message,status=409,extra={})=>{throw Object.assign(new Error(message),{code,status,...extra});};
@@ -59,7 +60,7 @@ export async function towerAbyssStart(env,user,body,prepare,{now=Date.now}={}){
  const response=prepared.response;
  if(response.floorNo!==floor||!['WIN','LOSE'].includes(response.result))throw Error('Invalid tower encounter');
  const rewardCoin=response.result==='WIN'?Number(prepared.rewardCoin):0;
- if(!Number.isSafeInteger(rewardCoin)||rewardCoin<0||rewardCoin>1e14)throw Error('Invalid tower reward');
+ if(!Number.isSafeInteger(rewardCoin)||rewardCoin<0||rewardCoin>TOWER_MAX_CLEAR_COIN)throw Error('Invalid tower reward');
  const events=response.battleV2?.result?.timeline||[],actions=events.filter(e=>['TURN','COUNTER','MERCENARY_WINDUP'].includes(e.type)).length;
  // Server time is a minimum progression gate, not a claim that a browser has
  // displayed every frame. The shipping client also requires full playback.

@@ -1,0 +1,107 @@
+{
+  "seedsPerDeck": 16,
+  "measurements": [
+    {
+      "floor": 150,
+      "power": 9000000000,
+      "bossUltimatePercent": 0,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 84,
+        "decksWithWins": 6
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      }
+    },
+    {
+      "floor": 160,
+      "power": 15000000000,
+      "bossUltimatePercent": 0,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 79,
+        "decksWithWins": 5
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      }
+    },
+    {
+      "floor": 170,
+      "power": 25000000000,
+      "bossUltimatePercent": 0,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 64,
+        "decksWithWins": 4
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      }
+    },
+    {
+      "floor": 180,
+      "power": 40000000000,
+      "bossUltimatePercent": 25,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 40,
+        "decksWithWins": 4
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      }
+    },
+    {
+      "floor": 190,
+      "power": 65000000000,
+      "bossUltimatePercent": 50,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 38,
+        "decksWithWins": 4
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      }
+    },
+    {
+      "floor": 200,
+      "power": 100000000000,
+      "bossUltimatePercent": 100,
+      "fixed": {
+        "decks": 8,
+        "trials": 128,
+        "wins": 32,
+        "decksWithWins": 2
+      },
+      "huntReference": {
+        "decks": 20,
+        "trials": 320,
+        "wins": 320,
+        "decksWithWins": 20
+      }
+    }
+  ]
+}

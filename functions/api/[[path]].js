@@ -174,7 +174,7 @@ import {handlePveV3,isPveV3Path} from '../_pve_v3_routes.js';
 import {loadScrapyardV3Snapshot} from '../_scrapyard_v3.js';
 import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../_tower_v3.js';
 import {ensureTowerWeek,towerFloorRewardRef} from '../_tower_weekly.js';
-import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL} from '../_tower_abyss.js';
+import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL,TOWER_MAX_CLEAR_COIN} from '../_tower_abyss.js';
 import {cowTicketAward} from '../_legion_cow_tickets.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../../shared/equipment-forge-release-v1.mjs';
@@ -6998,7 +6998,8 @@ async function handleRequest(context){
         operatingFloor:{id:floor.linked_battle_monster_id||floor.monster_id,name:floor.monster_name,image:floor.monster_image,power:monsterPower},
         bossUltimatePercent:Number(towerBossUltimate?.damagePercent||0)});
       const result=towerBattle.success?'WIN':'LOSE',completed=!seasonReplay&&result==='WIN'&&floorNo>=maxFloor,nextFloor=seasonReplay?Number(progress.current_floor):result==='WIN'?floorNo+1:floorNo;
-      const rewardCoin=result==='WIN'&&!seasonReplay?await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER'):0;
+      const coinCap = floorNo >= 151 && floorNo <= 200 ? TOWER_MAX_CLEAR_COIN : undefined;
+      const rewardCoin=result==='WIN'&&!seasonReplay?await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER',coinCap):0;
       const magicCfg=await magicSettings(env),magic={enabled:magicCfg.acquisition?.tower?.enabled===true,amount:magicRewardForTowerFloor(magicCfg,floorNo)};
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));
       const towerBattleCards=owned.results.map(c=>{const uniqueCard=towerUniqueCardMap.get(String(c.id))||{};return {...c,...uniqueCard,id:String(c.id),title:c.title,image:c.image,grade:c.rarity,rarity:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)};});

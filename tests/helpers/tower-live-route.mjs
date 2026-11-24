@@ -6,7 +6,7 @@ import {prepareTowerForgeProtectionClear} from '../../functions/_forge_tower_pro
 import fs from 'node:fs';
 import {loadScrapyardV3Snapshot} from '../../functions/_scrapyard_v3.js';
 import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../../functions/_tower_v3.js';
-import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL} from '../../functions/_tower_abyss.js';
+import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL,TOWER_MAX_CLEAR_COIN} from '../../functions/_tower_abyss.js';
 import {ensureJointTransactionSchema} from '../../functions/_joint_transactions.js';
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
 
@@ -15,7 +15,7 @@ const source=fs.readFileSync(new URL('../../functions/api/[[path]].js',import.me
 const block=source.slice(source.indexOf("    if(path==='tower/config'"),source.indexOf("    if(path==='deck-synergy/status'"));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const names=['accountRankAward','collectionRewardCoin','prepareTowerForgeProtectionClear','authenticate','json','readBody','towerSettings','isAdminRole','raidDeckPower','battleSettings','evaluateDeckSynergies','resolveUniqueBattleRuntime','loadScrapyardV3Snapshot','cardBattlePower','magicBattleLoadout','selectActivatedUltimate','releasedMercenarySnapshot','buildTowerV3Battle','TOWER_V3_DRAFT','magicSettings','magicRewardForTowerFloor','resolveMagicCrystalReward','safeEquipmentDrop','rollBlackMiracleDrop','deferWrite','grantWeeklyPremiumCube','uniqueBattleResponsePayload','grantHighGradeRerollDrop','userEquipmentBonuses','pveDeckCards'];
-names.push('towerAbyssStart','towerAbyssFinish','towerAbyssPending','TOWER_ABYSS_PROTOCOL','withJointUserMutationLock','grantEquipmentDrop','seasonTowerFloors','ensureTowerWeek','towerFloorRewardRef');
+names.push('towerAbyssStart','towerAbyssFinish','towerAbyssPending','TOWER_ABYSS_PROTOCOL','TOWER_MAX_CLEAR_COIN','withJointUserMutationLock','grantEquipmentDrop','seasonTowerFloors','ensureTowerWeek','towerFloorRewardRef');
 const execute=new AsyncFunction('path','request','env','deps',`const {${names.join(',')}}=deps;\n${block}`);
 export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPower=1000000,rewardCoin=1000000,mercenary=null}={}){
   await ensureJointTransactionSchema(f.env);
@@ -43,7 +43,7 @@ export async function operatingTowerFixture(f,{floorNo=1,maxFloor=70,monsterPowe
     loadScrapyardV3Snapshot,buildTowerV3Battle,TOWER_V3_DRAFT,releasedMercenarySnapshot:async()=>mercenary,
     magicSettings:async()=>({acquisition:{tower:{enabled:false}}}),magicRewardForTowerFloor:()=>0,resolveMagicCrystalReward:async()=>null,
     safeEquipmentDrop:async()=>null,grantEquipmentDrop:async()=>null,rollBlackMiracleDrop:async()=>null,grantWeeklyPremiumCube:async()=>null,
-    TOWER_ABYSS_PROTOCOL,withJointUserMutationLock:f.deps.withUserMutationLock,
+    TOWER_ABYSS_PROTOCOL,TOWER_MAX_CLEAR_COIN,withJointUserMutationLock:f.deps.withUserMutationLock,
     towerAbyssStart:(...args)=>towerAbyssStart(...args,{now:f.deps.now}),towerAbyssFinish:(...args)=>towerAbyssFinish(...args,{now:f.deps.now}),towerAbyssPending:(...args)=>towerAbyssPending(...args,{now:f.deps.now}),
     uniqueBattleResponsePayload:()=>null,grantHighGradeRerollDrop:async()=>null,deferWrite:(_name,work)=>void work(),
     userEquipmentBonuses:async()=>({pve:0}),pveDeckCards:async()=>deck.ids};
