@@ -1,5 +1,5 @@
 import {cityDisplayName} from '../shared/jokgak-city-disguise-v1.mjs';
-import {cityShift,cityState} from '../shared/jokgak-city-v1.mjs';
+import {cityShift,cityState,cityHealth} from '../shared/jokgak-city-v1.mjs';
 import {createCitySupplyPlan,citySupplyEligible,citySupplyPublic,citySupplyWeapon,citySupplyWeaponExpiresAt} from '../shared/jokgak-city-supply-v1.mjs';
 import {CITY_SETTINGS_KEY,cityCanAccess,cityRolePolicy} from '../shared/jokgak-city-settings-v1.mjs';
 import {readCityLife,projectCityLife,cityLifeKey} from '../shared/jokgak-city-life-v1.mjs';
@@ -55,7 +55,8 @@ async function holderState(env,drop,policy,now){
   const id=drop.holder.userId,row=await p(env,`SELECT c.*,u.nickname,u.role AS account_role,u.status AS account_status,u.banned_until,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id LEFT JOIN app_meta life ON life.key=? WHERE c.user_id=?`,cityLifeKey(id),id).first();
   if(!row)return null;
   const life=readCityLife(row.life_raw,now),weights=await cityRoleWeights(env,drop.epoch,policy),role=await assignedCityRole(env,id,drop.epoch,weights);
-  const state=projectCityLife(cityState(row,role,now,cityRolePolicy(policy,role)),structuredClone(life),now,policy);
+  const rules=cityRolePolicy(policy,role);
+  const state=projectCityLife(cityState(row,role,now,rules),structuredClone(life),now,policy,at=>cityHealth(row,at,rules));
   const allowed=row.account_status==='ACTIVE'&&(!row.banned_until||Date.parse(String(row.banned_until).replace(' ','T')+'Z')<=now)&&cityCanAccess(policy,{id,role:row.account_role});
   return {row,life,state,eligible:allowed&&Number(row.epoch)===drop.epoch&&citySupplyEligible(state,drop,now)};
 }

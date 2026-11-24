@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {cityDeathDescription} from '../js/jokgak-city-life-ui-v1.mjs';
 
 // Execute the actual browser entry. Only imports, DOM, clock scheduling and HTTP
 // are supplied by this harness; modal layout is covered by the browser regression.
@@ -19,7 +20,7 @@ function harness(initialUser={serverUserId:42,nickname:'실제 로그인 형태'
   const buttons=new Map();
   return {dataset:{},setAttribute(){},insertAdjacentHTML(){},remove(){notices.delete(this);},querySelector(selector){if(!buttons.has(selector))buttons.set(selector,{});return buttons.get(selector);}};
  }};
- const config={cityPlace:()=>({name:'시장'}),cityTheftHtml:()=>'',cityBountyReceipt:()=>'',deathClock:()=>'03:00',mountCityNoticeLayer:node=>{notices.add(node);return ()=>notices.delete(node);}};
+ const config={cityDeathDescription,cityPlace:()=>({name:'시장'}),cityTheftHtml:()=>'',cityBountyReceipt:()=>'',deathClock:()=>'03:00',mountCityNoticeLayer:node=>{notices.add(node);return ()=>notices.delete(node);}};
  const sandbox={document,location:{pathname:'/'},navigator:{locks:{request:async(_name,_options,fn)=>fn({})}},localStorage:storage,sessionStorage:storage,loadUser:()=>account,
   AbortSignal,__cityImport:async path=>{imports.push(path);return config;},addEventListener:listen(windowEvents),
   setTimeout:(fn,ms)=>{timers.set(++serial,{fn,ms});return serial;},clearTimeout:id=>timers.delete(id),setInterval:()=>++serial,clearInterval(){},

@@ -11,13 +11,56 @@ const settings=f=>readCitySettings(f.env).then(r=>r.policy);
 const status=(f,id,location='HOSPITAL')=>cityStatus(f.env,f.users.get(id),location,0,f.now);
 const life=async(f,id,patch={})=>{const key=cityLifeKey(id),before=await f.p('SELECT value FROM app_meta WHERE key=?',key).first(),next={...(before?JSON.parse(before.value):newCityLife(f.now)),...patch};await f.p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',key,JSON.stringify(next)).run();return next;};
 const coins=async(f,id=1)=>Number((await f.p('SELECT coin FROM users WHERE id=?',id).first()).coin);
-const request=(f,id,action,body)=>handleJokgakCity({path:'jokgak-city/'+action,env:f.env,deps:{...f.deps,authenticate:async()=>f.users.get(id),json:(x,status=200)=>Response.json(x,{status})},request:new Request('https://game.test/api/jokgak-city/'+action,{method:body?'POST':'GET',...(body?{headers:{origin:'https://game.test','content-type':'application/json'},body:JSON.stringify(body)}:{})})});
+const request=(f,id,action,body)=>handleJokgakCity({path:'jokgak-city/'+action.split('?')[0],env:f.env,deps:{...f.deps,authenticate:async()=>f.users.get(id),json:(x,status=200)=>Response.json(x,{status})},request:new Request('https://game.test/api/jokgak-city/'+action,{method:body?'POST':'GET',...(body?{headers:{origin:'https://game.test','content-type':'application/json'},body:JSON.stringify(body)}:{})})});
 test('life policy validates rates, products, positive recoveries and preserves legacy settings',()=>{
   for(const mutate of [p=>p.life.hungerPerHour=-1,p=>p.life.hospitalThreshold=100,p=>p.life.meal.price=-1,p=>p.life.supplies[0].code='FORGED',p=>p.life.supplies[1].wellness=101,p=>p.life.treatment={enabled:true,price:0,health:0,wellness:0}]){const p=defaultCitySettings();mutate(p);assert.throws(()=>validateCitySettings(p));}
   const legacy=defaultCitySettings();delete legacy.life;assert.equal(validateCitySettings(legacy).life.meal.hunger,60);assert.equal(CITY_DEATH_MS,180000);
 });
 for(const pg of [false,true]){
   const db=pg?'Postgres':'SQLite';
+  test(db+': starvation blocks regeneration, persists hospital death, and respawns after three minutes',async t=>{
+    const f=await cityFixture(t,pg);await f.join(1);
+    await f.p('UPDATE jokgak_city_players_v1 SET health=15 WHERE user_id=1').run();
+    await life(f,1,{hunger:0,at:f.now});
+    f.advance(59999);assert.equal((await status(f,1)).mine.health,15);
+    f.advance(1);assert.equal((await status(f,1)).mine.health,10);
+    f.advance(120000);const dead=(await status(f,1)).mine;
+    assert.equal(dead.health,0);assert.equal(dead.location,'HOSPITAL');
+    assert.equal(dead.death.cause,'STARVATION');assert.equal(dead.death.killerId,null);
+    assert.equal(dead.deadUntil,f.now+CITY_DEATH_MS);
+    assert.equal((await life(f,1)).death.until,dead.deadUntil);
+    f.advance(CITY_DEATH_MS);const revived=(await status(f,1)).mine;
+    assert.equal(revived.deadUntil,0);assert.equal(revived.health,revived.maxHealth);assert.equal(revived.hunger,30);
+  });
+  test(db+': delayed starvation uses the lethal minute and elapsed hospital time',async t=>{
+    const f=await cityFixture(t,pg);await f.join(1);await f.join(2);
+    const start=f.now;
+    for(const id of [1,2]){
+      await f.p('UPDATE jokgak_city_players_v1 SET health=10,health_at=? WHERE user_id=?',start,id).run();
+      await life(f,id,{hunger:0,at:start,starvationMs:30000});
+    }
+    f.advance(150000);const waiting=(await status(f,1)).mine;
+    assert.equal(waiting.death.at,start+90000);assert.equal(waiting.deadUntil,start+270000);
+    f.advance(121000);const revived=(await status(f,2)).mine;
+    assert.equal(revived.death.at,start+90000);assert.equal(revived.death.resolved,true);
+    assert.equal(revived.deadUntil,0);assert.equal(revived.health,revived.maxHealth);
+  });
+  test(db+': hospital ration stops HP loss and is free once per shift',async t=>{
+    const f=await cityFixture(t,pg);await f.join(1);
+    await life(f,1,{hunger:0,at:f.now});
+    await assert.rejects(f.action(1,'ration'),/병원/);
+    await life(f,1,{wellness:20});
+    const before=(await status(f,1)).mine;
+    assert.equal(before.hospitalRequired,true);
+    f.advance(60000);
+    const response=await request(f,1,'ration',{requestId:crypto.randomUUID(),epoch:cityShift(f.now).id});
+    assert.equal(response.status,200);
+    const served=await response.json();
+    assert.equal(served.mine.hunger,35);assert.equal(served.mine.cash,before.cash);
+    assert.equal(served.mine.health,before.health-5);assert.equal(served.mine.rationAvailable,false);
+    f.advance(60000);assert.ok((await status(f,1)).mine.health>=served.mine.health);
+    await life(f,1,{hunger:0});await assert.rejects(f.action(1,'ration'),/이미 받았습니다/);
+  });
   test(db+': lethal defender loss stores killer and 3-minute deadline; leave, regeneration and shift cannot bypass death',async t=>{
     const f=await cityFixture(t,pg);f.setTime(Date.parse('2026-10-09T02:59:00Z'));await f.join(1);await f.join(2);
     await f.p('UPDATE jokgak_city_players_v1 SET health=10 WHERE user_id=2').run();
@@ -83,3 +126,28 @@ for(const pg of [false,true]){
     assert.equal((await request(f,2,'use',{requestId:crypto.randomUUID(),epoch:cityShift(f.now).id,product:'INVENTED'})).status,409);
   });
 }
+test('player API masks account names in roster, historical battle receipts, death notices and activity log',async t=>{
+  const f=await cityFixture(t);
+  await f.join(1);await f.join(2);
+  const read=async(id,path)=>{
+    const response=await request(f,id,path);
+    assert.equal(response.status,200);
+    const raw=await response.text();
+    assert.doesNotMatch(raw,/참가자 [12]/);
+    return JSON.parse(raw);
+  };
+  const roster=await read(1,'status?location=MARKET');
+  assert.deepEqual(roster.people.map(p=>p.nickname),['익명 참가자','익명 참가자']);
+  const battle=f.deps.prepareCityBattle;
+  f.deps.prepareCityBattle=async (...args)=>({...await battle(...args),attackerNickname:args[2].nickname,defenderNickname:args[3].nickname});
+  await f.p('UPDATE jokgak_city_players_v1 SET health=10 WHERE user_id=2').run();
+  const saved=await f.action(1,'attack',{targetId:2});
+  assert.equal(saved.defenderNickname,'참가자 2');
+  const replay=await read(1,'result?requestId='+saved.requestId);
+  assert.equal(replay.defenderNickname,'익명 참가자');
+  const notices=await read(2,'notifications');
+  assert.equal(notices.mine.death.killerName,'익명 참가자');
+  assert.equal(notices.items[0].actorName,'익명 참가자');
+  await read(1,'log');
+  await read(2,'log');
+});

@@ -1,6 +1,6 @@
 import {cityDisplayName} from '../shared/jokgak-city-disguise-v1.mjs';
 import {cityRole} from '../shared/jokgak-city-v1.mjs';
-import {CITY_SUPPLIES,defaultCityLifePolicy} from '../shared/jokgak-city-life-v1.mjs';
+import {CITY_SUPPLIES,CITY_RATION,CITY_STARVATION_HP_PER_MINUTE,defaultCityLifePolicy} from '../shared/jokgak-city-life-v1.mjs';
 import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261022-disguise1';
 export {cityItemArt};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -9,6 +9,7 @@ export const deathClock=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return `${St
 export function cityCondition(m,now){
   if(!m?.active)return {label:'미입장',tone:'idle'};
   if(m.deadUntil>now)return {label:'사망 · 부활 '+deathClock(m.deadUntil-now),tone:'danger'};
+  if(m.hunger===0)return {label:'굶주림 · 체력 감소 중',tone:'danger'};
   if(m.restUntil>now)return {label:'모텔 휴식 · '+deathClock(m.restUntil-now),tone:'safe'};
   if(m.jailedUntil>now)return {label:'구금 · '+deathClock(m.jailedUntil-now),tone:'danger'};
   if(m.hospitalRequired)return {label:'응급 진료 필요',tone:'danger'};
@@ -41,14 +42,15 @@ export function cityBeggingOffers(state,now,busy,icon){
   const offers=(state.beggingOffers||[]).filter(o=>o.endsAt>now&&o.location===m.location);
   return offers.map(o=>`<article class="jc-beg-toast" data-beg-offer="${esc(o.requestId)}" data-beg-until="${o.endsAt}" aria-label="${esc(o.actorName)}의 동냥"><header><span>${icon('bag')}${o.action==='beg'?'구걸':'동냥'} 중</span><small data-beg-clock>${Math.max(0,Math.ceil((o.endsAt-now)/1000))}초</small></header><p><b>${esc(o.actorName)}</b> 님이 ${o.action==='beg'?'구걸':'동냥'} 중이에요.</p><small>${number(o.cash)}원만 도와줄까?${o.mode==='TEST'?' · 테스트 현금':''}</small><footer><button data-city-donate="${esc(o.requestId)}" ${busy||m.nextActionAt>now||m.cash<o.cash?'disabled':''}>${m.cash<o.cash?'현금 부족':`준다 · ${number(o.cash)}원`}</button><button data-city-decline="${esc(o.id)}" ${busy?'disabled':''}>말까</button></footer></article>`).join('');
 }
+export const cityDeathDescription=death=>death?.cause==='STARVATION'?'굶주림으로 사망했습니다.':`<b>${esc(death?.killerName||'알 수 없는 상대')}</b> 님에게 처치되었습니다.`;
 export function cityDeathScreen(mine,now){
   if(!(mine?.deadUntil>now))return '';
-  return `<section class="jc-death-screen" aria-label="사망 후 병원 부활 대기"><span class="jc-death-index">JOKGAK CITY / EMERGENCY</span><div class="jc-death-cross">＋</div><h2>사망했습니다</h2><p><b>${esc(mine.death?.killerName||'알 수 없는 상대')}</b> 님에게 처치되었습니다.</p><strong data-death-clock>${deathClock(mine.deadUntil-now)}</strong><span class="jc-death-track"><i data-death-track style="width:${Math.min(100,(mine.deadUntil-now)/1800)}%"></i></span><footer><span>부활 장소 <b>병원</b></span><small>3분 대기 후 자동 부활 · 도시 체력·건강 회복</small></footer></section>`;
+  return `<section class="jc-death-screen" aria-label="사망 후 병원 부활 대기"><span class="jc-death-index">JOKGAK CITY / EMERGENCY</span><div class="jc-death-cross">＋</div><h2>사망했습니다</h2><p>${cityDeathDescription(mine.death)}</p><strong data-death-clock>${deathClock(mine.deadUntil-now)}</strong><span class="jc-death-track"><i data-death-track style="width:${Math.min(100,(mine.deadUntil-now)/1800)}%"></i></span><footer><span>부활 장소 <b>병원</b></span><small>3분 대기 후 자동 부활 · 도시 체력·건강 회복</small></footer></section>`;
 }
 export function cityNeeds(state,now,icon){
   const m=state?.mine;if(!m?.active)return '';
   const cfg=state.life||defaultCityLifePolicy(),dead=m.deadUntil>now;
-  const meters=[['health','전투 체력',m.health,'swords',25,m.maxHealth||100,dead?'병원 부활 대기':'의료진 치료로 회복'],['hunger','포만감',m.hunger??100,'meal',30,100,(m.hunger??100)<=30?'배고픔 · 식당에서 식사':'낮을수록 배고픔'],['wellness','건강',m.wellness??100,'cross',cfg.hospitalThreshold,100,m.hospitalRequired?'응급 · 병원 진료 필요':'병원 진료로 회복']];
+  const meters=[['health','전투 체력',m.health,'swords',25,m.maxHealth||100,dead?'병원 부활 대기':m.hunger===0?`굶주림 · 분당 HP ${CITY_STARVATION_HP_PER_MINUTE} 감소`:'의료진 치료로 회복'],['hunger','포만감',m.hunger??100,'meal',30,100,(m.hunger??100)<=30?'배고픔 · 식당에서 식사':'낮을수록 배고픔'],['wellness','건강',m.wellness??100,'cross',cfg.hospitalThreshold,100,m.hospitalRequired?'응급 · 병원 진료 필요':'병원 진료로 회복']];
   return `<section class="jc-needs" aria-label="도시 현금과 생활 상태"><div class="jc-cash"><span>${icon('cash')}<b>${state.mode==='TEST'?'테스트 현금':'보유 현금'}</b><small>족각도시 전용</small></span><strong data-city-cash>${number(m.cash)}<em>원</em></strong></div>${meters.map(([key,label,value,symbol,low,max,hint])=>`<div class="jc-need ${key==='health'?'jc-vitals ':''}${value<=low?'is-low':''}" data-need="${key}"><span>${icon(symbol)}${label}<b>${value}<small>/${max}</small></b></span><i><em style="width:${Math.max(0,Math.min(100,value/max*100))}%"></em></i><p>${hint}</p></div>`).join('')}<div class="jc-needs-shortcuts"><button data-city-place="RESTAURANT" ${dead?'disabled':''}>${icon('meal')}식당 찾기</button><button data-city-place="HOSPITAL" ${dead?'disabled':''}>${icon('cross')}병원 찾기</button></div>${m.hospitalRequired?'<div class="jc-health-alert" role="status"><b>건강 악화로 병원에 이송되었습니다.</b> 진료를 받거나 소지품으로 건강을 회복하세요.</div>':''}</section>`;
 }
 const gains=p=>[['hunger','포만감'],['wellness','건강'],['health','체력']].filter(([k])=>p[k]).map(([k,n])=>`${n} +${p[k]}`).join(' · ');
@@ -58,12 +60,13 @@ export function cityServices(state,selected,now,busy,icon){
   const locked=busy||!here||m.deadUntil>now||m.jailedUntil>now||m.nextActionAt>now;
   const test=state?.mode==='TEST',title=selected==='SHOP'?'도시 보급 상점':selected==='RESTAURANT'?'오늘의 따뜻한 한 끼':'병원 진료 접수';
   const rows=selected==='SHOP'?cfg.supplies.map(p=>({...p,...CITY_SUPPLIES.find(s=>s.code===p.code),action:'buy'})):[{...(selected==='RESTAURANT'?cfg.meal:cfg.treatment),code:'',name:selected==='RESTAURANT'?'든든한 정식':'회복 진료',icon:selected==='RESTAURANT'?'meal':'cross',description:selected==='RESTAURANT'?'지친 하루를 채우는 따뜻한 식사':'도시 체력과 생활 건강을 함께 회복',action:selected==='RESTAURANT'?'eat':'treat'}];
-  return `<section class="jc-services${selected==='SHOP'?'':' is-single'}" aria-label="${title}">
+  if(selected==='HOSPITAL')rows.push({...CITY_RATION,code:'',description:'포만감 30 이하 · 교대당 1회',action:'ration',unavailable:here&&!m.rationAvailable});
+  return `<section class="jc-services${selected==='RESTAURANT'?' is-single':''}" aria-label="${title}">
     <header><span>${selected==='SHOP'?'SUPPLIES':selected==='RESTAURANT'?'NIGHT DINER':'MEDICAL CENTER'}</span><h3>${title}</h3></header>
     <div class="jc-service-list">${rows.map(p=>`<article class="jc-service">
-      ${cityItemArt(p.code||(p.action==='eat'?'SET_MEAL':'TREATMENT'))}
+      ${cityItemArt(p.code||(['eat','ration'].includes(p.action)?'SET_MEAL':'TREATMENT'))}
       <div class="jc-service-copy"><b>${p.name}</b><p>${p.description}</p><strong>${gains(p)}</strong><small class="jc-service-price">${number(p.price)}원${test?'<em>테스트 현금</em>':''}</small></div>
-      <button data-city-action="${p.action}" ${p.code?`data-city-product="${p.code}"`:''} ${locked||!p.enabled||here&&m.cash<p.price?'disabled':''}>${!p.enabled?'이용 중지':!here?'이동 후 이용':m.cash<p.price?'현금 부족':p.action==='buy'?'구매':p.action==='eat'?'식사':'진료'}</button>
+      <button data-city-action="${p.action}" ${p.code?`data-city-product="${p.code}"`:''} ${locked||!p.enabled||p.unavailable||here&&m.cash<p.price?'disabled':''}>${!p.enabled?'이용 중지':!here?'이동 후 이용':m.cash<p.price?'현금 부족':p.action==='buy'?'구매':p.action==='eat'?'식사':p.action==='ration'?(p.unavailable?'수령 조건 미충족':'배식 받기'):'진료'}</button>
     </article>`).join('')}</div>
     <p class="jc-service-foot">${test?'TEST 현금·소지품은 정식 운영으로 이전되지 않습니다.':'병원·식당·상점은 도시 현금으로 결제합니다.'}</p></section>`;
 }

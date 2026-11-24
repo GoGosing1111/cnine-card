@@ -5,7 +5,7 @@
 @import url("./jokgak-city-career-v1.css?v=20261012-background-perf1");
 @import url("./jokgak-city-expansion-v1.css?v=20261010-city4");
 @import url("./jokgak-city-items-v1.css?v=20261011-items1");
-@import url("./jokgak-city-exploration-v2.css?v=20261012-background-perf1");
+@import url("./jokgak-city-exploration-v2.css?v=20261124-city-board1");
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
 .jc,.jc-dialog,.jc-dispatch,.jc-battle-result{--bg:#080c17;--panel:#111828;--line:#28324a;--text:#f3f5ff;--muted:#8b97b0;--lime:#c8ff6b;font-family:'Noto Sans KR',sans-serif;color:var(--text);font-synthesis:none;box-sizing:border-box;color-scheme:dark}
 .jc *,.jc-dialog *,.jc-dispatch *,.jc-battle-result *{box-sizing:border-box}
@@ -67,3 +67,26 @@
 /* Movement uses the server deadline; no extra polling while the clock ticks. */
 .jc-location-body .jc-move-wait{margin:10px 0 0;text-align:center;color:#e7c586;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}.jc-location-body .jc-move-wait[hidden]{display:none}
 .jc-move-countdown{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border:1px solid #4d5363;border-radius:5px;background:linear-gradient(115deg,#202d43,#182031)}.jc-move-countdown span{font-size:13px;color:#c4d0e2}.jc-move-countdown strong{color:#f0d29a;font-size:30px;line-height:1.3;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.jc-board { display: grid; gap: 18px; color: #e9f0f3; }
+.jc-board section { border-bottom: 1px solid #354352; padding: 0 0 16px; }
+.jc-board section:last-child { border-bottom: 0; }
+.jc-board h3, .jc-board h4 { margin: 0 0 6px; }
+.jc-board h3 { font-size: 18px; }
+.jc-board p { margin: 5px 0 10px; color: #c1ccd5; line-height: 1.5; }
+.jc-board-contracts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+.jc-board article, .jc-board-ticket { padding: 12px; background: #162230; border: 1px solid #374b54; border-radius: 7px; }
+.jc-board article p { margin: 3px 0 8px; }
+.jc-board button { margin: 2px 4px 2px 0; min-height: 36px; }
+.jc-board button:not(:disabled) { border-color: #647956; color: #e3ffbc; }
+.jc-board-ticket { margin-top: 8px; }
+.jc-board progress { width: 100%; height: 8px; accent-color: #b8e989; }
+.jc-board-goals { display: grid; gap: 6px; }
+.jc-board-goals > div { display: grid; grid-template-columns: 62px 1fr; align-items: center; gap: 8px; }
+.jc-board-goals span { color: #c1ccd5; }
+.jc-board [data-city-board-feedback] { padding: 8px; color: #d7f8ba; background: #233127; }
+@media (max-width: 700px) {
+  .jc .jc-desk-launchers { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .jc-board-contracts { grid-template-columns: 1fr; }
+  .jc-board button { min-height: 44px; }
+}

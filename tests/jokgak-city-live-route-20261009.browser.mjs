@@ -16,6 +16,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--ena
 const checks=[],errors=[],requests=[];let holdAttack=null;
 try{
   const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));
+  await page.addLocatorHandler(page.locator('.soop-consent-dialog[open]'),d=>d.locator('[data-soop-close]').first().click());
   await page.addInitScript(actor=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(actor));localStorage.setItem('cnine_card_api_token','ISOLATED_QA');localStorage.setItem('cnine_battle_sound','OFF');},actor);
   await page.route('**/api/**',async route=>{
     const request=route.request(),url=new URL(request.url()),key=url.pathname.slice(5);
@@ -29,6 +30,9 @@ try{
   });
   await page.goto(origin+'/?screen=jokgakCity',{waitUntil:'domcontentloaded'});await page.locator('.jc-person').first().waitFor({timeout:30000});
   assert.equal(await page.locator('.jc-preview').count(),0);checks.push('live route mounts actual handler, with no demo provider');
+  await page.locator('.jc-desk-launchers [data-city-desk="board"]').click();await page.locator('.jc-board').getByText('식재료 배달',{exact:true}).waitFor();
+  assert.doesNotMatch(await page.locator('#jokgakCity').innerText(),/참가자 [123]/);
+  await page.locator('[data-city-desk-close]').click();checks.push('live city desk, delivery routes and anonymous roster');
   await page.locator('[data-city-person="2"]').click();await page.waitForFunction(()=>document.querySelector('.jc-map-art')?.naturalWidth>0);console.log(JSON.stringify(await page.locator('.jc-map-art').evaluate(el=>({src:el.src,display:getComputedStyle(el).display,opacity:getComputedStyle(el).opacity,visibility:getComputedStyle(el).visibility,width:el.naturalWidth}))));await page.screenshot({path:path.join(out,'live-shell.png'),fullPage:true});
   await page.locator('[data-city-action="attack"]').click();await page.locator('.jc-battle-result').waitFor({timeout:120000});await page.locator('.jc-battle-result button').click();await page.locator('.jc-person').first().waitFor();
   assert.equal((await f.p("SELECT COUNT(*) n FROM jokgak_city_actions_v1 WHERE action='attack'").first()).n,1);checks.push('live attack commits one receipt and returns from V3 replay');

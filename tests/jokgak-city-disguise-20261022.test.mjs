@@ -78,7 +78,7 @@ for(const pg of [false,true]){
   const saved=await life(f,id);assert.equal(saved.disguises.ON.count,0);assert.equal(saved.disguises.ON.uses,1);
   const current=await status(f,id);assert.equal(current.mine.cash,7000);
  });
- test(engine+': TEST inventory/use limit are separate; mode access, combat receipts and notices use the alias',async t=>{
+ test(engine+': TEST inventory/use limits are separate and participants see an anonymous disguise in combat receipts',async t=>{
   const f=await cityFixture(t,pg),id=f.roles.GANG,source=f.roles.CITIZEN;
   await f.join(id);await f.join(source);await f.action(id,'buy',item);f.advance(5001);await f.action(id,'use',item);f.advance(5001);
   const alias=f.users.get(source).nickname;
@@ -89,7 +89,7 @@ for(const pg of [false,true]){
   const notice=JSON.parse((await f.p('SELECT summary_json FROM jokgak_city_notifications_v1 WHERE request_id=?',fought.requestId).first()).summary_json);
   assert.equal(notice.actorName,alias);assert.equal(notice.actorId,id);
   const response=await handleJokgakCity({path:'jokgak-city/result',request:new Request('https://test/api/jokgak-city/result?requestId='+fought.requestId),env:f.env,deps:{...f.deps,authenticate:async()=>f.users.get(source),json:(v,s=200)=>Response.json(v,{status:s})}});
-  const publicReceipt=await response.json();assert.equal(publicReceipt.mine.nickname,alias);assert.equal(publicReceipt.mine.role,'CITIZEN');assert.equal(publicReceipt.mine.disguise,undefined);assert.equal(publicReceipt.mine.cash,undefined);
+  const publicReceipt=await response.json();assert.equal(publicReceipt.mine.nickname,'익명 참가자');assert.doesNotMatch(JSON.stringify(publicReceipt),new RegExp(alias+'\\b'));assert.equal(publicReceipt.mine.role,'CITIZEN');assert.equal(publicReceipt.mine.disguise,undefined);assert.equal(publicReceipt.mine.cash,undefined);
   await config(f,p=>{p.mode='TEST';p.testUserIds=[id];});f.advance(20000);
   await f.action(id,'buy',item);f.advance(5001);
   await assert.rejects(f.action(id,'use',item),e=>e.code==='CITY_DISGUISE_NO_TARGET');
