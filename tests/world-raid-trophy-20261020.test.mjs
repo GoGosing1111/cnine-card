@@ -47,18 +47,30 @@ async function fixture(t,postgres){
 }
 for(const postgres of [false,true]){
  const label=postgres?'Postgres':'SQLite';
- test(label+': 5000th official clear is atomic, permanent and once per participant despite competing polls',async t=>{
-  const f=await fixture(t,postgres);await f.put(WORLD_RAID_BASELINE_KEY,{ready:true});await f.put(worldRaidClearKey(1),{count:4999,acquiredAt:null});await f.room(1);
+ test(label+': 1250th official clear is atomic, permanent and once per participant despite competing polls',async t=>{
+  const f=await fixture(t,postgres);await f.put(WORLD_RAID_BASELINE_KEY,{ready:true});await f.put(worldRaidClearKey(1),{count:1249,acquiredAt:null});await f.room(1);
   const first=await f.plan(1),stale=await f.plan(1);
   f.fail('UPDATE raid_instances');await assert.rejects(f.env.DB.batch(first),/INJECTED/);f.fail('');
-  assert.equal((await f.read(1)).progress,4999);assert.equal(await f.p('SELECT value FROM app_meta WHERE key=?',worldRaidReceiptKey(1)).first(),null);
+  assert.equal((await f.read(1)).progress,1249);assert.equal(await f.p('SELECT value FROM app_meta WHERE key=?',worldRaidReceiptKey(1)).first(),null);
   await f.env.DB.batch(first);await f.env.DB.batch(stale);await f.env.DB.batch(await f.plan(1));
-  assert.deepEqual(await f.read(1),{count:1,progress:5000,goal:5000,acquiredAt:at});assert.equal((await f.read(2)).progress,1);assert.equal((await f.read(3)).progress,0);
+  assert.deepEqual(await f.read(1),{count:1,progress:1250,goal:1250,acquiredAt:at});assert.equal((await f.read(2)).progress,1);assert.equal((await f.read(3)).progress,0);
   await f.room(2);await f.room(3);
   const a=await f.plan(2,{finishedAt:'2026-10-21T00:00:00Z'}),b=await f.plan(3,{finishedAt:'2026-10-22T00:00:00Z'});
   await f.env.DB.batch(a);await f.env.DB.batch(b);
   await f.p('DELETE FROM raid_instance_v1293').run();await f.p('DELETE FROM raid_participants').run();
-  assert.deepEqual(await f.read(1),{count:1,progress:5002,goal:5000,acquiredAt:at});
+  assert.deepEqual(await f.read(1),{count:1,progress:1252,goal:1250,acquiredAt:at});
+ });
+ test(label+': prior qualifying progress unlocks without inventing a date on the next clear',async t=>{
+  const f=await fixture(t,postgres);
+  await f.put(WORLD_RAID_BASELINE_KEY,{ready:true});
+  await f.put(worldRaidClearKey(1),{count:1300,acquiredAt:null});
+  await f.put(worldRaidClearKey(2),{count:5000,acquiredAt:at});
+  assert.deepEqual(await f.read(1),{count:1,progress:1300,goal:1250,acquiredAt:null});
+  assert.deepEqual(await f.read(2),{count:1,progress:5000,goal:1250,acquiredAt:at});
+  await f.room(40);
+  await f.env.DB.batch(await f.plan(40,{finishedAt:'2026-11-24T08:00:00Z'}));
+  assert.deepEqual(await f.read(1),{count:1,progress:1301,goal:1250,acquiredAt:null});
+  assert.deepEqual(await f.read(2),{count:1,progress:5001,goal:1250,acquiredAt:at});
  });
  test(label+': legacy proof excludes failed, cancelled, TEST, departed, zero-power and unverifiable rooms; next settlement includes history',async t=>{
   const f=await fixture(t,postgres);
@@ -86,11 +98,14 @@ for(const postgres of [false,true]){
   const statusPath=api.slice(api.indexOf("if(current.status==='BATTLE'&&(allDefeated||cleared"),api.indexOf("const result=allDefeated?"));
   assert.match(statusPath,/prepareWorldRaidClearStatements[\s\S]*env\.DB\.batch\(\[\.\.\.trophyWrites/);
  });
- test(label+': reading the saved eight-trophy CMS document adds only a zero default; incomplete saves remain invalid',async t=>{
-  const f=await fixture(t,postgres),legacy=emptyTrophyBonuses(),laterCodes=new Set(['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20']);legacy.trophies=legacy.trophies.filter(t=>!laterCodes.has(t.code));legacy.trophies[0].rewardBonuses.coinPercent=12.5;
+ test(label+': the historical eight-trophy document keeps its settings and defaults added trophies to zero',async t=>{
+  const f=await fixture(t,postgres),legacy=emptyTrophyBonuses();
+  const legacyCodes=new Set(['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION',
+   'CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','CITY_TOP_25','LICH_KING_CLEAR_1000']);
+  legacy.trophies=legacy.trophies.filter(t=>legacyCodes.has(t.code));legacy.trophies[0].rewardBonuses.coinPercent=12.5;
   const state={revision:7,document:legacy,audit:[]};await f.put(TROPHY_BONUSES_KEY,state);
   const result=await readTrophyBonusSettings(f.env);assert.equal(result.revision,7);assert.equal(result.document.trophies.length,emptyTrophyBonuses().trophies.length);
-  assert.equal(legacy.trophies.length,8);assert.deepEqual(result.document.trophies.slice(0,8),legacy.trophies);for(const row of result.document.trophies.filter(t=>laterCodes.has(t.code)))assert.deepEqual(row.rewardBonuses,{coinPercent:0,accountXpPercent:0,dropPercent:0});
+  assert.equal(legacy.trophies.length,8);assert.deepEqual(result.document.trophies.slice(0,8),legacy.trophies);for(const row of result.document.trophies.filter(t=>!legacyCodes.has(t.code)))assert.deepEqual(row.rewardBonuses,{coinPercent:0,accountXpPercent:0,dropPercent:0});
   assert.deepEqual(JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',TROPHY_BONUSES_KEY).first()).value),state);
   assert.throws(()=>validateTrophyBonuses(legacy));assert.equal(validateTrophyBonuses(result.document).trophies.length,emptyTrophyBonuses().trophies.length);
   const broken=structuredClone(result.document);broken.trophies.splice(0,1);assert.throws(()=>validateTrophyBonuses(broken,{allowLegacy:true}));
@@ -105,8 +120,8 @@ test('historical baseline rolls back on dry run, preserves live counts, replays 
  assert.equal((await backfillWorldRaidTrophyBaseline(f.pg)).replayed,true);
  await f.p('DELETE FROM raid_instance_v1293').run();assert.equal((await f.read(1)).progress,3);assert.equal((await f.read(2)).progress,1);assert.equal((await f.read(3)).progress,0);
 });
-test('historical threshold date is the 5000th actual UTC clear, with no duplicate trophy after further clears',()=>{
- const rows=Array.from({length:5001},(_,i)=>({id:i+1,user_id:1,ends_at:new Date(Date.parse(at)+i*60000).toISOString()}));
- const [[id,value]]=aggregateWorldRaidProofs(rows);assert.equal(id,1);assert.equal(value.count,5001);assert.equal(value.acquiredAt,rows[4999].ends_at);
+test('historical threshold date is the 1250th actual UTC clear, with no duplicate trophy after further clears',()=>{
+ const rows=Array.from({length:1251},(_,i)=>({id:i+1,user_id:1,ends_at:new Date(Date.parse(at)+i*60000).toISOString()}));
+ const [[id,value]]=aggregateWorldRaidProofs(rows);assert.equal(id,1);assert.equal(value.count,1251);assert.equal(value.acquiredAt,rows[1249].ends_at);
  assert.equal(worldRaidClearTime('2026-10-20 05:00:00'),at);
 });

@@ -1,4 +1,4 @@
-import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261121-raid-trophies';
+import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261124-dragon-1250';
 import {ZERO_REWARD_BONUSES,validateRewardBonuses,hasRewardBonuses,rewardBonusDescription,sumRewardBonuses} from './collection-bonuses-v1.mjs';
 export const TROPHY_BONUSES_KEY='trophy_reward_bonuses_v1';
 const LEGACY_OPTIONAL_CODES=new Set(['NOX_CLEAR_30','CNINE_VIP','BLACKWING_CLEAR_15','CHALLENGER_STREAK_3_V2','CLAN_CHAMPIONS_TROPHY_V2','CLAN_CHAMPION_V2','WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20']);

@@ -1,6 +1,7 @@
 import {milestoneValue} from './_milestone_trophies.js';
+import {WORLD_RAID_CLEAR_GOAL} from '../js/player-card-model-v2052.js';
 
-export const WORLD_RAID_CLEAR_GOAL=5000;
+export {WORLD_RAID_CLEAR_GOAL};
 export const WORLD_RAID_BASELINE_KEY='trophy_world_raid_baseline_v1';
 export const worldRaidClearKey=id=>'trophy_world_raid_clear_v1:'+Number(id);
 export const worldRaidReceiptKey=id=>'trophy_world_raid_room_v1:'+Number(id);
@@ -30,8 +31,9 @@ async function legacyValue(env,id){
 export async function readWorldRaidClearHonors(env,id){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(worldRaidClearKey(id)).first();
  const baseline=row?null:await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(WORLD_RAID_BASELINE_KEY).first();
- const v=row?milestoneValue(row.value,WORLD_RAID_CLEAR_GOAL):baseline?{count:0,acquiredAt:null}:await legacyValue(env,id);
- return {count:v.count>=WORLD_RAID_CLEAR_GOAL?1:0,progress:v.count,goal:WORLD_RAID_CLEAR_GOAL,acquiredAt:v.acquiredAt};
+ // An existing counter can qualify under the lower goal without a recorded date.
+ const v=row?milestoneValue(row.value,Infinity):baseline?{count:0,acquiredAt:null}:await legacyValue(env,id);
+ return {count:v.count>=WORLD_RAID_CLEAR_GOAL?1:0,progress:v.count,goal:WORLD_RAID_CLEAR_GOAL,acquiredAt:v.acquiredAt||null};
 }
 
 // These statements MUST precede the BATTLE -> ENDED update in the same batch.
@@ -56,12 +58,12 @@ export async function prepareWorldRaidClearStatements(env,{instanceId,settings,s
    const stored=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(worldRaidClearKey(id)).first();
    if(!stored)before=await legacyValue(env,id);
   }
-  const initial=JSON.stringify({count:before.count+1,acquiredAt:before.acquiredAt||(before.count+1>=WORLD_RAID_CLEAR_GOAL?at:null),lastAt:at,lastInstanceId:Number(instanceId)});
+  const initial=JSON.stringify({count:before.count+1,acquiredAt:before.acquiredAt||(before.count+1===WORLD_RAID_CLEAR_GOAL?at:null),lastAt:at,lastInstanceId:Number(instanceId)});
   statements.push(env.DB.prepare(`INSERT INTO app_meta(key,value)
    SELECT ?,? WHERE EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)
    ON CONFLICT(key) DO UPDATE SET value=json_object(
     'count',CAST(json_extract(app_meta.value,'$.count') AS BIGINT)+1,
-    'acquiredAt',COALESCE(json_extract(app_meta.value,'$.acquiredAt'),CASE WHEN CAST(json_extract(app_meta.value,'$.count') AS BIGINT)+1>=${WORLD_RAID_CLEAR_GOAL} THEN ? ELSE NULL END),
+    'acquiredAt',COALESCE(json_extract(app_meta.value,'$.acquiredAt'),CASE WHEN CAST(json_extract(app_meta.value,'$.count') AS BIGINT)+1=${WORLD_RAID_CLEAR_GOAL} THEN ? ELSE NULL END),
     'lastAt',?,'lastInstanceId',?)`)
    .bind(worldRaidClearKey(id),initial,key,receipt,at,at,Number(instanceId)));
  }

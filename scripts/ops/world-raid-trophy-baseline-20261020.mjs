@@ -37,7 +37,7 @@ export async function backfillWorldRaidTrophyBaseline(db,{dryRun=false}={}){
    SELECT key,value FROM jsonb_to_recordset($1::jsonb) AS x(id BIGINT,key TEXT,value TEXT)
    ORDER BY id ON CONFLICT(key) DO NOTHING RETURNING key`,[JSON.stringify(values)])).rows.length;
   const stored=new Map((await db.query('SELECT key,value FROM app_meta WHERE key=ANY($1::text[])',[values.map(v=>v.key)])).rows.map(r=>[r.key,r.value]));
-  for(const [id,value] of counts)assert.ok(milestoneValue(stored.get(worldRaidClearKey(id)),WORLD_RAID_CLEAR_GOAL).count>=value.count,'Live counter must include historic clears');
+  for(const [id,value] of counts)assert.ok(milestoneValue(stored.get(worldRaidClearKey(id)),Infinity).count>=value.count,'Live counter must include historic clears');
   const receipt={version:1,completedAt:new Date().toISOString(),rooms:new Set(rows.map(r=>String(r.id))).size,participations:rows.length,accounts:counts.length,inserted,preserved:counts.length-inserted,qualified:counts.filter(([,v])=>v.count>=WORLD_RAID_CLEAR_GOAL).length};
   await db.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[WORLD_RAID_BASELINE_KEY,JSON.stringify(receipt)]);
   await db.query(dryRun?'ROLLBACK':'COMMIT');return {dryRun,replayed:false,...receipt};

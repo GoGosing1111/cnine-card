@@ -158,19 +158,20 @@ test('city and Lich milestones share permanent counts, earned date and collectio
  }finally{await f.close();}
 });
 
-test('Dragon Slayer appears at 5000 clears with the same progress in public card and collection honors, without read-time writes',async()=>{
+test('Dragon Slayer appears at 1250 clears with the same progress in public card and collection honors, without read-time writes',async()=>{
  const f=await fixture();try{
-  const key='trophy_world_raid_clear_v1:2',at='2026-10-20T05:00:00.000Z';
-  await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[key,JSON.stringify({count:4999,acquiredAt:null})]);
-  const before=await f.call();assert.equal(trophy(before,'WORLD_RAID_CLEAR_5000').owned,false);assert.equal(trophy(before,'WORLD_RAID_CLEAR_5000').progress,4999);
-  await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:5000,acquiredAt:at}),key]);
+  const key='trophy_world_raid_clear_v1:2';
+  await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[key,JSON.stringify({count:1249,acquiredAt:null})]);
+  const before=await f.call();assert.equal(trophy(before,'WORLD_RAID_CLEAR_5000').owned,false);assert.equal(trophy(before,'WORLD_RAID_CLEAR_5000').progress,1249);
+  await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:1250,acquiredAt:null}),key]);
   f.sql.length=0;const after=await f.call(),honors=await readTrophyHonors({DB:f.db},2),earned=trophy(after,'WORLD_RAID_CLEAR_5000');
-  assert.equal(after.status,200);assert.equal(earned.owned,true);assert.equal(earned.progress,5000);assert.equal(earned.goal,5000);assert.equal(earned.acquiredAt,at);
+  assert.equal(after.status,200);assert.equal(earned.owned,true);assert.equal(earned.progress,1250);assert.equal(earned.goal,1250);assert.equal(earned.acquiredAt,null);
   assert.equal(honors.WORLD_RAID_CLEAR_5000.count,1);assert.equal(trophy(await f.call('userId=3'),'WORLD_RAID_CLEAR_5000').count,0);
   assert.equal(f.sql.some(sql=>/^\s*(?:INSERT|UPDATE|DELETE)/i.test(sql)),false);
   const window={location:{origin:'https://game.test'}};vm.runInNewContext(read('js/player-card-v2052.js'),{window,URL,Intl,AbortController});
-  assert.match(window.PlayerCallingCard.render(after.body),/누적 <b>5,000<\/b> \/ 5,000회/);
-  assert.match(window.PlayerCallingCard.detail(earned),/드래곤 슬레이어[\s\S]*월드레이드[\s\S]*5,000/);
+  assert.match(window.PlayerCallingCard.render(after.body),/누적 <b>1,250<\/b> \/ 1,250회/);
+  assert.match(window.PlayerCallingCard.detail(earned),/달성 조건 충족/);
+  assert.match(window.PlayerCallingCard.detail(earned),/드래곤 슬레이어[\s\S]*월드레이드[\s\S]*1,250/);
  }finally{await f.close();}
 });
 
