@@ -46,6 +46,22 @@ test('the lobby opens the collection beside PvE and PvP and offers it once in th
   assert.doesNotMatch(panel,/data-route="deck"/);
 });
 
+test('the right shortcuts have three entries above the two wide entries',async()=>{
+  const html=await read('ui/adventure-lobby/observatory.html');
+  const shortcuts=html.match(/<div class="quick-actions command-shortcuts">([\s\S]*?)<\/div>/)?.[1]||'';
+  const buttons=[...shortcuts.matchAll(/<button\b([^>]*)>/g)].map(([,attrs])=>({
+    target:attrs.match(/data-(?:route|category)="([^"]+)"/)?.[1],
+    wide:/\bquick-action-wide\b/.test(attrs)
+  }));
+  assert.deepEqual(buttons,[
+    {target:'hideout',wide:false},
+    {target:'character',wide:false},
+    {target:'equipment',wide:false},
+    {target:'fusion',wide:true},
+    {target:'administration',wide:true}
+  ]);
+});
+
 test('legacy tutorial opens the growth guide and every destination exists in the live route contract',async()=>{
   const [legacy,bridge,lobby,adapter,app]=await Promise.all([
     read('preview/lobby-clarity-v1/tutorial/index.html'),read('preview/lobby-clarity-v1/tutorial/bridge.js'),

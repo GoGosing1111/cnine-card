@@ -98,4 +98,7 @@
 @media(min-width:380px) and (max-width:760px){.menu-category-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-height:520px){.menu-dialog[open]{display:block;overflow-y:auto}.menu-dialog-head{position:sticky;top:0}.menu-dialog-toolbar{position:sticky;top:0;z-index:2}.menu-category-tabs{grid-template-columns:repeat(5,minmax(0,1fr))}.menu-content{overflow:visible}}
 
-.quick-actions:has(.hideout-shortcut){grid-template-columns:repeat(2,minmax(0,1fr))}.hideout-shortcut>img{width:40px;height:40px;object-fit:contain}
+.quick-actions.command-shortcuts{grid-template-columns:repeat(6,minmax(0,1fr))}
+.command-shortcuts>.metal-button{grid-column:span 2;min-width:0}
+.command-shortcuts>.quick-action-wide{grid-column:span 3}
+.hideout-shortcut>img{width:40px;height:40px;object-fit:contain}
