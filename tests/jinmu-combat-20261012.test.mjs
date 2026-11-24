@@ -11,20 +11,20 @@ import {buildFighter,createPveBattleV2,createPvpBattleV2,simulateBattleV2Preview
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code='V-989',side='A',mode='PVP',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
-test('Jinmu and Kairon share 1.95m offense, durability and speed, including strong equipment and low-power decks',()=>{
+test('Jinmu retains 1.95m stats after Kairon is promoted',()=>{
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
   const j=fighter('V-989','A',mode,gear),h=fighter('V-988','B',mode,gear);
-  assert.equal(j.speed,h.speed);assert.equal(j.attack,h.attack);assert.equal(j.maxHp,h.maxHp);
+  assert(j.speed<h.speed);assert(j.attack<h.attack);assert(j.maxHp<h.maxHp);
   const teams=['A','B'].map((side,i)=>[...tierCards(power).map((c,k)=>buildFighter(c,k,side,null,mode)),[j,h][i]]);
   applyMercenaryCombatLink(teams);
-  assert.equal(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(h));assert.equal(j.maxHp,h.maxHp);assert.equal(j.shield,h.shield);
+  assert(mercenaryEffectiveAttack(j)<mercenaryEffectiveAttack(h));assert(j.maxHp<h.maxHp);assert(j.shield<h.shield);
   assert.equal(j.basePower-gear,1950000);
   for(const k of ['counterImmune','controlImmune','poisonImmune'])assert.equal(j[k],true);
   assert.deepEqual(j.skills.map(s=>s.id),mode==='PVE'?['MS-989']:[]);
  }
- assert.equal(JINMU_COMBAT.actionCredit,KAIRON_COMBAT.actionCredit);
+ assert.equal(JINMU_COMBAT.actionCredit,3.12);
  assert.equal(JINMU_COMBAT.motionPlaybackRate,KAIRON_COMBAT.motionPlaybackRate);
- assert.equal(JINMU_COMBAT.basicCapScale,KAIRON_COMBAT.basicCapScale);
+ assert(JINMU_COMBAT.basicCapScale<KAIRON_COMBAT.basicCapScale);
 });
 test('Jinmu cadence preserves fractions, owner isolation, death, and the canonical long-battle cap',()=>{
  const regular=(side,id)=>({id:side+id,ownerId:id,side,hp:1,alive:true});

@@ -178,13 +178,17 @@ test('authentication, request fields and feature gate are enforced by the real h
  f.env.PERSONAL_HIDEOUT_ENABLED='0';assert.equal((await call('hideout/upgrade',body(0,{target:'room'}))).status,423);
 });
 test('party capacity preserves partial recovery, legacy deadline, event boundaries and extreme pulses',()=>{
- const hour=3600000,at=Date.parse('2026-11-25T12:00:00+09:00');
+ const hour=3600000,end=LEGION_RECOVERY_EVENT.endsAt,at=end+hour;
  let s=hideoutPartyEnergy(null,{at,maximum:2});assert.equal(s.current,2);
  s={...s,current:1};let later=hideoutPartyEnergy(s,{at:at+3*hour,maximum:3});assert.equal(later.current,1);assert.equal(later.nextRechargeAt,at+6*hour);
  later=hideoutPartyEnergy(later,{at:at+6*hour,maximum:3});assert.equal(later.current,2);
  assert.equal(hideoutPartyEnergy(null,{at,maximum:2,deadline:String(at+3*hour)}).current,0);
  assert.equal(hideoutPartyEnergy(null,{at:at+3*hour,maximum:2,deadline:String(at+3*hour)}).current,1);
- const end=LEGION_RECOVERY_EVENT.endsAt,record={version:1,current:0,updatedAt:end-hour,generation:0};
+ const during=LEGION_RECOVERY_EVENT.startsAt+hour,legacy=String(during+6*hour);
+ const pending=hideoutPartyEnergy(null,{at:during+3*hour-1,maximum:2,deadline:legacy});
+ assert.equal(pending.current,0);assert.equal(pending.nextRechargeAt,during+3*hour);
+ assert.equal(hideoutPartyEnergy(null,{at:during+3*hour,maximum:2,deadline:legacy}).current,1);
+ const record={version:1,current:0,updatedAt:end-hour,generation:0};
  assert.equal(hideoutPartyEnergy(record,{at:end+4*hour,maximum:2}).current,1);
  const pulses=[{at:at+hour,generation:1}],boost=hideoutPartyEnergy({...s,current:0},{at:at+hour,maximum:2,pulses});assert.equal(boost.current,1);assert.equal(hideoutPartyEnergy(boost,{at:at+hour,maximum:2,pulses}).current,1);
  assert.throws(()=>hideoutPartyEnergy(null,{at,maximum:100}));

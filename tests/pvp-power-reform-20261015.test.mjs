@@ -197,7 +197,7 @@ const updatedLimitedPvpHashes={
  'V-987':'d9cc645ce0a2258ff6fb0ef0b84f901ae11f18150f4f3df86f5b2f814dfd789a',
  'V-996':'ecf6516e0c7bf3da5d13cb33719c60349af00304a328c6d9e1a251b94832696b',
  'V-999':'75da178e0be3cfd639374ba5e10eb331d53b9008edb08e208162c5b30d5aa1e0',
- 'V-988':'0cd60edded7cdc2ca1e1a76d1d5bee502c4c53d2fe97e21d942b56d54113a349',
+ 'V-988':'6af79ce35c09283526983eec272ae370b476c2e478c2a0ab687c0ae107cbd6ad',
  'V-989':'28d351ca139eded1f6b5157d599a078fa46354df7743a682885144512489082b'
 };
 for(const [code,expected] of Object.entries(legacyHashes.hashes))test(code+': legacy replay payload and equal-power combat preserve existing mercenary policy',()=>{
@@ -211,7 +211,7 @@ for(const [code,expected] of Object.entries(legacyHashes.hashes))test(code+': le
 });
 
 test('base power, blanket immunity and existing prepared XP rules are retained',()=>{
- for(const [code,power]of [['V-996',1950000],['V-999',1950000],['V-989',1950000],['V-988',1950000],['V-987',2600000]]){
+ for(const [code,power]of [['V-996',1950000],['V-999',1950000],['V-989',1950000],['V-988',2350000],['V-987',2600000]]){
   const actor=merc(code);assert.equal(actor.power,power);assert.equal(actor.controlImmune,true);assert.equal(actor.counterImmune,true);assert.equal(actor.poisonImmune,true);
  }
  assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,true);assert.equal(MERCENARY_LEVEL_RULES.sameCardMultiplier,3);assert.equal(MERCENARY_LEVEL_RULES.limitedRequiredXpMultiplier,5);
@@ -238,7 +238,7 @@ const pveHashes={
  'V-996':'e4951e907c7d7c9a9e41fc14fc8114c89623ba42586a148ab1d2091f5f454096',
  'V-999':'9fcd57695912e30dae9d235de10bbf52a19441292f7629d4b817731e083dc6aa',
  'V-989':'1c5fba540b3f49873967bebf10d2a3ae09fba6d4e5181312f63b285c10e7714e',
- 'V-988':'bca60d3649350071a0fc4a88791c9ed7d2a8e9174d5401e30a1b7a21662edfc1',
+ 'V-988':'32f45d2c65ef21c2a791700694c40f12106cda0b592e820aa79193efaaf8efbc',
  'V-987':'0de006d8a52a652787a054e040b84529084124d9ae548fd5b1b258da0ea61611',
 };
 for(const [code,hash] of Object.entries(pveHashes))test(`${code}: PVE full result/timeline is byte-for-byte unchanged`,()=>{
