@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {buildFighter,buildMonsterFighter,simulateBattleV2Preview} from '../functions/_battle_v2_preview.js';
+import {buildApocalypseLegion} from '../functions/_apocalypse_legion.js';
+import {APOCALYPSE_KNIGHTS} from '../shared/apocalypse-knights-v1.mjs';
 
 const grail={id:10,code:'V2_SHIELD_SIPHON',name:'강탈의 성배',slotNo:1,effectType:'SHIELD_SIPHON',effectValue:15,triggerChance:100,maxActivations:2};
 
@@ -40,3 +42,35 @@ test('apocalypse with a depleted shield uses 15% without a second quarter multip
   assert.equal(event.shieldStolen,Math.round(shieldBefore*0.15));
   assert.ok(Math.abs(event.shieldStolen-Math.round(shieldBefore*0.60)/4)<=1);
 });
+
+for (const boss of APOCALYPSE_KNIGHTS) {
+  for (const afterBossDefeat of [false, true]) {
+    const opponent = afterBossDefeat ? 'surviving escort' : 'boss';
+    test(`${boss.name}: the grail transfers at most 10% of the wielder's HP twice against the ${opponent}`, () => {
+      const enemy = buildApocalypseLegion({id:boss.monsterId, is_boss:1, battle_power:boss.battlePower,
+        pve_difficulty:'APOCALYPSE', pve_hp_percent:boss.tuning.hpPercent}, buildMonsterFighter);
+      const target = afterBossDefeat ? enemy[1] : enemy[0];
+      const teamB = afterBossDefeat ? [{...enemy[0], hp:0, alive:false}, target] : [target];
+      const startingShield = Math.round(target.maxHp * boss.tuning.shieldPercent / 100);
+      Object.assign(target, {gauge:0, speed:1, shield:startingShield, maxShield:startingShield});
+      const wielder = buildFighter({id:'GRAIL-WIELDER', power:1e6, power_type:'ATTACK', rarity:'FUR'}, 0, 'A', null, 'PVE');
+      Object.assign(wielder, {gauge:99, speed:10000, shield:1200, maxShield:1200});
+
+      const result = simulateBattleV2Preview({teamA:[wielder], teamB, magicA:[{...grail, maxActivations:5}],
+        seed:7919, maxActions:5});
+      const attacks = result.timeline.filter(e => e.type === 'TURN' && e.actorId === wielder.id);
+      assert.equal(attacks.length, 5);
+      const steals = result.timeline.filter(e => e.effectType === 'SHIELD_SIPHON');
+      assert.equal(steals.length, 2);
+      const limit = Math.floor(result.final.A[0].maxHp / 10);
+      for (const [i, steal] of steals.entries()) {
+        assert.equal(steal.targetId, target.id);
+        assert.equal(steal.shieldStolen, limit);
+        assert.equal(steal.maxActivations, 2);
+        assert.equal(steal.actorShieldAfter, wielder.shield + (i + 1) * limit);
+        assert.equal(steal.targetShieldAfter, attacks[i].targetShieldAfter - limit);
+      }
+      assert.equal(result.final.A[0].shield, wielder.shield + 2 * limit);
+    });
+  }
+}

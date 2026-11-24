@@ -33,6 +33,7 @@ import {OVERLORD_RELEASE_ENABLED,isOverlordAreaActor} from '../shared/overlord-s
 import {SX_RELEASE_ENABLED,SX_ATTACK_SPEED,isSxSuit,isSxAreaActor} from '../shared/sx-suit-v1.mjs';
 import {battleSuitIntrinsicDamage} from '../shared/z-body-area-skill.mjs';
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
+import {APOCALYPSE_KNIGHTS} from '../shared/apocalypse-knights-v1.mjs';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {mercenaryAdvancementCombat} from './_mercenary_advancement_combat.js';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence,mercenaryBaseActionCredit,independentMercenaryTurnCadence} from './_mercenary_combat.js';
@@ -542,6 +543,8 @@ const APOCALYPSE_MAGIC_CAP_HITS = 1;
 // 2026-09-11: 성배 운영 강탈률 60% → 15%와 함께 기존 아포 상한도 1/4로 낮춘다.
 // 비율만 바꾸면 보스의 큰 보호막에서는 계속 기존 상한에 걸려 하향이 적용되지 않는다.
 const APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER = 0.25;
+const KNIGHT_GRAIL_MAX_HP_RATIO = 0.10;
+const KNIGHT_GRAIL_MAX_ACTIVATIONS = 2;
 const APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT = 0.06;
 const APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO = 0.15;
 const APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE = 2;
@@ -961,10 +964,15 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     });
   };
   const magicByFighter=new Map();
+  const knightBattle = b[0]?.isApocalypse && APOCALYPSE_KNIGHTS.some(boss => boss.code === b[0].apocalypseBossCode);
   const registerMagic=(team,cards)=>{
     for(const magic of (Array.isArray(cards)?cards:[])){
       const fighter=team[Math.max(0,Number(magic.slotNo||1)-1)];if(!fighter)continue;
-      const state={...magic,activations:0},value=Math.max(0,Number(magic.effectValue||0));magicByFighter.set(fighter.id,state);
+      const state={...magic,activations:0},value=Math.max(0,Number(magic.effectValue||0));
+      if (knightBattle && team === a && state.effectType === 'SHIELD_SIPHON') {
+        state.maxActivations = Math.min(state.maxActivations ?? KNIGHT_GRAIL_MAX_ACTIVATIONS, KNIGHT_GRAIL_MAX_ACTIVATIONS);
+      }
+      magicByFighter.set(fighter.id,state);
       if(['OPENING_ATTACK','LIFE_AMPLIFY','GUARD_BARRIER'].includes(state.effectType)&&state.maxActivations>0&&random()*100<Number(state.triggerChance||0)){
         if(state.effectType==='OPENING_ATTACK')fighter.attack=Math.max(1,Math.round(fighter.attack*(1+value/100)));
         if(state.effectType==='LIFE_AMPLIFY'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.maxHp+=gain;fighter.hp+=gain;}
@@ -1850,7 +1858,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         const siphon=activateMagic(actor,'SHIELD_SIPHON');
         if(siphon){
           const requested=Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100);
-          const amount=Math.max(1,Math.min(target.shield,apocalypseMagicCap(target,requested,APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER)));
+          // A knight's shield scales with the boss. Limit the transfer by its recipient's HP, including against escorts.
+          const recipientCap = knightBattle && actor.side === 'A' ? Math.floor(actor.maxHp * KNIGHT_GRAIL_MAX_HP_RATIO) : Infinity;
+          const amount = Math.min(target.shield, recipientCap, Math.max(1, apocalypseMagicCap(target,requested,APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER)));
           target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);
           emitTimeline(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));
         }
