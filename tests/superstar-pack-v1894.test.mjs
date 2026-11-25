@@ -119,7 +119,8 @@ test('클라이언트는 일반·프리미엄·하이퍼팩을 숨기고 고급�
   assert.equal(premium, -1);
   assert.equal(hyper, -1);
   assert.ok(advanced >= 0 && advanced < pickup && pickup < superstar);
-  assert.match(source, /rows\.filter\(row => row&&!\['basic','premium','hyper','halloween','mercenary-halloween-ss-limited'\]\.includes\(String\(row\.id\)\)\)/);
+  assert.match(source, /rows\.filter\(row => row&&!\['basic','premium','hyper','halloween'\]\.includes\(String\(row\.id\)\)/);
+  assert.match(source, /row\.id!==HALLOWEEN_RERUN_PACK_ID\|\|isHalloweenRerunRow\(row\)/);
   assert.match(source, /const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES=new Set\(\['조은','강구열','진짜디임','오리꿍','요닝','하이희야♡'\]\);/);
   assert.match(source, /const early=SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES\.has\(nickname\);/);
   assert.match(source, /OWNER OPEN/);
