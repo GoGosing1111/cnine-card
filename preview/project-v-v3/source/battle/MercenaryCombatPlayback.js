@@ -1,3 +1,5 @@
+import {SAINT_CODE,SAINT_EVENT} from '../../../../shared/mercenary-lightning-saint-v1.mjs';
+import {saintBattleArt,warmSaint,cancelSaint,clearSaint,playSaintBasic,playSaintSkill} from './LightningSaintCombatPlayback.js';
 import {RYUJIN_CODE,RYUJIN_AREA_EVENT} from '../../../../shared/mercenary-ryujin-v1.mjs';
 import {ryujinBattleArt,setupRyujinActor,warmRyujinActor,clearRyujinActors,cancelRyujinPlayback,resumeRyujinPlayback,playRyujinBasic,playRyujinArea} from './RyujinCombatPlayback.js';
 import {ASTRA_CODE,ASTRA_EVENT} from '../../../../shared/mercenary-astra-v1.mjs';
@@ -91,6 +93,7 @@ function mercenaryRoster(){
 export async function resolveV3MercenaryArt(code){
  const astra=astraBattleArt(code);if(astra)return astra;
  const blue=blueGearBattleArt(code);if(blue)return blue;
+ const saint=saintBattleArt(code);if(saint)return saint;
  const ryujin=ryujinBattleArt(code);if(ryujin)return ryujin;
  const roster=await mercenaryRoster();
  return jinJokroBattleArt(code)||heliosKingBattleArt(code)||hakuyaBattleArt(code)||revanBattleArt(code)||blackcrownBattleArt(code)||bloodmoonBattleArt(code)||awakenedOmegaBattleArt(code)||razakBattleArt(code)||namsudaengBattleArt(code)||eunseolBattleArt(code)||cardguBattleArt(code)||kamishiroBattleArt(code)||heukmuBattleArt(code)||generalJokBattleArt(code)||primeBattleArt(code)||zeroBattleArt(code)||bathoryBattleArt(code)||leonelBattleArt(code)||jokroBattleArt(code)||shiranuiBattleArt(code)||kaironBattleArt(code)||kangyunBattleArt(code)||azantBattleArt(code)||jinmuBattleArt(code)||heliosBattleArt(code)||limitedDuoBattleArt(code)||limitedBattleArt(code)||createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD',code);
@@ -154,6 +157,7 @@ export async function setupV3MercenaryActor(engine,a){
  if(a.cardId===RAZAK_CODE)return setupRazakActor(engine,a);
  if(a.cardId===NAMSUDAENG_CODE)return setupNamsudaengActor(engine,a);
  if(a.cardId===JIN_JOKRO_CODE)return setupJinJokroActor(engine,a);
+ if(a.cardId===SAINT_CODE){warmSaint(engine);return;}
  if(a.cardId===RYUJIN_CODE)return setupRyujinActor(engine,a);
  if(a.cardId===HELIOS_KING_CODE)return setupHeliosKingActor(engine,a);
  if(a.cardId===HAKUYA_CODE)return setupHakuyaActor(engine,a);
@@ -177,7 +181,7 @@ export async function setupV3MercenaryActor(engine,a){
 }
 export function disposeV3MercenaryPresentation(engine){
  clearAstraActors(engine);clearBlueGearActors(engine);clearMercenaryAreaPresentation(engine);
- clearCryvernActors(engine);clearBerkanActors(engine);clearLimitedActors(engine);clearHeliosActors(engine);clearJinmuActors(engine);clearKaironActors(engine);clearJokroActors(engine);clearCardguActors(engine);clearKamishiroActors(engine);clearHeukmuActors(engine);clearGeneralJokActors(engine);clearAwakenedOmegaActors(engine);clearRazakActors(engine);clearNamsudaengActors(engine);clearBlackCrownActors(engine);clearBloodmoonActors(engine);clearJinJokroActors(engine);clearRyujinActors(engine);clearHeliosKingActors(engine);clearHakuyaActors(engine);clearRevanActors(engine);clearEunseolActors(engine);clearPrimeActors(engine);clearZeroActors(engine);clearLeonelActors(engine);clearBathoryActors(engine);clearShiranuiActors(engine);clearAzantActors(engine);clearKangyunActors(engine);
+ clearCryvernActors(engine);clearBerkanActors(engine);clearLimitedActors(engine);clearHeliosActors(engine);clearJinmuActors(engine);clearKaironActors(engine);clearJokroActors(engine);clearCardguActors(engine);clearKamishiroActors(engine);clearHeukmuActors(engine);clearGeneralJokActors(engine);clearAwakenedOmegaActors(engine);clearRazakActors(engine);clearNamsudaengActors(engine);clearBlackCrownActors(engine);clearBloodmoonActors(engine);clearJinJokroActors(engine);clearSaint(engine);clearRyujinActors(engine);clearHeliosKingActors(engine);clearHakuyaActors(engine);clearRevanActors(engine);clearEunseolActors(engine);clearPrimeActors(engine);clearZeroActors(engine);clearLeonelActors(engine);clearBathoryActors(engine);clearShiranuiActors(engine);clearAzantActors(engine);clearKangyunActors(engine);
  engine.mercenaryFx?.destroy();engine.mercenaryFx=null;
  for(const sequence of engine.mercenarySequences?.values()||[])releaseFrameViews(sequence);
  engine.mercenarySequences?.clear();void engine.mercenaryAudio?.destroy();
@@ -187,7 +191,7 @@ const isMercenarySkillEvent = event => event.type !== 'MERCENARY_ADVANCEMENT' &&
 export const withMercenaryBattle=Base=>class extends Base{
  constructor(options){super(options);this.mercenaries=[];this.mercenarySequences=new Map();this.mercenaryLoads=new Map();this.mercenaryHitIndices=new Map();this.mercenaryFx=null;}
  async setVisible(next){const out=await super.setVisible(next);if(this.visible){resumeAstraActors(this);resumeBlueGearActors(this);resumeLimitedPlayback(this);resumeJinmuPlayback(this);resumeKaironPlayback(this);resumeJokroPlayback(this);resumeCardguPlayback(this);resumeKamishiroPlayback(this);resumeHeukmuPlayback(this);resumeGeneralJokPlayback(this);resumeAwakenedOmegaPlayback(this);resumeRazakPlayback(this);resumeNamsudaengPlayback(this);resumeBlackCrownPlayback(this);resumeBloodmoonPlayback(this);resumeJinJokroPlayback(this);resumeRyujinPlayback(this);resumeHeliosKingPlayback(this);resumeHakuyaPlayback(this);resumeRevanPlayback(this);resumeEunseolPlayback(this);resumePrimePlayback(this);resumeZeroPlayback(this);resumeLeonelPlayback(this);resumeBathoryPlayback(this);resumeShiranuiPlayback(this);resumeHeliosPlayback(this);resumeAzantPlayback(this);resumeKangyunPlayback(this);}return out;}
- cancelTimelines(){pauseAstraActors(this);pauseBlueGearActors(this);cancelMercenaryAreaPresentation(this);this.mercenaryAudio?.stop();cancelCryvernPlayback(this);cancelBerkanPlayback(this);cancelLimitedPlayback(this);cancelHeliosPlayback(this);cancelJinmuPlayback(this);cancelKaironPlayback(this);cancelJokroPlayback(this);cancelCardguPlayback(this);cancelKamishiroPlayback(this);cancelHeukmuPlayback(this);cancelGeneralJokPlayback(this);cancelAwakenedOmegaPlayback(this);cancelRazakPlayback(this);cancelNamsudaengPlayback(this);cancelBlackCrownPlayback(this);cancelBloodmoonPlayback(this);cancelJinJokroPlayback(this);cancelRyujinPlayback(this);cancelHeliosKingPlayback(this);cancelHakuyaPlayback(this);cancelRevanPlayback(this);cancelEunseolPlayback(this);cancelPrimePlayback(this);cancelZeroPlayback(this);cancelLeonelPlayback(this);cancelBathoryPlayback(this);cancelShiranuiPlayback(this);cancelAzantPlayback(this);cancelKangyunPlayback(this);super.cancelTimelines();}
+ cancelTimelines(){cancelSaint(this);pauseAstraActors(this);pauseBlueGearActors(this);cancelMercenaryAreaPresentation(this);this.mercenaryAudio?.stop();cancelCryvernPlayback(this);cancelBerkanPlayback(this);cancelLimitedPlayback(this);cancelHeliosPlayback(this);cancelJinmuPlayback(this);cancelKaironPlayback(this);cancelJokroPlayback(this);cancelCardguPlayback(this);cancelKamishiroPlayback(this);cancelHeukmuPlayback(this);cancelGeneralJokPlayback(this);cancelAwakenedOmegaPlayback(this);cancelRazakPlayback(this);cancelNamsudaengPlayback(this);cancelBlackCrownPlayback(this);cancelBloodmoonPlayback(this);cancelJinJokroPlayback(this);cancelRyujinPlayback(this);cancelHeliosKingPlayback(this);cancelHakuyaPlayback(this);cancelRevanPlayback(this);cancelEunseolPlayback(this);cancelPrimePlayback(this);cancelZeroPlayback(this);cancelLeonelPlayback(this);cancelBathoryPlayback(this);cancelShiranuiPlayback(this);cancelAzantPlayback(this);cancelKangyunPlayback(this);super.cancelTimelines();}
  syncTargetShield(target,value,maxValue=null){const before=target?.shield,result=super.syncTargetShield(target,value,maxValue);showCryvernShieldImpact(this,target,before,target?.shield);return result;}
  normalAttack(index,options){
   if(options?.attacker?.isMercenary&&options.attacker.cardId===ASTRA_CODE)return Promise.resolve(setupAstraActor(this,options.attacker)).then(adapter=>adapter?.attack(options)??false);
@@ -199,6 +203,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(options?.attacker?.isMercenary&&options.attacker.cardId===NAMSUDAENG_CODE)return playNamsudaengBasic(this,options,()=>super.normalAttack(index,options));
   if(options?.attacker?.isMercenary&&options.attacker.cardId===BATHORY_CODE)return playBathoryBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===JIN_JOKRO_CODE)return playJinJokroBasic(this,options,()=>super.normalAttack(index,options));
+  if(options?.attacker?.isMercenary&&options.attacker.cardId===SAINT_CODE)return playSaintBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===RYUJIN_CODE)return playRyujinBasic(this,options,()=>super.normalAttack(index,options));
   if(options?.attacker?.isMercenary&&options.attacker.cardId===HELIOS_KING_CODE)return playHeliosKingBasic(this,options,()=>super.normalAttack(index,options));
   if(options?.attacker?.isMercenary&&options.attacker.cardId===HAKUYA_CODE)return playHakuyaBasic(this,options,()=>super.normalAttack(index,options));
@@ -229,7 +234,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(options?.attacker?.isMercenary&&MERCENARY_ROLE_ATTACKS[options.attacker.role])return playMercenaryRoleAttack(this,options);
   return super.normalAttack(index,options);
  }
- clearMercenaryActors(){clearAstraActors(this);clearBlueGearActors(this);clearMercenaryAreaPresentation(this);this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);clearLimitedActors(this);clearHeliosActors(this);clearJinmuActors(this);clearKaironActors(this);clearJokroActors(this);clearCardguActors(this);clearKamishiroActors(this);clearHeukmuActors(this);clearGeneralJokActors(this);clearAwakenedOmegaActors(this);clearRazakActors(this);clearNamsudaengActors(this);clearBlackCrownActors(this);clearBloodmoonActors(this);clearJinJokroActors(this);clearRyujinActors(this);clearHeliosKingActors(this);clearHakuyaActors(this);clearRevanActors(this);clearEunseolActors(this);clearPrimeActors(this);clearZeroActors(this);clearLeonelActors(this);clearBathoryActors(this);clearShiranuiActors(this);clearAzantActors(this);clearKangyunActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
+ clearMercenaryActors(){clearAstraActors(this);clearBlueGearActors(this);clearMercenaryAreaPresentation(this);this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);clearLimitedActors(this);clearHeliosActors(this);clearJinmuActors(this);clearKaironActors(this);clearJokroActors(this);clearCardguActors(this);clearKamishiroActors(this);clearHeukmuActors(this);clearGeneralJokActors(this);clearAwakenedOmegaActors(this);clearRazakActors(this);clearNamsudaengActors(this);clearBlackCrownActors(this);clearBloodmoonActors(this);clearJinJokroActors(this);clearSaint(this);clearRyujinActors(this);clearHeliosKingActors(this);clearHakuyaActors(this);clearRevanActors(this);clearEunseolActors(this);clearPrimeActors(this);clearZeroActors(this);clearLeonelActors(this);clearBathoryActors(this);clearShiranuiActors(this);clearAzantActors(this);clearKangyunActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
  async applyBattlePayload(payload){
   this.clearMercenaryActors();
   const epoch=this.mercenaryEpoch,entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
@@ -268,6 +273,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   for(const a of this.mercenaries.filter(a=>bloodmoonBattleArt(a.cardId)))warmBloodmoonActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===NAMSUDAENG_CODE))warmNamsudaengActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===JIN_JOKRO_CODE))warmJinJokroActor(this,a);
+  if(this.mercenaries.some(a=>a.cardId===SAINT_CODE))warmSaint(this);
   for(const a of this.mercenaries.filter(a=>a.cardId===RYUJIN_CODE))warmRyujinActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===HELIOS_KING_CODE))warmHeliosKingActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===HAKUYA_CODE))warmHakuyaActor(this,a);
@@ -346,6 +352,10 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(limitedActor?.cardId===JIN_JOKRO_CODE){
    if(event.type==='MERCENARY_WINDUP')return true;
    if(event.type===JIN_JOKRO_AREA_EVENT)return withMercenaryAreaPresentation(this,event,limitedActor,()=>playJinJokroArea(this,event));
+  }
+  if(limitedActor?.cardId===SAINT_CODE){
+   if(event.type===SAINT_EVENT)return playSaintSkill(this,event);
+   if(['MERCENARY_WINDUP','MERCENARY_CAST','MERCENARY_FINISH','MERCENARY_END'].includes(event.type))return true;
   }
   if(limitedActor?.cardId===RYUJIN_CODE){
    if(event.type==='MERCENARY_WINDUP')return true;

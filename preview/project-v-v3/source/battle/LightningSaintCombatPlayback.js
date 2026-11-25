@@ -1,0 +1,131 @@
+import {Sprite,Texture} from 'pixi.js';
+import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
+import {SAINT_CODE,SAINT_ART,SAINT_SKILLS,SAINT_EVENT} from '../../../../shared/mercenary-lightning-saint-v1.mjs';
+import {actorPlacement,drawSkill,drawBattlePose} from './lightning-saint/mercenary.mjs';
+import {stamp,smooth} from './lightning-saint/effects/paint.mjs';
+import {ryujinSkillPlacement} from './ryujin/SkillPlacement.mjs';
+
+const root='/assets/ui/project-v/mercenaries/lightning-saint-20261125/';
+export const saintBattleArt=code=>code===SAINT_CODE?{...SAINT_ART,calmIdle:true,spriteUrl:'/'+SAINT_ART.battleSprite,
+ footAnchor:{x:97/193,y:1},bodyHeight:208,fullBodyHeight:316,originalTextureHeight:442}:null;
+
+async function loadBank(compact,signal){
+ const res=await fetch(root+(compact?'battle-sd.bin':'battle-hd.bin'),{signal});
+ if(!res.ok)throw Error('번개 검성 리소스 '+res.status);
+ const blob=await res.blob(),head=new DataView(await blob.slice(0,4).arrayBuffer()).getUint32(0,true);
+ const def=JSON.parse(await blob.slice(4,4+head).text()),images=new Map();
+ await Promise.all(Object.entries(def.files).map(async([key,[start,size]])=>{
+  const url=URL.createObjectURL(blob.slice(4+head+start,4+head+start+size,'image/webp'));
+  try{const img=new Image();img.src=url;await img.decode();images.set(key,img);}finally{URL.revokeObjectURL(url);}
+ }));
+ const art=Object.fromEntries(Object.entries(def.paint).map(([key,row])=>{
+  const img=compact&&key!=='phantom'?row.image.replace('.webp','-sd.webp'):row.image;
+  return [key,{...row,im:images.get('effects/textures/'+img),light:images.get('effects/textures/'+row.light)}];
+ }));
+ return {art,actor:{...def.actor,compact,pages:def.actor.pages.map(p=>images.get('actor/'+(compact?p.compact:p.image)))}};
+}
+const sessions=new WeakMap();
+export function warmSaint(engine){
+ if(sessions.has(engine))return sessions.get(engine);
+ const abort=new AbortController(),entry={abort,assets:null,generation:0};sessions.set(engine,entry);
+ entry.ready=loadBank(BATTLE_DEVICE.lowMemory||!!engine.mobile,abort.signal).then(assets=>{if(sessions.get(engine)===entry)entry.assets=assets;return assets;}).catch(()=>{
+  if(sessions.get(engine)===entry)sessions.delete(engine);return null;
+ });
+ return entry;
+}
+export function cancelSaint(engine){const s=sessions.get(engine);if(s)s.generation++;}
+export function clearSaint(engine){const s=sessions.get(engine);if(s){s.generation++;s.abort.abort();sessions.delete(engine);}}
+const point=a=>({x:a.root.x,y:a.root.y});
+const height=a=>Math.abs(a.root.scale.y)*a.fullBodyHeight;
+const blend=(a,b,t)=>a+(b-a)*t;
+const basicTrack=[['v2',0],['guard',7],['guard',4],['combo',1],['combo',2],['combo',3],['combo',4],['combo',5],['combo',6],['combo',7],['combo',8],['combo',9],['combo',10],['high',8],['high',10],['high',12],['high',14],['v2',0]];
+const basicSeconds=.58,basicPeak=.232;
+function skillHit(engine,target,receipt,area){
+ if(Number.isFinite(receipt.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,receipt.targetHpAfter,receipt.targetMaxHp));
+ if(Number.isFinite(receipt.targetShieldAfter))engine.syncTargetShield(target,receipt.targetShieldAfter,receipt.targetMaxShield);
+ if(receipt.dodge)engine.queueBanner('빗나감',SAINT_ART.accent,target.name);
+ else engine.showAccountBattleUnitDamage(target,{damage:receipt.damage+receipt.absorbed,compactArea:area});
+}
+async function play(engine,actor,targets,skill,beats){
+ if(!targets.length||!engine.isAlive(actor))return true;
+ const session=warmSaint(engine),generation=session.generation,epoch=engine.playbackEpoch,entry=engine.mercenaryEpoch;
+ const valid=()=>engine.visible&&!engine.mercenaryDisposed&&epoch===engine.playbackEpoch&&entry===engine.mercenaryEpoch&&session.generation===generation&&!actor.root.destroyed;
+ if(!session.assets){
+  let timer;
+  try{await Promise.race([session.ready,new Promise(done=>{timer=setTimeout(done,4000);})]);}
+  finally{clearTimeout(timer);}
+ }
+ if(!valid())return false;
+ engine.settlePendingTails?.([actor,...targets]);actor.animationController.kill();actor.restoreNeutralAvatarPose?.();
+ const start=point(actor),span=skill?skill.durationMs/1000:basicSeconds,unit=height(actor)/(442*.846);
+ const place=ryujinSkillPlacement({start,targets,duration:span,reach:128*unit,axis:engine.mobile&&engine.formationCoop?'y':'x',cooperative:engine.formationCoop});
+ const facing=place.impact.x===start.x?(actor.team==='ALLY'?1:-1):Math.sign(place.impact.x-start.x);
+ const approach=place.approachSeconds,back=place.returnSeconds,total=approach+span+back;
+ const floor=[place.impact.x,place.impact.y],target=[floor[0],floor[1]-Math.max(20,Math.min(155*unit,height(targets[0])*.42))];
+ const cast=place.cast,source=[(cast.x-.51*target[0])/.49,cast.y];
+ const opts={source,target,floor,facing,scale:unit},canvas=document.createElement('canvas'),density=Math.min(1,(engine.mobile?720:1152)/engine.scene.width);
+ canvas.width=Math.ceil(engine.scene.width*density);canvas.height=Math.ceil(engine.scene.height*density);
+ const ctx=canvas.getContext('2d'),texture=Texture.from(canvas,true),overlay=new Sprite(texture);
+ overlay.scale.set(1/density);engine.effectLayer.addChild(overlay);
+ const prior=actor.fullBodySprite.renderable,clock={t:0},applied=new Set(),flashes=new Map();
+ function draw(){
+  if(!valid())return;
+  const t=clock.t-approach,world=place.rootAt(t);
+  let x=world.x,y=world.y;
+  ctx.resetTransform();ctx.clearRect(0,0,canvas.width,canvas.height);ctx.scale(density,density);
+  if(session.assets){
+   const assets=session.assets;actor.fullBodySprite.renderable=false;
+   if(t<0||t>=span)drawBattlePose(ctx,assets.actor,'v2',0,x,y,unit,facing);
+   else if(skill){
+    drawSkill(ctx,assets,skill.key,t,opts);
+    const p=actorPlacement(assets.actor,skill.key,t,opts);x=p.x;y=p.y;
+   }else{
+    const [bank,cel]=basicTrack[Math.min(basicTrack.length-1,Math.floor(t/span*basicTrack.length))];
+    const advance=t<=basicPeak?smooth(t/basicPeak):1-smooth((t-basicPeak)/(span-basicPeak));
+    x=blend(cast.x,target[0]-facing*55*unit,advance);drawBattlePose(ctx,assets.actor,bank,cel,x,y,unit,facing);
+   }
+   for(const [unitTarget,at] of flashes){
+    const u=(clock.t-at)/.16;if(u>=1){flashes.delete(unitTarget);continue;}
+    if(u>=0&&!unitTarget.root.destroyed)stamp(ctx,assets.art,'burst',u,unitTarget.root.x,unitTarget.root.y-height(unitTarget)*.39,92*unit,70*unit,{bloom:.48});
+   }
+  }
+  actor.root.position.set(x,y);texture.source.update();
+ }
+ try{
+  return await engine.timeline(timeline=>{
+   timeline.to(clock,{t:total,duration:total,ease:'none',onUpdate:draw});
+   beats.forEach((beat,i)=>timeline.call(()=>{
+    if(!valid()||applied.has(i))return;applied.add(i);
+    for(const {target:unitTarget,apply} of beat.rows){
+     if(unitTarget.root.destroyed)continue;apply();flashes.set(unitTarget,approach+beat.at);
+    }
+   },[],approach+beat.at));
+  },()=>{
+   overlay.removeFromParent();overlay.destroy();texture.destroy(true);
+   if(!actor.root.destroyed){actor.fullBodySprite.renderable=prior;actor.root.position.set(start.x,start.y);
+    if(valid()&&actor.hp>0)actor.animationController.setState('IDLE');}
+   engine.lastMercenaryPlayback={code:SAINT_CODE,mode:skill?.key||'basic',clockOwner:'V3_REGISTERED_GSAP',authoritative:true,
+    contactSeconds:beats.map(b=>b.at),appliedContacts:applied.size,durationSeconds:total};
+  },engine.reducedMotion?6:1,{owners:[actor,...targets]});
+ }finally{flashes.clear();}
+}
+export function playSaintSkill(engine,event){
+ const actor=engine.combatantById(event.actorId),skill=SAINT_SKILLS.find(s=>s.id===event.skillId);
+ if(actor?.cardId!==SAINT_CODE||event.type!==SAINT_EVENT||!skill)return true;
+ const targets=new Map(),beats=[];
+ for(const beat of event.beats||[]){
+  const rows=[];
+  for(const h of beat.hits){const t=engine.combatantById(h.targetId);if(!t||t.root.destroyed||t.team===actor.team)continue;
+   targets.set(h.targetId,t);rows.push({target:t,apply:()=>skillHit(engine,t,h,skill.targetRule==='all')});}
+  if(rows.length)beats.push({at:beat.atMs/1000,rows});
+ }
+ return play(engine,actor,[...targets.values()],skill,beats);
+}
+export function playSaintBasic(engine,{attacker,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}){
+ if(!engine.isAlive(attacker)||!engine.isAlive(target))return false;
+ return play(engine,attacker,[target],null,[{at:basicPeak,rows:[{target,apply(){
+  if(targetHp!==null&&Number.isFinite(Number(targetHp)))engine.syncTargetHp(target,Number(targetHp));
+  if(targetShield!==null&&Number.isFinite(Number(targetShield)))engine.syncTargetShield(target,Number(targetShield));
+  onImpact(target);engine.showAccountBattleUnitDamage(target,{damage});
+ }}]}]);
+}

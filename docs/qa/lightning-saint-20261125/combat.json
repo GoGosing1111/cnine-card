@@ -1,0 +1,40 @@
+{
+  "mercenary": "V-957",
+  "name": "번개 검성",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "basePower": 4500000,
+  "sourceArtSha256": "5a74e96cc13d130ddd865294fc381feee710e47b575c447e1980b99c320d498b",
+  "sourceArtPixels": [
+    1024,
+    1536
+  ],
+  "playbackRate": 1.25,
+  "skills": 11,
+  "singleTarget": 3,
+  "allLivingEnemies": 8,
+  "authoredContacts": 83,
+  "serverChecks": [
+    "PvE and PvP combat results",
+    "owner-only formation and loadout persistence",
+    "guard, dodge, shield absorption and knockout",
+    "total cast budget split across targets and contacts"
+  ],
+  "browserChecks": [
+    {
+      "viewport": 1440,
+      "textureBank": "HD",
+      "skillsPlayed": 11
+    },
+    {
+      "viewport": 390,
+      "textureBank": "SD",
+      "skillsPlayed": 3
+    }
+  ],
+  "bothViewports": [
+    "contact-driven HP changes",
+    "cancellation restores the actor without late damage",
+    "codex portrait, original artwork zoom"
+  ]
+}

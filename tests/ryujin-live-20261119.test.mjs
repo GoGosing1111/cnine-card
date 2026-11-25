@@ -54,7 +54,7 @@ test('all Ryujin runtime assets ship while bundled source stays outside the Page
  const {isProductionFile}=await import('../scripts/prepare-production-assets.mjs');
  const prefix='assets/ui/project-v/mercenaries/ryujin-20261119/',manifest=JSON.parse(readCommittedAssetSync(prefix+'manifest.json'));
  for(const row of manifest.files)assert.equal(isProductionFile(prefix+row.path),true,row.path);
- for(const path of ['shared/mercenary-ryujin-v1.mjs',...JSON.parse(readCommittedAssetSync('preview/project-v-v3/grid-build-report.json')).outputs.map(row=>row.file)])assert.equal(isProductionFile(path),true,path);
+ for(const path of ['shared/mercenary-ryujin-v1.mjs',...JSON.parse(readCommittedAssetSync('preview/project-v-v3/grid-build-report.json')).outputs.map(row=>row.file)])assert.equal(isProductionFile(path),path!=='preview/cow-room-v3-v1/battle.bundle.js',path);
  assert.equal(isProductionFile('preview/project-v-v3/source/battle/RyujinCombatPlayback.js'),false);
  assert.equal(isProductionFile('preview/project-v-v3/source/battle/ryujin/frames.json'),false);
  assert.equal(isProductionFile(prefix+'manifest.json'),false);

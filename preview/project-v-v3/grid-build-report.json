@@ -730,7 +730,7 @@
     },
     {
       "file": "shared/mercenary-ryujin-v1.mjs",
-      "sha256": "34ff498981334bf450af378475930721853c5d81bdb988a89725423b17ceb2b4"
+      "sha256": "6c2c51100d0c0e9e733214599a058c7f7fa294ecd256e2090aebbd72df8e8063"
     },
     {
       "file": "preview/project-v-v3/source/battle/RyujinCombatPlayback.js",
@@ -795,6 +795,42 @@
     {
       "file": "preview/project-v-v3/source/battle/ryujin/SpineBattleAdapter.mjs",
       "sha256": "6c703ffba067701ad4338dcfe0c15a9dc20a5108ba3feda2737b93bf8c6d04db"
+    },
+    {
+      "file": "shared/mercenary-lightning-saint-v1.mjs",
+      "sha256": "5bdd45ba0078ef3bcf430d84b84d23b36369afa966e563b1c6aefed8e4726e04"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/LightningSaintCombatPlayback.js",
+      "sha256": "e13be7f22f90c2f1a2dd874d664a4a8bb75915000ce547eb3a351976eb9bf013"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/lightning-saint/mercenary.mjs",
+      "sha256": "5c05e30ac546abcf5230af88d16ee47fce1e64b8e1044b6e628242955f2fbf03"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/lightning-saint/choreography.mjs",
+      "sha256": "f5886bef163096ba14e38187b4abec2eca3450e655cf50cfc1354484caeb024f"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/lightning-saint/timing.mjs",
+      "sha256": "800f3bbf8092c74368185f668a4b26e0f201fd36c3a861300b104e96bbc27a0b"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/lightning-saint/effects/skills.mjs",
+      "sha256": "db7ab1456e08ce0650ee3a5e23fb20cd3d7a387f17b3b4f3f25cb8ef2f34cd85"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/lightning-saint/effects/paint.mjs",
+      "sha256": "e33df698207cee3a06f804257c08580c138102813ad56f0818cf93a68a7143e8"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/lightning-saint/effects/effects.mjs",
+      "sha256": "2390f6b81eb325078e921482f12501f10d58220164154b4ab49d7d259ae3c104"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/lightning-saint/effects/volume.mjs",
+      "sha256": "31fc4eacd0d6a19c2de3c507c2d9ca01587c348c092eb5dcdf64d51b43d11a6c"
     },
     {
       "file": "preview/project-v-v3/source/battle/ryujin/SkillPlacement.mjs",
@@ -934,7 +970,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
-      "sha256": "c5df11a84a703aa8dbd335c5326f5cf7f4f74c9927d9ac43f3a23484fd91da3f"
+      "sha256": "b0fe84bbdc60147f7f1eeee656d640cbebaedafa86681a686af3a11150dea5f3"
     },
     {
       "file": "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
@@ -1236,65 +1272,65 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "24968822ee41b8dd7e489dfcadb93f305864e5c4540dcc6fbb0d386697440429",
+      "sha256": "7640431ca3f1d7fa3eb791e427db7e648d214304910b7f123616a28d0edbb30d",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "4631f4bab18738d639475fd016af89b9bf63f2b22de8ef3929ed80e17b499aef",
+      "sha256": "03249e9d16ed24842608b7a687ffc1825fcbc16188d0aaaa5edd77103ca27d96",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "165eb52e4227fc501ac7ce063e01de160c23c8355e6d6b43930518f994063aad",
+      "sha256": "bd974b84bbc8482361642a73ee906730249effad4d3e4420ad51c52934864333",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "3cd1a4145a36151001116283f66ae66159194286b1bec6414572f3305a2a2c1c",
+      "sha256": "7c1dd2a63629463580324d9765b1fa6f4003a44f1f63e5bace56fef52b59f7c2",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "60b84d363432c0ecba1866814199c38b24334814d15878361f7a2411068bf763",
+      "sha256": "a45ed80059fe33b347bd9d6a0895634b4628929aa54cd151d1eb04bd358405a4",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "74b60eaaede01ef89c78773f38fe75e87d682aadf53143375f4b416c78e93865",
+      "sha256": "0b477f9182c05467d2faaf44f5a1f3683fc6df272e96999277e83b6ccb9b6b86",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "60a2933fe0971b4330643758f1790c8908d9e59d951126983516201d45dfaa3f",
+      "sha256": "ecadf545cddacba3f47d3ba7cd5ddb6b32afac6dfb44db5e6db4b1b6b304613a",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "253a2d6b5b6d359914b7af91b5dab086d3c5f51da2fb3f67572ff9469ec6a424",
+      "sha256": "f81e4819caebccc942d624d968bf52690ef5ec2ab2c7dad6ba1ce60b3716fbdb",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "9867958f85efb3b5decb86830bd2fcfe06a68901ac09c17085cd031c119ede63",
+      "sha256": "86c9375ae53afdef4460855565798415c63825b6ceb996facfbec42407ac5174",
       "commonGrid": true
     },
     {
       "file": "preview/coop-defense-v1/defense.bundle.js",
-      "sha256": "38ff1e0e9d2dbb58aa4d30436b58941d6335f72b1b0d418da75f867cb5cfc784",
+      "sha256": "378ab37e710aa39e5a04fa2c127907db54f358a767690af27b2a2e5f4368b503",
       "commonGrid": true,
       "standaloneEngine": true
     },
     {
       "file": "preview/sustained-hunt-v2/battle.bundle.js",
-      "sha256": "8fb8800ce192efc6b066b63223af9e317ad439ef3537a9e5d1478293d71a86b6",
+      "sha256": "e3bd091fe0e921e20ebd56255427b5187157614f3dc385b58b2803cceccfb13c",
       "commonGrid": true
     }
   ],
   "layoutClients": [
     {
       "file": "preview/v3-wide-grid-v1/app.bundle.js",
-      "sha256": "45668df56fb85083f89cf5dc0a98998f4e78a37bec4de69411f30ad88710491f"
+      "sha256": "3e595143a63ece36a3b2dac8f13eef7373607498bf63b5fa5c050ecc650c75dc"
     }
   ]
 }

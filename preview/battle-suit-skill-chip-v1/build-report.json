@@ -138,9 +138,18 @@
     "preview/project-v-v3/source/battle/IconTechniquePlayback.js",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "shared/mercenary-ryujin-v1.mjs",
+    "shared/mercenary-lightning-saint-v1.mjs",
+    "preview/project-v-v3/source/battle/lightning-saint/timing.mjs",
+    "preview/project-v-v3/source/battle/lightning-saint/effects/skills.mjs",
+    "preview/project-v-v3/source/battle/lightning-saint/effects/paint.mjs",
+    "preview/project-v-v3/source/battle/lightning-saint/effects/volume.mjs",
+    "preview/project-v-v3/source/battle/lightning-saint/effects/effects.mjs",
+    "preview/project-v-v3/source/battle/lightning-saint/choreography.mjs",
+    "preview/project-v-v3/source/battle/lightning-saint/mercenary.mjs",
+    "preview/project-v-v3/source/battle/ryujin/SkillPlacement.mjs",
+    "preview/project-v-v3/source/battle/LightningSaintCombatPlayback.js",
     "preview/project-v-v3/source/battle/hakuya/vendor/spine-pixi-v8-4.3.13.mjs",
     "preview/project-v-v3/source/battle/ryujin/SpineBattleAdapter.mjs",
-    "preview/project-v-v3/source/battle/ryujin/SkillPlacement.mjs",
     "preview/project-v-v3/source/battle/ryujin/DrawnBattleAdapterV3.mjs",
     "preview/project-v-v3/source/battle/ryujin/assets.mjs",
     "preview/project-v-v3/source/battle/ryujin/effects-catalog.json",
@@ -425,5 +434,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3884202
+  "outputBytes": 3915661
 }

@@ -66,10 +66,10 @@ test('General Jok priority has the same floor without stacked PVP bonuses',()=>{
  const once=structuredClone(j);applyMercenaryCombatLink(j);assert.deepEqual(j,once);
 });
 
-test('actual registered Ryujin wins both sides against every available top mercenary',()=>{
+test('actual registered Ryujin wins both sides against the previously released lower-power top mercenaries',()=>{
  const doc=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
- const competitors=doc.cards.filter(c=>c.code!==J&&c.basePower>=2200000&&limitedDeploymentSnapshot(c.code));
- assert.equal(Math.max(...doc.cards.filter(c=>c.code!==J).map(c=>c.basePower||0)),3500000);
+ const competitors=doc.cards.filter(c=>c.basePower<RYUJIN_COMBAT.basePower&&c.basePower>=2200000&&limitedDeploymentSnapshot(c.code));
+ assert.equal(Math.max(...competitors.map(c=>c.basePower)),3500000);
  const rows=[];let battles=0;
  for(const s of scenarios)for(const opponent of competitors){let wins=0;
   for(let seed=1;seed<=12;seed++)for(const side of ['A','B']){
