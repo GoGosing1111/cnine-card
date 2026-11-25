@@ -3292,7 +3292,18 @@ export class BaseBattleEngine{
         }
         const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
         const hitSequence=event.speedCombo&&Array.isArray(event.hits)?event.hits.map(hit=>({...hit,targetHp:this.eventHpPercent(target,hit.targetHpAfter,hit.targetMaxHp??event.targetMaxHp)})):null;
-        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,hitSequence,advancementClass});
+        const attackVehicle = explicitActor?.isMercenary && event.vehicleSupportHit;
+        const defenseVehicle = target?.isMercenary && event.vehicleSupportGuard;
+        const support = type === 'TURN' && (attackVehicle || defenseVehicle) && this.vehicleSupportFX;
+        let impactShown = false;
+        const onImpact = () => {
+          if (impactShown) return;
+          impactShown = true;
+          if (attackVehicle) support.hit(explicitActor, attackVehicle);
+          if (defenseVehicle) support.hit(target, defenseVehicle);
+        };
+        const played = await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,hitSequence,advancementClass,...(support ? {onImpact} : {})});
+        if (support && !impactShown && played !== false) onImpact();
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:explicitActor,healing,hitCount});
       }else if(type==='COUNTER'){

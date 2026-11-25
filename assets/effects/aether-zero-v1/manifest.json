@@ -1,0 +1,68 @@
+{
+  "vehicle": "AETHER_ZERO",
+  "version": 1,
+  "reference": "assets/tire/stealth-aero-fighter-scene-v1.png",
+  "generator": "Built-in ImageGen",
+  "art": [
+    {
+      "role": "aircraft",
+      "source": {
+        "file": "originals/aircraft.png",
+        "width": 1536,
+        "height": 1024,
+        "hasAlpha": true,
+        "bytes": 1879743,
+        "sha256": "ea71814b868395efef6ca7d1bd58d31749da073d5c5249e8e5c14b9e3e28eebb"
+      },
+      "runtime": {
+        "file": "aircraft.webp",
+        "width": 720,
+        "height": 676,
+        "hasAlpha": true,
+        "bytes": 122544,
+        "sha256": "4c8095fe31f7b10c144ac850c9c04cb01f9841da0bd53e2350d0ce79b6285f67"
+      },
+      "prompt": "Use case: background-extraction. Game battle sprite. Image 1 is the edit target. Extract the one fictional Aether Zero fantasy hovercraft exactly as shown, preserving its graphite and pewter paneling, faceted long spear-like nose, broad swept arrowhead wings on both sides, lime enamel edge insets, tall paired rear fins, black ridged central engine, perspective from above and front, nose pointed to the lower left of the image. Keep the same angle, silhouette, outline, highlights and all visible original parts. Remove sea, clouds, city, sunlight, contrails and outside glow. Inside all gaps is transparent. Center the complete craft with 5 percent clear padding between wingtips, nose, tail and the image boundary. Clear silhouette even as a 200px combat sprite. Polished illustrated sci-fi game paint. No ground or shadow, no people, no text, no UI, no additional objects. A genuine transparent RGBA background."
+    },
+    {
+      "role": "wings",
+      "source": {
+        "file": "originals/wings.png",
+        "width": 1491,
+        "height": 1055,
+        "hasAlpha": true,
+        "bytes": 956005,
+        "sha256": "581cb61a3692c37c42a503dbd7c3572e892159bce7621addb07af1f1a5a6db0c"
+      },
+      "runtime": {
+        "file": "wings.webp",
+        "width": 448,
+        "height": 207,
+        "hasAlpha": true,
+        "bytes": 39146,
+        "sha256": "0bc6cc319c6b6a6745019ed8aeee2ce7113e6c6aba32213288abc0bb97d890b7"
+      },
+      "prompt": "Use case: stylized-concept. One premium sci-fi action RPG ground VFX texture. Top-down perfectly flat emblem projected by the fictional Aether Zero support craft, a protective crest for a mercenary's feet. Square canvas. The recognizable main silhouette is a very broad pair of sharply swept luminous lime-green wings: two large symmetrical folded chevron wings, each with THREE clearly separated feather-like graphite, emerald and lime triangular strips, long blade-like white-lime leading edges, a small open diamond floating near the front, thin nested open angular brackets near the outside tips. It should read like the delta-wing silhouette of a glider or a winged shield, distinctive at 80px. Beautiful beveled translucent emerald glass panels with a few machined inset grooves, carbon bevels, punchy lime to pale ivory micro edges; not tiny busy lines. Clear geometric symmetry. Wide and bold, approximately 1.42:1 shape, arranged with nose pointing up the page, straight orthographic view, centered in a square with comfortable 6 percent padding. Transparent channels BETWEEN wing panels and ample empty space at CENTER where feet will stand. Airy dark negative space, restrained close green afterglow only along edges. No solid background, no vapor cloud, no circles or rings, no orange or gold, no letters or numbers, no weapons, no character, no ground, no text or watermark. Genuine transparent RGBA ground decal ready to be flattened to the terrain in-game."
+    },
+    {
+      "role": "refraction",
+      "source": {
+        "file": "originals/refraction.png",
+        "width": 1774,
+        "height": 887,
+        "hasAlpha": true,
+        "bytes": 1026268,
+        "sha256": "e632a30b070233b4f20cd1a6fbf2c17aab103dd3bb40f1139272c7bc0fd89e00"
+      },
+      "runtime": {
+        "file": "refraction.webp",
+        "width": 448,
+        "height": 199,
+        "hasAlpha": true,
+        "bytes": 34838,
+        "sha256": "1519b303d20ab32331f7ab49f2efc130c3b1d4f6d89502ef752d45ca138ae3db"
+      },
+      "prompt": "Use case: stylized-concept. Single transparent raster impact sprite for an original fantasy aerial-defense game buff called Phantom Veil. A short shallow fan of two translucent, prismatic emerald force-field panes folding INWARD symmetrically from left and right, making a protective V as seen from in front, like the facets of folded crystal wings. The two planes meet on the lower central axis at a single very bright mint glint. The edges carry acid-lime tracer strips and a white-hot isolated contact spark. Angular geometric refraction with a few floating narrow glass flakes close to the main facets; hard, clean cuts among layers; visible green and turquoise spectral edges on dark terrain. It will appear briefly around a tiny game character's ANKLES, below the knees. Keep the shape wide (around 2:1), low and open in the middle; sweep the planes up at either end. Transparent everywhere outside the prismatic facets and open center. Framed in landscape with at least 9% padding all around and every tip visible, positioned symmetrically. No ground, full dome, circle, text, character, craft, explosion cloud, or object other than the ephemeral luminous refraction. Genuine transparent RGBA background."
+    }
+  ]
+}

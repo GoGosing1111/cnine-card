@@ -267,3 +267,18 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
  .citadel:not(.in-battle) :is(.ct-panel,.ct-tier-face,.ct-hero){box-shadow:none}
  .citadel [data-charge-time]{display:inline-block;min-width:8ch;font-variant-numeric:tabular-nums;contain:layout paint}
 }
+
+.ct-lite>.ct-vehicle-floors,.ct-lite>.ct-vehicle-front,.ct-lite>canvas,.ct-lite>.ct-lite-slots{grid-area:1/1}
+.ct-lite>.ct-vehicle-floors,.ct-lite>.ct-vehicle-front{display:block;position:relative;pointer-events:none;min-width:0;min-height:0;overflow:hidden}
+.ct-lite>.ct-vehicle-floors{z-index:0}.ct-lite>canvas,.ct-lite>.ct-lite-slots{z-index:1}.ct-lite>.ct-vehicle-front{z-index:2}
+.ct-vehicle-foot{position:absolute;transform:translate(-50%,-50%)}.ct-vehicle-foot[hidden]{display:none}
+.ct-lite .ct-vehicle-emblem{display:block;width:100%;height:100%;object-fit:fill}
+.ct-vehicle-arrival{position:absolute;left:10%;top:22%;width:clamp(125px,34%,380px);aspect-ratio:1.65}
+.ct-lite .ct-vehicle-arrival img{position:absolute;object-fit:contain}
+.ct-lite .ct-vehicle-gate{width:74%;height:100%;left:-9%;top:-12%}
+.ct-lite .ct-vehicle-pressure{width:112%;height:45%;left:-12%;bottom:2%;mix-blend-mode:screen}
+.ct-lite .ct-vehicle-wake{width:100%;height:62%;left:-25%;top:20%;mix-blend-mode:screen}
+.ct-vehicle-body-frame{position:absolute;width:100%;height:88%;left:0;top:1%}.ct-lite .ct-vehicle-body{width:100%;height:100%;inset:0}
+.ct-lite .ct-vehicle-body.ct-showroom{mask-image:radial-gradient(ellipse at center,#000 37%,transparent 73%)}
+.ct-lite .ct-vehicle-bloom{width:110%;height:65%;left:40%;top:14%;mix-blend-mode:screen}
+.ct-vehicle-stats{position:absolute;bottom:-9%;width:130%;left:-15%;text-align:center;color:#f2f9de;font:700 clamp(11px,1.3vw,16px)/1.3 system-ui;text-shadow:0 1px 3px #03070b,0 0 4px #03070b}

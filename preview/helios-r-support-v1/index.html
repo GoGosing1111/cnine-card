@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>헬리오스-R · 솔라 오버드라이브</title><link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101014;color:#eee;font:15px/1.5 system-ui,sans-serif}
+main{max-width:1240px;margin:auto}header,footer{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:#17171c}
+h1,p{margin:0}h1{font-size:20px;letter-spacing:-.04em}h1 span{font-weight:500;color:#ffb25c}
+p{color:#d6d3d2;font-size:14px}a,button{display:inline-block;background:#242428;border:1px solid #4a4746;border-radius:5px;color:#f4f1ed;padding:6px 12px;text-decoration:none;font:inherit;cursor:pointer}
+nav{display:flex;gap:6px}a[aria-current],button:focus-visible{border-color:#ffad5b;color:#ffca93}button:disabled{opacity:.45}
+#field{position:relative;aspect-ratio:1600/820;width:100%;overflow:hidden;background:#101215}canvas{display:block;width:100%;height:100%}
+@media(max-width:680px){header,footer{padding:10px;flex-wrap:wrap;gap:6px}h1{font-size:17px}#field{aspect-ratio:1050/1500;max-height:68dvh}button,a{font-size:13px}}
+</style>
+<script>try{localStorage.setItem('cnine_battle_sound','OFF')}catch{}</script>
+<script defer src="/js/responsive-card-images-v1729.js"></script><script defer src="/js/responsive-battle-sprites-v1803.js"></script><script defer src="/js/responsive-battle-sprites-v1815.js"></script>
+<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script>
+<script defer src="/preview/project-v-v3/project-v-pixi-battle.bundle.js?helios-r=1"></script>
+<script type="module" src="./review.mjs"></script></head>
+<body><main><header><div><h1>헬리오스-R <span>솔라 오버드라이브</span></h1>
+<p>내 출전 용병의 공격력 +10% · 방어력 +10%</p></div>
+<nav aria-label="전투 모드"><a href="?mode=pve" data-mode="PVE">PvE</a><a href="?mode=pvp" data-mode="PVP">PvP</a></nav></header>
+<div id="field" aria-label="전투 시연"></div><footer><p id="status" role="status">전장 준비 중</p>
+<nav aria-label="시연 조작"><button id="arrival" disabled>차량 진입 다시 보기</button><button id="attack" disabled>다음 용병 적중 보기</button></nav></footer></main></body></html>

@@ -168,7 +168,7 @@ export function openLegionHunt(button){
     catch(error){console.warn('[Legion Hunt] Previous battle resource release failed',error);}
     if(controller.state.phase!=='battle')return;
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?brand=20261110&v=20261120-cow-room';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?brand=20261110&v=20261120-cow-room&vehicleBuffs=20261125';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearInterval(energyTimer);clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus({preventScroll:true});}});
   energyTimer=setInterval(()=>{
     const state=controller.state;if(state.phase!=='lobby'||!state.data)return;
@@ -205,13 +205,13 @@ export function openLegionHunt(button){
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
-const citadelSheet='/css/legion-citadel-v1.css?v=cow-renewal-20261120';
+const citadelSheet='/css/legion-citadel-v1.css?v=cow-renewal-20261120-vehicle-20261125';
 let openingCitadel=null,citadelModule=null;
 function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=cow-hideout-growth-20261120').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=cow-hideout-growth-20261120-vehicle-20261125').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

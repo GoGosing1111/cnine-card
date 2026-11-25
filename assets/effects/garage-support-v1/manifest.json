@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "generator": "Built-in ImageGen",
+  "art": [
+    {
+      "role": "rolls",
+      "source": {
+        "file": "originals/rolls.png",
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": true,
+        "bytes": 2047663,
+        "sha256": "6d3972b6171e745c4f791320cc727a9f3c7d9537c8178a1e5868244804822f45"
+      },
+      "runtime": {
+        "file": "rolls.webp",
+        "width": 448,
+        "height": 424,
+        "hasAlpha": true,
+        "bytes": 95234,
+        "sha256": "5ab4bccfe44d87f3e851a44e06f39136f5658e3bd99d01c12151bea4bb2d4656"
+      },
+      "prompt": "Use case: premium Korean sci-fi RPG on an isometric battlefield. Produce ONE extremely clear, horizontally symmetric top-down mercenary foot seal on a true transparent background for a 100px-wide in-game effect. Full frontal top-down flat plane XY, no perspective (engine will flatten it), square 1:1 composition allowing a very substantial wide negative hole exactly at center for the character's boots. Draw the design filling 85% of the canvas with safe border. Luminous chunky tapered three-dimensional metallic highlights, brilliant clear silhouette and finely controlled internal microdetails, small touches of emissive glare. A combat VFX ground glyph, not a car or item logo. No lettering, numbers, captions, names, vehicle, backgrounds or black/opaque plate behind art. True transparent negative space outside and all through the central hole.  Rolls-Royce hypercar escort: Three paired long, airy teal-chrome flowing ribbons form an open-sided circular protective laurel below the character, with three broad chrome scalloped shield panels under a crossed front crest at six o'clock. Sweeping elegant sapphire/teal silk energy with bright silver rims, generous glow but visible, vivid cyan high highlights. A shield enclosure, not turbine blades, no literal logo."
+    },
+    {
+      "role": "bmw",
+      "source": {
+        "file": "originals/bmw.png",
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": true,
+        "bytes": 2144322,
+        "sha256": "f657a40d724e9ce38ab21806714ca231686792a33c73402a52411c0325c01c2d"
+      },
+      "runtime": {
+        "file": "bmw.webp",
+        "width": 448,
+        "height": 428,
+        "hasAlpha": true,
+        "bytes": 87582,
+        "sha256": "3b0b4c10c2365a2c62cf71498f336a6297b747d548fe96ece071ab0c648aa143"
+      },
+      "prompt": "Use case: premium Korean sci-fi RPG on an isometric battlefield. Produce ONE extremely clear, horizontally symmetric top-down mercenary foot seal on a true transparent background for a 100px-wide in-game effect. Full frontal top-down flat plane XY, no perspective (engine will flatten it), square 1:1 composition allowing a very substantial wide negative hole exactly at center for the character's boots. Draw the design filling 85% of the canvas with safe border. Luminous chunky tapered three-dimensional metallic highlights, brilliant clear silhouette and finely controlled internal microdetails, small touches of emissive glare. A combat VFX ground glyph, not a car or item logo. No lettering, numbers, captions, names, vehicle, backgrounds or black/opaque plate behind art. True transparent negative space outside and all through the central hole.  BMW M9 golden turbine: exactly three broad swept amber-gold impeller lobes arranged in 120 degree radial symmetry around an EMPTY center. Each lobe resembles a gold engine turbine fan wrapped around one plump champagne glowing energy cell. Three clear separated cells for charging toward an 8 percent repair. Copper shadows, sunlit creamy sparks in the polished highlights, radial motion and smooth refined industrial detailing. Gold-white dominant color, no blue, not fine spokes, no medical cross."
+    },
+    {
+      "role": "vector",
+      "source": {
+        "file": "originals/vector.png",
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": true,
+        "bytes": 1004160,
+        "sha256": "701927f846d896c4e80272e3704e22881049a037a6e4c6e89b04f5c89f0b12a1"
+      },
+      "runtime": {
+        "file": "vector.webp",
+        "width": 448,
+        "height": 293,
+        "hasAlpha": true,
+        "bytes": 50540,
+        "sha256": "484bff41de46e2515abf269b3759e9aa160f77de6972e2abea89ffbb10e0bde7"
+      },
+      "prompt": "Use case: premium Korean sci-fi RPG on an isometric battlefield. Produce ONE extremely clear, horizontally symmetric top-down mercenary foot seal on a true transparent background for a 100px-wide in-game effect. Full frontal top-down flat plane XY, no perspective (engine will flatten it), square 1:1 composition allowing a very substantial wide negative hole exactly at center for the character's boots. Draw the design filling 85% of the canvas with safe border. Luminous chunky tapered three-dimensional metallic highlights, brilliant clear silhouette and finely controlled internal microdetails, small touches of emissive glare. A combat VFX ground glyph, not a car or item logo. No lettering, numbers, captions, names, vehicle, backgrounds or black/opaque plate behind art. True transparent negative space outside and all through the central hole.  Vector GT finishing line: wide luminous lime-white split racing lane with TWO fanned large outward sci-fi segmented arrow chevrons on each side of an empty oval for boots. Black-chrome and pearl-white split wheelpod fins, lime upshift lights, two small checkerboard fragments set into a front silver racing threshold. High-speed parallel interrupted racing marks, strong pointed outline; no rotary wheel, circular ring, steering wheel or wings. An aggressive lime finish-line plate surrounding empty space."
+    },
+    {
+      "role": "rolls-body",
+      "reference": "assets/tire/rolls-royce-hypercar-teal-silver-aura-v3.png",
+      "source": {
+        "file": "originals/rolls-body.png",
+        "width": 1774,
+        "height": 887,
+        "hasAlpha": true,
+        "bytes": 1988408,
+        "sha256": "f190f9c3f1585e241b895fa1df6aceaba93db692d11e212207011ca10b4e1f7c"
+      },
+      "runtime": {
+        "file": "rolls-body.webp",
+        "width": 640,
+        "height": 275,
+        "hasAlpha": true,
+        "bytes": 68672,
+        "sha256": "21aca5f6114fd467c87871df2ea0133f4658377b00c987317da41164b47123b3"
+      },
+      "prompt": "Edit this exact game garage vehicle into one premium battle sprite on a TRUE transparent background. Preserve the specific factory vehicle silhouette, colors, paint, wheels, stripe configuration, trim, grille or aerodynamic accents shown in the reference so a player will recognize their actual vehicle. Isolated single whole vehicle with no environment, no floor, no lettering, no logos added, no sparks/trails/rings; these are separate VFX layers in the screen. Face towards the LOWER LEFT in a slight above-ground front three-quarter isometric viewing angle, near-horizontal game perspective. Visible nose at left, long side trailing to right. Low powerful stance, pearl specular rimlight with a delicate accent reflection, sculpted clean silhouettes, luxury game rendering for a 230px on-screen sprite, not a badge or flat illustration. Wide horizontal composition, close framing with all mirrors and wheels fully in the frame, a little fully transparent margin. Retain light/shadow within the car but no opaque scene outside its body. Subject: teal Rolls-Royce and its polished tall silver grille and turquoise body."
+    },
+    {
+      "role": "bmw-body",
+      "reference": "assets/tire/bmw-m9-concept-aura-v2.png",
+      "source": {
+        "file": "originals/bmw-body.png",
+        "width": 1774,
+        "height": 887,
+        "hasAlpha": true,
+        "bytes": 1818809,
+        "sha256": "fbad804c89c4da3a5fd507d65e26e15cb4afac4cfa39af2cf3d4fc0c1ca1969d"
+      },
+      "runtime": {
+        "file": "bmw-body.webp",
+        "width": 640,
+        "height": 248,
+        "hasAlpha": true,
+        "bytes": 60146,
+        "sha256": "5ae809a7a41335efa5770a213e069bc9c40ed3f26677a458ecc9f4d3710a968f"
+      },
+      "prompt": "Edit this exact game garage vehicle into one premium battle sprite on a TRUE transparent background. Preserve the specific factory vehicle silhouette, colors, paint, wheels, stripe configuration, trim, grille or aerodynamic accents shown in the reference so a player will recognize their actual vehicle. Isolated single whole vehicle with no environment, no floor, no lettering, no logos added, no sparks/trails/rings; these are separate VFX layers in the screen. Face towards the LOWER LEFT in a slight above-ground front three-quarter isometric viewing angle, near-horizontal game perspective. Visible nose at left, long side trailing to right. Low powerful stance, pearl specular rimlight with a delicate accent reflection, sculpted clean silhouettes, luxury game rendering for a 230px on-screen sprite, not a badge or flat illustration. Wide horizontal composition, close framing with all mirrors and wheels fully in the frame, a little fully transparent margin. Retain light/shadow within the car but no opaque scene outside its body. Subject: BMW M9 show car in gunmetal and gold, signature double kidney grille and gold turbine wheels."
+    },
+    {
+      "role": "vector-body",
+      "reference": "assets/tire/white-striped-aero-hypercar-high-angle-v1.png",
+      "source": {
+        "file": "originals/vector-body.png",
+        "width": 1774,
+        "height": 887,
+        "hasAlpha": true,
+        "bytes": 1909418,
+        "sha256": "80c8085e5adb70e823bcc50ad0529c0dbb2b4300354a5a571c81e673c2c10e53"
+      },
+      "runtime": {
+        "file": "vector-body.webp",
+        "width": 640,
+        "height": 316,
+        "hasAlpha": true,
+        "bytes": 69872,
+        "sha256": "530ea55003f5e702c490bf1f32188d1da47ae9118417201a8ecd1ec1efedea97"
+      },
+      "prompt": "Edit this exact game garage vehicle into one premium battle sprite on a TRUE transparent background. Preserve the specific factory vehicle silhouette, colors, paint, wheels, stripe configuration, trim, grille or aerodynamic accents shown in the reference so a player will recognize their actual vehicle. Isolated single whole vehicle with no environment, no floor, no lettering, no logos added, no sparks/trails/rings; these are separate VFX layers in the screen. Face towards the LOWER LEFT in a slight above-ground front three-quarter isometric viewing angle, near-horizontal game perspective. Visible nose at left, long side trailing to right. Low powerful stance, pearl specular rimlight with a delicate accent reflection, sculpted clean silhouettes, luxury game rendering for a 230px on-screen sprite, not a badge or flat illustration. Wide horizontal composition, close framing with all mirrors and wheels fully in the frame, a little fully transparent margin. Retain light/shadow within the car but no opaque scene outside its body. Subject: white/black Vector GT with twin race stripes picked out in electric lime and blue, dramatic race-car flares, low angle relative to the high-angle source."
+    }
+  ]
+}

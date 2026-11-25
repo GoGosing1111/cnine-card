@@ -36,6 +36,7 @@ import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from '../shared/mercenar
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {readJointReleaseComponent} from './_joint_release_document.js';
 import {attachReleasedMercenaryLevels,releasedMercenaryLevelSummary} from './_mercenary_level_policy.js';
+import { readEquippedVehicleSupports, attachVehicleSupports } from './_mercenary_vehicle_support.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog,validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
 import {validateMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs';
@@ -55,6 +56,14 @@ import {jointError} from './_joint_request.js';
 import {jointGuardEnd} from './_joint_atomic.js';
 import {ensureJointTransactionSchema,saveJointPolicyDraft,runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
 
+async function prepareMercenaryBattleSnapshots(env, snapshots) {
+  const [leveled, vehicles] = await Promise.all([
+    attachReleasedMercenaryLevels(env, snapshots),
+    readEquippedVehicleSupports(env, snapshots)
+  ]);
+  return attachVehicleSupports(leveled, vehicles);
+}
+
 export const MERCENARY_RUNTIME_KEY='mercenary_runtime_policy_v1';
 export const releasedMercenarySnapshot=(env,user,mode='PVE')=>V3_JOINT_RELEASE_ENABLED||MERCENARY_DEPLOYMENT_RELEASE_ENABLED?loadMercenaryBattleSnapshot(env,user,mode):Promise.resolve(null);
 export async function releasedMercenarySnapshots(env,userIds,mode='PVE'){
@@ -66,7 +75,7 @@ export async function releasedMercenarySnapshots(env,userIds,mode='PVE'){
   const rows=(await env.DB.prepare(`WITH selected(user_id,mercenary_code) AS (VALUES ${selected.map(()=>'(CAST(? AS BIGINT),CAST(? AS TEXT))').join(',')}) SELECT s.user_id,s.mercenary_code,COALESCE(g.level,1) AS level FROM selected s JOIN ${PLAYABLE_MERCENARIES} c ON c.user_id=s.user_id AND c.mercenary_code=s.mercenary_code AND c.total_copies>0 LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=s.user_id AND g.mercenary_code=s.mercenary_code`).bind(...selected.flat()).all()).results;
   if(!rows.length)return new Map();const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,rows.filter(r=>r.mercenary_code===JINMU_CODE).map(r=>r.user_id)),readJokroPackOwners(env,rows.filter(r=>r.mercenary_code===JOKRO_CODE).map(r=>r.user_id))]);const [{document,revision},runtime]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env)]);
   const shiranuiEligible=await readShiranuiEligibleUsers(env,rows.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id));
-  return attachMercenaryEquipment(env,await attachReleasedMercenaryLevels(env,new Map(rows.filter(r=>exclusiveAccountAllowed(r.user_id,r.mercenary_code,packOwners,jokroPackOwners)&&(r.mercenary_code!==SHIRANUI_CODE||shiranuiEligible.has(Number(r.user_id)))).map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}]))),mode);
+  return attachMercenaryEquipment(env,await prepareMercenaryBattleSnapshots(env,new Map(rows.filter(r=>exclusiveAccountAllowed(r.user_id,r.mercenary_code,packOwners,jokroPackOwners)&&(r.mercenary_code!==SHIRANUI_CODE||shiranuiEligible.has(Number(r.user_id)))).map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}]))),mode);
 }
 export const mercenarySnapshotPower=m=>m?(m.statMode==='RANK_FIXED'?(limitedDeploymentSnapshot(m.code)?.basePower??mercenaryBasePower(m.rank,m.code)):Math.round(m.basePower*(1+(m.combat?.powerGrowthPercentPerLevel||0)*(m.level-1)/100)))+mercenaryEquipmentPower(m):0;
 export const mercenaryFormationPower=f=>(f?.mercenaries||[f?.mercenary]).filter(Boolean).reduce((sum,m)=>sum+mercenarySnapshotPower(m),0);
@@ -82,7 +91,7 @@ export async function releasedMercenaryFormations(env,userIds,mode='PVE',{dual=C
  const [{document,revision},runtime,equipment,packOwners,jokroPackOwners,shiranuiEligible]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),mercenaryEquipmentRuntimes(env,ids,mode,{selections:new Map(ids.map(id=>[id,records.get(id).loadouts[mode].mercenaryCodes]))}),readJinmuPackOwners(env,rows.filter(r=>r.mercenary_code===JINMU_CODE).map(r=>r.user_id)),readJokroPackOwners(env,rows.filter(r=>r.mercenary_code===JOKRO_CODE).map(r=>r.user_id)),readShiranuiEligibleUsers(env,rows.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id))]);
  const snapshots=new Map(ids.map(id=>[id,records.get(id).loadouts[mode].mercenaryCodes.filter(code=>rows.some(r=>Number(r.user_id)===id&&r.mercenary_code===code)&&exclusiveAccountAllowed(id,code,packOwners,jokroPackOwners)&&(code!==SHIRANUI_CODE||shiranuiEligible.has(id))).map(code=>({...battleConfig(document,code,1),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}))]));
  for(const list of snapshots.values())try{validatePreparedMercenaries(list);}catch(error){throw jointError('MERCENARY_FORMATION',error.message,409);}
- const leveled=await attachReleasedMercenaryLevels(env,snapshots);
+ const leveled=await prepareMercenaryBattleSnapshots(env,snapshots);
  return new Map(ids.map(id=>{const mercenaries=leveled.get(id).map(m=>equipmentForMercenary(equipment,id,m.code)?.items.length?{...m,equipment:equipmentForMercenary(equipment,id,m.code)}:m);return [id,{mercenaries}];}));
 }
 // Ranked-only selection. Does not read or write the ordinary PVE/PVP single slot.
@@ -121,7 +130,7 @@ export async function rankedSelectedMercenaries(env,selections,rules=RANKED_SERI
     return {...snapshot,combat:runtime.combat,policyVersion:runtime.version};
   }),rules)]));
   // One policy read and one growth query for all selected companions and users.
-  const leveled=await attachReleasedMercenaryLevels(env,snapshots);
+  const leveled=await prepareMercenaryBattleSnapshots(env,snapshots);
   return new Map(ids.map(id=>[id,leveled.get(id).map(snapshot=>equipmentForMercenary(equipment,id,snapshot.code)?.items.length?{...snapshot,equipment:equipmentForMercenary(equipment,id,snapshot.code)}:snapshot)]));
 }
 
@@ -181,7 +190,7 @@ export async function loadMercenaryBattleSnapshot(env,user,mode='PVE'){
   if(row.mercenary_code===SHIRANUI_CODE&&!(await readShiranuiEligibleUsers(env,[user.id])).has(Number(user.id)))return null;
   try{await requireOwned(env,user,row.mercenary_code);}catch(error){if(LOAN_CODES.includes(row.mercenary_code)&&error.code==='MERCENARY_NOT_OWNED')return null;throw error;}
  const {document,revision}=await readMercenaryDocument(env),growth=await growthRow(env,user,row.mercenary_code);
-  const runtime=await readMercenaryRuntime(env),snapshot={...battleConfig(document,row.mercenary_code,Number(growth.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version};return (await attachMercenaryEquipment(env,await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),snapshot]])),mode)).get(Number(user.id));
+  const runtime=await readMercenaryRuntime(env),snapshot={...battleConfig(document,row.mercenary_code,Number(growth.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version};return (await attachMercenaryEquipment(env,await prepareMercenaryBattleSnapshots(env,new Map([[Number(user.id),snapshot]])),mode)).get(Number(user.id));
 }
 // Explicit owned selections for prepared cooperative slots. No loadout write.
 export async function selectedMercenaryBattleSnapshots(env,user,codes,mode='PVE',{freeRanks=false}={}){
@@ -190,7 +199,7 @@ export async function selectedMercenaryBattleSnapshots(env,user,codes,mode='PVE'
  for(const code of codes){await requireOwned(env,user,code);await requireShiranuiDeployment(env,user.id,code);}
  const [{document,revision},runtime,equipment]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),mercenaryEquipmentRuntimes(env,[Number(user.id)],mode,{selections:new Map([[Number(user.id),codes]])})]);
  const rows=codes.map(code=>({...battleConfig(document,code,1),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}));try{validatePreparedMercenaries(rows,{freeRanks});}catch(error){throw jointError('MERCENARY_FORMATION',error.message);}
- const leveled=(await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),rows]]))).get(Number(user.id)),gear=equipment.get(Number(user.id));
+ const leveled=(await prepareMercenaryBattleSnapshots(env,new Map([[Number(user.id),rows]]))).get(Number(user.id)),gear=equipment.get(Number(user.id));
  return leveled.map(m=>gear?.byMercenary[m.code]?.items.length?{...m,equipment:gear.byMercenary[m.code]}:m);
 }
 export async function mercenaryAccountState(env,user){

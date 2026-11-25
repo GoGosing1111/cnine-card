@@ -1,4 +1,5 @@
 import {saintActionCredit} from '../shared/mercenary-lightning-saint-v1.mjs';
+import { mercenaryVehicleSupport } from '../shared/mercenary-vehicle-support-v1.mjs';
 import {ryujinIncomingDamage,ryujinActionCredit} from '../shared/mercenary-ryujin-v1.mjs';
 import {isAstra,ASTRA_COMBAT,astraActionCredit} from '../shared/mercenary-astra-v1.mjs';
 import {CITADEL_ENEMY_CAPACITY} from '../shared/cooperative-battleground-v1.mjs';
@@ -617,7 +618,9 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const growthCapScale=options.basicAttack&&!counter?mercenaryGrowthBasicCapScale(actor):1;
   const rankCapScale=options.basicAttack&&!counter?mercenaryRankBasicCapScale(actor):1;
   const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target,actor)*capPct*clamp(Number(options.damageCapScale??1),0,4)*growthCapScale*rankCapScale*(options.varyDamageCap?variance:1);
-  const capped = Math.min(raw * (1 - reduction), hitCap);
+  const vehicle = options.basicAttack === true && !counter ? mercenaryVehicleSupport(actor) : null;
+  const basicPower = 1 + (vehicle?.basicPowerPercent || 0) / 100;
+  const capped = Math.min(raw * basicPower * (1 - reduction), hitCap);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
   // V1975: 아포칼립스 몬스터는 덱 전투력 비례로 하한이 늘고 준다(위 APOCALYPSE_FLOOR_* 참고).
@@ -627,7 +630,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
     : 0;
   const floored=Math.max(capped,minDamage);
   const damage = Math.max(1, Math.round(options.capMinimumDamage?Math.min(floored,hitCap):floored));
-  return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null,
+  return { dodge: false, damage, critical, ...(vehicle && !vehicle.basicGuardPercent ? { vehicleSupportHit: vehicle.vehicle } : {}), penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null,
     ...(isPvpSpeedCard(actor)&&!counter?{comboDamageCap:hitCap}:{}) };
 }
 
@@ -664,6 +667,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   // A shield-only removal may not spill its additional power budget into HP.
   if(options.shieldOnly&&options.actor?.pvpPowerBalance)incoming=Math.min(incoming,Math.max(0,target.shield));
   let remaining = Math.max(options.damageFloor || 0, Number(incoming || 0))*equipmentGuardMultiplier(target);
+  if (options.aetherVeil) remaining = Math.round(remaining * (100 - options.aetherVeil) / 100);
   const shieldBefore = target.shield;
   const bypass=Math.floor(remaining*clamp(Number(options.shieldPierce||0),0,1));
   const baseAbsorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining-bypass);
@@ -1180,6 +1184,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const hasOpeningPets=['A','B'].some(side=>Array.isArray(openingPets?.[side])?openingPets[side].length>0:!!openingPets?.[side]);
   // Opening HP auras may increase maximum HP, but cannot revive a persisted KO.
   for(const actor of [...a,...b])if(fallenAtEntry.has(actor.id)){actor.hp=0;actor.shield=0;actor.alive=false;}
+  for (const actor of [...a, ...b]) {
+    const support = mercenaryVehicleSupport(actor);
+    if (!support?.attackPercent || actor.hp <= 0) continue;
+    // Link, pet and ranked normalization have already resolved the owner's starting stats.
+    // Native skills and linked attacks use different attack bases. Scale each once.
+    const attackFactor = (100 + support.attackPercent) / 100;
+    actor.attack = Math.round(actor.attack * attackFactor);
+    if (actor.mercenaryLink) actor.mercenaryLink = {...actor.mercenaryLink, attackFloor:Math.round(actor.mercenaryLink.attackFloor * attackFactor)};
+    actor.defense = Math.round(actor.defense * (100 + support.defensePercent) / 100);
+  }
   const openingTeams=companionReview||hasOpeningPets||techniqueConfig||pvpPowerBalance?{A:a.map(f=>structuredClone(publicFighter(f))),B:b.map(f=>structuredClone(publicFighter(f)))}:null;
   const openingMercenaries={A:a.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f))),B:b.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f)))};
 
@@ -1780,7 +1794,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const comboPlan=speedCombo?speedComboPlan(actor.speedBasicAttacks,hit.damage,suddenDeath?hit.damage:hit.comboDamageCap*PVP_SPEED_REFORM.comboCapScale):null;
     if(comboPlan)hit.damage=comboPlan.damage;
     if(!independentAction&&mercenaryRuntime)hit.damage=mercenaryRuntime.beforeBasicDamage(actor,target,hit.damage);
-    const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0,actor,direct:!independentAction,shieldPierce:s2Attack.s2ShieldPierce||0 });
+    const defendingVehicle = actor.side !== target.side && !isBattleSuitSupport(actor) && !actor.isIconSummon ? mercenaryVehicleSupport(target) : null;
+    const aetherVeil = defendingVehicle?.basicGuardPercent || 0;
+    const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0,actor,direct:!independentAction,shieldPierce:s2Attack.s2ShieldPierce||0,aetherVeil });
     const comboHits=comboPlan?speedComboSnapshots(damageState,comboPlan.hitCount):null;
     actor.damageDealt += damageState.hpDamage + damageState.absorbed;
     let suitPierceDamage=0;
@@ -1830,6 +1846,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       shieldBreaker: hit.shieldBreaker === true,
       advancementClass: hit.advancementClass,
       suddenDeath: hit.suddenDeath === true,
+      ...(hit.vehicleSupportHit && damageState.hpDamage + damageState.absorbed > 0 ? { vehicleSupportHit: hit.vehicleSupportHit } : {}),
+      ...(defendingVehicle && !defendingVehicle.basicPowerPercent && damageState.hpDamage + damageState.absorbed > 0 ? { vehicleSupportGuard: defendingVehicle.vehicle } : {}),
       ...(comboHits?{speedCombo:true,hitCount:comboHits.length,hits:comboHits,basicAttack:actor.speedBasicAttacks}:{}),
       targetHpAfter: target.hp,
       targetMaxHp: target.maxHp,
@@ -2315,7 +2333,7 @@ export function createPveBattleV2({ seasonEquipment = null, cards = [], magicCar
       maxActions:encounterPlan.maxActions, maxDuration:encounterPlan.maxDuration, forcedMonsterEvery,
       stateContinuity:['HP','SHIELD','GAUGE','MAGIC_BUDGET','REVIVE_BUDGET','BATTLE_SUIT_CLOCK'], fixedEnemyStats:true}} : {}),
     teams: {
-      A: { ...(pveEquipmentRuntime?.equipmentSetVisual?{equipmentSetVisual:pveEquipmentRuntime.equipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.A.filter(c=>!c.isBattleSuit)||(mercenaryFighter?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary&&!c.isBattleSuit)||teamA.map(publicFighter),...(mercenaryFighter?{mercenaries:simulated.openingMercenaries.A}:{}),...(pet?{pet}:{}), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
+      A: { ...(pveEquipmentRuntime?.vehicleTransit ? {vehicleTransit:pveEquipmentRuntime.vehicleTransit} : {}), ...(pveEquipmentRuntime?.equipmentSetVisual?{equipmentSetVisual:pveEquipmentRuntime.equipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.A.filter(c=>!c.isBattleSuit)||(mercenaryFighter?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary&&!c.isBattleSuit)||teamA.map(publicFighter),...(mercenaryFighter?{mercenaries:simulated.openingMercenaries.A}:{}),...(pet?{pet}:{}), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
     },
     result
@@ -2391,7 +2409,7 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerWornGearPower, defenderWornGearPower, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
+export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerVehicleTransit = null, defenderVehicleTransit = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerWornGearPower, defenderWornGearPower, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)),attackerWornGearPower);
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)),defenderWornGearPower);
@@ -2430,8 +2448,8 @@ export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeas
       dbTimelineWrites: 0
     },
     teams: {
-      A: { ...(attackerEquipmentSetVisual?{equipmentSetVisual:attackerEquipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.A||(mercA?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary)||teamA.map(publicFighter),...(mercA?{mercenaries:simulated.openingMercenaries.A}:{}),...(attackerPet?{pet:attackerPet}:{}) },
-      B: { ...(defenderEquipmentSetVisual?{equipmentSetVisual:defenderEquipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.B||(mercB?[...teamB,...simulated.openingMercenaries.B]:teamB)), cards: simulated.openingTeams?.B.filter(c=>!c.isMercenary)||teamB.map(publicFighter),...(mercB?{mercenaries:simulated.openingMercenaries.B}:{}),...(defenderPet?{pet:defenderPet}:{}) }
+      A: { ...(attackerVehicleTransit ? {vehicleTransit:attackerVehicleTransit} : {}), ...(attackerEquipmentSetVisual?{equipmentSetVisual:attackerEquipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.A||(mercA?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary)||teamA.map(publicFighter),...(mercA?{mercenaries:simulated.openingMercenaries.A}:{}),...(attackerPet?{pet:attackerPet}:{}) },
+      B: { ...(defenderVehicleTransit ? {vehicleTransit:defenderVehicleTransit} : {}), ...(defenderEquipmentSetVisual?{equipmentSetVisual:defenderEquipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.B||(mercB?[...teamB,...simulated.openingMercenaries.B]:teamB)), cards: simulated.openingTeams?.B.filter(c=>!c.isMercenary)||teamB.map(publicFighter),...(mercB?{mercenaries:simulated.openingMercenaries.B}:{}),...(defenderPet?{pet:defenderPet}:{}) }
     },
     result
   };
@@ -2459,7 +2477,7 @@ export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,si
       const ownMercs=companionSnapshotRows(squad,companionReview).map((row,index)=>{const merc=buildAvatarMercenaryFighter(row,side,'PVP',squad.avatarPowerPercent);return {...merc,id:`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:5+index,slot:10+squadIndex*mercenariesPerOwner+index};});
       mercenaries.push(...ownMercs);const merc=ownMercs[0];
       for(const item of squad.magicCards||[]){if(Number.isInteger(item.slotNo)&&item.slotNo>=1&&item.slotNo<=5)magic.push({...item,slotNo:squadIndex*5+item.slotNo});}
-      members.push({ownerId,ownerName,squadIndex,...(squad.equipmentSetVisual?{equipmentSetVisual:squad.equipmentSetVisual}:{}),cardIds:ownCards.map(c=>c.id),mercenaryId:merc?.id||null,...(dual?{mercenaryIds:ownMercs.map(m=>m.id)}:{})});
+      members.push({ownerId,ownerName,squadIndex,...(squad.vehicleTransit ? {vehicleTransit:squad.vehicleTransit} : {}),...(squad.equipmentSetVisual?{equipmentSetVisual:squad.equipmentSetVisual}:{}),cardIds:ownCards.map(c=>c.id),mercenaryId:merc?.id||null,...(dual?{mercenaryIds:ownMercs.map(m=>m.id)}:{})});
     });
     return {cards,mercenaries,magic,members,simulation:[...cards,...mercenaries]};
   };

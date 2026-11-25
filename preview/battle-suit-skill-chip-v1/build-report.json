@@ -150,6 +150,14 @@
     "preview/project-v-v3/source/battle/lightning-saint/mercenary.mjs",
     "preview/project-v-v3/source/battle/ryujin/SkillPlacement.mjs",
     "preview/project-v-v3/source/battle/LightningSaintCombatPlayback.js",
+    "shared/mercenary-vehicle-support-v1.mjs",
+    "shared/vehicle-battle-art-v1.mjs",
+    "preview/project-v-v3/source/battle/VehicleSupportFloor.js",
+    "preview/project-v-v3/source/battle/GarageSupportFloor.js",
+    "preview/project-v-v3/source/battle/HeliosRSupportFX.js",
+    "preview/project-v-v3/source/battle/AetherZeroSupportFX.js",
+    "preview/project-v-v3/source/battle/VehicleTransitFX.js",
+    "preview/project-v-v3/source/battle/MercenaryVehicleSupportFX.js",
     "preview/project-v-v3/source/battle/hakuya/vendor/spine-pixi-v8-4.3.13.mjs",
     "preview/project-v-v3/source/battle/ryujin/SpineBattleAdapter.mjs",
     "preview/project-v-v3/source/battle/ryujin/DrawnBattleAdapterV3.mjs",
@@ -436,5 +444,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3930960
+  "outputBytes": 3947274
 }

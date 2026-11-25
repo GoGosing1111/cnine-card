@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "generator": "Built-in ImageGen",
+  "art": [
+    {
+      "role": "gate",
+      "source": {
+        "file": "originals/gate.png",
+        "width": 1536,
+        "height": 1024,
+        "hasAlpha": true,
+        "bytes": 2438690,
+        "sha256": "7181c541649c0b69f98af9a478f284ecfa8d32c0f413889b2f50064931728f4b"
+      },
+      "runtime": {
+        "file": "gate.webp",
+        "width": 640,
+        "height": 446,
+        "hasAlpha": true,
+        "bytes": 121244,
+        "sha256": "4ffe6e9fafb45c84259d8abdde5feb628f3ea0b04e6da0fdc7c710f935e7f541"
+      },
+      "prompt": "Use case: premium stylized game VFX production. Deliver exactly one finished battle VFX layer as a high-detail transparent RGBA sprite for a dark isometric sci-fi RPG. Wide horizontal composition 3:2 or 16:10. Authored game FX artwork, bold medium shapes, high contrast at 160px, textured edges and visible negative space through the larger form. Every mark self-contained with a safe transparent border. Luminous pearl silver, ice-blue shadows, white hot centers and pale mint light; renderer will recolor glow per vehicle. No vehicle, people, lettering, symbols, interface, stage, ground depiction, opaque backdrop, black rectangle or multi-frame sheet. Outside and openings absolutely transparent. ENTRANCE GATE layer. A fiercely energetic upright elliptical rift viewed at an oblique three-quarter angle, one standalone dimensional tunnel mouth, 55 degrees yaw from straight on. A thick broken torus has articulated floating alloy fins, sharp staggered rectangular segments, braided luminous filament and churning pearlescent vapor, short sparks peeling off the rims. Rim has a vivid thick low rim and a thin far rim conveying depth, and a few sizeable silhouette fragments leaving orbit. The MOUTH is a wide fully transparent hole (at least 53% of width), ready for a vehicle to emerge through. The eye sees a sculptural portal with detailed lit surfaces, not a flat logo or single neon line."
+    },
+    {
+      "role": "pressure",
+      "source": {
+        "file": "originals/pressure.png",
+        "width": 1536,
+        "height": 1024,
+        "hasAlpha": true,
+        "bytes": 2057768,
+        "sha256": "321d7cd3531ddc7469cc365e6de211422395894480c8943f576a038d21e6feef"
+      },
+      "runtime": {
+        "file": "pressure.webp",
+        "width": 512,
+        "height": 226,
+        "hasAlpha": true,
+        "bytes": 69308,
+        "sha256": "aa21109bdee7204eddfeb7c5a82c1f56b474a605f85138a54bbae636d93cde85"
+      },
+      "prompt": "Use case: premium stylized game VFX production. Deliver exactly one finished battle VFX layer as a high-detail transparent RGBA sprite for a dark isometric sci-fi RPG. Wide horizontal composition 3:2 or 16:10. Authored game FX artwork, bold medium shapes, high contrast at 160px, textured edges and visible negative space through the larger form. Every mark self-contained with a safe transparent border. Luminous pearl silver, ice-blue shadows, white hot centers and pale mint light; renderer will recolor glow per vehicle. No vehicle, people, lettering, symbols, interface, stage, ground depiction, opaque backdrop, black rectangle or multi-frame sheet. Outside and openings absolutely transparent. ENTRANCE FLOOR PRESSURE layer. A broad low shock collar in perspective as wheels or jets materialize. Camera almost ground level so the bright face projects as a wide ellipse. Dense C-shaped rolling volumetric pearlescent tyre smoke curls on the LEFT AND RIGHT like two sculptural waves forced out from the open central gap. Add forked thin angular ion arcs, ribbed motion fins and a few sparkling pebbles flicking outward. The brightest rolling crests occupy the lower two thirds, a couple hollow looping crowns behind. Large dark transparent gaps. No vertical pillar, no flame, no central explosion, no floor, no shadow background."
+    },
+    {
+      "role": "wake",
+      "source": {
+        "file": "originals/wake.png",
+        "width": 1536,
+        "height": 1024,
+        "hasAlpha": true,
+        "bytes": 2142815,
+        "sha256": "1da30ef231179d0fb2a4d30689ef5007be4d1c024f67adb7ac7b11022465b4cd"
+      },
+      "runtime": {
+        "file": "wake.webp",
+        "width": 640,
+        "height": 426,
+        "hasAlpha": true,
+        "bytes": 118330,
+        "sha256": "468d45c279242e7325c2e2ce49fda0c154980aea4b023811826070af9362c064"
+      },
+      "prompt": "Use case: premium stylized game VFX production. Deliver exactly one finished battle VFX layer as a high-detail transparent RGBA sprite for a dark isometric sci-fi RPG. Wide horizontal composition 3:2 or 16:10. Authored game FX artwork, bold medium shapes, high contrast at 160px, textured edges and visible negative space through the larger form. Every mark self-contained with a safe transparent border. Luminous pearl silver, ice-blue shadows, white hot centers and pale mint light; renderer will recolor glow per vehicle. No vehicle, people, lettering, symbols, interface, stage, ground depiction, opaque backdrop, black rectangle or multi-frame sheet. Outside and openings absolutely transparent. EXIT ACCELERATION WAKE layer. Like a premium miniature long-exposure shot of a high powered racing engine wake detached from its vehicle. The thrust nozzle origin is at the far RIGHT at 78% width, and an unconstrained wide comet fan tears towards the LEFT. Several thick stacked curving platinum-white streamers break apart into blue-violet ion ribbons, translucent turbulent vapor curls, striated wisps and brilliant flying metal flakes. Directional wedge narrower at the right, broad sweeping contours on the left and a truly transparent strip above and below. Bold raised glossy dimensional texture and a pronounced bright focus with three separate main ribbons, no horizontal neon line, no hard clipping."
+    },
+    {
+      "role": "bloom",
+      "source": {
+        "file": "originals/bloom.png",
+        "width": 1536,
+        "height": 1024,
+        "hasAlpha": true,
+        "bytes": 2073907,
+        "sha256": "641d3ad18c8eda2c5f27017f3c32f9e3b5f8472f41534a021283363e9da252fd"
+      },
+      "runtime": {
+        "file": "bloom.webp",
+        "width": 512,
+        "height": 305,
+        "hasAlpha": true,
+        "bytes": 62418,
+        "sha256": "2178665d3ecb7539ba820383f7dafc699ef61d621d2df0160ace9e7cc4b5c09e"
+      },
+      "prompt": "Use case: premium stylized game VFX production. Deliver exactly one finished battle VFX layer as a high-detail transparent RGBA sprite for a dark isometric sci-fi RPG. Wide horizontal composition 3:2 or 16:10. Authored game FX artwork, bold medium shapes, high contrast at 160px, textured edges and visible negative space through the larger form. Every mark self-contained with a safe transparent border. Luminous pearl silver, ice-blue shadows, white hot centers and pale mint light; renderer will recolor glow per vehicle. No vehicle, people, lettering, symbols, interface, stage, ground depiction, opaque backdrop, black rectangle or multi-frame sheet. Outside and openings absolutely transparent. EXIT SHOCK BLOOM layer, distinctly different silhouette from an entry ring. A powerful forward-breaking supersonic pressure wave right after a portal collapses. Two elliptical nacre vapor half-shells and crystalline debris unfurl like a wide double crescent, rising in jagged swept sheets left and right off one brilliant central diamond-shaped spark. Heavy light-catching glass shards, large pearly shock scallops staggered in depth and several long fine splinters, abundant transparent space between the shards. Low V-shaped wedge and central negative space; pressure and afterglow, not a fireball. Visually strong at small scale, no circle or circular gate."
+    }
+  ]
+}

@@ -413,6 +413,9 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   DB.db.prepare("INSERT INTO user_title_loadout(user_id,title_id) VALUES(7,1)").run();
 
   const bonuses=await userEquipmentBonuses({DB},7);
+  const garageVisual = (await userEquipmentBonuses({DB,VEHICLE_TRANSIT_FX:'1'},7)).pveEquipmentRuntime.vehicleTransit;
+  assert.deepEqual(garageVisual,{version:1,ownerId:7,vehicle:'GARAGE_TEST',name:'테스트 차량',image:''});
+  assert.equal(bonuses.pveEquipmentRuntime.vehicleTransit,undefined);
   assert.equal(bonuses.equipmentPve,100);
   assert.equal(bonuses.equipmentPvp,30);
   assert.equal(bonuses.battleSuitPve,250);

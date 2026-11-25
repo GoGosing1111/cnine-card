@@ -1,3 +1,4 @@
+import {mountLightVehicleSupport} from './legion-citadel-vehicle-fx.mjs';
 import {COW_AREA,COW_REGION} from '../shared/legion-cow-room.mjs';
 import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
@@ -61,6 +62,8 @@ function mountLite(host,payload,units,icons){
  }
  const {manifest,forms}=payload.cooperativeEncounter.citadel,enemies=new Map(units.filter(u=>u.side==='B').map((u,i)=>[u.id,{kind:'cards',enemy:true,index:manifest[i][0],name:(manifest[i][3]?'정예 ':'')+forms[manifest[i][2]].title,src:sprite(forms[manifest[i][2]].battleSprite)}]));
  const arena=document.createElement('div');arena.className=payload.legionCowRoom?'ct-lite ct-cow-room':payload.sceneAssetKey==='CLAN_DOCKYARD'?'ct-lite ct-dockyard':'ct-lite';arena.setAttribute('aria-label','성채 전투 · 경량 화면');host.replaceChildren(arena);
+ const vehicles=mountLightVehicleSupport(arena,payload.battleV2.teams,liteTile);
+ const supportImpact=event=>vehicles?.impact(event);
  const surface=document.createElement('canvas'),ctx=surface.getContext('2d');if(ctx){
   arena.append(surface);const cache=new Map();let fighters,frame=0,dead=false,w=0,h=0;
   function queue(){if(!dead&&!frame)frame=requestAnimationFrame(paint);}
@@ -86,7 +89,7 @@ function mountLite(host,payload,units,icons){
    for(const [i,old] of previous)if(!present.has(i)){ctx.clearRect(old.x,old.y,old.tw,old.th);previous.delete(i);}
   }
   const resize=()=>{const a=surface.getBoundingClientRect(),width=Math.round(a.width),height=Math.round(a.height);if(width>0&&height>0&&(width!==w||height!==h)){surface.width=w=width;surface.height=h=height;previous.clear();tiles.clear();cancelAnimationFrame(frame);paint();}};const observer=new ResizeObserver(resize);observer.observe(surface);resize();
-  return {projection:()=>litePlane(surface),append(){},update({state}){if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);cancelAnimationFrame(frame);paint();}},destroy(){dead=true;observer.disconnect();cancelAnimationFrame(frame);cache.clear();tiles.clear();previous.clear();surface.width=surface.height=0;arena.remove();}};
+  return {projection:()=>litePlane(surface),supportImpact,append(){},update({state,serverNow}){vehicles?.update(state,serverNow);if(state?.fighters){fighters=state.fighters;const summary='성채 전투 · 아군 '+fighters.A.filter(f=>f.hp>0).length+'명 · 적 '+fighters.B.filter(f=>f.hp>0).length+'명';if(surface.getAttribute('aria-label')!==summary)surface.setAttribute('aria-label',summary);cancelAnimationFrame(frame);paint();}},destroy(){dead=true;vehicles?.destroy();observer.disconnect();cancelAnimationFrame(frame);cache.clear();tiles.clear();previous.clear();surface.width=surface.height=0;arena.remove();}};
  }
  const field=document.createElement('div');field.className='ct-lite-slots';arena.append(field);
  const slots=new Map();
@@ -99,7 +102,7 @@ function mountLite(host,payload,units,icons){
   const {tw,th,x,y}=liteTile(info,width,height);Object.assign(node.style,{left:x+'px',top:y+'px',width:tw+'px',height:th+'px'});
  }}
  const observer=new ResizeObserver(layout);observer.observe(field);layout();
- return {projection:()=>litePlane(field),append(){},update({state}){
+ return {projection:()=>litePlane(field),supportImpact,append(){},update({state,serverNow}){vehicles?.update(state,serverNow);
   if(!state?.fighters)return;const found=new Set();
   for(const f of [...state.fighters.A,...state.fighters.B]){const info=enemies.get(f.id)||allies.get(f.id);if(!info||f.hp<=0)continue;
    const v=slots.get((info.enemy?'B':info.kind)+info.index);found.add(v);v.node.hidden=false;
@@ -109,7 +112,7 @@ function mountLite(host,payload,units,icons){
    if(v.barrier!==shield){v.barrier=shield;v.shield.style.transform='scaleX('+shield+')';}
   }
   for(const v of slots.values())if(!found.has(v))v.node.hidden=true;
- },destroy(){observer.disconnect();arena.remove();}};
+ },destroy(){vehicles?.destroy();observer.disconnect();arena.remove();}};
 }
 const compactAmount=new Intl.NumberFormat('ko-KR',{notation:'compact',maximumFractionDigits:1});
 export function citadelHitRows(event) {
@@ -165,7 +168,7 @@ export function citadelPlaybackFrames(chunk,replay,seed){
  }
  return out;
 }
-function mountHitReceipts(layer, projection, replay, light) {
+function mountHitReceipts(layer, projection, replay, light, supportImpact) {
  layer.style.setProperty('--ct-damage-font',DAMAGE_FONT_FAMILY);
  const allies=new Map(replay.units.filter(u=>u.side==='A').map(u=>[u.id,fieldSlot(u,replay.payload)]));
  const active=new Map(),free=[],capacity=replay.payload.cooperativeEncounter.initialIds.length;
@@ -196,6 +199,7 @@ function mountHitReceipts(layer, projection, replay, light) {
   const due=new Map();
   while(cursor<events.length && events[cursor].combatAtMs<=elapsed){
    const event=events[cursor++];if(event.combatAtMs<elapsed-750)continue;
+   if(event.vehicleSupportHit||event.vehicleSupportGuard)supportImpact?.(event);
    for(const hit of citadelHitRows(event)){
     const key=hit.heal?'heal:'+hit.id:hit.id,total=due.get(key);
     if(total){total.damage+=hit.damage;total.shield+=hit.shield;total.critical||=hit.critical;if(hit.heal)total.heal+=hit.heal;}else due.set(key,hit);
@@ -264,7 +268,7 @@ function mountLootBag(section,toast) {
 async function ensureCitadelRenderer(){
  if(window.ProjectVPixiBattle?.legionCitadelVersion===3)return;
  // An installed shell may already have a cached V3 bundle from another game mode.
- if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=3&compat=1&attack=citadel-clean-attack-20261117-v1&iphone=iphone-combat-20261114-v1';
+ if(!bundleUpgrade)bundleUpgrade=new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=true;script.src='/preview/project-v-v3/project-v-pixi-battle.bundle.js?citadel=3&compat=1&attack=citadel-clean-attack-20261117-v1&iphone=iphone-combat-20261114-v1&vehicleBuffs=20261125';
  script.onload=()=>window.ProjectVPixiBattle?.legionCitadelVersion===3?resolve():reject(Error('성채 전투 화면을 다시 불러오세요.'));script.onerror=()=>reject(Error('성채 전투 화면을 내려받지 못했습니다.'));document.head.append(script);}).finally(()=>{bundleUpgrade=null;});
  return bundleUpgrade;
 }
@@ -330,7 +334,7 @@ function finder({open,cow,cowTickets,tiers,selectedTier,rooms,tierLabel,waiting,
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?v=cow-renewal-20261120');
+ style('/css/legion-citadel-v1.css?v=cow-renewal-20261120-vehicle-20261125');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
@@ -561,7 +565,7 @@ export function openCitadel(trigger,firstRead=null){
    try{
     const part=Math.min(Math.ceil(state.duration/30000)-1,Math.max(0,Math.floor((clock.now()-(state.startsAt||clock.now()))/30000)));
     const detail=!lightweight()&&webglAvailable();
-    const rendererReady=detail?Promise.all([import('/raid/cooperative/battle.mjs?citadel=3'),warm()])
+    const rendererReady=detail?Promise.all([import('/raid/cooperative/battle.mjs?citadel=3&vehicleBuffs=20261125'),warm()])
      .then(([renderer])=>renderer).catch(()=>{liteOnly=true;return null;}):null;
     const [v,renderer,icons]=await Promise.all([request('battle?id='+id+'&part='+part),rendererReady,detail?null:loadIconSprites()]);
     if(!valid())return;
@@ -583,7 +587,7 @@ export function openCitadel(trigger,firstRead=null){
     replay.frames=citadelPlaybackFrames(v.chunk,replay,seed);
     const host=box.querySelector('.coop-battle-mount');let mounted;if(renderer){try{mounted=await renderer.mountCoopBattle(host,replay.payload,{title:cowSelected()?'군단토벌 · 카우방':'군단토벌 · 불타는 성채',playerName:cowSelected()?'카우방 토벌대':'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');const sprites=icons||await loadIconSprites();if(!valid())return;mounted=mountLite(host,replay.payload,replay.units,sprites);}
     if(!valid()){mounted.destroy();return;}battle=mounted;
-    hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay,!!mounted.projection);
+    hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay,!!mounted.projection,mounted.supportImpact);
     hitReceipts.append(v.part,v.chunk.events);battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';impactTick();clockHud();
     const notice=box.querySelector('.coop-battle-notice');notice.hidden=true;uiTimer=setInterval(clockHud,250);
     if(state.status==='LOADING'){const response=await request('loaded',{method:'POST',body:{id}});if(valid()){apply(response.state);schedule();}}

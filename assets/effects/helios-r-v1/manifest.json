@@ -1,0 +1,50 @@
+{
+  "vehicle": "HELIOS_R",
+  "version": 1,
+  "reference": "assets/tire/orange-aero-hypercar-aura-v1.png",
+  "generator": "Built-in ImageGen",
+  "art": [
+    {
+      "role": "vehicle",
+      "source": {
+        "file": "originals/vehicle.png",
+        "width": 1774,
+        "height": 887,
+        "hasAlpha": true,
+        "bytes": 1582366,
+        "sha256": "45f22a0a00691fcac7459c586662c806e18b0e91587bf17ad77ad3e112c98376"
+      },
+      "runtime": {
+        "file": "vehicle.webp",
+        "width": 720,
+        "height": 360,
+        "hasAlpha": true,
+        "bytes": 66920,
+        "sha256": "ef5d93f9cde34ca30db1f341d35e07c672dbdd3dd4b9b94e741956c717a26abf"
+      }
+    },
+    {
+      "role": "turbine",
+      "source": {
+        "file": "originals/turbine.png",
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": true,
+        "bytes": 2634519,
+        "sha256": "7ca77da34148484debebe1deab6ddb7faf31f4511f61393834ecddf15bc84db3"
+      },
+      "runtime": {
+        "file": "turbine.webp",
+        "width": 384,
+        "height": 384,
+        "hasAlpha": true,
+        "bytes": 83574,
+        "sha256": "5a2abfff28d35504c4ee167200049d0e4caeb8acf6c768d7931317de1b4643c6"
+      }
+    }
+  ],
+  "prompts": [
+    "Use case: background-extraction. Game asset: Helios-R showroom image is the edit target. Extract precisely the original orange and black aero hypercar as a clean wide single vehicle sprite. Match this three-quarter view facing left, shape of orange front fenders, exposed suspension, black carbon central splitter, angular white running lights, orange wing, wheel proportions and two orange stripes on wing tips. Completely remove the showroom, ground reflections, shadow, background and the external golden energy streaks, including inside all spoiler gaps. Preserve all car parts. No extra design or logos or words. Keep the complete car centered tight with 5% transparent padding all around on a genuinely transparent wide RGBA canvas. Rich clean game illustration, very readable when small.",
+    "Use case: stylized-concept. A single isolated top-down perfectly round luminous solar turbine ground seal for the wheels of an orange racing hypercar, a game VFX texture used beneath a mercenary’s feet. Looking exactly straight down onto a flat circle. Six broad, swept, asymmetrical aero fins arranged rotationally like a turbine, separated by wide empty gaps, bevels of copper-orange with luminous amber leading edges, ivory-hot pinstriped tips. Make a strong recognizable racing sun silhouette. Two very thin broken concentric arcs with tiny machined gauge ticks around the perimeter, three short white-hot starting grid slash markers at intervals. Mostly see-through negative space, the central 40 percent entirely empty and transparent. Fine atmospheric ember glow tightly confined to the fin edges. Hand-painted polished sci-fi action RPG VFX, clean optical detail, punchy at 80 px. Isolate centered on TRANSPARENT background, true alpha including inside. Square, even padding for rotation. No text, numbers, letters, car, floor, perspective, square graphic, solid disc, opaque backdrop, vertical beams or equipment."
+  ]
+}

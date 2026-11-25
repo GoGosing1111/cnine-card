@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<base href="/">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>에테르 제로 · 팬텀 베일</title><link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c1010;color:#edf1ee;font:15px/1.5 system-ui,sans-serif}
+main{max-width:1240px;margin:auto}header,footer{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:#171c1a}
+h1,p{margin:0}h1{font-size:20px;letter-spacing:-.04em}h1 span{font-weight:500;color:#cdff80}
+p{color:#cad4c9;font-size:14px;word-break:keep-all}a,button,select{display:inline-block;background:#242a26;border:1px solid #49564b;border-radius:5px;color:#edf5e9;padding:6px 12px;text-decoration:none;font:inherit;cursor:pointer}
+button[hidden]{display:none}select{min-width:100px}
+nav{display:flex;gap:6px}a[aria-current],button:focus-visible{border-color:#c7ef7d;color:#d9ff9e}button:disabled{opacity:.45}
+#field{position:relative;aspect-ratio:1600/820;width:100%;overflow:hidden;background:#101215}canvas{display:block;width:100%;height:100%}
+@media(max-width:680px){header,footer{padding:10px;flex-wrap:wrap;gap:6px}h1{font-size:17px}#field{aspect-ratio:1050/1500;max-height:68dvh}button,a{font-size:13px}}
+</style>
+<script>try{localStorage.setItem('cnine_battle_sound','OFF')}catch{}</script>
+<script defer src="/js/responsive-card-images-v1729.js"></script><script defer src="/js/responsive-battle-sprites-v1803.js"></script><script defer src="/js/responsive-battle-sprites-v1815.js"></script>
+<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script>
+<script type="module" src="/preview/aether-zero-support-v1/review.mjs"></script>
+</head>
+<body><main><header><div><h1><strong id="name">에테르 제로</strong> <span id="signature"></span></h1>
+<p id="effect"></p></div>
+<nav aria-label="시연 선택"><select id="vehicle" aria-label="이동수단"></select><select id="mode" aria-label="전투 모드"></select></nav></header>
+<div id="field" aria-label="전투 시연"></div><footer><p id="status" role="status">전장 준비 중</p>
+<nav aria-label="시연 조작"><button id="arrival" disabled>등장·퇴장 다시 보기</button><button id="guard" disabled>공격·방어 장면 보기</button></nav></footer></main></body>
+</html>

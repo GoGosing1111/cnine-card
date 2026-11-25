@@ -123,7 +123,7 @@ async function options(env,user){
 async function loadSquad(env,user,selection,deps){
  const [cards,mercenaries,equip,season,pet]=await Promise.all([loadCoopOwnedCards(env,user,deps,selection.cardIds),selectedMercenaryBattleSnapshots(env,user,selection.mercenaryCodes,'PVE',{freeRanks:true}),deps.userEquipmentBonuses(env,user.id),seasonBonus(env,user.id,'PVE'),loadPetBattleSnapshot(env,user,'PVE')]);
  if(cards.length!==2||cards.some(c=>c.rarity!=='ICON'))fail('OWNED','보유한 아이콘 2장을 선택하세요.',403);
- return {ownerId:Number(user.id),ownerName:user.nickname,pet,cards:selection.cardIds.map(id=>cards.find(c=>c.id===id)),mercenaries,seasonAttackBp:season.attackBp||0,avatarPowerPercent:equip.avatarPowerPercent||0,wornGearPower:equip.equipmentPve,equipmentBonus:Math.max(0,(equip.pve||0)-(equip.battleSuitPve||0)),equipmentSetVisual:equip.pveEquipmentRuntime?.equipmentSetVisual||null};
+ return {ownerId:Number(user.id),ownerName:user.nickname,pet,cards:selection.cardIds.map(id=>cards.find(c=>c.id===id)),mercenaries,seasonAttackBp:season.attackBp||0,avatarPowerPercent:equip.avatarPowerPercent||0,wornGearPower:equip.equipmentPve,equipmentBonus:Math.max(0,(equip.pve||0)-(equip.battleSuitPve||0)),vehicleTransit:equip.pveEquipmentRuntime?.vehicleTransit,equipmentSetVisual:equip.pveEquipmentRuntime?.equipmentSetVisual||null};
 }
 async function verifySelection(env,user,b){
  const selection=validateCoopSelection(b,COOP_DUAL_RULES),[ics,ms]=await Promise.all([

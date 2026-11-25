@@ -1,5 +1,6 @@
 import {SAINT_CODE,SAINT_EVENT} from '../../../../shared/mercenary-lightning-saint-v1.mjs';
 import {saintBattleArt,warmSaintActor,cancelSaint,clearSaint,playSaintBasic,playSaintSkill} from './LightningSaintCombatPlayback.js';
+import {prepareMercenaryVehicleSupport} from './MercenaryVehicleSupportFX.js';
 import {RYUJIN_CODE,RYUJIN_AREA_EVENT} from '../../../../shared/mercenary-ryujin-v1.mjs';
 import {ryujinBattleArt,setupRyujinActor,warmRyujinActor,clearRyujinActors,cancelRyujinPlayback,resumeRyujinPlayback,playRyujinBasic,playRyujinArea} from './RyujinCombatPlayback.js';
 import {ASTRA_CODE,ASTRA_EVENT} from '../../../../shared/mercenary-astra-v1.mjs';
@@ -234,13 +235,19 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(options?.attacker?.isMercenary&&MERCENARY_ROLE_ATTACKS[options.attacker.role])return playMercenaryRoleAttack(this,options);
   return super.normalAttack(index,options);
  }
- clearMercenaryActors(){clearAstraActors(this);clearBlueGearActors(this);clearMercenaryAreaPresentation(this);this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);clearLimitedActors(this);clearHeliosActors(this);clearJinmuActors(this);clearKaironActors(this);clearJokroActors(this);clearCardguActors(this);clearKamishiroActors(this);clearHeukmuActors(this);clearGeneralJokActors(this);clearAwakenedOmegaActors(this);clearRazakActors(this);clearNamsudaengActors(this);clearBlackCrownActors(this);clearBloodmoonActors(this);clearJinJokroActors(this);clearSaint(this);clearRyujinActors(this);clearHeliosKingActors(this);clearHakuyaActors(this);clearRevanActors(this);clearEunseolActors(this);clearPrimeActors(this);clearZeroActors(this);clearLeonelActors(this);clearBathoryActors(this);clearShiranuiActors(this);clearAzantActors(this);clearKangyunActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
+ clearMercenaryActors(){
+  this.vehicleSupportFX?.destroy();this.vehicleSupportFX=null;
+  clearAstraActors(this);clearBlueGearActors(this);clearMercenaryAreaPresentation(this);this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);clearLimitedActors(this);clearHeliosActors(this);clearJinmuActors(this);clearKaironActors(this);clearJokroActors(this);clearCardguActors(this);clearKamishiroActors(this);clearHeukmuActors(this);clearGeneralJokActors(this);clearAwakenedOmegaActors(this);clearRazakActors(this);clearNamsudaengActors(this);clearBlackCrownActors(this);clearBloodmoonActors(this);clearJinJokroActors(this);clearSaint(this);clearRyujinActors(this);clearHeliosKingActors(this);clearHakuyaActors(this);clearRevanActors(this);clearEunseolActors(this);clearPrimeActors(this);clearZeroActors(this);clearLeonelActors(this);clearBathoryActors(this);clearShiranuiActors(this);clearAzantActors(this);clearKangyunActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
  async applyBattlePayload(payload){
   this.clearMercenaryActors();
   const epoch=this.mercenaryEpoch,entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   const rules=payload?.battleV2?.rules||{},perOwner=rules.mercenariesPerOwner===2?2:1,limit=rules.formation==='COOP_THREE_SQUADS'?3*perOwner:rules.formation==='DUO_TWO_SQUADS'?2*perOwner:2;
   if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_MERCENARIES_PER_SIDE');
-  if(!entries.length)return super.applyBattlePayload(payload);
+  if(!entries.length){
+    const result=await super.applyBattlePayload(payload);
+    if(epoch===this.mercenaryEpoch&&!this.mercenaryDisposed)await prepareMercenaryVehicleSupport(this,payload);
+    return result;
+  }
   // The shared image loader bounds actual decoding (two on iOS, three on touch).
   const parallel=rules.formation==='COOP_THREE_SQUADS';
   const [result,prepared]=parallel?await Promise.all([
@@ -292,7 +299,9 @@ export const withMercenaryBattle=Base=>class extends Base{
   await Promise.all(this.mercenaries.filter(a=>a.cardId===JINMU_CODE).map(a=>setupJinmuActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===KANGYUN_CODE).map(a=>setupKangyunActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===AZANT_CODE).map(a=>setupAzantActor(this,a)));
-  await Promise.all(this.mercenaries.filter(a=>a.cardId===HELIOS_CODE).map(a=>setupHeliosActor(this,a)));return result;
+  await Promise.all(this.mercenaries.filter(a=>a.cardId===HELIOS_CODE).map(a=>setupHeliosActor(this,a)));
+  await prepareMercenaryVehicleSupport(this,payload);
+  return result;
  }
  syncFinalState(final={}){const out=super.syncFinalState(final);for(const a of this.mercenaries){const side=a.team===TEAM.ALLY?'A':'B',row=final.mercenaries?.[side]?.find(c=>c.id===a.id);if(!row)continue;a.serverMaxHp=row.maxHp;a.setState(row.hp>0?CHARACTER_STATE.IDLE:CHARACTER_STATE.DEAD);a.setHp(Math.max(0,row.hp)/Math.max(1,row.maxHp)*100);a.setShield(row.shield||0,row.maxShield||0);a.enabled=row.hp>0;a.root.visible=a.enabled;}this.sortCombatDepth();return out;}
  async sequenceFor(skillId){

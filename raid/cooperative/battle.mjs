@@ -50,7 +50,8 @@ export async function mountCoopBattle(host,payload,{clock:sharedClock,title='격
  function update(value){
   if(!sharedClock)clock.sample(value.serverNow,{sentAt:value.clientSentAt??undefined});lastSnapshot=performance.now();suspended=false;frame=value.state.fighters;
   if(frame)api.syncCooperativeState?.(frame);
-  const state=value.state;startsAt=state.startsAt||0;active=state.status==='ACTIVE'&&!state.myResult;
+  const state=value.state,previousStart=startsAt;startsAt=state.startsAt||0;active=state.status==='ACTIVE'&&!state.myResult;
+  if(value.payload||previousStart!==startsAt)api.syncVehicleSupport?.(startsAt?clock.now()-startsAt:null);
   if(value.payload){groups=groupEvents(value.payload.battleV2.result.timeline);cancel();cursor=0;const elapsed=startsAt?clock.now()-startsAt:0;
    while(cursor<groups.length&&groups[cursor].at<elapsed-300){cursor++;skipped++;}api.restorePetSupport?.(elapsed-300);sync();}
   if(!active&&state.status!=='LOADING'){cancel();sync();}
@@ -61,7 +62,7 @@ export async function mountCoopBattle(host,payload,{clock:sharedClock,title='격
    if(performance.now()-lastSnapshot>15000){if(!suspended){cancel();suspended=true;}}
    else{
     const elapsed=clock.now()-startsAt;
-    if(cursor<groups.length&&elapsed-groups[cursor].at>1000){cancel();while(cursor<groups.length&&groups[cursor].at<elapsed-100){cursor++;skipped++;}api.restorePetSupport?.(elapsed-100);sync();lastSync=elapsed;}
+    if(cursor<groups.length&&elapsed-groups[cursor].at>1000){cancel();while(cursor<groups.length&&groups[cursor].at<elapsed-100){cursor++;skipped++;}api.restorePetSupport?.(elapsed-100);api.syncVehicleSupport?.(elapsed);sync();lastSync=elapsed;}
     let budget=6;
     while(budget-->0&&cursor<groups.length&&groups[cursor].at<=elapsed){const group=groups[cursor++];if(!['LEGION_BURNING_CITADEL','CLAN_DOCKYARD'].includes(payload.sceneAssetKey)&&group.events.some(e=>e.type==='ENEMY_SPAWN'))cancel();play(group);}
     if(cursor>=groups.length&&elapsed-lastSync>5000&&!lanes.size){sync();lastSync=elapsed;}

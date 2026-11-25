@@ -1,3 +1,4 @@
+import {mercenaryVehicleSupport, vehicleBuffText} from '../shared/mercenary-vehicle-support-v1.mjs';
 // Presentation only: all values come from the existing actor clock or receipt.
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clamp=(n,max=100)=>Math.max(0,Math.min(max,Number(n)||0));
@@ -56,7 +57,9 @@ export function createBattleHud({stage,payload,mode,runtime,artFor,isCurrent=()=
   return `<aside class="v3-hud-rail${side==='B'?' is-enemy':''}" data-hud-side="${side}" aria-label="${side==='A'?'아군':'상대'} 상태" style="--hud-squads:${rows.length}">${rows.map(g=>{
    const member=g.member,name=member?.ownerName||owners[side==='A'?0:1]||'';
    const rank=Number(member?.ownerRankLevel),rankAttr=Number.isInteger(rank)&&rank>=1&&rank<=250?` data-v3-roster-owner-rank-level="${rank}"`:'';
-   return `<section class="battle-v3-roster-side" data-v3-roster-side="${side}" data-hud-squad="${g.squad}"><header><small data-v3-roster-label>${rows.length>1?'분대 '+(g.squad+1):side==='A'?'아군':'상대'}</small><span data-hud-count></span><b data-v3-roster-owner data-v3-roster-owner-id="${esc(member?.ownerId||'')}"${rankAttr}>${esc(name)}</b></header><ol data-v3-roster-list aria-label="출전 카드">${g.cards.map(c=>portrait(c,side,false)).join('')}</ol>${g.mercs.length?`<div class="v3-hud-group">용병 <span>${g.mercs.length}</span></div><ol aria-label="출전 용병">${g.mercs.map(c=>portrait(c,side,true)).join('')}</ol>`:''}</section>`;
+   const spec = g.mercs.map(mercenaryVehicleSupport).find(s => s?.attackPercent);
+   const buff = spec ? '<span class="v3-hud-vehicle" title="' + esc(spec.name + ' · ' + vehicleBuffText(spec)) + '" aria-label="' + esc(vehicleBuffText(spec)) + '">공·방 +' + spec.attackPercent + '%</span>' : '';
+   return `<section class="battle-v3-roster-side" data-v3-roster-side="${side}" data-hud-squad="${g.squad}"><header><small data-v3-roster-label>${rows.length>1?'분대 '+(g.squad+1):side==='A'?'아군':'상대'}</small><span data-hud-count></span><b data-v3-roster-owner data-v3-roster-owner-id="${esc(member?.ownerId||'')}"${rankAttr}>${esc(name)}</b></header><ol data-v3-roster-list aria-label="출전 카드">${g.cards.map(c=>portrait(c,side,false)).join('')}</ol>${g.mercs.length?`<div class="v3-hud-group">용병 <span>${g.mercs.length}</span>${buff}</div><ol aria-label="출전 용병">${g.mercs.map(c=>portrait(c,side,true)).join('')}</ol>`:''}</section>`;
   }).join('')}</aside>`;
  }).join('');
  for(const node of roster.querySelectorAll('[data-hud-actor]')){

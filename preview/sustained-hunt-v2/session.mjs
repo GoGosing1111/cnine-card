@@ -63,6 +63,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const playbackFinal=state=>({A:state.A.filter(card=>!card.isMercenary&&!card.isBattleSuit),B:state.B.filter(card=>!card.isMercenary),
     mercenaries:{A:state.A.filter(card=>card.isMercenary),B:state.B.filter(card=>card.isMercenary)}});
   const accountNickname=snapshot?.accountNickname||'검수 원정대',mercenaries=result.openingMercenaries?.A||[];
+  const vehicleTransit=snapshot?.characterBonus?.pveEquipmentRuntime?.vehicleTransit;
   const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · '+(displayRegion?.name||'잊혀진 섬'),...(region?{regionId,regionName:displayRegion.name,battlefieldBackground:displayRegion.background}:{}),mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
     cards,equippedBattleSuit,equippedWeapon,characterBonus:snapshot?.characterBonus||{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
     ...(snapshot?{loadoutSource:snapshot.source,...companionBattleOptions(snapshot),pet:snapshot.pet||null}:{}),
@@ -71,7 +72,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
       final:playbackFinal(result.final)},
     continuousEncounter:{schemaVersion:2,capacity:CAPACITY,initialIds:fighters.slice(0,CAPACITY).map(r=>r.id),instances},
     battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},
-      teams:{A:{cards:result.openingTeams?.A.filter(c=>!c.isMercenary&&!c.isBattleSuit)||teamA.map(publicFighter),summary:teamSummary(result.openingTeams?.A.filter(c=>!c.isBattleSuit)||[...teamA,...mercenaries]),...(mercenary?{mercenaries}:{}),...(snapshot?.pet?{pet:snapshot.pet}:{}),supports:support?[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
+      teams:{A:{...(vehicleTransit?{vehicleTransit}:{}),cards:result.openingTeams?.A.filter(c=>!c.isMercenary&&!c.isBattleSuit)||teamA.map(publicFighter),summary:teamSummary(result.openingTeams?.A.filter(c=>!c.isBattleSuit)||[...teamA,...mercenaries]),...(mercenary?{mercenaries}:{}),...(snapshot?.pet?{pet:snapshot.pet}:{}),supports:support?[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
       result:{winner:null,reason:'RUNNING',timeline,final:{A:result.final.A.filter(c=>!c.isMercenary&&!c.isBattleSuit),B:result.final.B,...(mercenary?{mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:[]}}:{})}}}};
   return Object.assign(restoreHuntSession({id,policy,timeLimit,magnet:snapshot?.pet?.magnet===true,eventTimes:timeline.map(e=>Math.floor(e.combatAtMs)),timeline:timeline.filter(e=>e.huntKill||e.type==='RESULT').map(({seq,combatAtMs,huntKill,boss,elite,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,elite,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
 }

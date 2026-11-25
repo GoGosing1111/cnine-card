@@ -1,5 +1,6 @@
 import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
 import {mercenaryModeAllowed,MERCENARY_DEPLOYMENT_MODE_VERSION} from '../shared/mercenary-eunseol-v1.mjs';
+import { attachVehicleSupports, enabledVehiclePolicies, equippedVehiclePolicy, garageTransit } from './_mercenary_vehicle_support.js';
 import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
 import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
 import {readShiranuiEligibleUsers} from './_mercenary_shiranui_access.js';
@@ -50,11 +51,12 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
  const ids=versions.map(v=>Number(v.user_id)),m=marks(ids),p=(sql)=>env.DB.prepare(sql).bind(...ids).all();
  // Rebuild only changed accounts. All row reads use user-leading indexes;
  // the limit is a hard input budget, never silently truncated into a rating.
+ const transitEnabled = env.VEHICLE_TRANSIT_FX === '1' || enabledVehiclePolicies(env).length > 0;
  const [owned,decks,gear,vehicles,titles,mercRows,battle,mercDocument,mercRuntime,mercLoadouts,mercGear]=await Promise.all([
   p(`SELECT uc.user_id,c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,mb.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN members mb ON mb.id=c.member_id WHERE uc.user_id IN (${m}) AND uc.quantity>0 LIMIT 65537`),
   p(`SELECT d.user_id,d.card_ids AS defense_ids,CASE WHEN COALESCE(a.preset_no,1)=1 THEN COALESCE(pr.card_ids,d.card_ids) ELSE pr.card_ids END AS attack_ids,COALESCE(a.preset_no,1) AS preset_no FROM pvp_decks d LEFT JOIN pvp_active_presets a ON a.user_id=d.user_id LEFT JOIN pvp_deck_presets pr ON pr.user_id=a.user_id AND pr.preset_no=a.preset_no WHERE d.user_id IN (${m})`),
   readDuoEquipment(env,ids),
-  p(`SELECT v.user_id,g.id,g.pvp_power,l.garage_id AS equipped FROM user_garage_vehicles v JOIN character_garage_items g ON g.id=v.garage_id LEFT JOIN user_garage_loadout l ON l.user_id=v.user_id AND l.garage_id=v.garage_id WHERE v.user_id IN (${m}) AND g.is_active=1 LIMIT 65537`),
+  p(`SELECT v.user_id,g.id,g.pvp_power${transitEnabled?',g.code,g.name,g.image_url':''},l.garage_id AS equipped FROM user_garage_vehicles v JOIN character_garage_items g ON g.id=v.garage_id LEFT JOIN user_garage_loadout l ON l.user_id=v.user_id AND l.garage_id=v.garage_id WHERE v.user_id IN (${m}) AND g.is_active=1 LIMIT 65537`),
   p(`SELECT u.user_id,t.id,t.pve_power AS pvp_power,u.expires_at,l.title_id AS equipped FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id LEFT JOIN user_title_loadout l ON l.user_id=u.user_id AND l.title_id=u.title_id WHERE u.user_id IN (${m}) AND t.is_active=1 AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) LIMIT 65537`),
   p(`SELECT c.user_id,c.mercenary_code,c.loan_until FROM ${PLAYABLE_MERCENARIES} c WHERE c.user_id IN (${m}) AND c.total_copies>0 LIMIT 2001`),
   deps.readBattleSettings(env),readMercenaryDocument(env),readMercenaryRuntime(env),readMercenaryModes(env,ids,{dual}),mercenaryEquipmentRuntimes(env,ids,'PVP')
@@ -78,7 +80,11 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
   for(const row of byUser(mercRows,userId))if(row.loan_until)expires=Math.min(expires,Date.parse(row.loan_until.replace(' ','T')+'Z'));
   const mercs=mercsByUser.get(userId);
-  const codes=mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[],mercenaries=codes.map(code=>mercs.find(m=>m.code===code)).filter(Boolean),mercenary=mercs.find(m=>m.equipped)||null,formation=dual?{mercenary:mercenaries[0]||null,mercenaries}:{mercenary};
+  const garage = byUser(vehicles,userId).find(row => row.equipped);
+  const vehicleTransit = garageTransit(env,userId,garage);
+  const policy = equippedVehiclePolicy(env,garage?.code);
+  const deployedRows = policy ? attachVehicleSupports(new Map([[userId,mercs]]), new Map([[userId,policy]])).get(userId) : mercs;
+  const codes=mercLoadouts.get(userId).loadouts.PVP.mercenaryCodes||[],mercenaries=codes.map(code=>deployedRows.find(m=>m.code===code)).filter(Boolean),mercenary=deployedRows.find(m=>m.equipped)||null,formation=dual?{mercenary:mercenaries[0]||null,mercenaries}:{mercenary};
   if(dual)validatePreparedMercenaries(mercenaries);
   const mercenaryPower=best.length===5?duoMercenaryPotential(mercs,best,potentialEquipment,config.mercenaryWeights,dual,potentialWornGear):0;
   const cardPower=best.reduce((s,c)=>s+c.power,0),power=Math.max(1,Math.round(100*(cardPower+potentialEquipment+mercenaryPower)/Math.max(1,baseline)));
@@ -86,7 +92,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced,dual){
   // original simulator inputs so a policy change cannot strand their receipt.
   const valid=deck=>{if(!pvpDeckGradeAllowed(deck))return false;try{validateDuoDeck(deck);return true;}catch{return false;}};
   const equipmentSetVisual=equipmentSetVisualFromRows(byUser(gear,userId),userId);
-  profiles.push({userId,user,nickname:version.nickname,sourceVersion:Number(version.source_version),policyRevision:Number(version.policy_revision),power,expiresAt:new Date(expires).toISOString(),breakdown:{baseline,cardPower,equipmentPower:potentialEquipment,mercenaryPower,fur13Count:cards.filter(c=>c.rarity==='FUR'&&Number(c.breakthrough_level)>=13).length,superstarLevel:Math.max(-1,...cards.filter(c=>c.rarity==='SUPERSTAR').map(c=>Number(c.breakthrough_level))),mercenaryRanks:mercs.map(m=>({code:m.code,rank:m.rank}))},attackReady:valid(attack),defenseReady:valid(defense),attack:{ownerId:userId,ownerName:version.nickname,cards:attack,equipmentSetVisual,equipmentBonus:equipment,wornGearPower,...formation,presetNo:Number(saved?.preset_no||1)},defense:{ownerId:userId,ownerName:version.nickname,cards:defense,equipmentSetVisual,equipmentBonus:equipment,wornGearPower,...formation,presetNo:1}});
+  profiles.push({userId,user,nickname:version.nickname,sourceVersion:Number(version.source_version),policyRevision:Number(version.policy_revision),power,expiresAt:new Date(expires).toISOString(),breakdown:{baseline,cardPower,equipmentPower:potentialEquipment,mercenaryPower,fur13Count:cards.filter(c=>c.rarity==='FUR'&&Number(c.breakthrough_level)>=13).length,superstarLevel:Math.max(-1,...cards.filter(c=>c.rarity==='SUPERSTAR').map(c=>Number(c.breakthrough_level))),mercenaryRanks:mercs.map(m=>({code:m.code,rank:m.rank}))},attackReady:valid(attack),defenseReady:valid(defense),attack:{ownerId:userId,ownerName:version.nickname,cards:attack,...(vehicleTransit?{vehicleTransit}:{}),equipmentSetVisual,equipmentBonus:equipment,wornGearPower,...formation,presetNo:Number(saved?.preset_no||1)},defense:{ownerId:userId,ownerName:version.nickname,cards:defense,...(vehicleTransit?{vehicleTransit}:{}),equipmentSetVisual,equipmentBonus:equipment,wornGearPower,...formation,presetNo:1}});
  }
  const entries=profiles.flatMap(p=>[p.attack,p.defense].map(squad=>({user:p.user,cards:squad.cards,squad}))),[unique,synergy,magic]=await Promise.all([
   deps.cardUniqueDeckStates(env,entries,'PVP',{fresh:true,batched:true}),deps.evaluateDeckSynergiesBatch(env,entries.map(e=>({user:e.user,deckIds:e.cards.map(c=>c.id)})),'PVP'),
@@ -110,7 +116,7 @@ const validateAccounts=(versions,count,now,allowOwner=false)=>{
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0,dual=COMPANION_RELEASE.dualMercenaries}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
- const hash=await jointHash({pvpDeckPolicy:'fur-minimum-20261118-v1',weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261122-rank',mercenaryGrowth:'20261020-v1',shiranuiDeployment:'20261108-bus-driver',dualMercenaries:dual,equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
+ const hash=await jointHash({pvpDeckPolicy:'fur-minimum-20261118-v1',weights:config.mercenaryWeights,mercenaryLoadoutMode:MERCENARY_DEPLOYMENT_MODE_VERSION,mercenaryEquipment:'20261122-rank',mercenaryGrowth:'20261020-v1',shiranuiDeployment:'20261108-bus-driver',dualMercenaries:dual,equipmentSetVisualVersion:1,vehicleTransit:[env.VEHICLE_TRANSIT_FX==='1',...enabledVehiclePolicies(env).map(spec=>[spec.vehicle,spec.version])],advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);

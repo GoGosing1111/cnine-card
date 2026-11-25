@@ -221,3 +221,5 @@
 .has-tactical-hud.wr3-live .battle-v3-header>#battlePhase{grid-column:2;grid-row:1;font:600 24px/1.2 V3Numbers,V3Noto,sans-serif}
 @media(min-width:1200px){.battle-v3-live-shell.has-tactical-hud.wr3-live>.battle-v3-header{right:324px}}
 @media(max-width:640px){.battle-v3-live-shell.has-tactical-hud.wr3-live>.battle-v3-header{right:12px}.has-tactical-hud.wr3-live .battle-v3-header strong{font-size:13px!important}}
+
+.v3-hud-group:has(.v3-hud-vehicle){justify-content:flex-start;flex-wrap:wrap;gap:0 .3em}.v3-hud-group .v3-hud-vehicle{margin-left:auto;color:#e1eab5;white-space:nowrap;font-weight:700}

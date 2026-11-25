@@ -220,6 +220,7 @@ import {rememberSoopWatchIdentity,handleSoopWatch} from '../_soop_watch.js';
 import { handleNewUserGift,NEW_USER_GIFT_CODE,completePlaydkVerificationWithGift,claimNewUserGiftMessage } from '../_new_user_gift.js';
 import { handleHyperPack,arrangeHyperPackCatalog } from '../_hyper_pack.js';
 import { handleWishLamp } from '../_wish_lamp.js';
+import { withReleasedVehicleSupport } from '../_mercenary_vehicle_support.js';
 import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
 import { rankedHistoryRows, syncRankedDefensePreset, createPvpTimings } from '../_pvp_performance.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
@@ -7213,7 +7214,7 @@ async function handleRequest(context){
         const attackerEngineCards=aCards.map(card=>{const uniqueCard=aUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null,iconExpansion:uniqueCard?.iconExpansion||null}});
         const defenderEngineCards=dCards.map(card=>{const uniqueCard=dUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null,iconExpansion:uniqueCard?.iconExpansion||null}});
         const [attackerSeasonEquipment,defenderSeasonEquipment]=await Promise.all([seasonBonus(env,user.id,'PVP'),seasonBonus(env,defenderId,'PVP')]);
-        rankedSeries=simulateRankedSeries({createBattle:createPvpBattleV2,attackerMercenaries:seriesMercenaries.get(Number(user.id)),defenderMercenaries:seriesMercenaries.get(defenderId),seed,options:{attackerSeasonEquipment,defenderSeasonEquipment,attackerPet:aPet,defenderPet:dPet,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentSetVisual:aCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,defenderEquipmentSetVisual:dCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,attackerWornGearPower:aCharacterBonus.equipmentPvp,defenderWornGearPower:dCharacterBonus.equipmentPvp,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),attackerAvatarPowerPercent:aCharacterBonus.avatarPowerPercent,defenderAvatarPowerPercent:dCharacterBonus.avatarPowerPercent,seed,singleHealerBonus:engineState.singleHealerBonus}});
+        rankedSeries=simulateRankedSeries({createBattle:createPvpBattleV2,attackerMercenaries:seriesMercenaries.get(Number(user.id)),defenderMercenaries:seriesMercenaries.get(defenderId),seed,options:{attackerSeasonEquipment,defenderSeasonEquipment,attackerPet:aPet,defenderPet:dPet,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerVehicleTransit:aCharacterBonus?.pveEquipmentRuntime?.vehicleTransit,defenderVehicleTransit:dCharacterBonus?.pveEquipmentRuntime?.vehicleTransit,attackerEquipmentSetVisual:aCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,defenderEquipmentSetVisual:dCharacterBonus?.pveEquipmentRuntime?.equipmentSetVisual,attackerWornGearPower:aCharacterBonus.equipmentPvp,defenderWornGearPower:dCharacterBonus.equipmentPvp,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),attackerAvatarPowerPercent:aCharacterBonus.avatarPowerPercent,defenderAvatarPowerPercent:dCharacterBonus.avatarPowerPercent,seed,singleHealerBonus:engineState.singleHealerBonus}});
         battleV2=rankedSeries.rounds.at(-1).battleV2;
       }
       const attackerWin=rankedSeries.winner==='A';
@@ -9591,6 +9592,7 @@ export async function onRequest(context){
   if(retired)return retired;
   // Preview/deployment URLs keep their own original environment and DB bindings.
   if(context.env?.API_RUNTIME&&new URL(context.request.url).hostname==='cnine-card.pages.dev'&&context.env?.API_RUNTIME_DISABLED!=='1')return forwardApiRuntimeRequest(context);
+  context={...context,env:withReleasedVehicleSupport(context.env)};
   const requestUrl=new URL(context.request.url);
   const requestPath=requestUrl.pathname.replace(/^\/api\/?/,'');
   if(requestPath==='coop/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return cooperativeStream(context.request,context.env);
@@ -9644,6 +9646,7 @@ export async function onRequest(context){
 
 // Only the private scheduler invokes this; no public request can drive lifecycle work.
 export async function runRankedDuoMaintenance(env,{now=Date.now()}={}){
+ env=withReleasedVehicleSupport(env);
  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();
  const settings=row?.value?cleanPvpSettings(JSON.parse(row.value)):defaultPvpSettings();
  return reconcileDuoSeason(env,{now,settings,deps:{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});
@@ -9651,9 +9654,11 @@ export async function runRankedDuoMaintenance(env,{now=Date.now()}={}){
 
 // Private cron entry; public organization endpoints cannot trigger automatic jobs.
 export async function runOrganizationOwnerAllocation(env,body){
+ env=withReleasedVehicleSupport(env);
  return runOrganizationAllocation(env,body,{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts});
 }
 export async function runOrganizationMaintenance(env,{now=Date.now()}={}){
+ env=withReleasedVehicleSupport(env);
  const recruitment=await reconcileOrganizationRecruitment(env,{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts},{now});
  const faction=await tickOrganizationFaction(env,{now:()=>now,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout});
  return {changed:!!recruitment.changed||!!faction?.changed,recruitment,faction};
@@ -9667,6 +9672,7 @@ export async function runUserAuctionSchedule(env){
 }
 
 export async function runTerritoryWarSchedule(env){
+ env=withReleasedVehicleSupport(env);
   const runtime=await createPostgresD1Compat(env.HYPERDRIVE?.connectionString);
   try{return await tickTerritorySchedule({...env,DB:runtime.db},{draftFormationPowers,battleSettings,cardBattlePower,pvpDeckSnapshot,pvpDeckSnapshotByIds,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts});}
   finally{await runtime.close();}
