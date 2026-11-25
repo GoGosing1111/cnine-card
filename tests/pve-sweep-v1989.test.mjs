@@ -279,7 +279,8 @@ test('소탕 전용 UI와 캐시 버전이 운영 셸에 연결된다',()=>{
   assert.match(index,/js\/app\.js\?v=[A-Za-z0-9][A-Za-z0-9-]+/);
   assert.match(index,/css\/pve-command-v2\.css\?v=2098-hyper-codex/);
   assert.match(index,/js\/pve-command-v2-live\.js\?[^"\s]*v=2110-combat-lobby/);
-  assert.match(app,/js\/battle-v2-live\.js\?v=1991-sweep-result-front/);
+  const battleQuery=app.match(/['"]js\/battle-v2-live\.js\?([^'"\s]+)['"]/)?.[1];
+  assert.deepEqual(new URLSearchParams(battleQuery).getAll('v'),['1991-sweep-result-front']);
   assert.match(serviceWorker,/soop-card-shell-v[A-Za-z0-9][A-Za-z0-9-]+/);
   assert.match(packageJson.scripts['release:gate']||'',/npm run test:pve-sweep/);
 });
