@@ -7,6 +7,8 @@ import {
 import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {LIMITED_RATE_TOTAL,limitedRateUnits} from '../shared/mercenary-limited-rates-v1.mjs';
 import {createHalloweenPackService} from '../functions/_mercenary_halloween_opening.js';
+import {readJinmuPackOwners} from '../functions/_mercenary_jinmu_access.js';
+import {readJokroPackOwners} from '../functions/_mercenary_jokro_access.js';
 import {halloweenPackShopRow,handleHalloweenPack,readHalloweenPackState} from '../functions/_mercenary_halloween_pack.js';
 import {prepareHalloweenRerun,verifyHalloweenRerun} from '../scripts/ops/halloween-rerun-20261125.mjs';
 
@@ -17,26 +19,57 @@ function mockClock(t){
  t.mock.method(Date,'now',()=>now);
  return value=>{now=value;};
 }
-async function soldOutFixture(t){
+async function soldOutFixture(t,originalSale){
  const f=await halloweenFixture(t);
  f.settings.cardRatesPpm=Object.fromEntries(codes.map(code=>[code,10_000]));
  f.settings.normalSssRatePpm=1_000_000-codes.length*10_000;
  await f.configure();
+ if(originalSale)await originalSale(f);
  await f.pg.exec("ALTER TABLE app_meta ADD COLUMN updated_at TEXT; ALTER TABLE users ADD COLUMN role TEXT; ALTER TABLE users ADD COLUMN status TEXT; UPDATE users SET role='OWNER',status='ACTIVE' WHERE id=1;");
  await f.pg.query('UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code=ANY($1::text[])',[codes]);
  await f.pg.query(`INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at)
   SELECT stock.code||':'||serial,'old-sale',1,stock.code,serial,'2026-10-24' FROM mercenary_limited_stock_v1 stock
-  CROSS JOIN LATERAL generate_series(1,stock.issued) AS serial WHERE stock.code=ANY($1::text[])`,[codes]);
+  CROSS JOIN LATERAL generate_series(1,stock.issued) AS serial WHERE stock.code=ANY($1::text[])
+  ON CONFLICT(code,serial) DO NOTHING`,[codes]);
  const db={query:(sql,args)=>sql==='SELECT clock_timestamp() AS now'
   ? {rows:[{now:new Date(Date.now()).toISOString()}]} : f.pg.query(sql,args)};
  const stock=code=>f.p('SELECT stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code=?',code).first();
  return {...f,db,stock};
 }
-function serviceFor(code){
+function serviceFor(code,options={}){
  const ticket=HALLOWEEN_PACK_CARDS.findIndex(card=>card.code===code)*limitedRateUnits(10_000);
  let nextStage=0;
- return createHalloweenPackService({readState:readHalloweenPackState,randomInt:max=>max===LIMITED_RATE_TOTAL?nextStage++%2*ticket:0});
+ return createHalloweenPackService({readState:readHalloweenPackState,...options,randomInt:max=>max===LIMITED_RATE_TOTAL?nextStage++%2*ticket:0});
 }
+
+test('original and rerun Jinmu and Jokro owners remain eligible through every reissued serial',async t=>{
+ const moveClock=mockClock(t);
+ const checks=[['V-989',readJinmuPackOwners],['V-979',readJokroPackOwners]];
+ const originalBuyer=7,rerunBuyer=8,otherUser=9,ids=[originalBuyer,rerunBuyer,otherUser];
+ const f=await soldOutFixture(t,async original=>{
+  for(const [code] of checks){
+   const opened=await serviceFor(code,{shopEnabled:true}).open(original.env,{id:originalBuyer},original.body());
+   assert.equal(opened.draws[0].mercenaryCode,code);
+  }
+ });
+ await prepareHalloweenRerun(f.db);
+ moveClock(opens);
+ for(const [code,readOwners] of checks){
+  const owners=()=>readOwners(f.env,ids);
+  assert.deepEqual(await owners(),new Set([originalBuyer]));
+  const service=serviceFor(code),base=Number((await f.stock(code)).issued);
+  for(let i=1;i<=HALLOWEEN_RERUN_LIMITS[code];i++){
+   const receipt=await service.open(f.env,{id:rerunBuyer},f.body());
+   assert.equal(receipt.draws[0].serial,base+i);
+   assert.deepEqual(await owners(),new Set([originalBuyer,rerunBuyer]));
+  }
+  const exhausted=await service.open(f.env,{id:otherUser},f.body());
+  assert.notEqual(exhausted.draws[0].mercenaryCode,code);
+  assert.deepEqual(await owners(),new Set([originalBuyer,rerunBuyer]));
+  await f.p('UPDATE mercenary_limited_stock_v1 SET stock_limit=stock_limit+1 WHERE code=?',code).run();
+  assert.deepEqual(await owners(),new Set());
+ }
+});
 
 test('the scheduled rerun is listed before midnight KST and permits purchases at precisely midnight',async t=>{
  const moveClock=mockClock(t),f=await soldOutFixture(t);
