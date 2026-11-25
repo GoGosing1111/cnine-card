@@ -5,7 +5,7 @@ import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 export const VALTER_CODE='V-996';
 export const VALTER_AREA_EVENT='MERCENARY_VALTER_AREA';
 export const VALTER_AREA_MECHANIC='CRIMSON_FINAL_EXECUTION';
-// Valter, Helios, Kairon and Jinmu share this combat band. Scale the entire
+// Valter, Helios and Jinmu share this combat band. Scale the entire
 // opening shield (including the front-row bonus) and keep speed independent.
 const basePower=1950000,statsReferencePower=1123200;
 const statScale=basePower/statsReferencePower;

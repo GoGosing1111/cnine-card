@@ -1,17 +1,18 @@
 import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 
 export const KAIRON_CODE='V-988';
-const statsReferencePower=1123200,statScale=4400000/statsReferencePower;
+const basePower=2350000,statsReferencePower=1123200;
+const statScale=basePower/statsReferencePower;
 export const KAIRON_COMBAT=Object.freeze({
- version:3,basePower:2350000,statsReferencePower,statScale,
- speedReferencePower:1080000,speedScale:6,actionCredit:6,motionPlaybackRate:2.6,
+ version:4,basePower,statsReferencePower,statScale,
+ speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,motionPlaybackRate:2.6,
  link:Object.freeze({attackPercent:1830.4*statScale,hpPercent:1164.8*statScale,shieldPercent:686.4*statScale-60}),
- basicCapScale:2*statScale,basicDamageScale:2.5,areaDamageCapScale:5.5,damageTakenScale:.12,hardCounter:BERKAN_CODE
+ basicCapScale:2*statScale,damageTakenScale:.2,hardCounter:BERKAN_CODE
 });
 export const KAIRON_AREA_EVENT='MERCENARY_KAIRON_AREA';
 export const KAIRON_AREA_MECHANIC='QUANTUM_BALLISTIC_STRIKE';
 export const KAIRON_AREA_SKILL=Object.freeze({id:'MS-988',name:'양자 탄도 폭쇄',mechanic:KAIRON_AREA_MECHANIC,target:'ALL_ENEMIES',pveOnly:true,
- balance:Object.freeze({damageRatio:96,cooldownTurns:2,cost:10})});
+ balance:Object.freeze({damageRatio:15.12,cooldownTurns:5,cost:35})});
 export const isKairon=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===KAIRON_CODE;
 export const kaironActionCredit=actors=>actors.some(a=>isKairon(a)&&a.alive!==false&&a.hp>0)?KAIRON_COMBAT.actionCredit:1;
 export function kaironIncomingDamage(target,incoming,source){
@@ -29,9 +30,9 @@ export const KAIRON_ART=Object.freeze({
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#e4eaf2',
  basePower:KAIRON_COMBAT.basePower,skills:Object.freeze([KAIRON_AREA_SKILL]),deploymentEnabled:true,
- combatLinkDescription:'기본 전투력 2,350,000. 일반 공격 250%, 자연 행동 속도 6배, 아군 카드 행동당 추가 행동 6회분, 받는 피해 88% 경감. PVE 양자 탄도 폭쇄는 총 9,600% 피해를 생존 적 전체에 나눠 적용합니다. 에너지 10 · 재사용 2행동. PVP에서는 일반 공격을 사용합니다.'
+ combatLinkDescription:`기본 전투력 ${basePower.toLocaleString('ko-KR')}. 자연 행동 속도 ${KAIRON_COMBAT.speedScale}배, 아군 카드 25회 행동당 추가 행동 ${KAIRON_COMBAT.actionCredit*25}회, 받는 피해 ${Math.round((1-KAIRON_COMBAT.damageTakenScale)*100)}% 경감. PVE 양자 탄도 폭쇄는 총 ${(KAIRON_AREA_SKILL.balance.damageRatio*100).toLocaleString('ko-KR')}% 피해를 생존 적 전체에 나눠 적용합니다. 에너지 ${KAIRON_AREA_SKILL.balance.cost} · 재사용 ${KAIRON_AREA_SKILL.balance.cooldownTurns}행동. PVP에서는 일반 공격을 사용합니다.`
 });
 export function kaironDeploymentSnapshot(){
  return {...KAIRON_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'RANGED',
-  skills:[structuredClone(KAIRON_AREA_SKILL)],pendingSkillIds:[],kaironPolicyVersion:KAIRON_COMBAT.version,deploymentVersion:'20261124-kairon-2350k-v3'};
+  skills:[structuredClone(KAIRON_AREA_SKILL)],pendingSkillIds:[],kaironPolicyVersion:KAIRON_COMBAT.version,deploymentVersion:'20261125-kairon-2350k-v4'};
 }

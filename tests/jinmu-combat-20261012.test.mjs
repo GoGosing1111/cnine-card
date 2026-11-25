@@ -14,7 +14,7 @@ const fighter=(code='V-989',side='A',mode='PVP',power=0)=>buildMercenaryFighter(
 test('Jinmu retains 1.95m stats after Kairon is promoted',()=>{
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
   const j=fighter('V-989','A',mode,gear),h=fighter('V-988','B',mode,gear);
-  assert(j.speed<h.speed);assert(j.attack<h.attack);assert(j.maxHp<h.maxHp);
+  assert.equal(j.speed,h.speed);assert(j.attack<h.attack);assert(j.maxHp<h.maxHp);
   const teams=['A','B'].map((side,i)=>[...tierCards(power).map((c,k)=>buildFighter(c,k,side,null,mode)),[j,h][i]]);
   applyMercenaryCombatLink(teams);
   assert(mercenaryEffectiveAttack(j)<mercenaryEffectiveAttack(h));assert(j.maxHp<h.maxHp);assert(j.shield<h.shield);

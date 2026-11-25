@@ -27,22 +27,40 @@ const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat}
 const fighter=(code=KAIRON_CODE,side='A',mode='PVP',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
 const draft=()=>({code:'WORKSHOP_KAIRON',category:'MERCENARY_CRAFT',outputType:'MERCENARY',outputRef:KAIRON_CODE,outputQuantity:1,paymentMode:'BOTH',craftRevision:0,coinCost:null,masterStarCost:null,successRate:null,materials:[],isActive:false,isPublic:false});
 const configured=()=>({...draft(),coinCost:1000,masterStarCost:2,successRate:100,materials:[{itemCode:'QA_MATERIAL',quantity:3}],isActive:true,isPublic:true});
-test('Kairon displays 2.35m and exceeds the 4m Ryujin combat band with the same loadout',()=>{
+test('Kairon uses its displayed 2.35m between Leonel (2.3m) and Shiranui (2.6m), including links and gear',()=>{
  assert.notEqual(KAIRON_COMBAT,JINMU_COMBAT);
- assert.equal(KAIRON_COMBAT.basePower,2350000);assert.equal(KAIRON_COMBAT.version,3);
+ assert.equal(KAIRON_COMBAT.basePower,2350000);
+ assert.equal(KAIRON_COMBAT.statScale,2350000/KAIRON_COMBAT.statsReferencePower);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
-  const k=fighter(KAIRON_CODE,'A',mode,gear),j=fighter('V-958','B',mode,gear);
-  for(const field of ['attack','maxHp','defense'])assert(k[field]>j[field],field);
-  for(const field of ['counterImmune','controlImmune','poisonImmune'])assert.equal(k[field],j[field],field);
-  assert(k.speed>j.speed);
-  assert.equal(k.basePower-gear,2350000);
-  applyMercenaryCombatLink(['A','B'].map((side,i)=>[...tierCards(power).map((c,n)=>buildFighter(c,n,side,null,mode)),[k,j][i]]));
-  assert(mercenaryEffectiveAttack(k)>mercenaryEffectiveAttack(j));assert(k.maxHp>j.maxHp);assert(k.shield>j.shield);
-  assert.deepEqual(k.skills.map(s=>s.id),mode==='PVE'?['MS-988']:[]);assert.equal(k.attackStyle,'RANGED');
+  for(const [code,lower] of [['V-978',true],['V-987',false]]){
+   const k=fighter(KAIRON_CODE,'A',mode,gear),peer=fighter(code,'B',mode,gear);
+   const [weaker,stronger]=lower?[peer,k]:[k,peer];
+   for(const field of ['attack','maxHp','defense'])assert(weaker[field]<stronger[field],field);
+   assert.equal(k.speed,peer.speed);assert.equal(k.basePower-gear,2350000);
+   for(const field of ['counterImmune','controlImmune','poisonImmune'])assert.equal(k[field],true,field);
+   const teams=[k,peer].map(m=>[...tierCards(power).map((c,n)=>buildFighter(c,n,m.side,null,mode)),m]);
+   applyMercenaryCombatLink(teams);
+   assert(mercenaryEffectiveAttack(weaker)<mercenaryEffectiveAttack(stronger));
+   for(const field of ['maxHp','shield'])assert(weaker[field]<stronger[field],field);
+   assert.equal(k.mercenaryLink.primeZeroPvp,undefined);
+   assert.deepEqual(k.skills.map(s=>s.id),mode==='PVE'?['MS-988']:[]);assert.equal(k.attackStyle,'RANGED');
+  }
  }
  const k=fighter(),a={id:'card',side:'A',hp:1},enemy={id:'enemy',side:'B',hp:1},cadence=mercenaryTurnCadence({A:[a,k],B:[enemy]});let count=0;
- for(let i=0;i<25;i++){cadence.acted(a);while(cadence.pending()){assert.equal(cadence.pending(),k);cadence.acted(k);count++;assert(count<=150);}}
- assert.equal(count,150);assert.equal(kaironIncomingDamage(k,1000,{isMercenary:true,code:'V-055'}),0);assert.equal(kaironIncomingDamage(k,1000,{}),120);
+ for(let i=0;i<25;i++){cadence.acted(a);while(cadence.pending()){assert.equal(cadence.pending(),k);cadence.acted(k);count++;assert(count<=78);}}
+ assert.equal(count,78);assert.equal(kaironIncomingDamage(k,1000,{isMercenary:true,code:'V-055'}),0);assert.equal(kaironIncomingDamage(k,1000,{}),200);
+});
+test('a previously saved Kairon selection uses the corrected band in new PvP battles on either side',()=>{
+ const cards=tierCards(1e6),current=snapshot(KAIRON_CODE),ryujin=snapshot('V-958');
+ const old={...current,kaironPolicyVersion:3,deploymentVersion:'20261124-kairon-2350k-v3',
+  skills:[{...KAIRON_AREA_SKILL,balance:{damageRatio:96,cooldownTurns:2,cost:10}}]};
+ for(const kaironAttacks of [true,false])for(const seed of [7919,55433]){
+  const fight=kairon=>createPvpBattleV2({attackerCards:cards,defenderCards:cards,
+   attackerMercenary:kaironAttacks?kairon:ryujin,defenderMercenary:kaironAttacks?ryujin:kairon,seed}).result;
+  const fresh=fight(current),saved=fight(old);
+  assert.equal(fresh.winner,kaironAttacks?'B':'A');
+  assert.deepEqual(saved.timeline,fresh.timeline);
+ }
 });
 test('Kairon packs remain impossible even with a contaminated catalog and maximum CMS weight',()=>{
  const rules={cardWeights:{[KAIRON_CODE]:1000000}},cards=[{code:KAIRON_CODE,name:'카이론',rank:'SSS'},{code:'V-001',name:'일반',rank:'SSS'}];
@@ -52,10 +70,11 @@ test('Kairon packs remain impossible even with a contaminated catalog and maximu
  assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
  assert(!LIMITED_MERCENARIES.some(c=>c.code===KAIRON_CODE));
 });
-test('one quantum cast keeps one 9600% budget and applies one receipt per living target; PVP only fires basics',()=>{
+test('one quantum cast shares 1512% across living targets and uses the standard damage cap; PVP only fires basics',()=>{
  const actor=fighter(KAIRON_CODE,'A','PVE'),targets=Array.from({length:5},(_,i)=>({id:'t'+i,hp:10000,maxHp:10000,alive:true})),ratios=[],events=[];
- const args={actor,skill:KAIRON_AREA_SKILL,targets:[...targets,targets[0],{id:'dead',hp:0}],hit:(a,t,r)=>{ratios.push(r);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
- assert.equal(resolveKaironArea(args).length,5);assert(Math.abs(ratios.reduce((a,b)=>a+b)-96)<1e-9);assert.equal(events[0].type,KAIRON_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
+ assert.deepEqual(KAIRON_AREA_SKILL.balance,{damageRatio:15.12,cooldownTurns:5,cost:35});
+ const args={actor,skill:KAIRON_AREA_SKILL,targets:[...targets,targets[0],{id:'dead',hp:0}],hit:(a,t,r,options)=>{ratios.push(r);assert.equal(options.pveCapScale??1,1);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
+ assert.equal(resolveKaironArea(args).length,5);assert(Math.abs(ratios.reduce((a,b)=>a+b)-15.12)<1e-9);assert.equal(events[0].type,KAIRON_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
  assert.deepEqual(resolveKaironArea({...args,actor:{...actor,battleMode:'PVP'}}),[]);
  const cards=tierCards(2e7),k=snapshot(KAIRON_CODE);
  assert(createPveBattleV2({cards,mercenary:k,monster:{id:1,battle_power:1.6e10},seed:77}).result.timeline.some(e=>e.type===KAIRON_AREA_EVENT));
