@@ -1,0 +1,297 @@
+{
+  "mercenary": "V-957",
+  "resource": "번개 검성 전투 캐릭터",
+  "playbackRate": 1.25,
+  "skills": 11,
+  "authoredContacts": 83,
+  "render": {
+    "registeredCels": 296,
+    "bladeProfiles": 256,
+    "atlas": [
+      1536,
+      3072
+    ],
+    "compactDecoded": [
+      768,
+      1536
+    ],
+    "materialBytes": 1318416,
+    "materialSha256": "a07d207596a390c9e894f4c0a7b8e541fbd3108da585104e9a2fa3d13655ec11",
+    "visuals": [
+      "rear counter-rotating gold plasma and forked discharges",
+      "original steel bevel and embroidery emission with traveling highlights",
+      "contact-driven guard, tip and floor light"
+    ]
+  },
+  "browser": {
+    "engine": "V3 Pixi production entry, local seeded combat payloads in Chromium",
+    "pvp": [
+      {
+        "width": 1440,
+        "results": [
+          {
+            "key": "cleave",
+            "calls": 1,
+            "painted": 151
+          },
+          {
+            "key": "cyclone",
+            "calls": 18,
+            "painted": 49
+          },
+          {
+            "key": "rush",
+            "calls": 18,
+            "painted": 136
+          },
+          {
+            "key": "cross",
+            "calls": 15,
+            "painted": 83
+          },
+          {
+            "key": "orbit",
+            "calls": 8,
+            "painted": 116
+          },
+          {
+            "key": "wave",
+            "calls": 15,
+            "painted": 103
+          },
+          {
+            "key": "wings",
+            "calls": 36,
+            "painted": 169
+          },
+          {
+            "key": "rain",
+            "calls": 33,
+            "painted": 144
+          },
+          {
+            "key": "prison",
+            "calls": 21,
+            "painted": 145
+          },
+          {
+            "key": "pursuit",
+            "calls": 13,
+            "painted": 278
+          },
+          {
+            "key": "horizon",
+            "calls": 27,
+            "painted": 210
+          }
+        ],
+        "initial": {
+          "count": 2,
+          "shared": true,
+          "parent": true,
+          "size": [
+            384,
+            506
+          ],
+          "facing": [
+            1,
+            -1
+          ]
+        },
+        "basic": {
+          "hits": 1,
+          "painted": 251,
+          "contacts": [
+            0.232
+          ],
+          "mode": "basic",
+          "restored": true
+        },
+        "pixels": {
+          "gold": 27779,
+          "behind": 5698,
+          "steel": 3607
+        },
+        "cut": {
+          "hits": 0,
+          "restored": true,
+          "foot": [
+            380,
+            240
+          ],
+          "start": [
+            380,
+            240
+          ]
+        },
+        "cleanup": {
+          "deadHidden": true,
+          "restored": true,
+          "destroyed": true
+        }
+      },
+      {
+        "width": 390,
+        "results": [
+          {
+            "key": "cleave",
+            "calls": 1,
+            "painted": 251
+          },
+          {
+            "key": "rain",
+            "calls": 33,
+            "painted": 122
+          },
+          {
+            "key": "horizon",
+            "calls": 27,
+            "painted": 213
+          }
+        ],
+        "initial": {
+          "count": 2,
+          "shared": true,
+          "parent": true,
+          "size": [
+            384,
+            506
+          ],
+          "facing": [
+            1,
+            -1
+          ]
+        },
+        "basic": {
+          "hits": 1,
+          "painted": 212,
+          "contacts": [
+            0.232
+          ],
+          "mode": "basic",
+          "restored": true
+        },
+        "pixels": {
+          "gold": 34661,
+          "behind": 8022,
+          "steel": 4342
+        },
+        "cut": {
+          "hits": 0,
+          "restored": true,
+          "foot": [
+            564,
+            1312
+          ],
+          "start": [
+            564,
+            1312
+          ]
+        },
+        "cleanup": {
+          "deadHidden": true,
+          "restored": true,
+          "destroyed": true
+        }
+      }
+    ],
+    "pve": [
+      {
+        "width": 390,
+        "results": [
+          {
+            "key": "cleave",
+            "calls": 1,
+            "painted": 271
+          },
+          {
+            "key": "rain",
+            "calls": 11,
+            "painted": 126
+          },
+          {
+            "key": "horizon",
+            "calls": 9,
+            "painted": 219
+          }
+        ],
+        "initial": {
+          "count": 1,
+          "shared": true,
+          "parent": true,
+          "size": [
+            384,
+            506
+          ],
+          "facing": [
+            1
+          ]
+        },
+        "basic": {
+          "hits": 1,
+          "painted": 251,
+          "contacts": [
+            0.232
+          ],
+          "mode": "basic",
+          "restored": true
+        },
+        "pixels": {
+          "gold": 40504,
+          "behind": 8085,
+          "steel": 4597
+        },
+        "cut": {
+          "hits": 0,
+          "restored": true,
+          "foot": [
+            520.3636363636364,
+            1011.6363636363635
+          ],
+          "start": [
+            520.3636363636364,
+            1011.6363636363635
+          ]
+        },
+        "cleanup": {
+          "deadHidden": true,
+          "restored": true,
+          "destroyed": true
+        }
+      }
+    ]
+  },
+  "sameIdleFrame": {
+    "timeSeconds": 1.18,
+    "brightGoldPixelCount": [
+      4980,
+      12845
+    ],
+    "order": [
+      "first pass",
+      "final pass"
+    ],
+    "comparison": "right 330 × 488 crop, red > 175, green > 122, green > 1.2 × blue, red – green < 105"
+  },
+  "previews": {
+    "sequence": [
+      "guard",
+      "cleave",
+      "cyclone",
+      "return to guard"
+    ],
+    "seconds": 7.5,
+    "fps": 30,
+    "shot": "combat renderer and original choreography, neutral background",
+    "files": {
+      "battle-character.png": {
+        "bytes": 293220,
+        "sha256": "12cbccb510777ed0a766b1516c2a4254092437e73692a131142873f258645dbc"
+      },
+      "battle-character.mp4": {
+        "bytes": 1788609,
+        "sha256": "ffe6764dafc96dfb163ba67c82d2ac7abda2feee25ae47d5382b2e360f9441de"
+      }
+    }
+  }
+}

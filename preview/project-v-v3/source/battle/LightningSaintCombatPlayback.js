@@ -3,6 +3,7 @@ import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
 import {SAINT_CODE,SAINT_ART,SAINT_SKILLS,SAINT_EVENT} from '../../../../shared/mercenary-lightning-saint-v1.mjs';
 import {actorPlacement,drawSkill,drawBattlePose} from './lightning-saint/mercenary.mjs';
 import {stamp,smooth} from './lightning-saint/effects/paint.mjs';
+import {makeAuraCanvas,idleFoot,drawIdleAura,saintActionCharge} from './lightning-saint/aura.mjs';
 import {ryujinSkillPlacement} from './ryujin/SkillPlacement.mjs';
 
 const root='/assets/ui/project-v/mercenaries/lightning-saint-20261125/';
@@ -22,19 +23,71 @@ async function loadBank(compact,signal){
   const img=compact&&key!=='phantom'?row.image.replace('.webp','-sd.webp'):row.image;
   return [key,{...row,im:images.get('effects/textures/'+img),light:images.get('effects/textures/'+row.light)}];
  }));
- return {art,actor:{...def.actor,compact,pages:def.actor.pages.map(p=>images.get('actor/'+(compact?p.compact:p.image)))}};
+ return {art,actor:{...def.actor,compact,auraArt:art,pages:def.actor.pages.map(p=>images.get('actor/'+(compact?p.compact:p.image)))}};
+}
+async function loadMaterial(signal,compact){
+ const res=await fetch(root+'storm-material-v1.webp',{signal});
+ if(!res.ok)throw Error('번개 검성 발광 재질 '+res.status);
+ const blob=await res.blob();
+ if(compact&&typeof createImageBitmap==='function'){
+  try{return await createImageBitmap(blob,{resizeWidth:768,resizeHeight:1536,resizeQuality:'high'});}catch{/* Use the native WebP decoder on older WebViews. */}
+ }
+ const url=URL.createObjectURL(blob);
+ try{const im=new Image();im.src=url;await im.decode();return im;}finally{URL.revokeObjectURL(url);}
 }
 const sessions=new WeakMap();
 export function warmSaint(engine){
  if(sessions.has(engine))return sessions.get(engine);
- const abort=new AbortController(),entry={abort,assets:null,generation:0};sessions.set(engine,entry);
- entry.ready=loadBank(BATTLE_DEVICE.lowMemory||!!engine.mobile,abort.signal).then(assets=>{if(sessions.get(engine)===entry)entry.assets=assets;return assets;}).catch(()=>{
-  if(sessions.get(engine)===entry)sessions.delete(engine);return null;
+ const abort=new AbortController(),entry={abort,assets:null,material:null,generation:0,clock:0,lastPaint:-10,layers:new Map()};sessions.set(engine,entry);
+ const compact=BATTLE_DEVICE.lowMemory||!!engine.mobile;
+ void loadMaterial(abort.signal,compact).then(im=>{
+  if(sessions.get(engine)!==entry){im.close?.();return;}
+  entry.material=im;if(entry.assets)entry.assets.actor.material=im;entry.lastPaint=-10;
+ }).catch(()=>{});
+ entry.ready=loadBank(compact,abort.signal).then(assets=>{if(sessions.get(engine)===entry){entry.assets=assets;assets.actor.material=entry.material;}return assets;}).catch(()=>{
+  if(sessions.get(engine)===entry){sessions.delete(engine);entry.material?.close?.();}return null;
  });
  return entry;
 }
+function syncLayer(actor,layer){
+ const body=actor.fullBodySprite;
+ layer.visible=actor.hp>0&&actor.battleActive!==false&&body.visible&&body.renderable;
+ if(layer.visible){layer.position.copyFrom(body.position);layer.scale.copyFrom(body.scale);layer.rotation=body.rotation;layer.alpha=body.alpha;}
+ return layer.visible;
+}
+export function warmSaintActor(engine,actor){
+ const entry=warmSaint(engine);
+ void entry.ready.then(assets=>{
+  if(!assets||sessions.get(engine)!==entry||actor.root.destroyed||engine.mercenaryDisposed||entry.layers.has(actor))return;
+  if(!entry.texture){
+   const canvas=makeAuraCanvas();entry.texture=Texture.from(canvas,true);
+   entry.tick=ticker=>{
+    if(!engine.visible||document.hidden)return;
+    let visible=false;
+    for(const [unit,layer] of entry.layers){
+     if(unit.root.destroyed||layer.destroyed){if(!layer.destroyed)layer.destroy();entry.layers.delete(unit);continue;}
+     if(syncLayer(unit,layer)&&unit.root.visible)visible=true;
+    }
+    entry.clock+=Math.min(80,ticker?.deltaMS??0)/1000;
+    const time=engine.reducedMotion?1.05:entry.clock;
+    if(!visible||Math.abs(time-entry.lastPaint)<1/(BATTLE_DEVICE.lowMemory?16:24))return;
+    drawIdleAura(canvas,assets,time);entry.texture.source.update();entry.lastPaint=time;
+   };
+   engine.app.ticker.add(entry.tick);
+  }
+  const layer=new Sprite(entry.texture);layer.label='LightningSaintAura';layer.anchor.set(idleFoot.x,idleFoot.y);
+  layer.zIndex=actor.fullBodySprite.zIndex+.1;actor.view.addChild(layer);actor.view.sortChildren();
+  entry.layers.set(actor,layer);syncLayer(actor,layer);entry.tick();
+ });
+}
 export function cancelSaint(engine){const s=sessions.get(engine);if(s)s.generation++;}
-export function clearSaint(engine){const s=sessions.get(engine);if(s){s.generation++;s.abort.abort();sessions.delete(engine);}}
+export function clearSaint(engine){
+ const s=sessions.get(engine);if(!s)return;
+ s.generation++;s.abort.abort();sessions.delete(engine);
+ if(s.tick)engine.app?.ticker?.remove(s.tick);
+ for(const layer of s.layers.values())if(!layer.destroyed)layer.destroy();
+ s.layers.clear();s.texture?.destroy(true);s.material?.close?.();
+}
 const point=a=>({x:a.root.x,y:a.root.y});
 const height=a=>Math.abs(a.root.scale.y)*a.fullBodyHeight;
 const blend=(a,b,t)=>a+(b-a)*t;
@@ -63,26 +116,32 @@ async function play(engine,actor,targets,skill,beats){
  const approach=place.approachSeconds,back=place.returnSeconds,total=approach+span+back;
  const floor=[place.impact.x,place.impact.y],target=[floor[0],floor[1]-Math.max(20,Math.min(155*unit,height(targets[0])*.42))];
  const cast=place.cast,source=[(cast.x-.51*target[0])/.49,cast.y];
- const opts={source,target,floor,facing,scale:unit},canvas=document.createElement('canvas'),density=Math.min(1,(engine.mobile?720:1152)/engine.scene.width);
+ const contactSeconds=beats.map(beat=>beat.at);
+ const opts={source,target,floor,facing,scale:unit,contactSeconds},canvas=document.createElement('canvas'),density=Math.min(1,(engine.mobile?720:1152)/engine.scene.width);
  canvas.width=Math.ceil(engine.scene.width*density);canvas.height=Math.ceil(engine.scene.height*density);
  const ctx=canvas.getContext('2d'),texture=Texture.from(canvas,true),overlay=new Sprite(texture);
  overlay.scale.set(1/density);engine.effectLayer.addChild(overlay);
  const prior=actor.fullBodySprite.renderable,clock={t:0},applied=new Set(),flashes=new Map();
+ let paintedFrames=0;
  function draw(){
   if(!valid())return;
   const t=clock.t-approach,world=place.rootAt(t);
   let x=world.x,y=world.y;
   ctx.resetTransform();ctx.clearRect(0,0,canvas.width,canvas.height);ctx.scale(density,density);
   if(session.assets){
-   const assets=session.assets;actor.fullBodySprite.renderable=false;
-   if(t<0||t>=span)drawBattlePose(ctx,assets.actor,'v2',0,x,y,unit,facing);
+   const assets=session.assets;actor.fullBodySprite.renderable=false;paintedFrames++;
+   const aura=session.layers.get(actor);if(aura)aura.visible=false;
+   opts.auraTime=session.clock;
+   if(t<0||t>=span)drawBattlePose(ctx,assets.actor,'v2',0,x,y,unit,facing,assets.art,session.clock);
    else if(skill){
     drawSkill(ctx,assets,skill.key,t,opts);
     const p=actorPlacement(assets.actor,skill.key,t,opts);x=p.x;y=p.y;
    }else{
     const [bank,cel]=basicTrack[Math.min(basicTrack.length-1,Math.floor(t/span*basicTrack.length))];
     const advance=t<=basicPeak?smooth(t/basicPeak):1-smooth((t-basicPeak)/(span-basicPeak));
-    x=blend(cast.x,target[0]-facing*55*unit,advance);drawBattlePose(ctx,assets.actor,bank,cel,x,y,unit,facing);
+    const charge=saintActionCharge(t,contactSeconds,span,session.clock);
+    x=blend(cast.x,target[0]-facing*55*unit,advance);
+    drawBattlePose(ctx,assets.actor,bank,cel,x,y,unit,facing,assets.art,session.clock,charge);
    }
    for(const [unitTarget,at] of flashes){
     const u=(clock.t-at)/.16;if(u>=1){flashes.delete(unitTarget);continue;}
@@ -92,6 +151,7 @@ async function play(engine,actor,targets,skill,beats){
   actor.root.position.set(x,y);texture.source.update();
  }
  try{
+  draw();
   return await engine.timeline(timeline=>{
    timeline.to(clock,{t:total,duration:total,ease:'none',onUpdate:draw});
    beats.forEach((beat,i)=>timeline.call(()=>{
@@ -103,9 +163,10 @@ async function play(engine,actor,targets,skill,beats){
   },()=>{
    overlay.removeFromParent();overlay.destroy();texture.destroy(true);
    if(!actor.root.destroyed){actor.fullBodySprite.renderable=prior;actor.root.position.set(start.x,start.y);
+    const layer=session.layers.get(actor);if(layer&&!layer.destroyed)syncLayer(actor,layer);
     if(valid()&&actor.hp>0)actor.animationController.setState('IDLE');}
    engine.lastMercenaryPlayback={code:SAINT_CODE,mode:skill?.key||'basic',clockOwner:'V3_REGISTERED_GSAP',authoritative:true,
-    contactSeconds:beats.map(b=>b.at),appliedContacts:applied.size,durationSeconds:total};
+    contactSeconds,appliedContacts:applied.size,paintedFrames,durationSeconds:total};
   },engine.reducedMotion?6:1,{owners:[actor,...targets]});
  }finally{flashes.clear();}
 }

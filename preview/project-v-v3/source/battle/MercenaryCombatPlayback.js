@@ -1,5 +1,5 @@
 import {SAINT_CODE,SAINT_EVENT} from '../../../../shared/mercenary-lightning-saint-v1.mjs';
-import {saintBattleArt,warmSaint,cancelSaint,clearSaint,playSaintBasic,playSaintSkill} from './LightningSaintCombatPlayback.js';
+import {saintBattleArt,warmSaintActor,cancelSaint,clearSaint,playSaintBasic,playSaintSkill} from './LightningSaintCombatPlayback.js';
 import {RYUJIN_CODE,RYUJIN_AREA_EVENT} from '../../../../shared/mercenary-ryujin-v1.mjs';
 import {ryujinBattleArt,setupRyujinActor,warmRyujinActor,clearRyujinActors,cancelRyujinPlayback,resumeRyujinPlayback,playRyujinBasic,playRyujinArea} from './RyujinCombatPlayback.js';
 import {ASTRA_CODE,ASTRA_EVENT} from '../../../../shared/mercenary-astra-v1.mjs';
@@ -157,7 +157,7 @@ export async function setupV3MercenaryActor(engine,a){
  if(a.cardId===RAZAK_CODE)return setupRazakActor(engine,a);
  if(a.cardId===NAMSUDAENG_CODE)return setupNamsudaengActor(engine,a);
  if(a.cardId===JIN_JOKRO_CODE)return setupJinJokroActor(engine,a);
- if(a.cardId===SAINT_CODE){warmSaint(engine);return;}
+ if(a.cardId===SAINT_CODE){warmSaintActor(engine,a);return;}
  if(a.cardId===RYUJIN_CODE)return setupRyujinActor(engine,a);
  if(a.cardId===HELIOS_KING_CODE)return setupHeliosKingActor(engine,a);
  if(a.cardId===HAKUYA_CODE)return setupHakuyaActor(engine,a);
@@ -273,7 +273,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   for(const a of this.mercenaries.filter(a=>bloodmoonBattleArt(a.cardId)))warmBloodmoonActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===NAMSUDAENG_CODE))warmNamsudaengActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===JIN_JOKRO_CODE))warmJinJokroActor(this,a);
-  if(this.mercenaries.some(a=>a.cardId===SAINT_CODE))warmSaint(this);
+  for(const a of this.mercenaries.filter(unit=>unit.cardId===SAINT_CODE))warmSaintActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===RYUJIN_CODE))warmRyujinActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===HELIOS_KING_CODE))warmHeliosKingActor(this,a);
   for(const a of this.mercenaries.filter(a=>a.cardId===HAKUYA_CODE))warmHakuyaActor(this,a);
