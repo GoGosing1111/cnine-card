@@ -12,7 +12,7 @@ export const saintBattleArt=code=>code===SAINT_CODE?{...SAINT_ART,calmIdle:true,
 
 async function loadBank(compact,signal){
  const res=await fetch(root+(compact?'battle-sd.bin':'battle-hd.bin'),{signal});
- if(!res.ok)throw Error('번개 검성 리소스 '+res.status);
+ if(!res.ok)throw Error(`${SAINT_ART.name} 전투 리소스 ${res.status}`);
  const blob=await res.blob(),head=new DataView(await blob.slice(0,4).arrayBuffer()).getUint32(0,true);
  const def=JSON.parse(await blob.slice(4,4+head).text()),images=new Map();
  await Promise.all(Object.entries(def.files).map(async([key,[start,size]])=>{
@@ -27,7 +27,7 @@ async function loadBank(compact,signal){
 }
 async function loadMaterial(signal,compact){
  const res=await fetch(root+'storm-material-v1.webp',{signal});
- if(!res.ok)throw Error('번개 검성 발광 재질 '+res.status);
+ if(!res.ok)throw Error(`${SAINT_ART.name} 발광 재질 ${res.status}`);
  const blob=await res.blob();
  if(compact&&typeof createImageBitmap==='function'){
   try{return await createImageBitmap(blob,{resizeWidth:768,resizeHeight:1536,resizeQuality:'high'});}catch{/* Use the native WebP decoder on older WebViews. */}

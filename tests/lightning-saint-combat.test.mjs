@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {cards,fighter,snapshot} from './helpers/helios-king-balance-20261106.mjs';
 import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
-import {mercenaryCombat} from '../functions/_mercenary_combat.js';
+import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
 import {resolveLightningSaint} from '../functions/_mercenary_lightning_saint.js';
 import {SAINT_CODE,SAINT_EVENT,SAINT_ART,SAINT_SKILLS,SAINT_PVP_RATIO} from '../shared/mercenary-lightning-saint-v1.mjs';
 import {RYUJIN_ART} from '../shared/mercenary-ryujin-v1.mjs';
@@ -19,7 +19,7 @@ import {skillList} from '../preview/project-v-v3/source/battle/lightning-saint/c
 
 test('SSS limited owner, account loadout, power and the approved portrait agree with the codex',async t=>{
  const doc=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}));
- const card=doc.cards.find(c=>c.code===SAINT_CODE);assert.equal(card.rank,RYUJIN_ART.rank);assert.equal(card.edition,RYUJIN_ART.edition);
+ const card=doc.cards.find(c=>c.code===SAINT_CODE);assert.equal(card.name,'하츠');assert.equal(card.rank,RYUJIN_ART.rank);assert.equal(card.edition,RYUJIN_ART.edition);
  assert.equal(card.basePower,4500000);assert.equal(card.skills.filter(s=>s.target==='적 전체').length,8);
  assert.equal(card.skills.length,11);assert.equal(mercenaryLevelXpMultiplier(card),5);assert.equal(mercenaryAcquisitionEnabled(SAINT_CODE,{}),false);
  assert.equal(createHash('sha256').update(readFileSync(card.sourceArt)).digest('hex'),'5a74e96cc13d130ddd865294fc381feee710e47b575c447e1980b99c320d498b');
@@ -28,10 +28,13 @@ test('SSS limited owner, account loadout, power and the approved portrait agree 
  await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',f.user.id,SAINT_CODE,'2026-11-25','2026-11-25').run();
  for(const mode of ['PVE','PVP']){
   await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode,mercenaryCodes:[SAINT_CODE],revision:0});
-  const snap=await loadMercenaryBattleSnapshot(f.env,f.user,mode);assert.equal(snap.basePower,4500000);assert.equal(snap.skills.length,11);
-  const actor=fighter(SAINT_CODE,'A',mode);assert.equal(actor.basePower,4500000);assert.equal(actor.grade,'SSS');
+  const snap=await loadMercenaryBattleSnapshot(f.env,f.user,mode);assert.equal(snap.name,card.name);assert.equal(snap.basePower,4500000);assert.equal(snap.skills.length,11);
+  const saved={...snapshot(SAINT_CODE,21,mode),name:'번개 검성'};
+  const actor=buildMercenaryFighter(saved,'A',mode,buildFighter);
+  assert.equal(actor.name,card.name);assert.equal(actor.title,card.name);assert.equal(actor.basePower,4500000);assert.equal(actor.grade,'SSS');
  }
- const state=await mercenaryAccountState(f.env,f.user);assert.equal(state.cards.find(c=>c.code===SAINT_CODE).sourceArt,SAINT_ART.sourceArt);
+ const state=await mercenaryAccountState(f.env,f.user),owned=state.cards.find(c=>c.code===SAINT_CODE);
+ assert.equal(owned.name,card.name);assert.equal(owned.sourceArt,SAINT_ART.sourceArt);
 });
 test('every server contact matches the approved playback and guards each authoritative hit',()=>{
  for(const def of SAINT_SKILLS){

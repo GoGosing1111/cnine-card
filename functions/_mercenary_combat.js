@@ -1,4 +1,4 @@
-import {SAINT_CODE,SAINT_SKILLS,SAINT_COMBAT,SAINT_MECHANIC,isLightningSaint,saintActionCredit} from '../shared/mercenary-lightning-saint-v1.mjs';
+import {SAINT_ART,SAINT_CODE,SAINT_SKILLS,SAINT_COMBAT,SAINT_MECHANIC,isLightningSaint,saintActionCredit} from '../shared/mercenary-lightning-saint-v1.mjs';
 import {RYUJIN_CODE,RYUJIN_COMBAT,RYUJIN_AREA_SKILLS,RYUJIN_AREA_MECHANIC,isRyujin,ryujinActionCredit} from '../shared/mercenary-ryujin-v1.mjs';
 import {resolveLightningSaint} from './_mercenary_lightning_saint.js';
 import {resolveRyujinArea} from './_mercenary_ryujin.js';
@@ -227,7 +227,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(kamishiro)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?structuredClone(KAMISHIRO_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,kamishiroPolicyVersion:KAMISHIRO_COMBAT.version};
  const jinJokro=snapshot.code===JIN_JOKRO_CODE;
  const saint=snapshot.code===SAINT_CODE;
- if(saint)snapshot={...snapshot,rank:'SSS',edition:'LIMITED',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',
+ if(saint)snapshot={...snapshot,name:SAINT_ART.name,rank:'SSS',edition:'LIMITED',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',
   attackStyle:'MELEE',skills:structuredClone(SAINT_SKILLS)};
  const ryujin=snapshot.code===RYUJIN_CODE;
  if(ryujin)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?structuredClone(RYUJIN_AREA_SKILLS):[],counterImmune:true,controlImmune:true,poisonImmune:true,ryujinPolicyVersion:RYUJIN_COMBAT.version};

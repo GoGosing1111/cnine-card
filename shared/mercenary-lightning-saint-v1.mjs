@@ -33,7 +33,7 @@ export const SAINT_SKILLS=Object.freeze([
 })));
 export const SAINT_PVP_RATIO=.08;
 export const SAINT_ART=Object.freeze({
-  code:SAINT_CODE,name:'번개 검성',title:'',titleStatus:'DEFERRED_BY_USER',rank:'SSS',edition:'LIMITED',role:'VANGUARD',position:'FRONT',
+  code:SAINT_CODE,name:'하츠',title:'',titleStatus:'DEFERRED_BY_USER',rank:'SSS',edition:'LIMITED',role:'VANGUARD',position:'FRONT',
   sourceArt:artRoot+'illustration.png',thumbnailArt:artRoot+'portrait.webp',battleSprite:artRoot+'guard.webp',
   frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',
   artWindow:{left:5.957,top:5.794,width:88.086,height:88.086},accent:'#ffd34a',basePower,artOnly:false,

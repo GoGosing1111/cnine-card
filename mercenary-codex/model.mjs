@@ -1,4 +1,4 @@
-import {SAINT_CODE,SAINT_ART,SAINT_SKILLS} from '../shared/mercenary-lightning-saint-v1.mjs';
+import {SAINT_CODE,SAINT_ART,SAINT_SKILLS} from '../shared/mercenary-lightning-saint-v1.mjs?v=20261126-hatsu';
 import {RYUJIN_CODE,RYUJIN_COMBAT,RYUJIN_ART} from '../shared/mercenary-ryujin-v1.mjs';
 import {SHIRANUI_MIN_ACCOUNT_LEVEL} from '../shared/mercenary-shiranui-v1.mjs';
 import {ZERO_ART} from '../shared/mercenary-zero-v1.mjs';
@@ -55,7 +55,7 @@ export function validateCatalog(data,{forDisplay=false}={}){
         c.basePower===SAINT_ART.basePower&&c.deploymentEnabled===true&&c.acquisition==='LOCKED'&&c.acquisitionEnabled===false&&
         c.packAcquisitionEnabled===false&&c.craftAcquisitionEnabled===false&&c.artOnly===false&&c.releaseStatus===SAINT_ART.releaseStatus&&
         c.skills.length===SAINT_SKILLS.length&&c.skills.every((skill,i)=>skill.id===SAINT_SKILLS[i].id&&skill.ready===true);
-      if(c.code===SAINT_CODE&&!saintReady)throw Error('번개 검성의 등급·전투력·스킬 정보를 확인하세요.');
+      if(c.code===SAINT_CODE&&!saintReady)throw Error(`${SAINT_ART.name}의 등급·전투력·스킬 정보를 확인하세요.`);
       const ryujinReady=c.code===RYUJIN_CODE&&c.name==='류진'&&c.rank==='SSS'&&c.releaseStatus===RYUJIN_ART.releaseStatus&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===RYUJIN_COMBAT.basePower&&c.acquisitionEnabled===false&&c.packAcquisitionEnabled===false&&c.craftAcquisitionEnabled===false&&c.skills.length===6&&c.skills.every((skill,i)=>skill.id===RYUJIN_ART.skills[i].id&&skill.ready===true&&JSON.stringify(skill.balance)===JSON.stringify(RYUJIN_ART.skills[i].balance));
       const heliosKingReady=c.code===HELIOS_KING_CODE&&c.name==='헬리오스 킹'&&c.rank==='SSS'&&c.releaseStatus===HELIOS_KING_ART.releaseStatus&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&c.basePower===HELIOS_KING_COMBAT.basePower&&c.acquisitionEnabled===false&&c.packAcquisitionEnabled===false&&c.craftAcquisitionEnabled===false&&c.skills.length===4&&c.skills.every((skill,i)=>skill.id===HELIOS_KING_ART.skills[i].id&&skill.ready===true&&JSON.stringify(skill.balance)===JSON.stringify(HELIOS_KING_ART.skills[i].balance));
       if(c.code===RYUJIN_CODE&&!ryujinReady)throw Error('류진의 전투력·스킬·획득 잠금을 확인하세요.');
