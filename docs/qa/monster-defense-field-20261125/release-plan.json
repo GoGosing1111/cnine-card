@@ -1,0 +1,23 @@
+{
+  "productionBase": "c3f073265ff760bdb600b262f27bbbe49eff351f",
+  "previousPages": "c74685ff-3991-4208-b575-401c0620b22b",
+  "reason": "Deliver the Monster Defense lobby and open-field battle with deterministic squad growth. Check the live room, legacy growth, range, pacing, mercenaries, clear rewards and asset packaging used by this mode.",
+  "tests": [
+    "tests/monster-defense-field.test.mjs",
+    "tests/monster-defense-content.test.mjs",
+    "tests/monster-defense-growth.test.mjs",
+    "tests/monster-defense-live.test.mjs",
+    "tests/monster-defense-loadout.test.mjs",
+    "tests/monster-defense-mercenary.test.mjs",
+    "tests/monster-defense-range.test.mjs",
+    "tests/monster-defense-rooms.test.mjs",
+    "tests/monster-defense-tempo.test.mjs",
+    "tests/monster-defense-workshop-recovery-20261028.test.mjs",
+    "tests/monster-defense-reward-options-20261026.test.mjs",
+    "tests/monster-defense-rewards-live-20261020.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}
