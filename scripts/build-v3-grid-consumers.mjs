@@ -117,4 +117,6 @@ for (const name of ['sequence.mjs','QuantumBombFX.js','assets/atlases.json']) {
   sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 }
 await writeFile('preview/project-v-v3/grid-build-report.json', JSON.stringify({version: 'OCCUPIED_GRID_V1', layoutVersion: 'UNIFORM_LATTICE_V2', deployment: 'HELD_BY_USER', hashEncoding: 'UTF8_LF', sources, outputs, layoutClients}, null, 2) + '\n');
-console.log(`Built ${outputs.length} V3 consumers with one shared grid. No deployment performed.`);
+// The standalone Nox scene uses Pixi objects from the same build as its live renderer.
+await import('../raid/nox/build.mjs');
+console.log(`Built ${outputs.length} V3 consumers and the standalone Nox raid with one shared grid. No deployment performed.`);

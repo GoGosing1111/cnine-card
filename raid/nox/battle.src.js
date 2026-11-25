@@ -1,5 +1,6 @@
 import {Sprite} from 'pixi.js';
-import {mountForBattle,resetSession,setVisible} from '../../preview/project-v-v3/source/project-v-pixi-battle.src.js';
+import '../../preview/project-v-v3/source/project-v-pixi-battle.src.js';
+import '../../js/battle-v3-live.js';
 import {NoxFloor} from './floor.mjs';
 import {NoxBattleArt} from './assets.mjs';
 let engine=null,renderer=null,epoch=0,pending=0,queue=Promise.resolve(),snapshot=null,bossId='',lastStage='',seen=0;
@@ -32,9 +33,22 @@ async function effect(kind,safe=false,position=null){
 }
 export async function mount(payload){
   teardown();const version=epoch;bossId=payload.battleV2.teams.B.cards[0].id;window.cnineCardCatalog=()=>payload.cards;
-  const api=window.ProjectVPixiBattle,original=api.mountForBattle,originalReset=api.resetSession;
-  api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine;};api.resetSession=async(data,host)=>{engine=await resetSession(data,host);return engine;};
-  try{const modal=document.getElementById('battleMount'),prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:'주파수 공대',opponentName:'적관의 지휘자 녹스',autoText:'전장 진입 중'});renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});if(version!==epoch)return;modal.querySelector('.battle-v3-header strong').textContent='종언의 주파수';modal.querySelector('.battle-v3-header small').textContent='적관의 지휘자 녹스';modal.querySelector('.battle-v3-header>b').textContent='공대전';await Promise.all([engine.deployCards({instant:true,force:true}),art.load()]);if(version!==epoch||!engine)return;pose('idle');engine.app.resizeTo=null;viewportObserver=new ResizeObserver(()=>{resize();});viewportObserver.observe(engine.host);}finally{api.mountForBattle=original;api.resetSession=originalReset;}
+  const modal=document.getElementById('battleMount');
+  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:'주파수 공대',opponentName:'적관의 지휘자 녹스',autoText:'전장 진입 중'});
+  const nextRenderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});
+  if(version!==epoch){nextRenderer.destroy();return;}
+  renderer=nextRenderer;
+  // createRenderer has already mounted this raid in the shared V3 engine.
+  const mountedEngine=await window.ProjectVPixiBattle.mount();
+  if(version!==epoch)return;
+  engine=mountedEngine;
+  modal.querySelector('.battle-v3-header strong').textContent='종언의 주파수';
+  modal.querySelector('.battle-v3-header small').textContent='적관의 지휘자 녹스';
+  modal.querySelector('.battle-v3-header>b').textContent='공대전';
+  await Promise.all([engine.deployCards({instant:true,force:true}),art.load()]);
+  if(version!==epoch||!engine)return;
+  pose('idle');engine.app.resizeTo=null;
+  viewportObserver=new ResizeObserver(resize);viewportObserver.observe(engine.host);
 }
 function syncPartyStatus(){if(!engine||!snapshot)return;const text=`공대 생존 ${snapshot.members.filter(m=>m.hp>0&&!m.left).length}/${snapshot.size} · ${snapshot.round}회차`;if(document.getElementById('pvBattleStatus')?.textContent!==text)engine.updateStatus(text);}
 function syncHp(id,hp,maxHp){
@@ -79,11 +93,11 @@ function update(state,events=[]){
     if(version===epoch&&!pending)syncHealth();
   }).catch(()=>{if(version===epoch){cancelPlayback();syncHealth();}});
 }
-function teardown(){cancelPlayback();viewportObserver?.disconnect();viewportObserver=null;floor?.destroy();floor=null;art.clear();renderer?.destroy();renderer=null;void setVisible(false);engine=null;snapshot=null;lastStage='';seen=0;finished=false;}
+function teardown(){cancelPlayback();viewportObserver?.disconnect();viewportObserver=null;floor?.destroy();floor=null;art.clear();renderer?.destroy();renderer=null;void window.ProjectVPixiBattle?.setVisible(false);engine=null;snapshot=null;lastStage='';seen=0;finished=false;}
 function finish(state){
   if(!engine||finished)return;
   finished=true;snapshot=state;cancelPlayback();floor?.update(state);syncHealth();syncPartyStatus();
   if(state.status==='CLEAR')pose('defeat');
   engine.completePlayback();
 }
-window.NoxBattle={mount,update,memoryCue:state=>floor?.update(state),teardown,finish,placeFloorTargets:target=>floor?.placeTargets(target),visible:visible=>visible?reveal():setVisible(false),resize,diagnostics:()=>({ready:!!engine,art:art.diagnostics(),pending,effects:effects.size,viewportObserved:!!viewportObserver,scene:engine?{width:engine.app.screen.width,height:engine.app.screen.height,scale:engine.root.scale.x,ticking:engine.app.ticker.started,contextLost:engine.app.renderer.gl?.isContextLost()??false}:null,floor:floor?.diagnostics(),engine:engine?.diagnostics(),canvases:document.querySelectorAll('canvas').length})};
+window.NoxBattle={mount,update,memoryCue:state=>floor?.update(state),teardown,finish,placeFloorTargets:target=>floor?.placeTargets(target),visible:visible=>visible?reveal():window.ProjectVPixiBattle.setVisible(false),resize,diagnostics:()=>({ready:!!engine,art:art.diagnostics(),pending,effects:effects.size,viewportObserved:!!viewportObserver,scene:engine?{width:engine.app.screen.width,height:engine.app.screen.height,scale:engine.root.scale.x,ticking:engine.app.ticker.started,contextLost:engine.app.renderer.gl?.isContextLost()??false}:null,floor:floor?.diagnostics(),engine:engine?.diagnostics(),canvases:document.querySelectorAll('canvas').length})};

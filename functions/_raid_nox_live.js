@@ -1,4 +1,5 @@
 import {drawBlueprintDrop,blueprintDropItem} from './_blueprint_drop.js';
+import {grantNoxRyujinMaterials} from './_nox_ryujin_materials.js';
 import {createNoxRoom,addNoxMember,readyNoxMember,startNoxRoom,leaveNoxRoom,tickNoxRoom,actNoxRoom,noxView,noxBattlePayload,loadNoxPveDeck} from './_raid_nox.js';
 import {readJointBody,jointError} from './_joint_request.js';
 import {noxClearKey,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
@@ -9,8 +10,8 @@ export {NOX_CLIENT_VERSION};
 export const NOX_SETTINGS='raid_nox_settings_v1',NOX_ENTRY_COINS='3000000000000',NOX_CREATE_COINS='10000000000000';
 export const NOX_WEEKLY_REWARD_LIMIT=3;
 const NOX_REWARDS=Object.freeze({
-  NORMAL:Object.freeze({coins:'100000000000000',masterStars:'1000000000'}),
-  HELL:Object.freeze({coins:'300000000000000',masterStars:'2500000000'})
+  NORMAL:Object.freeze({coins:'100000000000000',masterStars:'1000000000',ryujinChanceBps:1}),
+  HELL:Object.freeze({coins:'300000000000000',masterStars:'2500000000',ryujinChanceBps:15})
 });
 export const NOX_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS raid_nox_rooms_v1(room_id TEXT PRIMARY KEY,state_json TEXT NOT NULL,version BIGINT NOT NULL DEFAULT 0,status TEXT NOT NULL,expires_at BIGINT NOT NULL)`,
@@ -146,10 +147,12 @@ async function grantClearRewards(q,room){
   const reward=NOX_REWARDS[room.difficulty==='HELL'?'HELL':'NORMAL'];
   const picks=room.clearParticipantIds.map(id=>({id,code:drawBlueprintDrop('NOX')})).filter(pick=>pick.code);
   const rows=await q(GRANT_CLEAR_REWARDS_SQL,[room.clearParticipantIds,weekPrefix(week.weekKey),NOX_WEEKLY_REWARD_LIMIT,reward.coins,reward.masterStars,room.id,JSON.stringify(picks)]);
+  const materials=await grantNoxRyujinMaterials(q,rows,reward.ryujinChanceBps,room.id);
   return Object.fromEntries(rows.map(({id,used,item_code})=>[id,{
     status:used===null?'LIMIT':'PAID',
-    ...(used===null?{}:reward),
+    ...(used===null?{}:{coins:reward.coins,masterStars:reward.masterStars}),
     ...(item_code?{blueprintDrop:blueprintDropItem(item_code,room.id)}:{}),
+    ...(materials.has(id)?{ryujinMaterialDrop:materials.get(id)}:{}),
     weekly:weeklyStatus(week,used??NOX_WEEKLY_REWARD_LIMIT)
   }]));
 }

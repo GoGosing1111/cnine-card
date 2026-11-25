@@ -421,6 +421,10 @@ const noxBundledOnly=file=>file==='raid/nox/assets.mjs'||file==='scripts/lib/nox
 // These manifests record art prompts, originals, and hashes for repository QA.
 // The store reads the released images directly.
 const packArtManifests=new Set([
+ // Workshop build and QA reports are read by local tools.
+ 'preview/workshop-assembly-v1/build-report.json',
+ 'preview/workshop-assembly-v1/live-build-report.json',
+ 'preview/workshop-assembly-v1/live-qa-report.json',
  // Defense clients load the built catalog and art directly.
  'preview/coop-defense-v1/build-report.json',
  'preview/coop-defense-v1/assets/manifest-v2.json',

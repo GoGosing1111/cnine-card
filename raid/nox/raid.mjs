@@ -130,13 +130,16 @@ function render(result){
     reward.textContent=practice?'연습 보상 없음':paid?`코인 ${formatAmount(payout.coins)} · 마스터의 별 ${formatAmount(payout.masterStars)} 개 지급 · 주간 ${payout.weekly.used}/${payout.weekly.limit}회`:
       payout?.status==='LIMIT'?`이번 주 보상 ${payout.weekly.limit}회를 모두 수령했습니다.`:state.status==='CLEAR'&&state.release.mode==='TEST'?'TEST 클리어 · 보상 없음':'';
     reward.hidden=!reward.textContent;
-    const blueprint=payout?.blueprintDrop;
-    if(blueprint){reward.textContent+=(reward.textContent?' · ':'')+blueprint.name+' 1개 획득';reward.hidden=false;}
-    if(paid||blueprint)window.parent.dispatchEvent(new Event('cnine:account-mutation'));
+    const drops=[payout?.blueprintDrop,payout?.ryujinMaterialDrop].filter(Boolean);
+    for(const drop of drops){
+      reward.textContent+=(reward.textContent?' · ':'')+drop.name+' '+drop.quantity+'개 획득';
+      reward.hidden=false;
+    }
+    if(paid||drops.length)window.parent.dispatchEvent(new Event('cnine:account-mutation'));
     const resultDialog=$('resultDialog');
     resultDialog.showModal();
-    if(blueprint)void import('/js/blueprint-acquisition-v1.mjs?v=1').then(module=>{
-      if(resultDialog.open)module.showBlueprintAcquisition(blueprint,'nox',resultDialog);
+    if(drops.length)void import('/js/blueprint-acquisition-v1.mjs?v=20261126-ryujin').then(module=>{
+      if(state?.id===next.id&&resultDialog.open)module.showNoxAcquisitions(payout,resultDialog);
     }).catch(console.warn);
   }
 }
@@ -155,7 +158,7 @@ async function mountBattle(){
   if(mounted)return;if(mountPromise)return mountPromise;const version=epoch;
   mountPromise=(async()=>{
     if(!payload){const result=await api('state?payload=1');payload=result.payload;render(result);}
-    await loadScript('/raid/nox/battle.bundle.js?astraLifecycle=20261120-v1&nox=20261124-death1&ryujin=20261119-v3-approach');await loadScript('/js/battle-v3-live.js');if(version!==epoch)return;
+    await loadScript('/raid/nox/battle.bundle.js?astraLifecycle=20261120-v1&nox=20261126-ryujin&ryujin=20261119-v3-approach');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
     chartObserver=new ResizeObserver(layoutChart);chartObserver.observe($('chart'));
@@ -488,11 +491,12 @@ function showLobbyPolicy(){
   $('openRoomDirectory').hidden=!lobbyFeature.accessible||!!token;
   if(!lobbyFeature.accessible&&roomDirectory.open)roomDirectory.close();
   const weekly=official&&lobbyFeature?.weeklyReward;
-  $('weeklyReward').textContent=weekly?`노말·헬 합산 보상 ${weekly.used}/${weekly.limit}회 수령 · 월요일 00:00 초기화`:'';
+  $('weeklyReward').textContent=weekly?`노말·헬 합산 보상 ${weekly.used}/${weekly.limit}회 수령 · 류진 재료 추첨 포함 · 월요일 00:00 초기화`:'';
   $('weeklyReward').hidden=!weekly;
   for(const [id,key] of [['normalReward','NORMAL'],['hellReward','HELL']]){
     const reward=official&&lobbyFeature?.rewards?.[key];
-    $(id).textContent=reward?`코인 ${formatAmount(reward.coins)} · 마스터의 별 ${formatAmount(reward.masterStars)} 개`:'';
+    const material=reward?.ryujinChanceBps?` · 류진 재료 3종 중 1개 ${reward.ryujinChanceBps/100}%`:'';
+    $(id).textContent=reward?`코인 ${formatAmount(reward.coins)} · 마스터의 별 ${formatAmount(reward.masterStars)} 개`+material:'';
     $(id).hidden=!reward;
   }
 }

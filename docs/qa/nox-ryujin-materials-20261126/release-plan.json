@@ -1,0 +1,20 @@
+{
+  "productionBase": "60ef605dbb0e8d82aa9fd466cd3fc7a684d15876",
+  "previousPages": "54dcad0d-17fe-49c7-9eae-a42c4da7f385",
+  "scope": "종언 정식 레이드에서 개인별 노말·헬 합산 주간 보상 3회에만 류진 재료를 추첨한다. 합산 확률은 노말 0.01%, 헬 0.15%이고 성공 시 3종 중 하나를 균등 지급한다.",
+  "release": "npm run deploy:production -- --scoped",
+  "reason": "One existing raid settlement transaction, three inventory catalog rows and the existing Nox acquisition dialog. No schema or client protocol migration.",
+  "catalog": "scripts/ops/ryujin-material-catalog-20261126.mjs",
+  "tests": [
+    "tests/nox-ryujin-materials.test.mjs",
+    "tests/nox-live-20261119.test.mjs",
+    "tests/raid-trophies-20261121.test.mjs",
+    "tests/blueprint-drops-20261124.test.mjs",
+    "tests/nox-art-lifetime-20261119.test.mjs",
+    "tests/nox-memory-surface-20261119.test.mjs",
+    "tests/nox-rhythm-feedback-20261119.test.mjs",
+    "tests/nox-public-assets-20261119.test.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs"
+  ],
+  "browser": "NOX_QA_RYUJIN=1 with NOX_OFFICIAL=1, desktop Normal with stale preexisting runtime globals and mobile Hell. Both exercise a material plus a blueprint in the same result."
+}

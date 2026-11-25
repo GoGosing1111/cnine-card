@@ -1,4 +1,5 @@
 import {variantPaths} from '../shared/onestore-web-assets-v1.mjs';
+import {mock} from 'node:test';
 import {htmlForStore} from '../functions/_onestore_web.js';
 import {canonicalDocument} from '../shared/onestore-web-v1.mjs';
 import fs from 'node:fs';import os from 'node:os';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';import path from 'node:path';import {pathToFileURL} from 'node:url';import http from 'node:http';import assert from 'node:assert/strict';
@@ -17,6 +18,13 @@ const f=await noxFixture(),mime={'.html':'text/html; charset=utf-8','.js':'text/
 const difficulty=process.env.NOX_DIFFICULTY||'NORMAL',steps=difficulty==='HELL'?5:3;
 const official=process.env.NOX_OFFICIAL==='1';
 const practice=process.env.NOX_PRACTICE==='1';
+const verifyRyujin=process.env.NOX_QA_RYUJIN==='1';
+const ryujinIndex=difficulty==='HELL'?2:0;
+const ryujinItem=['류진의 목걸이','류진의 신발','류진의 가면'][ryujinIndex];
+if(verifyRyujin){
+  assert(official&&!practice);
+  await f.pg.exec("INSERT INTO inventory_items VALUES('SCAR_BLUEPRINT_CHAPTER_1',1),('SCAR_BLUEPRINT_CHAPTER_3',1),('RYUJIN_NECKLACE',1),('RYUJIN_BOOTS',1),('RYUJIN_MASK',1)");
+}
 const verifyLongNotes=process.env.NOX_QA_LONG_NOTES==='1';
 const verifyDeath=process.env.NOX_QA_DEATH==='1'||process.env.NOX_QA_DEATH==='rhythm';
 const rhythmDeath=process.env.NOX_QA_DEATH==='rhythm';
@@ -47,6 +55,15 @@ const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,or
 await new Promise(r=>server.listen(0,'127.0.0.1',r));origin='http://127.0.0.1:'+server.address().port;
 const browser=await (profile==='webkit'?webkit:chromium).launch(profile==='webkit'?{headless:true,executablePath:'C:/Users/User/AppData/Local/ms-playwright/webkit-2336/Playwright.exe'}:{headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--autoplay-policy=no-user-gesture-required','--mute-audio']});
 const context=await browser.newContext({viewport:process.env.NOX_VIEWPORT?JSON.parse(process.env.NOX_VIEWPORT):mobile?{width:390,height:844}:{width:1440,height:900},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:1,serviceWorkers:'block'});
+if(verifyRyujin&&!mobile){
+  // The raid must initialize its matching engine and loader even if stale globals exist.
+  await context.addInitScript(()=>{
+    if(location.pathname.includes('/raid/nox/')){
+      window.ProjectVPixiBattle={runtimeVersion:'previous-nox-build'};
+      window.ProjectVBattleV3Live={ready:()=>false};
+    }
+  });
+}
 await context.addInitScript(user=>{window.ONEstoreH5={on:()=>{},off:()=>{},onBackPressed:()=>{},openDeeplink:async()=>{},initializeAsync:async()=>({playerId:'isolated',safeArea:{},ringerSilent:true}),setLoadingProgress:()=>{},startGameAsync:async()=>{},getUserIdAsync:async()=>({userId:'isolated'})};localStorage.setItem('cnine_card_api_token','qa-1');localStorage.setItem('cnine_admin_token','qa-1');localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_soop_watch_notice:20261026-v1:1','shown');},user);
 await context.route('https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js',route=>route.fulfill({contentType:'text/javascript',body:'export function createSDK(){return window.ONEstoreH5;}'}));
 await context.addInitScript(()=>{
@@ -445,12 +462,28 @@ try{
     }
     if(verifyDeath)await raid.locator('#retryButton').click();
     else if(official||practice){
+      const dropRoll=verifyRyujin?mock.method(crypto,'getRandomValues',values=>values.fill(ryujinIndex)):null;
       await f.changeRoom(roomId,room=>{
         const now=Date.now();
         room.round=3;room.stage='EXPOSED';room.boss.hp=1;room.lastAttackAt=now-1500;
         room.challenge={id:roomId+':3:EXPOSED',stage:'EXPOSED',startsAt:now-1500,deadline:now+5000};
       });
       await raid.locator('#resultReward').waitFor({state:'visible'});
+      dropRoll?.mock.restore();
+      if(verifyRyujin){
+        const material=raid.getByRole('dialog',{name:'류진 제작 재료 획득'});
+        await material.waitFor();
+        await material.locator('.bp-reveal-art').evaluate(img=>img.decode());
+        assert.equal(await material.locator('.bp-reveal-item').innerText(),ryujinItem);
+        assert.match(await material.locator('.bp-reveal-bg').getAttribute('src'),/blueprint-reveal-nox/);
+        await material.screenshot({path:path.join(out,profile+'-ryujin.png'),animations:'disabled'});
+        await material.getByRole('button',{name:'확인'}).click();
+        const blueprint=raid.getByRole('dialog',{name:'희귀 설계도 획득'});
+        await blueprint.getByRole('button',{name:'확인'}).click();
+        assert((await raid.locator('#resultReward').innerText()).includes(ryujinItem+' 1개 획득'));
+        assert.equal(await raid.locator('dialog.bp-reveal[open]').count(),0);
+        report.ryujin={item:ryujinItem,blueprintAlsoShown:true};
+      }
       assert.match(await raid.locator('#resultReward').innerText(),practice?/연습 보상 없음/:difficulty==='HELL'?/300조.*25억/:/100조.*10억/);
       if(practice){
         assert.equal(await raid.locator('#resultTitle').innerText(),'연습 클리어');

@@ -105,6 +105,8 @@ test('official Normal and Hell share three payouts per account and reset at Mond
   t.mock.timers.enable({apis:['Date'],now:Date.parse('2026-11-22T14:59:59Z')});
   const h=await noxFixture(t);
   await h.configure({mode:'ON'});
+  await h.pg.exec("INSERT INTO inventory_items VALUES('RYUJIN_NECKLACE',1)");
+  t.mock.method(crypto,'getRandomValues',buffer=>buffer.fill(0));
 
   const difficulties=['NORMAL','HELL','NORMAL','HELL'];
   for(let index=0;index<difficulties.length;index++){
@@ -119,8 +121,10 @@ test('official Normal and Hell share three payouts per account and reset at Mond
     if(index===3){
       assert.equal(reward.status,'LIMIT');
       assert.equal(reward.coins,undefined);
+      assert.equal(reward.ryujinMaterialDrop,undefined);
     }else{
       assert.equal(reward.status,'PAID');
+      assert.equal(reward.ryujinMaterialDrop.code,'RYUJIN_NECKLACE');
       assert.equal(reward.coins,difficulty==='HELL'?'300000000000000':'100000000000000');
       assert.equal(reward.masterStars,difficulty==='HELL'?'2500000000':'1000000000');
     }
@@ -129,7 +133,8 @@ test('official Normal and Hell share three payouts per account and reset at Mond
   const coinLedger=await h.one('SELECT count(*)::int n,sum(change_amount)::text total FROM coin_logs WHERE user_id=1 AND change_amount>0');
   assert.deepEqual(coinLedger,{n:3,total:'500000000000000'});
   assert.deepEqual(await h.one("SELECT quantity::text,unseen_quantity::text FROM cnine_user_inventory WHERE user_id=1 AND item_code='MASTER_STAR'"),{quantity:'4500000000',unseen_quantity:'4500000000'});
-  assert.deepEqual(await h.one('SELECT count(*)::int n,sum(change_amount)::text total FROM inventory_logs WHERE user_id=1'),{n:3,total:'4500000000'});
+  assert.deepEqual(await h.one("SELECT count(*)::int n,sum(change_amount)::text total FROM inventory_logs WHERE user_id=1 AND item_code='MASTER_STAR'"),{n:3,total:'4500000000'});
+  assert.deepEqual(await h.one("SELECT quantity::int,unseen_quantity::int FROM cnine_user_inventory WHERE user_id=1 AND item_code='RYUJIN_NECKLACE'"),{quantity:3,unseen_quantity:3});
   assert.equal((await honor(h,1)).progress,4);
   assert.equal((await h.call('feature?weekly=1',{user:4})).body.weeklyReward.used,0);
   const {weeklyReward}= (await h.call('feature?weekly=1')).body;
@@ -145,6 +150,7 @@ test('official Normal and Hell share three payouts per account and reset at Mond
   const nextReward=(await poll(h,roomId)).body.state.reward;
   assert.equal(nextReward.status,'PAID');
   assert.equal(nextReward.weekly.used,1);
+  assert.equal(nextReward.ryujinMaterialDrop.quantity,1);
   assert.equal((await h.one("SELECT quantity::text FROM cnine_user_inventory WHERE user_id=1 AND item_code='MASTER_STAR'")).quantity,'7000000000');
 });
 

@@ -49,16 +49,36 @@ export function showDefenseChipAcquisition(snapshot,playerId,anchor){
   const reward=snapshot.clearRewards?.[playerId];
   const item=reward?.granted&&reward.items?.find(i=>i.code==='SKILL_CHIP_QUANTUM_BOMB'&&i.quantity>0);
   if(!item)return;
-  const key='defense:'+snapshot.id+':'+playerId;
+  showRememberedAcquisition('defense-chip-reveals',{key:'defense:'+snapshot.id+':'+playerId,
+    theme:themes.defense,heading:'희귀 스킬칩 획득',
+    image:'/assets/ui/project-v/skill-chips/quantum-bomb-v1.webp',name:item.name||'양자폭탄 스킬칩',quantity:item.quantity});
+}
+
+export function showNoxAcquisitions(payout,anchor){
+  if(!anchor?.open)return;
+  const blueprint=()=>{if(anchor.open)showBlueprintAcquisition(payout?.blueprintDrop,'nox',anchor);};
+  const material=payout?.ryujinMaterialDrop;
+  if(payout?.status==='PAID'&&material?.eventId){
+    const dialog=showRememberedAcquisition('nox-ryujin-reveals',{key:'nox-material:'+material.eventId,
+      theme:themes.nox,heading:'류진 제작 재료 획득',image:material.image,name:material.name,quantity:material.quantity});
+    if(dialog){
+      if(payout.blueprintDrop)dialog.addEventListener('close',blueprint,{once:true});
+      return;
+    }
+  }
+  blueprint();
+}
+
+function showRememberedAcquisition(storageKey,options){
+  const {key}=options;
   if(shown.has(key))return;
   let history=[];
-  try{history=JSON.parse(sessionStorage.getItem('defense-chip-reveals')||'[]');}catch{}
+  try{history=JSON.parse(sessionStorage.getItem(storageKey)||'[]');}catch{}
   if(!Array.isArray(history))history=[];
   if(history.includes(key)){shown.add(key);return;}
-  if(showAcquisition({key,theme:themes.defense,heading:'희귀 스킬칩 획득',
-    image:'/assets/ui/project-v/skill-chips/quantum-bomb-v1.webp',name:item.name||'양자폭탄 스킬칩',quantity:item.quantity})){
-    try{sessionStorage.setItem('defense-chip-reveals',JSON.stringify([...history.slice(-49),key]));}catch{}
-  }
+  const dialog=showAcquisition(options);
+  if(dialog)try{sessionStorage.setItem(storageKey,JSON.stringify([...history.slice(-49),key]));}catch{}
+  return dialog;
 }
 
 function showAcquisition({key,theme,heading,image,name,quantity}){
@@ -84,5 +104,5 @@ function showAcquisition({key,theme,heading,image,name,quantity}){
     make('p','bp-reveal-item',name),make('p','bp-reveal-note',quantity.toLocaleString('ko-KR')+'개가 인벤토리에 저장되었습니다.'),close);
   dialog.append(scene);
   document.body.append(dialog);
-  try{dialog.showModal();shown.add(key);return true;}catch{dialog.remove();return false;}
+  try{dialog.showModal();shown.add(key);return dialog;}catch{dialog.remove();return false;}
 }
