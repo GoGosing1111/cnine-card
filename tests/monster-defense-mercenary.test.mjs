@@ -53,16 +53,21 @@ test('canonical barriers absorb basic and boss damage after reload; suppression 
  const b=roomFor([entry('V-003','FRONT_SHARED_BARRIER','GUARD'),entry('V-002','ADVANCE_SUPPRESSION','RANGED')],{code:'CARD:QA',kind:'CARD',role:'CAPTAIN',name:'카드'});
  b.enemies.forEach(e=>e.type='BOSS');defenseMercenaryRuntime(b,()=>{}).action(b.units[1]);assert.ok(b.enemies.every(e=>!e.suppressedUntil));
 });
-test('area skills only hit reachable enemies in the caster lane and old saved rooms do not acquire new skills',()=>{
+test('area skills reach adjacent squads on the open field and preserve saved lane rules',()=>{
  const merc={code:SHIRANUI_ART.code,name:'시라누이',kind:'MERCENARY',role:'RANGED',mercenary:{code:SHIRANUI_ART.code,role:'VANGUARD',attackStyle:'RANGED',skills:[structuredClone(SHIRANUI_AREA_SKILL)]}};
  const partner={...merc,code:'V-003',name:'호위',role:'GUARD',mercenary:{code:'V-003',role:'GUARDIAN',skills:[]}};
  const card={code:'CARD:QA',kind:'CARD',role:'CAPTAIN',name:'카드'};
- let r=roomFor([merc,partner],card);r.enemies[2].x=2800;r.units.filter(u=>u.ownerId==='2').forEach(u=>u.nextAttack=999999);
- advanceRoom(r,100);
- const e=r.events.find(e=>e.type==='MERCENARY_SHIRANUI_AREA');assert.ok(e);assert.ok(e.hits.length>0);
- for(const hit of e.hits){const enemy=r.enemies.find(t=>t.id===hit.targetId);assert.equal(enemy.lane,0);assert.ok(enemy.x<2500);}
- assert.equal(r.enemies[2].hp,100000);assert.equal(r.enemies[1].hp,100000);
+ for(const open of [true,false]){
+  const r=roomFor([merc,partner],card);if(!open)delete r.fieldRevision;
+  r.enemies[2].x=2800;r.units.filter(u=>u.ownerId==='2').forEach(u=>u.nextAttack=999999);
+  advanceRoom(r,100);
+  const e=r.events.find(e=>e.type==='MERCENARY_SHIRANUI_AREA');assert.ok(e?.hits.length);
+  const targets=e.hits.map(hit=>r.enemies.find(t=>t.id===hit.targetId));
+  assert.equal(targets.some(t=>t.lane===1),open);
+  assert.ok(targets.every(t=>Math.hypot(t.x-r.units[0].x,t.y-r.units[0].y)<=r.units[0].range+300));
+  assert.equal(r.enemies[2].hp,100000);assert.equal(r.enemies[1].hp<100000,open);
+  assert.ok(!('mercenaryRuntime' in publicSnapshot(r)),'internal skill tables are not public');
+ }
  const old=roomFor([merc,partner],card);delete old.mercenarySkillRevision;delete old.mercenaryRuntime;
  advanceRoom(old,2000);assert.ok(!old.events.some(e=>e.type.startsWith('MERCENARY_')));
- assert.ok(!('mercenaryRuntime' in publicSnapshot(r)),'internal skill tables are not public');
 });

@@ -5,6 +5,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { DefenseRooms } from '../preview/coop-defense-v1/source/room-service.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
+const publicRoots = ['preview/coop-defense-v1/', 'preview/defense-roguelike-v2/assets/',
+  'preview/monster-defense-exclusive-20261016-v1/assets/', 'assets/', 'fonts/'];
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
   '.webp': 'image/webp', '.avif': 'image/avif', '.woff2': 'font/woff2', '.woff': 'font/woff', '.mp3': 'audio/mpeg', '.svg': 'image/svg+xml' };
@@ -42,7 +44,7 @@ export function createReviewServer({ rooms = new DefenseRooms() } = {}) {
       if (!['GET', 'HEAD'].includes(req.method)) return send(res, { error: '지원하지 않는 요청입니다.' }, 405);
       if (url.pathname === '/') { res.writeHead(302, { location: '/preview/coop-defense-v1/' }); return res.end(); }
       const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '');
-      if (!(relative.startsWith('preview/coop-defense-v1/') || relative.startsWith('assets/') || relative.startsWith('fonts/')) || relative.includes('\\') || relative.split('/').some(p => p.startsWith('.')))
+      if (!publicRoots.some(dir => relative.startsWith(dir)) || relative.includes('\\') || relative.split('/').some(p => p.startsWith('.')))
         return send(res, { error: '파일을 찾을 수 없습니다.' }, 404);
       let file = path.resolve(root, relative);
       if (!file.startsWith(root + path.sep)) return send(res, { error: '파일을 찾을 수 없습니다.' }, 404);

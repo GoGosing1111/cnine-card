@@ -1,13 +1,11 @@
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const FRAME='/preview/coop-defense-v1/assets/formation-v1/selection-frame.png';
-const CREST='/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png';
 export class DefenseFormation{
  constructor({getLoadout,getOptions,refresh,onApply,onToast}){
   Object.assign(this,{getLoadout,getOptions,refresh,onApply,onToast});this.kind='MERCENARY';this.limit=24;this.busy=false;this.generation=0;
   this.dialog=document.createElement('dialog');this.dialog.className='defense-formation';this.dialog.setAttribute('aria-labelledby','formation-title');
-  this.dialog.innerHTML=`<header class="formation-header"><div><p>DEFENSE · SQUAD ASSEMBLY</p><h2 id="formation-title">나의 출전 분대</h2><span>보유한 용병 2명과 카드 1장을 선택하세요.</span></div><button type="button" data-formation-close aria-label="분대 편성 닫기">닫기 ×</button></header>
+  this.dialog.innerHTML=`<header class="formation-header"><div><p>DEFENSE · SQUAD ASSEMBLY</p><h2 id="formation-title">나의 출전 분대</h2><span>보유한 용병 2명과 카드 1장을 선택하세요.</span></div><button type="button" data-formation-close aria-label="분대 편성 닫기">닫기</button></header>
    <div class="formation-tools"><div class="formation-tabs" aria-label="보유 종류"><button type="button" data-kind="MERCENARY" aria-pressed="true">용병 <b data-merc-count>0/2</b></button><button type="button" data-kind="CARD" aria-pressed="false">카드 <b data-card-count>0/1</b></button></div><label class="formation-search"><span class="sr-only">보유 캐릭터 이름 검색</span><input type="search" data-search placeholder="이름 검색" maxlength="60"></label><label><span class="sr-only">등급 필터</span><select data-grade aria-label="등급 필터"><option value="">모든 등급</option></select></label><button type="button" data-refresh aria-label="보유 목록 새로고침">새로고침</button></div>
-   <div class="formation-body"><section class="formation-inventory" aria-label="보유 목록"><p class="formation-count" data-count></p><div class="formation-grid" data-inventory></div><button type="button" class="formation-more" data-more hidden>더 보기</button></section><aside class="formation-side"><h3>출전 편성</h3><div class="formation-selected" data-selected></div><div class="formation-detail" data-detail><p>원화를 누르면 선택·해제됩니다.</p></div><p class="formation-rule">용병은 고유 스킬을 자동 사용하며 방어선 안의 적·아군을 대상으로 합니다. 체력·공격과 웨이브 강화는 디펜스 기준입니다. 아래 전술은 별도로 직접 지시할 수 있습니다.</p></aside></div>
+   <div class="formation-body"><section class="formation-inventory" aria-label="보유 목록"><p class="formation-count" data-count></p><div class="formation-grid" data-inventory></div><button type="button" class="formation-more" data-more hidden>더 보기</button></section><aside class="formation-side"><h3>출전 편성</h3><div class="formation-selected" data-selected></div><div class="formation-detail" data-detail><p>원화를 누르면 선택·해제됩니다.</p></div><p class="formation-rule">용병은 사거리 안에서 고유 스킬을 자동 사용합니다. 전술은 전투 중 직접 지시할 수 있습니다.</p></aside></div>
    <footer class="formation-footer"><p data-status role="status" aria-live="polite"></p><div><button type="button" data-formation-cancel>취소</button><button type="button" class="formation-apply" data-apply disabled>분대 배치 <span>›</span></button></div></footer>`;
   document.getElementById('defense-app').append(this.dialog);
   const $=s=>this.dialog.querySelector(s);this.$=$;
@@ -25,9 +23,12 @@ export class DefenseFormation{
   $('[data-search]').addEventListener('input',e=>{this.query=e.target.value.trim().toLocaleLowerCase();this.limit=24;this.renderInventory();});
   $('[data-grade]').addEventListener('change',e=>{this.grade=e.target.value;this.limit=24;this.renderInventory();});
  }
- open(kind='MERCENARY'){
+ open(kind='MERCENARY',slot=null){
   if(this.dialog.open)return this.completion;this.opener=document.activeElement;this.kind=kind;this.draft=structuredClone(this.getLoadout());this.query='';this.grade='';this.limit=24;this.detail=null;
   this.completion=new Promise(resolve=>{this.finish=resolve;});
+  this.replaceSlot=kind==='MERCENARY' && (slot===0||slot===1) ? slot : null;
+  this.$('.formation-header span').textContent=this.replaceSlot!==null && this.draft.mercenaries[this.replaceSlot]
+   ? '용병 '+(slot+1)+' 자리에 배치할 용병을 고르세요.' : '보유한 용병 2명과 카드 1장을 선택하세요.';
   this.$('[data-search]').value='';this.dialog.showModal();this.render();void this.reload();return this.completion;
  }
  close(applied=false){if(this.busy)return;this.generation++;this.dialog.close();const opener=this.opener?.isConnected?this.opener:document.getElementById(this.opener?.id);opener?.focus({preventScroll:true});this.finish?.(applied);this.finish=null;}
@@ -45,15 +46,16 @@ export class DefenseFormation{
   if(this.kind==='MERCENARY'){
    if(this.draft.mercenaries.includes(code))this.draft.mercenaries=this.draft.mercenaries.filter(c=>c!==code);
    else if(this.draft.mercenaries.length<2)this.draft.mercenaries.push(code);
+   else if(this.replaceSlot!==null)this.draft.mercenaries[this.replaceSlot]=code;
    else{this.setStatus('용병은 2명까지 배치합니다. 선택한 용병을 한 번 더 눌러 해제하세요.');this.renderDetail();return;}
   }else this.draft.card=this.draft.card===code?'':code;
   this.setStatus('');this.render();
  }
- portrait(entry){return `<span class="formation-portrait"><img class="formation-art" loading="lazy" src="${esc(entry.sourceArt)}" alt=""><img class="formation-frame" src="${FRAME}" alt=""></span>`;}
+ portrait(entry){return `<span class="formation-portrait"><img class="formation-art" loading="lazy" src="${esc(entry.sourceArt)}" alt=""></span>`;}
  renderInventory(){
   const all=this.entries(),items=all.filter(c=>(!this.query||c.name.toLocaleLowerCase().includes(this.query))&&(!this.grade||c.rank===this.grade));
   this.$('[data-count]').textContent=`${this.kind==='MERCENARY'?'출전 가능한 보유 용병':'보유 카드'} ${items.length}종`;
-  this.$('[data-inventory]').innerHTML=items.slice(0,this.limit).map(c=>`<button type="button" class="formation-choice" data-choice="${esc(c.code)}" aria-pressed="${this.selected(c.code)}" aria-label="${esc(c.name)} ${this.selected(c.code)?'선택 해제':'선택'}">${this.portrait(c)}<span class="formation-grade">${esc(c.rank)}${c.kind==='CARD'&&c.level?' +'+c.level:''}</span><span class="formation-mark" aria-hidden="true"><img src="${CREST}" alt=""><b>${this.selected(c.code)?'✓':'+'}</b></span><strong>${esc(c.name)}</strong><small>${esc(c.roleName)} · ${esc(c.defense.skill)}</small></button>`).join('')||'<p class="formation-empty">조건에 맞는 보유 캐릭터가 없습니다.<br>검색·등급을 확인하거나 목록을 새로 불러와 주세요.</p>';
+  this.$('[data-inventory]').innerHTML=items.slice(0,this.limit).map(c=>`<button type="button" class="formation-choice" data-choice="${esc(c.code)}" aria-pressed="${this.selected(c.code)}" aria-label="${esc(c.name)} ${this.selected(c.code)?'선택 해제':'선택'}">${this.portrait(c)}<span class="formation-grade">${esc(c.rank)}${c.kind==='CARD'&&c.level?' +'+c.level:''}</span><span class="formation-mark" aria-hidden="true"><b>${this.selected(c.code)?'✓':'+'}</b></span><strong>${esc(c.name)}</strong><small>${esc(c.roleName)} · ${esc(c.defense.skill)}</small></button>`).join('')||'<p class="formation-empty">조건에 맞는 보유 캐릭터가 없습니다.<br>검색·등급을 확인하거나 목록을 새로 불러와 주세요.</p>';
   this.$('[data-more]').hidden=items.length<=this.limit;this.lock();
  }
  renderDetail(){const c=this.detail;
@@ -66,7 +68,7 @@ export class DefenseFormation{
   this.$('[data-grade]').innerHTML='<option value="">모든 등급</option>'+[...new Set(this.entries().map(c=>c.rank))].map(g=>`<option value="${esc(g)}" ${this.grade===g?'selected':''}>${esc(g)}</option>`).join('');
   this.$('[data-selected]').innerHTML=[this.draft.mercenaries[0],this.draft.mercenaries[1],this.draft.card].map((code,i)=>{
    const c=rows.find(c=>c.code===code),label=i<2?'용병 '+(i+1):'카드';
-   return `<div class="formation-slot"><span>${label}</span>${c?`<button type="button" data-remove="${esc(code)}" aria-label="${esc(c.name)} 배치 해제">${this.portrait(c)}<b>${esc(c.name)}</b><small>해제 ×</small></button>`:'<div class="formation-empty-slot"><img src="'+CREST+'" alt=""><span>선택 대기</span></div>'}</div>`;
+   return `<div class="formation-slot"><span>${label}</span>${c?`<button type="button" data-remove="${esc(code)}" aria-label="${esc(c.name)} 배치 해제">${this.portrait(c)}<b>${esc(c.name)}</b><small>해제 ×</small></button>`:'<div class="formation-empty-slot"><span>선택 대기</span></div>'}</div>`;
   }).join('');this.renderDetail();this.renderInventory();this.lock();
  }
  lock(){this.dialog.querySelectorAll('button,input,select').forEach(b=>{b.disabled=this.busy;});this.$('[data-apply]').disabled=this.busy||this.draft.mercenaries.length!==2||!this.draft.card;}

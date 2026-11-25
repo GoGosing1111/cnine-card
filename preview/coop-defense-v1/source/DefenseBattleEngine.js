@@ -1,11 +1,12 @@
-import { Assets, BitmapFont, Cache, Container, Graphics, Rectangle, Sprite, Text, Texture, TilingSprite } from 'pixi.js';
+import { Assets, BitmapFont, Cache, Container, Graphics, Rectangle, Sprite, Text, Texture } from 'pixi.js';
+import {defenseFieldView, defenseMonsterHeight, fieldY} from './DefenseFieldView.mjs';
 import { gsap } from 'gsap';
 import { BattleEngine } from '../../project-v-v3/source/battle/BattleEngine.js';
 import {createBattleGroundSigil} from '../../project-v-v3/source/battle/BattleGroundSigil.js';
 import {BATTLE_HUD_ASSETS} from '../../project-v-v3/source/battle/BattleHud.js';
 import { BattleCharacter, TEAM } from '../../project-v-v3/source/battle/BattleCharacter.js';
 import { SkillEffectFX, triggerWhiteFlash } from '../../project-v-v3/source/battle/SkillEffectFX.js';
-import { WORLD, laneY, LANES } from './defense-model.mjs';
+import { WORLD, LANES } from './defense-model.mjs';
 import {resolveV3MercenaryArt,v3MercenaryHeight} from '../../project-v-v3/source/battle/MercenaryCombatPlayback.js';
 import {attachMercenaryArt} from '../../project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js';
 import {defenseMercenaryPresentation} from './DefenseMercenaryPresentation.js';
@@ -22,15 +23,17 @@ export class DefenseTacticalField {
     this.markers = new Map();
     this.controls = new AbortController();
     this.svg = this.node('svg', { class: 'defense-tactical-field', 'aria-hidden': true });
-    this.routes = this.node('g');
+    this.ground = this.node('image', { href: catalog.background, preserveAspectRatio: 'xMidYMid slice' });
     this.squads = this.node('g');
-    this.core = this.node('g', { transform: 'translate(' + WORLD.coreX + ' ' + WORLD.coreY + ')' });
+    this.core = this.node('g', { transform: 'translate(' + WORLD.coreX + ' ' + fieldY(WORLD.coreY) + ')' });
     this.core.append(this.node('path', { d: 'M0 -60 L34 -8 L0 35 L-34 -8Z', fill: '#67d8d5', stroke: '#d4fff6', 'stroke-width': 5 }),
       this.node('image', { href: catalog.environment.core, x: -82, y: -131, width: 164, height: 177 }));
-    this.svg.append(this.routes, this.core, this.squads);
+    this.svg.append(this.ground, this.core, this.squads);
     host.append(this.svg);
     this.focusLane = null;
     this.centerSquad();
+    this.observer = new ResizeObserver(() => this.moveCamera(this.focusX));
+    this.observer.observe(host);
     const options = { signal: this.controls.signal };
     this.svg.addEventListener('pointerdown', e => {
       if (this.focusLane === null || e.button !== 0) return;
@@ -59,15 +62,16 @@ export class DefenseTacticalField {
     this.focusLane = lane;
     this.svg.classList.toggle('lane-focus', lane !== null);
     this.host.dataset.pannable = String(lane !== null);
-    this.centerSquad();
+    this.moveCamera(WORLD.frontX + 320);
   }
   panBy(direction) { this.moveCamera(this.focusX + direction * this.viewWidth * .55); }
   centerSquad() { this.moveCamera(WORLD.frontX - 170); }
   moveCamera(x) {
-    this.viewWidth = this.focusLane === null ? WORLD.width : 1200;
-    this.focusX = Math.max(this.viewWidth / 2, Math.min(WORLD.width - this.viewWidth / 2, x));
-    const y = this.focusLane === null ? 0 : laneY(this.focusLane, this.capacity || 3) - 250;
-    this.svg.setAttribute('viewBox', [this.focusX - this.viewWidth / 2, y, this.viewWidth, this.focusLane === null ? WORLD.height : 500].join(' '));
+    const view = this.fieldView = defenseFieldView(this.host.clientWidth, this.host.clientHeight, this.focusLane, this.capacity || 3, x);
+    this.focusX = view.x; this.viewWidth = view.viewWidth;
+    this.svg.setAttribute('viewBox', [view.left, view.top, view.viewWidth, view.viewHeight].join(' '));
+    for (const [key, value] of Object.entries(view.art)) this.ground.setAttribute(key, value);
+    for (const marker of this.markers.values()) marker.body.setAttribute('transform', 'scale(' + view.actorScale + ')');
   }
   selectUnit(id) {
     this.markers.get(this.selectedUnit)?.group.classList.remove('selected');
@@ -81,28 +85,16 @@ export class DefenseTacticalField {
   }
   addSprite(marker) {
     if (!marker.url || marker.image) return;
-    const image = this.node('image', { href: marker.url, x: -46, y: -91, width: 92, height: 92 });
+    const size = marker.height, foot = marker.foot;
+    const image = this.node('image', { href: marker.url, x: -size * foot.x, y: -size * foot.y, width: size, height: size });
     marker.image = image;
     image.addEventListener('error', () => image.remove(), { once: true });
-    marker.group.insertBefore(image, marker.label);
-  }
-  drawRoutes(capacity) {
-    this.capacity = capacity;
-    this.routes.replaceChildren();
-    for (let lane = 0; lane < capacity; lane++) {
-      const y = laneY(lane, capacity), color = '#' + OWNER_COLORS[lane].toString(16);
-      const d = 'M' + WORLD.coreX + ' ' + WORLD.coreY + ' L' + WORLD.mergeX + ' ' + y + ' H' + WORLD.spawnX;
-      this.routes.append(this.node('path', { d, fill: 'none', stroke: color, opacity: .13, 'stroke-width': 105 }),
-        this.node('path', { d, fill: 'none', stroke: color, opacity: .55, 'stroke-width': 4, 'stroke-dasharray': '18 20' }));
-      const label = this.node('text', { x: WORLD.spawnX - 38, y: y - 68, fill: color, 'text-anchor': 'end' });
-      label.textContent = LANES[lane] + ' 방어선';
-      this.routes.append(label);
-    }
-    this.moveCamera(this.focusX);
+    marker.body.insertBefore(image, marker.label);
+    marker.label.setAttribute('y', -marker.height - 12);
   }
   applySnapshot(snapshot) {
     this.snapshot = snapshot;
-    if (this.capacity !== snapshot.capacity) this.drawRoutes(snapshot.capacity);
+    if (this.capacity !== snapshot.capacity) { this.capacity = snapshot.capacity; this.moveCamera(this.focusX); }
     const seen = new Set();
     for (const [rows, enemy] of [[snapshot.units, false], [snapshot.enemies, true]]) for (const row of rows) {
       seen.add(row.id);
@@ -116,18 +108,21 @@ export class DefenseTacticalField {
         const boss = enemy && row.type === 'BOSS';
         const shape = enemy ? this.node('path', { d: boss ? 'M0 -33 34 0 0 33 -34 0Z' : 'M-18 0 17 -15 17 15Z', fill: color })
           : this.node('circle', { r: 21, fill: '#142733', stroke: color, 'stroke-width': 7 });
-        group.append(this.node('title'), shape, label, this.node('rect', { x: -22, y: 30, width: 44, height: 6, fill: '#17242d' }), hp);
+        const body = this.node('g', { transform: 'scale(' + this.fieldView.actorScale + ')' });
+        body.append(shape, label, this.node('rect', { x: -22, y: 30, width: 44, height: 6, fill: '#17242d' }), hp);
+        group.append(this.node('title'), body);
         group.firstChild.textContent = row.name;
         group.classList.toggle('selected', row.id === this.selectedUnit);
         group.classList.toggle('boss', boss);
         this.squads.append(group);
         const art = enemy ? this.catalog.enemies[row.archetype || row.type] : this.catalog.units[row.code];
         group.classList.toggle('ally', !enemy);
-        marker = { group, hp, label, url: art?.battleSprite };
+        marker = { group, body, hp, label, url: art?.battleSprite, foot: art?.footAnchor || {x: .5, y: .98},
+          height: enemy ? defenseMonsterHeight(art) : v3MercenaryHeight(row.code, art || {}) };
         this.markers.set(row.id, marker);
         if (this.withSprites) this.addSprite(marker);
       }
-      marker.group.setAttribute('transform', 'translate(' + Math.round(row.x) + ' ' + Math.round(row.y) + ')');
+      marker.group.setAttribute('transform', 'translate(' + Math.round(row.x) + ' ' + Math.round(fieldY(row.y)) + ')');
       marker.group.setAttribute('opacity', row.hp > 0 ? 1 : .35);
       marker.hp.setAttribute('width', 44 * Math.max(0, Math.min(1, row.hp / row.maxHp)));
     }
@@ -139,7 +134,7 @@ export class DefenseTacticalField {
       mercenaries: (this.snapshot?.units || []).filter(u => /^V-\d+$/.test(u.code)).map(u => ({ id: u.id, code: u.code, prepared: false })),
       serverDeterminesDamage: true };
   }
-  destroy() { this.controls.abort(); this.svg.remove(); this.markers.clear(); }
+  destroy() { this.controls.abort(); this.observer.disconnect(); this.svg.remove(); this.markers.clear(); }
 }
 export class DefenseBattleEngine extends BattleEngine {
   constructor({ host, catalog }) {
@@ -152,27 +147,24 @@ export class DefenseBattleEngine extends BattleEngine {
     this.disposed = false; this.soundEnabled = false;
   }
   async loadBattlefieldTexture() {
-    const [background] = await Promise.all([this.catalog.background, this.catalog.environment.causeway, this.catalog.environment.core, this.catalog.environment.teleport, this.catalog.uiSkin.nameplate].map(path => Assets.load(path)));
+    const [background] = await Promise.all([this.catalog.background, this.catalog.environment.core, this.catalog.environment.teleport, this.catalog.uiSkin.nameplate].map(path => Assets.load(path)));
     const atlas = Assets.get(this.catalog.environment.teleport);
     this.portalFrames = Array.from({length:6}, (_,i) => new Texture({source:atlas.source, frame:new Rectangle(i%3*384,Math.floor(i/3)*384,384,384)}));
     return background;
   }
   createBackground() {
     this.defenseBackdrop = new Sprite(this.activeBattlefieldTexture);
-    this.defenseShade = new Graphics(); this.backgroundLayer.addChild(this.defenseBackdrop, this.defenseShade);
+    this.backgroundLayer.addChild(this.defenseBackdrop);
   }
   createIsometricFloor() {
-    this.isoFloorLayer = new Container({ label: 'DefenseRoutes' }); this.isoFloorLayer.zIndex = -100;
+    this.isoFloorLayer = new Container({ label: 'DefenseField' });
+    this.isoFloorLayer.zIndex = -100;
     this.combatLayer.addChild(this.isoFloorLayer);
-    this.routeArt = new Container({ label: 'PaintedCauseways' }); this.routeLabels = new Container();
-    const road = Assets.get(this.catalog.environment.causeway);
-    this.routeJoinTexture = new Texture({ source: road.source, frame: new Rectangle(800, 0, 300, road.height) });
-    this.coreArt = new Sprite(Assets.get(this.catalog.environment.core)); this.coreArt.label = 'PaintedGuardianCrystal';
-    this.coreArt.anchor.set(.5, .91); this.coreArt.height = 430; this.coreArt.scale.x = this.coreArt.scale.y;
-    this.coreArt.position.set(WORLD.coreX, WORLD.coreY);
-    this.isoFloorLayer.addChild(this.routeArt, this.coreArt, this.routeLabels);
-    this.bossWarnings=new Graphics();this.isoFloorLayer.addChild(this.bossWarnings);
-    this.drawRoutes();
+    this.coreArt = new Sprite(Assets.get(this.catalog.environment.core));
+    this.coreArt.anchor.set(.5, .91); this.coreArt.height = 320; this.coreArt.scale.x = this.coreArt.scale.y;
+    this.coreArt.position.set(WORLD.coreX, fieldY(WORLD.coreY));
+    this.bossWarnings = new Graphics();
+    this.isoFloorLayer.addChild(this.coreArt, this.bossWarnings);
   }
   createCard() { const card = new Container(); card.visible = false; return card; }
   async createCharacters() {
@@ -207,9 +199,7 @@ export class DefenseBattleEngine extends BattleEngine {
     }, options);
     this.host.addEventListener('pointermove', event => {
       if (this.panDrag?.id !== event.pointerId) return;
-      const alongRoad = (event.clientX - this.panDrag.x) * Math.cos(this.fieldTilt)
-        + (event.clientY - this.panDrag.y) * Math.sin(this.fieldTilt);
-      this.focusX = this.panDrag.center - alongRoad / this.root.scale.x;
+      this.focusX = this.panDrag.center - (event.clientX - this.panDrag.x) / this.root.scale.x;
       this.resize();
     }, options);
     const endDrag = event => {
@@ -227,7 +217,7 @@ export class DefenseBattleEngine extends BattleEngine {
     }, options);
   }
   setObjective() { return Promise.resolve(); }
-  drawIsometricFloor() { this.drawRoutes(); }
+  drawIsometricFloor() {}
   layoutCharacterGrid() {}
   configureIsometricScene() { return {}; }
   async mount() {
@@ -236,7 +226,7 @@ export class DefenseBattleEngine extends BattleEngine {
     if (!Cache.has(`${DIGIT_FONT}-bitmap`)) BitmapFont.install({ name: DIGIT_FONT,
       style: { fontFamily: 'Arial Black, Arial', fontSize: 76, fill: 0xffffff, stroke: { color: 0x08120d, width: 8, join: 'round' } },
       chars: [['0', '9'], '+', ','], resolution: 1, padding: 5 });
-    this.drawRoutes(); this.resize();
+    this.resize();
     this.renderTick = ticker => this.updateActors(ticker.deltaMS);
     this.app.ticker.add(this.renderTick);
     await this.setVisible(true);
@@ -256,8 +246,8 @@ export class DefenseBattleEngine extends BattleEngine {
     return Promise.resolve(this);
   }
   setView(lane) {
-    this.focusLane = lane; this.focusX = WORLD.frontX - 170; this.panDrag = null;
-    this.host.dataset.pannable = String(lane !== null); this.drawRoutes(); this.resize();
+    this.focusLane = lane; this.focusX = WORLD.frontX + 320; this.panDrag = null;
+    this.host.dataset.pannable = String(lane !== null); this.resize();
   }
   panBy(direction) { if (this.focusLane !== null) { this.focusX += direction * this.viewWidth * .55; this.resize(); } }
   centerSquad() { this.focusX = WORLD.frontX - 170; this.resize(); }
@@ -265,86 +255,33 @@ export class DefenseBattleEngine extends BattleEngine {
   resize() {
     if (!this.root || !this.app) return;
     const w = this.app.screen.width, h = this.app.screen.height;
-    this.mobile = w <= 760;
+    const view = this.fieldView = defenseFieldView(w, h, this.focusLane, this.capacity, this.focusX);
+    this.mobile = view.compact;
     this.scene = { ...WORLD }; this.camera.setViewport(WORLD.width, WORLD.height);
-    const focused = this.focusLane !== null;
-    const shortLandscape = w > h && h < 340;
-    const portrait = focused && w < h && w <= 760;
-    this.fieldTilt = portrait ? -Math.PI * .23 : 0;
-    const top = laneY(0, this.capacity) - 370, bottom = laneY(this.capacity - 1, this.capacity) + 210;
-    const scale = focused ? Math.min(w / (portrait ? 1000 : w <= 760 ? 1280 : 2000), Math.max(1, h - (shortLandscape ? 28 : 90)) / 560)
-      : Math.min((w - 24) / WORLD.width, (h - 24) / (bottom - top));
-    this.viewWidth = (portrait ? Math.min(w / Math.cos(this.fieldTilt), (h - 90) / Math.abs(Math.sin(this.fieldTilt))) : w) / scale;
-    const halfView = Math.min(WORLD.width / 2, this.viewWidth / 2);
-    this.focusX = Math.max(halfView, Math.min(WORLD.width - halfView, this.focusX));
-    const centerX = focused ? this.focusX : WORLD.width / 2;
-    const centerY = focused ? laneY(this.focusLane, this.capacity) - 90 : (top + bottom) / 2;
-    this.root.scale.set(scale);
-    this.root.position.set(w / 2 - centerX * scale, h * .5 - centerY * scale);
-    for (const layer of [this.combatLayer, this.effectLayer]) {
-      layer.pivot.set(centerX, centerY); layer.position.set(centerX, centerY); layer.rotation = this.fieldTilt;
-    }
-    this.coreArt.rotation = -this.fieldTilt;
-    this.routeLabels.children.forEach(label => { label.rotation = -this.fieldTilt; });
-    const left = -this.root.x / scale, viewTop = -this.root.y / scale, width = w / scale, height = h / scale;
-    const bg = this.defenseBackdrop, cover = Math.max(width / bg.texture.width, height / bg.texture.height);
-    bg.scale.set(cover); bg.position.set(left + (width - bg.width) / 2, viewTop + (height - bg.height) / 2);
-    this.defenseShade.clear().rect(left, viewTop, width, height).fill({ color: 0x071211, alpha: .6 });
+    this.focusX = view.x; this.viewWidth = view.viewWidth;
+    this.root.scale.set(view.scale); this.root.position.set(-view.left * view.scale, -view.top * view.scale);
+    const bg = this.defenseBackdrop, art = view.art;
+    bg.scale.set(Math.max(art.width / bg.texture.width, art.height / bg.texture.height));
+    bg.position.set(art.x + (art.width - bg.width) / 2, art.y + (art.height - bg.height) / 2);
     this.skillTimeline.width = WORLD.width; this.skillTimeline.height = WORLD.height;
-    for (const actor of this.actors.values()) this.layoutActorHud(actor, scale);
+    for (const actor of this.actors.values()) this.layoutActorHud(actor);
     this.refreshVisibility();
   }
-  layoutActorHud(actor, scale = this.root.scale.x) {
-    actor.root.rotation = -(this.fieldTilt || 0);
+  layoutActorHud(actor) {
+    const {actorScale, scale, compact} = this.fieldView;
+    actor.designScale = actor.restScale = actor.root.restScale = actorScale;
+    actor.root.scale.set(actorScale);
     actor.hud.scale.set(actor.enemy ? .65 : .85);
-    actor.hud.fontSizeOverride = Math.min(30, Math.max(20, 9 / (scale * actor.hud.scale.x)));
-    actor.hud.setCompact(false);
+    actor.hud.fontSizeOverride = Math.min(30, Math.max(20, 9 / (scale * actorScale * actor.hud.scale.x)));
+    actor.hud.setCompact(compact);
     actor.hud.setNameVisible(!actor.enemy || actor.unitData.type === 'BOSS');
-  }
-  drawRoutes() {
-    if (!this.routeArt) return;
-    this.routeArt.removeChildren().forEach(c => c.destroy());
-    this.routeLabels.removeChildren().forEach(c => c.destroy());
-    const segment = (fromX, fromY, toX, toY, height) => {
-      const texture = Assets.get(this.catalog.environment.causeway);
-      const strip = new TilingSprite({ texture, width: Math.hypot(toX - fromX, toY - fromY) + 30, height }); strip.anchor.set(.5);
-      strip.tileScale.set(height / texture.height);
-      strip.position.set((fromX + toX) / 2, (fromY + toY) / 2);
-      strip.rotation = Math.atan2(toY - fromY, toX - fromX);
-      // Cover the original strip's irregular ends with matching center paving, without stretching the stonework.
-      const repeat = texture.width * height / texture.height;
-      for (let at = repeat; at < strip.width; at += repeat) {
-        const join = new Sprite(this.routeJoinTexture); join.anchor.set(.5); join.scale.set(height / texture.height);
-        join.position.set(fromX + (at - 15) * Math.cos(strip.rotation), fromY + (at - 15) * Math.sin(strip.rotation));
-        join.rotation = strip.rotation; this.routeArt.addChild(join);
-      }
-      this.routeArt.addChild(strip);
-    };
-    // The shared approach is laid beneath the long lane sections; the monument covers their convergence.
-    for (let lane = 0; lane < this.capacity; lane++) {
-      if (this.focusLane !== null && this.focusLane !== lane) continue;
-      segment(WORLD.coreX, WORLD.coreY, WORLD.mergeX + 35, laneY(lane, this.capacity), 350);
-    }
-    for (let lane = 0; lane < this.capacity; lane++) {
-      if (this.focusLane !== null && this.focusLane !== lane) continue;
-      const y = laneY(lane, this.capacity), color = OWNER_COLORS[lane];
-      segment(WORLD.mergeX - 10, y, WORLD.width - 20, y, 450);
-      const label = new Text({ text: `${LANES[lane]} 방어선`, style: { ...textStyle, fill: color } });
-      label.position.set(WORLD.mergeX + 30, y + 140); this.routeLabels.addChild(label);
-    }
-    this.coreArt.visible = true;
-    if (this.focusLane === null) {
-      const x = WORLD.coreX, y = WORLD.coreY;
-      const label = new Text({ text: '공동 수호석', style: { ...textStyle, fill: 0xc3f8e9 } });
-      label.anchor.set(.5, 0); label.position.set(x, y + 80); this.routeLabels.addChild(label);
-    }
   }
   makeActor(unit, enemy = false) {
     const art = enemy ? this.catalog.enemies[unit.archetype||unit.type] : this.catalog.units[unit.code];
     const mercArt=!enemy&&this.v3Art.get(unit.code),texture = Assets.get(mercArt?.spriteUrl||art.battleSprite);
     const actor = new BattleCharacter({ id: unit.id, name: enemy ? art.name : `${LANES[unit.ownerLane]} · ${unit.name}`,
-      team: enemy ? TEAM.ENEMY : TEAM.ALLY, texture, fullBodyTexture: texture, fullBodyHeight: enemy ? (art.height||180) : mercArt?v3MercenaryHeight(unit.code,mercArt):art.fullBodyHeight||260,
-      x: unit.x, y: unit.y, scale: 1, accent: enemy ? 0xe97c72 : OWNER_COLORS[unit.ownerLane], hp: 100 });
+      team: enemy ? TEAM.ENEMY : TEAM.ALLY, texture, fullBodyTexture: texture, fullBodyHeight: enemy ? defenseMonsterHeight(art) : mercArt?v3MercenaryHeight(unit.code,mercArt):art.fullBodyHeight||260,
+      x: unit.x, y: fieldY(unit.y), scale: this.fieldView.actorScale, accent: enemy ? 0xe97c72 : OWNER_COLORS[unit.ownerLane], hp: 100 });
     actor.artFacing = enemy ? art.artFacing || 1 : 1;
     actor.applyFacing(); // Also updates the neutral pose used by move/attack/hit resets.
     // The approved compact B HUD is shared by both factions and battle modes.
@@ -358,14 +295,14 @@ export class DefenseBattleEngine extends BattleEngine {
     actor.hud.scale.set(enemy ? .65 : .75);
     actor.battleCard = {...art, ...unit};
     actor.stateHalo.removeFromParent(); actor.stateHalo.destroy({children:true});
-    actor.stateHalo=createBattleGroundSigil({actor,team:actor.team,width:enemy?128:180,height:enemy?40:56});
+    actor.stateHalo=createBattleGroundSigil({actor,team:actor.team,width:enemy?Math.min(255,actor.fullBodyHeight*.52):180,height:enemy?Math.min(76,actor.fullBodyHeight*.16):56});
     actor.stateHalo.y=-3; actor.stateHalo.zIndex=1; actor.root.addChildAt(actor.stateHalo,0);
     // Keep contact shading inside the rune, rather than painting over its band.
-    actor.shadow.scale.set(enemy ? .46 : .65);
+    actor.shadow.scale.set(enemy ? .7 : .65);
     actor.root.eventMode = 'none'; actor.root.alpha = 1; actor.enemy = enemy; actor.unitData = unit;
     actor.skillLabel=new Text({text:'',style:{...textStyle,fontSize:19,fill:0xffe0a1}});actor.skillLabel.anchor.set(.5);actor.skillLabel.position.set(110,83);actor.hud.addChild(actor.skillLabel);
     this.layoutActorHud(actor);
-    actor.targetX = unit.x; actor.targetY = unit.y; actor.actionUntil = 0;
+    actor.targetX = unit.x; actor.targetY = fieldY(unit.y); actor.actionUntil = 0;
     if (this.reducedMotion) actor.animationController.kill();
     this.combatLayer.addChild(actor.root); this.actors.set(unit.id, actor);
     if(mercArt){actor.presentation=defenseMercenaryPresentation(this,actor);this.actorSetups.push(actor.presentation.ready);}
@@ -373,20 +310,27 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   applySnapshot(state, playerId) {
     if (this.disposed) return;
+    const interval = Math.min(500, Math.max(0, state.time - (this.state?.time ?? state.time)));
     this.state = state; this.visualNow = state.time; this.receivedAt = performance.now();
     this.myLane = state.players.find(p => p.id === playerId)?.lane ?? 0;
-    if (this.capacity !== state.capacity) { this.capacity = state.capacity; this.drawRoutes(); this.resize(); }
+    if (this.capacity !== state.capacity) { this.capacity = state.capacity; this.resize(); }
     const next = new Set();
     for (const [rows, enemy] of [[state.units, false], [state.enemies, true]]) for (const row of rows) {
       next.add(row.id);
       const actor = this.actors.get(row.id) || this.makeActor(row, enemy);
-      actor.unitData = row; actor.targetX = row.x; actor.targetY = row.y;
+      if (enemy && interval > 0) {
+        actor.fromX = actor.root.x; actor.fromY = actor.root.y;
+        actor.travelStart = this.receivedAt; actor.travelMs = interval;
+      }
+      actor.unitData = row; actor.targetX = row.x; actor.targetY = fieldY(row.y);
       actor.serverMaxHp=row.maxHp;actor.removedAt=null;
       if (actor.hp !== row.hp / row.maxHp * 100) actor.setHp(row.hp / row.maxHp * 100);
       if (this.reducedMotion) actor.animationController.kill();
       actor.root.alpha = row.hp > 0 ? 1 : .32;
       actor.setShield(row.shield||0,row.maxShield||0);
       actor.setDisplayName(enemy ? this.catalog.enemies[row.archetype||row.type].name : `${LANES[row.ownerLane]} · ${row.name}`);
+      const injured = row.hp < row.maxHp;
+      actor.hud.visible = row.hp > 0 && (injured || (enemy ? row.type === 'BOSS' || !!row.cast : row.ownerLane === this.myLane || row.id === this.selectedUnit));
     }
     for (const [id, actor] of this.actors) if (!next.has(id)) {
       // Keep a lethal-hit target through its short V3 impact, not indefinitely.
@@ -397,8 +341,10 @@ export class DefenseBattleEngine extends BattleEngine {
     this.characters = [...this.actors.values()]; this.allies = this.characters.filter(a => !a.enemy); this.enemies = this.characters.filter(a => a.enemy);
     this.refreshVisibility();
     this.bossWarnings.clear();
-    for(const enemy of state.enemies)if(enemy.cast&&enemy.cast.endsAt>state.time&&(this.focusLane===null||this.focusLane===enemy.cast.lane)){
-      this.bossWarnings.roundRect(820,laneY(enemy.cast.lane,state.capacity)-115,900,230,24).fill({color:0xf35f63,alpha:.2}).stroke({color:0xffaa81,width:4,alpha:.9});
+    for (const enemy of state.enemies) if (enemy.cast?.endsAt > state.time) {
+      for (const u of state.units) if (u.hp > 0 && !u.move && u.lane === enemy.cast.lane) {
+        this.bossWarnings.ellipse(u.x, fieldY(u.y), 126, 48).fill({color:0xf35f63,alpha:.22}).stroke({color:0xffaa81,width:4,alpha:.88});
+      }
     }
     // Old events after reconnect are never replayed as a long animation backlog.
     for (const event of state.events) if (event.seq > this.lastEvent && state.time - event.at < 1200 && this.visible) this.playDefenseEvent(event);
@@ -407,25 +353,33 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   refreshVisibility() {
     for (const actor of this.actors.values()) {
-      const unit = actor.unitData;
-      actor.root.visible = this.focusLane === null || unit.lane === this.focusLane || unit.move?.lane === this.focusLane;
+      const {left, top, viewWidth, viewHeight, actorScale} = this.fieldView;
+      const margin = (actor.fullBodyHeight + 140) * actorScale;
+      actor.root.visible = actor.targetX >= left - margin && actor.targetX <= left + viewWidth + margin &&
+        actor.targetY >= top - margin && actor.targetY <= top + viewHeight + margin;
       actor.presentation?.update();
     }
   }
   updateActors(delta) {
     const blend = Math.min(1, delta / 85);
-    const now = this.state ? this.state.time + Math.min(1000,performance.now() - this.receivedAt) : 0;
+    const frameAt = performance.now();
+    const now = this.state ? this.state.time + Math.min(1000,frameAt - this.receivedAt) : 0;
     for (const actor of this.actors.values()) {
       const move=['PREP','WAVE'].includes(this.state?.phase)?actor.unitData.move:null;
       if(move){
         const progress=Math.max(0,Math.min(1,(now-move.startedAt)/(move.endsAt-move.startedAt)));
-        actor.root.position.set(progress<.55?move.fromX:move.x,progress<.55?move.fromY:move.y);
+        actor.root.position.set(progress<.55?move.fromX:move.x,fieldY(progress<.55?move.fromY:move.y));
         actor.root.alpha=this.reducedMotion?1:progress<.55?Math.max(0,1-progress/.32):Math.min(1,(progress-.55)/.45);
         actor.teleporting=true;this.updateSupportPortal(actor,progress);
       }else{
         if(actor.teleporting){actor.root.position.set(actor.targetX,actor.targetY);actor.teleporting=false;}
-        if(!actor.presentation?.busy){actor.root.x += (actor.targetX - actor.root.x) * blend;actor.root.y += (actor.targetY - actor.root.y) * blend;}
-        actor.root.alpha=actor.unitData.hp>0?1:.32;
+        if (actor.enemy && actor.travelMs) {
+          const t = Math.min(1, (frameAt - actor.travelStart) / actor.travelMs);
+          actor.root.position.set(actor.fromX + (actor.targetX - actor.fromX) * t, actor.fromY + (actor.targetY - actor.fromY) * t);
+        } else if (!actor.presentation?.busy) {
+          actor.root.x += (actor.targetX - actor.root.x) * blend; actor.root.y += (actor.targetY - actor.root.y) * blend;
+        }
+        actor.root.alpha=actor.removedAt != null ? Math.max(0, 1 - (frameAt - actor.removedAt) / 280) : actor.unitData.hp>0?1:.32;
         this.removeSupportPortal(actor.id);
       }
       actor.baseX=move?actor.root.x:actor.targetX;actor.baseY=move?actor.root.y:actor.targetY;
@@ -435,9 +389,15 @@ export class DefenseBattleEngine extends BattleEngine {
       actor.stateHalo.alpha = actor.id === this.selectedUnit ? 1 : .72;
       actor.stateHalo.visible = actor.unitData.hp > 0;
       if (actor.unitData.hp <= 0 || this.reducedMotion || actor.presentation?.busy) continue;
-      const moving = !move && actor.enemy && Math.abs(actor.targetX - actor.root.x) > .5;
+      const moving = actor.enemy && Math.hypot(actor.targetX - actor.root.x, actor.targetY - actor.root.y) > .5;
       const desired = performance.now() < actor.actionUntil ? 'ATTACK' : moving ? 'MOVE' : 'IDLE';
-      if (actor.state !== desired) actor.setState(desired);
+      if (actor.state !== desired) {
+        actor.setState(desired);
+        if (actor.enemy && desired === 'MOVE') {
+          const lean = actor.unitData.type === 'BOSS' ? .045 : actor.unitData.type === 'RUNNER' ? .12 : .085;
+          actor.mainSprite.rotation = -lean * Math.sign(actor.view.scale.x);
+        }
+      }
     }
     for(const id of this.supportPortals.keys())if(!this.actors.has(id))this.removeSupportPortal(id);
     this.combatLayer.sortChildren();
@@ -449,10 +409,10 @@ export class DefenseBattleEngine extends BattleEngine {
       pair=[0,1].map(()=>{const sprite=new Sprite(this.portalFrames[0]);sprite.anchor.set(.5,.91);sprite.width=350;sprite.height=350;sprite.eventMode='none';sprite.label='DefenseSupportTeleport';this.combatLayer.addChild(sprite);return sprite;});
       this.supportPortals.set(actor.id,pair);
     }
-    const phases=[progress/.62,(progress-.32)/.68],lanes=[actor.unitData.lane,move.lane];
+    const phases=[progress/.62,(progress-.32)/.68];
     for(let i=0;i<2;i++){
-      const portal=pair[i],t=phases[i];portal.position.set(i?move.x:move.fromX,i?move.y:move.fromY);portal.zIndex=Math.round(portal.y)-1;
-      portal.visible=this.visible&&t>=0&&t<1&&(this.focusLane===null||this.focusLane===lanes[i]);
+      const portal=pair[i],t=phases[i];portal.position.set(i?move.x:move.fromX,fieldY(i?move.y:move.fromY));portal.zIndex=Math.round(portal.y)-1;
+      portal.visible=this.visible&&t>=0&&t<1;
       portal.texture=this.portalFrames[this.reducedMotion?2:Math.min(5,Math.floor(Math.max(0,t)*6))];
       portal.alpha=this.reducedMotion?.32:Math.min(1,t*6,(1-t)*6)*.9;
     }
@@ -484,7 +444,7 @@ export class DefenseBattleEngine extends BattleEngine {
     }
     if (['SKILL','BOSS_CAST'].includes(event.type) && actor?.root.visible && !this.reducedMotion) {
       const kind = ['HEALER', 'CAPTAIN'].includes(event.role) ? 'HP' : event.role === 'GUARD' ? 'DEFENSE' : 'ATTACK';
-      const effect = SkillEffectFX.create({ kind, x: event.x, y: event.y - 95, scale: .62 }).attach(this.effectLayer);
+      const effect = SkillEffectFX.create({ kind, x: event.x, y: fieldY(event.y) - 95, scale: .62 }).attach(this.effectLayer);
       this.activeEffects.add(effect);
       const timeline = gsap.timeline(); effect.play(timeline, { at: .18 });
       this.trackTimeline(timeline, () => { effect.release(); this.activeEffects.delete(effect); });
@@ -499,7 +459,6 @@ export class DefenseBattleEngine extends BattleEngine {
       damage.numberLabel.text = `${healing ? '+' : ''}${Math.round(amount).toLocaleString('ko-KR')}`;
       damage.numberLabel.tint = healing ? 0x75ffbd : 0xffc553;
       damage.scale.set(.54);
-      damage.rotation = -this.fieldTilt;
       const point=this.effectLayer.toLocal(target.root.toGlobal({x:0,y:-(target.bodyHeight||target.fullBodyHeight)*.65}));
       damage.position.copyFrom(point); damage.alpha = 1;
       this.effectLayer.addChild(damage);
@@ -515,17 +474,17 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   diagnostics() {
     return { engine: 'V3 BattleEngine subclass', rendererCount: this.host.querySelectorAll('canvas').length,
-      environment: { renderer: 'painted-sprites', routeSprites: this.routeArt.children.length, coreTexture: this.catalog.environment.core,
-        causewayTexture: this.catalog.environment.causeway },
+      environment: { renderer: 'painted-sprites', background: this.catalog.background, coreTexture: this.catalog.environment.core },
       capacity: this.capacity, allies: this.allies.length, enemies: this.enemies.length, focusLane: this.focusLane,
       hudNameplates: this.allies.map(actor => ({ id: actor.id, image: BATTLE_HUD_ASSETS.frame, sprite: actor.namePlate instanceof Sprite })),
       groundRunes: this.characters.map(actor => ({id:actor.id,team:actor.team,style:actor.stateHalo.groundStyle,visible:actor.stateHalo.visible,textureWidth:actor.stateHalo.children.at(-1)?.texture?.width})),
       enemySprites: this.enemies.map(actor => ({ id: actor.id, archetype: actor.unitData.archetype, state: actor.state,
         sourceFacing: actor.artFacing, viewScaleX: actor.view.scale.x, neutralScaleX: actor.neutralAvatarPose.scaleX, hudScaleX: actor.hud.scale.x })),
       phase: this.state?.phase, activeEffects: this.activeEffects.size, timelines: this.fxRuns.size,
-      mercenaries:this.allies.filter(a=>a.isMercenary).map(a=>({id:a.id,code:a.cardId,bodyHeight:a.bodyHeight,fullBodyHeight:a.fullBodyHeight,footAnchor:{x:a.fullBodySprite.anchor.x,y:a.fullBodySprite.anchor.y},prepared:!!a.presentation?.prepared,played:a.presentation?.played||0,last:a.presentation?.lastPlayed||null,busy:!!a.presentation?.busy,visible:!!a.presentation?.effectLayer.visible,paused:!!a.presentation?.paused,queued:a.presentation?.queue.length||0,activeTimelines:a.presentation?.activeTimelines.size||0,fxChildren:a.presentation?.effectLayer.children.length||0})),presentationErrors:this.presentationErrors,
+      monsterHeights:[...this.actors.values()].filter(a=>a.enemy).map(a=>({type:a.unitData.archetype,height:a.fullBodyHeight})),       mercenaries:this.allies.filter(a=>a.isMercenary).map(a=>({id:a.id,code:a.cardId,bodyHeight:a.bodyHeight,fullBodyHeight:a.fullBodyHeight,footAnchor:{x:a.fullBodySprite.anchor.x,y:a.fullBodySprite.anchor.y},prepared:!!a.presentation?.prepared,played:a.presentation?.played||0,last:a.presentation?.lastPlayed||null,busy:!!a.presentation?.busy,visible:!!a.presentation?.effectLayer.visible,paused:!!a.presentation?.paused,queued:a.presentation?.queue.length||0,activeTimelines:a.presentation?.activeTimelines.size||0,fxChildren:a.presentation?.effectLayer.children.length||0})),presentationErrors:this.presentationErrors,
       supportTeleport:{image:this.catalog.environment.teleport,frames:this.portalFrames.length,active:this.supportPortals.size,positions:[...this.supportPortals].map(([id,pair])=>({id,portals:pair.map(p=>({x:p.x,y:p.y,visible:p.visible,alpha:p.alpha}))}))},
-      camera: { x: this.focusLane === null ? WORLD.width / 2 : this.focusX, scale: this.root.scale.x, viewWidth: this.viewWidth, tilt: this.fieldTilt },
+      camera: { x: this.fieldView.x, y: this.fieldView.y, scale: this.root.scale.x, actorScale: this.fieldView.actorScale,
+        viewWidth: this.viewWidth, viewHeight: this.fieldView.viewHeight },
       serverDeterminesDamage: true, resolution: this.app?.renderer.resolution, world: WORLD, roleFx: SkillEffectFX.diagnostics() };
   }
   destroy() {
@@ -537,6 +496,6 @@ export class DefenseBattleEngine extends BattleEngine {
     this.actors.clear();
     // Pixi cannot destroy an Application whose renderer failed to initialize.
     if (this.app && !this.app.renderer) this.app = null;
-    super.destroy(); this.routeJoinTexture?.destroy(false);for(const frame of this.portalFrames)frame.destroy(false);this.portalFrames=[];
+    super.destroy(); for(const frame of this.portalFrames)frame.destroy(false);this.portalFrames=[];
   }
 }

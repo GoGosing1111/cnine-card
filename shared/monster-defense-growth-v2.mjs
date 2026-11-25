@@ -43,6 +43,18 @@ export function validateDefenseGrowth(value=defaultDefenseGrowth()){
  return {waves,prepSeconds,drops,tiers,effects};
 }
 export const growthTier=(growth,level)=>growth.tiers.find(t=>level>=t.from&&level<=t.to);
+// Return the cost of the entire draft before either the UI or server changes a level.
+export function allocationCost(policy, levels, draft) {
+ if (!draft || typeof draft !== 'object' || Array.isArray(draft) ||
+     Object.keys(draft).some(key => !GROWTH_BRANCHES.some(branch => branch.id === key))) return null;
+ let cost = 0;
+ for (const {id} of GROWTH_BRANCHES) {
+  const count = Object.hasOwn(draft, id) ? draft[id] : 0;
+  if (!Number.isSafeInteger(count) || count < 0 || levels[id] + count > 10) return null;
+  for (let step = 1; step <= count; step++) cost += growthTier(policy, levels[id] + step).cost;
+ }
+ return cost;
+}
 export const waveKind=wave=>wave%10===0?'BOSS':wave%5===0?'ELITE':'NORMAL';
 export const hasTrait=(player,id)=>Boolean(player?.growth?.traits.includes(id));
 export const newPlayerGrowth=()=>({levels:{ATTACK:0,VITAL:0,TACTIC:0},draws:[],attempts:[],attemptSeq:0,traits:[],offers:[],readyWave:-1,earned:0,spent:0});
@@ -52,9 +64,10 @@ export function settleWaveGrowth(room){
  const policy=room.growthPolicy,kind=waveKind(room.wave),drop=policy.drops[kind];
  for(const player of room.players){
   const g=player.growth;if(g.draws.some(d=>d.wave===room.wave))continue;
-  const won=growthRandom(room)*100<drop.chance,amount=won?drop.amount:0;
+  const direct = room.allocationRevision === 1;
+  const won=direct||growthRandom(room)*100<drop.chance,amount=won?drop.amount:0;
   player.credits+=amount;g.earned+=amount;g.readyWave=-1;
-  g.draws.push({id:room.id+':'+room.wave+':'+player.id,wave:room.wave,kind,chance:drop.chance,prize:drop.amount,won,amount,balance:player.credits});
+  g.draws.push({id:room.id+':'+room.wave+':'+player.id,wave:room.wave,kind,chance:direct?100:drop.chance,prize:drop.amount,won,amount,balance:player.credits});
   if(room.wave%5===0){
    const available=DEFENSE_TRAITS.filter(t=>!g.traits.includes(t.id)).map(t=>t.id),choices=[];
    while(available.length&&choices.length<3)choices.push(available.splice(Math.floor(growthRandom(room)*available.length),1)[0]);

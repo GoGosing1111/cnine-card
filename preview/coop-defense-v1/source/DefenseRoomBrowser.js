@@ -44,7 +44,7 @@ export class DefenseRoomBrowser{
   this.q('[data-rooms-create]').disabled=!canEnter||this.joining;
   const list=this.q('[data-rooms-list]'),signature=JSON.stringify([rows,canEnter,!!this.joining,this.entryBlocked()]);if(list.dataset.signature===signature)return;list.dataset.signature=signature;
   const focused=document.activeElement?.dataset.roomJoin;list.replaceChildren();
-  if(!rows.length){const empty=document.createElement('div');empty.className='rooms-empty';const art=document.createElement('img');art.src='/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png';art.alt='';const title=document.createElement('h3');title.textContent='아직 모집 중인 방이 없습니다';const text=document.createElement('p');text.textContent='새 방을 만들어 방어대를 모아보세요. 다른 난이도의 방도 확인할 수 있습니다.';empty.append(art,title,text);list.append(empty);return;}
+  if(!rows.length){const empty=document.createElement('div');empty.className='rooms-empty';const title=document.createElement('h3');title.textContent='아직 모집 중인 방이 없습니다';const text=document.createElement('p');text.textContent='새 방을 만들어 방어대를 모아보세요. 다른 난이도의 방도 확인할 수 있습니다.';empty.append(title,text);list.append(empty);return;}
   for(const room of rows){
    const row=document.createElement('article');row.className='rooms-entry';row.dataset.roomId=room.id;
    const count=document.createElement('div');count.className='rooms-capacity';const number=document.createElement('strong');number.textContent=room.members+' / '+room.maxMembers;const label=document.createElement('span');label.textContent='대원';count.append(number,label);

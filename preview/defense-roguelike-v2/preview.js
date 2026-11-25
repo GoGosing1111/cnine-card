@@ -4,7 +4,7 @@ import {settleWaveGrowth} from '../../shared/monster-defense-growth-v2.mjs';
 let workshop,room,scene,count=0;
 function sync(){workshop.receive(publicSnapshot(room),'p0');}
 function show(next){
- workshop?.dispose();scene=next;room=createRoom({id:'PREVIEW-'+Date.now()+'-'+(++count),capacity:2});
+ workshop?.dispose();scene=next;room=createRoom({id:'PREVIEW-'+Date.now()+'-'+(++count),capacity:2});delete room.allocationRevision;
  for(let i=0;i<2;i++){const p=joinRoom(room,{id:'p'+i,name:i?'협동 대원':'내 분대'});p.ready=true;}startRoom(room,'p0');
  workshop=new DefenseWorkshop(async command=>{try{if(command.type==='FORGE')room.growthRng=scene==='forge-miss'?1000:0;commandRoom(room,'p0',command);sync();return true;}catch{return false;}});
  room.wave=scene==='trait'?5:1;room.growthRng=scene==='draw-miss'?1000:0;settleWaveGrowth(room);

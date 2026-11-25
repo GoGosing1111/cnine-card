@@ -1,0 +1,21 @@
+[
+  {
+    "file": "preview/coop-defense-v1/assets/nox-assembly-v1.webp",
+    "prompt": "A production background illustration for the Korean dark sci-fi RPG Reverse:Call. The references are its actual breached reactor battlefield and the Nox Executor enemy silhouette. Paint a new key art scene of this same Nox executor, recognizable angular black armored shoulders, jackal-like helmet with a narrow hot scarlet sensor, standing as a huge shadowed sentry in the right third inside a ruined orbital foundry hangar. Three-quarter close cinematic view of helmet and upper torso behind a foreground railing. Left half is atmospheric empty dark steel corridor and smoky blueprint-blue walls, deeply shadowed and uncluttered. The large helmet at (70%,35%), worn charcoal material, restrained purple-blue reactor light tracing one edge, tiny oxidized amber maintenance lights. Bold chiaroscuro, hand-painted premium Korean 2D tactical RPG splash art, crisp angular silhouette with matte atmospheric brushwork. Match the source's enemy, not a human in a suit. Horizontal 16:9 composition designed to crop well for a lobby. Borderless full bleed painting, no HUD, lettering, logos, UI, frames, numerals, insignia or typographic marks.",
+    "source": "nox-assembly-source.png",
+    "references": [
+      "reactor-breach-source.png",
+      "preview/monster-defense-exclusive-20261016-v1/assets/07-nox-executor-v1.png"
+    ],
+    "bytes": 146052,
+    "sha256": "916fb6600fae501f17439f6c812da36af829edef9c9fe7ec37f14c924a54e18a"
+  },
+  {
+    "file": "preview/coop-defense-v1/assets/operations-plate-v1.webp",
+    "prompt": "Game UI production asset, single flat rectangular GRAPHITE CONTROL SURFACE plate for the Reverse:Call dark sci-fi tactical game. A front elevation orthographic close-up. Edge-to-edge rectangular flat graphite blue-black powder-coated metal sheet, ratio 3:2 landscape. Extremely low contrast finely brushed gunmetal with a subtle anisotropic horizontal satin texture. Straight crisp hairline inset seam running parallel with each canvas edge at about 2 percent, a second thin lip only at the bottom, a single small muted turquoise enamel index inset on the top left edge and a tiny notched corner at bottom right. A real manufactured sci-fi command instrument with quiet modern industrial detail. The entire middle 88 percent is EMPTY and smooth, no facets inside the middle. Absolutely no large diagonal bevels, no handles or rivets, no heavy metal border, no LED glow, no text, glyphs, numbers, logos, pictograms, buttons or holes. Front-on edge to edge on all four sides with no surrounding margin, vignettes or perspective, made for 9-slice rescaling. Use matte understated blue-charcoal tones, edges mostly just one or two steps lighter than the center. An engineering asset, not a scene.",
+    "source": "operations-plate-source.png",
+    "references": [],
+    "bytes": 1868,
+    "sha256": "be2073fafd8294ef5c1e5bc81c8202d0267617fa5b5018afbe3890b75d497607"
+  }
+]

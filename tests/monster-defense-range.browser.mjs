@@ -15,10 +15,10 @@ try{
  const options=await h.api(1,'defense/options'),loadout={mercenaries:['STRIKER','HEALER'].map(role=>options.mercenaries.find(m=>m.role===role).code),card:options.cards[0].code};
  const session=await h.api(1,'defense/create',{capacity:3,practice:true,difficulty:'NORMAL',loadout,requestId:crypto.randomUUID()});assert.equal(session.status,200);
  await h.ready(session);await h.live(session,'command',{requestId:crypto.randomUUID(),command:{type:'START'}});
- await page.goto(h.origin+'/defense/');await page.waitForFunction(()=>window.CoopDefenseReview?.diagnostics().engine?.rendererCount===1,null,{timeout:60000});await page.locator('#loading').waitFor({state:'hidden'});
- let room=await h.room(session.roomId);room.phase='WAVE';room.wave=2;room.enemies=[];room.spawnQueue=[{archetype:'VEIL',type:'RANGED',lane:0}];room.spawnAt=room.time;
+ let room=await h.room(session.roomId);delete room.fieldRevision;delete room.allocationRevision;delete room.mercenarySkillRevision;delete room.mercenaryRuntime;room.phase='WAVE';room.wave=2;room.enemies=[];room.spawnQueue=[{archetype:'VEIL',type:'RANGED',lane:0}];room.spawnAt=room.time;
  advanceRoom(room,100);const enemy=room.enemies[0],front=room.units.find(u=>u.ownerId===session.playerId&&u.slot===0);
  enemy.x=front.x+enemy.range-1;enemy.y=front.y;room.time=600000;room.serverAt=Date.now();await h.room(session.roomId,room);
+ await page.goto(h.origin+'/defense/');await page.waitForFunction(()=>window.CoopDefenseReview?.diagnostics().engine?.rendererCount===1,null,{timeout:60000});await page.locator('#loading').waitFor({state:'hidden'});
  await page.waitForFunction(()=>{const s=CoopDefenseReview.snapshot();return s.phase==='WAVE'&&s.wave===2&&s.enemies.length===1;});await shot('01-range-gap-desktop');
  const before=await page.evaluate(()=>CoopDefenseReview.snapshot());
  await page.waitForFunction(x=>CoopDefenseReview.snapshot().enemies[0]?.x<x-15,before.enemies[0].x);const moving=await page.evaluate(()=>CoopDefenseReview.snapshot());

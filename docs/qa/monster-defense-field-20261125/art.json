@@ -1,0 +1,13 @@
+{
+  "generator": "built-in ImageGen",
+  "references": [
+    "preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png",
+    "preview/monster-defense-exclusive-20261016-v1/assets/07-nox-executor-v1.png"
+  ],
+  "source": "reactor-breach-source.png",
+  "sourceSha256": "e4c541fc028818805584745184be19cf65d3f6d45df449810937da43d590472b",
+  "runtime": "preview/coop-defense-v1/assets/reactor-breach-v1.webp",
+  "runtimeSha256": "9843994fedd5ed0bd51b3cf633bed586144fb302d5db16df609bc1726de8d347",
+  "size": [1672, 941],
+  "prompt": "Use case: stylized-concept. Edit reference image 1, the actual Reverse:Call legion hunt battlefield, into a new Monster Defense map for the same game. Reference 2, the actual Nox Executor, is for the world's mechanical materials and angular design language only. His army is about to breach this facility; do not draw him or any creatures. Change the location to the breached perimeter of a futuristic Aether reactor foundry in a ruined industrial megacity. A distinctive background silhouette: a massive broken annular turbine housing and cooling towers, with angular brushed armor like the Executor, blue-violet reactor coils shimmering behind it, distant stacked industrial structures in blue smoke and two tiny orange maintenance lanterns. Midground: sheared steel blast door at the far right, jagged carbon-ceramic plating, exposed conduits; open left edge for a separately rendered guardian crystal. Foreground: the central 80% is a single broad unobstructed apron of worn graphite concrete and metal, gently uneven in tone, partially wet with sparse puddle highlights, a few irregular scorch marks. No lanes or parallel stripes. Equipment and rubble at outer edges only. Camera elevated 35 degrees, 2D game battle background with a high horizon in the top 20%, open walkable floor from 25% to 95% image height. Match the brushwork, detail scale, atmospheric depth and clarity of the actual game map. Muted blue-slate midtone floor, rim-lit steel, selective cyan, violet, and orange light around machines. Dramatic and readable daylight through haze, not a dark black screen. Preserve wide 16:9 framing, 2048x1152 if available. All architecture is visibly near-future industrial technology. No palaces, medieval or East Asian historical architecture, tiled roofs, trees, banners or flags. No text, logos, UI, sprites, units, core pedestal or overlay effects. Deliver a single opaque environmental game plate."
+}

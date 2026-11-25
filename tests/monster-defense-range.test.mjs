@@ -23,7 +23,7 @@ function clearWithin(room,limit=60000){
 }
 
 test('saved sniper/healer stalemate resumes, clears naturally and settles each point draw once',()=>{
- let room=practiceRoom();lastEnemy(room);room.time=600000;room=JSON.parse(JSON.stringify(room));
+ let room=practiceRoom();delete room.fieldRevision;delete room.allocationRevision;lastEnemy(room);room.time=600000;room=JSON.parse(JSON.stringify(room));
  const positions=room.units.map(({x,y})=>({x,y})),enemyX=room.enemies[0].x;
  advanceRoom(room,1000);
  assert.ok(room.enemies[0].x<enemyX,'sniper continues advancing while firing outside allied attack range');
@@ -41,13 +41,17 @@ test('sniper, siege and support enemies reach a melee defender despite a healing
 test('an enemy already in a damage dealer range keeps its normal firing position and cadence',()=>{
  const room=practiceRoom(),front=room.units[0];Object.assign(front,DEFENSE_PROFILES.RANGED,{role:'RANGED',maxHp:DEFENSE_PROFILES.RANGED.hp});
  const enemy=lastEnemy(room);const x=enemy.x;advanceRoom(room,100);
- assert.equal(enemy.x,x);assert.ok(enemy.hp<enemy.maxHp);assert.ok(front.hp<front.maxHp);
+ assert.equal(enemy.x,x);assert.ok(enemy.hp<enemy.maxHp);
+ const hit=room.events.findLast(e=>e.type==='ENEMY_HIT'&&e.actorId===enemy.id);
+ const target=room.units.find(u=>u.id===hit?.targetId);
+ assert.ok(target&&target.hp<target.maxHp);
  const hits=room.events.filter(e=>e.type==='ENEMY_HIT').length;advanceRoom(room,100);
  assert.equal(room.events.filter(e=>e.type==='ENEMY_HIT').length,hits);clearWithin(room);
 });
 
 test('a lone healer cannot pin enemies forever when all damage dealers in that lane are down',()=>{
- const room=practiceRoom(),enemy=lastEnemy(room),front=room.units[0];
+ const room=practiceRoom();delete room.fieldRevision;delete room.allocationRevision;
+ const enemy=lastEnemy(room),front=room.units[0];
  Object.assign(front,DEFENSE_PROFILES.HEALER,{role:'HEALER',maxHp:DEFENSE_PROFILES.HEALER.hp});
  for(const unit of room.units.filter(u=>u.ownerId==='p0'&&u.slot!==0))unit.hp=0;
  // The other lanes cannot block this enemy, even if visually adjacent.
@@ -65,7 +69,7 @@ test('the real saved room resumes through server polling and reconnection withou
   let room=await h.room(session.roomId);assert.deepEqual(room.units.filter(u=>u.ownerId===session.playerId).map(u=>u.role),['STRIKER','HEALER','CAPTAIN']);
   // This fixture represents a room saved before automatic V3 skills existed.
   // New rooms can kill this last enemy during the first poll's skill cast.
-  delete room.mercenarySkillRevision;delete room.mercenaryRuntime;
+  delete room.mercenarySkillRevision;delete room.mercenaryRuntime;delete room.fieldRevision;delete room.allocationRevision;
   lastEnemy(room);room.time=600000;room.serverAt=Date.now()-5000;await h.room(session.roomId,room);
   const startX=room.enemies[0].x;let snapshot=await h.live(session,'state');assert.equal(snapshot.status,200);assert.ok(snapshot.enemies[0].x<startX);
   for(let i=0;i<12&&snapshot.phase==='WAVE';i++){room=await h.room(session.roomId);room.serverAt=Date.now()-5000;await h.room(session.roomId,room);snapshot=await h.live(session,'state');}

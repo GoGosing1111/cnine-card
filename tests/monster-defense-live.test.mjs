@@ -32,7 +32,9 @@ test('defense TEST: real durable room API, tester gate, authority, retry, persis
   snapshot=await h.live(c,'state');assert.equal(snapshot.units.filter(u=>u.ownerId==='1'&&u.move).length,2,'simultaneous commands preserve both writes');
   const renewed=await h.api(1,'defense/session',{roomId:a.roomId});assert.equal(renewed.roomId,a.roomId);assert.equal((await h.live(a,'state')).status,200,'overlapping old lease remains valid');assert.equal((await h.live(renewed,'state')).status,200);
   assert.equal((await h.api(1,'defense/leave',{})).status,409);
-  let stored=await h.room(a.roomId);advanceRoom(stored,15000+RULES.moveMs);stored.units.filter(u=>u.ownerId==='1').forEach(u=>u.hp=0);advanceRoom(stored,100);stored.serverAt=Date.now();await h.room(a.roomId,stored);
+  let stored=await h.room(a.roomId);advanceRoom(stored,RULES.moveMs);
+  if(stored.phase==='PREP')advanceRoom(stored,stored.phaseUntil-stored.time);
+  assert.equal(stored.phase,'WAVE');stored.units.filter(u=>u.ownerId==='1').forEach(u=>u.hp=0);advanceRoom(stored,100);stored.serverAt=Date.now();await h.room(a.roomId,stored);
   const restored=await h.api(1,'defense/session',{});assert.equal(restored.snapshot.players[0].wipeCount,1);assert.equal(restored.snapshot.players[0].reviveDelayMs,15000);assert.equal(restored.snapshot.units.filter(u=>u.ownerId==='1'&&u.hp===0).length,3);
   // Advancing a saved snapshot through the alarm path must not reset deaths.
   stored=await h.room(a.roomId);stored.serverAt=Date.now()-1500;await h.room(a.roomId,stored);await new Promise(r=>setTimeout(r,1200));const advanced=await h.room(a.roomId);assert.ok(advanced.time>stored.time);assert.equal(advanced.players[0].wipeCount,1);

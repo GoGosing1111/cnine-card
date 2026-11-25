@@ -7,12 +7,11 @@ import {DEFENSE_ENEMIES,DEFENSE_DIFFICULTIES} from '../shared/monster-defense-v1
 const dir = 'preview/coop-defense-v1';
 const roster = JSON.parse(await readFile('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json', 'utf8'));
 
-const catalog = { schemaVersion: 2, status: 'TEST', background: '/assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png', units: {}, enemies: {},difficulties:DEFENSE_DIFFICULTIES };
+const catalog = { schemaVersion: 2, status: 'TEST', background: '/preview/coop-defense-v1/assets/reactor-breach-v1.webp', units: {}, enemies: {},difficulties:DEFENSE_DIFFICULTIES };
 catalog.environment = { renderer: 'painted-sprites',
-  staging: '/preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png',
-  readyButton: '/preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png',
+  staging: '/preview/coop-defense-v1/assets/nox-assembly-v1.webp',
+  readyButton: '/preview/coop-defense-v1/assets/operations-plate-v1.webp',
   teleport: '/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp',
-  causeway: '/preview/coop-defense-v1/assets/fortress-causeway-v2.png',
   core: '/preview/coop-defense-v1/assets/guardian-crystal-v2.png' };
 for (const entry of MERCENARIES) {
   const source = roster.cards.find(r => r.code === entry.code);
@@ -26,8 +25,8 @@ for (const entry of CARDS) catalog.units[entry.code] = { code: entry.code, name:
 for(const e of DEFENSE_ENEMIES)catalog.enemies[e.id]={...e,battleSprite:'/'+e.asset,artFacing:-1};
 for(const [legacy,id]of Object.entries({NORMAL:'RIVET',RUNNER:'HOUND',ELITE:'BASTION',BOSS:'NOX',SLIME:'RIVET',FROG:'HOUND',STALKER:'RIVET',WATCHER:'VEIL',CROW:'HOUND',WRAITH:'WEAVER',OMEGA:'BASTION',WARDEN:'BASTION',SEAL_KING:'NOX',KRIEG:'NOX',FALLEN_LORD:'NOX',VAMPIRE:'NOX',ARKE:'NOX'}))catalog.enemies[legacy]=catalog.enemies[id];
 catalog.workshop={modules:'/preview/defense-roguelike-v2/assets/trait-modules.png',chamber:'/preview/defense-roguelike-v2/assets/ui-v3/field-service-bay.png',button:'/preview/defense-roguelike-v2/assets/ui-v3/command-button.png',font:'/preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2',capsule:'/preview/defense-roguelike-v2/assets/supply-capsule-opening.png',reactor:'/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png'};
-catalog.uiSkin={selectionFrame:'/preview/coop-defense-v1/assets/formation-v1/selection-frame.png',nameplate:'/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png',panel:'/preview/coop-defense-v1/assets/ui-v5/guardian-panel.png',crest:'/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png'};
-const assetPaths = [...new Set([...Object.values(catalog.workshop),...Object.values(catalog.uiSkin),catalog.background, catalog.environment.teleport, catalog.environment.staging, catalog.environment.readyButton, catalog.environment.causeway, catalog.environment.core,
+catalog.uiSkin={selectionFrame:'/preview/coop-defense-v1/assets/formation-v1/selection-frame.png',nameplate:'/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png',panel:'/preview/coop-defense-v1/assets/operations-plate-v1.webp',crest:'/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png'};
+const assetPaths = [...new Set([...Object.values(catalog.workshop),...Object.values(catalog.uiSkin),catalog.background, catalog.environment.teleport, catalog.environment.staging, catalog.environment.readyButton, catalog.environment.core,
   ...Object.values(catalog.units).flatMap(a => [a.sourceArt, a.battleSprite]), ...Object.values(catalog.enemies).map(a => a.battleSprite)])];
 const assets = [];
 for (const file of assetPaths) {
@@ -41,7 +40,7 @@ const inputs = Object.keys(result.metafile.inputs).map(s => s.replaceAll('\\', '
 for (const shared of ['BattleEngine.js', 'BattleCharacter.js', 'SkillEffectFX.js']) if (!inputs.includes(`preview/project-v-v3/source/battle/${shared}`)) throw new Error(`V3 reuse missing: ${shared}`);
 if (inputs.filter(p => p.endsWith('/pixi.js/lib/index.mjs')).length !== 1) throw new Error('Expected one PixiJS renderer dependency');
 const lock = JSON.parse(await readFile('package-lock.json', 'utf8'));
-await writeFile(`${dir}/build-report.json`, JSON.stringify({ date: '2026-10-17', status: 'TEST',
+await writeFile(`${dir}/build-report.json`, JSON.stringify({ date: '2026-11-25', status: 'TEST',
   dependencies: Object.fromEntries(['pixi.js', 'gsap'].map(p => [p, lock.packages[`node_modules/${p}`].version])),
   bundleBytes: (await stat(`${dir}/defense.bundle.js`)).size, commonV3: inputs.filter(p => p.startsWith('preview/project-v-v3/')), assets }, null, 2) + '\n');
 await mkdir('defense',{recursive:true});

@@ -421,6 +421,14 @@ const noxBundledOnly=file=>file==='raid/nox/assets.mjs'||file==='scripts/lib/nox
 // These manifests record art prompts, originals, and hashes for repository QA.
 // The store reads the released images directly.
 const packArtManifests=new Set([
+ // Defense clients load the built catalog and art directly.
+ 'preview/coop-defense-v1/build-report.json',
+ 'preview/coop-defense-v1/assets/manifest-v2.json',
+ 'preview/coop-defense-v1/assets/prompts-v2.json',
+ 'preview/coop-defense-v1/assets/lobby-v4/manifest.json',
+ 'preview/coop-defense-v1/assets/lobby-v4/prompt.json',
+ 'preview/coop-defense-v1/assets/lobby-v4/prompt-ready-button.json',
+ 'preview/coop-defense-v1/assets/ui-v5/prompts.json',
  // Source briefs stay in Git. Only their finished art is consumed by the game.
  'assets/effects/equipment-sets-20261019/prompts.json',
  'assets/items/icon-card-choice-20261020/prompts.json',

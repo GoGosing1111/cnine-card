@@ -1,9 +1,12 @@
 import { DefenseBattleEngine, DefenseTacticalField } from './DefenseBattleEngine.js';
 import { DefenseWorkshop } from './DefenseWorkshop.js';
+import { DefenseAllocation } from './DefenseAllocation.js';
 import { DefenseFormation } from './DefenseFormation.js';
 import { DefenseRoomBrowser } from './DefenseRoomBrowser.js';
 import {DEFENSE_PROFILES,DEFENSE_ROLE_NAMES,defenseSelection,emptyDefenseLoadout} from '../../../shared/monster-defense-loadout-v1.mjs';
-import { MERCENARIES, CARDS, LANES, WORLD, RULES, laneY, defaultLoadout, validateLoadout } from './defense-model.mjs';
+import { MERCENARIES, CARDS, LANES, WORLD, RULES, defaultLoadout, validateLoadout } from './defense-model.mjs';
+import {inDefenseRange} from '../../../shared/monster-defense-field-v1.mjs';
+import {fieldY} from './DefenseFieldView.mjs';
 import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,defenseDifficulty,defenseEnemy} from '../../../shared/monster-defense-v1.mjs';
 import {defenseRewardItemLabel,defenseRewardItemRule} from '../../../shared/monster-defense-rewards-v1.mjs';
 
@@ -69,7 +72,7 @@ const entryExhausted=()=>LIVE&&state.feature?.mode==='ON'&&state.feature.dailyEn
 function updateEntryButtons(){for(const button of [$('create-room'),$('practice')])button.disabled=state.pending||!state.access||!completeLoadout()||(button.id==='create-room'&&entryExhausted());$('find-rooms').disabled=state.pending||!state.access||entryExhausted();}
 function renderEntry(){
  const q=state.feature?.dailyEntry,limited=LIVE&&state.feature?.mode==='ON';
- $('daily-entry-status').textContent=limited&&q?`오늘 실전 참여 ${q.remaining} / ${q.limit}회 남음${q.remaining===0?' · 오늘 참여 완료':''}`:'TEST·혼자 연습은 참여 횟수를 차감하지 않습니다.';
+ $('daily-entry-status').textContent=limited&&q?`오늘 실전 참여 ${q.remaining} / ${q.limit}회 남음${q.remaining===0?' · 오늘 참여 완료':''}`:'연습은 참여 횟수를 차감하지 않습니다.';
  $('daily-entry-status').classList.toggle('is-empty',limited&&q?.remaining===0);
  clearTimeout(entryResetTimer);
  if(limited&&q){state.entryResetDue=Date.now()+Math.max(0,q.resetAt-q.serverNow);entryResetTimer=setTimeout(()=>{if(!document.hidden)void refreshEntry().catch(()=>{});},Math.max(1000,state.entryResetDue-Date.now()+100));}
@@ -86,18 +89,27 @@ async function refreshRoster(){
   else state.options={mercenaries:MERCENARIES.map(c=>({...state.catalog.units[c.code],...c,kind:'MERCENARY',rank:'TEST',roleName:DEFENSE_ROLE_NAMES[c.role],defense:DEFENSE_PROFILES[c.role]})),cards:CARDS.map(c=>({...state.catalog.units[c.code],...c,kind:'CARD',rank:'TEST',roleName:DEFENSE_ROLE_NAMES[c.role],defense:DEFENSE_PROFILES[c.role]}))};
   mergeRoster([...state.options.mercenaries,...state.options.cards]);buildLoadout();updateEntryButtons();
 }
-function openFormation(slot=0){if(!state.access||state.pending)return Promise.resolve(false);return formation.open(slot<2?'MERCENARY':'CARD');}
+function openFormation(slot = null) {
+  if (!state.access || state.pending) return Promise.resolve(false);
+  return formation.open(slot === 2 ? 'CARD' : 'MERCENARY', slot);
+}
 function buildLoadout() {
   $('loadout-grid').replaceChildren();
   for (let slot = 0; slot < 3; slot++) {
     const wrap = document.createElement('div'); wrap.className = 'loadout-slot';
     const art = document.createElement('div'); art.className = 'slot-art';
     const code=slot<2?state.loadout.mercenaries[slot]:state.loadout.card,entry=state.catalog.units[code];
-    const img = document.createElement('img'); img.alt = ''; const kind = document.createElement('span'); kind.textContent = slot < 2 ? `용병 ${slot + 1}` : '카드 1';
-    const role = document.createElement('small'); role.className = 'slot-role';
-    if(entry){img.src=entry.sourceArt;img.alt=`${entry.name} 카드 이미지`;img.decoding='async';role.textContent=entry.roleName||'분대 지휘';const rank=document.createElement('b');rank.className='slot-grade';rank.textContent=entry.rank||'';art.append(img,kind,rank,role);}
-    else{const empty=document.createElement('div');empty.className='formation-empty-stage';img.src=state.catalog.uiSkin.crest;empty.append(img);art.append(empty,kind);}
-    const button=document.createElement('button');button.type='button';button.id=`loadout-${slot}`;button.className='formation-open';button.textContent=entry?entry.name:kind.textContent+' 선택 ＋';button.setAttribute('aria-label',entry?entry.name+' 카드 변경':kind.textContent+' 선택');button.disabled=!state.access;button.addEventListener('click',()=>openFormation(slot));
+    const kind = document.createElement('span');
+    kind.textContent = slot < 2 ? `용병 ${slot + 1}` : '카드';
+    if (entry) {
+      const img = document.createElement('img');
+      img.src = entry.sourceArt; img.alt = ''; img.decoding = 'async'; art.append(img);
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'formation-empty-stage'; empty.textContent = '＋'; empty.setAttribute('aria-hidden','true'); art.append(empty);
+    }
+    art.append(kind);
+    const button=document.createElement('button');button.type='button';button.id=`loadout-${slot}`;button.className='formation-open';button.textContent=entry?entry.name:kind.textContent+' 선택 ＋';button.setAttribute('aria-label',entry?kind.textContent+' '+entry.name+' 변경':kind.textContent+' 선택');button.disabled=!state.access;button.addEventListener('click',()=>openFormation(slot));
     wrap.append(art,button);$('loadout-grid').append(wrap);
   }
 }
@@ -156,7 +168,7 @@ async function sendCommand(command) {
       await request('command', { method: 'POST', body: payload });
     }
     if(epoch!==state.epoch)return false;
-    if(['FORGE','TRAIT','READY_WAVE'].includes(command.type))receive(await request('state'));
+    if(['FORGE','ALLOCATE','TRAIT','READY_WAVE'].includes(command.type))receive(await request('state'));
     schedulePoll(0);return true;
   } catch (error) { toast(error.message);return false; }
 }
@@ -186,7 +198,7 @@ function receive(snapshot) {
   if(previous?.id===snapshot.id&&(snapshot.seq<previous.seq||snapshot.time<previous.time))return;
   state.snapshot = snapshot;
   document.querySelectorAll('.review-tag').forEach(el=>el.textContent=snapshot.operatingMode==='ON'?'LIVE':'TEST');
-  document.querySelector('.battle-title .eyebrow').textContent='리버스콜 · 디펜스 '+(snapshot.operatingMode==='ON'?'LIVE':'TEST');
+  document.querySelector('.battle-title .eyebrow').textContent=snapshot.practice?'몬스터 디펜스 · 연습':'몬스터 디펜스 · '+(snapshot.operatingMode==='ON'?'실전':'TEST');
   for(const player of snapshot.players)mergeRoster(player.roster);
   const own=snapshot.players.find(p=>p.id===state.session.playerId);if(own)state.loadout=structuredClone(own.loadout);
   if(snapshot.phase!=='LOBBY'&&formation?.dialog.open&&!formation.busy)formation.close();
@@ -200,7 +212,10 @@ function receive(snapshot) {
     buildControls(snapshot); showTacticalField(); void ensureEngine();
   }
   renderBattle(snapshot);
-  if(snapshot.version>=3){workshop??=new DefenseWorkshop(sendCommand,toast);workshop.receive(snapshot,state.session.playerId);}
+  if (snapshot.version >= 3) {
+    workshop ??= snapshot.allocationRevision === 1 ? new DefenseAllocation(sendCommand, toast) : new DefenseWorkshop(sendCommand, toast);
+    workshop.receive(snapshot, state.session.playerId);
+  }
   try { state.engine?.applySnapshot(snapshot, state.session.playerId); }
   catch (error) {
     if (!state.detail || state.engine !== state.detail.engine) throw error;
@@ -209,7 +224,7 @@ function receive(snapshot) {
   const beforeMine = previous?.players.find(p => p.id === state.session.playerId);
   const nowMine = snapshot.players.find(p => p.id === state.session.playerId);
   if (beforeMine?.reviveAt && !nowMine.reviveAt && ['PREP', 'WAVE'].includes(snapshot.phase))
-    toast(`분대가 체력 ${Math.round(RULES.reviveHpRatio * 100)}%로 ${LANES[nowMine.lane]} 방어선에 복귀했습니다.`);
+    toast(`분대가 체력 ${Math.round(RULES.reviveHpRatio * 100)}%로 ${LANES[nowMine.lane]} 분대 진지에 복귀했습니다.`);
   if (previous?.phase !== snapshot.phase || previous?.wave !== snapshot.wave) showPhase(snapshot);
   if (['VICTORY', 'DEFEAT'].includes(snapshot.phase)) renderResult(snapshot);
 }
@@ -240,7 +255,7 @@ function renderWaiting(snapshot) {
     for (let lane = 0; lane < snapshot.capacity; lane++) {
       const player = snapshot.players.find(p => p.lane === lane);
       const item = document.createElement('article'); item.className = 'party-member'+(!player?' is-empty':'')+(player?.id===state.session.playerId?' is-self':'')+(player?.ready&&player.connected?' is-ready':''); item.style.setProperty('--lane-color', colors[lane]);
-      const tag = document.createElement('span'); tag.className = 'party-lane'; tag.textContent = `방어선 ${LANES[lane]}`;
+      const tag = document.createElement('span'); tag.className = 'party-lane'; tag.textContent = `${LANES[lane]} 분대`;
       const name = document.createElement('h3'); name.textContent = player ? safeName(player.name) : '대원 기다리는 중';
       const detail = document.createElement('p'); detail.textContent = player ? (player.id === snapshot.hostId ? '방장 · ' : '') + (player.bot ? '자동 대원' : player.id === state.session.playerId ? '내 분대' : '협동 대원') : '방 목록에서 새 대원을 모집합니다';
       const ready = document.createElement('span'); ready.className = `party-ready${player?.ready&&player.connected ? ' is-ready' : ''}`;
@@ -256,7 +271,7 @@ function renderWaiting(snapshot) {
         item.append(art);
       } else {const empty=document.createElement('div');empty.className='party-empty-slots';empty.setAttribute('aria-hidden','true');for(let slot=0;slot<3;slot++){const tile=document.createElement('span'),plus=document.createElement('i'),label=document.createElement('small');plus.textContent='+';label.textContent=slot<2?'용병 '+(slot+1):'카드';tile.append(plus,label);empty.append(tile);}item.append(empty);}
       $('party-list').append(item);
-      const tab=document.createElement('button');tab.type='button';tab.className='party-roster-tab';tab.textContent=LANES[lane]+' · '+(player?safeName(player.name):'빈자리')+(player?.id===state.session.playerId?' · 나':'');tab.setAttribute('aria-label',LANES[lane]+' 방어선 분대 보기');tab.addEventListener('click',()=>{const list=$('party-list');list.scrollTo({left:item.offsetLeft-(parseFloat(getComputedStyle(list).paddingLeft)||0),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});$('party-roster-tabs').append(tab);
+      const tab=document.createElement('button');tab.type='button';tab.className='party-roster-tab';tab.textContent=LANES[lane]+' · '+(player?safeName(player.name):'빈자리')+(player?.id===state.session.playerId?' · 나':'');tab.setAttribute('aria-label',LANES[lane]+' 분대 보기');tab.addEventListener('click',()=>{const list=$('party-list');list.scrollTo({left:item.offsetLeft-(parseFloat(getComputedStyle(list).paddingLeft)||0),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});$('party-roster-tabs').append(tab);
     }
     const viewKey=snapshot.id+':'+state.session.playerId;
     requestAnimationFrame(()=>{const list=$('party-list');if(list.dataset.viewKey!==viewKey){list.dataset.viewKey=viewKey;if(matchMedia('(max-width:760px)').matches)list.scrollLeft=(list.querySelector('.is-self')?.offsetLeft||0)-(parseFloat(getComputedStyle(list).paddingLeft)||0);}else list.scrollLeft=previousScroll;updatePartyViewport();});
@@ -283,7 +298,7 @@ function buildControls(snapshot) {
     const pressure = document.createElement('span'); pressure.className = 'pressure'; pressure.dataset.lanePressure = lane;
     tab.append(id, detail, pressure); tab.addEventListener('click', () => setFocus(lane)); $('lane-tabs').append(tab);
     const move = document.createElement('button'); move.type = 'button'; move.className = 'move-button'; move.dataset.lane = lane; move.textContent = LANES[lane];
-    move.setAttribute('aria-label', `${LANES[lane]} 방어선으로 지원 이동`);
+    move.setAttribute('aria-label', `${LANES[lane]} 분대 진지로 지원 이동`);
     move.addEventListener('click', () => void sendCommand({ type: 'MOVE', unitId: state.selected, lane })); $('move-buttons').append(move);
   }
   for (const unit of snapshot.units.filter(u => u.ownerId === state.session.playerId)) {
@@ -296,7 +311,7 @@ function buildControls(snapshot) {
     button.addEventListener('click', () => { state.selected = unit.id; state.engine?.selectUnit(unit.id); renderBattle(state.snapshot); });
     $('unit-controls').append(button);
   }
-  $('minimap').innerHTML = '<span class="minimap-label">전체 전장 · 눌러서 보기</span><button type="button" aria-label="전체 전장 보기"><svg viewBox="0 0 192 108" role="img" aria-label="방어선별 아군과 적 위치"></svg></button>';
+  $('minimap').innerHTML = '<span class="minimap-label">전체 전장 · 눌러서 보기</span><button type="button" aria-label="전체 전장 보기"><svg viewBox="0 0 192 108" role="img" aria-label="전장에 있는 아군과 적 위치"></svg></button>';
   $('minimap').querySelector('button').addEventListener('click', () => setFocus(null));
   updateViewButtons();
 }
@@ -307,8 +322,8 @@ function setFocus(lane) {
 }
 function updateViewButtons() {
   document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === (state.focus === null ? 'all' : String(state.focus)))));
-  $('view-label').textContent = state.focus === null ? '전체 전장' : `${LANES[state.focus]} 방어선`;
-  $('field-subtitle').textContent = state.focus === null ? '공세 예고를 보고 지원할 방어선을 정하세요' : '좌우로 드래그하여 전장을 살펴보세요';
+  $('view-label').textContent = state.focus === null ? '전체 전장' : `${LANES[state.focus]} 분대`;
+  $('field-subtitle').textContent = state.focus === null ? '다가오는 무리를 확인하고 분대를 지원하세요' : '좌우로 드래그하여 전장을 살펴보세요';
   $('field-pan').hidden = state.focus === null;
   $('minimap').hidden = state.focus === null;
 }
@@ -390,12 +405,12 @@ function renderBattle(snapshot) {
   const boss=snapshot.enemies.find(e=>e.type==='BOSS'),warning=snapshot.enemies.find(e=>e.cast?.endsAt>snapshot.time);
   const threat=boss||warning;
   $('boss-status').hidden=!threat;
-  if(threat){$('wave-banner').hidden=true;$('boss-name').textContent=threat.name+(threat.enraged?' · 격노':'');$('boss-health').value=threat.hp;$('boss-health').max=threat.maxHp;$('boss-instruction').textContent=warning?`${LANES[warning.cast.lane]} 전선 위험 · ${Math.ceil((warning.cast.endsAt-snapshot.time)/1000)}초 후 포격 · 방어 태세 / 지원 이동`:defenseEnemy(threat.archetype)?.hint||'보스의 진격을 막으세요.';}
+  if(threat){$('wave-banner').hidden=true;$('boss-name').textContent=threat.name+(threat.enraged?' · 격노':'');$('boss-health').value=threat.hp;$('boss-health').max=threat.maxHp;$('boss-instruction').textContent=warning?`${LANES[warning.cast.lane]} 진지 위험 · ${Math.ceil((warning.cast.endsAt-snapshot.time)/1000)}초 후 포격 · 방어 태세 / 지원 이동`:defenseEnemy(threat.archetype)?.hint||'보스의 진격을 막으세요.';}
   const mine = snapshot.players.find(p => p.id === state.session.playerId);
   const active = ['PREP', 'WAVE'].includes(snapshot.phase);
   if(snapshot.waveBrief){
     const brief=snapshot.waveBrief;
-    $('field-subtitle').textContent=`${snapshot.phase==='PREP'?'다음 ':''}${brief.wave}W · ${brief.kind==='NORMAL'?'전 전선':LANES[brief.focus]+' 전선'} ${brief.name}`;
+    $('field-subtitle').textContent=`${snapshot.phase==='PREP'?'다음 ':''}${brief.wave}W · ${brief.kind==='NORMAL'?'전 구역':LANES[brief.focus]+' 진지'} ${brief.name}`;
     $('field-subtitle').title=brief.hint;
   }
   const recovering = active && mine.reviveAt > snapshot.time;
@@ -405,7 +420,7 @@ function renderBattle(snapshot) {
   if (recovering) {
     $('revive-kicker').textContent = `${mine.wipeCount}번째 전멸 · 이번 대기 ${mine.reviveDelayMs / 1000}초`;
     $('revive-seconds').textContent = reviveSeconds;
-    $('revive-detail').textContent = `체력 ${Math.round(RULES.reviveHpRatio * 100)}%로 ${LANES[mine.lane]} 방어선에 복귀합니다.`;
+    $('revive-detail').textContent = `체력 ${Math.round(RULES.reviveHpRatio * 100)}%로 ${LANES[mine.lane]} 분대 진지에 복귀합니다.`;
     $('revive-progress').style.width = `${Math.max(0, Math.min(100, (1 - (mine.reviveAt - snapshot.time) / mine.reviveDelayMs) * 100))}%`;
     $('revive-next').textContent = `다음 전멸 ${Math.min(RULES.reviveMaxMs, (mine.wipeCount + 1) * RULES.reviveStepMs) / 1000}초 · 수호석 방어는 계속됩니다`;
     $('wave-banner').hidden = true;
@@ -423,7 +438,7 @@ function renderBattle(snapshot) {
   $('upgrade').textContent = mine.upgrades >= 5 ? '강화 완료' : `강화 ${upgradeCost}`;
   $('upgrade').disabled = recovering || snapshot.phase !== 'PREP' || mine.credits < upgradeCost || mine.upgrades >= 5;
   $('upgrade').setAttribute('aria-label', `분대 강화 ${mine.upgrades}단계, 정비 자원 ${upgradeCost} 필요`);
-  if(snapshot.version>=3){$('upgrade').textContent=snapshot.phase==='PREP'?'정비실 열기':'강화 · 정비 대기';$('upgrade').disabled=snapshot.phase!=='PREP';$('upgrade').setAttribute('aria-label','포인트 추첨, 분대 강화, 특성 선택 정비실 열기');}
+  if(snapshot.version>=3){$('upgrade').textContent=snapshot.phase==='PREP'?'분대 성장':'정비 대기';$('upgrade').disabled=snapshot.phase!=='PREP';$('upgrade').setAttribute('aria-label',snapshot.allocationRevision===1?'능력치 배분과 특성 선택 열기':'분대 정비실 열기');}
   for (let lane = 0; lane < snapshot.capacity; lane++) {
     const enemies = snapshot.enemies.filter(e => e.lane === lane), danger = enemies.some(e => e.x < WORLD.breachWarningX) || enemies.filter(e => e.x < WORLD.pressureX).length >= 5;
     const player = snapshot.players.find(p => p.lane === lane), tab = $('lane-tabs').querySelector(`[data-view="${lane}"]`);
@@ -433,57 +448,61 @@ function renderBattle(snapshot) {
     const forecast=snapshot.waveBrief?.kind!=='NORMAL'&&snapshot.waveBrief?.focus===lane;
     tab.querySelector('small').textContent = downSeconds ? `전멸 · ${downSeconds}초` : !player.connected ? '자동 방어 중' : danger ? `위험 · 적 ${enemies.length}` : forecast ? `${snapshot.phase==='PREP'?'예고 · ':''}${snapshot.waveBrief.name}` : enemies.length ? `교전 · 적 ${enemies.length}` : '방어 대기';
     tab.querySelector('.pressure').textContent = `적 ${enemies.length}`;
-    tab.setAttribute('aria-label', `${LANES[lane]} 방어선, ${player.name}, ${downSeconds ? `분대 전멸, ${downSeconds}초 후 부활, ` : danger ? '위험, ' : ''}적 ${enemies.length}기, 카메라 이동`);
+    tab.setAttribute('aria-label', `${LANES[lane]} 분대, ${player.name}, ${downSeconds ? `분대 전멸, ${downSeconds}초 후 부활, ` : danger ? '위험, ' : ''}적 ${enemies.length}기, 카메라 이동`);
   }
   for (const button of $('unit-controls').children) {
     const unit = snapshot.units.find(u => u.id === button.dataset.unitId);
     button.setAttribute('aria-pressed', String(unit.id === state.selected)); button.classList.toggle('is-down', unit.hp <= 0);
-    button.querySelector('.unit-location').textContent = recovering ? `${reviveSeconds}초 후 부활` : unit.hp <= 0 ? '다음 정비에 복귀' : unit.move ? `${LANES[unit.move.lane]}로 이동 중` : `${LANES[unit.lane]} 방어선 · ${Math.ceil(unit.hp / unit.maxHp * 100)}%`;
+    button.querySelector('.unit-location').textContent = recovering ? `${reviveSeconds}초 후 부활` : unit.hp <= 0 ? '다음 정비에 복귀' : unit.move ? `${LANES[unit.move.lane]}로 이동 중` : `${LANES[unit.lane]} 분대 · ${Math.ceil(unit.hp / unit.maxHp * 100)}%`;
     button.querySelector('.unit-hp>i').style.width = `${unit.hp / unit.maxHp * 100}%`;
-    button.setAttribute('aria-label', `${unit.name}, 체력 ${Math.ceil(unit.hp / unit.maxHp * 100)}%, ${unit.move ? '이동 중' : LANES[unit.lane] + ' 방어선'}`);
+    button.setAttribute('aria-label', `${unit.name}, 체력 ${Math.ceil(unit.hp / unit.maxHp * 100)}%, ${unit.move ? '이동 중' : LANES[unit.lane] + ' 분대'}`);
   }
   const selected = snapshot.units.find(u => u.id === state.selected);
   if (selected) {
-    $('selected-name').textContent = `${selected.name} · 지원 텔레포트`;
+    $('selected-name').textContent = `${selected.name} · 지원 이동`;
     for (const button of $('move-buttons').children) {
       const lane = Number(button.dataset.lane); button.setAttribute('aria-pressed', String(selected.lane === lane && !selected.move));
       button.disabled = !active || selected.hp <= 0 || Boolean(selected.move) || lane === selected.lane || selected.moveReadyAt > snapshot.time;
     }
     const cooldown = Math.max(0, Math.ceil((selected.skillReadyAt - snapshot.time) / 1000));
     $('skill-name').textContent = selected.skillName;
-    const outOfRange=snapshot.tempoRevision===1&&['RANGED','STRIKER'].includes(selected.role)&&!snapshot.enemies.some(e=>e.hp>0&&e.lane===selected.lane&&Math.hypot(e.x-selected.x,e.y-selected.y)<=selected.range+(selected.role==='RANGED'?300:240));
+    const outOfRange=snapshot.tempoRevision===1&&['RANGED','STRIKER'].includes(selected.role)&&!snapshot.enemies.some(e=>e.hp>0&&inDefenseRange(snapshot,selected,e,selected.range+(selected.role==='RANGED'?300:240)));
     $('skill-state').textContent = recovering ? `${reviveSeconds}초 후 부활` : selected.hp <= 0 ? '전투불능' : selected.move ? '전송 중' : snapshot.phase !== 'WAVE' ? '교전 중 사용' : cooldown ? `${cooldown}초 후 사용` : outOfRange ? '사거리 내 적 대기' : '사용 가능';
     $('skill').disabled = snapshot.phase !== 'WAVE' || selected.hp <= 0 || Boolean(selected.move) || cooldown > 0 || outOfRange;
   }
   renderMinimap(snapshot);
 }
 function renderMinimap(snapshot) {
+  if ($('minimap').hidden) return;
   const svg = $('minimap').querySelector('svg'); if (!svg) return;
-  const ns = 'http://www.w3.org/2000/svg'; svg.replaceChildren();
-  const make = (tag, attributes) => { const node = document.createElementNS(ns, tag); for (const [k, v] of Object.entries(attributes)) node.setAttribute(k, v); svg.append(node); return node; };
-  const mapX = x => 8 + x / WORLD.width * 174, mapY = y => 8 + y / WORLD.height * 92;
-  for (let lane = 0; lane < snapshot.capacity; lane++) {
-    const y = mapY(laneY(lane, snapshot.capacity));
-    make('path', { d: `M${mapX(WORLD.spawnX)} ${y}H${mapX(WORLD.mergeX)}L${mapX(WORLD.coreX)} ${mapY(WORLD.coreY)}`, fill: 'none', stroke: colors[lane], 'stroke-width': state.focus === lane ? 3 : 1, opacity: .6 });
-    const text = make('text', { x: 184, y: y + 3, fill: colors[lane], 'font-size': 10 }); text.textContent = LANES[lane];
+  const make = (parent, tag, attributes) => {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value);
+    parent.append(node); return node;
+  };
+  const mapX = x => x / WORLD.width * 192, mapY = y => (y + 180) / (WORLD.height + 240) * 108;
+  let markers = svg.querySelector('g');
+  if (!markers) {
+    make(svg, 'image', { href: state.catalog.background, width: 192, height: 108, preserveAspectRatio: 'xMidYMid slice', opacity: .65 });
+    make(svg, 'image', { href: state.catalog.environment.core, x: mapX(WORLD.coreX) - 8, y: mapY(fieldY(WORLD.coreY)) - 15, width: 16, height: 18 });
+    markers = make(svg, 'g', {});
   }
-  make('image', { href: state.catalog.environment.core, x: mapX(WORLD.coreX) - 12, y: mapY(WORLD.coreY) - 29, width: 24, height: 37 });
-  if (state.focus !== null && state.engine) {
-    const { focusX, viewWidth } = state.engine;
-    const left = Math.max(0, focusX - viewWidth / 2), right = Math.min(WORLD.width, focusX + viewWidth / 2);
-    make('rect', { x: mapX(left), y: mapY(laneY(state.focus, snapshot.capacity)) - 9, width: mapX(right) - mapX(left), height: 18,
-      fill: colors[state.focus], 'fill-opacity': .1, stroke: colors[state.focus], 'stroke-width': .6 });
+  markers.replaceChildren();
+  const view = state.engine?.fieldView;
+  if (state.focus !== null && view) {
+    make(markers, 'rect', { x: mapX(view.left), y: mapY(view.top), width: view.viewWidth / WORLD.width * 192,
+      height: view.viewHeight / (WORLD.height + 240) * 108, fill: colors[state.focus], 'fill-opacity': .12, stroke: colors[state.focus], 'stroke-width': 1 });
   }
-  for (const unit of snapshot.units.filter(u => u.hp > 0)) make('circle', { cx: mapX(unit.x), cy: mapY(unit.y), r: 3, fill: colors[unit.ownerLane] });
-  for (const enemy of snapshot.enemies) make('rect', { x: mapX(enemy.x) - 2, y: mapY(enemy.y) - 2, width: enemy.type === 'BOSS' ? 7 : 4, height: enemy.type === 'BOSS' ? 7 : 4, fill: '#f49b8d' });
+  for (const unit of snapshot.units.filter(u => u.hp > 0)) make(markers, 'circle', { cx: mapX(unit.x), cy: mapY(fieldY(unit.y)), r: 3, fill: colors[unit.ownerLane] });
+  for (const enemy of snapshot.enemies) make(markers, 'rect', { x: mapX(enemy.x) - 2, y: mapY(fieldY(enemy.y)) - 2, width: enemy.type === 'BOSS' ? 7 : 4, height: enemy.type === 'BOSS' ? 7 : 4, fill: '#f49b8d' });
 }
 function showPhase(snapshot) {
   const banner = $('wave-banner'); clearTimeout(bannerTimer);
   if (!['PREP', 'WAVE'].includes(snapshot.phase) || snapshot.enemies.some(e=>e.type==='BOSS'&&e.hp>0) || snapshot.players.find(p => p.id === state.session.playerId)?.reviveAt) { banner.hidden = true; return; }
   banner.hidden = false;
   banner.querySelector('span').textContent = snapshot.phase === 'PREP' ? '재배치 · 회복 · 강화' : `WAVE ${String(snapshot.wave).padStart(2, '0')}`;
-  banner.querySelector('b').textContent = snapshot.phase === 'PREP' ? snapshot.wave ? '다음 공세에 대비하세요' : '첫 공세가 다가옵니다' : snapshot.wave === snapshot.totalWaves ? '최종 보스 · 함께 거점을 지키세요' : snapshot.wave === Math.floor(snapshot.totalWaves/2) ? '중간 보스 진격' : '적이 방어선에 진입합니다';
-  if(snapshot.waveBrief){const b=snapshot.waveBrief;banner.querySelector('b').textContent=`${b.kind==='NORMAL'?'전 전선':LANES[b.focus]+' 전선'} · ${b.name}`;banner.querySelector('span').textContent=b.hint;}
+  banner.querySelector('b').textContent = snapshot.phase === 'PREP' ? snapshot.wave ? '다음 공세에 대비하세요' : '첫 공세가 다가옵니다' : snapshot.wave === snapshot.totalWaves ? '최종 보스 · 함께 거점을 지키세요' : snapshot.wave === Math.floor(snapshot.totalWaves/2) ? '중간 보스 진격' : '적 무리가 방벽을 돌파합니다';
+  if(snapshot.waveBrief){const b=snapshot.waveBrief;banner.querySelector('b').textContent=b.name;banner.querySelector('span').textContent=`${b.wave} 웨이브 · ${b.kind==='NORMAL'?'전 구역':LANES[b.focus]+' 진지'}`;}
   bannerTimer = setTimeout(() => { banner.hidden = true; }, 2800);
 }
 function rewardLines(reward,items=state.feature?.rewardItems||[]){
@@ -587,13 +606,17 @@ function bind() {
 }
 async function main() {
   bind();
-  const response = await fetch('./asset-catalog.json?v=20261017-defense-v3-merc1'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  const response = await fetch('./asset-catalog.json?v=20261125-operations-v1'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
+  if (!LIVE) {
+    $('access-status').textContent = '로컬 연습 · 계정 보상 없음';
+    renderEntry();
+  }
   formation=new DefenseFormation({getLoadout:()=>state.loadout,getOptions:rosterOptions,refresh:refreshRoster,onApply:applyFormation,onToast:toast});
   roomBrowser=new DefenseRoomBrowser({request,canEnter:()=>state.access&&!state.pending&&!entryExhausted()&&completeLoadout(),entryBlocked:entryExhausted,onJoin:id=>joinOrCreate('join',id),onCreate:()=>void joinOrCreate('create'),onFormation:()=>openFormation()});
   if(LIVE){
     try{const feature=await request('feature');state.access=feature.accessible;state.feature=feature;$('nickname').value=feature.user.nickname;$('nickname').readOnly=true;
-      $('access-status').textContent=feature.accessible?'보유 용병 2명 + 카드 1장 · '+(feature.mode==='TEST'?'TEST · 계정 보상 없음':feature.rewardsEnabled?'실전 클리어 보상 지급':'실전 · 클리어 보상 미설정'):feature.mode==='OFF'?'현재 디펜스 입장이 중지돼 있습니다.':'OWNER와 지정 테스트 계정만 입장할 수 있습니다.';buildDifficulties();
+      $('access-status').textContent=feature.accessible?(feature.mode==='TEST'?'테스트 모드 · 계정 보상 없음':feature.rewardsEnabled?'실전 클리어 보상 지급':'실전 · 클리어 보상 미설정'):feature.mode==='OFF'?'현재 디펜스 입장이 중지돼 있습니다.':'OWNER와 지정 테스트 계정만 입장할 수 있습니다.';buildDifficulties();
     }catch(e){state.access=false;$('access-status').textContent=e.message;}
     document.querySelectorAll('.review-tag').forEach(el=>el.textContent=state.feature?.mode==='ON'?'LIVE':state.feature?.mode||'OFF');
     renderEntry();buildLoadout();

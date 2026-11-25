@@ -1,0 +1,146 @@
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+import path from 'node:path';
+import {monsterDefenseFixture, defenseOwnedLoadout} from './helpers/monster-defense-fixture.mjs';
+import {fixture} from './helpers/cooperative-fixture.mjs';
+const {chromium} = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const h = await monsterDefenseFixture();
+const browser = await chromium.launch({channel: 'chrome', args: ['--mute-audio', '--enable-unsafe-swiftshader']});
+const output = process.env.DEFENSE_FIELD_QA_OUTPUT;
+const errors = [], failures = [];
+try {
+  if (output) await mkdir(output, {recursive: true});
+  const context = await browser.newContext({viewport: {width: 1440, height: 900}, serviceWorkers: 'block'});
+  await context.addInitScript(({loadout, cards}) => {
+    localStorage.setItem('cnine_card_api_token', 'local-qa-1');
+    localStorage.setItem('cnine_admin_token', 'local-qa-1');
+    localStorage.setItem('cnine_card_user_v10', JSON.stringify({id:1,serverUserId:1,nickname:'검수',role:'OWNER',
+      owned:cards.map(c=>c.id), quantities:Object.fromEntries(cards.map(c=>[c.id,1])), history:[],
+      breakthroughs:Object.fromEntries(cards.map(c=>[c.id,13])), attendance:{totalDays:0}, testCoinGrantedV13:true,collectionRepairR6:true}));
+    localStorage.setItem('cnine_defense_loadout_v1:1', JSON.stringify(loadout));
+    localStorage.setItem('cnine_battle_sound', 'OFF');
+  }, {loadout: defenseOwnedLoadout(), cards: fixture.cardsByLevel[13]});
+  await context.route('**/*', route => new URL(route.request().url()).origin === h.origin ? route.continue() : route.abort());
+  const page = await context.newPage();
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('response', r => { if (page.url().includes('/defense/') && r.status() >= 400 && !r.url().includes('/api/')) failures.push(new URL(r.url()).pathname); });
+  const engine = () => page.evaluate(() => CoopDefenseReview.diagnostics().engine);
+  const ready = () => page.waitForFunction(() => window.CoopDefenseReview?.diagnostics().engine?.rendererCount === 1, null, {timeout: 90000});
+  async function record(name) {
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      await Promise.all([...document.images].filter(i => i.getClientRects().length).map(i => i.decode().catch(() => {})));
+    });
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    if (output) await page.screenshot({path: path.join(output, name + '.png')});
+  }
+
+  await page.goto(h.origin + '/?screen=home');
+  await page.addLocatorHandler(page.locator('[data-soop-close]').last(), button => button.click());
+  const lobby = page.locator('soop-adventure-lobby');
+  await lobby.locator('#depart-button[data-category=pve]').click();
+  await lobby.locator('[data-route=defense]').click();
+  await page.waitForURL('**/defense/');
+  await page.waitForFunction(() => window.CoopDefenseReview?.diagnostics().roster.loadout.mercenaries.length === 2);
+  await page.locator('#practice:enabled').waitFor();
+  await record('lobby-desktop');
+  await page.locator('[data-difficulty=HARD]').click();
+  await page.locator('[data-difficulty=NORMAL]').click();
+  await page.locator('#loadout-0').click();
+  await page.locator('[data-formation-close]').waitFor();
+  await record('formation-desktop');
+  const oldName = await page.locator('#loadout-0').innerText();
+  await page.locator('.formation-choice[aria-pressed=false]:enabled').first().click();
+  await page.locator('.defense-formation [data-apply]:enabled').click();
+  assert.notEqual(await page.locator('#loadout-0').innerText(),oldName);
+  await page.locator('#find-rooms').click();
+  await page.locator('[data-rooms-close]').waitFor();
+  await record('recruitment');
+  await page.locator('[data-rooms-close]').click();
+  await page.setViewportSize({width: 390,height: 844});
+  await record('lobby-mobile');
+  await page.setViewportSize({width: 1440,height: 900});
+  await page.locator('#practice:enabled').click();
+  await page.locator('#ready:enabled').waitFor();
+  await record('waiting');
+  await page.locator('#ready:enabled').click();
+  await page.locator('#start:enabled').click();
+  await ready();
+  await page.waitForFunction(() => {
+    const s = CoopDefenseReview.snapshot();
+    return s.fieldRevision === 1 && s.enemies.length >= 6 && s.units.length === 9;
+  });
+  const initial = await engine();
+  assert.match(initial.environment.background, /reactor-breach/);
+  assert.ok(initial.mercenaries.length >= 2);
+  assert.ok(initial.monsterHeights.every(a => a.height >= 295));
+  await record('desktop');
+  const roomId = await page.evaluate(() => CoopDefenseReview.diagnostics().roomId);
+  await page.locator('#lane-tabs [data-view="1"]').click();
+  const focused = await engine();
+  assert.ok(Math.abs(initial.camera.scale * initial.camera.actorScale - focused.camera.scale * focused.camera.actorScale) < 1e-6);
+  await page.setViewportSize({width: 390, height: 844});
+  await page.waitForFunction(() => CoopDefenseReview.diagnostics().focus === 0);
+  await record('mobile');
+  await page.locator('#pan-right').click();
+  const panned = await engine();
+  await page.locator('#pan-squad').click();
+  assert.ok((await engine()).camera.x < panned.camera.x);
+  await page.setViewportSize({width: 844, height: 390});
+  await record('landscape');
+  await page.reload(); await ready();
+  assert.equal(await page.evaluate(() => CoopDefenseReview.diagnostics().roomId), roomId);
+
+  // The production Durable Object supplies this settled wave and processes the UI commands.
+  const saved = await h.room(roomId);
+  saved.phase = 'PREP'; saved.wave = 5; saved.enemies = []; saved.spawnQueue = [];
+  saved.prepStartedAt = saved.time; saved.phaseUntil = saved.time + 60000; saved.serverAt = Date.now();
+  const {settleWaveGrowth} = await import('../shared/monster-defense-growth-v2.mjs');
+  settleWaveGrowth(saved);
+  await h.room(roomId, saved);
+  await page.setViewportSize({width:1440,height:900});
+  const panel = page.locator('.allocation[open]');
+  await panel.waitFor();
+  await panel.locator('[data-stat=ATTACK] [data-step="1"]').click();
+  await record('allocation-desktop');
+  await page.setViewportSize({width:390,height:844});
+  await record('allocation-mobile');
+  await panel.locator('[data-apply]').click();
+  await page.waitForFunction(() => CoopDefenseReview.snapshot().players[0].growth.levels.ATTACK === 1);
+  await panel.locator('[data-trait]').first().click();
+  await page.waitForFunction(() => CoopDefenseReview.snapshot().players[0].growth.traits.length === 1);
+  assert.equal((await h.room(roomId)).players[0].credits, saved.players[0].credits - saved.growthPolicy.tiers[0].cost);
+  await panel.locator('[data-close]').click();
+
+  await context.route('**/guardian-crystal-v2.png*', route => route.abort());
+  await page.reload();
+  await page.locator('#field-render-retry').waitFor({timeout: 60000});
+  if(await panel.count()) await panel.locator('[data-close]').click();
+  assert.equal((await engine()).rendererCount, 0);
+  assert.match(await page.locator('.defense-tactical-field > image').getAttribute('href'), /reactor-breach/);
+  assert.equal(await page.locator('.defense-tactical-field .tactical-unit.ally').count(), 9);
+  await context.unroute('**/guardian-crystal-v2.png*');
+  await page.locator('#field-render-retry').click(); await ready();
+  const finale = await h.room(roomId);
+  finale.phase = 'PREP'; finale.wave = finale.encounter.waves - 1; finale.enemies = []; finale.spawnQueue = [];
+  finale.phaseUntil = finale.time; finale.serverAt = Date.now();
+  const {advanceRoom} = await import('../preview/coop-defense-v1/source/defense-model.mjs');
+  advanceRoom(finale,100);
+  const boss = finale.spawnQueue.find(spec => spec.type === 'BOSS');
+  assert.ok(boss);
+  finale.spawnQueue = [boss]; finale.spawnAt = finale.time; advanceRoom(finale,100);
+  finale.enemies[0].x = 2110;
+  await h.room(roomId,finale);
+  await page.setViewportSize({width:1440,height:900});
+  await page.locator('[data-view=all]').click();
+  await page.waitForFunction(() => CoopDefenseReview.diagnostics().engine.monsterHeights.some(a=>a.type==='NOX' && a.height>=600));
+  await record('boss');
+  const victory = await h.room(roomId);
+  victory.enemies = []; victory.spawnQueue = []; advanceRoom(victory,100); victory.serverAt = Date.now();
+  await h.room(roomId,victory);
+  await page.locator('#result:not([hidden])').waitFor();
+  await record('result');
+  assert.deepEqual((await engine()).presentationErrors, []);
+  assert.deepEqual(errors, []); assert.deepEqual(failures, []);
+  console.log('Passed menu → practice, nine actors, open-field charge, three viewport sizes, camera scale, reconnect and graphics recovery.');
+} finally { await browser.close(); await h.dispose(); }

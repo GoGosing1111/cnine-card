@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "status": "TEST",
-  "background": "/assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png",
+  "background": "/preview/coop-defense-v1/assets/reactor-breach-v1.webp",
   "units": {
     "V-003": {
       "code": "V-003",
@@ -487,10 +487,9 @@
   ],
   "environment": {
     "renderer": "painted-sprites",
-    "staging": "/preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png",
-    "readyButton": "/preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png",
+    "staging": "/preview/coop-defense-v1/assets/nox-assembly-v1.webp",
+    "readyButton": "/preview/coop-defense-v1/assets/operations-plate-v1.webp",
     "teleport": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
-    "causeway": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png",
     "core": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png"
   },
   "workshop": {
@@ -504,7 +503,7 @@
   "uiSkin": {
     "selectionFrame": "/preview/coop-defense-v1/assets/formation-v1/selection-frame.png",
     "nameplate": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
-    "panel": "/preview/coop-defense-v1/assets/ui-v5/guardian-panel.png",
+    "panel": "/preview/coop-defense-v1/assets/operations-plate-v1.webp",
     "crest": "/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png"
   }
 }

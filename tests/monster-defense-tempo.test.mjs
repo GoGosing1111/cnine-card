@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import {createRoom,joinRoom,startRoom,advanceRoom,commandRoom,publicSnapshot,defenseWaveBrief,WORLD} from '../preview/coop-defense-v1/source/defense-model.mjs';
 function team(extra={}){const r=createRoom({id:'TEMPO',capacity:3,seed:17,...extra});for(let i=0;i<r.capacity;i++){const p=joinRoom(r,{id:'p'+i,name:'대원'+i});p.ready=true;}return r;}
 function single(r,archetype='NOX'){r.phase='WAVE';r.wave=10;r.spawnQueue=[{lane:0,archetype,type:archetype==='NOX'?'BOSS':'NORMAL'}];r.spawnAt=r.time;advanceRoom(r,100);return r.enemies[0];}
-test('new rooms shorten empty travel and ordinary prep; persisted rooms preserve pacing and CMS choices',()=>{
- const fresh=team(),old=team();delete old.tempoRevision;startRoom(fresh,'p0');startRoom(old,'p0');
+test('new rooms shorten opening travel and allow time for direct allocation; persisted rooms preserve pacing and CMS choices',()=>{
+ const fresh=team(),old=team();delete old.allocationRevision;delete old.tempoRevision;startRoom(fresh,'p0');startRoom(old,'p0');
  assert.equal(fresh.phaseUntil,8000);assert.equal(old.phaseUntil,15000);
  const a=single(fresh,'RIVET'),b=single(old,'RIVET');assert.equal(a.maxHp,b.maxHp);assert.equal(a.speed,b.speed*2);assert.ok(a.x<b.x-390);
- for(const [r,seconds] of [[fresh,8],[old,15]]){r.enemies=[];r.spawnQueue=[];r.wave=1;advanceRoom(r,100);assert.equal(r.phaseUntil-r.time,seconds*1000);assert.equal(r.players[0].growth.draws.length,1);}
+ for(const [r,seconds] of [[fresh,15],[old,15]]){r.enemies=[];r.spawnQueue=[];r.wave=1;advanceRoom(r,100);assert.equal(r.phaseUntil-r.time,seconds*1000);assert.equal(r.players[0].growth.draws.length,1);}
  fresh.growthPolicy.prepSeconds=23;fresh.phase='WAVE';fresh.wave=5;advanceRoom(fresh,100);assert.equal(fresh.phaseUntil-fresh.time,23000);
  const saved=JSON.parse(JSON.stringify(old));assert.equal(publicSnapshot(saved).tempoRevision,0);assert.equal(publicSnapshot(saved).waveBrief,null);
  assert.equal(fresh.encounter.waves,30);assert.equal(fresh.rewardsEnabled,false);

@@ -13,7 +13,7 @@ const h=await monsterDefenseFixture(),browser=await chromium.launch({channel:'ch
 const checks=[],errors=[],assets=new Map(),posts=[];
 const session=await h.api(1,'defense/create',{capacity:2,practice:true,difficulty:'NORMAL',loadout:defenseOwnedLoadout(),requestId:crypto.randomUUID()});assert.equal(session.status,200);
 await h.ready(session);assert.equal((await h.live(session,'command',{requestId:crypto.randomUUID(),command:{type:'START'}})).status,200);
-async function prep(){const r=await h.room(session.roomId);r.players.forEach(p=>{p.bot=false;p.growth.readyWave=-1;});r.phase='PREP';r.wave=27;r.spawnQueue=[];r.enemies=[];r.phaseUntil=r.time+600000;r.prepStartedAt=r.time;r.players[0].credits=1800;r.growthPolicy.tiers.forEach(t=>t.chance=100);r.seq++;r.serverAt=Date.now();await h.room(session.roomId,r);return r;}
+async function prep(){const r=await h.room(session.roomId);delete r.allocationRevision;r.players.forEach(p=>{p.bot=false;p.growth.readyWave=-1;});r.phase='PREP';r.wave=27;r.spawnQueue=[];r.enemies=[];r.phaseUntil=r.time+600000;r.prepStartedAt=r.time;r.players[0].credits=1800;r.growthPolicy.tiers.forEach(t=>t.chance=100);r.seq++;r.serverAt=Date.now();await h.room(session.roomId,r);return r;}
 async function nextWave(){const r=await h.room(session.roomId);r.phaseUntil=r.time+1;advanceRoom(r,100);r.serverAt=Date.now();await h.room(session.roomId,r);assert.equal(r.phase,'WAVE');return r;}
 async function screenshot(p,name){await p.screenshot({path:path.join(out,name+'.png')});}
 try{

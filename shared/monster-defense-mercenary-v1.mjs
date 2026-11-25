@@ -1,5 +1,6 @@
 import {mercenaryCombat} from '../functions/_mercenary_combat.js';
 import {validateMercenaryCombat} from './mercenary-combat-policy-v1.mjs';
+import {inDefenseRange} from './monster-defense-field-v1.mjs';
 
 // The same released V3 skill resolver runs against defense stats and reachable
 // lane targets. No client-supplied damage, cosmetic-only casts, or second RNG.
@@ -67,7 +68,7 @@ export function defenseMercenaryRuntime(room,emit){
  function scope(u){
   refresh();const reach=u.range+300;
   teams.A=[...actors.values()].filter(a=>a.side==='A'&&sources.get(a.id).lane===u.lane);
-  teams.B=[...actors.values()].filter(a=>a.side==='B'&&room.enemies.some(e=>e.id===a.id)&&sources.get(a.id).lane===u.lane&&Math.hypot(sources.get(a.id).x-u.x,sources.get(a.id).y-u.y)<=reach);
+  teams.B=room.enemies.filter(e=>inDefenseRange(room,u,e,reach)).map(e=>actors.get(e.id));
  }
  function sync(){for(const [id,a]of actors){const u=sources.get(id);if(!u)continue;u.hp=Math.max(0,a.hp);u.shield=a.shield||0;u.maxShield=a.maxShield||0;u.v3Actions=a.actions||0;u.v3Defense=a.defense;}}
  return {
