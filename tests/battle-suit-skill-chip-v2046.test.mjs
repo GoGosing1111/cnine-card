@@ -67,7 +67,7 @@ async function call(env,path,body,{userId=7,method='POST'}={}){
 
 test('catalog fixes per-target multipliers and independent firing intervals',()=>{
   assert.equal(SKILL_CHIP_MAX_SLOTS,3);
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5],[OCTA,10],[BOMB,12]]);
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5],[OCTA,10],[BOMB,25]]);
   assert.ok(Object.isFrozen(SKILL_CHIP_CATALOG)&&SKILL_CHIP_CATALOG.every(Object.isFrozen));
   assert.equal(skillChipByCode('unknown'),null);
   assert.equal(SKILL_CHIP_RUNTIME_ENABLED,true);

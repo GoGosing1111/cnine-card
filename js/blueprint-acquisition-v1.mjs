@@ -1,6 +1,7 @@
 const themes={
   apocalypse:{label:'아포칼립스',art:'/assets/ui/blueprint-reveal-apocalypse-v1.webp',tone:'#ff9b5f'},
-  nox:{label:'종언의 주파수',art:'/assets/ui/blueprint-reveal-nox-v1.webp',tone:'#bda2ff'}
+  nox:{label:'종언의 주파수',art:'/assets/ui/blueprint-reveal-nox-v1.webp',tone:'#bda2ff'},
+  defense:{label:'몬스터 디펜스',art:'/preview/coop-defense-v1/assets/reactor-breach-v1.webp',tone:'#ffbc6b'}
 };
 const shown=new Set();
 const styleText=`
@@ -37,29 +38,51 @@ function make(tag,kind,text){
 export function showBlueprintAcquisition(drop,source,anchor){
   const theme=themes[source],match=/^(SCAR|M14)_BLUEPRINT_CHAPTER_([123])$/.exec(drop?.code);
   if(!theme||!match||!drop.eventId||!anchor?.isConnected)return;
-  const key=source+':'+drop.eventId;
+  const [,weapon,chapter]=match;
+  showAcquisition({key:source+':'+drop.eventId,theme,heading:'희귀 설계도 획득',
+    image:'/assets/items/'+weapon.toLowerCase()+'-blueprint-chapter-'+chapter+'-v1.webp',
+    name:weapon+' 설계도 '+chapter+'장',quantity:1});
+}
+
+export function showDefenseChipAcquisition(snapshot,playerId,anchor){
+  if(snapshot?.phase!=='VICTORY'||!snapshot.id||!anchor?.isConnected)return;
+  const reward=snapshot.clearRewards?.[playerId];
+  const item=reward?.granted&&reward.items?.find(i=>i.code==='SKILL_CHIP_QUANTUM_BOMB'&&i.quantity>0);
+  if(!item)return;
+  const key='defense:'+snapshot.id+':'+playerId;
   if(shown.has(key))return;
+  let history=[];
+  try{history=JSON.parse(sessionStorage.getItem('defense-chip-reveals')||'[]');}catch{}
+  if(!Array.isArray(history))history=[];
+  if(history.includes(key)){shown.add(key);return;}
+  if(showAcquisition({key,theme:themes.defense,heading:'희귀 스킬칩 획득',
+    image:'/assets/ui/project-v/skill-chips/quantum-bomb-v1.webp',name:item.name||'양자폭탄 스킬칩',quantity:item.quantity})){
+    try{sessionStorage.setItem('defense-chip-reveals',JSON.stringify([...history.slice(-49),key]));}catch{}
+  }
+}
+
+function showAcquisition({key,theme,heading,image,name,quantity}){
+  if(shown.has(key))return false;
   if(!document.getElementById('blueprint-reveal-style')){
     const style=document.createElement('style');
     style.id='blueprint-reveal-style';
     style.textContent=styleText;
     document.head.append(style);
   }
-  const [,weapon,chapter]=match;
   const dialog=make('dialog','bp-reveal'),scene=make('div','bp-reveal-scene');
   dialog.setAttribute('aria-labelledby','blueprint-reveal-title');
   dialog.style.setProperty('--bp-tone',theme.tone);
-  const bg=make('img','bp-reveal-bg'),art=make('img','bp-reveal-art'),title=make('h2','bp-reveal-title','희귀 설계도 획득');
+  const bg=make('img','bp-reveal-bg'),art=make('img','bp-reveal-art'),title=make('h2','bp-reveal-title',heading);
   title.id='blueprint-reveal-title';
   bg.src=theme.art;bg.alt='';
-  art.src='/assets/items/'+weapon.toLowerCase()+'-blueprint-chapter-'+chapter+'-v1.webp';art.alt='';
+  art.src=image;art.alt='';
   const close=make('button','bp-reveal-close','확인');
   close.type='button';
   close.addEventListener('click',()=>dialog.close());
   dialog.addEventListener('close',()=>dialog.remove(),{once:true});
   scene.append(bg,make('p','bp-reveal-origin',theme.label),title,art,
-    make('p','bp-reveal-item',weapon+' 설계도 '+chapter+'장'),make('p','bp-reveal-note','1개가 인벤토리에 저장되었습니다.'),close);
+    make('p','bp-reveal-item',name),make('p','bp-reveal-note',quantity.toLocaleString('ko-KR')+'개가 인벤토리에 저장되었습니다.'),close);
   dialog.append(scene);
   document.body.append(dialog);
-  try{dialog.showModal();shown.add(key);}catch{dialog.remove();}
+  try{dialog.showModal();shown.add(key);return true;}catch{dialog.remove();return false;}
 }

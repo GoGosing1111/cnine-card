@@ -1,0 +1,16 @@
+{
+  "productionBase": "d381784f0430cfcffd7df36d18ee772de379ac19",
+  "previousPages": "71a8c206-d80b-4856-baca-75a369df33d9",
+  "change": "양자폭탄 25배 단발 광역기, 헬기폭격과 택일 장착, 몬스터 디펜스 실전 클리어 참가자별 0.01% 1개 드롭 및 획득 연출",
+  "deployment": "npm run deploy:production",
+  "reason": "The first live release of this chip also installs a unique loadout index and reconciles older equipment links across SQLite and PostgreSQL.",
+  "operationalSetting": "scripts/ops/quantum-bomb-defense-20261125.mjs",
+  "verification": [
+    "tests/battle-suit-quantum-bomb.test.mjs",
+    "tests/battle-suit-skill-chip-v2046.test.mjs",
+    "tests/monster-defense-reward-options-20261026.test.mjs",
+    "tests/monster-defense-quantum-drop.browser.mjs",
+    "tests/production-sparse-staging-20261023.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ]
+}

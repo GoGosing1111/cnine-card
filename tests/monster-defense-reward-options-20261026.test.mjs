@@ -4,6 +4,7 @@ import {defaultDefenseSettings,validateDefenseSettings,DEFENSE_KEY} from '../sha
 import {defaultDefenseReward,validateDefenseReward,hasDefenseReward,freezeDefenseReward} from '../shared/monster-defense-rewards-v1.mjs';
 import {resolveDefenseRewardItems,settleDefenseRewards} from '../functions/_monster_defense_rewards.js';
 import {defenseRewardFixture} from './helpers/monster-defense-reward-db.mjs';
+import {addDefenseChip,drop} from '../scripts/ops/quantum-bomb-defense-20261125.mjs';
 const config=()=>{const s=defaultDefenseSettings();s.mode='ON';s.rewardsEnabled=true;s.difficulties.forEach((d,i)=>d.clearReward={coin:(i+1)*1e8,masterStars:i+1,items:[{code:'PET_ESSENCE',chancePercent:50,minQuantity:2,maxQuantity:5},{code:'EMPEROR_ENERGY',chancePercent:100,minQuantity:1,maxQuantity:3}]});return s;};
 const room=(id='ABCDEF123456')=>({id,creationRequest:'defense-random-reward-qa',createdAt:100,startedAt:200,finishedAt:300,phase:'VICTORY',difficulty:'NORMAL',accountRoster:true,capacity:3,wave:30,coreHp:1,encounter:{waves:30,name:'보통'},players:[1,2,3].map(id=>({id:String(id)})),rewardParticipants:['1','2','3'],rewardPolicy:{...freezeDefenseReward(config(),'NORMAL'),rollSeed:'00112233445566778899aabbccddeeff'}});
 
@@ -26,6 +27,30 @@ test('private frozen entropy yields stable independent player/item draws and all
  const other=structuredClone(r);other.rewardPolicy.rollSeed='ffffffffffffffffffffffffffffffff';assert.notDeepEqual(await resolveDefenseRewardItems(other,1),a);
  const legacy={...r,rewardPolicy:{version:1,coin:0,masterStars:0,items:[{code:'PET_ESSENCE',quantity:4}]}};assert.deepEqual(await resolveDefenseRewardItems(legacy,1),{items:[{code:'PET_ESSENCE',quantity:4}],rolls:[]});
  const invalid=structuredClone(r);delete invalid.rewardPolicy.rollSeed;await assert.rejects(resolveDefenseRewardItems(invalid,1),/private defense reward seed/);
+});
+
+test('quantum chip adds one independent basis point to every clear and a recovered receipt pays it once',async t=>{
+ const before=config(),settings=addDefenseChip(before);
+ assert.deepEqual(addDefenseChip(settings),settings);
+ for(const [i,d] of settings.difficulties.entries()){
+  assert.deepEqual(d.clearReward.items.at(-1),{code:'SKILL_CHIP_QUANTUM_BOMB',chancePercent:.01,minQuantity:1,maxQuantity:1});
+  assert.deepEqual({...d,clearReward:{...d.clearReward,items:d.clearReward.items.slice(0,-1)}},before.difficulties[i]);
+ }
+ const h=await defenseRewardFixture();t.after(()=>h.close());await h.writeSettings(settings);
+ await h.run("INSERT INTO inventory_items(code,name,image_url,is_active) VALUES('SKILL_CHIP_QUANTUM_BOMB','양자폭탄 스킬칩','/chip.webp',1)");
+ const r=room();r.players=r.players.slice(0,2);r.rewardParticipants=['1','2'];r.capacity=2;r.rewardPolicy=freezeDefenseReward(settings,r.difficulty);
+ const digest=crypto.subtle.digest.bind(crypto.subtle);
+ t.mock.method(crypto.subtle,'digest',async(algorithm,bytes)=>{
+  const [, , , ,player,code,purpose]=JSON.parse(new TextDecoder().decode(bytes));
+  if(code!==drop.code||purpose!=='chance')return digest(algorithm,bytes);
+  const buffer=new ArrayBuffer(32);new DataView(buffer).setUint32(0,player==='1'?0:1);return buffer;
+ });
+ const result=await settleDefenseRewards(h.env,r);
+ assert.equal(result[1].items.find(i=>i.code===drop.code).quantity,1);
+ assert.equal(result[2].items.some(i=>i.code===drop.code),false);
+ assert.deepEqual(await settleDefenseRewards(h.env,r),result);
+ assert.equal((await h.first("SELECT COUNT(*) AS n FROM inventory_logs WHERE item_code='SKILL_CHIP_QUANTUM_BOMB'")).n,1);
+ assert.equal((await h.first("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='SKILL_CHIP_QUANTUM_BOMB'")).quantity,1);
 });
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} probabilistic rewards commit atomically and retries preserve every player's first draw`,async()=>{

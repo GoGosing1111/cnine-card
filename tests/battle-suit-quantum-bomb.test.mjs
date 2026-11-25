@@ -6,7 +6,7 @@ import {buildBattleSuitFighter,buildFighter,buildMonsterFighter,simulateBattleV2
 import {CHIP,SEQUENCE} from '../preview/battle-suit-quantum-bomb-v1/sequence.mjs';
 import {QuantumBombFX} from '../preview/battle-suit-quantum-bomb-v1/QuantumBombFX.js';
 import {BattleSuitSkillChipPlayback} from '../preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js';
-import {BOMBARDMENT_CHIPS,SKILL_CHIP_CLOCK,createSkillChipSchedule} from '../shared/battle-suit-skill-chips.mjs';
+import {BOMBARDMENT_CHIPS,SKILL_CHIP_CLOCK,createSkillChipSchedule,skillChipByCode} from '../shared/battle-suit-skill-chips.mjs';
 after(()=>gsap.ticker.sleep());
 
 test('old combat snapshots schedule only the first of helicopter airstrike and quantum bomb',()=>{
@@ -21,6 +21,7 @@ test('old combat snapshots schedule only the first of helicopter airstrike and q
 });
 
 test('the opening bomb hits each living enemy once at 900 ms, with the full per-target coefficient',()=>{
+  assert.equal(CHIP.damageMultiplier,5*skillChipByCode(BOMBARDMENT_CHIPS[0]).damageMultiplier);
   const ally=buildFighter({id:'ALLY',power:400000,power_type:'HP'},0,'A',null,'PVE');
   const suit=buildBattleSuitFighter({code:'BATTLE_SUIT_03',pvePower:300000,skillChips:[CHIP.code]});
   const enemies=Array.from({length:4},(_,i)=>({...buildMonsterFighter({id:i+1,battle_power:300000}),
@@ -33,7 +34,7 @@ test('the opening bomb hits each living enemy once at 900 ms, with the full per-
   assert.deepEqual(hits.map(e=>e.targetId).toSorted(),opening.targetIds.toSorted());
   for(const hit of hits){
     assert.equal(hit.hitCount,1);assert.equal(hit.hitIndex,0);assert.equal(hit.combatAtMs,900);
-    assert.equal(hit.damage+hit.absorbed,Math.round(hit.baseDamage*12));
+    assert.equal(hit.damage+hit.absorbed,Math.round(hit.baseDamage*25));
   }
   assert.ok(hits.some(e=>e.damage+e.absorbed>0));
   const schedule=createSkillChipSchedule([CHIP.code,CHIP.code]);

@@ -9,6 +9,7 @@ import {inDefenseRange} from '../../../shared/monster-defense-field-v1.mjs';
 import {fieldY} from './DefenseFieldView.mjs';
 import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,defenseDifficulty,defenseEnemy} from '../../../shared/monster-defense-v1.mjs';
 import {defenseRewardItemLabel,defenseRewardItemRule} from '../../../shared/monster-defense-rewards-v1.mjs';
+import {showDefenseChipAcquisition} from '../../../js/blueprint-acquisition-v1.mjs';
 
 const $ = id => document.getElementById(id);
 const colors = ['#70e4cf', '#e7bb76', '#bda5f5'];
@@ -518,6 +519,7 @@ function renderRewards(snapshot){
 }
 function renderResult(snapshot) {
   const won = snapshot.phase === 'VICTORY'; $('result').hidden = false;renderRewards(snapshot);
+  showDefenseChipAcquisition(snapshot,state.session.playerId,$('result'));
   $('result-entry-status').textContent=snapshot.entryCharged?'실전 참여 1회 사용 · 재접속 추가 차감 없음 · 종료 후 24시간 결과 복구 가능':'';
   $('result-eyebrow').textContent = won ? 'MISSION COMPLETE' : 'DEFENSE FAILED';
   $('result-title').textContent = won ? '수호석을 지켜냈습니다' : '방어선이 무너졌습니다';

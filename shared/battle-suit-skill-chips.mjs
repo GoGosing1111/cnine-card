@@ -15,10 +15,10 @@ export const SKILL_CHIP_CATALOG=Object.freeze([
   Object.freeze({code:'SKILL_CHIP_OCTA_SEEKER',name:'8방향 유도탄',effectKey:'octaseeker',damageMultiplier:10,intervalMs:10000,openingDelayMs:0,impactOffsetsMs:Object.freeze([1020,1080,1140,1200,1260,1320,1380,1440]),effectDurationMs:3200,image:'/assets/ui/project-v/skill-chips/octa-seeker-v1.webp',description:'전투 시작 즉시 발동하고 이후 10초마다 8방향으로 발사한 유도탄이 적 1명에게 집중 명중합니다. 총 피해는 헬기폭격의 2배(스킬 기준 피해의 10배)를 8발에 나눠 적용합니다.',sortOrder:30}),
   Object.freeze({
     code:QUANTUM_BOMB,name:'양자폭탄',effectKey:'quantum-bomb',exclusiveWith:HELICOPTER,
-    targeting:'ALL_LIVING_ENEMIES',damageMultiplier:12,intervalMs:30000,openingDelayMs:0,
+    targeting:'ALL_LIVING_ENEMIES',damageMultiplier:25,intervalMs:30000,openingDelayMs:0,
     impactOffsetsMs:Object.freeze([900]),effectDurationMs:3600,sortOrder:40,
     image:'/assets/ui/project-v/skill-chips/quantum-bomb-v1.webp',
-    description:'전투 시작 시, 이후 30초마다 적 진형 중앙에 양자폭탄을 수직 낙하시킵니다. 착탄 시 적 전체에 슈트 1발 기준 12배 피해를 한 번에 가합니다.'
+    description:'전투 시작 시, 이후 30초마다 적 진형 중앙에 양자폭탄을 수직 낙하시킵니다. 착탄 시 적 전체에 슈트 1발 기준 25배(헬기폭격 총 피해의 5배)를 한 번에 가합니다.'
   })
 ]);
 export function skillChipByCode(code){return SKILL_CHIP_CATALOG.find(chip=>chip.code===code)||null;}
