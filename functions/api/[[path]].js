@@ -14,6 +14,7 @@ import {handleBlackcrownPack,blackcrownPackShopRow} from '../_mercenary_blackcro
 import {ensureSigHunterBoxCatalog,openSigHunterBox,grantSigHunterBox} from '../_sig_hunter_box.js';
 import {ensureReversecallStreamerGiftCatalog,openReversecallStreamerGift,grantReversecallStreamerGift} from '../_reversecall_streamer_gift.js';
 import {ensureCnineStreamerBoxCatalog,openCnineStreamerBox,grantCnineStreamerBox} from '../_cnine_streamer_box.js';
+import {ensureCnineWinterBoxCatalog,openCnineWinterBox,grantCnineWinterBox} from '../_cnine_winter_box.js';
 import {visibleAdminLogs} from '../_admin_log_visibility.js';
 import {deleteReadPackageNotice,presentPackageNotice} from '../_support_package_notice.js';
 import {messageCleanupEligibleSql,messageCleanupAfterReadSql,countCompletedMessages,hideCompletedMessages} from '../_message_cleanup.js';
@@ -5474,6 +5475,7 @@ async function handleRequest(context){
       await ensureSigHunterBoxCatalog(env);
       await ensureReversecallStreamerGiftCatalog(env);
       await ensureCnineStreamerBoxCatalog(env);
+      await ensureCnineWinterBoxCatalog(env);
       await ensureRecruitmentGiftCatalog(env);
       await ensurePingduThanksGiftCatalog(env);
       await ensureForgeProtectionCatalog(env);
@@ -5523,6 +5525,7 @@ async function handleRequest(context){
       if(itemCode==='SIG_HUNTER_BOX'){try{return json(await openSigHunterBox(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='REVERSECALL_STREAMER_GIFT_BOX'){try{return json(await openReversecallStreamerGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='CNINE_STREAMER_BOX'){try{return json(await openCnineStreamerBox(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+      if(itemCode==='CNINE_WINTER_BOX'){try{return json(await openCnineWinterBox(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='WORM_CONTEST_GIFT_BOX'){try{return json(await openWormContestGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await openFundingGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await openPingduThanksGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
@@ -8505,6 +8508,7 @@ async function handleRequest(context){
         if(itemCode==='SIG_HUNTER_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/sig-hunter-box/grant',()=>grantSigHunterBox(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='REVERSECALL_STREAMER_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/reversecall-streamer-gift/grant',()=>grantReversecallStreamerGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='CNINE_STREAMER_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/cnine-streamer-box/grant',()=>grantCnineStreamerBox(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+        if(itemCode==='CNINE_WINTER_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/cnine-winter-box/grant',()=>grantCnineWinterBox(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='WORM_CONTEST_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/worm-contest-gift/grant',()=>grantWormContestGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/funding-gift/grant',()=>grantFundingGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/pingdu-thanks-gift/grant',()=>grantPingduThanksGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}

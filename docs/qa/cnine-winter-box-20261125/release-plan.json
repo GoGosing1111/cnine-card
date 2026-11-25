@@ -1,0 +1,38 @@
+{
+  "name": "씨나인 겨울박스",
+  "base": "b8490e451ab748bec34d934094b89203b54239a5",
+  "scope": "지급 전용 겨울박스의 카탈로그, 관리자 지급, 확정 보상 개봉과 재시도, PC·모바일 인벤토리 화면",
+  "regressions": [
+    "tests/cnine-winter-box.test.mjs",
+    "tests/cnine-streamer-box-20261103.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "browser": {
+    "engine": "Windows Chrome (headless)",
+    "widths": [
+      1440,
+      390
+    ],
+    "verified": [
+      "관리자 유저 관리의 선택 아이템 지급",
+      "인벤토리에서 7종 미리보기와 지급 수량 대조",
+      "박스 1개 차감",
+      "버튼 도달 및 이미지 로드",
+      "브라우저 오류 0건"
+    ]
+  },
+  "art": {
+    "tool": "Built-in ImageGen",
+    "reference": "preview/mercenary-jokro-iaido-20261017-v1/references/user-c9.png",
+    "assets": [
+      {
+        "file": "assets/items/cnine-winter-box-v1.webp",
+        "prompt": "Use case: compositing. Create a polished RPG inventory item icon for ReverseCall’s 씨나인 겨울박스. The supplied transparent reference is the approved crowned spotted white leopard and interlocking chrome C9 monogram; use the reference crest once, intact and easily identifiable, on the front. One closed deluxe winter rewards chest in an expressive three-quarter, slightly top-down view, deep midnight-blue enamel panels, thick beveled platinum silver edges, crystalline ice-blue lid ribs and two tiny frost-snowflake engravings. The front face with the C9 crest is dominant. Bold, clean silhouette and large readable details at 64 pixels, restrained cyan rim light. Heroic Korean sci-fi RPG inventory art, premium illustrated metal and faceted frost materials. Square centered composition, isolated item floats with clear transparent margins, genuine transparent background. No writing, UI, frame, captions, stray particles, floor, gift ribbon bows or additional logos."
+      },
+      {
+        "file": "assets/items/cnine-streamer-shard-v1.webp",
+        "prompt": "Use case: compositing. Design one collectible item icon for ReverseCall, 씨나인 스트리머 조각. The provided crowned white spotted leopard and joined metallic C9 emblem is the exact approved insignia; preserve its distinctive shape and place it on the broad face. The item is a single irregular fractured chunk of a sapphire and silver streamer crest, visibly broken and asymmetrical, with a jagged diagonal broken edge exposing layered translucent ice-blue crystal. The intact small silver crowned leopard C9 insignia sits on a deep navy enamel facet, contrasting with that freshly chipped glass edge. Tilted, dimensional RPG loot illustration with broad shapes visible at 48-64 pixels, a restrained glacial highlight. Isolate the one shard with generous clear margins on a true transparent square background. No box, other objects, duplicate shards, border, lettering apart from the reference emblem, or UI."
+      }
+    ]
+  }
+}

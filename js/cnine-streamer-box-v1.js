@@ -1,22 +1,31 @@
 (() => {
   let active=false;
-  const rewardsHtml=rewards=>[
+  const streamerRows=rewards=>[
     ['코인',Number(rewards.coin)/1_000_000_000_000,'조','/assets/ui/icon-fusion-20261004/coin.webp'],
     ['마스터의 별',Number(rewards.masterStar)/100_000_000,'억','/assets/ui/icon-fusion-20261004/master-star.webp'],
     ['핑두 리페어권',Number(rewards.repairCoupon),'개','/assets/items/pingdu-repair-coupon-v1.webp'],
     ['슈트 코어 6',Number(rewards.suitCore6),'개','/assets/items/suit-core-6-v2124.png'],
     ['슈트 코어 8',Number(rewards.suitCore8||0),'개','/assets/items/suit-core-8-20261117.webp']
-  ].filter(([,amount])=>amount>0).map(([label,amount,unit,image])=>'<div class="rcgift-reward">'+(image?'<img src="'+image+'" alt="">':'<span class="rcgift-coin-mark" aria-hidden="true">C</span>')+'<span>'+label+'</span><strong>'+amount.toLocaleString('ko-KR')+'<small>'+unit+'</small></strong></div>').join('');
-  async function open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity){
+  ];
+  const rewardsHtml=rows=>rows.filter(([,amount])=>amount>0).map(([label,amount,unit,image])=>'<div class="rcgift-reward">'+(image?'<img src="'+image+'" alt="">':'<span class="rcgift-coin-mark" aria-hidden="true">C</span>')+'<span>'+label+'</span><strong>'+amount.toLocaleString('ko-KR')+'<small>'+unit+'</small></strong></div>').join('');
+  async function open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity,itemCode='CNINE_STREAMER_BOX'){
     if(active||document.querySelector('#modal.show[class*="-gift-modal"]'))return;
     const modal=document.getElementById('modal');if(!modal)return;
     active=true;
-    let gift,rewards;
+    const winter=itemCode==='CNINE_WINTER_BOX';
+    let gift,rewards,rewardRows=streamerRows;
     try{
-      const spec=await import('/shared/cnine-streamer-box-v1.mjs?v=20261117-core8-v2');
-      gift=spec.CNINE_STREAMER_BOX;rewards=spec.CNINE_STREAMER_BOX_REWARDS;
+      if(winter){
+        const spec=await import('/shared/cnine-winter-box-v1.mjs?v=20261125-v1');
+        gift=spec.CNINE_WINTER_BOX;
+        rewards=Object.fromEntries(spec.WINTER_BOX_CONTENTS.map(item=>[item.code,item.quantity]));
+        rewardRows=values=>spec.WINTER_BOX_CONTENTS.map(item=>[item.name,Number(values[item.code])/(item.scale||1),item.unit,'/'+item.image]);
+      }else{
+        const spec=await import('/shared/cnine-streamer-box-v1.mjs?v=20261117-core8-v2');
+        gift=spec.CNINE_STREAMER_BOX;rewards=spec.CNINE_STREAMER_BOX_REWARDS;
+      }
     }catch(error){active=false;throw error;}
-    const priorFocus=document.activeElement,key='cnine:cnine-streamer-box:'+loadUser()?.serverUserId+':pending';
+    const priorFocus=document.activeElement,boxKey=winter?'cnine-winter-box':'cnine-streamer-box',key='cnine:'+boxKey+':'+loadUser()?.serverUserId+':pending';
     let busy=false,completed=false;
     const close=()=>{if(busy)return;active=false;modal.className='modal';modal.innerHTML='';modal.removeEventListener('keydown',keys);if(completed)renderShell('inventory');else priorFocus?.focus();};
     const keys=event=>{
@@ -28,11 +37,11 @@
         else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
       }
     };
-    modal.className='modal show reversecall-streamer-gift-modal cnine-streamer-box-gift-modal';
+    modal.className='modal show reversecall-streamer-gift-modal '+boxKey+'-gift-modal';
     modal.innerHTML='<section class="rcgift-panel" role="dialog" aria-modal="true" aria-labelledby="rcgift-title">'+
-      '<header class="rcgift-heading"><div><p>CNINE · STREAMER BOX</p><h2 id="rcgift-title">'+gift.name+'</h2></div><button type="button" class="rcgift-close" aria-label="선물 화면 닫기">닫기</button></header>'+
-      '<div class="rcgift-body"><figure class="rcgift-art"><img src="/'+gift.image+'" alt="C9 문장과 청록색 리본으로 장식한 씨나인 스트리머 박스"><figcaption>함께하는 순간을 위한 특별한 선물</figcaption></figure>'+
-      '<div class="rcgift-contents"><p class="rcgift-label">다섯 가지 보상을 모두 받습니다</p><div class="rcgift-rewards">'+rewardsHtml(rewards)+'</div>'+
+      '<header class="rcgift-heading"><div>'+(winter?'':'<p>CNINE · STREAMER BOX</p>')+'<h2 id="rcgift-title">'+gift.name+'</h2></div><button type="button" class="rcgift-close" aria-label="선물 화면 닫기">닫기</button></header>'+
+      '<div class="rcgift-body"><figure class="rcgift-art"><img src="/'+gift.image+'" alt="'+gift.name+'">'+(winter?'':'<figcaption>함께하는 순간을 위한 특별한 선물</figcaption>')+'</figure>'+
+      '<div class="rcgift-contents"><p class="rcgift-label">'+(winter?'일곱':'다섯')+' 가지 보상을 모두 받습니다</p><div class="rcgift-rewards">'+rewardsHtml(rewardRows(rewards))+'</div>'+
       '<p class="rcgift-status" role="status" aria-live="polite"></p><button type="button" class="rcgift-confirm">선물 열기</button>'+
       '<p class="rcgift-balance">보유 '+Number(ownedQuantity||0).toLocaleString('ko-KR')+'개 · 개봉 시 상자 1개 사용</p></div></div></section>';
     modal.addEventListener('keydown',keys);
@@ -51,9 +60,9 @@
         try{localStorage.removeItem(key);}catch{}
         for(const name of ['inventory','me','shell/summary'])clearApiCache(name);
         modal.querySelector('h2').textContent='선물이 도착했습니다';
-        modal.querySelector('.rcgift-rewards').innerHTML=rewardsHtml(result.rewards);
+        modal.querySelector('.rcgift-rewards').innerHTML=rewardsHtml(rewardRows(result.rewards));
         modal.querySelector('.rcgift-label').textContent=result.replayed?'이전에 수령한 보상입니다':'아래 보상이 모두 지급되었습니다';
-        modal.querySelector('.rcgift-balance').textContent=result.replayed?'같은 개봉 기록을 확인했습니다.':'씨나인 스트리머 박스 1개를 사용했습니다.';
+        modal.querySelector('.rcgift-balance').textContent=result.replayed?'같은 개봉 기록을 확인했습니다.':gift.name+' 1개를 사용했습니다.';
         modal.querySelector('.rcgift-panel').classList.add('is-complete');
         button.textContent='보상 확인';button.onclick=close;
         try{const latest=await apiRequest('me',{}, {ttl:0,timeoutMs:10000});saveUser(apiUserToLocal(latest.user));message.textContent='';}

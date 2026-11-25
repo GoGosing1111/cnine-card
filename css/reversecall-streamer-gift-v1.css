@@ -46,3 +46,14 @@
 }
 @media(prefers-reduced-motion:reduce){.rcgift-panel button{transition:none}}
 
+.cnine-winter-box-gift-modal .rcgift-panel{border:1px solid #7391af;border-radius:16px;background:linear-gradient(135deg,#203852,#0c182a 61%);padding:clamp(16px,3vw,32px);color:#eef5fc}
+.cnine-winter-box-gift-modal .rcgift-heading h2,.cnine-winter-box-gift-modal .rcgift-label{color:#eef5fc}
+.cnine-winter-box-gift-modal .rcgift-rewards{gap:5px}
+.cnine-winter-box-gift-modal .rcgift-reward{min-height:42px;grid-template-columns:32px minmax(0,1fr) auto;gap:8px;padding:3px 10px;border:1px solid #374e68;border-radius:6px;background:#14263c;color:#edf5ff}
+.cnine-winter-box-gift-modal .rcgift-reward>img{width:32px;height:32px}
+.cnine-winter-box-gift-modal .rcgift-reward>span{white-space:normal;word-break:keep-all;line-height:1.25}
+.cnine-winter-box-gift-modal .rcgift-reward strong{font-size:22px;color:#b4e9ff}
+.cnine-winter-box-gift-modal .rcgift-panel button{border:1px solid #83bfdc;border-radius:6px;padding:8px 14px;background:#b9e6ff;color:#132d45}
+.cnine-winter-box-gift-modal .rcgift-balance{color:#bfd0df}
+@media(max-width:640px){.cnine-winter-box-gift-modal .rcgift-art>img{height:clamp(95px,17dvh,145px)}}
+

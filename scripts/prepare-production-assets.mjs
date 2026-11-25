@@ -443,6 +443,8 @@ const packArtManifests=new Set([
  'assets/ui/packs/halloween-auto-20261017/manifest.json',
  'assets/ui/packs/halloween-limited-20261011-v2/manifest.json',
  'assets/ui/packs/new-hyperdrive-v1/manifest.json',
+ 'assets/ui/packs/reverse-call-20261016/prompts.json',
+ 'assets/ui/packs/reversecall-streamer-gift-20261021/prompts.json',
  'assets/ui/packs/reverse-call-20261016/manifest.json'
 ]);
 // Historical QA receipts remain in Git and do not need public asset slots.

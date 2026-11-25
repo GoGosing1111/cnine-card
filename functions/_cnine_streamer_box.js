@@ -69,12 +69,16 @@ export async function openCnineStreamerBox(env,user,{requestId,count=1}){
 
 // The existing OWNER user-management route performs permission checks and holds
 // the target user's mutation lock before calling this transaction.
-export async function grantCnineStreamerBox(env,admin,{userId,amount,reason='',requestId}){
+export function grantCnineStreamerBox(env,admin,body){
+  return grantCnineGiftBox(env,admin,body,CNINE_STREAMER_BOX,ensureCnineStreamerBoxCatalog);
+}
+
+export async function grantCnineGiftBox(env,admin,{userId,amount,reason='',requestId},gift,ensureCatalog){
   if(!Number.isSafeInteger(userId)||userId<1||!Number.isInteger(amount)||amount<1||amount>9999)fail('지급할 계정과 수량(1~9,999개)을 확인하세요.',400);
-  const memo=String(reason||'관리자 씨나인 스트리머 박스 지급').trim().slice(0,100);
-  await ensureCnineStreamerBoxCatalog(env);
-  const DB=env.DB,p=(sql,...values)=>DB.prepare(sql).bind(...values),gift=CNINE_STREAMER_BOX;
-  const result=await runJointOperation(env,{id:userId},{requestId,kind:'CNINE_STREAMER_BOX_GRANT',
+  const memo=String(reason||`관리자 ${gift.name} 지급`).trim().slice(0,100);
+  await ensureCatalog(env);
+  const DB=env.DB,p=(sql,...values)=>DB.prepare(sql).bind(...values),kind=gift.code+'_GRANT';
+  const result=await runJointOperation(env,{id:userId},{requestId,kind,
     input:{adminId:admin.id,amount,reason:memo},prepare:async()=>({amount,reason:memo,adminId:admin.id}),
     statements:async plan=>{
       const token=crypto.randomUUID();
@@ -85,7 +89,7 @@ export async function grantCnineStreamerBox(env,admin,{userId,amount,reason='',r
           [userId,userId,gift.code,MAX-plan.amount,MAX-plan.amount]),
         ...jointInventoryChange(DB,userId,gift.code,plan.amount,plan.reason,requestId),
         p(`INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data)
-          VALUES(?,'CNINE_STREAMER_BOX_GRANT','USER',?,NULL,?)`,plan.adminId,String(userId),JSON.stringify({requestId,itemCode:gift.code,amount:plan.amount,reason:plan.reason})),
+          VALUES(?,?,'USER',?,NULL,?)`,plan.adminId,kind,String(userId),JSON.stringify({requestId,itemCode:gift.code,amount:plan.amount,reason:plan.reason})),
         jointGuardEnd(DB,token)
       ];
     }

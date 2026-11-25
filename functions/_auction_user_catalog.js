@@ -14,7 +14,7 @@ import {AUCTION_TICKET} from '../shared/auction-user-policy-v1.mjs';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
-export const AUCTION_BOUND_ITEMS=Object.freeze({[AUCTION_TICKET]:'개최 전용 티켓',NEW_USER_GIFT_BOX:'신규 계정 전용 지급 영수증',SOOPKETLAND_TICKET:'당일 계정별 이용권',SOOPKETLAND_HYPER_BURNING_TICKET:'등록 스트리머 전용 이용권'});
+export const AUCTION_BOUND_ITEMS=Object.freeze({[AUCTION_TICKET]:'개최 전용 티켓',CNINE_WINTER_BOX:'관리자 지급 전용',CNINE_STREAMER_SHARD:'씨나인 겨울박스 개봉 보상',NEW_USER_GIFT_BOX:'신규 계정 전용 지급 영수증',SOOPKETLAND_TICKET:'당일 계정별 이용권',SOOPKETLAND_HYPER_BURNING_TICKET:'등록 스트리머 전용 이용권'});
 const loanRules=[{userId:5426,code:'V-974',prefix:'ops:bongsoon:general-jok',date:'20261026'},{userId:5950,code:'V-979',prefix:'ops:namsudaeng-o:jokro',date:'20261019'}];
 const parse=raw=>raw==null?null:JSON.parse(raw);
 const result=p=>p.then(r=>r.results||[]);

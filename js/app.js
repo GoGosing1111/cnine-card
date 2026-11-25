@@ -1008,8 +1008,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.ReversecallStreamerGiftV1?.open==='function'
   },
   cnineStreamerBox:{
-    styles:['css/reversecall-streamer-gift-v1.css?v=20261021-v1'],
-    scripts:['js/cnine-streamer-box-v1.js?v=20261117-core8-v2'],
+    styles:['css/reversecall-streamer-gift-v1.css?v=20261125-winter-v1'],
+    scripts:['js/cnine-streamer-box-v1.js?v=20261125-winter-v1'],
     ready:()=>typeof window.CnineStreamerBoxV1?.open==='function'
   },
   pingduThanksGift:{
@@ -4750,6 +4750,7 @@ function inventoryPendingGifts(){
     {code:'SIG_HUNTER_BOX',key:'sig-hunter-box',name:'시그헌터 박스'},
     {code:'REVERSECALL_STREAMER_GIFT_BOX',key:'reversecall-streamer-gift',name:'리버스콜 스트리머 선물'},
     {code:'CNINE_STREAMER_BOX',key:'cnine-streamer-box',name:'씨나인 스트리머 박스'},
+    {code:'CNINE_WINTER_BOX',key:'cnine-winter-box',name:'씨나인 겨울박스',image:'assets/items/cnine-winter-box-v1.webp'},
     {code:'WORM_CONTEST_GIFT_BOX',key:'worm-contest-gift',name:'지렁이대회 사은품'},
     {code:'FUNDING_GIFT_BOX',key:'funding-gift',name:'펀딩 사은품'},
     {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
@@ -4946,10 +4947,10 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
       return await window.ReversecallStreamerGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
     }catch(error){console.warn('스트리머 선물 화면 로드 실패:',error);alert('선물 화면을 불러오지 못했습니다. 다시 눌러 주세요.');return;}
   }
-  if(itemCode==='CNINE_STREAMER_BOX'){
+  if(itemCode==='CNINE_STREAMER_BOX'||itemCode==='CNINE_WINTER_BOX'){
     try{
       await ensureFeatureResources('cnineStreamerBox');
-      return await window.CnineStreamerBoxV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
+      return await window.CnineStreamerBoxV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity,itemCode);
     }catch(error){console.warn('스트리머 선물 화면 로드 실패:',error);alert('선물 화면을 불러오지 못했습니다. 다시 눌러 주세요.');return;}
   }
   if(itemCode==='PINGDU_THANKS_GIFT_BOX'){
