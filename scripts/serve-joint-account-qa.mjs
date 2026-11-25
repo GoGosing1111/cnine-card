@@ -92,8 +92,8 @@ if(process.env.JOINT_QA_BATTLE_SUIT==='1'){
  const advanced=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/account-battle-suits/sz-body-v2124.json'),'utf8'));
  const suit=process.env.JOINT_QA_SUIT_CODE?advanced.suits.find(s=>s.code===process.env.JOINT_QA_SUIT_CODE):assets.suits[2],weapon=assets.weapons[Number(process.env.JOINT_QA_WEAPON_INDEX||0)],pvePower=300000;
  if(!suit||!weapon)throw Error('Unknown QA battle-suit/weapon');
- const {SKILL_CHIP_CATALOG}=await import('../shared/battle-suit-skill-chips.mjs');
- qaCharacterBonus={pve:pvePower,battleSuitPve:pvePower,equippedBattleSuit:{code:suit.code,name:suit.name,pvePower,battleSprite:suit.battleSprite||suit.image,appearance:{battleSprite:suit.battleSprite||suit.image,battleHeight:278},skillChips:process.env.JOINT_QA_NO_CHIPS==='1'?[]:SKILL_CHIP_CATALOG.map(c=>c.code)},equippedWeapon:{code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}}};
+ const {SKILL_CHIP_CATALOG,normalizeSkillChipCodes}=await import('../shared/battle-suit-skill-chips.mjs');
+ qaCharacterBonus={pve:pvePower,battleSuitPve:pvePower,equippedBattleSuit:{code:suit.code,name:suit.name,pvePower,battleSprite:suit.battleSprite||suit.image,appearance:{battleSprite:suit.battleSprite||suit.image,battleHeight:278},skillChips:process.env.JOINT_QA_NO_CHIPS==='1'?[]:normalizeSkillChipCodes(SKILL_CHIP_CATALOG.map(c=>c.code))},equippedWeapon:{code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}}};
 }
 f.deps.raidDeckPower=async(_env,uid,requested,mode)=>{if(requested!==null||!['PVE','TOWER'].includes(mode))throw Error('Saved deck required');return {ids,cards:catalog.map((c,i)=>({...c,id:ids[i],title:c.member,rarity:'FUR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],power:qaCardPower,base_power:qaCardPower,image:c.sourceArt})),power:qaCardPower*5+qaCharacterBonus.pve,characterBonus:qaCharacterBonus,battleSettings:{engine:{}}};};
 const native=process.env.JOINT_QA_NATIVE==='1';

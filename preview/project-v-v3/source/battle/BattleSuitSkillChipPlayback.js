@@ -5,6 +5,7 @@ import {SkillChipFX} from '../../../battle-suit-skill-chip-v1/source/SkillChipFX
 import {AUDIO_FILES} from '../../../battle-suit-skill-chip-v1/source/SkillChipAudio.js';
 import {OctaSeekerFX} from '../../../battle-suit-octaseeker-v1/source/OctaSeekerFX.js';
 import {OctaSeekerAudio} from '../../../battle-suit-octaseeker-v1/source/OctaSeekerAudio.js';
+import {QuantumBombFX} from '../../../battle-suit-quantum-bomb-v1/QuantumBombFX.js';
 
 const finite=value=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value));
 const hasAreaCutin=event=>/^MERCENARY_(?:ZERO|PRIME_REQUIEM|GENERAL_JOK|CARDGU|REVAN)_AREA$/.test(event.type);
@@ -69,19 +70,23 @@ export class BattleSuitSkillChipPlayback{
     try{
       // Load once before starting the battle clock. Optional sound failures do
       // not discard server events; there is no synthetic replacement sound.
-      const hasCasts=this.events.some(event=>event.type==='SKILL_CHIP_CAST');
-      const hasOcta=this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&skillChipByCode(event.chipCode)?.effectKey==='octaseeker');
-      const hasLegacy=this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&!skillChipByCode(event.chipCode)?.intrinsic&&skillChipByCode(event.chipCode)?.effectKey!=='octaseeker');
-      const sound=hasCasts&&this.events.some(event=>event.type==='SKILL_CHIP_CAST'&&!skillChipByCode(event.chipCode)?.silent)&&this.engine.audio?.enabled?.()!==false;
+      const skills=this.events.filter(event=>event.type==='SKILL_CHIP_CAST').map(event=>skillChipByCode(event.chipCode)).filter(Boolean);
+      const effects=new Set(skills.map(chip=>chip.effectKey));
+      const hasLegacy=effects.has('missile')||effects.has('airstrike');
+      const sound=skills.some(chip=>!chip.silent)&&this.engine.audio?.enabled?.()!==false;
       const [,audioReady]=await Promise.all([
         hasLegacy?SkillChipFX.preload().then(textures=>{
           if(this.valid())this.textures=textures;
           else textures.frames.forEach(frame=>frame.destroy(false));
         }):null,
         sound?deadline(this.audio.unlock().catch(()=>false),2500,false):false,
-        hasOcta?OctaSeekerFX.preload().then(textures=>{
+        effects.has('octaseeker')?OctaSeekerFX.preload().then(textures=>{
           if(this.valid())this.octaTextures=textures;
           else [...textures.flight,...textures.impact].forEach(frame=>frame.destroy(false));
+        }):null,
+        effects.has('quantum-bomb')?QuantumBombFX.preload().then(textures=>{
+          if(this.valid())this.quantumTextures=textures;
+          else QuantumBombFX.release(textures);
         }):null
       ]);
       if(!this.valid()){this.cancel();return;}
@@ -127,7 +132,11 @@ export class BattleSuitSkillChipPlayback{
     if((!hits.length&&!chip.intrinsic)||!target?.root?.visible||!targetIds.includes(target.id)||target.battleActive===false){this.suppressedCasts++;return;}
     const factory=this.engine.battleSuitSkillEffectFactories?.get(chip.code);
     if(chip.intrinsic&&!factory)throw Error('Missing approved intrinsic battle-suit effect: '+chip.code);
-    const fx=factory?factory.create(this.engine,event,hits):chip.effectKey==='octaseeker'?new OctaSeekerFX(this.engine,this.octaTextures,()=>{},{serverDriven:true}):new SkillChipFX(this.engine,this.textures);
+    let fx;
+    if(factory)fx=factory.create(this.engine,event,hits);
+    else if(chip.effectKey==='quantum-bomb')fx=new QuantumBombFX(this.engine,this.quantumTextures,undefined,{serverDriven:true});
+    else if(chip.effectKey==='octaseeker')fx=new OctaSeekerFX(this.engine,this.octaTextures,()=>{},{serverDriven:true});
+    else fx=new SkillChipFX(this.engine,this.textures);
     fx.shake=false;fx.target=target;
     fx.select?.(chip.effectKey);fx.bindTarget?.(event.targetId,event,hits);fx.timeline?.pause();
     const at=Math.max(Number(event.combatAtMs)/1000||0,this.clock.time);
@@ -390,6 +399,7 @@ export class BattleSuitSkillChipPlayback{
     for(const {fx} of this.fx.values())fx.destroy();this.fx.clear();
     this.textures?.frames.forEach(frame=>frame.destroy(false));this.textures=null;
     if(this.octaTextures)[...this.octaTextures.flight,...this.octaTextures.impact].forEach(frame=>frame.destroy(false));this.octaTextures=null;
+    if(this.quantumTextures)QuantumBombFX.release(this.quantumTextures);this.quantumTextures=null;
     void this.audio.destroy();
   }
   cancel(){if(!this.active)return;this.dispose();this.resolve?.(false);}

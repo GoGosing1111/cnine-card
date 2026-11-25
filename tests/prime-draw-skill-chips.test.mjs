@@ -7,6 +7,7 @@ import {handleSkillChips} from '../functions/_skill_chips.js';
 
 const ROCKET='SKILL_CHIP_ROCKET_LAUNCHER',HELI='SKILL_CHIP_HELICOPTER_AIRSTRIKE',OCTA='SKILL_CHIP_OCTA_SEEKER',BOX='PRIME_EQUIPMENT_SUPPLY_BOX';
 let fixtureId=0;
+const BOMB='SKILL_CHIP_QUANTUM_BOMB';
 class SqliteD1 {
   constructor(){this.db=new DatabaseSync(':memory:');}
   prepare(sql){
@@ -54,11 +55,11 @@ async function fixture(t,dialect){
 }
 
 for(const dialect of ['sqlite','postgres']){
-  test(`${dialect}: CMS exposes the three chip candidates without assigning rewards or changing probabilities`,async t=>{
+  test(`${dialect}: CMS exposes the chip candidates without assigning rewards or changing probabilities`,async t=>{
     const f=await fixture(t,dialect),before=await f.q('SELECT * FROM prime_equipment_draw_pool_v1985');
     const {body,status}=await f.call('admin/prime-draw/status');assert.equal(status,200);
     const chips=body.catalog.inventory_item.filter(row=>row.category==='SKILL_CHIP');
-    assert.deepEqual(chips.map(row=>[row.code,row.name,row.rewardType]),[[ROCKET,'로켓런처 스킬칩','INVENTORY_ITEM'],[HELI,'헬기폭격 스킬칩','INVENTORY_ITEM'],[OCTA,'8방향 유도탄 스킬칩','INVENTORY_ITEM']]);
+    assert.deepEqual(chips.map(row=>[row.code,row.name,row.rewardType]),[[ROCKET,'로켓런처 스킬칩','INVENTORY_ITEM'],[HELI,'헬기폭격 스킬칩','INVENTORY_ITEM'],[OCTA,'8방향 유도탄 스킬칩','INVENTORY_ITEM'],[BOMB,'양자폭탄 스킬칩','INVENTORY_ITEM']]);
     assert.ok(chips.every(row=>row.image.endsWith('.webp')));
     assert.deepEqual(body.catalog.inventory_item.filter(row=>row.category==='MATERIAL').map(row=>row.code).sort(),['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SUIT_CORE_7','SUIT_CORE_8']);
     assert.deepEqual(body.equipment.pool.entries.map(row=>[row.code,row.drawWeight]),[['EQUIP_1',100]]);
@@ -109,7 +110,7 @@ for(const dialect of ['sqlite','postgres']){
     assert.deepEqual(await f.q('SELECT * FROM prime_equipment_draw_pool_v1985'),before);
     assert.deepEqual(await f.q('SELECT * FROM prime_draw_extra_pool_v1987'),[]);
     const status=await f.call('admin/prime-draw/status');
-    assert.deepEqual(status.body.catalog.inventory_item.filter(row=>row.category==='SKILL_CHIP').map(row=>row.code),[HELI,OCTA]);
+    assert.deepEqual(status.body.catalog.inventory_item.filter(row=>row.category==='SKILL_CHIP').map(row=>row.code),[HELI,OCTA,BOMB]);
     assert.equal((await f.save({[HELI]:100})).status,200);
     await f.db.prepare('UPDATE inventory_items SET is_active=0 WHERE code=?').bind(HELI).run();
     assert.equal((await f.open('inactive-chip')).status,503);assert.equal(await f.quantity(BOX),12);

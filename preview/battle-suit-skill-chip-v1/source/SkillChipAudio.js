@@ -1,4 +1,5 @@
 import {SEQUENCES,clamp} from './sequence.js';
+import {SEQUENCE as quantumBomb} from '../../battle-suit-quantum-bomb-v1/sequence.mjs';
 const BASE='/preview/battle-suit-skill-chip-v1/assets/audio/';
 export const AUDIO_FILES=Object.freeze({
   rotor:`${BASE}helicopter-187681-cc0.mp3`,
@@ -47,7 +48,7 @@ export class SkillChipAudio{
     return (Math.max(0,now-output)+.025)*clamp(speed,.25,this.maxPlaybackRate);
   }
   stop(){this.epoch++;for(const entry of this.sources){entry.source.onended=null;try{entry.source.stop()}catch{}entry.source.disconnect();entry.gain.disconnect();entry.pan.disconnect();}this.sources.clear()}
-  sequence(key){return SEQUENCES[key]}
+  sequence(key){return key===quantumBomb.key?quantumBomb:SEQUENCES[key]}
   events(key){
     const seq=this.sequence(key),events=[];
     if(key==='airstrike')events.push({asset:'rotor',at:0,offset:0,duration:1.9,gain:.24,fadeIn:.24,fadeOut:.48,pan:-.2});

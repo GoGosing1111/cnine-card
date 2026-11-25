@@ -1,0 +1,45 @@
+{
+  "desktop": {
+    "targets": 3,
+    "coversEveryTarget": true,
+    "vertical": true,
+    "axis": 0,
+    "cloudBounds": {
+      "left": 771,
+      "top": 11,
+      "right": 1281,
+      "bottom": 344
+    },
+    "canvas": [
+      1390,
+      648
+    ],
+    "shockWidthPercent": 49,
+    "cleared": true,
+    "noOverflow": true,
+    "playback": {
+      "casts": 1,
+      "hits": 3,
+      "hpSynchronized": true
+    }
+  },
+  "mobile": {
+    "targets": 3,
+    "coversEveryTarget": true,
+    "vertical": true,
+    "axis": 0,
+    "cloudBounds": {
+      "left": 137,
+      "top": 78,
+      "right": 430,
+      "bottom": 287
+    },
+    "canvas": [
+      376,
+      560
+    ],
+    "shockWidthPercent": 58,
+    "cleared": true,
+    "noOverflow": true
+  }
+}

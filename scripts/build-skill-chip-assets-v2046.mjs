@@ -13,5 +13,14 @@ for(const name of ['rocket-launcher','helicopter-airstrike']){
   const hash=data=>createHash('sha256').update(data).digest('hex');
   rows.push({name,source:`source/${name}-source-v1.png`,sourceWidth:meta.width,sourceHeight:meta.height,sourceSha256:hash(bytes),image:`${name}-v1.webp`,width:512,height:512,alpha:true,pngSha256:hash(png),webpSha256:hash(webp),bytes:webp.length});
 }
-await writeFile(new URL('manifest-v1.json',base),JSON.stringify({generator:'BUILT_IN_IMAGEGEN',processing:'RESIZE_AND_LOSSLESS_ENCODE_ONLY',status:'RESOURCE_READY_RUNTIME_CONFIGURATION_PENDING',assets:rows},null,2)+'\n');
+const manifestUrl=new URL('manifest-v1.json',base);
+let manifest;
+try{manifest=JSON.parse(await readFile(manifestUrl,'utf8'));}
+catch(error){
+  if(error.code!=='ENOENT')throw error;
+  manifest={generator:'BUILT_IN_IMAGEGEN',processing:'RESIZE_AND_LOSSLESS_ENCODE_ONLY',status:'RESOURCE_READY_RUNTIME_CONFIGURATION_PENDING',assets:[]};
+}
+const rebuilt=new Set(rows.map(row=>row.name));
+manifest.assets=[...rows,...manifest.assets.filter(row=>!rebuilt.has(row.name))];
+await writeFile(manifestUrl,JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify(rows));

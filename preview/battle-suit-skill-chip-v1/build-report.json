@@ -84,11 +84,14 @@
     "preview/battle-suit-skill-chip-v1/source/sequence.js",
     "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
     "preview/battle-suit-skill-chip-v1/source/SkillChipFX.js",
+    "preview/battle-suit-quantum-bomb-v1/sequence.mjs",
     "preview/battle-suit-skill-chip-v1/source/SkillChipAudio.js",
     "preview/battle-suit-octaseeker-v1/source/sequence.mjs",
     "preview/battle-suit-octaseeker-v1/assets/textures/frame-origins.json",
     "preview/battle-suit-octaseeker-v1/source/OctaSeekerFX.js",
     "preview/battle-suit-octaseeker-v1/source/OctaSeekerAudio.js",
+    "preview/battle-suit-quantum-bomb-v1/assets/atlases.json",
+    "preview/battle-suit-quantum-bomb-v1/QuantumBombFX.js",
     "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
     "assets/ui/project-v/account-battle-suits/z-sword-v1/manifest.json",
     "preview/project-v-v3/source/battle/ZBodyDashProfile.mjs",
@@ -422,5 +425,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3873238
+  "outputBytes": 3884027
 }

@@ -2,15 +2,19 @@
 import {mountForBattle} from '../../project-v-v3/source/project-v-pixi-battle.src.js';
 import {SkillChipFX} from './SkillChipFX.js';
 import {SkillChipAudio} from './SkillChipAudio.js';
-import {SEQUENCES,cueAt} from './sequence.js';
+import {cueAt} from './sequence.js';
+import {QuantumBombFX} from '../../battle-suit-quantum-bomb-v1/QuantumBombFX.js';
+import {cueAt as quantumCue} from '../../battle-suit-quantum-bomb-v1/sequence.mjs';
 
 // A real child viewport lets live 100dvh/mobile rules work unchanged. Preview
 // controls stay in the parent; no override of the production shell/card dock.
 const controlsDocument=window.parent===window?document:window.parent.document;
+const quantumReview=controlsDocument.body.dataset.reviewSkill==='quantum-bomb';
+const ReviewFX=quantumReview?QuantumBombFX:SkillChipFX;
 const $=id=>controlsDocument.getElementById(id)||document.getElementById(id);
 const FIXTURE_IDS=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
 const absolute=value=>'/'+String(value||'').replace(/^\//,'');
-let engine,renderer,fx,textures,equipment,deck,monster,audio=new SkillChipAudio();
+let engine,renderer,fx,textures,equipment,deck,monstersInFormation,monster,audio=new SkillChipAudio();
 let changing=false,playEpoch=0,normalFireTimer=0,normalShots=0,disposing=false;
 const json=async path=>{const r=await fetch(path);if(!r.ok)throw new Error(`검수 자산 로드 실패: ${path}`);return r.json()};
 
@@ -26,8 +30,11 @@ async function loadFixture(){
   window.cnineCardCatalog=()=>deck;
   equipment=suits;
   const monsterRows=monsters.sprites;
-  const entry=monsterRows?.find(row=>row.monsterId===68);if(!entry)throw new Error('승인 오메가-09 몬스터를 찾을 수 없습니다.');
-  monster={...entry,id:68,cardId:'MONSTER:68',monsterId:68,name:entry.name,title:entry.name,image:absolute(entry.sourceArt),grade:'MONSTER',mode:'HUNT',hp:100,maxHp:100};
+  monstersInFormation=(quantumReview?[68,64,3]:[68]).map(id=>{
+    const entry=monsterRows.find(row=>row.monsterId===id);if(!entry)throw new Error('검수용 몬스터 원화를 찾을 수 없습니다.');
+    return {...entry,id,cardId:'MONSTER:'+id,monsterId:id,name:entry.name,title:entry.name,image:absolute(entry.sourceArt),grade:'MONSTER',mode:'HUNT',hp:100,maxHp:100};
+  });
+  monster=monstersInFormation[0];
 }
 function payload(){
   const suit=equipment.suits.find(s=>s.code===$('suit').value);
@@ -35,7 +42,7 @@ function payload(){
   if(!suit||!weapon)throw new Error('승인 배틀슈트/무기 조합을 찾을 수 없습니다.');
   return {previewOnly:true,mode:'HUNT',battlefieldMode:'HUNT',accountNickname:'스킬칩 검수',monster,
     equippedBattleSuit:{code:suit.code,appearance:{battleSprite:suit.image,battleHeight:278}},equippedWeapon:{code:weapon.equipmentCode,appearance:{battleSprite:weapon.battleSprite}},
-    battleV2:{mode:'HUNT',rules:{battleSuitDamageAuthority:'SERVER_TIMELINE'},teams:{A:{cards:deck,supports:[{actorId:'ACCOUNT_BATTLE_UNIT',actorKind:'BATTLE_SUIT',damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[monster]}},result:{timeline:[]}}
+    battleV2:{mode:'HUNT',rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',...(quantumReview?{enemyFormation:'BOSS_WITH_SIX_MINIONS'}:{})},teams:{A:{cards:deck,supports:[{actorId:'ACCOUNT_BATTLE_UNIT',actorKind:'BATTLE_SUIT',damageAuthority:'SERVER_TIMELINE'}]},B:{cards:monstersInFormation}},result:{timeline:[]}}
   };
 }
 function stopNormalFire(){clearTimeout(normalFireTimer);normalFireTimer=0;engine?.accountBattleUnit?.cancelFire?.()}
@@ -54,7 +61,7 @@ function update(time){
   if(!fx)return;
   $('scrub').max=fx.sequence.duration;$('scrub').value=time;
   $('time').value=`${time.toFixed(2)} / ${fx.sequence.duration.toFixed(2)}`;
-  $('cue').textContent=cueAt(fx.key,time);$('play').textContent=fx.playing?'일시정지':'재생';
+  $('cue').textContent=quantumReview?quantumCue(time):cueAt(fx.key,time);$('play').textContent=fx.playing?'일시정지':'재생';
   if(time>=fx.sequence.duration){audio.stop();stopNormalFire()}
 }
 function pause(){playEpoch++;fx?.pause();audio.stop();stopNormalFire()}
@@ -67,7 +74,7 @@ async function play(restart=false){
   if(token!==playEpoch||disposing)return;
   fx.play();audio.schedule(fx.key,fx.time,fx.speed);normalFire();
 }
-function select(key){pause();fx.select(key);for(const button of controlsDocument.querySelectorAll('[data-skill]'))button.setAttribute('aria-pressed',String(button.dataset.skill===key));}
+function select(key){if(quantumReview)return;pause();fx.select(key);for(const button of controlsDocument.querySelectorAll('[data-skill]'))button.setAttribute('aria-pressed',String(button.dataset.skill===key));}
 function controls(enabled){for(const node of controlsDocument.querySelectorAll('.lab-controls button,.lab-controls select,.lab-controls input'))node.disabled=!enabled}
 async function configure(){
   if(changing)return;changing=true;pause();controls(false);
@@ -92,13 +99,12 @@ function bind(){
   window.addEventListener('pagehide',()=>void dispose(),{once:true});
 }
 async function dispose(){
-  if(disposing)return;disposing=true;pause();fx?.destroy();renderer?.destroy();window.ProjectVPixiBattle?.destroy();await audio.destroy();
+  if(disposing)return;disposing=true;pause();fx?.destroy();if(quantumReview&&textures)QuantumBombFX.release(textures);renderer?.destroy();window.ProjectVPixiBattle?.destroy();await audio.destroy();
 }
 function diagnostics(){return {ready:Boolean(fx&&!changing&&!disposing),scope:'INDEPENDENT_PREVIEW_ONLY',fx:fx?.diagnostics(),audio:audio.diagnostics(),normalShots,normalFireTimer:Boolean(normalFireTimer),deckIds:deck?.map(c=>c.cardId),cardCount:document.querySelectorAll('[data-v3-roster-card]').length,account:engine?.diagnostics().accountBattleUnit,engine:engine?.diagnostics(),source:'UNMODIFIED_V3_ENGINE',networkPolicy:'STATIC_GET_ONLY'}}
 async function boot(){
   try{
     await loadFixture();
-    const loads=SkillChipFX.preload();
     // Capture the actual engine returned by its public mount. The wrapper itself,
     // renderer, roster markup and complete adapter chain remain untouched.
     const api=window.ProjectVPixiBattle;
@@ -108,7 +114,8 @@ async function boot(){
     api.mountForBattle=mountForBattle;
     await engine.deployCards({instant:true,force:true});
     await engine.accountBattleUnit.prepareRangedFireEffects();
-    textures=await loads;fx=new SkillChipFX(engine,textures,update);
+    textures=await ReviewFX.preload();fx=new ReviewFX(engine,textures,update);
+    fx.shake=$('shake').checked;
     if(matchMedia('(prefers-reduced-motion: reduce)').matches){fx.shake=false;$('shake').checked=false}
     $('lab-boot').hidden=true;prepared.phase.textContent='SKILL CHIP LAB';
     prepared.stage.querySelector('#pvBattleStatus').textContent='연출 검수 · 실제 피해·소모·저장 없음';

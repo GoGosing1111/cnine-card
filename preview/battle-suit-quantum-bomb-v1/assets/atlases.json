@@ -1,0 +1,50 @@
+{
+  "flight": {
+    "sources": [
+      {
+        "file": "source/flight.png",
+        "sha256": "a99159574b265cbae3e1d1902b1a5801e9be263bb91daad57be4c1a1937aebce"
+      }
+    ],
+    "webpSha256": "d014860dee1c2b398c3e22bc90fe8d4f83142182838c6ef4f2ef0a55031fd282",
+    "columns": 4,
+    "rows": 2,
+    "cell": 240,
+    "anchor": {
+      "x": 0.5,
+      "y": 0.89
+    }
+  },
+  "impact": {
+    "sources": [
+      {
+        "file": "source/ignition.png",
+        "sha256": "5f481d0a4e3854521f8add6e8dbb56258b85e00651c3536a27e14bbf58539379"
+      },
+      {
+        "file": "source/crown.png",
+        "sha256": "881c3fdf61485c8d1dc3fa13ea7bcc8d5dfaa3b917bcbc481929e7c231cbf7d9"
+      },
+      {
+        "file": "source/cooling.png",
+        "sha256": "7bfff7a3a4bedb5b17e751efb4b792f015344fe76207ddca847e78d1f8891c21"
+      },
+      {
+        "file": "source/tail.png",
+        "sha256": "777e8e3cdf01370fade1c7c0acc5cbecbbea3ab4518ff83f6f3a51977972a9bb"
+      }
+    ],
+    "webpSha256": "42ca13449de8055e01979e450b7c41750ccb870463226c6581ce40b64a1448b9",
+    "columns": 6,
+    "rows": 4,
+    "cell": 448,
+    "anchor": {
+      "x": 0.5,
+      "y": 0.89
+    },
+    "artReference": {
+      "file": "source/impact.png",
+      "sha256": "d50b12072778b0120ffdf6de737d405465ed4f748960a6ef40ed7e135edf0489"
+    }
+  }
+}

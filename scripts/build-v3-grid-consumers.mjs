@@ -109,5 +109,9 @@ for(const file of ['shared/mercenary-blackcrown-combat-v1.mjs','preview/project-
 for(const file of ['shared/mercenary-area-cutins-v1.mjs','preview/project-v-v3/source/battle/MercenaryAreaCutinPlayback.js','preview/project-v-v3/source/battle/MercenaryAreaDialogueStyle.js'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 for(const file of ['shared/mercenary-heukmu-v1.mjs','preview/project-v-v3/source/battle/HeukmuCombatPlayback.js',...['HeukmuFX.js','NeonPurpleRim.js','DragonAuraTint.js','AreaSkillFX.js','skills.mjs','spec.json'].map(n=>'preview/project-v-v3/source/battle/heukmu/'+n)])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 for(const file of ['shared/apocalypse-trio-v1.mjs','shared/apocalypse-knights-v1.mjs','preview/project-v-v3/source/battle/KnightSkillFX.js','preview/project-v-v3/source/battle/TrioPlayback.js','preview/project-v-v3/source/battle/trio/TrioFX.mjs','preview/project-v-v3/source/battle/trio/TrioActorMotion.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
+for (const name of ['sequence.mjs','QuantumBombFX.js','assets/atlases.json']) {
+  const file = 'preview/battle-suit-quantum-bomb-v1/' + name;
+  sources.push({file,sha256:hash(await readFile(file,'utf8'))});
+}
 await writeFile('preview/project-v-v3/grid-build-report.json', JSON.stringify({version: 'OCCUPIED_GRID_V1', layoutVersion: 'UNIFORM_LATTICE_V2', deployment: 'HELD_BY_USER', hashEncoding: 'UTF8_LF', sources, outputs, layoutClients}, null, 2) + '\n');
 console.log(`Built ${outputs.length} V3 consumers with one shared grid. No deployment performed.`);

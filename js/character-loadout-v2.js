@@ -587,12 +587,23 @@
       </section>`;
     }
 
+    function chipEquipAction(chip) {
+      if (chip.equipped) return { disabled: true, label: '장착 중' };
+      if (!chip.owned) return { disabled: true, label: '미보유' };
+      if (!chip.active) return { disabled: true, label: '사용 중지' };
+      const slot = state.chipSlot;
+      const loadout = state.data.skillChips.loadout;
+      const peerSlot = chip.exclusiveWith ? loadout.indexOf(chip.exclusiveWith) + 1 : 0;
+      if (peerSlot && peerSlot !== slot) return { disabled: true, label: `${peerSlot}번 슬롯에서 교체 가능` };
+      return { disabled: false, label: peerSlot ? `${slot}번 슬롯의 칩과 교체` : `${slot}번 슬롯에 장착` };
+    }
+
     function skillChipView() {
       const system = state.data?.skillChips || {}, chips = system.catalog || [], loadout = system.loadout || [null, null, null];
       const chipAt = (slot) => chips.find((chip) => chip.code === loadout[slot - 1]);
       const slotCount = Math.min(3, Math.max(1, Number(system.maxSlots || 3)));
       return `<section class="clv2-view clv2-skill-chip-view">
-        <header class="clv2-chip-heading"><div><small>BATTLE SUIT / SKILL CHIP</small><h2>전술 스킬 인터페이스</h2><p>배틀슈트 전용 스킬 · 최대 3개 장착 · 동일 칩 중복 불가</p></div><span>${system.battleEnabled ? 'PVE LINK ACTIVE' : '전투 연결 대기'}</span></header>
+        <header class="clv2-chip-heading"><div><small>BATTLE SUIT / SKILL CHIP</small><h2>전술 스킬 인터페이스</h2><p>최대 3개 장착 · 동일 칩 중복 불가 · 헬기폭격과 양자폭탄 중 1개 선택</p></div><span>${system.battleEnabled ? 'PVE LINK ACTIVE' : '전투 연결 대기'}</span></header>
         <div class="clv2-chip-slots" aria-label="스킬칩 장착 슬롯">${Array.from({ length: slotCount }, (_, index) => {
           const slot = index + 1, chip = chipAt(slot);
           return `<article class="clv2-chip-slot${chip ? ' is-filled' : ''}${state.chipSlot === slot ? ' is-selected' : ''}">
@@ -602,7 +613,11 @@
         }).join('')}</div>
         <div class="clv2-chip-selection-note"><span>장착 대상 <b>0${state.chipSlot}번 슬롯</b></span><span>${loadout.filter(Boolean).length} / ${slotCount} LINKED</span></div>
         <section class="clv2-chip-library"><header class="clv2-panel-heading"><span>SKILL CHIP COLLECTION</span><i>${chips.filter((chip) => chip.owned).length}종 보유</i></header>
-          <div class="clv2-chip-catalog">${chips.map((chip) => `<article class="clv2-chip-card${chip.equipped ? ' is-equipped' : ''}${chip.owned ? '' : ' is-locked'}"><div class="clv2-chip-card-art">${art(chip)}</div><div class="clv2-chip-card-copy"><small>${chip.equipped ? `${chip.slot}번 슬롯 장착 중` : chip.owned ? `보유 ${formatNumber(chip.quantity)}개` : '미보유'}</small><h3>${escapeHtml(chip.name)}</h3><p>${escapeHtml(chip.description)}</p><dl><div><dt>별도 피해 배율</dt><dd>×${chip.damageMultiplier}</dd></div><div><dt>발동 주기</dt><dd>${system.balanceStatus ? '확인 중' : `${Number(chip.intervalMs || 0) / 1000}초`}</dd></div></dl><button type="button" data-chip-equip="${escapeHtml(chip.code)}"${!chip.owned || !chip.active || chip.equipped ? ' disabled' : ''}>${chip.equipped ? '장착 중' : !chip.owned ? '미보유' : !chip.active ? '사용 중지' : `${state.chipSlot}번 슬롯에 장착`}</button></div></article>`).join('') || '<div class="clv2-empty-state"><b>등록된 스킬칩이 없습니다.</b></div>'}</div>
+          <div class="clv2-chip-catalog">${chips.map((chip) => {
+            const action = chipEquipAction(chip);
+            return `<article class="clv2-chip-card${chip.equipped ? ' is-equipped' : ''}${chip.owned ? '' : ' is-locked'}"><div class="clv2-chip-card-art">${art(chip)}</div><div class="clv2-chip-card-copy"><small>${chip.equipped ? `${chip.slot}번 슬롯 장착 중` : chip.owned ? `보유 ${formatNumber(chip.quantity)}개` : '미보유'}</small><h3>${escapeHtml(chip.name)}</h3><p>${escapeHtml(chip.description)}</p><dl><div><dt>별도 피해 배율</dt><dd>×${chip.damageMultiplier}</dd></div><div><dt>발동 주기</dt><dd>${system.balanceStatus ? '확인 중' : `${Number(chip.intervalMs || 0) / 1000}초`}</dd></div></dl>
+              <button type="button" data-chip-equip="${escapeHtml(chip.code)}"${action.disabled ? ' disabled' : ''}>${escapeHtml(action.label)}</button></div></article>`;
+          }).join('') || '<div class="clv2-empty-state"><b>등록된 스킬칩이 없습니다.</b></div>'}</div>
         </section>
         <footer class="clv2-chip-policy"><strong>독립 스킬 시스템</strong><span>일반 덱 5장과 장비 전투력은 유지됩니다. 스킬칩은 소모되지 않으며 새 스킬은 이 목록에 추가됩니다.</span>${system.battleEnabled ? '<span>배틀슈트 장착 PVE 전투에 적용됩니다. 매 전투 시작 시 발동 대기시간만 새로 시작하며, 보유 칩과 장착 상태는 유지됩니다.</span>' : '<span>피해 기준과 발동 주기 확정 후 전투에 연결됩니다.</span>'}</footer>
       </section>`;
@@ -611,7 +626,7 @@
     async function updateSkillChip(code, removeSlot = null) {
       if (state.busy) return;
       const chip = state.data?.skillChips?.catalog?.find((entry) => entry.code === code);
-      if (!chip || (removeSlot === null && (!chip.owned || !chip.active || chip.equipped))) return;
+      if (!chip || (removeSlot === null && chipEquipAction(chip).disabled)) return;
       const slot = removeSlot === null ? state.chipSlot : removeSlot;
       state.busy = true; root.classList.add('is-busy');
       try {

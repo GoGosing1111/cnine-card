@@ -42,6 +42,21 @@
       "pngSha256": "47cd5be8737d5807356aa57de591aae4269c0f0301222a14c851d8b738858b7c",
       "webpSha256": "c6f7ab16b0a14fb94aefe146702cd7ebb9d49405b357503eb2a670dc2358845c",
       "bytes": 325752
+    },
+    {
+      "name": "quantum-bomb",
+      "status": "LOCAL_VISUAL_REVIEW",
+      "source": "/preview/battle-suit-quantum-bomb-v1/assets/source/chip.png",
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceSha256": "5a7a5dd5b58237d61d0679479b15f92063188b79ed7afe54de6ddc35274b8b8a",
+      "image": "quantum-bomb-v1.webp",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "pngSha256": "e46b1682180d839ae8c8dfa35d46eb7c587887f49c9814e5cd7824fa6571b027",
+      "webpSha256": "d849faaeaf5e071029fd1c7b4d897be9b921fdd3c0ed9ea64483fe5be2389827",
+      "bytes": 274896
     }
   ]
 }

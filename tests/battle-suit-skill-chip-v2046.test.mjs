@@ -4,12 +4,15 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {DatabaseSync} from 'node:sqlite';
+import {PGlite} from '@electric-sql/pglite';
+import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import test from 'node:test';
 import sharp from 'sharp';
 import {ensureSkillChipFoundation,handleSkillChips,skillChipPayload} from '../functions/_skill_chips.js';
 import {SKILL_CHIP_CATALOG,SKILL_CHIP_MAX_SLOTS,SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_BALANCE_STATUS,skillChipByCode,skillChipDamage} from '../shared/battle-suit-skill-chips.mjs';
 
 const ROCKET='SKILL_CHIP_ROCKET_LAUNCHER',HELI='SKILL_CHIP_HELICOPTER_AIRSTRIKE',OCTA='SKILL_CHIP_OCTA_SEEKER';
+const BOMB='SKILL_CHIP_QUANTUM_BOMB';
 class Statement {
   constructor(owner,sql,values=[]){Object.assign(this,{owner,sql,values});}
   bind(...values){return new Statement(this.owner,this.sql,values);}
@@ -23,24 +26,33 @@ class Statement {
   }
 }
 class TestD1 {
-  constructor(dialect='d1'){
-    this.db=new DatabaseSync(':memory:');this.dialect=dialect;this.schemaCalls=[];this.batchSql=[];
-    this.db.exec(`
-      CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
-      CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT NOT NULL,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order INTEGER,is_active INTEGER NOT NULL DEFAULT 1);
-      CREATE TABLE cnine_user_inventory(user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(user_id,item_code));
-    `);
+  constructor(){
+    this.db=new DatabaseSync(':memory:');
+    this.db.exec(baseSchema);
   }
   prepare(sql){return new Statement(this,sql);}
-  async execSchema(statements){this.schemaCalls.push(...statements);for(const sql of statements)this.db.exec(sql);}
   async batch(statements){
-    this.batchSql.push(...statements.map(s=>s.sql));this.db.exec('BEGIN');
+    this.db.exec('BEGIN');
     try{const result=statements.map(s=>s.execute());this.db.exec('COMMIT');return result;}
     catch(error){this.db.exec('ROLLBACK');throw error;}
   }
 }
+const baseSchema=`
+      CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+      CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT NOT NULL,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order INTEGER,is_active INTEGER NOT NULL DEFAULT 1);
+      CREATE TABLE cnine_user_inventory(user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(user_id,item_code));
+    `;
 async function setup(t,dialect='d1'){
-  const env={DB:new TestD1(dialect)};t.after(()=>env.DB.db.close());
+  if(dialect==='postgres'){
+    const pg=new PGlite();t.after(()=>pg.close());
+    await pg.exec(baseSchema+"CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT CURRENT_TIMESTAMP::text$$;");
+    const env={DB:new __postgresCompatTest.PostgresD1Database({async query(q,values){
+      const r=await pg.query(q.text||q,q.values||values||[]);
+      return {...r,rowCount:r.affectedRows??r.rows.length};
+    }})};
+    await ensureSkillChipFoundation(env);return env;
+  }
+  const env={DB:new TestD1()};t.after(()=>env.DB.db.close());
   await ensureSkillChipFoundation(env);return env;
 }
 function own(env,userId,code,quantity=1){
@@ -53,14 +65,14 @@ async function call(env,path,body,{userId=7,method='POST'}={}){
   return {status:response.status,...await response.json()};
 }
 
-test('catalog fixes the approved multipliers and independent 3s / 15s / 10s intervals',()=>{
+test('catalog fixes per-target multipliers and independent firing intervals',()=>{
   assert.equal(SKILL_CHIP_MAX_SLOTS,3);
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5],[OCTA,10]]);
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(x=>[x.code,x.damageMultiplier]),[[ROCKET,2.5],[HELI,5],[OCTA,10],[BOMB,12]]);
   assert.ok(Object.isFrozen(SKILL_CHIP_CATALOG)&&SKILL_CHIP_CATALOG.every(Object.isFrozen));
   assert.equal(skillChipByCode('unknown'),null);
   assert.equal(SKILL_CHIP_RUNTIME_ENABLED,true);
   assert.equal(SKILL_CHIP_BALANCE_STATUS,null);
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>chip.intervalMs),[3000,15000,10000]);
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(chip=>chip.intervalMs),[3000,15000,10000,30000]);
 });
 test('independent formula rounds once and rejects unsafe or invalid amounts',()=>{
   assert.equal(skillChipDamage(100,ROCKET),250);
@@ -72,7 +84,7 @@ test('independent formula rounds once and rejects unsafe or invalid amounts',()=
 });
 test('foundation creates only catalog entries and never grants or consumes a chip',async t=>{
   const env=await setup(t);
-  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,3);
+  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,4);
   assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM cnine_user_inventory').get().n,0);
   const payload=await skillChipPayload(env,7);
   assert.deepEqual(payload.loadout,[null,null,null]);
@@ -86,7 +98,7 @@ test('foundation is idempotent and does not overwrite CMS state or existing inve
   await ensureSkillChipFoundation(env);await ensureSkillChipFoundation(env);
   assert.deepEqual({...env.DB.db.prepare('SELECT is_active,name FROM inventory_items WHERE code=?').get(ROCKET)},{is_active:0,name:'관리자 이름'});
   assert.equal(env.DB.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code=?').get(ROCKET).quantity,10);
-  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,3);
+  assert.equal(env.DB.db.prepare('SELECT COUNT(*) n FROM inventory_items').get().n,4);
 });
 test('existing catalog marker gains only the new chip and all three slots retain ownership guards',async t=>{
   const env=await setup(t);
@@ -103,15 +115,63 @@ test('existing catalog marker gains only the new chip and all three slots retain
   own(env,7,OCTA,0);
   assert.deepEqual((await skillChipPayload(env,7)).loadout,[ROCKET,HELI,null]);
 });
-test('PostgreSQL uses the adapter schema escape hatch, not ignored prepared DDL',async t=>{
-  const env=await setup(t,'postgres');
-  assert.equal(env.DB.schemaCalls.length,1);
-  assert.match(env.DB.schemaCalls[0],/^CREATE TABLE IF NOT EXISTS user_skill_chip_loadout_v2046/);
-  assert.ok(env.DB.batchSql.every(sql=>!/^CREATE\b/.test(sql)));
-  own(env,7,ROCKET);
-  assert.equal((await call(env,'/equip',{slot:1,code:ROCKET})).status,200);
-  await ensureSkillChipFoundation(env);assert.equal(env.DB.schemaCalls.length,1);
+test('three-chip installations gain the bomb without altering existing loadouts or granting stock',async t=>{
+  const env=await setup(t);own(env,7,ROCKET,2);
+  await call(env,'/equip',{slot:1,code:ROCKET});
+  env.DB.db.exec("DELETE FROM app_meta; INSERT INTO app_meta(key,value) VALUES('safe_runtime_upgrade_skill_chip_catalog_octaseeker_20260924','1'); DELETE FROM inventory_items WHERE code='SKILL_CHIP_QUANTUM_BOMB'");
+  const state=await skillChipPayload(env,7);
+  assert.deepEqual(state.loadout,[ROCKET,null,null]);
+  assert.equal(state.catalog.find(chip=>chip.code===BOMB).quantity,0);
+  assert.equal((await call(env,'/equip',{slot:2,code:BOMB})).status,403);
+  own(env,7,BOMB);
+  assert.deepEqual((await call(env,'/equip',{slot:2,code:BOMB})).skillChips.loadout,[ROCKET,BOMB,null]);
 });
+for(const dialect of ['d1','postgres']){
+  test(`${dialect}: competing bombardment equips allow one, a same-slot replacement, and both other chips`,async t=>{
+    const env=await setup(t,dialect);
+    for(const code of [HELI,BOMB,ROCKET,OCTA])await env.DB.prepare('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,?,2)').bind(code).run();
+    const equip=(slot,code)=>call(env,'/equip',{slot,code});
+    const competing=await Promise.all([equip(1,HELI),equip(2,BOMB)]);
+    assert.deepEqual(competing.map(result=>result.status).sort(),[200,409]);
+    assert.match(competing.find(result=>result.status===409).error,/헬기폭격과 양자폭탄/);
+    const current=await skillChipPayload(env,7);
+    const slot=current.loadout.findIndex(Boolean)+1, installed=current.loadout[slot-1];
+    const replacement=installed===HELI?BOMB:HELI;
+    assert.equal((await equip(slot,installed)).status,200);
+    assert.equal((await equip(slot,replacement)).status,200);
+    const otherSlots=[1,2,3].filter(i=>i!==slot);
+    assert.equal((await equip(otherSlots[0],installed)).status,409);
+    assert.equal((await equip(otherSlots[0],ROCKET)).status,200);
+    assert.equal((await equip(otherSlots[1],OCTA)).status,200);
+    assert.equal((await equip(otherSlots[1],installed)).status,409);
+    assert.equal((await equip(slot,installed)).status,200);
+    assert.deepEqual(new Set((await skillChipPayload(env,7)).loadout),new Set([installed,ROCKET,OCTA]));
+    await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=0 WHERE user_id=7 AND item_code=?').bind(installed).run();
+    assert.equal((await equip(otherSlots[0],replacement)).status,200);
+    assert.equal((await skillChipPayload(env,7)).loadout[slot-1],null);
+  });
+  test(`${dialect}: existing double equips keep the lowest usable slot and preserve holdings`,async t=>{
+    const env=await setup(t,dialect);
+    const drop='DROP INDEX uq_skill_chip_one_bombardment';
+    if(dialect==='postgres')await env.DB.execSchema([drop]);else await env.DB.prepare(drop).run();
+    await env.DB.prepare('DELETE FROM app_meta').run();
+    await env.DB.prepare("INSERT INTO app_meta(key,value) VALUES('safe_runtime_upgrade_skill_chip_catalog_quantum_bomb_20261125','1')").run();
+    for(const uid of [7,8]){
+      for(const [slot,chip] of [[1,BOMB],[2,ROCKET],[3,HELI]]){
+        const quantity=uid===8&&chip===BOMB?0:4;
+        await env.DB.prepare('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(?,?,?)').bind(uid,chip,quantity).run();
+        await env.DB.prepare('INSERT INTO user_skill_chip_loadout_v2046(user_id,slot_no,item_code) VALUES(?,?,?)').bind(uid,slot,chip).run();
+      }
+    }
+    const holdings=()=>env.DB.prepare('SELECT user_id,item_code,quantity FROM cnine_user_inventory ORDER BY user_id,item_code').all();
+    const before=(await holdings()).results;
+    await ensureSkillChipFoundation(env);await ensureSkillChipFoundation(env);
+    assert.deepEqual((await skillChipPayload(env,7)).loadout,[BOMB,ROCKET,null]);
+    assert.deepEqual((await skillChipPayload(env,8)).loadout,[null,ROCKET,HELI]);
+    assert.deepEqual((await holdings()).results,before);
+    await assert.rejects(()=>env.DB.prepare('INSERT INTO user_skill_chip_loadout_v2046(user_id,slot_no,item_code) VALUES(7,3,?)').bind(HELI).run(),/unique/i);
+  });
+}
 test('all chip endpoints require authentication before reading or creating the database',async()=>{
   for(const [path,method] of [['','GET'],['/equip','POST'],['/unequip','POST']]){
     const result=await call({DB:null},path,{slot:1,code:ROCKET},{userId:null,method});
@@ -194,7 +254,7 @@ test('inventory seeds the chip catalog but chips are equipped, never consumed th
 });
 test('each registry icon has 512px transparent PNG and lossless WebP with recorded provenance',async()=>{
   const manifest=JSON.parse(await readCommittedAsset(new URL('../assets/ui/project-v/skill-chips/manifest-v1.json',import.meta.url),'utf8'));
-  assert.equal(manifest.assets.length,3);
+  assert.equal(manifest.assets.length,SKILL_CHIP_CATALOG.length);
   for(const chip of SKILL_CHIP_CATALOG){
     const path=new URL(`..${chip.image}`,import.meta.url),bytes=await readCommittedAsset(path),metadata=await sharpCommittedAsset(bytes).metadata();
     assert.equal(metadata.width,512);assert.equal(metadata.height,512);assert.equal(metadata.hasAlpha,true);

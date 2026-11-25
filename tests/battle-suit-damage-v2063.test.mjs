@@ -3,7 +3,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import {createPveBattleV2,buildFighter,buildBattleSuitFighter,buildMonsterFighter,simulateBattleV2Preview} from '../functions/_battle_v2_preview.js';
-import {SKILL_CHIP_CATALOG} from '../shared/battle-suit-skill-chips.mjs';
+import {skillChipByCode} from '../shared/battle-suit-skill-chips.mjs';
 
 // 2026-10-05 supersedes the V2063 requirement to preserve the skill-only x3.
 // Compare unaffected behavior with the actual last source before this reform.
@@ -12,7 +12,7 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const beforeSource=execFileSync('git',['show','56b11c3ddc5b3d6b893abf2dd341c6f320f36097:functions/_battle_v2_preview.js'],{cwd:root,encoding:'utf8',maxBuffer:2*1024*1024});
 const resolvable=beforeSource.replace(/from\s+(['"])(\.\.?\/[^'"]+)\1/g,(_,q,p)=>'from '+JSON.stringify(new URL(p,engineUrl).href));
 const before=await import('data:text/javascript;base64,'+Buffer.from(resolvable).toString('base64'));
-const chips=SKILL_CHIP_CATALOG.map(c=>c.code);
+const chips=['SKILL_CHIP_ROCKET_LAUNCHER','SKILL_CHIP_HELICOPTER_AIRSTRIKE','SKILL_CHIP_OCTA_SEEKER'];
 // X's later 2026-11-06 outgoing budget is verified against the immediately
 // preceding runtime by x-body-impact-20261106.test.mjs, not this older reform.
 const suits=['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03','BATTLE_SUIT_H_BODY','BATTLE_SUIT_S_BODY','BATTLE_SUIT_Z_BODY'];
@@ -33,7 +33,7 @@ function controlled({code='BATTLE_SUIT_03',power=3000000,weapon='',bossPower=200
 }
 
 test('all live suits and weapon cadences remove only the separate skill x3 when the HP floor and pierce are absent',()=>{
-  assert.deepEqual(SKILL_CHIP_CATALOG.map(c=>[c.damageMultiplier,c.intervalMs]),[[2.5,3000],[5,15000],[10,10000]]);
+  assert.deepEqual(chips.map(skillChipByCode).map(c=>[c.damageMultiplier,c.intervalMs]),[[2.5,3000],[5,15000],[10,10000]]);
   let checked=0,intrinsic=0;
   for(const code of suits)for(const weapon of weapons){
     const input=controlled({code,weapon});

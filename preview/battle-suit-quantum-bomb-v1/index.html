@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,nofollow">
+  <title>양자폭탄 · 배틀슈트 스킬칩</title>
+  <link rel="icon" href="/assets/ui/project-v/skill-chips/quantum-bomb-v1.webp">
+  <link rel="stylesheet" href="../battle-suit-skill-chip-v1/preview.css">
+  <style>
+    .lab-heading .title{display:flex;align-items:center;gap:14px}
+    .lab-heading img{width:50px;height:50px;object-fit:contain}
+    .lab-heading .title p{font-size:11px;letter-spacing:.04em;color:#bbb5a6}
+    .lab-controls{grid-template-columns:minmax(280px,480px) 1fr;align-items:center}
+    .lab-controls .lab-settings{grid-column:auto;border:0;padding:0}
+    .lab-settings select{max-width:120px}
+    @media(max-width:900px){.lab-controls{grid-template-columns:1fr}.lab-heading img{width:40px;height:40px}}
+  </style>
+</head>
+<body class="chip-lab" data-review-skill="quantum-bomb">
+  <main class="lab-wrap">
+    <header class="lab-heading"><div class="title">
+      <img alt="" src="/assets/ui/project-v/skill-chips/quantum-bomb-v1.webp">
+      <div><p>배틀슈트 스킬칩</p><h1>양자폭탄</h1></div>
+    </div></header>
+    <section class="stage-viewport" aria-label="양자폭탄 전투 미리보기">
+      <iframe id="battle-frame" src="../battle-suit-skill-chip-v1/battle.html" title="양자폭탄 전장" allow="autoplay"></iframe>
+      <div id="lab-boot" role="status">전투 화면을 불러오는 중…</div>
+    </section>
+    <section class="lab-controls" aria-label="미리보기 조작">
+      <div class="lab-transport">
+        <div class="lab-play-row"><button type="button" id="play" class="primary" disabled>재생</button><button type="button" id="replay" disabled>처음부터</button><button type="button" id="impact" disabled>착탄 보기</button><label class="lab-speed">속도 <select id="speed" disabled><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+        <div class="lab-timeline"><label for="scrub" class="sr-only">재생 위치</label><input type="range" id="scrub" min="0" max="3.6" step=".001" value="0" disabled><output id="time">0.00 / 3.60</output></div>
+        <p class="lab-caption" id="cue">준비</p>
+      </div>
+      <div class="lab-settings">
+        <label>배틀슈트 <select id="suit" disabled><option value="BATTLE_SUIT_01" selected>메카니컬</option><option value="BATTLE_SUIT_02">오렌지 택티컬</option><option value="BATTLE_SUIT_03">아메시스트</option></select></label>
+        <label>무기 <select id="weapon" disabled><option value="EQ_1788486929132">황금용 AR</option><option value="EQ_1788486888336">황금용 저격총</option></select></label>
+        <label class="lab-check"><input type="checkbox" id="audio" checked disabled>효과음</label>
+        <label class="lab-check"><input type="checkbox" id="gunfire" disabled>일반 사격</label>
+        <label class="lab-check"><input type="checkbox" id="shake" checked disabled>충돌 반동</label>
+      </div>
+    </section>
+    <footer class="lab-footer"><span id="health" role="status"></span><a href="./review/quantum-bomb.mp4">전투 영상</a><a href="../battle-suit-skill-chip-v1/">헬기폭격·로켓런처 비교</a><a href="../battle-suit-skill-chip-v1/loadout.html">스킬칩 장착 미리보기</a></footer>
+  </main>
+</body>
+</html>

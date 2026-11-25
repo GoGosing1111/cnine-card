@@ -9,10 +9,12 @@ const request=async(path,init={})=>{
   if(!['character/skill-chips/equip','character/skill-chips/unequip'].includes(path))throw new Error('로컬 스킬칩 검수만 지원합니다.');
   const {slot,code}=JSON.parse(init.body||'{}'),system=fixture.skillChips;
   if(!Number.isInteger(slot)||slot<1||slot>3)throw new Error('올바른 슬롯이 아닙니다.');
-  if(!system.catalog.some(chip=>chip.code===code&&chip.owned))throw new Error('미보유 스킬칩입니다.');
+  const chip=system.catalog.find(chip=>chip.code===code&&chip.owned);
+  if(!chip)throw new Error('미보유 스킬칩입니다.');
   if(path.endsWith('/unequip')){if(system.loadout[slot-1]===code)system.loadout[slot-1]=null;}
   else{
     if(system.loadout.some((item,index)=>item===code&&index!==slot-1))throw new Error('동일한 스킬칩은 중복 장착할 수 없습니다.');
+    if(chip.exclusiveWith&&system.loadout.some((item,index)=>item===chip.exclusiveWith&&index!==slot-1))throw new Error('헬기폭격과 양자폭탄은 둘 중 하나만 장착할 수 있습니다.');
     system.loadout[slot-1]=code;
   }
   for(const chip of system.catalog){const index=system.loadout.indexOf(chip.code);chip.equipped=index>=0;chip.slot=index>=0?index+1:null;}

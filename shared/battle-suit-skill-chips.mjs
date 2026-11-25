@@ -7,10 +7,19 @@ export const SKILL_CHIP_MAX_SLOTS=3;
 export const SKILL_CHIP_RUNTIME_ENABLED=true;
 export const SKILL_CHIP_BALANCE_STATUS=null;
 export const SKILL_CHIP_CLOCK='V3_COMBAT_MS_V1';
+export const BOMBARDMENT_CHIPS=Object.freeze(['SKILL_CHIP_HELICOPTER_AIRSTRIKE','SKILL_CHIP_QUANTUM_BOMB']);
+const [HELICOPTER,QUANTUM_BOMB]=BOMBARDMENT_CHIPS;
 export const SKILL_CHIP_CATALOG=Object.freeze([
   Object.freeze({code:'SKILL_CHIP_ROCKET_LAUNCHER',name:'로켓런처',effectKey:'missile',damageMultiplier:2.5,intervalMs:3000,impactOffsetsMs:Object.freeze([360]),effectDurationMs:2250,image:'/assets/ui/project-v/skill-chips/rocket-launcher-v1.webp',description:'3초마다 배틀슈트 1발 피해의 2.5배로 대상 발끝에서 폭발합니다.',sortOrder:10}),
-  Object.freeze({code:'SKILL_CHIP_HELICOPTER_AIRSTRIKE',name:'헬기폭격',effectKey:'airstrike',targeting:'ALL_LIVING_ENEMIES',damageMultiplier:5,intervalMs:15000,impactOffsetsMs:Object.freeze([610,830,1050,1270]),effectDurationMs:3600,image:'/assets/ui/project-v/skill-chips/helicopter-airstrike-v1.webp',description:'15초마다 적 전체에 배틀슈트 1발 피해의 총 5배를 각각 4회 폭격으로 나눠 가합니다.',sortOrder:20}),
-  Object.freeze({code:'SKILL_CHIP_OCTA_SEEKER',name:'8방향 유도탄',effectKey:'octaseeker',damageMultiplier:10,intervalMs:10000,openingDelayMs:0,impactOffsetsMs:Object.freeze([1020,1080,1140,1200,1260,1320,1380,1440]),effectDurationMs:3200,image:'/assets/ui/project-v/skill-chips/octa-seeker-v1.webp',description:'전투 시작 즉시 발동하고 이후 10초마다 8방향으로 발사한 유도탄이 적 1명에게 집중 명중합니다. 총 피해는 헬기폭격의 2배(스킬 기준 피해의 10배)를 8발에 나눠 적용합니다.',sortOrder:30})
+  Object.freeze({code:HELICOPTER,name:'헬기폭격',effectKey:'airstrike',exclusiveWith:QUANTUM_BOMB,targeting:'ALL_LIVING_ENEMIES',damageMultiplier:5,intervalMs:15000,impactOffsetsMs:Object.freeze([610,830,1050,1270]),effectDurationMs:3600,image:'/assets/ui/project-v/skill-chips/helicopter-airstrike-v1.webp',description:'15초마다 적 전체에 배틀슈트 1발 피해의 총 5배를 각각 4회 폭격으로 나눠 가합니다.',sortOrder:20}),
+  Object.freeze({code:'SKILL_CHIP_OCTA_SEEKER',name:'8방향 유도탄',effectKey:'octaseeker',damageMultiplier:10,intervalMs:10000,openingDelayMs:0,impactOffsetsMs:Object.freeze([1020,1080,1140,1200,1260,1320,1380,1440]),effectDurationMs:3200,image:'/assets/ui/project-v/skill-chips/octa-seeker-v1.webp',description:'전투 시작 즉시 발동하고 이후 10초마다 8방향으로 발사한 유도탄이 적 1명에게 집중 명중합니다. 총 피해는 헬기폭격의 2배(스킬 기준 피해의 10배)를 8발에 나눠 적용합니다.',sortOrder:30}),
+  Object.freeze({
+    code:QUANTUM_BOMB,name:'양자폭탄',effectKey:'quantum-bomb',exclusiveWith:HELICOPTER,
+    targeting:'ALL_LIVING_ENEMIES',damageMultiplier:12,intervalMs:30000,openingDelayMs:0,
+    impactOffsetsMs:Object.freeze([900]),effectDurationMs:3600,sortOrder:40,
+    image:'/assets/ui/project-v/skill-chips/quantum-bomb-v1.webp',
+    description:'전투 시작 시, 이후 30초마다 적 진형 중앙에 양자폭탄을 수직 낙하시킵니다. 착탄 시 적 전체에 슈트 1발 기준 12배 피해를 한 번에 가합니다.'
+  })
 ]);
 export function skillChipByCode(code){return SKILL_CHIP_CATALOG.find(chip=>chip.code===code)||null;}
 export function skillChipDamage(baseDamage,code){
@@ -23,7 +32,14 @@ export function skillChipDamage(baseDamage,code){
 }
 
 export function normalizeSkillChipCodes(codes){
-  return [...new Set((Array.isArray(codes)?codes:[]).filter(code=>typeof code==='string'&&skillChipByCode(code)))].slice(0,SKILL_CHIP_MAX_SLOTS);
+  const equipped=[];
+  for(const code of Array.isArray(codes)?codes:[]){
+    const chip=skillChipByCode(code);
+    if(!chip||equipped.includes(code)||equipped.includes(chip.exclusiveWith))continue;
+    equipped.push(code);
+    if(equipped.length===SKILL_CHIP_MAX_SLOTS)break;
+  }
+  return equipped;
 }
 export function splitSkillChipDamage(damage,count){
   if(!Number.isSafeInteger(damage)||damage<0||!Number.isInteger(count)||count<1||count>8)throw new RangeError('Invalid skill-chip damage split');

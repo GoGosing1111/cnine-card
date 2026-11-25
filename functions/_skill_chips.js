@@ -1,19 +1,38 @@
-import {SKILL_CHIP_CATALOG,SKILL_CHIP_MAX_SLOTS,SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_BALANCE_STATUS,skillChipByCode} from '../shared/battle-suit-skill-chips.mjs';
+import {BOMBARDMENT_CHIPS,SKILL_CHIP_CATALOG,SKILL_CHIP_MAX_SLOTS,SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_BALANCE_STATUS,skillChipByCode} from '../shared/battle-suit-skill-chips.mjs';
 
-// Catalog-only revision: existing schema, holdings, loadouts and CMS edits stay intact.
-const MIGRATION_KEY='safe_runtime_upgrade_skill_chip_catalog_octaseeker_20260924';
+const MIGRATION_KEY='safe_runtime_upgrade_skill_chip_bombardment_limit_20261125';
 const LOADOUT_SCHEMA=`CREATE TABLE IF NOT EXISTS user_skill_chip_loadout_v2046 (
   user_id INTEGER NOT NULL,slot_no INTEGER NOT NULL CHECK(slot_no BETWEEN 1 AND 3),item_code TEXT NOT NULL,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,slot_no),UNIQUE(user_id,item_code)
 )`;
+const pairSql=BOMBARDMENT_CHIPS.map(code=>`'${code}'`).join(',');
+const singleBombardmentIndex=`CREATE UNIQUE INDEX IF NOT EXISTS uq_skill_chip_one_bombardment
+  ON user_skill_chip_loadout_v2046(user_id) WHERE item_code IN (${pairSql})`;
+// Prefer a usable chip, then the lowest numbered slot. Only equipment links are removed.
+const reconcileBombardmentSlots=`DELETE FROM user_skill_chip_loadout_v2046 WHERE (user_id,slot_no) IN (
+  SELECT user_id,slot_no FROM (
+    SELECT l.user_id,l.slot_no,ROW_NUMBER() OVER (PARTITION BY l.user_id ORDER BY
+      CASE WHEN i.is_active=1 AND u.quantity>0 THEN 0 ELSE 1 END,l.slot_no) AS priority
+    FROM user_skill_chip_loadout_v2046 l
+    LEFT JOIN inventory_items i ON i.code=l.item_code
+    LEFT JOIN cnine_user_inventory u ON u.user_id=l.user_id AND u.item_code=l.item_code
+    WHERE l.item_code IN (${pairSql})
+  ) ranked WHERE priority>1
+)`;
+const ownedActiveChip=`SELECT 1 FROM cnine_user_inventory u JOIN inventory_items i ON i.code=u.item_code
+  WHERE u.user_id=? AND u.item_code=? AND u.quantity>0 AND i.is_active=1`;
 // No account state or unresolved database I/O is cached across Worker requests.
 export async function ensureSkillChipFoundation(env){
   const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(MIGRATION_KEY).first();
   if(marker?.value==='1')return;
   // The project's PostgreSQL adapter intentionally ignores schema SQL in prepare/batch.
-  if(env.DB.dialect==='postgres')await env.DB.execSchema([LOADOUT_SCHEMA]);
+  const postgres=env.DB.dialect==='postgres';
+  // Serialize old clients and simultaneous first requests while installing the index.
+  const schema=[LOADOUT_SCHEMA,...(postgres?['LOCK TABLE user_skill_chip_loadout_v2046 IN SHARE ROW EXCLUSIVE MODE']:[]),
+    reconcileBombardmentSlots,singleBombardmentIndex];
+  if(postgres)await env.DB.execSchema(schema);
   await env.DB.batch([
-    ...(env.DB.dialect==='postgres'?[]:[env.DB.prepare(LOADOUT_SCHEMA)]),
+    ...(postgres?[]:schema.map(sql=>env.DB.prepare(sql))),
     ...SKILL_CHIP_CATALOG.map(chip=>env.DB.prepare(`INSERT INTO inventory_items
       (code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
       VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING`).bind(chip.code,`${chip.name} 스킬칩`,'BATTLE SUIT SKILL CHIP',chip.description,'SKILL_CHIP','SPECIAL',chip.image,80+chip.sortOrder)),
@@ -63,16 +82,24 @@ export async function handleSkillChips({path,request,env,deps}){
     await env.DB.prepare('DELETE FROM user_skill_chip_loadout_v2046 WHERE user_id=? AND slot_no=? AND item_code=?').bind(user.id,slot,code).run();
   }else{
     try{
-      // Ownership is checked inside the write, not just in a preceding SELECT.
-      // PK + UNIQUE + CHECK also enforce all three constraints under concurrent requests.
-      const result=await env.DB.prepare(`INSERT INTO user_skill_chip_loadout_v2046(user_id,slot_no,item_code,updated_at)
-        SELECT ?,?,?,CURRENT_TIMESTAMP WHERE EXISTS(
-          SELECT 1 FROM cnine_user_inventory u JOIN inventory_items i ON i.code=u.item_code AND i.is_active=1
-          WHERE u.user_id=? AND u.item_code=? AND u.quantity>0)
-        ON CONFLICT(user_id,slot_no) DO UPDATE SET item_code=excluded.item_code,updated_at=CURRENT_TIMESTAMP`).bind(user.id,slot,code,user.id,code).run();
+      const peer=skillChipByCode(code).exclusiveWith;
+      const equip=env.DB.prepare(`INSERT INTO user_skill_chip_loadout_v2046(user_id,slot_no,item_code,updated_at)
+        SELECT ?,?,?,CURRENT_TIMESTAMP WHERE EXISTS(${ownedActiveChip})
+        ON CONFLICT(user_id,slot_no) DO UPDATE SET item_code=excluded.item_code,updated_at=CURRENT_TIMESTAMP`).bind(user.id,slot,code,user.id,code);
+      // A revoked or disabled chip is absent from the visible loadout. Its stale
+      // link must not reserve the pair. A failed equip rolls both writes back.
+      const result=peer?(await env.DB.batch([
+        env.DB.prepare(`DELETE FROM user_skill_chip_loadout_v2046 WHERE user_id=? AND item_code=?
+          AND NOT EXISTS(${ownedActiveChip}) AND EXISTS(${ownedActiveChip})`).bind(user.id,peer,user.id,peer,user.id,code),
+        equip
+      ]))[1]:await equip.run();
       if(!Number(result?.meta?.changes||0))return json({error:'보유한 활성 스킬칩만 장착할 수 있습니다.'},403);
     }catch(error){
-      if(error?.code==='23505'||/UNIQUE constraint failed: user_skill_chip_loadout_v2046\.user_id, user_skill_chip_loadout_v2046\.item_code|duplicate key value violates unique constraint/i.test(String(error?.message||''))){
+      if(error?.code==='23505'||/UNIQUE constraint failed: user_skill_chip_loadout_v2046\.user_id\b|duplicate key value violates unique constraint/i.test(String(error?.message||''))){
+        const peer=skillChipByCode(code).exclusiveWith;
+        if(peer&&await env.DB.prepare('SELECT slot_no FROM user_skill_chip_loadout_v2046 WHERE user_id=? AND item_code=? AND slot_no<>?').bind(user.id,peer,slot).first()){
+          return json({error:'헬기폭격과 양자폭탄은 둘 중 하나만 장착할 수 있습니다.'},409);
+        }
         return json({error:'동일한 스킬칩은 중복 장착할 수 없습니다.'},409);
       }
       throw error;
