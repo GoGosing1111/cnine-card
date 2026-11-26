@@ -1,3 +1,4 @@
+import {handleAccountDeletionRequest, handleAccountDeletionStatus} from '../_account_deletion_request.js';
 import {PVP_MINIMUM_GRADE,PVP_ALLOWED_GRADES,PVP_MINIMUM_GRADE_MESSAGE,pvpCardGradeAllowed,pvpDeckGradeAllowed} from '../_pvp_deck_policy.js';
 import {RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE} from '../_hyper_ticket_retirement.js';
 import {handlePersonalHideout,hideoutEnabled,readHideoutBenefits} from '../_personal_hideout.js';
@@ -4880,6 +4881,8 @@ async function handleRequest(context){
 
     // 시작 화면 상태 확인은 대장전·진화 등 하위 라우터보다 먼저 처리한다.
     // 로그인 전 요청이 불필요한 시스템 핸들러를 거치며 지연되지 않도록 한다.
+    if(path==='account/deletion-status')return handleAccountDeletionStatus(request,env);
+    if(path==='account/deletion-request')return handleAccountDeletionRequest(request,env,authenticate);
     if(path==='service/status'){
       const maintenance=await maintenanceGateSettings(env,request);
       // 정상 운영 중에는 세션 인증까지 수행하지 않는다. 시작 화면은 점검 여부만 필요하며,
@@ -5172,6 +5175,8 @@ async function handleRequest(context){
 
     const prisonCommunityResponse=await handlePrisonCommunity({path,request,env,deps:{authenticate,readBody,json,prisonRoomState,clearPrisonChatIfEmpty}});if(prisonCommunityResponse)return prisonCommunityResponse;
     const prisonHungerResponse=await handlePrisonHunger({path,request,env,deps:{authenticate,readBody,json,prisonRoomState,prisonStatusForUser}});if(prisonHungerResponse)return prisonHungerResponse;
+
+
 
     if(path==='me/summary'){
       const user=await authenticate(request,env);

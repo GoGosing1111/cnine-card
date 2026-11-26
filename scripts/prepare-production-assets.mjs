@@ -83,6 +83,7 @@ const operationAuditOnly=new Set(['docs/equipment-power-20261020.md','docs/equip
 // Energy implementation notes and deployment receipts have no browser imports.
 // Preserve them in Git; ship the shared policy modules within the Pages limit.
 for(const file of ['docs/content-energy-20261020.md','docs/content-energy-20261020-release.json','docs/content-energy-clock-fix-20261020.md','docs/content-energy-clock-fix-20261020-release.json','docs/legion-hunt-daily-energy-20261021.md'])operationAuditOnly.add(file);
+for(const file of ['database/migrations/account-deletion-requests-v1.sql','scripts/ops/fulfill-account-deletion.mjs','tests/account-deletion-20261126.test.mjs'])operationAuditOnly.add(file);
 // Repository-only operation notes leave five public slots for the Citadel fighters.
 for(const file of ['jokro-cooperative-dialogue-20261018','retired-tax-idle-legion-menu-20261001',
  'v3-mercenary-equipment-joint-release-20260912','emperor-equipment-cms-20260909','emperor-equipment-forge-reveal-20261004']){

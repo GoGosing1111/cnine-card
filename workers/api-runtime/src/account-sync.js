@@ -20,6 +20,15 @@ export class AccountSync extends DurableObject{
   await this.ctx.storage.put('snapshot',next);
   for(const ws of this.ctx.getWebSockets())try{const s=ws.deserializeAttachment();if(s.expires<=Date.now()){ws.close(4000,'renew');continue;}ws.send(JSON.stringify({type:'account',snapshot:next,serverNow:Date.now()}));}catch{}
  }
+ async eraseAccount(userId){
+  if(!Number.isSafeInteger(userId)||userId<1||!this.env.ACCOUNT_SYNC.idFromName(String(userId)).equals(this.ctx.id))throw Error('Sync identity mismatch');
+  await this.ctx.blockConcurrencyWhile(async()=>{
+   for(const ws of this.ctx.getWebSockets())try{ws.close(1000,'account closed');}catch{}
+   await this.ctx.storage.deleteAlarm();
+   await this.ctx.storage.deleteAll();
+  });
+  return true;
+ }
  async fetch(request){
   if(request.headers.get('upgrade')?.toLowerCase()!=='websocket')return new Response('Upgrade required',{status:426});
   const ticket=this.ctx.storage.sql.exec('DELETE FROM sync_tickets WHERE token=? AND expires>? RETURNING user_id,client',new URL(request.url).searchParams.get('ticket'),Date.now()).toArray()[0];

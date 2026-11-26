@@ -1,0 +1,15 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex"><title>계정 삭제 접수 조회 · 리버스콜</title>
+<style>html{color-scheme:dark;background:#11131d;color:#f3efff;font:17px/1.65 system-ui,sans-serif}main{max-width:32rem;margin:8vh auto;padding:1.25rem}h1{font-size:1.8rem}input,button{box-sizing:border-box;width:100%;border:1px solid #79778e;border-radius:.5rem;padding:.8rem;font:inherit}input{margin:.35rem 0 1rem}button{background:#d1b9ff;color:#201a2c;font-weight:650;cursor:pointer}p{color:#d5d1df}a{color:#dac9ff}output{display:block;margin-top:1rem;font-weight:650}button:disabled{opacity:.65}</style>
+<main><h1>계정 삭제 접수 조회</h1><p>리버스콜 앱의 고객지원에서 계정 삭제를 신청할 때 받은 접수번호를 입력하세요. 로그아웃한 뒤에도 완료 여부를 확인할 수 있습니다.</p>
+<form><label for="receipt">접수번호</label><input id="receipt" required maxlength="36" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"><button>상태 확인</button></form><output aria-live="polite"></output><p><a href="https://reversecall-yakcode-support.vocal-root-7661.chatgpt.site/privacy/">개인정보처리방침</a></p></main>
+<script>
+const form=document.querySelector('form'),input=document.querySelector('input'),button=document.querySelector('button'),output=document.querySelector('output');
+form.addEventListener('submit',async event=>{
+ event.preventDefault();if(button.disabled)return;button.disabled=true;output.textContent='조회하고 있습니다.';
+ try {
+  const response=await fetch('/api/account/deletion-status',{method:'POST',credentials:'omit',cache:'no-store',referrerPolicy:'no-referrer',headers:{'Content-Type':'application/json'},body:JSON.stringify({receipt:input.value.trim()})});
+  const value=await response.json();
+  output.textContent=response.ok?(value.status==='completed'?'계정 삭제가 완료되었습니다.':'삭제 요청이 접수되어 처리 중입니다.'):(response.status===404?'접수 내역이 없거나 완료 후 조회기간 90일이 지났습니다.':response.status===400?'접수번호 형식을 확인해 주세요.':'서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+ }catch{output.textContent='서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.';}finally{button.disabled=false;}
+});
+</script></html>

@@ -1,4 +1,5 @@
 import {runTowerWeeklySchedule} from '../../../functions/_tower_weekly.js';
+import {runAccountDeletionQueue} from '../../../functions/_account_deletion_queue.js';
 import {onRequest,runUserAuctionSchedule,runTerritoryWarSchedule} from '../../../functions/api/[[path]].js';
 import {openApiRuntimeRequest} from '../../../functions/_api_runtime_transport.js';
 export {CooperativeRoom,CooperativePlayer} from './cooperative.js';
@@ -6,6 +7,7 @@ export {AccountSync} from './account-sync.js';
 
 export default {
   async scheduled(event,env,context){
+    context.waitUntil(runAccountDeletionQueue(env,event.scheduledTime));
     context.waitUntil(runUserAuctionSchedule(env));
     context.waitUntil(runTerritoryWarSchedule(env));
     context.waitUntil(runTowerWeeklySchedule(env,event.scheduledTime));
