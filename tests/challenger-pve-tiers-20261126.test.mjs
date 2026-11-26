@@ -66,7 +66,7 @@ test('ruin spawns its boss on the new seven-minute schedule and the fourth Citad
   const run=createHuntSession({snapshot:legionBalanceSnapshot(profiles.at(-1)),regionId:'coast',difficulty:'ruin',seed:7919,regionDifficulty:{power:1000,bossPower:1000}});
   const boss=run.payload.battleV2.result.timeline.find(e=>e.finalBoss);
   assert.equal(boss.combatAtMs,RUIN_DIFFICULTY.huntDurationMs);
-  assert.equal(run.payload.huntPolicy.limitMs-boss.combatAtMs,25000);
+  assert.equal(run.payload.huntPolicy.limitMs-boss.combatAtMs,30000);
   const prior={drops:{normalPercent:6},tierDrops:{throne:{normalPercent:9}}};
   assert.deepEqual(inheritedCitadelDrops(prior,'crucible'),prior.tierDrops.throne);
   assert.deepEqual(inheritedCitadelDrops(prior,'keep'),prior.drops);

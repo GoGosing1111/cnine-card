@@ -23,7 +23,7 @@ export function eclipseCombat(){
  const d=COOP_ALL_DIFFICULTIES.find(row=>row.id==='ECLIPSE');
  return {id:d.id,recommendation:d.recommendation,forcedEvery:d.forcedEvery,responseSeconds:5,overloadPercent:36,focusPercent:60,
   monsters:COOP_MONSTERS.map((monster,i)=>({key:monster.key,
-   power:i<3?365_000_000_000:i===3?2_900_000_000_000:d.power,
+   power:i<3?91_250_000_000:i===3?2_610_000_000_000:d.power,
    hpPercent:i<3?4800:i===3?6000:d.hpPercent,attackPercent:d.attackPercent,defensePercent:d.defensePercent,
    shieldPercent:monster.key==='WARDEN'?30:0,attackCount:i<3?3:d.attackCount}))};
 }

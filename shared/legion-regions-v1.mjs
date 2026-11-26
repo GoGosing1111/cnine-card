@@ -50,10 +50,10 @@ export const REGION_DIFFICULTIES = Object.freeze([
 // The original five rows are also the format of existing CMS documents.
 const calamity=REGION_DIFFICULTIES.find(d=>d.id==='calamity');
 export const RUIN_DIFFICULTY=Object.freeze({...calamity,id:'ruin',name:'파멸',index:5,
-  power:1_120_000_000_000,bossPower:680_000_000_000_000,
+  power:168_000_000_000,bossPower:612_000_000_000_000,
   loot:Object.freeze({...calamity.loot,bossStones:calamity.loot.bossStones*CHALLENGER_REWARD_MULTIPLIER}),
   huntDurationMs:RUIN_BOSS_AT_MS,bossLimitMs:HUNT_DURATION_MS-RUIN_BOSS_AT_MS,
-  recommendation:'챌린저 상위 20명 기준 · 6분 35초까지 생존 후 보스 격파',description:'마지막 25초 동안 지역 보스를 처치하세요.'});
+  recommendation:'챌린저 상위 20명 기준 · 6분 30초까지 생존 후 보스 격파',description:'마지막 30초 동안 지역 보스를 처치하세요.'});
 export const ALL_REGION_DIFFICULTIES=Object.freeze([...REGION_DIFFICULTIES,RUIN_DIFFICULTY]);
 export const regionPowerLimit=id=>id==='ruin'?800_000_000_000_000:1_000_000_000;
 export const REGION_EQUIPMENT = Object.freeze(LEGION_REGIONS.flatMap(region=>[

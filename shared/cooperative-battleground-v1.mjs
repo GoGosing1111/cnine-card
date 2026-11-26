@@ -37,7 +37,7 @@ export const COOP_DIFFICULTIES=Object.freeze([
 // their configured tiers until a new room snapshots the updated policy.
 export const COOP_ALL_DIFFICULTIES=Object.freeze([...COOP_DIFFICULTIES,
  Object.freeze({id:'TRANSCEND',name:'초월',subtitle:'한계를 넘는 결전',recommendation:'각 분대 용병 2명·Lv.21 기준 · 최상위 카드·장비·조합 필수',power:1800000000,hpPercent:1200,attackPercent:180,defensePercent:120,attackCount:4,forcedEvery:2,dualOnly:true}),
- Object.freeze({id:'ECLIPSE',name:'종언',subtitle:'최후의 결전',recommendation:'챌린저 상위 20명 기준 · 회복과 보호를 갖춘 2~3인 분대',power:5_160_000_000_000,hpPercent:7200,attackPercent:300,defensePercent:150,attackCount:4,forcedEvery:2,dualOnly:true})
+ Object.freeze({id:'ECLIPSE',name:'종언',subtitle:'최후의 결전',recommendation:'챌린저 상위 20명 기준 · 회복과 보호를 갖춘 2~3인 분대',power:4_644_000_000_000,hpPercent:7200,attackPercent:300,defensePercent:150,attackCount:4,forcedEvery:2,dualOnly:true})
 ]);
 export const coopDifficulty=id=>COOP_ALL_DIFFICULTIES.find(d=>d.id===id);
 export function validateCoopSelection(value,rules=COOP_RULES){
