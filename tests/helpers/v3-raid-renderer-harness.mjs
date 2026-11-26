@@ -10,6 +10,6 @@ export function v3Harness(){
   runtimeVersion:bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)[1],mount:async()=>{},setBattlePayload:async()=>{},setBattlefield:async()=>{},setVisible:async()=>{},destroy:()=>{},
   playEvents:async(events,options={})=>{for(const e of events){const event=options.beforeEvent?await options.beforeEvent(e):e;if(event)calls.push(event.type);}},
  }};
- context.window=context;vm.runInNewContext(readFileSync(new URL('../../js/battle-v3-live.js',import.meta.url),'utf8').replace("await import('/js/battle-v3-hud.mjs?v=20261102-v1')",'({createBattleHud:globalThis.__testCreateBattleHud})'),context);
+ context.window=context;vm.runInNewContext(readFileSync(new URL('../../js/battle-v3-live.js',import.meta.url),'utf8').replace(/await import\('\/js\/battle-v3-hud\.mjs\?v=[a-zA-Z0-9-]+'\)/,'({createBattleHud:globalThis.__testCreateBattleHud})'),context);
  return {calls,stage,create:options=>context.ProjectVBattleV3Live.createRenderer({stage,host:{querySelector:()=>canvas,querySelectorAll:()=>[]},modal:{classList:{remove:()=>{}}},mode:'RAID',...options})};
 }

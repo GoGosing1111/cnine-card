@@ -142,7 +142,7 @@ const context={__testCreateBattleHud:createBattleHud,
   }
 };
 context.window=context;
-vm.runInNewContext(live.replace("await import('/js/battle-v3-hud.mjs?v=20261102-v1')",'({createBattleHud:globalThis.__testCreateBattleHud})'),context,{filename:'battle-v3-live.js'});
+vm.runInNewContext(live.replace(/await import\('\/js\/battle-v3-hud\.mjs\?v=[a-zA-Z0-9-]+'\)/,'({createBattleHud:globalThis.__testCreateBattleHud})'),context,{filename:'battle-v3-live.js'});
 
 const battleV2={rules:{battleSuitDamageAuthority:'SERVER_TIMELINE'},teams:{A:{cards:[],supports:[{id:'A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_01',actorKind:'BATTLE_SUIT',authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[]}},result:{timeline:[]}};
 const suit={code:'BATTLE_SUIT_01',battleSprite:'/suit.png'};

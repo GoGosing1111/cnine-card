@@ -50,7 +50,7 @@ function rendererHarness(t,verdict=null){
  }};
  context.window=context;
  const bridge=fs.readFileSync('js/battle-v3-live.js','utf8');
- vm.runInNewContext(bridge.replace("await import('/js/battle-v3-hud.mjs?v=20261102-v1')",'({createBattleHud:globalThis.__testCreateBattleHud})'),context);
+ vm.runInNewContext(bridge.replace(/await import\('\/js\/battle-v3-hud\.mjs\?v=[a-zA-Z0-9-]+'\)/,'({createBattleHud:globalThis.__testCreateBattleHud})'),context);
  const data={result:'PENDING',apocalypseChallenge:{status:'ANSWERED'},battleV2:{teams:{A:{cards:[]},B:{cards:[]}},result:{timeline:[{type:'ATTACK'},{type:'RESULT',winner:'A'}]}}};
  const create=extra=>context.ProjectVBattleV3Live.createRenderer({stage,host:{querySelector:selector=>selector==='canvas'?canvas:null,querySelectorAll:()=>[]},modal:{classList:{remove(){}}},mode:'PVE',data,...extra});
  return {calls,context,create,hide(value){document.hidden=value;for(const fn of [...listeners])fn();},async advance(ms){now+=ms;for(const [key,row] of [...timers])if(row.at<=now){timers.delete(key);row.fn();}await flush();}};
