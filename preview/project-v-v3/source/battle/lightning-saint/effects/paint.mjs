@@ -4,7 +4,8 @@ export const smooth=u=>{u=clamp(u);return u*u*(3-2*u);};
 export const radians=Math.PI/180;
 export const fade=(u,inPart=.05,outPart=.16)=>smooth(u/inPart)*smooth((1-u)/outPart);
 export function anchor(pos,placement){
- const base=placement[pos.anchor],s=placement.scale;
+ const base=placement[pos.anchor]??placement.source;
+ const s=(pos.anchor==='source'||pos.anchor==='blade')?(placement.actorScale??placement.scale):placement.scale;
  return [base[0]+pos.x*s*placement.facing,base[1]+pos.y*s];
 }
 function area(ctx,r,img,frame,x,y,w,h){

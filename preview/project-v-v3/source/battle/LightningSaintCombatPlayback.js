@@ -1,14 +1,14 @@
 import {Sprite,Texture} from 'pixi.js';
 import {BATTLE_DEVICE} from './BattleDevicePolicy.mjs';
-import {SAINT_CODE,SAINT_ART,SAINT_SKILLS,SAINT_EVENT} from '../../../../shared/mercenary-lightning-saint-v1.mjs';
-import {actorPlacement,drawSkill,drawBattlePose} from './lightning-saint/mercenary.mjs';
+import {SAINT_CODE,SAINT_ART,SAINT_SKILLS,SAINT_EVENT,SAINT_FIELD_RATE,SAINT_IMPACT_EVENT} from '../../../../shared/mercenary-lightning-saint-v1.mjs';
+import {actorPlacement,drawSkill,drawBattlePose,drawBasicCut,saintFieldFxScale} from './lightning-saint/mercenary.mjs';
 import {stamp,smooth} from './lightning-saint/effects/paint.mjs';
 import {makeAuraCanvas,idleFoot,drawIdleAura,saintActionCharge} from './lightning-saint/aura.mjs';
 import {ryujinSkillPlacement} from './ryujin/SkillPlacement.mjs';
 
 const root='/assets/ui/project-v/mercenaries/lightning-saint-20261125/';
 export const saintBattleArt=code=>code===SAINT_CODE?{...SAINT_ART,calmIdle:true,spriteUrl:'/'+SAINT_ART.battleSprite,
- footAnchor:{x:97/193,y:1},bodyHeight:208,fullBodyHeight:316,originalTextureHeight:442}:null;
+ footAnchor:{x:97/193,y:1},bodyHeight:300,fullBodyHeight:300*442/294,originalTextureHeight:442}:null;
 
 async function loadBank(compact,signal){
  const res=await fetch(root+(compact?'battle-sd.bin':'battle-hd.bin'),{signal});
@@ -90,14 +90,18 @@ export function clearSaint(engine){
 }
 const point=a=>({x:a.root.x,y:a.root.y});
 const height=a=>Math.abs(a.root.scale.y)*a.fullBodyHeight;
+const bodyPoint=(layer,a,fraction)=>layer.toLocal(a.view.toGlobal({x:0,y:-(a.art?.bodyHeight||a.fullBodyHeight)*fraction}));
 const blend=(a,b,t)=>a+(b-a)*t;
 const basicTrack=[['v2',0],['guard',7],['guard',4],['combo',1],['combo',2],['combo',3],['combo',4],['combo',5],['combo',6],['combo',7],['combo',8],['combo',9],['combo',10],['high',8],['high',10],['high',12],['high',14],['v2',0]];
 const basicSeconds=.58,basicPeak=.232;
 function skillHit(engine,target,receipt,area){
- if(Number.isFinite(receipt.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,receipt.targetHpAfter,receipt.targetMaxHp));
- if(Number.isFinite(receipt.targetShieldAfter))engine.syncTargetShield(target,receipt.targetShieldAfter,receipt.targetMaxShield);
+ // The Citadel can already have a newer checkpoint, including a KO or a heal from another squad.
+ if(!(engine.battleData?.citadelDamageHud&&engine.cooperativeFrame?.has(target.id))){
+  if(Number.isFinite(receipt.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,receipt.targetHpAfter,receipt.targetMaxHp));
+  if(Number.isFinite(receipt.targetShieldAfter))engine.syncTargetShield(target,receipt.targetShieldAfter,receipt.targetMaxShield);
+ }
  if(receipt.dodge)engine.queueBanner('빗나감',SAINT_ART.accent,target.name);
- else engine.showAccountBattleUnitDamage(target,{damage:receipt.damage+receipt.absorbed,compactArea:area});
+ else engine.showAccountBattleUnitDamage(target,{damage:receipt.damage+receipt.absorbed,compactArea:area,impactPoint:bodyPoint(engine.uiLayer,target,.68)});
 }
 async function play(engine,actor,targets,skill,beats){
  if(!targets.length||!engine.isAlive(actor))return true;
@@ -111,21 +115,36 @@ async function play(engine,actor,targets,skill,beats){
  if(!valid())return false;
  engine.settlePendingTails?.([actor,...targets]);actor.animationController.kill();actor.restoreNeutralAvatarPose?.();
  const start=point(actor),span=skill?skill.durationMs/1000:basicSeconds,unit=height(actor)/(442*.846);
- const place=ryujinSkillPlacement({start,targets,duration:span,reach:128*unit,axis:engine.mobile&&engine.formationCoop?'y':'x',cooperative:engine.formationCoop});
+ const place=ryujinSkillPlacement({start,targets,duration:span,reach:230*unit,axis:engine.mobile&&engine.formationCoop?'y':'x',cooperative:engine.formationCoop});
  const facing=place.impact.x===start.x?(actor.team==='ALLY'?1:-1):Math.sign(place.impact.x-start.x);
  const approach=place.approachSeconds,back=place.returnSeconds,total=approach+span+back;
- const floor=[place.impact.x,place.impact.y],target=[floor[0],floor[1]-Math.max(20,Math.min(155*unit,height(targets[0])*.42))];
+ const floor=[place.impact.x,place.impact.y],target=[floor[0],floor[1]];
+ function aim(){
+  let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+  for(const t of targets)if(!t.root.destroyed){
+   const p=bodyPoint(engine.effectLayer,t,.44);
+   x0=Math.min(x0,p.x);x1=Math.max(x1,p.x);y0=Math.min(y0,p.y);y1=Math.max(y1,p.y);
+  }
+  if(x0!==Infinity){target[0]=(x0+x1)/2;target[1]=(y0+y1)/2;}
+ }
+ aim();
  const cast=place.cast,source=[(cast.x-.51*target[0])/.49,cast.y];
  const contactSeconds=beats.map(beat=>beat.at);
- const opts={source,target,floor,facing,scale:unit,contactSeconds},canvas=document.createElement('canvas'),density=Math.min(1,(engine.mobile?720:1152)/engine.scene.width);
+ const effectScale=saintFieldFxScale(skill?.key||'basic',unit);
+ const opts={source,target,floor,facing,scale:unit,effectScale,contactSeconds},canvas=document.createElement('canvas'),density=Math.min(1,(engine.mobile?720:1152)/engine.scene.width);
  canvas.width=Math.ceil(engine.scene.width*density);canvas.height=Math.ceil(engine.scene.height*density);
  const ctx=canvas.getContext('2d'),texture=Texture.from(canvas,true),overlay=new Sprite(texture);
  overlay.scale.set(1/density);engine.effectLayer.addChild(overlay);
- const prior=actor.fullBodySprite.renderable,clock={t:0},applied=new Set(),flashes=new Map();
+ const prior=actor.fullBodySprite.renderable,clock={t:0},applied=new Set(),flashes=new Map(),due=[];
+ const rate=engine.actionPlaybackSpeed()*SAINT_FIELD_RATE;
  let paintedFrames=0;
  function draw(){
   if(!valid())return;
-  const t=clock.t-approach,world=place.rootAt(t);
+  const strikes=due.splice(0),t=strikes.length?strikes.at(-1).at:clock.t-approach,world=place.rootAt(t);
+  for(const beat of strikes)for(const row of beat.rows){
+   if(!row.receipt?.dodge&&!row.target.root.destroyed&&(!row.receipt?.targetId||row.receipt.targetId===row.target.id))flashes.set(row.target,t);
+  }
+  aim();
   let x=world.x,y=world.y;
   ctx.resetTransform();ctx.clearRect(0,0,canvas.width,canvas.height);ctx.scale(density,density);
   if(session.assets){
@@ -140,34 +159,44 @@ async function play(engine,actor,targets,skill,beats){
     const [bank,cel]=basicTrack[Math.min(basicTrack.length-1,Math.floor(t/span*basicTrack.length))];
     const advance=t<=basicPeak?smooth(t/basicPeak):1-smooth((t-basicPeak)/(span-basicPeak));
     const charge=saintActionCharge(t,contactSeconds,span,session.clock);
-    x=blend(cast.x,target[0]-facing*55*unit,advance);
+    x=blend(cast.x,target[0]-facing*250*unit,advance);
     drawBattlePose(ctx,assets.actor,bank,cel,x,y,unit,facing,assets.art,session.clock,charge);
+    drawBasicCut(ctx,assets,bank,cel,x,y,unit,facing,target,t,basicPeak);
    }
    for(const [unitTarget,at] of flashes){
-    const u=(clock.t-at)/.16;if(u>=1){flashes.delete(unitTarget);continue;}
-    if(u>=0&&!unitTarget.root.destroyed)stamp(ctx,assets.art,'burst',u,unitTarget.root.x,unitTarget.root.y-height(unitTarget)*.39,92*unit,70*unit,{bloom:.48});
+    const u=(t-at)/.17;if(u>=1||unitTarget.root.destroyed){flashes.delete(unitTarget);continue;}
+    const art=assets.art.burst,peak=art.time[art.peak]/art.duration,p=bodyPoint(engine.effectLayer,unitTarget,.44);
+    if(u>=0)stamp(ctx,assets.art,'burst',peak+(1-peak)*u,p.x,p.y,188*unit,153*unit,{bloom:.70});
    }
   }
   actor.root.position.set(x,y);texture.source.update();
+  for(const beat of strikes){
+   const hits=[];
+   for(const row of beat.rows){
+    if(row.target.root.destroyed||row.receipt?.targetId&&row.receipt.targetId!==row.target.id)continue;
+    row.apply();if(row.receipt)hits.push(row.receipt);
+   }
+   if(hits.length&&engine.battleData?.citadelDamageHud)
+    engine.app.canvas.dispatchEvent(new CustomEvent(SAINT_IMPACT_EVENT,{bubbles:true,detail:{hits}}));
+  }
  }
  try{
   draw();
   return await engine.timeline(timeline=>{
-   timeline.to(clock,{t:total,duration:total,ease:'none',onUpdate:draw});
+   timeline.to(clock,{t:total,duration:total,ease:'none'});
    beats.forEach((beat,i)=>timeline.call(()=>{
     if(!valid()||applied.has(i))return;applied.add(i);
-    for(const {target:unitTarget,apply} of beat.rows){
-     if(unitTarget.root.destroyed)continue;apply();flashes.set(unitTarget,approach+beat.at);
-    }
+    due.push(beat);
    },[],approach+beat.at));
+   timeline.eventCallback('onUpdate',draw);
   },()=>{
    overlay.removeFromParent();overlay.destroy();texture.destroy(true);
    if(!actor.root.destroyed){actor.fullBodySprite.renderable=prior;actor.root.position.set(start.x,start.y);
     const layer=session.layers.get(actor);if(layer&&!layer.destroyed)syncLayer(actor,layer);
     if(valid()&&actor.hp>0)actor.animationController.setState('IDLE');}
    engine.lastMercenaryPlayback={code:SAINT_CODE,mode:skill?.key||'basic',clockOwner:'V3_REGISTERED_GSAP',authoritative:true,
-    contactSeconds,appliedContacts:applied.size,paintedFrames,durationSeconds:total};
-  },engine.reducedMotion?6:1,{owners:[actor,...targets]});
+    contactSeconds,playbackRate:rate,appliedContacts:applied.size,paintedFrames,durationSeconds:total,elapsedSeconds:total/rate};
+  },rate,{owners:[actor,...targets]});
  }finally{flashes.clear();}
 }
 export function playSaintSkill(engine,event){
@@ -177,16 +206,18 @@ export function playSaintSkill(engine,event){
  for(const beat of event.beats||[]){
   const rows=[];
   for(const h of beat.hits){const t=engine.combatantById(h.targetId);if(!t||t.root.destroyed||t.team===actor.team)continue;
-   targets.set(h.targetId,t);rows.push({target:t,apply:()=>skillHit(engine,t,h,skill.targetRule==='all')});}
+   targets.set(h.targetId,t);rows.push({target:t,receipt:h,apply:()=>skillHit(engine,t,h,skill.targetRule==='all')});}
   if(rows.length)beats.push({at:beat.atMs/1000,rows});
  }
  return play(engine,actor,[...targets.values()],skill,beats);
 }
-export function playSaintBasic(engine,{attacker,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}){
+export function playSaintBasic(engine,{attacker,target,damage=0,targetHp=null,targetShield=null,receipt,onImpact=()=>{}}){
  if(!engine.isAlive(attacker)||!engine.isAlive(target))return false;
- return play(engine,attacker,[target],null,[{at:basicPeak,rows:[{target,apply(){
-  if(targetHp!==null&&Number.isFinite(Number(targetHp)))engine.syncTargetHp(target,Number(targetHp));
-  if(targetShield!==null&&Number.isFinite(Number(targetShield)))engine.syncTargetShield(target,Number(targetShield));
-  onImpact(target);engine.showAccountBattleUnitDamage(target,{damage});
+ return play(engine,attacker,[target],null,[{at:basicPeak,rows:[{target,receipt,apply(){
+  if(!(engine.battleData?.citadelDamageHud&&engine.cooperativeFrame?.has(target.id))){
+   if(targetHp!==null&&Number.isFinite(Number(targetHp)))engine.syncTargetHp(target,Number(targetHp));
+   if(targetShield!==null&&Number.isFinite(Number(targetShield)))engine.syncTargetShield(target,Number(targetShield));
+  }
+  onImpact(target);engine.showAccountBattleUnitDamage(target,{damage,impactPoint:bodyPoint(engine.uiLayer,target,.68)});
  }}]}]);
 }

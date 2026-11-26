@@ -111,9 +111,9 @@ const context={
   playBossBattleUltimate:async(_stage,_phase,ultimate)=>calls.push(['boss-cms',ultimate.name,ultimate.playbackRate,ultimate.durationMs])
 };
 context.window=context;
-const hudImport="await import('/js/battle-v3-hud.mjs?v=20261102-v1')";
-assert.equal(bridge.split(hudImport).length,2,'fixture must bind the actual HUD module import');
-vm.runInNewContext(bridge.replace(hudImport,'({createBattleHud:globalThis.__testCreateBattleHud})'),context,{filename:'battle-v3-live.js'});
+const hudImports=bridge.match(/await import\('\/js\/battle-v3-hud\.mjs\?v=[\w.-]+'\)/g);
+assert.equal(hudImports?.length,1,'fixture must bind the actual versioned HUD module import');
+vm.runInNewContext(bridge.replace(hudImports[0],'({createBattleHud:globalThis.__testCreateBattleHud})'),context,{filename:'battle-v3-live.js'});
 const runtime=context.ProjectVBattleV3Live;
 const renderer=await runtime.createRenderer({
   stage,host,modal,mode:'PVE',playUltimateCinematics:true,

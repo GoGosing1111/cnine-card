@@ -2,6 +2,9 @@ import {RYUJIN_COMBAT} from './mercenary-ryujin-v1.mjs';
 
 export const SAINT_CODE='V-957';
 export const SAINT_EVENT='MERCENARY_LIGHTNING_SAINT_STRIKE';
+// Saved battle receipts use the 1.25x clip clock. Apply the field rate to presentation only.
+export const SAINT_FIELD_RATE=1.70/1.25;
+export const SAINT_IMPACT_EVENT='hatsu-impact';
 export const SAINT_MECHANIC='LIGHTNING_GREATSWORD';
 const basePower=4_500_000;
 export const SAINT_COMBAT=Object.freeze({

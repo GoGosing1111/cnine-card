@@ -1391,7 +1391,7 @@ export class BaseBattleEngine{
     }
   }
 
-  showAccountBattleUnitDamage(victim,{damage=0,critical=false,playbackRate=1,compactArea=false}={}){
+  showAccountBattleUnitDamage(victim,{damage=0,critical=false,playbackRate=1,compactArea=false,impactPoint=null}={}){
     const amount=Math.max(0,Number(damage)||0);
     if(!victim?.root||!amount||this.battleData?.citadelDamageHud)return false;
     const damageLabel=this.pools.damage.acquire();
@@ -1400,14 +1400,14 @@ export class BaseBattleEngine{
     // Valter's simultaneous PVE hits must fit each enemy's silhouette instead
     // of stacking full-size support labels across all twelve enemy slots.
     if(compactArea)damageLabel.roleTag.text='';
-    const point=compactArea?this.uiLayer.toLocal(victimView.toGlobal({x:0,y:-victim.fullBodyHeight*.88})):{x:victimView.x,y:victimView.y-330};
+    const point=impactPoint??(compactArea?this.uiLayer.toLocal(victimView.toGlobal({x:0,y:-victim.fullBodyHeight*.88})):{x:victimView.x,y:victimView.y-330});
     const scale=compactArea?Math.min(.52,Math.max(64,victim.fullBodyHeight*Math.abs(victimView.scale.y)*.85)/Math.max(1,damageLabel.getLocalBounds().width)):1.05;
     const y=compactArea?Math.max(90,point.y):point.y;
     damageLabel.position.set(point.x,y);
     damageLabel.visible=true;
     this.uiLayer.addChild(damageLabel);
     void this.timeline(timeline=>{
-      timeline.fromTo(damageLabel,{alpha:0,y:y+10},{alpha:1,y:y-(compactArea?12:36),duration:.16,ease:'back.out(2.2)'},0);
+      timeline.fromTo(damageLabel,{alpha:impactPoint?1:0,y:impactPoint?y:y+10},{alpha:1,y:y-(compactArea?12:36),duration:.16,ease:'back.out(2.2)'},0);
       timeline.fromTo(damageLabel.scale,{x:scale*.5/1.05,y:scale*.5/1.05},{x:scale,y:scale,duration:.18,ease:'back.out(2.2)'},0);
       timeline.to(damageLabel,{alpha:0,y:y-(compactArea?28:72),duration:.24,ease:'power2.in'},.24);
     },()=>this.pools.damage.release(damageLabel),Math.max(.5,Number(playbackRate)||1)*PLAYBACK_SPEED);
@@ -3302,13 +3302,13 @@ export class BaseBattleEngine{
           if (attackVehicle) support.hit(explicitActor, attackVehicle);
           if (defenseVehicle) support.hit(target, defenseVehicle);
         };
-        const played = await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,hitSequence,advancementClass,...(support ? {onImpact} : {})});
+        const played = await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,hitSequence,advancementClass,receipt:event,...(support ? {onImpact} : {})});
         if (support && !impactShown && played !== false) onImpact();
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:explicitActor,healing,hitCount});
       }else if(type==='COUNTER'){
         const advancementClass=normalizeAdvancementEffectCode(event.advancementClass)==='RIPOSTE'?'RIPOSTE':'';
-        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,advancementClass});
+        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,advancementClass,receipt:event});
         else await this.bossCounter(Number(event.actorIndex||0));
       }else if(type==='ULTIMATE'||type==='PVE_ULTIMATE'){
         const liveActor=explicitActor||(this.livePayload?this.allies.find(character=>this.isAlive(character)):null);

@@ -1,4 +1,5 @@
 import {mountLightVehicleSupport} from './legion-citadel-vehicle-fx.mjs';
+import {SAINT_CODE,SAINT_EVENT,SAINT_FIELD_RATE,SAINT_IMPACT_EVENT} from '../shared/mercenary-lightning-saint-v1.mjs?v=hatsu-field-20261126';
 import {COW_AREA,COW_REGION} from '../shared/legion-cow-room.mjs';
 import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
@@ -168,9 +169,18 @@ export function citadelPlaybackFrames(chunk,replay,seed){
  }
  return out;
 }
+export function citadelVisualReceipts(event,saints,light){
+ if(event.type===SAINT_EVENT&&event.beats?.length){
+  // The detailed field paints its receipt from the same frame as the sword and impact.
+  return light?event.beats.map(b=>({combatAtMs:event.combatAtMs+b.atMs/SAINT_FIELD_RATE,hits:b.hits})):[];
+ }
+ if(!light&&saints.has(event.actorId)&&!event.dodge&&['TURN','ATTACK','COUNTER'].includes(event.type))return [];
+ return [event];
+}
 function mountHitReceipts(layer, projection, replay, light, supportImpact) {
  layer.style.setProperty('--ct-damage-font',DAMAGE_FONT_FAMILY);
  const allies=new Map(replay.units.filter(u=>u.side==='A').map(u=>[u.id,fieldSlot(u,replay.payload)]));
+ const saints=new Set((replay.payload.battleV2.teams.A.mercenaries??[]).filter(m=>(m.cardId||m.code)===SAINT_CODE).map(m=>m.id));
  const active=new Map(),free=[],capacity=replay.payload.cooperativeEncounter.initialIds.length;
  const canvas=light?document.createElement('canvas'):null,ctx=canvas?.getContext('2d');
  if(ctx)layer.append(canvas);
@@ -178,7 +188,7 @@ function mountHitReceipts(layer, projection, replay, light, supportImpact) {
  const format=n=>n>=10000?compactAmount.format(n):coinNumber.format(n);
  function append(part,chunk) {
   if(part<=lastPart)return;
-  lastPart=part;events=events.slice(cursor).concat(chunk).sort((a,b)=>a.combatAtMs-b.combatAtMs);cursor=0;
+  lastPart=part;events=events.slice(cursor).concat(chunk.flatMap(e=>citadelVisualReceipts(e,saints,light))).sort((a,b)=>a.combatAtMs-b.combatAtMs);cursor=0;
  }
  function paintCanvas(rect){
   const w=Math.round(rect.width),h=Math.round(rect.height);
@@ -191,15 +201,18 @@ function mountHitReceipts(layer, projection, replay, light, supportImpact) {
    if(hit.barrier){ctx.font='11px '+DAMAGE_FONT_FAMILY;ctx.fillStyle='#b5dbff';const y=hit.y+(hit.number?14:0);ctx.strokeText(hit.barrier,hit.x,y,94);ctx.fillText(hit.barrier,hit.x,y,94);}
   }
  }
- function tick(elapsed) {
+ function tick(elapsed,contact=null) {
   let expired=false;
   for(const [id,label] of active)if(elapsed>=label.until){
    if(label.node){label.node.hidden=true;free.push(label);}active.delete(id);expired=true;
   }
-  const due=new Map();
+  const due=new Map(),ready=contact?[contact]:[];
   while(cursor<events.length && events[cursor].combatAtMs<=elapsed){
    const event=events[cursor++];if(event.combatAtMs<elapsed-750)continue;
    if(event.vehicleSupportHit||event.vehicleSupportGuard)supportImpact?.(event);
+   ready.push(event);
+  }
+  for(const event of ready){
    for(const hit of citadelHitRows(event)){
     const key=hit.heal?'heal:'+hit.id:hit.id,total=due.get(key);
     if(total){total.damage+=hit.damage;total.shield+=hit.shield;total.critical||=hit.critical;if(hit.heal)total.heal+=hit.heal;}else due.set(key,hit);
@@ -588,6 +601,11 @@ export function openCitadel(trigger,firstRead=null){
     const host=box.querySelector('.coop-battle-mount');let mounted;if(renderer){try{mounted=await renderer.mountCoopBattle(host,replay.payload,{title:cowSelected()?'군단토벌 · 카우방':'군단토벌 · 불타는 성채',playerName:cowSelected()?'카우방 토벌대':'성채 토벌대',clock});}catch{if(!valid())return;liteOnly=true;preparation?.close?.();preparation=null;void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}}if(!mounted){d.classList.add('ct-light-field');const sprites=icons||await loadIconSprites();if(!valid())return;mounted=mountLite(host,replay.payload,replay.units,sprites);}
     if(!valid()){mounted.destroy();return;}battle=mounted;
     hitReceipts=mountHitReceipts(box.querySelector('.ct-hit-layer'),mounted.projection||(()=>window.ProjectVPixiBattle.citadelProjection()),replay,!!mounted.projection,mounted.supportImpact);
+    if(!mounted.projection)host.addEventListener(SAINT_IMPACT_EVENT,e=>{
+     if(battle!==mounted||state?.status!=='ACTIVE'||!state.startsAt)return;
+     hitReceipts.tick(clock.now()-state.startsAt,e.detail);
+     impactTick();
+    },{signal:sig});
     hitReceipts.append(v.part,v.chunk.events);battle.update({state,serverNow:clock.now(),payload:replay.payload});frameIndex=-1;prKey='';impactTick();clockHud();
     const notice=box.querySelector('.coop-battle-notice');notice.hidden=true;uiTimer=setInterval(clockHud,250);
     if(state.status==='LOADING'){const response=await request('loaded',{method:'POST',body:{id}});if(valid()){apply(response.state);schedule();}}

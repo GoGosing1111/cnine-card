@@ -3,6 +3,7 @@ import {toPlayback} from '../timing.mjs';
 const peak={crescent:.236,dash:.156,helix:.244,burst:.103,ground:.176,vortex:.290,wave:.193,gust:.207,rift:.277,thunder:.152,fork:.155,leader:.289};
 const origin=(anchor,x=0,y=0)=>({anchor,x,y});
 const source=(x=0,y=0)=>origin('source',x,y);
+const blade=()=>origin('blade');
 const hit=(x=0,y=0)=>origin('target',x,y);
 const floor=(x=0,y=0)=>origin('floor',x,y);
 const beam=(p,q,t,life,width,opts={})=>({kind:'link',p,q,at:t,life,width,layer:'front',...opts});
@@ -52,7 +53,7 @@ const sections=[
  row('rush','섬전질주',4.15,[6.00,10.15],[.39,1.00,1.61,2.22,2.83,3.44],[
   ...sequence(.39,.61,6,(t,i)=>[
    dash(t,i%2===1,i%3===0?-9:5),
-   quick(t,source(i%2?525:5,22),hit(i%2?-134:109,-27),.83),
+   quick(t,blade(),hit(),.83),
    ...(i%2?swipe(t+.035,-1,.70,-18):puncture(t+.018,hit(i%2?-60:26,-4),.85))
   ]),crest('rift',3.48,.56,hit(-30,6),794,169,{angle:-8}),chips(3.49,hit(),.77)
  ]),
@@ -62,7 +63,7 @@ const sections=[
   crest('rift',1.43,.52,hit(6,3),708,154,{angle:42}),
   beam(hit(-237,161),hit(190,-143),1.20,.48,128),
   beam(hit(-208,-180),hit(190,157),1.41,.40,117),
-  puncture(1.56,hit(),1.47,-23),crest('gust',1.75,.55,hit(-8,0),561,221,{angle:14}),chips(1.56,hit(),1.12)
+  puncture(1.54,hit(),1.47,-23),crest('gust',1.78,.55,hit(-8,0),561,221,{angle:14}),chips(1.54,hit(),1.12)
  ]),
  row('orbit','환검추격',3.05,[12.57,15.62],[.52,1.22,1.40,1.58,1.76,1.94,2.12,2.48],[
   blades('orbit',.025,2.31,6),swipe(.52,1,.89,-13),crest('gust',.76,.88,hit(0,-48),428,153,{angle:-7,alpha:.65,layer:'rear'}),crest('helix',1.20,.60,hit(0,-68),327,148,{angle:9,alpha:.77,layer:'rear'}),
@@ -71,10 +72,10 @@ const sections=[
  ]),
  row('wave','연쇄검파',2.65,[15.62,18.27],[.32,.69,1.06,1.43,1.98],[
   ...sequence(.32,.37,4,(t,i)=>[
-   crest('wave',t,.64,source(145+i*21,(i%2?12:-20)),472+i*55,146,{angle:i%2?4:-5,approach:[-110,0],drift:[302+i*19,0]}),
+   crest('wave',t,.64,hit(),472+i*55,146,{angle:i%2?4:-5,approach:[-110,0],drift:[302+i*19,0]}),
    crest('crescent',t+.13,.52,hit(-63+i*29,0),248+i*27,272+i*18,{angle:i%2?14:-18,drift:[125,0],alpha:.91})
   ]),
-  quick(1.92,source(),hit(77,2),1.1),crest('gust',1.98,.57,hit(-5,2),594,286,{angle:-19}),puncture(1.98,hit(26,-6),1.48),chips(1.99,hit(21,-8),.93)
+  quick(1.98,blade(),hit(),1.1),crest('gust',1.98,.57,hit(-5,2),594,286,{angle:-19}),puncture(1.98,hit(26,-6),1.48),chips(1.99,hit(21,-8),.93)
  ]),
  row('wings','뇌익검진',6.00,[18.27,24.27],[.64,1.46,3.04,3.22,3.40,3.58,3.76,3.94,4.12,4.30,4.90,5.40],[
   crest('rift',.64,.72,source(68,-20),566,99,{angle:-8,layer:'rear'}),
