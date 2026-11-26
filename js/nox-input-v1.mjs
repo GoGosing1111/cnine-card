@@ -1,18 +1,61 @@
 import {NOX_RHYTHM_RULES,judgeNoxNote} from '../shared/nox-raid-chart-v1.mjs?v=20261123-hold1';
 export const NOX_CODES = Object.freeze({KeyD:0,KeyF:1,KeyJ:2,KeyK:3});
+export const NOX_DEFAULT_KEYS = Object.freeze(Object.keys(NOX_CODES));
+
+const keyNames = new Map(Object.entries({
+  ArrowLeft:'←', ArrowDown:'↓', ArrowUp:'↑', ArrowRight:'→', Space:'Space', Enter:'Enter',
+  ShiftLeft:'L Shift', ShiftRight:'R Shift', ControlLeft:'L Ctrl', ControlRight:'R Ctrl', AltLeft:'L Alt', AltRight:'R Alt',
+  Backspace:'Backspace', Delete:'Del', Insert:'Ins', Home:'Home', End:'End', PageUp:'PgUp', PageDown:'PgDn',
+  CapsLock:'Caps Lock', NumLock:'Num Lock', ScrollLock:'Scroll Lock', Lang1:'한/영', Lang2:'한자',
+  Backquote:'`', Minus:'-', Equal:'=', BracketLeft:'[', BracketRight:']', Backslash:'\\',
+  Semicolon:';', Quote:"'", Comma:',', Period:'.', Slash:'/', IntlBackslash:'Intl \\', IntlRo:'ろ', IntlYen:'¥',
+  NumpadAdd:'Num +', NumpadSubtract:'Num −', NumpadMultiply:'Num ×', NumpadDivide:'Num /', NumpadDecimal:'Num .',
+  NumpadEnter:'Num ↵', NumpadComma:'Num ,', NumpadEqual:'Num ='
+}));
+
+export function noxKeyLabel(code) {
+  if (typeof code !== 'string') return '';
+  if (/^Key[A-Z]$/.test(code)) return code.slice(3);
+  if (/^Digit[0-9]$/.test(code)) return code.slice(5);
+  if (/^Numpad[0-9]$/.test(code)) return 'Num ' + code.slice(6);
+  if (/^F(?:[1-9]|1[0-9]|2[0-4])$/.test(code)) return code;
+  return keyNames.get(code) || '';
+}
+
+export function readNoxRhythmKeys(saved) {
+  try {
+    const keys = JSON.parse(saved);
+    if (Array.isArray(keys) && keys.length === 4 && new Set(keys).size === 4 && keys.every(noxKeyLabel)) return keys;
+  } catch {}
+  return [...NOX_DEFAULT_KEYS];
+}
+
+export function rebindNoxLane(keys, lane, code) {
+  if (!Number.isInteger(lane) || lane < 0 || lane >= keys.length || !noxKeyLabel(code)) return keys;
+  const next = [...keys], other = keys.indexOf(code);
+  if (other >= 0) next[other] = keys[lane];
+  next[lane] = code;
+  return next;
+}
 export function eventTime(event,now=performance.now(),origin=performance.timeOrigin){const t=Number(event.timeStamp);if(!Number.isFinite(t)||t<=0)return now;return Math.min(now,t>1e12?t-origin:t);}
 export class NoxInput {
-  constructor(root,onPress,{active=()=>true,onHeld=()=>{},onRelease=()=>{}}={}){
+  constructor(root,onPress,{active=()=>true,onHeld=()=>{},onRelease=()=>{},laneKeys=()=>NOX_DEFAULT_KEYS}={}){
     this.root=root;this.onPress=onPress;this.active=active;this.onHeld=onHeld;this.onRelease=onRelease;this.held=new Map();this.abort=new AbortController();const opts={signal:this.abort.signal};
     const editable=e=>e.target?.closest?.('input,textarea,select,[contenteditable="true"]');
+    const modifierHeld=name=>this.held.has('key:'+name+'Left')||this.held.has('key:'+name+'Right');
     document.addEventListener('keydown',e=>{
       if(editable(e)||!this.active())return;
-      let lane=NOX_CODES[e.code];
-      if(lane===undefined&&(e.key==='Enter'||e.key===' ')){
-        const button=e.target?.closest?.('[data-nox-lane]');
-        if(button&&!button.disabled&&root.contains(button))lane=Number(button.dataset.noxLane);
+      const keys=laneKeys();
+      // Browser shortcuts stay available unless the held modifier is itself a play key.
+      if(e.metaKey||(e.ctrlKey&&!e.code?.startsWith('Control')&&!modifierHeld('Control'))||
+          (e.altKey&&!e.code?.startsWith('Alt')&&!modifierHeld('Alt')))return;
+      let lane=keys.indexOf(e.code);
+      if(e.key==='Enter'||e.key===' '){
+        const button=e.target?.closest?.('button,a[href],[role="button"]');
+        if(button&&(!root.contains(button)||!button.hasAttribute('data-nox-lane')||button.disabled))return;
+        if(lane<0&&button)lane=Number(button.dataset.noxLane);
       }
-      if(lane===undefined)return;
+      if(lane<0)return;
       e.preventDefault();
       if(!e.repeat)this.press('key:'+e.code,lane,e);
     },opts);
@@ -20,7 +63,7 @@ export class NoxInput {
     root.addEventListener('pointerdown',e=>{const button=e.target.closest('[data-nox-lane]');if(!button||button.disabled||!this.active()||e.pointerType==='mouse'&&e.button!==0)return;e.preventDefault();button.setPointerCapture?.(e.pointerId);this.press('pointer:'+e.pointerId,Number(button.dataset.noxLane),e);},{...opts,passive:false});
     for(const type of ['pointerup','pointercancel','lostpointercapture'])root.addEventListener(type,e=>this.release('pointer:'+e.pointerId,eventTime(e)),opts);
     // Accessible activation for switch/keyboard users. Pointer click must not
-    // duplicate pointerdown; physical D/F/J/K is handled above.
+    // duplicate pointerdown; physical lane keys are handled above.
     root.addEventListener('click',e=>{const b=e.target.closest('[data-nox-lane]');if(b&&!b.disabled&&e.detail===0&&this.active()){this.onPress(Number(b.dataset.noxLane),eventTime(e));}},opts);
     window.addEventListener('blur',()=>this.reset(),opts);document.addEventListener('visibilitychange',()=>{if(document.hidden)this.reset();},opts);
   }

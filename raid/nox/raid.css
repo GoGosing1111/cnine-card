@@ -190,6 +190,17 @@
 #roomList li{margin:0;padding:12px 0;border-top:1px solid #d2a4a22e}
 #roomList .nox-room-host{min-width:0;overflow-wrap:anywhere;font-size:16px;color:var(--nox-fg)}
 .nox-room-mode,.nox-room-seats{font-size:14px;white-space:nowrap}
+.nox-key-settings{width:min(460px,calc(100% - 24px));padding:0}
+.nox-key-settings-body{padding:16px 24px 20px}
+.nox-key-settings-body p{margin:0 0 14px}
+.nox-bindings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.nox-bindings button{display:grid;align-content:center;gap:8px;min-height:70px;padding:8px 4px;border:1px solid #875d65;border-radius:5px;background:#271820}
+.nox-bindings button:hover,.nox-bindings button[aria-pressed="true"]{border-color:#ffb19c;background:#49262e}
+.nox-bindings span{color:var(--nox-muted);font-size:12px}
+.nox-bindings kbd{font:700 16px/1.15 NoxHUD,NoxText,sans-serif;overflow-wrap:anywhere}
+.nox-key-settings-body #keySettingsStatus{min-height:1.5em;margin:10px 0;color:#ffd6aa;font-size:13px}
+.nox-keys button[data-wide-key]{font-size:clamp(12px,2.4vw,18px);line-height:1.05;overflow-wrap:anywhere}
+@media(max-width:420px){.nox-key-settings-body{padding:14px}.nox-bindings{gap:5px}}
 .nox-room-mode[data-difficulty="HELL"]{color:#ffab98}
 .nox-room-seats{font-variant-numeric:tabular-nums;color:#dec7c4}
 #roomList button{min-height:44px}

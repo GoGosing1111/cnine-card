@@ -1,14 +1,18 @@
-import {NoxInput,NoxAudio,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,noxNoteStart,eventTime} from '/js/nox-input-v1.mjs?v=20261123-lanes3';
+import {NoxInput,NoxAudio,NOX_DEFAULT_KEYS,noxKeyLabel,readNoxRhythmKeys,rebindNoxLane,nearestNoxNote,noxRhythmTime,noxNoteY,noxHitY,noxNoteStart,eventTime} from '/js/nox-input-v1.mjs?v=20261126-rhythm-keys1';
 import {NOX_CLIENT_VERSION,NOX_TRACK,NOX_RHYTHM_RULES,noxTrack} from '/shared/nox-raid-chart-v1.mjs?v=20261123-hold1';
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const roomDirectory=$('roomDirectory');
 const clockText=(id,value)=>{const el=$(id);if(el.textContent!==value)el.textContent=value;};
-const roles=['저음','중음','고음'],keys=['D','F','J','K'];
+const roles=['저음','중음','고음'];
+const keySettings=$('keySettings'),bindingButtons=[...keySettings.querySelectorAll('[data-bind-lane]')];
+const rhythmStorageKey='noxRhythmLaneKeysV1';
+function readPreference(key){try{return localStorage.getItem(key);}catch{return null;}}
+let rhythmKeys=readNoxRhythmKeys(readPreference(rhythmStorageKey)),bindingLane=null;
 let token=sessionStorage.getItem('noxLiveRoom')||'',state=null,payload=null,epoch=0,eventSeq=0,pollTimer=0,flushTimer=0,frame=0,toastTimer=0,input=null,layer=null,mounted=false,mountPromise=null,preparing=false,seq=0,offset=Date.now()-performance.now(),bestRtt=Infinity,stageId='',localHits=new Set(),outbox=[],nodes=new Map(),hudSignature='',ended=false,requests=new Set(),polling=false,lastPaint=0,frameTimes=[];
 const posts=new Map(),sentPackets=new Map();
 const holding=new Map();
 let retryAt=0,retryDelay=250,blockedStage='',lastInputNotice='';
-let calibration=Math.max(-150,Math.min(150,Number(localStorage.getItem('noxTimingOffset'))||0));
+let calibration=Math.max(-150,Math.min(150,Number(readPreference('noxTimingOffset'))||0));
 const audio=new NoxAudio(),serverNow=()=>performance.now()+offset;
 let chartObserver=null,hitY=1,noteHeight=56,combo=0,floorAbort=null;
 let lobbyFeature=null,establishing=false,leaving=false,roomsTimer=0,roomsRequest=null,roomListSignature='';
@@ -137,6 +141,8 @@ function render(result){
     }
     if(paid||drops.length)window.parent.dispatchEvent(new Event('cnine:account-mutation'));
     const resultDialog=$('resultDialog');
+    if(keySettings.open)keySettings.close();
+    if($('guideDialog').open)$('guideDialog').close();
     resultDialog.showModal();
     if(drops.length)void import('/js/blueprint-acquisition-v1.mjs?v=20261126-ryujin').then(module=>{
       if(state?.id===next.id&&resultDialog.open)module.showNoxAcquisitions(payout,resultDialog);
@@ -161,9 +167,10 @@ async function mountBattle(){
     await loadScript('/raid/nox/battle.bundle.js?astraLifecycle=20261120-v1&nox=20261126-ryujin&ryujin=20261119-v3-approach');if(version!==epoch)return;
     screen(true);await window.NoxBattle.mount(payload);if(version!==epoch){window.NoxBattle.teardown();return;}
     layer=$('mechanicTemplate').content.firstElementChild.cloneNode(true);$('battleMount').querySelector('.battle-v3-canvas-host').append(layer);mounted=true;
+    renderRhythmKeys();
     chartObserver=new ResizeObserver(layoutChart);chartObserver.observe($('chart'));
-    const canInput=()=>acceptsInputs()&&!document.hidden&&!$('guideDialog').open&&!$('resultDialog').open;
-    input=new NoxInput(layer,press,{active:()=>canInput()&&state.stage!=='MEMORY',onRelease:releaseHold,onHeld:(lane,held)=>layer?.querySelectorAll(`[data-nox-lane="${lane}"]`).forEach(b=>b.classList.toggle('is-held',held))});
+    const canInput=()=>acceptsInputs()&&!document.hidden&&!$('guideDialog').open&&!keySettings.open&&!$('resultDialog').open;
+    input=new NoxInput(layer,press,{laneKeys:()=>state.stage==='RHYTHM'?rhythmKeys:NOX_DEFAULT_KEYS,active:()=>canInput()&&state.stage!=='MEMORY',onRelease:releaseHold,onHeld:(lane,held)=>layer?.querySelectorAll(`[data-nox-lane="${lane}"]`).forEach(b=>b.classList.toggle('is-held',held))});
     floorAbort=new AbortController();const floorPress=e=>{const b=e.target.closest('[data-nox-tile]');if(!b||b.disabled||!canInput()||state.stage!=='MEMORY'||e.type==='pointerdown'&&e.button!==0||e.type==='click'&&e.detail!==0)return;e.preventDefault();press(Number(b.dataset.noxTile),eventTime(e));};
     $('floorTargets').addEventListener('pointerdown',floorPress,{signal:floorAbort.signal});$('floorTargets').addEventListener('click',floorPress,{signal:floorAbort.signal});
     if(state?.status==='LOBBY')screen(false);else if(state)render({state});
@@ -186,7 +193,7 @@ function updateMechanic(){
   if(c.id!==stageId){stageId=c.id;blockedStage='';lastInputNotice='';stopInputStream();layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;localHits=new Set();nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();showCombo(0);$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 판정선에 맞추세요';$('combatMessage').textContent='';
     $('rhythm').hidden=c.stage!=='RHYTHM';$('memory').hidden=c.stage!=='MEMORY';$('coop').hidden=c.stage!=='COOP';
     $('mechanicName').textContent=({RHYTHM:'종언의 악보',MEMORY:'잔향의 발판',COOP:'삼중 공명',EXPOSED:'왕관 붕괴'})[c.stage];
-    $('mechanicHint').textContent=({RHYTHM:'D · F · J · K  /  정확도 90% · MISS 3 이하',MEMORY:`안전 발판 ${memorySteps(c)}개의 순서를 기억하세요`,COOP:state.practice?'바늘이 중앙에 닿을 때 이 회차의 주파수를 누르세요':'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
+    $('mechanicHint').textContent=({RHYTHM:rhythmHint(),MEMORY:`안전 발판 ${memorySteps(c)}개의 순서를 기억하세요`,COOP:state.practice?'바늘이 중앙에 닿을 때 이 회차의 주파수를 누르세요':'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
     if(c.stage==='MEMORY')$('floorTargets').innerHTML=c.tiles.map(tile=>`<button type="button" class="nox-floor-target" data-nox-tile="${tile.id}" aria-label="${tile.id+1}번 위치 ${tile.kind==='mine'?'지뢰지대':'안전지대'}"><span></span></button>`).join('');
     if(c.stage==='RHYTHM'){
       if(c.chart.some(n=>n.endAt!==undefined))$('timingDetail').textContent='긴 노트는 꼬리까지 누르세요';
@@ -210,7 +217,7 @@ function updateMechanic(){
     $('memoryProgress').textContent=dead?(state.me.deathReason||'공략 실패')+(state.practice?'':' · 관전 중'):complete?`${steps}개 발판 통과 · 다음 기믹 대기`:showing?`안전 발판 ${steps}개 · 지뢰 ${c.tiles.length-steps}개`:`${state.me.memoryIndex}/${steps} · 순서 오류·미입력 시 즉사`;
   }
   if(c.stage==='COOP'){
-    $('coopRole').textContent=`내 주파수: ${roles[state.me.role]} · ${keys[state.me.role]}`;
+    $('coopRole').textContent=`내 주파수: ${roles[state.me.role]} · ${noxKeyLabel(NOX_DEFAULT_KEYS[state.me.role])}`;
     layer.querySelectorAll('.nox-frequency-buttons button').forEach((b,i)=>b.disabled=i!==state.me.role||state.me.cooperated||state.me.hp<=0);$('coopStatus').textContent=`공명 ${state.members.filter(m=>m.cooperated&&m.hp>0).length}/${state.members.filter(m=>m.hp>0).length} · ±225ms`;
   }
   if(!frame&&state.status==='ACTIVE')frame=requestAnimationFrame(paint);
@@ -352,6 +359,7 @@ async function sync(){if(!token||polling)return;polling=true;const version=epoch
 async function leave(notify=true){
   if(leaving)return;
   leaving=true;
+  if(keySettings.open)keySettings.close();
   const oldToken=token;epoch++;stopLoops();stopRoomRefresh();requests.forEach(c=>c.abort());requests.clear();posts.clear();sentPackets.clear();retryAt=0;retryDelay=250;holding.clear();input?.destroy();input=null;floorAbort?.abort();chartObserver?.disconnect();await audio.suspend();window.NoxBattle?.teardown();mounted=false;mountPromise=null;layer?.remove();layer=null;nodes.clear();outbox=[];stageId='';token='';sessionStorage.removeItem('noxLiveRoom');state=null;payload=null;eventSeq=0;seq=0;ended=false;preparing=false;hudSignature='';bestRtt=Infinity;frameTimes=[];frameSummary={count:0,total:0,max:0,over50:0};screen(false);$('createForm').hidden=false;$('assembly').hidden=true;$('createButton').disabled=true;$('audioResume').hidden=true;
   if(notify&&oldToken)try{await api('leave',{roomId:oldToken},{keepalive:true});}catch(error){toast(error.message);}
   leaving=false;
@@ -469,7 +477,79 @@ $('retryButton').onclick=async()=>{
   $('resultDialog').close();await leave();
   if(lobbyFeature?.mode==='ON')void loadLobbyFeature().catch(error=>toast(error.message));
 };
+function rhythmKeyText(){return rhythmKeys.map(noxKeyLabel).join(' · ');}
+function rhythmHint(){return rhythmKeyText()+'  /  정확도 90% · MISS 3 이하';}
+
+function renderRhythmKeys(){
+  $('guideRhythmKeys').textContent=rhythmKeyText();
+  for(const [lane,button] of bindingButtons.entries()){
+    button.querySelector('kbd').textContent=noxKeyLabel(rhythmKeys[lane]);
+  }
+  if(!layer)return;
+  for(const button of layer.querySelectorAll('.nox-keys [data-nox-lane]')){
+    const lane=Number(button.dataset.noxLane),label=noxKeyLabel(rhythmKeys[lane]);
+    button.textContent=label;
+    button.setAttribute('aria-label',(lane+1)+'번 레인, '+label);
+    button.toggleAttribute('data-wide-key',label.length>2);
+  }
+  if(state?.stage==='RHYTHM')$('mechanicHint').textContent=rhythmHint();
+}
+
+function captureLane(lane,message=''){
+  bindingLane=lane;
+  bindingButtons.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===lane)));
+  $('keySettingsStatus').textContent=message;
+}
+
+function saveRhythmKeys(keys,message){
+  rhythmKeys=keys;
+  try { localStorage.setItem(rhythmStorageKey,JSON.stringify(keys)); }
+  catch { message+=' 이 브라우저에서는 이번 접속에만 적용됩니다.'; }
+  renderRhythmKeys();
+  captureLane(null,message);
+}
+
+document.querySelectorAll('[data-key-settings]').forEach(button=>button.onclick=()=>{
+  input?.reset();
+  captureLane(null);
+  keySettings.showModal();
+});
+for(const [lane,button] of bindingButtons.entries()){
+  button.onclick=()=>{
+    button.focus({preventScroll:true});
+    captureLane(lane,(lane+1)+'번 레인에 사용할 키를 누르세요. Esc로 취소할 수 있습니다.');
+  };
+}
+keySettings.addEventListener('focusout',event=>{
+  if(bindingLane!==null&&event.target===bindingButtons[bindingLane])captureLane(null);
+});
+keySettings.addEventListener('keydown',event=>{
+  if(bindingLane===null||event.key==='Tab')return;
+  event.preventDefault();
+  event.stopPropagation();
+  if(event.repeat)return;
+  if(event.key==='Escape'){captureLane(null,'키 지정을 취소했습니다.');return;}
+  const lane=bindingLane,code=event.code,label=noxKeyLabel(code);
+  if(!label||event.metaKey){
+    $('keySettingsStatus').textContent='이 키는 지정할 수 없습니다. 다른 키를 눌러 주세요.';
+    return;
+  }
+  const other=rhythmKeys.indexOf(code);
+  const message=other>=0&&other!==lane
+    ? (lane+1)+'번과 '+(other+1)+'번 레인의 키를 맞바꿨습니다.'
+    : (lane+1)+'번 레인을 '+label+' 키로 설정했습니다.';
+  saveRhythmKeys(rebindNoxLane(rhythmKeys,lane,code),message);
+});
+keySettings.addEventListener('cancel',event=>{
+  if(bindingLane!==null){event.preventDefault();captureLane(null,'키 지정을 취소했습니다.');}
+});
+keySettings.addEventListener('close',()=>captureLane(null));
+$('resetRhythmKeys').onclick=()=>saveRhythmKeys([...NOX_DEFAULT_KEYS],'기본 키 D · F · J · K를 복원했습니다.');
+$('closeKeySettings').onclick=()=>keySettings.close();
+renderRhythmKeys();
+
 document.querySelectorAll('[data-guide]').forEach(b=>b.onclick=()=>{input?.reset();$('guideDialog').showModal();});$('closeGuide').onclick=()=>$('guideDialog').close();
+$('guideDialog').addEventListener('close',()=>{if(state?.status==='ACTIVE'&&!keySettings.open&&!$('resultDialog').open)layer?.focus({preventScroll:true});});
 $('calibration').value=calibration;$('calibrationValue').textContent=calibration+' ms';$('calibration').oninput=e=>{calibration=Number(e.target.value);$('calibrationValue').textContent=calibration+' ms';localStorage.setItem('noxTimingOffset',String(calibration));};
 $('audioResume').onclick=async()=>{const version=epoch;try{await audio.unlock();await audio.prepareAll(trackUrls());if(version!==epoch)return;if(state?.challenge?.stage==='RHYTHM')scheduleRhythmAudio(state.challenge);}catch(error){if(error.name!=='AbortError')toast(error.message);}};
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopLoops();stopRoomRefresh();input?.reset();audio.stop();window.NoxBattle?.visible(false);}else if(token){window.NoxBattle?.visible(true);lastPaint=0;scheduleFlush();void sync();}else if(roomDirectory.open)void refreshRooms();});
