@@ -14,7 +14,7 @@ const holding=new Map();
 let retryAt=0,retryDelay=250,blockedStage='',lastInputNotice='';
 let calibration=Math.max(-150,Math.min(150,Number(readPreference('noxTimingOffset'))||0));
 const audio=new NoxAudio(),serverNow=()=>performance.now()+offset;
-let chartObserver=null,hitY=1,noteHeight=56,combo=0,floorAbort=null;
+let chartObserver=null,hitY=1,noteHeight=56,combo=0,nextComboNote=0,floorAbort=null;
 let lobbyFeature=null,establishing=false,leaving=false,roomsTimer=0,roomsRequest=null,roomListSignature='';
 const difficultyLabel=key=>key==='HELL'?'헬':'노말';
 const memorySteps=challenge=>challenge.cues?.length??3;
@@ -37,6 +37,16 @@ function showCombo(value){
     {color:'#ffd38c',borderColor:'#bc7849',textShadow:'0 0 5px #c6744780',boxShadow:'inset -2px 0 5px #ec8c3417,0 0 0 transparent',transform:'scale(1)'}
   ],{duration:milestone?320:200,easing:'ease-out'});
   hitAnimations.set('combo',[flash]);
+}
+function expireMissedNotes(chart,age){
+  while(nextComboNote<chart.length&&chart[nextComboNote].at+NOX_RHYTHM_RULES.goodMs<age){
+    const note=chart[nextComboNote++];
+    if(combo>0&&!localHits.has(note.id)){
+      showCombo(0);
+      $('judgement').textContent='MISS';$('judgement').dataset.grade='MISS';
+      $('timingDetail').textContent='놓친 노트';
+    }
+  }
 }
 function showHit(lane,judged,at,phase='tap'){
   const starting=phase==='holdStart',ending=phase==='holdEnd';
@@ -190,7 +200,7 @@ function scheduleRhythmAudio(c){
 }
 function updateMechanic(){
   if(!layer||!state?.challenge)return;const c=state.challenge;
-  if(c.id!==stageId){stageId=c.id;blockedStage='';lastInputNotice='';stopInputStream();layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;localHits=new Set();nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();showCombo(0);$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 판정선에 맞추세요';$('combatMessage').textContent='';
+  if(c.id!==stageId){stageId=c.id;blockedStage='';lastInputNotice='';stopInputStream();layer.dataset.stage=c.stage;$('combat').dataset.stage=c.stage;localHits=new Set();nextComboNote=0;nodes.forEach(n=>n.remove());nodes.clear();input?.reset();clearHitEffects();showCombo(0);$('judgement').textContent='READY';$('timingDetail').textContent='노트 중앙을 판정선에 맞추세요';$('combatMessage').textContent='';
     $('rhythm').hidden=c.stage!=='RHYTHM';$('memory').hidden=c.stage!=='MEMORY';$('coop').hidden=c.stage!=='COOP';
     $('mechanicName').textContent=({RHYTHM:'종언의 악보',MEMORY:'잔향의 발판',COOP:'삼중 공명',EXPOSED:'왕관 붕괴'})[c.stage];
     $('mechanicHint').textContent=({RHYTHM:rhythmHint(),MEMORY:`안전 발판 ${memorySteps(c)}개의 순서를 기억하세요`,COOP:state.practice?'바늘이 중앙에 닿을 때 이 회차의 주파수를 누르세요':'각자 맡은 주파수를 같은 박자에 맞추세요',EXPOSED:'PVE 덱 집중 공격 · 다음 악보에 대비하세요'})[c.stage];
@@ -233,6 +243,7 @@ function paint(now){
     const musicTime=audibleTime??t-c.musicStartAt,age=noxRhythmTime(musicTime,calibration);
     clockText('rhythmClock',t<c.startsAt?$('mechanicClock').textContent:fmt(noxTrack(c.trackId).chartEndMs-musicTime));
     if(audibleTime!==null&&audio.context?.state==='running'&&state.me.hp>0){
+      expireMissedNotes(c.chart,age);
       for(const [lane,{judged}] of holding)if(age>=judged.note.endAt&&input?.isHeld(lane))finishHold(lane,age);
     }
     const travelMs=chartTravelMs(),visible=new Set();
@@ -297,7 +308,9 @@ function press(lane,perfTime){
   const at=audioTime===null?perfTime+offset:c.musicStartAt+noxRhythmTime(audioTime,calibration);
   if(at<c.startsAt||c.stage==='MEMORY'&&(at<c.revealEnd||state.me.memoryIndex>=memorySteps(c))||c.stage==='COOP'&&state.me.cooperated)return;
   if(c.stage!=='RHYTHM'){queueInput(lane,at);return;}
-  const relative=at-c.musicStartAt,judged=nearestNoxNote(c.chart,localHits,lane,relative),note=judged?.note;
+  const relative=at-c.musicStartAt;
+  expireMissedNotes(c.chart,relative);
+  const judged=nearestNoxNote(c.chart,localHits,lane,relative),note=judged?.note;
   if(note)localHits.add(note.id);
   queueInput(lane,at,note?.id);
   if(note?.endAt!==undefined){
@@ -318,9 +331,15 @@ function discardInputsThrough(sequence){
   outbox=outbox.filter(p=>p.seq>sequence);
   for(const end of sentPackets.keys())if(end<=sequence)sentPackets.delete(end);
 }
-function scheduleFlush(){if(flushTimer||posts.size>=8||!outbox.length||!acceptsInputs()||document.hidden)return;flushTimer=setTimeout(()=>{flushTimer=0;void flush();},Math.max(35,retryAt-performance.now()));}
+function sixPlayerRhythm(){return state?.size===6&&state.challenge?.stage==='RHYTHM';}
+function canFlush(){return outbox.length&&acceptsInputs()&&!document.hidden&&posts.size<(sixPlayerRhythm()?3:8);}
+function scheduleFlush(){
+  if(flushTimer||!canFlush())return;
+  const batchMs=sixPlayerRhythm()?250:35;
+  flushTimer=setTimeout(()=>{flushTimer=0;void flush();},Math.max(batchMs,retryAt-performance.now()));
+}
 async function flush(){
-  if(posts.size>=8||!outbox.length||!acceptsInputs()||document.hidden)return;
+  if(!canFlush())return;
   // Do not make subsequent keys wait for a slow acknowledgement. Overlapping
   // packets carry unacknowledged keys; the server applies each sequence once.
   const version=epoch,batch=outbox.slice(0,24),end=batch.at(-1).seq,packet=sentPackets.get(end)||{seq:end,challengeId:state.challenge.id,inputs:batch.map(({lane,at,release})=>release?{lane,at,release}:{lane,at}),stream:true},key=version+':'+packet.seq;
@@ -328,12 +347,14 @@ async function flush(){
   try{
     let result;
     for(let attempt=0;attempt<2;attempt++){
-      try{result=await api('action?since='+eventSeq,packet,{controller});break;}
+      try{result=await api('action?since='+eventSeq+(sixPlayerRhythm()?'&ack=1':''),packet,{controller});break;}
       catch(error){if(controller.signal.aborted||error.status&&error.status<500||attempt===1)throw error;}
     }
     if(version!==epoch)return;
     if(packet.challengeId===stageId&&outbox[0]?.seq<=packet.seq){retryAt=0;retryDelay=250;lastInputNotice='';}
-    render(result);
+    if(result.rhythmAck){
+      if(result.roomId===token&&result.rhythmAck.challengeId===stageId)discardInputsThrough(result.rhythmAck.seq);
+    }else render(result);
   }catch(error){
     if(version!==epoch||packet.challengeId!==stageId||!acceptsInputs()||!outbox.length||outbox[0].seq>packet.seq)return;
     if(error.code==='INACTIVE'||error.code==='STALE_CHALLENGE'){
@@ -354,7 +375,11 @@ async function flush(){
   }finally{posts.delete(key);if(version===epoch)scheduleFlush();}
 }
 function stopLoops(){clearTimeout(pollTimer);clearTimeout(flushTimer);cancelAnimationFrame(frame);pollTimer=flushTimer=frame=0;lastPaint=0;clearHitEffects();}
-function schedulePoll(){clearTimeout(pollTimer);if(!token||ended||document.hidden)return;pollTimer=setTimeout(()=>void sync(),state?.status==='ACTIVE'?200:1500);}
+function schedulePoll(){
+  clearTimeout(pollTimer);if(!token||ended||document.hidden)return;
+  const midSong=sixPlayerRhythm()&&serverNow()<state.challenge.deadline-1500;
+  pollTimer=setTimeout(()=>void sync(),state?.status==='ACTIVE'?(midSong?750:200):1500);
+}
 async function sync(){if(!token||polling)return;polling=true;const version=epoch;try{const result=await api('state?since='+eventSeq+(!payload?'&payload=1':''));if(version===epoch){render(result);if(state?.status!=='LOBBY'&&!mounted)await mountBattle();}}catch(error){if(version===epoch&&error.name!=='AbortError'){toast(error.message);if(error.status===401||error.status===403||error.status===404||error.status===423)await leave(false);}}finally{polling=false;if(version===epoch)schedulePoll();}}
 async function leave(notify=true){
   if(leaving)return;

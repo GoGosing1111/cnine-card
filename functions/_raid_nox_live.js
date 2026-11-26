@@ -273,11 +273,18 @@ async function command(env,user,kind,body,deps,now){
   });
 }
 
-async function action(env,user,body,since,arrival){
+async function action(env,user,body,since,arrival,ackOnly){
   for(let retry=0;retry<3;retry++){
     const {cfg,raw,row,room}=await read(env,q=>snapshot(q,body.roomId,user));
     const me=member(room,user),index=room.members.indexOf(me),previousSeq=me.lastSequence,previousEvent=room.eventSeq,previousChallenge=room.challenge?.id;
-    if(me.receipts[body.seq]||body.stream&&body.seq<=me.lastSequence){actNoxRoom(room,String(user.id),body,Math.max(room.clock,arrival),{receiptNow:arrival});return result(room,user,cfg,{since});}
+    // While six people play, acknowledge the committed input sequence. Polling
+    // supplies the shared HUD and chart, which can otherwise fill the input queue.
+    const compact=ackOnly&&body.stream===true&&room.size===6&&room.status==='ACTIVE'&&room.stage==='RHYTHM'&&previousChallenge===body.challengeId;
+    const acknowledgement=()=>({ok:true,roomId:room.id,rhythmAck:{challengeId:previousChallenge,seq:me.lastSequence}});
+    if(me.receipts[body.seq]||body.stream&&body.seq<=me.lastSequence){
+      actNoxRoom(room,String(user.id),body,Math.max(room.clock,arrival),{receiptNow:arrival});
+      return compact?acknowledgement():result(room,user,cfg,{since});
+    }
     if(room.status==='CLEAR')return result(room,user,cfg,{since});
     const before=signature(room);tick(room,Math.max(room.clock,arrival));
     if(signature(room)!==before){
@@ -297,8 +304,8 @@ async function action(env,user,body,since,arrival){
       'events',(SELECT COALESCE(jsonb_agg(e ORDER BY n),'[]'::jsonb) FROM (SELECT e,n FROM jsonb_array_elements((r.state_json::jsonb->'events')||(SELECT COALESCE(jsonb_agg(e||jsonb_build_object('seq',(r.state_json::jsonb->>'eventSeq')::bigint+n) ORDER BY n),'[]'::jsonb) FROM jsonb_array_elements($5::jsonb) WITH ORDINALITY t(e,n))) WITH ORDINALITY t(e,n) ORDER BY n DESC LIMIT 240) recent))
       )::text WHERE room_id=$6 AND status='ACTIVE' AND state_json::jsonb#>>'{challenge,id}'=$7
       AND (state_json::jsonb#>>ARRAY['members',$1::text,'lastSequence'])::bigint=$8
-      AND EXISTS(SELECT 1 FROM app_meta WHERE key=$9 AND value=$10) RETURNING state_json`,[String(index),JSON.stringify(me),JSON.stringify(strike),room.clock,JSON.stringify(events),room.id,previousChallenge,previousSeq,NOX_SETTINGS,raw]));
-    if(updated.length){const latest=JSON.parse(updated[0].state_json);latest.clock=Math.max(latest.clock,Date.now());return result(latest,user,cfg,{since});}
+      AND EXISTS(SELECT 1 FROM app_meta WHERE key=$9 AND value=$10) RETURNING ${compact?'1 AS saved':'state_json'}`,[String(index),JSON.stringify(me),JSON.stringify(strike),room.clock,JSON.stringify(events),room.id,previousChallenge,previousSeq,NOX_SETTINGS,raw]));
+    if(updated.length){if(compact)return acknowledgement();const latest=JSON.parse(updated[0].state_json);latest.clock=Math.max(latest.clock,Date.now());return result(latest,user,cfg,{since});}
   }fail('BUSY','입력을 동기화하고 있습니다. 같은 입력을 다시 전송하세요.',503);
 }
 export async function handleNoxLive({path,request,env,deps}){
@@ -311,7 +318,7 @@ export async function handleNoxLive({path,request,env,deps}){
     const kind=path.slice('raid/nox/'.length),since=Math.max(0,Number(url.searchParams.get('since'))||0);
     if(kind==='rooms'&&request.method==='GET')return send(await listRooms(env,user,arrival));
     if(kind==='state'&&request.method==='GET')return send(await state(env,user,url.searchParams.get('roomId'),{since,payload:url.searchParams.get('payload')==='1'},arrival));
-    if(kind==='action'&&request.method==='POST'){const body=await readJointBody(request,{fields:['roomId','seq','challengeId','inputs','stream'],maxBytes:8192});return send(await action(env,user,body,since,arrival));}
+    if(kind==='action'&&request.method==='POST'){const body=await readJointBody(request,{fields:['roomId','seq','challengeId','inputs','stream'],maxBytes:8192});return send(await action(env,user,body,since,arrival,url.searchParams.get('ack')==='1'));}
     if(kind==='feature'&&request.method==='GET')return send(await read(env,async q=>{
       const {cfg}=await config(q),feature=noxAccess(user,cfg);
       if(feature.accessible&&!feature.rewardLocked&&url.searchParams.get('weekly')==='1')feature.weeklyReward=await weeklyReward(q,user.id,arrival);

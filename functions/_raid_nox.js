@@ -5,7 +5,7 @@ import { buildPvePlayerTeam, buildMonsterFighter, simulateBattleV2Preview } from
 import { NOX_BEAT_GRIDS, NOX_RHYTHM_VERSION, NOX_RHYTHM_RULES, noxPlaylist, noxTrack, judgeNoxNote } from '../shared/nox-raid-chart-v1.mjs';
 
 export const NOX_RELEASE = Object.freeze({ enabled:false, rewardLocked:true, reviewOnly:true });
-export const NOX_RULES = Object.freeze({ name:'종언의 주파수', bossName:'적관의 지휘자 녹스', sizes:[3,6], hp3:18000000, hp6:12000000, ...NOX_RHYTHM_RULES, receiptGraceMs:1500, inputLeadMs:210, enrageMs:210000, roles:['저음','중음','고음'] });
+export const NOX_RULES = Object.freeze({ name:'종언의 주파수', bossName:'적관의 지휘자 녹스', sizes:[3,6], hp3:18000000, hp6:12000000, ...NOX_RHYTHM_RULES, receiptGraceMs:1500, sixPlayerRhythmReceiptMs:6000, inputLeadMs:210, enrageMs:210000, roles:['저음','중음','고음'] });
 export const NOX_BOSS = Object.freeze({ id:'NOX_RED_CROWN', name:NOX_RULES.bossName, isBoss:true, is_boss:1, battle_power:320000, pve_hp_percent:200, pve_attack_percent:100, pve_defense_percent:100, pve_speed_percent:100, image:'/assets/ui/raid-nox-v1/boss-portrait.webp', battleSprite:'/assets/ui/raid-nox-v1/boss-idle.webp' });
 const HELL_RHYTHM=Object.freeze({travelMs:800,noteMultiplier:1.75});
 const LEGACY_HELL_RHYTHM=Object.freeze({travelMs:1000,noteMultiplier:1.5});
@@ -173,6 +173,17 @@ function attacks(room,at){
   }
   if(room.boss.hp<=floor){if(room.round===3)finish(room,'CLEAR','CLEAR','적관의 지휘자를 침묵시켰습니다.');else{room.round++;openStage(room,'RHYTHM',at+3000);}}
 }
+function waitingForRhythmInputs(room,now){
+  const c=room.challenge;
+  const oldest=now-NOX_RULES.sixPlayerRhythmReceiptMs-c.musicStartAt;
+  const recent=c.chart.filter(n=>(n.endAt??n.at)+NOX_RULES.goodMs>=oldest);
+  return live(room).some(m=>{
+    if(m.hits.length===c.chart.length)return false;
+    if(Object.keys(m.holding??{}).length)return true;
+    const hits=new Set(m.hits);
+    return recent.some(n=>!hits.has(n.id));
+  });
+}
 export function tickNoxRoom(room,now){
   if(!Number.isFinite(now)||now<room.clock)fail('CLOCK','잘못된 서버 시간입니다.',400);room.clock=now;
   if(room.status!=='ACTIVE')return room;
@@ -184,8 +195,17 @@ export function tickNoxRoom(room,now){
   }
   if(now<c.deadline+(['MEMORY','COOP'].includes(c.stage)?NOX_RULES.receiptGraceMs:0))return room;
   if(c.stage==='RHYTHM'){
+    let settledAt=c.deadline;
+    if(room.size===6){
+      // Older in-flight rooms also store chart end plus the original grace.
+      // Give unresolved final notes the same transit time as mid-song inputs.
+      const lastReceipt=c.deadline-NOX_RULES.receiptGraceMs+NOX_RULES.sixPlayerRhythmReceiptMs;
+      if(now<=lastReceipt&&waitingForRhythmInputs(room,now))return room;
+      settledAt=Math.min(now,lastReceipt);
+      room.endsAt+=settledAt-c.deadline;
+    }
     for(const m of live(room)){m.miss=c.chart.length-m.hits.length;if(m.miss>NOX_RULES.maxMiss||m.score/c.chart.length<NOX_RULES.accuracy)kill(room,m,'리듬 정확도 부족');}
-    if(room.status==='ACTIVE')openStage(room,'MEMORY',c.deadline+1200);
+    if(room.status==='ACTIVE')openStage(room,'MEMORY',settledAt+1200);
   }else if(c.stage==='MEMORY'){
     for(const m of live(room))if(m.memoryIndex!==c.sequence.length)kill(room,m,'안전 발판 미입력');
     if(room.status==='ACTIVE')openStage(room,'COOP',c.deadline+NOX_RULES.receiptGraceMs+300);
@@ -248,7 +268,9 @@ export function actNoxRoom(room,id,input,now,{receiptNow=now}={}){
   // note id, role, member id or outcome. Time is bounded to server receipt time.
   // A rhythm timestamp includes up to ±150 ms of user calibration. Keep the
   // original clock tolerance for the uncalibrated floor/cooperative actions.
-  const rhythmStream=input.stream&&c.stage==='RHYTHM',oldestAt=receiptNow-NOX_RULES.receiptGraceMs;
+  const rhythmStream=input.stream&&c.stage==='RHYTHM';
+  const sixPlayerStream=rhythmStream&&room.size===6;
+  const oldestAt=receiptNow-(sixPlayerStream?NOX_RULES.sixPlayerRhythmReceiptMs:NOX_RULES.receiptGraceMs);
   for(const p of inputs){if(!p||!Number.isInteger(p.lane)||p.lane<0||p.lane>(c.stage==='RHYTHM'?3:c.stage==='MEMORY'?c.tiles.length-1:2)||p.release!==undefined&&(c.stage!=='RHYTHM'||p.release!==true)||!Number.isFinite(p.at)||p.at>receiptNow+(c.stage==='RHYTHM'?NOX_RULES.inputLeadMs:60)||(!rhythmStream&&p.at<oldestAt)||p.at<c.startsAt)fail('INPUT_TIME','입력 시각이 허용 범위를 벗어났습니다.',400);}
   const pressed=c.stage==='RHYTHM'?new Set([...m.hits,...(m.holdAttempts??[])]):null;
   for(const p of inputs){
@@ -256,7 +278,7 @@ export function actNoxRoom(room,id,input,now,{receiptNow=now}={}){
     if(c.stage==='RHYTHM'){
       // A delayed stream can overlap fresh keys. Consume expired transitions
       // without scoring them or leaving a released lane held on the server.
-      if(p.at<oldestAt){
+      if(p.at<oldestAt||(sixPlayerStream&&p.at>c.deadline-NOX_RULES.receiptGraceMs)){
         if(m.holding)delete m.holding[p.lane];
         continue;
       }
