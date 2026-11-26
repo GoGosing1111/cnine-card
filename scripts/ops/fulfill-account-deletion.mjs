@@ -9,13 +9,23 @@ const quote = name => '"' + name.replaceAll('"','""') + '"';
 
 // Read-only discovery. No DELETE is constructed from inferred column names.
 async function otherRecords(db, id, nickname) {
-  const {rows} = await db.query("SELECT c.table_name,c.column_name,c.data_type FROM information_schema.columns c JOIN information_schema.tables t USING (table_schema,table_name) WHERE c.table_schema='public' AND t.table_type='BASE TABLE' ORDER BY 1,2");
+  // Only probe large live tables through a usable leading index. A deployment can
+  // contain years of unindexed name/JSON history; those are explicit staff review.
+  const {rows} = await db.query(`SELECT c.relname AS table_name,a.attname AS column_name,
+    format_type(a.atttypid,NULL) AS data_type, pg_relation_size(c.oid) <= 1048576 AS small,
+    EXISTS(SELECT 1 FROM pg_index i WHERE i.indrelid=c.oid AND i.indisvalid
+      AND i.indpred IS NULL AND i.indkey[0]=a.attnum) AS indexed
+    FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+    JOIN pg_attribute a ON a.attrelid=c.oid AND a.attnum>0 AND NOT a.attisdropped
+    WHERE n.nspname='public' AND c.relkind IN ('r','p') ORDER BY 1,2`);
+  const manualTables = new Set(['app_meta']);
   const checks = new Map();
-  for (const {table_name: table, column_name: col, data_type: type} of rows) {
+  for (const {table_name: table, column_name: col, data_type: type, small, indexed} of rows) {
     if (own.has(table) || ['users','account_deletion_requests_v1'].includes(table)) continue;
     const numeric = ['integer','bigint','smallint','numeric'].includes(type) && integerIdentity.test(col);
     const name = ['character varying','text'].includes(type) && personalName.test(col);
     if (!numeric && !name) continue;
+    if (!small && !indexed) {manualTables.add(table);continue;}
     if (!checks.has(table)) checks.set(table, []);
     checks.get(table).push(quote(col) + (numeric ? '=$1::bigint' : '=$2::text'));
   }
@@ -27,9 +37,10 @@ async function otherRecords(db, id, nickname) {
     const hits=await db.query('WITH args AS (SELECT $1::bigint,$2::text) '+parts.join(' UNION ALL '),[id,nickname]);
     found.push(...hits.rows.map(r=>batch[r.pos][0]));
   }
-  const meta = await db.query("SELECT EXISTS(SELECT 1 FROM app_meta WHERE $1::text=ANY(string_to_array(key,':')) OR $1::text=ANY(string_to_array(key,'|'))) AS hit",[String(id)]);
+  const personalKeys=['soop_watch_identity_v1','pet_collection_v1','pet_loadout_v1','pet_potentials_v1','mercenary_pvp_loadout_v1'].map(prefix=>prefix+':'+id);
+  const meta = await db.query('SELECT EXISTS(SELECT 1 FROM app_meta WHERE key=ANY($1::text[])) AS hit',[personalKeys]);
   if(meta.rows[0].hit)found.push('app_meta');
-  return found;
+  return {blockers:found,manualTables:[...manualTables].sort()};
 }
 
 export async function fulfillAccountDeletion(db, {id, receipt, action='preview', reviewed=false}) {
@@ -53,10 +64,10 @@ export async function fulfillAccountDeletion(db, {id, receipt, action='preview',
       await db.query('COMMIT');
       return {frozen:true};
     }
-    const blockers=await otherRecords(db,id,user.nickname);
+    const {blockers,manualTables}=await otherRecords(db,id,user.nickname);
     if (action==='preview' || blockers.length) {
       await db.query('ROLLBACK');
-      return {eligible: !blockers.length, frozen: job.frozen, drained:job.drained===true, blockers};
+      return {eligible: !blockers.length, frozen: job.frozen, drained:job.drained===true, blockers, manualTables};
     }
     if (!reviewed || !job.drained || user.status!=='DELETION_PENDING') throw Error('Review external/shared records and drain the frozen session first');
     // Only these rows are exclusively owned. User/card FK cascades settle in this transaction.
