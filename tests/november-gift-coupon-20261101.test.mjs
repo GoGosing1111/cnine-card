@@ -71,6 +71,46 @@ async function bowlingFixture(t) {
  return f;
 }
 
+test('GARAGE150 grants the four renewal rewards atomically to exactly 150 accounts', async t => {
+ const f = await bowlingFixture(t);
+ const code = 'GARAGE150', type = 'NOVEMBER_GIFT_GARAGE_RENEWAL_20261127';
+ await f.pg.query('INSERT INTO coupons(code,reward_type,reward_coin,reward_amount,max_uses) VALUES($1,$2,$3,1,150)',
+  [code,type,'2000000000000000']);
+ const claim = (userId, key) => f.redeem(userId,key,' garage150 ');
+ await f.pg.query("UPDATE coupons SET reward_type='COIN' WHERE code=$1",[code]);
+ assert.equal((await claim(1,'GARAGE_WRONG_TYPE')).status,409);
+ await f.pg.query('UPDATE coupons SET reward_type=$2 WHERE code=$1',[code,type]);
+ const before = await f.snapshot();
+ f.fault({pattern:'INSERT INTO inventory_logs'});
+ await assert.rejects(claim(1,'GARAGE_FIRST_1'),/QA injected/);
+ assert.deepEqual(await f.snapshot(),before);
+ f.fault({ack:true});
+ await assert.rejects(claim(1,'GARAGE_FIRST_1'),/lost commit response/);
+ const response = await claim(1,'GARAGE_FIRST_1');
+ assert.equal(response.status,200);
+ const result = await response.json();
+ assert.equal(result.replayed,true);
+ assert.equal(result.rewardLabel,'이동수단 리뉴얼 기념 쿠폰');
+ assert.deepEqual(result.rewards,[
+  {type:'COIN',amount:2_000_000_000_000_000}, {type:'ARDEN_ENERGY',amount:25},
+  {type:'MASTER_STAR',amount:10_000_000_000}, {type:'RANK_EXP_POTION_3X_60M',amount:1}
+ ]);
+ assert.equal((await f.one('SELECT coin::text FROM users WHERE id=1')).coin,'2000000000001234');
+ for (const item of result.rewards.slice(1)) assert.equal(await f.quantity(item.type,1),item.amount);
+ assert.equal((await claim(1,'GARAGE_DUPLICATE_1')).status,409);
+ assert.equal((await f.one("SELECT value FROM app_meta WHERE key='account_rank_potion_v1:1'")).value,'existing-buff-preserved');
+ await f.pg.exec("INSERT INTO users(id,nickname,status,coin) SELECT id,'Garage '||id,'ACTIVE',0 FROM generate_series(20,168) id");
+ for (let id=20; id<168; id++) assert.equal((await claim(id,'GARAGE_USER_'+id)).status,200);
+ const last = await Promise.all([claim(2,'GARAGE_LAST_002'),claim(168,'GARAGE_LAST_168')]);
+ assert.deepEqual(last.map(r=>r.status).sort(),[200,409]);
+ assert.equal((await f.one('SELECT used_count::int AS used FROM coupons WHERE code=$1',[code])).used,150);
+ assert.deepEqual(await f.one('SELECT count(*)::int AS claims,count(DISTINCT user_id)::int AS users FROM coupon_redemptions'),{claims:150,users:150});
+ assert.equal(await f.count('coin_logs'),150);
+ assert.equal(await f.count('inventory_logs'),450);
+ const blockedAccount = last[0].ok ? 168 : 2;
+ for (const item of result.rewards.slice(1)) assert.equal(await f.quantity(item.type,blockedAccount),0);
+});
+
 test('CNINESTAR has its own 150 spots and pays a prior bowling recipient exactly once', async t => {
  const f = await bowlingFixture(t);
  await f.pg.query('INSERT INTO coupons(code,reward_type,reward_coin,reward_amount,max_uses) VALUES($1,$2,$3,1,150)',

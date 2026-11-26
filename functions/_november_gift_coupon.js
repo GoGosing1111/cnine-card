@@ -59,7 +59,17 @@ export const CNINE_STAR_COUPON=Object.freeze({
  ...CNINE_BOWLING_COUPON,
  code:'CNINESTAR',type:'NOVEMBER_GIFT_CNINE_STAR_20261122',label:'씨나인 스타대회 출정기념 쿠폰'
 });
-const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON,CNINE_CHEER_COUPON,REVERSECALL_FOUR_MONTH_COUPON,CNINE_BOWLING_COUPON,CNINE_STAR_COUPON].map(gift=>[gift.code,gift]));
+export const GARAGE_RENEWAL_COUPON=Object.freeze({
+ code:'GARAGE150',type:'NOVEMBER_GIFT_GARAGE_RENEWAL_20261127',maxUses:150,coin:2_000_000_000_000_000,
+ label:'이동수단 리뉴얼 기념 쿠폰',
+ message:'코인 2,000조, 아르덴 에너지 25개, 마스터의 별 100억 개, 계급 경험치 3배 물약 (60분) 1개를 받았습니다. 물약은 인벤토리에서 사용하세요.',
+ items:Object.freeze([
+  Object.freeze({code:'ARDEN_ENERGY',name:'아르덴 에너지',amount:25}),
+  Object.freeze({code:'MASTER_STAR',name:'마스터의 별',amount:10_000_000_000}),
+  Object.freeze({code:'RANK_EXP_POTION_3X_60M',name:'계급 경험치 3배 물약 (60분)',amount:1})
+ ])
+});
+const gifts=new Map([NOVEMBER_GIFT_COUPON,LUCKY_SEVEN_COUPON,SUWON_K1_COUPON,BONGSOON_ICON_COUPON,CNINE_CHEER_COUPON,REVERSECALL_FOUR_MONTH_COUPON,CNINE_BOWLING_COUPON,CNINE_STAR_COUPON,GARAGE_RENEWAL_COUPON].map(gift=>[gift.code,gift]));
 class GiftCouponError extends Error{constructor(message,status=409){super(message);this.status=status;}}
 const fail=(message,status)=>{throw new GiftCouponError(message,status);};
 const changed=(rows,message)=>{if(rows.length!==1)fail(message);return rows[0];};
