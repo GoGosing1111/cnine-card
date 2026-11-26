@@ -165,9 +165,10 @@ export async function handleLegionHunt({path,request,env,deps}){
       const recovering=request.method==='POST';
       if(recovering)await readJointBody(request,{maxBytes:4096,fields:[]});
       const {policy,access,support,saved,recovery}=await deps.withUserMutationLock(env,user.id,path,async()=>{
-        const [{policy,raw:policyRaw},support]=await Promise.all([readLegionHuntPolicy(env),readSupportBenefits(env,user.id,now())]);
+        const {policy,raw:policyRaw}=await readLegionHuntPolicy(env);
         const access=recovering?legionHuntAccess(policy):requireAccess(policy,user);
-        let saved=await loadRun(env,key),recovery=null;
+        const [support,loaded]=await Promise.all([readSupportBenefits(env,user.id,now()),loadRun(env,key)]);
+        let saved=loaded,recovery=null;
         const restored=restoreExtremeLegionEnergy(saved.run,saved.pulses,now(),support,user);
         if(restored!==saved.run)saved=await saveRun(env,key,saved.raw,restored);
         if(recovering){
