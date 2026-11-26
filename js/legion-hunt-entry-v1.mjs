@@ -208,13 +208,13 @@ export function openLegionHunt(button){
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
-const citadelSheet='/css/legion-citadel-v1.css?tiers=20261126&v=cow-renewal-20261120-vehicle-20261125';
+const citadelSheet='/css/legion-citadel-v1.css?tiers=20261126&v=cow-renewal-20261120-vehicle-20261125&portraits=20261126';
 let openingCitadel=null,citadelModule=null;
 function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?tiers=20261126&v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?tiers=20261126&v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126&portraits=20261126').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

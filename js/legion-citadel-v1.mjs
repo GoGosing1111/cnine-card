@@ -1,4 +1,5 @@
 import {mountLightVehicleSupport} from './legion-citadel-vehicle-fx.mjs';
+import {portraitSheets} from './legion-party-portrait-sheets-v1.mjs?v=20261126';
 import {SAINT_CODE,SAINT_EVENT,SAINT_FIELD_RATE,SAINT_IMPACT_EVENT} from '../shared/mercenary-lightning-saint-v1.mjs?v=hatsu-field-20261126';
 import {COW_AREA,COW_REGION} from '../shared/legion-cow-room.mjs';
 import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
@@ -9,6 +10,15 @@ import {createServerClock} from '../shared/server-clock-v1.mjs';
 import {CITADEL_BOARDS, citadelStation} from '../shared/cooperative-battleground-v1.mjs?citadel=3';
 const root='/assets/ui/legion-citadel/gate-',esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=v=>{const s=String(v||'').replace(/^\/+/, '');return /^(assets|preview)\//.test(s)&&!s.includes('..')?'/'+s:'';};
+const partyPortraits=new Map(portraitSheets.flatMap(({image,sources})=>
+ sources.map((source,index)=>[source,{image,column:index%4,row:Math.floor(index/4)}])));
+function pickerArtwork(option,kind){
+ const source=art(option.image);
+ const tile=kind==='mercenaries'&&partyPortraits.get(source);
+ if(tile)return '<span class="ct-card-portrait" aria-hidden="true" style="background-image:url('+tile.image+');background-position:'+(-35*tile.column)+'px '+(-44*tile.row)+'px"></span>';
+ if(source)return '<img width="35" height="44" loading="lazy" decoding="async" alt="" src="'+esc(source)+'">';
+ return '<span class="ct-card-mark">'+glyph(kind==='icons'?'banner':'people')+'</span>';
+}
 const terminal=s=>['VICTORY','DEFEAT'].includes(s);
 const coinNumber=new Intl.NumberFormat('ko-KR');
 function style(href){if(!document.querySelector('link[href="'+href+'"]')){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.append(l);}}
@@ -347,7 +357,7 @@ function finder({open,cow,cowTickets,tiers,selectedTier,rooms,tierLabel,waiting,
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?tiers=20261126&v=cow-renewal-20261120-vehicle-20261125');
+ style('/css/legion-citadel-v1.css?tiers=20261126&v=cow-renewal-20261120-vehicle-20261125&portraits=20261126');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
@@ -509,7 +519,7 @@ export function openCitadel(trigger,firstRead=null){
    const emptySeat='<div class="ct-seat ct-seat-empty"><span class="ct-seat-icon">'+glyph('plus')+'</span><div><small>두 번째 자리</small><b>대원 모집 중</b></div></div>';
    main.innerHTML='<div class="ct-head"><div><small>'+esc(tierLabel(state.tier))+'</small><h2>파티 대기실 <span class="ct-count">'+state.members.length+'/2</span></h2></div><button class="ct-leave" data-act="leave">파티 나가기</button></div><div class="ct-members">'+seats+(state.members.length===1?emptySeat:'')+'</div>'+
     '<div class="ct-tabs" aria-label="내 편성"><button data-act="mercenaries" aria-pressed="'+(picker==='mercenaries')+'">용병 '+selected.mercenaryCodes.length+' / 2</button><button data-act="icons" aria-pressed="'+(picker==='icons')+'">아이콘 '+selected.cardIds.length+' / 2</button></div>'+
-    (!options?'<p>보유 목록을 불러오는 중입니다. <button data-act="options">다시 불러오기</button></p>':!opts.length?'<p>편성할 수 있는 '+(picker==='mercenaries'?'용병':'아이콘')+'이 없습니다.</p>':'<div class="ct-grid">'+opts.map(o=>'<button class="ct-card" data-act="pick" data-id="'+esc(o.id)+'" aria-pressed="'+eligible.includes(o.id)+'" '+(mine.ready?'disabled':'')+'>'+(art(o.image)?'<img loading="lazy" decoding="async" alt="" src="'+esc(art(o.image))+'">':'<span class="ct-card-mark">'+glyph(picker==='icons'?'banner':'people')+'</span>')+'<span><small>'+esc(o.rank||'ICON')+' '+(o.rank?'Lv.':'+')+esc(o.level)+'</small><b>'+esc(o.name)+'</b></span></button>').join('')+'</div>')+
+    (!options?'<p>보유 목록을 불러오는 중입니다. <button data-act="options">다시 불러오기</button></p>':!opts.length?'<p>편성할 수 있는 '+(picker==='mercenaries'?'용병':'아이콘')+'이 없습니다.</p>':'<div class="ct-grid">'+opts.map(o=>'<button class="ct-card" data-act="pick" data-id="'+esc(o.id)+'" aria-pressed="'+eligible.includes(o.id)+'" '+(mine.ready?'disabled':'')+'>'+pickerArtwork(o,picker)+'<span><small>'+esc(o.rank||'ICON')+' '+(o.rank?'Lv.':'+')+esc(o.level)+'</small><b>'+esc(o.name)+'</b></span></button>').join('')+'</div>')+
     '<div class="ct-controls">'+(mine.ready?'<button data-act="unready">준비 취소</button>':'<button class="ct-primary" data-act="ready" '+(eligible.length===2&&selected[other].length===2?'':'disabled')+'>준비 완료</button>')+(state.hostId===state.you?'<button class="ct-primary" data-act="start" '+(state.members.length===2&&state.members.every(m=>m.ready)?'':'disabled')+'>'+startLabel+'</button>':'<small>두 명 모두 준비하면 방장이 출전할 수 있습니다.</small>')+'</div>';
   }
   if(openGuide&&main.querySelector('.ct-details'))main.querySelector('.ct-details').open=true;
