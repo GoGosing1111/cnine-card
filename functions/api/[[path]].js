@@ -6617,20 +6617,26 @@ async function handleRequest(context){
       // V1802-perf: 몬스터 목록은 전 유저 공통이고 거의 바뀌지 않는데, 전투 화면에 들어올 때마다
       // 매번 전체 조회를 돌고 있었다. 20초 공유 캐시로 대부분의 요청에서 이 왕복을 없앤다.
       // (관리자가 몬스터를 수정하면 최대 20초 뒤 반영된다)
-      const monstersPromise=cachedRuntimeSetting(env,'pveMonsterList',20000,()=>env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all());
+      const energyOnly=new URL(request.url).searchParams.get('view')==='energy';
+      const monstersPromise=energyOnly?null:cachedRuntimeSetting(env,'pveMonsterList',20000,()=>env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all());
       const burningPromise=burningEventSettings(env),settingsPromise=battleSettings(env),maintenancePromise=maintenanceSettings(env);
       // 인증 실패로 조기 반환될 때 미처리 거부(unhandled rejection)가 되지 않게 막아둔다. 뒤에서 await 하면 예외는 그대로 전달된다.
-      for(const pending of [monstersPromise,burningPromise,settingsPromise,maintenancePromise])pending.catch(()=>{});
+      for(const pending of [monstersPromise,burningPromise,settingsPromise,maintenancePromise])pending?.catch(()=>{});
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
-      const [burning,baseBattleSettings,monsters,deck,characterBonus,maintenance]=await Promise.all([
-        burningPromise,settingsPromise,monstersPromise,
-        pveDeckCards(env,user.id),userEquipmentBonuses(env,user.id),maintenancePromise
-      ]);
-      const settings=applyBurningPveSettings(baseBattleSettings,burning);
-      // 아포칼립스 저장소 장애가 기존 PVE 행동력 조회까지 막지 않도록 서로 격리한다.
-      const [energy,apocalypseEnergy]=await Promise.all([
-        battleEnergyState(env,user,settings,maintenance),
-        apocalypseEnergyState(env,user,maintenance).catch(error=>{console.error('apocalypse energy state unavailable',error);return unavailableApocalypseEnergyState()})
+      const energyRead=Promise.all([burningPromise,settingsPromise,maintenancePromise]).then(async ([burning,baseSettings,maintenance])=>{
+        const settings=applyBurningPveSettings(baseSettings,burning);
+        const [energy,apocalypseEnergy]=await Promise.all([
+          battleEnergyState(env,user,settings,maintenance),
+          apocalypseEnergyState(env,user,maintenance).catch(error=>{console.error('apocalypse energy state unavailable',error);return unavailableApocalypseEnergyState()})
+        ]);
+        return {burning,settings,energy,apocalypseEnergy};
+      });
+      if(energyOnly){
+        const {energy,apocalypseEnergy}=await energyRead;
+        return json({energy,apocalypseEnergy,deckRules:deckRulesContract('PVE'),serverNow:new Date().toISOString()});
+      }
+      const [{burning,settings,energy,apocalypseEnergy},monsters,deck,characterBonus]=await Promise.all([
+        energyRead,monstersPromise,pveDeckCards(env,user.id),userEquipmentBonuses(env,user.id)
       ]);
       const publicMonsters=(monsters.results||[]).map(monster=>{
         const profile=pveDifficultyRuntime(settings,monster);

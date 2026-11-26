@@ -34,8 +34,8 @@ for(const postgres of [false,true]){
     const f=await fixture(postgres);try{
       const id=await start(f),claim=await pick(f,id);
       const run=await saved(f);run.energy.current=8;await write(f,run);
-      assert.equal(await count(f),0);f.loseReply();assert.equal((await recover(f)).status,503);
-      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.current,8);
+      assert.equal(await count(f),0);f.loseReply();assert.equal((await f.call('legion-hunt/bootstrap',{})).status,503);
+      const r=await f.call('legion-hunt/bootstrap',{});assert.equal(r.body.loadout.cards.length,5);assert.equal(r.status,200);assert.equal(r.body.entries.current,8);
       assert.equal((await saved(f)).rewardStatus,'SETTLED');assert.equal((await saved(f)).state.receipt.reason,'RETREAT');
       assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.current,8);
       assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).body.reason,'RETREAT');
@@ -78,7 +78,9 @@ for(const postgres of [false,true]){
       assert.equal((await saved(f)).energy.current,9);assert.equal((await saved(f)).interruption,undefined);
       f.setUser(f.owner);const {body}=await f.call('admin/legion-hunt');body.policy.mode='OFF';await f.call('admin/legion-hunt',{policy:body.policy},{method:'PATCH'});f.setUser(f.player);
       const run=await saved(f);run.daily={day:'2026-10-04',used:1};await write(f,run);f.clock.now=Date.parse('2026-10-04T00:00:01+09:00');
-      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.current,10);assert.equal(r.body.recovery.refunded,true);
+      assert.equal((await f.call('legion-hunt/bootstrap',{})).status,423);
+      assert.equal((await saved(f)).interruption.refunded,true);
+      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.current,10);assert.equal(r.body.recovery,null);
       assert.equal((await saved(f)).state.id,id);assert.equal(await count(f),0);
       f.setUser(null);assert.equal((await recover(f)).status,401);
     }finally{await f.close();}

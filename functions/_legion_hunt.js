@@ -161,23 +161,36 @@ export async function handleLegionHunt({path,request,env,deps}){
       const {policy}=await readLegionHuntPolicy(env);
       return json({ok:true,access:legionHuntAccess(policy),canEnter:canAccessLegionHunt(policy,user)});
     }
-    if(action==='bootstrap'&&request.method==='GET'){
-      const {policy}=await readLegionHuntPolicy(env),access=requireAccess(policy,user);
-      const support=await readSupportBenefits(env,user.id,now());
-      const saved=await deps.withUserMutationLock(env,user.id,path,async()=>{
-        const current=await loadRun(env,key);
-        const restored=restoreExtremeLegionEnergy(current.run,current.pulses,now(),support,user);
-        if(restored!==current.run)return saveRun(env,key,current.raw,restored);
-        if(current.run?.energy)return current;
-        const energy=legionHuntEnergy(current.run,now(),support,user);
-        return saveRun(env,key,current.raw,{...current.run,energy});
+    if(action==='bootstrap'&&['GET','POST'].includes(request.method)){
+      const recovering=request.method==='POST';
+      if(recovering)await readJointBody(request,{maxBytes:4096,fields:[]});
+      const {policy,access,support,saved,recovery}=await deps.withUserMutationLock(env,user.id,path,async()=>{
+        const [{policy,raw:policyRaw},support]=await Promise.all([readLegionHuntPolicy(env),readSupportBenefits(env,user.id,now())]);
+        const access=recovering?legionHuntAccess(policy):requireAccess(policy,user);
+        let saved=await loadRun(env,key),recovery=null;
+        const restored=restoreExtremeLegionEnergy(saved.run,saved.pulses,now(),support,user);
+        if(restored!==saved.run)saved=await saveRun(env,key,saved.raw,restored);
+        if(recovering){
+          const result=await recoverRun(env,user,{key,before:saved,policyRaw,access,at:now(),support});
+          saved=result.saved;recovery=result.recovery;
+        }
+        if(!saved.run?.energy)saved=await saveRun(env,key,saved.raw,{...saved.run,energy:legionHuntEnergy(saved.run,now(),support,user)});
+        return {policy,access,support,saved,recovery};
       });
-      let loadout=null,loadoutError=null;
-      try{loadout=await accountSnapshot(env,user,deps);}catch(error){if(error.code!=='HUNT_DECK')throw error;loadoutError=error.message;}
-      const [regional,cowTickets]=await Promise.all([readRegionPolicy(env),cowTicketCount(env.DB,user.id,'solo')]);
-      const expansion=regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]);
-      if(expansion?.regions.length&&access.liveRewards&&regional.policy.mode==='ON')expansion.regions.push(COW_REGION);
-      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:expansion,cowTickets,cowCoinCap:COW_SOLO_CAP,entries:legionHuntEntries(saved.run,now(),user,support),coinEntries:coinEntries(saved.run,now(),support,user),coinCaps:LEGION_COIN_CAPS,loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
+      if(recovering)requireAccess(policy,user);
+      const [squad,expansion,cowTickets]=await Promise.all([
+        accountSnapshot(env,user,deps).then(loadout=>({loadout,loadoutError:null})).catch(error=>{
+          if(error.code!=='HUNT_DECK')throw error;
+          return {loadout:null,loadoutError:error.message};
+        }),
+        readRegionPolicy(env).then(async ({policy:regional})=>{
+          const expansion=regionBootstrap(regional,user,regionAccess(regional,user)?await regionRewardCatalog(env):[]);
+          if(expansion?.regions.length&&access.liveRewards&&regional.mode==='ON')expansion.regions.push(COW_REGION);
+          return expansion;
+        }),
+        cowTicketCount(env.DB,user.id,'solo')
+      ]);
+      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:expansion,cowTickets,cowCoinCap:COW_SOLO_CAP,entries:legionHuntEntries(saved.run,now(),user,support),coinEntries:coinEntries(saved.run,now(),support,user),coinCaps:LEGION_COIN_CAPS,...squad,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length,...(recovering?{recovery}:{})});
     }
     if(!Object.hasOwn(ACTIONS,action))return json({error:'군단토벌 경로를 확인하세요.'},404);
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);

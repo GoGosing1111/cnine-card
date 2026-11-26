@@ -13,7 +13,7 @@ import {interruptedLegionRun,legionHuntEntries,restoreExtremeLegionEnergy} from 
 import {readSupportBenefits} from './_supporter_benefits.js';
 import {loadCoopOwnedCards} from './_cooperative_live.js';
 import {PLAYABLE_MERCENARIES} from './_comeback_loans.js';
-import {selectedMercenaryBattleSnapshots,mercenaryAccountState} from './_mercenary_account.js';
+import {selectedMercenaryBattleSnapshots,mercenaryFormationOptions} from './_mercenary_account.js';
 import {validateCoopSelection,COOP_DUAL_RULES} from '../shared/cooperative-battleground-v1.mjs';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {seasonBonus,seasonEnabled} from './_season_s1.js';
@@ -117,8 +117,8 @@ async function current(db,uid,env,at){
 }
 async function rooms(DB,at,scope=null){const prefix=listPrefix(scope),result=await stmt(DB,'SELECT value FROM app_meta WHERE key>=? AND key<? ORDER BY key LIMIT 31',prefix+String(at+1).padStart(16,'0'),prefix.slice(0,-1)+';').all();return result.results.map(r=>JSON.parse(r.value)).slice(0,30);}
 async function options(env,user){
- const [merc,icons]=await Promise.all([mercenaryAccountState(env,user),stmt(env.DB,"SELECT c.id,c.title,c.image_url AS image,uc.breakthrough_level AS level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.quantity>0 AND c.rarity='ICON' AND c.is_active=1 ORDER BY c.title,c.id",user.id).all()]);
- return {mercenaries:merc.cards.filter(m=>m.canDeploy).map(m=>({id:m.code,name:m.name,rank:m.rank,level:m.level,image:m.sourceArt})),icons:icons.results.map(c=>({id:String(c.id),name:c.title,level:Number(c.level),image:c.image}))};
+ const [mercenaries,icons]=await Promise.all([mercenaryFormationOptions(env,user),stmt(env.DB,"SELECT c.id,c.title,c.image_url AS image,uc.breakthrough_level AS level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.quantity>0 AND c.rarity='ICON' AND c.is_active=1 ORDER BY c.title,c.id",user.id).all()]);
+ return {mercenaries,icons:icons.results.map(c=>({id:String(c.id),name:c.title,level:Number(c.level),image:c.image}))};
 }
 async function loadSquad(env,user,selection,deps){
  const [cards,mercenaries,equip,season,pet]=await Promise.all([loadCoopOwnedCards(env,user,deps,selection.cardIds),selectedMercenaryBattleSnapshots(env,user,selection.mercenaryCodes,'PVE',{freeRanks:true}),deps.userEquipmentBonuses(env,user.id),seasonBonus(env,user.id,'PVE'),loadPetBattleSnapshot(env,user,'PVE')]);

@@ -209,7 +209,7 @@ function applyBurningEventState(next={},options={}){
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   document.documentElement.classList.toggle('miracle-burning-event-active',burningEventState.enabled===true&&mode==='MIRACLE');
   const changed=before!==burningEventFingerprint(burningEventState);
-  if(changed)queueMicrotask(()=>{renderLiveOperations();clearApiCache('battle/config');clearApiCache('pvp/config');if(document.getElementById('battleEnergyCount'))void loadBattleEnergyOnly();if(document.getElementById('pvpEnergyCount'))void loadPvpEnergyOnly();});
+  if(changed)queueMicrotask(()=>{renderLiveOperations();invalidateBattleViewConfig();clearApiCache('pvp/config');if(document.getElementById('battleEnergyCount'))void loadBattleEnergyOnly();if(document.getElementById('pvpEnergyCount'))void loadPvpEnergyOnly();});
   if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1')}
   if(!burningEventIsActive()){stopBurningCountdownWatch();const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active','miracle-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelectorAll('.burning-event-strip,#burningEventHud').forEach(node=>node.remove());if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
   startBurningCountdownWatch();
@@ -1316,10 +1316,10 @@ function prefetchBattleBundleWhenIdle(){
   },{timeout:8000});
 }
 window.prefetchBattleBundleWhenIdle=prefetchBattleBundleWhenIdle;
-function warmFeatureForTab(tab){
+function warmFeatureForTab(tab,deckIntent=true){
   if(tab==='pvp'){prefetchBattleBundleWhenIdle();return;}
   // The PVE deck screen only needs card frames. Start the renderer when a hunt is opened.
-  if(tab==='battle'&&runtimeCommandContext==='battle'&&getPveViewMode()==='deck'){prefetchBattleBundleWhenIdle();return;}
+  if(tab==='battle'&&deckIntent&&getPveViewMode()==='deck'){prefetchBattleBundleWhenIdle();return;}
   const key=featureKeyForTab(tab);if(!key)return;
   const resources=ensureFeatureResources(key);
   if(key==='battleV2')resources.then(()=>warmBattleArtAssets()).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
@@ -1434,6 +1434,7 @@ function renderShell(tab,routeOptions={}) {
   }
   const renderStarted=performance.now(),previousTab=runtimeCommandContext;
   if(isPrisonLocked())return renderLockedPrison();
+  if(tab==='battle'&&['deck','hunt'].includes(routeOptions?.pveMode))setPveViewMode(routeOptions.pveMode);
   document.body.classList.remove('prison-locked');
   if(tab!=='prison')stopPrisonWatch();
   // V1298: 화면을 떠난 뒤 도착한 레이드 상태 응답/결과 타이머가 새 화면을 다시 덮지 못하게 먼저 무효화한다.
@@ -1572,7 +1573,7 @@ function renderShell(tab,routeOptions={}) {
       const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab,routeOptions)};
     });
   }else if(!lobbyFrameOnly)bindView(tab);
-  if(['battle','pvp','clan','dex','inventory'].includes(tab))warmFeatureForTab(tab==='clan'?'battle':tab);
+  if(['battle','pvp','clan','dex','inventory'].includes(tab))warmFeatureForTab(tab==='clan'?'battle':tab,tab!=='clan');
   try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
@@ -2244,7 +2245,12 @@ const APOCALYPSE_ENERGY_RECHARGE_MINUTES=30;
 function getLastPveMonsterId(){try{const value=Number(localStorage.getItem(LAST_PVE_MONSTER_KEY));return Number.isFinite(value)&&value>0?value:null}catch(_){return null}}
 function saveLastPveMonsterId(monsterId){try{const value=Number(monsterId);if(Number.isFinite(value)&&value>0)localStorage.setItem(LAST_PVE_MONSTER_KEY,String(value))}catch(_){}}
 let battleState={config:null,deckRules:normalizeDeckRules({}),battleEngine:{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters:[],selectedMonster:null,deck:[],characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:null,apocalypseEnergy:null,energyTimer:null,serverOffset:0,restoreMonsterCursor:false,autoRunning:false,autoTargetBattles:0,autoRemaining:0,autoRequestId:'',autoSummary:null};
-let battleViewLoadSeq=0,battleViewRetryTimer=null,battleViewRetryStreak=0;
+let battleViewRead=null,battleViewPending=null,battleDeckWriteSeq=0;
+let battleViewLoadSeq=0,battleViewRetryTimer=null,battleViewRetryStreak=0,battleConfigRevision=0;
+function invalidateBattleViewConfig(){
+  battleConfigRevision++;battleViewRead=null;battleViewPending=null;
+  clearApiCache('battle/config');clearApiCache('battle/config?view=energy');
+}
 
 function stopBattleEnergyTimer(){if(battleState.energyTimer){clearInterval(battleState.energyTimer);battleState.energyTimer=null}}
 function battleEnergyText(ms){const sec=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(sec/60),s=sec%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
@@ -2265,7 +2271,7 @@ function activeBattleEnergy(){return selectedPveIsApocalypse()?(normalizeApocaly
 function applyPveEnergyResponse(data={}){if(String(data.energyKind||'').toUpperCase()==='APOCALYPSE')battleState.apocalypseEnergy=normalizeApocalypseEnergyClient(data.energy)||battleState.apocalypseEnergy;else battleState.energy=data.energy||battleState.energy;return activeBattleEnergy()}
 function renderBattleEnergy(){const apocalypse=selectedPveIsApocalypse(),e=activeBattleEnergy(),count=document.getElementById('battleEnergyCount'),fill=document.getElementById('battleEnergyFill'),timer=document.getElementById('battleEnergyTimer'),label=document.getElementById('battleEnergyLabel'),card=document.getElementById('battleEnergyCard');if(label)label.textContent=apocalypse?'아포칼립스 행동력':'⚔ 전투 횟수';if(card){card.classList.toggle('apocalypse-energy',apocalypse);card.dataset.energyKind=apocalypse?'APOCALYPSE':'STANDARD'}if(!e||!count)return;const start=document.getElementById('battleStart');if(e.unavailable){count.textContent='연결 확인 중';if(fill)fill.style.width='0%';if(timer)timer.textContent='아포칼립스 행동력 동기화 대기';if(start){start.disabled=true;start.textContent='아포칼립스 행동력 확인 중'}return}count.textContent=e.unlimited?'∞ 무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent=apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 무제한 계정':'일반 행동력 · 무제한 계정'):'무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent=apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 최대 10회 · 충전 완료':'버닝 미적용 · 최대 5회 · 충전 완료'):'충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+battleState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`${apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 5분 충전 · ':'버닝 미적용 · 30분 충전 · '):''}다음 충전 ${battleEnergyText(remain)}`;}else timer.textContent=apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 충전 대기':'버닝 미적용 · 충전 대기'):'충전 대기';}if(start){const noEnergy=!e.unlimited&&e.energy<e.costPerBattle,autoChecked=!apocalypse&&document.getElementById('battleAuto')?.checked,violation=deckGradeLimitViolation(battleState.deck,battleState.deckRules);start.disabled=deckCardCount(battleState.deck)!==5||!battleState.selectedMonster||noEnergy||Boolean(violation);start.textContent=violation?(violation.minimum?'FUR 미만 카드 교체':`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`):noEnergy?(apocalypse?'아포칼립스 행동력 부족':'전투 횟수 부족'):autoChecked?'1회 전투 후 전체 소탕':'전투 시작';}}
 function startBattleEnergyTimer(){stopBattleEnergyTimer();renderBattleEnergy();battleState.energyTimer=setInterval(()=>{if(!document.getElementById('battleEnergyCount'))return stopBattleEnergyTimer();const e=activeBattleEnergy();if(e&&!e.unlimited&&e.nextRechargeAt&&Date.parse(e.nextRechargeAt)<=(Date.now()+battleState.serverOffset)){loadBattleEnergyOnly();return}renderBattleEnergy()},1000)}
-async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/config',{}, {ttl:0});battleState.energy=d.energy;battleState.apocalypseEnergy=normalizeApocalypseEnergyClient(d.apocalypseEnergy)||battleState.apocalypseEnergy;battleState.deckRules=normalizeDeckRules(d.deckRules||battleState.deckRules);battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startBattleEnergyTimer()}catch(_){renderBattleEnergy()}}
+async function loadBattleEnergyOnly(){const token=API_TOKEN;try{const d=await apiRequest('battle/config?view=energy',{}, {ttl:0});if(token!==API_TOKEN)return;battleState.energy=d.energy;battleState.apocalypseEnergy=normalizeApocalypseEnergyClient(d.apocalypseEnergy)||battleState.apocalypseEnergy;battleState.deckRules=normalizeDeckRules(d.deckRules||battleState.deckRules);battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startBattleEnergyTimer()}catch(_){renderBattleEnergy()}}
 window.activeBattleEnergy=activeBattleEnergy;window.applyPveEnergyResponse=applyPveEnergyResponse;window.selectedPveIsApocalypse=selectedPveIsApocalypse;
 
 function battleCardPower(card,user,settings){const grade=String(card?.grade||card?.rarity||'').trim().toUpperCase(),rawCardId=String(card?.id??card?.card_id??'').trim(),cardId=rawCardId.toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]),savedPower=Number(card?.basePower??card?.base_power),base=['PRESTIGE','ZENITH','SUPERSTAR'].includes(grade)&&Number.isFinite(gradePower)?Math.max(0,gradePower):(Number.isFinite(savedPower)&&savedPower>0?savedPower:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)),lv=Math.max(0,Math.min(grade==='FUR'?15:13,Number(user.breakthroughs?.[rawCardId]??user.breakthroughs?.[cardId]??0))),pct=clientBreakthroughBonusPercent(grade,lv,settings),power=Math.floor(base*(1+pct/100)),specialBonus=grade==='FUR'&&cardId===FAKER_CHAMPIONSHIP_CARD_ID?FAKER_FLAT_POWER_BONUS:0;
@@ -2445,38 +2451,48 @@ async function loadBattleView(){
   // V1802-perf: 새로고침 직후엔 메모리에 아무것도 없어서, 서버가 답할 때까지(현재 1초 안팎) 화면이 비어 있었다.
   // 마지막으로 성공한 구성을 저장해 두고 그걸로 먼저 그린 다음, 서버 응답이 오면 조용히 갱신한다.
   if(!(battleState.monsters||[]).length)hydrateBattleViewFromSnapshot();
-  const loadSeq=++battleViewLoadSeq,snapshotVisible=renderBattleSnapshot(),retryDelays=[0,700,2000];
-  // 화면이 이미 그려져 있으면 조용히 갱신한다. 에너지 표시를 '동기화 중' 문구로 덮어쓰지 않는다.
-  if(snapshotVisible&&battleState.fromCache)battleState.fromCache=false;
-  let lastError=null;
-  for(let attempt=0;attempt<retryDelays.length;attempt+=1){
-    if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
-    if(retryDelays[attempt])await battleSleep(retryDelays[attempt]);
-    try{
-      const d=await apiRequest('battle/config',{}, {ttl:0,timeoutMs:12000,replaceInflight:attempt>0});
-      if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
-      const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5),monsters=d.monsters||[],lastMonsterId=getLastPveMonsterId(),selectedMonster=monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(monsters[0]?.id||null);
-      stopBattleEnergyTimer();battleViewRetryStreak=0;
-      battleState={...battleState,config:d.settings,deckRules:normalizeDeckRules(d.deckRules),battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters,selectedMonster,deck:savedDeck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,apocalypseEnergy:normalizeApocalypseEnergyClient(d.apocalypseEnergy),energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};
-      renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();
-      saveBattleViewSnapshot(d,monsters,savedDeck);
-      return;
-    }catch(error){
-      lastError=error;
-      if(!isTransientBattleConfigError(error))break;
-      setBattleReconnectStatus(`서버 응답 재확인 중 · ${attempt+1}/${retryDelays.length}`);
+  const root=document.getElementById('pveHuntView'),token=API_TOKEN,epoch=PLAYER_STATE_MUTATION_EPOCH;
+  const initialDeck=JSON.stringify(battleState.deck),deckWrite=battleDeckWriteSeq,revision=battleConfigRevision,loadSeq=++battleViewLoadSeq;
+  const current=()=>loadSeq===battleViewLoadSeq&&runtimeCommandContext==='battle'&&token===API_TOKEN&&root===document.getElementById('pveHuntView');
+  const pending={root,token,epoch};battleViewPending=pending;
+  try{
+    const snapshotVisible=renderBattleSnapshot(),retryDelays=[0,700,2000];
+    // 화면이 이미 그려져 있으면 조용히 갱신한다. 에너지 표시를 '동기화 중' 문구로 덮어쓰지 않는다.
+    if(snapshotVisible&&battleState.fromCache)battleState.fromCache=false;
+    let lastError=null;
+    for(let attempt=0;attempt<retryDelays.length;attempt+=1){
+      if(!current())return;
+      if(retryDelays[attempt])await battleSleep(retryDelays[attempt]);
+      try{
+        const d=await apiRequest('battle/config',{}, {ttl:0,timeoutMs:12000,replaceInflight:attempt>0});
+        if(!current())return;
+        const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5),monsters=d.monsters||[],lastMonsterId=getLastPveMonsterId(),selectedMonster=monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(monsters[0]?.id||null);
+        const sameEpoch=epoch===PLAYER_STATE_MUTATION_EPOCH;
+        const deck=initialDeck===JSON.stringify(battleState.deck)&&deckWrite===battleDeckWriteSeq?savedDeck:battleState.deck;
+        if(revision===battleConfigRevision)battleViewRead={root,token,epoch,at:Date.now(),deck:JSON.stringify(savedDeck)};
+        stopBattleEnergyTimer();battleViewRetryStreak=0;
+        battleState={...battleState,config:d.settings,deckRules:normalizeDeckRules(d.deckRules),battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters,selectedMonster,deck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,apocalypseEnergy:normalizeApocalypseEnergyClient(d.apocalypseEnergy),energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};
+        if(!root?.hidden){renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();}
+        if(sameEpoch)saveBattleViewSnapshot(d,monsters,savedDeck);
+        return;
+      }catch(error){
+        if(!current())return;
+        lastError=error;
+        if(!isTransientBattleConfigError(error))break;
+        setBattleReconnectStatus(`서버 응답 재확인 중 · ${attempt+1}/${retryDelays.length}`);
+      }
     }
-  }
-  if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
-  if((battleState.monsters||[]).length){renderBattleSnapshot();setBattleReconnectStatus('기존 전투 정보를 표시 중 · 서버 자동 재연결 대기');}
-  else setBattleReconnectStatus(lastError?.message||'전투 정보를 불러오지 못했습니다.');
-  if(isTransientBattleConfigError(lastError)){
-    // 화면을 열어둔 유저 전원이 1.8초마다 다시 두드리면 서버가 회복할 틈이 없다.
-    // 실패가 이어질수록 간격을 3초 → 6 → 12 → 24 → 30초(상한)로 늘린다.
-    battleViewRetryStreak=Math.min(battleViewRetryStreak+1,5);
-    const backoff=Math.min(30000,3000*(2**(battleViewRetryStreak-1)))+Math.floor(Math.random()*600);
-    battleViewRetryTimer=setTimeout(()=>{battleViewRetryTimer=null;if(runtimeCommandContext==='battle')void loadBattleView()},backoff);
-  }
+    if(!current())return;
+    if((battleState.monsters||[]).length){renderBattleSnapshot();setBattleReconnectStatus('기존 전투 정보를 표시 중 · 서버 자동 재연결 대기');}
+    else setBattleReconnectStatus(lastError?.message||'전투 정보를 불러오지 못했습니다.');
+    if(isTransientBattleConfigError(lastError)){
+      // 화면을 열어둔 유저 전원이 1.8초마다 다시 두드리면 서버가 회복할 틈이 없다.
+      // 실패가 이어질수록 간격을 3초 → 6 → 12 → 24 → 30초(상한)로 늘린다.
+      battleViewRetryStreak=Math.min(battleViewRetryStreak+1,5);
+      const backoff=Math.min(30000,3000*(2**(battleViewRetryStreak-1)))+Math.floor(Math.random()*600);
+      battleViewRetryTimer=setTimeout(()=>{battleViewRetryTimer=null;if(runtimeCommandContext==='battle')void loadBattleView()},backoff);
+    }
+  }finally{if(battleViewPending===pending)battleViewPending=null;}
 }
 
 function pveMonsterFilterState(){try{return JSON.parse(localStorage.getItem('cnine_pve_monster_filter')||'{}')}catch{return {}}}
@@ -2532,14 +2548,14 @@ async function saveBattleDeck(){
   const violation=deckGradeLimitViolation(battleState.deck,battleState.deckRules);
   if(violation)return alert(`${deckGradeRuleLabel(violation.grade)} 카드는 PVE 덱에 최대 ${violation.limit}장까지만 편성할 수 있습니다.`);
   const button=document.getElementById('saveBattleDeck');if(button)button.disabled=true;
-  try{const d=await apiRequest('battle/deck',{method:'POST',body:JSON.stringify({cardIds:battleState.deck})});battleState.deck=Array.isArray(d.deck)?d.deck.map(String):[...battleState.deck];alert('PvE 덱이 저장되었습니다.');renderBattleBuilder()}
+  try{const d=await apiRequest('battle/deck',{method:'POST',body:JSON.stringify({cardIds:battleState.deck})});battleDeckWriteSeq++;battleState.deck=Array.isArray(d.deck)?d.deck.map(String):[...battleState.deck];alert('PvE 덱이 저장되었습니다.');renderBattleBuilder()}
   catch(e){alert(e.message);if(button)button.disabled=false}
 }
 async function resetBattleDeck(){
   if(!deckCardCount(battleState.deck)&&!confirm('저장된 PvE 덱을 리셋하시겠습니까?'))return;
   if(deckCardCount(battleState.deck)&&!confirm('현재 편성과 저장된 PvE 덱을 모두 리셋하시겠습니까?'))return;
   const button=document.getElementById('clearBattleDeck');if(button)button.disabled=true;
-  try{await apiRequest('battle/deck',{method:'DELETE'});battleState.deck=[];renderBattleBuilder();alert('PvE 덱이 리셋되었습니다.')}
+  try{await apiRequest('battle/deck',{method:'DELETE'});battleDeckWriteSeq++;battleState.deck=[];renderBattleBuilder();alert('PvE 덱이 리셋되었습니다.')}
   catch(e){alert(e.message);if(button)button.disabled=false}
 }
 function handlePveBattleStartClick(event){
@@ -3566,7 +3582,18 @@ function switchPveMode(mode){
   if(mode==='coop'){stopBattleEnergyTimer();document.getElementById('pveCommandV2')?.setAttribute('data-screen','coop');void globalThis.CooperativeBattleground?.open?.();return;}
   if(mode==='raid'){stopBattleEnergyTimer();if(raid&&!String(raid.innerHTML||'').trim())raid.innerHTML='<div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>REVERSE CALL RAID SERVER</span></div>';loadRaidView();void Promise.resolve(globalThis.CoreProtocolRaidV1924?.openActive?.()).catch(error=>console.warn('[CORE RAID] entry isolation',error));return;}
   if(mode==='escort'){stopBattleEnergyTimer();window.EscortOperationV1830?.open?.();return;}
-  const subMode=mode==='hunt'?'hunt':'deck';setPveViewMode(subMode);loadBattleView().then(()=>applyPveViewMode(subMode));
+  const subMode=mode==='hunt'?'hunt':'deck';
+  setPveViewMode(subMode);
+  const read=battleViewRead;
+  const sameView=value=>hunt&&value?.root===hunt&&value.token===API_TOKEN&&value.epoch===PLAYER_STATE_MUTATION_EPOCH;
+  const fresh=sameView(read)&&Date.now()-read.at<15000&&read.deck===JSON.stringify(battleState.deck);
+  if(fresh||sameView(battleViewPending)){
+    if(battleState.monsters.length){renderBattleBuilder();startBattleEnergyTimer();}
+    applyPveViewMode(subMode);return;
+  }
+  void loadBattleView().then(()=>{
+    if(hunt&&!hunt.hidden&&hunt===document.getElementById('pveHuntView')&&subMode===getPveViewMode())applyPveViewMode(subMode);
+  });
 }
 async function loadRaidView(){
   const box=document.getElementById('pveRaidView'),hub=document.getElementById('pveRaidHubView');if(!box||box.hidden||hub?.hidden||document.hidden)return;
@@ -4037,7 +4064,7 @@ function bindView(tab) {
   const couponForm=document.getElementById('couponForm');
   if(couponForm)couponForm.addEventListener('submit',event=>{event.preventDefault();void redeemCoupon()});
   if(tab==='rank'){document.querySelectorAll('[data-rank-mode]').forEach(b=>b.onclick=()=>loadRankHub(b.dataset.rankMode));loadRankHub('pvp');}
-  if(tab==='battle'){document.querySelectorAll('.pve-mode-btn[data-pve-mode]').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
+  if(tab==='battle'){document.querySelectorAll('.pve-mode-btn[data-pve-mode]').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));window.PveCommandV2Live?.syncModeNavigation();loadBattleView();}
   if(tab==='pvp') loadPvpView();
   if(tab==='classicColosseum'){const root=document.getElementById('classicColosseumRoot');void import('/js/classic-colosseum-v1.mjs?v=20261027-v2').then(m=>{if(root?.isConnected)return m.mountClassicColosseum({root,ensureBattle:()=>ensureFeatureResources('battleV2'),api:(path,options={})=>apiRequest(path,{...options,...(options.body?{body:JSON.stringify(options.body)}:{})},{ttl:0,microcache:false,timeoutMs:30000})});}).catch(error=>{if(root?.isConnected)root.textContent=error.message;});}
   if(tab==='duo'){const root=document.getElementById('rankedDuoRoot');void import('/js/ranked-duo-v1.mjs?rankedShop=20261101-v1&v=20261020-start2').then(m=>{if(root?.isConnected)return m.mountRankedDuo({root,userId:loadUser()?.serverUserId,onWallet:wallet=>{const u=loadUser();if(u&&Number(u.serverUserId)===wallet.userId&&Number.isFinite(wallet.coin)&&Number.isFinite(wallet.cardShards))saveUser({...u,coin:wallet.coin,cardShards:wallet.cardShards});},navigate:()=>{pvpState.tab='deck';renderShell('pvp');},ensureBattle:()=>ensureFeatureResources('battleV2'),api:(path,options={})=>apiRequest(path,{...options,...(options.body?{body:JSON.stringify(options.body)}:{})},{ttl:0,microcache:false,timeoutMs:30000})});}).catch(error=>{if(root?.isConnected)root.textContent=error.message;});}
@@ -6760,7 +6787,7 @@ syncBattleScreenLock();
 
 window.addEventListener('storage',event=>{if(event.key!==BURNING_EVENT_SYNC_KEY||document.hidden)return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
 window.addEventListener('cnine:martial-changed',()=>{
-  clearApiCache('battle/config');clearApiCache('pvp/config');
+  invalidateBattleViewConfig();clearApiCache('pvp/config');
   if(document.getElementById('battleEnergyCount'))void loadBattleEnergyOnly();
   if(document.getElementById('pvpEnergyCount'))void loadPvpEnergyOnly();
 });

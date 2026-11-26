@@ -202,6 +202,41 @@ export async function selectedMercenaryBattleSnapshots(env,user,codes,mode='PVE'
  const leveled=(await prepareMercenaryBattleSnapshots(env,new Map([[Number(user.id),rows]]))).get(Number(user.id)),gear=equipment.get(Number(user.id));
  return leveled.map(m=>gear?.byMercenary[m.code]?.items.length?{...m,equipment:gear.byMercenary[m.code]}:m);
 }
+const rosterArt=new Map([...LIMITED_MERCENARIES,
+  ASTRA_ART,JIN_JOKRO_ART,SAINT_ART,RYUJIN_ART,HELIOS_KING_ART,
+  HAKUYA_ART,HEUKMU_ART,KAMISHIRO_ART,CARDGU_ART,AWAKENED_OMEGA_ART,
+  RAZAK_ART,REVAN_ART,EUNSEOL_ART,GENERAL_JOK_ART,PRIME_ART,
+  ZERO_ART,LEONEL_ART,JOKRO_ART,SHIRANUI_ART,KAIRON_ART,
+  JINMU_ART
+].map(art=>[art.code,art]));
+async function rosterAccess(env,user,rows){
+  const [packOwners,jokroPackOwners,shiranuiEligible]=await Promise.all([
+    readJinmuPackOwners(env,rows.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),
+    readJokroPackOwners(env,rows.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[]),
+    readShiranuiEligibleUsers(env,rows.some(r=>r.mercenary_code===SHIRANUI_CODE&&Number(r.total_copies)>0)?[user.id]:[])
+  ]);
+  return {packOwners,jokroPackOwners,shiranuiEligible};
+}
+export async function mercenaryFormationOptions(env,user){
+  const owned=await env.DB.prepare(`SELECT mercenary_code,total_copies FROM ${PLAYABLE_MERCENARY_COUNTS} WHERE user_id=? AND total_copies>0 ORDER BY mercenary_code`).bind(user.id).all();
+  if(!owned.results.length)return [];
+  const needsCatalog=owned.results.some(row=>!rosterArt.has(row.mercenary_code));
+  const [{document},leveling,access]=await Promise.all([
+    needsCatalog?readMercenaryDocument(env):{document:null},releasedMercenaryLevelSummary(env,user.id),rosterAccess(env,user,owned.results)
+  ]);
+  const levels=new Map(leveling.rows.map(row=>[row.code,row.level]));
+  const options=[];
+  for(const {mercenary_code:code} of owned.results){
+    if(!exclusiveAccountAllowed(user.id,code,access.packOwners,access.jokroPackOwners))continue;
+    if(code===SHIRANUI_CODE&&!access.shiranuiEligible.has(Number(user.id)))continue;
+    const limited=rosterArt.get(code);
+    const card=limited?limitedDeploymentSnapshot(code):document.mercenaries.find(card=>card.code===code);
+    if(!card||(!limited&&!mercenaryBasePower(card.rank,code)))continue;
+    const art=limited||MERCENARY_CMS_SEED.catalog.cards.find(card=>card.code===code);
+    options.push({id:code,name:card.name,rank:card.rank,level:levels.get(code)??1,image:limited?(card.sourceArt??art.sourceArt):art.sourceArt});
+  }
+  return options;
+}
 export async function mercenaryAccountState(env,user){
   const [leveling,records]=await Promise.all([releasedMercenaryLevelSummary(env,user.id),readMercenaryEquipmentRecords(env,[user.id])]);
   const [pveGear,pvpGear]=await Promise.all([mercenaryEquipmentRuntimes(env,[user.id],'PVE',{records}),mercenaryEquipmentRuntimes(env,[user.id],'PVP',{records})]);
@@ -209,14 +244,10 @@ export async function mercenaryAccountState(env,user){
   const equipmentPowerByMercenary=Object.fromEntries(Object.keys(records.get(Number(user.id)).state.loadouts).map(code=>[code,{PVE:equipmentForMercenary(pveGear,user.id,code)?.power??0,PVP:equipmentForMercenary(pvpGear,user.id,code)?.power??0}]));
   const loadout=records.get(Number(user.id)).selection;
   const [config,policy,owned,wallet]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),env.DB.prepare(`SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM ${PLAYABLE_MERCENARY_COUNTS} c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=? ORDER BY c.mercenary_code`).bind(user.id).all(),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
-  const [packOwners,jokroPackOwners,shiranuiEligible]=await Promise.all([
-    readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),
-    readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[]),
-    readShiranuiEligibleUsers(env,owned.results.some(r=>r.mercenary_code===SHIRANUI_CODE&&Number(r.total_copies)>0)?[user.id]:[])
-  ]);
+  const {packOwners,jokroPackOwners,shiranuiEligible}=await rosterAccess(env,user,owned.results);
   const playable=code=>!LOAN_CODES.includes(code)||owned.results.some(r=>r.mercenary_code===code);
   const visibleLoadouts=Object.fromEntries(Object.entries(loadout.loadouts).map(([mode,slot])=>{if(slot.mercenaryCodes){const mercenaryCodes=slot.mercenaryCodes.filter(c=>playable(c)&&(c!==SHIRANUI_CODE||shiranuiEligible.has(Number(user.id))));return [mode,{...slot,mercenaryCodes,mercenaryCode:mercenaryCodes[0]||null}];}if(!playable(slot.mercenaryCode))return [mode,{...slot,mercenaryCode:null}];return [mode,slot.mercenaryCode===SHIRANUI_CODE&&!shiranuiEligible.has(Number(user.id))?{...slot,mercenaryCode:null,blockedMercenaryCode:SHIRANUI_CODE,blockedReason:SHIRANUI_REQUIREMENT}:slot];}));
-  return {accountId:Number(user.id),equipmentPower,equipmentPowerByMercenary,leveling:{enabled:leveling.enabled},deployment:mercenaryDeploymentState(),available:MERCENARY_DEPLOYMENT_RELEASE_ENABLED||policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:visibleLoadouts.PVE,loadouts:visibleLoadouts,cards:owned.results.filter(row=>Number(row.total_copies)>0&&exclusiveAccountAllowed(user.id,row.mercenary_code,packOwners,jokroPackOwners)).map(row=>{const limited=row.mercenary_code===ASTRA_CODE?ASTRA_ART:row.mercenary_code===JIN_JOKRO_CODE?JIN_JOKRO_ART:row.mercenary_code===SAINT_CODE?SAINT_ART:row.mercenary_code===RYUJIN_CODE?RYUJIN_ART:row.mercenary_code===HELIOS_KING_CODE?HELIOS_KING_ART:row.mercenary_code===HAKUYA_CODE?HAKUYA_ART:row.mercenary_code===HEUKMU_CODE?HEUKMU_ART:row.mercenary_code===KAMISHIRO_CODE?KAMISHIRO_ART:row.mercenary_code===CARDGU_CODE?CARDGU_ART:row.mercenary_code===AWAKENED_OMEGA_CODE?AWAKENED_OMEGA_ART:row.mercenary_code===RAZAK_CODE?RAZAK_ART:row.mercenary_code===REVAN_CODE?REVAN_ART:row.mercenary_code===EUNSEOL_CODE?EUNSEOL_ART:row.mercenary_code===GENERAL_JOK_CODE?GENERAL_JOK_ART:row.mercenary_code===PRIME_CODE?PRIME_ART:row.mercenary_code===ZERO_CODE?ZERO_ART:row.mercenary_code===LEONEL_CODE?LEONEL_ART:row.mercenary_code===JOKRO_CODE?JOKRO_ART:row.mercenary_code===SHIRANUI_CODE?SHIRANUI_ART:row.mercenary_code===KAIRON_CODE?KAIRON_ART:row.mercenary_code===JINMU_CODE?JINMU_ART:LIMITED_MERCENARIES.find(c=>c.code===row.mercenary_code);if(limited){const snapshot=limitedDeploymentSnapshot(limited.code);return {...limited,...snapshot,...((limited.code===JINMU_CODE&&packOwners.has(Number(user.id))||limited.code===JOKRO_CODE&&jokroPackOwners.has(Number(user.id)))?{exclusiveGrant:false,excludedFromLimitedCount:false}:{}),loanUntil:row.loan_until||null,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),growth:null,maxLevel:1,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:(snapshot?.skills||[]).map(skill=>({...config.document.skills.find(s=>s.mechanic===skill.mechanic),...skill,review:'REVIEWED'})),pendingSkillCount:0,canDeploy:Boolean(snapshot)&&(limited.code!==SHIRANUI_CODE||shiranuiEligible.has(Number(user.id))),...(limited.code===SHIRANUI_CODE&&!shiranuiEligible.has(Number(user.id))?{deploymentBlockedReason:SHIRANUI_REQUIREMENT+' 시 편성 가능'}:{})};}const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,loanUntil:row.loan_until||null,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank,meta.code):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:assignedSkills(config.document,row.mercenary_code).map(s=>ssRearPveSkillText(mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(s,{...meta,attackStyle:mercenaryAttackStyle(meta)}))),meta)),pendingSkillCount:assignedSkills(config.document,row.mercenary_code).filter(s=>!skillsReady([s])).length,canDeploy:Boolean(mercenaryBasePower(meta.rank,meta.code))};})};
+  return {accountId:Number(user.id),equipmentPower,equipmentPowerByMercenary,leveling:{enabled:leveling.enabled},deployment:mercenaryDeploymentState(),available:MERCENARY_DEPLOYMENT_RELEASE_ENABLED||policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:visibleLoadouts.PVE,loadouts:visibleLoadouts,cards:owned.results.filter(row=>Number(row.total_copies)>0&&exclusiveAccountAllowed(user.id,row.mercenary_code,packOwners,jokroPackOwners)).map(row=>{const limited=rosterArt.get(row.mercenary_code);if(limited){const snapshot=limitedDeploymentSnapshot(limited.code);return {...limited,...snapshot,...((limited.code===JINMU_CODE&&packOwners.has(Number(user.id))||limited.code===JOKRO_CODE&&jokroPackOwners.has(Number(user.id)))?{exclusiveGrant:false,excludedFromLimitedCount:false}:{}),loanUntil:row.loan_until||null,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),growth:null,maxLevel:1,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:(snapshot?.skills||[]).map(skill=>({...config.document.skills.find(s=>s.mechanic===skill.mechanic),...skill,review:'REVIEWED'})),pendingSkillCount:0,canDeploy:Boolean(snapshot)&&(limited.code!==SHIRANUI_CODE||shiranuiEligible.has(Number(user.id))),...(limited.code===SHIRANUI_CODE&&!shiranuiEligible.has(Number(user.id))?{deploymentBlockedReason:SHIRANUI_REQUIREMENT+' 시 편성 가능'}:{})};}const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,loanUntil:row.loan_until||null,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank,meta.code):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:assignedSkills(config.document,row.mercenary_code).map(s=>ssRearPveSkillText(mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(s,{...meta,attackStyle:mercenaryAttackStyle(meta)}))),meta)),pendingSkillCount:assignedSkills(config.document,row.mercenary_code).filter(s=>!skillsReady([s])).length,canDeploy:Boolean(mercenaryBasePower(meta.rank,meta.code))};})};
 }
 
 export async function openMercenaryCards(env,user,body,{randomInt,readOpeningPolicy=readMercenaryRuntime,openingGuards}={}){

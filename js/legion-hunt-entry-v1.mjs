@@ -24,14 +24,12 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
     async refresh(priorRecovery=null){
       const token=++revision;update({phase:'loading',data:null,error:''});
       try{
-        const recovered=await request('legion-hunt/recover',{method:'POST',body:{}});
-        if(token!==revision)return;
-        const data=await request('legion-hunt/bootstrap');
+        const data=await request('legion-hunt/bootstrap',{method:'POST',body:{}});
         if(token===revision){
           serverOffset=(data.entries?.serverNow??Date.now())-Date.now();
           const regions=data.regionExpansion?.regions||[];
           const regionId=state.regionId===undefined?regions[0]?.id||null:state.regionId&&regions.some(r=>r.id===state.regionId)?state.regionId:null;
-          update({phase:'lobby',regionId,difficulty:regionId===COW_AREA?'calamity':regionId||state.difficulty!=='calamity'?state.difficulty:'normal',data:{...data,recovery:recovered?.recovery||priorRecovery},error:data.loadoutError||''});
+          update({phase:'lobby',regionId,difficulty:regionId===COW_AREA?'calamity':regionId||state.difficulty!=='calamity'?state.difficulty:'normal',data:{...data,recovery:data.recovery||priorRecovery},error:data.loadoutError||''});
         }
       }
       catch(error){if(token===revision)update({phase:'lobby',error:error.message});}
@@ -211,7 +209,7 @@ function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

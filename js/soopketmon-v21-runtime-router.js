@@ -89,6 +89,7 @@
 
     deck: {
       shell: 'battle',
+      shellOptions: { pveMode: 'deck' },
       actions: [
         { selector: '[data-pve-mode="deck"]' },
         { selector: '[data-pve-tab="deck"]', optional: true }
@@ -96,6 +97,7 @@
     },
     hunt: {
       shell: 'battle',
+      shellOptions: { pveMode: 'hunt' },
       actions: [
         { selector: '[data-pve-mode="hunt"]' },
         { selector: '[data-pve-tab="monsters"]', optional: true }
@@ -130,6 +132,7 @@
 
   const PVE_DECK_EDITOR_CONTRACT = Object.freeze({
     shell: 'battle',
+    shellOptions: { pveMode: 'deck' },
     actions: Object.freeze([
       Object.freeze({ selector: '[data-pve-mode="deck"]' }),
       Object.freeze({ selector: '[data-pve-tab="cards"]', optional: true })
@@ -235,7 +238,10 @@
   }
 
   async function runAction(action, runtime, timeoutMs) {
-    const node = await waitFor(runtime, () => runtime.document?.querySelector(action.selector), timeoutMs)
+    const lookup = () => runtime.document?.querySelector(action.selector);
+    // The live deck and hunt screens have no legacy mobile subtabs.
+    const livePve = action.optional && runtime.document?.querySelector('#pveCommandV2.pvev2-live-root');
+    const node = livePve ? lookup() : await waitFor(runtime, lookup, timeoutMs)
       .catch(error => {
         if (action.optional) return null;
         throw error;
@@ -262,7 +268,8 @@
     if (contract.shell) {
       if (!SHELL_ROUTE_SET.has(contract.shell)) throw new Error(`허용되지 않은 운영 화면: ${contract.shell}`);
       const render = await waitFor(runtime, () => typeof runtime.renderShell === 'function' && runtime.renderShell, timeoutMs);
-      const rendered=contract.workshopSection?render(contract.shell,{workshopSection:contract.workshopSection}):render(contract.shell);
+      const shellOptions=contract.shellOptions||(contract.workshopSection?{workshopSection:contract.workshopSection}:null);
+      const rendered=shellOptions?render(contract.shell,shellOptions):render(contract.shell);
       if(rendered===false)return {ok:false,cancelled:true,shell:''};
     }
 

@@ -6,7 +6,7 @@ import {readCommittedAssetSync} from './helpers/committed-asset-read.mjs';
 const read = file => readCommittedAssetSync(new URL('../' + file, import.meta.url)).toString();
 function entrance() {
   const context = vm.createContext({
-    battleView() {}, renderBattleBuilder() {}, switchPveMode() {},
+    battleView() {}, renderBattleBuilder() {}, renderPveMonsterBrowser() {}, renderBattleSnapshot() {}, switchPveMode() {},
     battleState: {energy: {energy: 3, maxEnergy: 30}}, summaryBar: () => '',
   });
   context.window = context;
@@ -49,10 +49,37 @@ test('the deck prefetches combat assets and the hunt opens the existing battle e
   };
   vm.runInNewContext('function warmFeatureForTab(' + source + '\nwarmFeatureForTab("battle");', sandbox);
   assert.deepEqual(calls,['prefetch']);
+  sandbox.runtimeCommandContext = 'buy';
+  sandbox.warmFeatureForTab('battle');
+  assert.deepEqual(calls,['prefetch','prefetch']);
   sandbox.view = 'hunt';
   sandbox.warmFeatureForTab('battle');
   await new Promise(resolve => setImmediate(resolve));
-  assert.deepEqual(calls,['prefetch','battleV2','art']);
+  assert.deepEqual(calls,['prefetch','prefetch','battleV2','art']);
+});
+
+test('deck and hunt routes complete as soon as their live controls mount, while legacy subtabs still activate',async()=>{
+  for(const file of ['js/soopketmon-v21-runtime-router.js','onestore/js/soopketmon-v21-runtime-router.js']){
+    const ctx=vm.createContext({});vm.runInContext(read(file),ctx);
+    for(const mode of ['deck','hunt']){
+      for(const live of [true,false]){
+        let elapsed=0;const clicks=[];
+        const runtime={
+          now:()=>elapsed,setTimeout(fn,ms){elapsed+=ms;queueMicrotask(fn);},
+          renderShell(tab,options){assert.equal(tab,'battle');assert.equal(options.pveMode,mode);},
+          document:{querySelector(selector){
+            if(selector==='#pveCommandV2.pvev2-live-root')return live?{}:null;
+            if(selector==='[data-pve-mode="'+mode+'"]')return {click:()=>clicks.push(mode)};
+            if(!live&&elapsed>=80)return {click:()=>clicks.push('legacy')};
+            return null;
+          }}
+        };
+        const result=await ctx.SoopketmonV21RuntimeRouter.navigate(mode,{runtime});
+        assert.ok(result.ok);assert.equal(elapsed,live?0:80);
+        assert.deepEqual(clicks,live?[mode]:[mode,'legacy']);
+      }
+    }
+  }
 });
 
 test('the web and H5 entrances request identical revisions of the PVE visuals', () => {

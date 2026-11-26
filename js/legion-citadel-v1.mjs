@@ -437,7 +437,13 @@ export function openCitadel(trigger,firstRead=null){
   finally{if(readingEpoch===e)readingEpoch=null;if(!closed&&e===epoch)schedule();}
  }
  function ensureOptions(){
-  if(!entryOpen||options||fetchOptions)return;fetchOptions=request(dockSelected()?'options?area='+dockArea:'options').then(v=>{if(closed||!entryOpen)return;options=v;draw(true);}).catch(e=>{if(entryOpen)say(e.message);}).finally(()=>{fetchOptions=null;});
+  if(!entryOpen||options||fetchOptions)return;
+  const selectedArea=area,read=request(dockSelected()?'options?area='+dockArea:'options');
+  fetchOptions=read;
+  const current=()=>!closed&&entryOpen&&area===selectedArea&&fetchOptions===read;
+  read.then(value=>{
+   if(current()){options=value;if(state?.status==='LOBBY')draw(true);}
+  }).catch(error=>{if(current()&&state?.status==='LOBBY')say(error.message);}).finally(()=>{if(fetchOptions===read)fetchOptions=null;});
  }
  function warmSelectedMercenaries(){
   if(!preparation||!options||!state||document.hidden||navigator.connection?.saveData)return;
@@ -462,7 +468,8 @@ export function openCitadel(trigger,firstRead=null){
   const old=state;if(next?.serverNow)clock.sample(next.serverNow,{sentAt:sent});
   if(!lobbyDeadline&&next?.nextEntryAt>clock.now())nextEntryAt=next.nextEntryAt;
   if(next?.id!==pinnedId){if(pinnedId)release();pinnedId=next?.id||null;selected=next?.selection?structuredClone(next.selection):{cardIds:[],mercenaryCodes:[]};picker='mercenaries';}
-  if(!next&&old){createId=crypto.randomUUID();options=null;rooms=[];}
+  if(!next&&old){createId=crypto.randomUUID();options=null;fetchOptions=null;rooms=[];}
+  if(next&&area!==(next.area||'public')){options=null;fetchOptions=null;}
   state=next;if(next)area=next.area||'public';syncArea();
   d.classList.toggle('ct-in-room',!!next&&!paused());
   const notice=$('[data-ct-status]');
@@ -633,9 +640,11 @@ export function openCitadel(trigger,firstRead=null){
   }
   busy=true;pauseNet();const e=++epoch;draw(true);say('');
   const body=kind==='create'?{requestId:createId,...(cowSelected()?{area:COW_AREA,tier:'throne'}:dockSelected()?{area:dockArea,tier:'gate'}:tiers.length?{tier:selectedTier}:{})}:kind==='join'?{id}:kind==='ready'?{id:state.id,...selected}:{id:state.id};
-  try{const at=performance.now(),v=await request(kind,{method:'POST',body});if(closed||e!==epoch)return;apply(v.state,at);
+  try{const at=performance.now(),pending=request(kind,{method:'POST',body});
+   if(kind==='create'||kind==='join')ensureOptions();
+   const v=await pending;if(closed||e!==epoch)return;apply(v.state,at);
    if(kind==='leave'){busy=false;void refresh();return;}
-  }catch(err){if(!closed){if(err.code==='CITADEL_PAUSED'&&(!state||['LOBBY','LOADING'].includes(state.status))){entryOpen=false;apply(state);}say(err.message);if(kind==='create'&&err.code==='CITADEL_OLD')createId=crypto.randomUUID();
+  }catch(err){if(!closed){if(kind==='create'||kind==='join'){options=null;fetchOptions=null;}if(err.code==='CITADEL_PAUSED'&&(!state||['LOBBY','LOADING'].includes(state.status))){entryOpen=false;apply(state);}say(err.message);if(kind==='create'&&err.code==='CITADEL_OLD')createId=crypto.randomUUID();
    if(!state&&err.code==='CITADEL_COOLDOWN'){busy=false;void refresh();}}}
   finally{if(!closed){busy=false;draw();schedule();}}
  }
@@ -644,7 +653,7 @@ export function openCitadel(trigger,firstRead=null){
  d.addEventListener('click',e=>{
   const areaTab=e.target.closest('[data-ct-area]');
   if(areaTab&&!areaTab.disabled&&!busy&&!state&&areaTab.dataset.ctArea!==area){
-   area=areaTab.dataset.ctArea;selectedTier=cowSelected()?'throne':'gate';createId=crypto.randomUUID();options=null;apply(null);schedule();return;
+   area=areaTab.dataset.ctArea;selectedTier=cowSelected()?'throne':'gate';createId=crypto.randomUUID();options=null;fetchOptions=null;apply(null);schedule();return;
   }
   const b=e.target.closest('[data-act]');if(b&&!b.disabled)void act(b.dataset.act,b.dataset.id);});
  main.innerHTML='<div class="ct-initial"><p role="status">원정 모집 현황을 확인하고 있습니다.</p><button data-act="refresh">다시 불러오기</button></div>';void refresh(firstRead);return {close};
