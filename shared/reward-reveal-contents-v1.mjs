@@ -6,6 +6,7 @@ export const REWARD_REVEAL_CONTENTS=Object.freeze([
  {id:'COOP_NORMAL',name:'격전지 · 일반',group:'격전지',limit:'행동력 최대 3회 · 3시간마다 1회 충전'},
  {id:'COOP_HARD',name:'격전지 · 격전',group:'격전지',limit:'행동력 최대 3회 · 3시간마다 1회 충전'},
  {id:'COOP_TRANSCEND',name:'격전지 · 초월',group:'격전지',limit:'극한과 같은 선택 보상 · 행동력 1회'},
- {id:'COOP_EXTREME',name:'격전지 · 극한',group:'격전지',limit:'행동력 최대 3회 · 3시간마다 1회 충전'}
+ {id:'COOP_EXTREME',name:'격전지 · 극한',group:'격전지',limit:'행동력 최대 3회 · 3시간마다 1회 충전'},
+ {id:'COOP_ECLIPSE',name:'격전지 · 종언',group:'격전지',limit:'행동력 1회 · 입력한 기본 수량 기준 재화·소모품·재료 ×2.5'}
 ]);
 export const rewardRevealContent=id=>REWARD_REVEAL_CONTENTS.find(row=>row.id===id);

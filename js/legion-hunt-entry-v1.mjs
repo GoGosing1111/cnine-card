@@ -17,6 +17,11 @@ const power=value=>Math.round(Number(value)||0).toLocaleString('ko-KR');
 export function createHuntEntry({request=jointAccountRequest,render,enter,dispose}){
   let state={phase:'loading',difficulty:'normal',regionId:undefined,data:null,error:''},revision=0,serverOffset=0;
   const difficulties=()=>state.regionId===COW_AREA?state.data?.regionExpansion?.difficulties.filter(d=>d.id==='calamity'):state.regionId?state.data?.regionExpansion?.difficulties:state.data?.difficulties;
+  const selectDifficulty=(data,regionId,current)=>{
+    if(regionId===COW_AREA)return 'calamity';
+    const available=regionId?data?.regionExpansion?.difficulties:data?.difficulties;
+    return available?.some(d=>d.id===current)?current:available?.[0]?.id||'normal';
+  };
   const update=next=>{state={...state,...next};render(state);};
   return {
     get state(){return state;},
@@ -29,13 +34,13 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
           serverOffset=(data.entries?.serverNow??Date.now())-Date.now();
           const regions=data.regionExpansion?.regions||[];
           const regionId=state.regionId===undefined?regions[0]?.id||null:state.regionId&&regions.some(r=>r.id===state.regionId)?state.regionId:null;
-          update({phase:'lobby',regionId,difficulty:regionId===COW_AREA?'calamity':regionId||state.difficulty!=='calamity'?state.difficulty:'normal',data:{...data,recovery:data.recovery||priorRecovery},error:data.loadoutError||''});
+          update({phase:'lobby',regionId,difficulty:selectDifficulty(data,regionId,state.difficulty),data:{...data,recovery:data.recovery||priorRecovery},error:data.loadoutError||''});
         }
       }
       catch(error){if(token===revision)update({phase:'lobby',error:error.message});}
     },
     select(id){if(state.phase==='lobby'&&state.difficulty!==id&&difficulties()?.some(d=>d.id===id))update({difficulty:id});},
-    selectRegion(id){if(state.phase==='lobby'&&(id===null||state.data?.regionExpansion?.regions.some(r=>r.id===id)))update({regionId:id,difficulty:id===COW_AREA?'calamity':!id&&state.difficulty==='calamity'?'normal':state.difficulty});},
+    selectRegion(id){if(state.phase==='lobby'&&(id===null||state.data?.regionExpansion?.regions.some(r=>r.id===id)))update({regionId:id,difficulty:selectDifficulty(state.data,id,state.difficulty)});},
     enter(){
       if(state.phase!=='lobby'||!state.data?.loadout||state.error||(state.regionId===COW_AREA?!state.data.cowTickets:!state.data.entries?.unlimited&&this.energy()?.remaining===0))return;
       update({phase:'battle'});enter(state.difficulty,state.regionId);
@@ -134,7 +139,7 @@ export function openLegionHunt(button){
     const energyAt=data?.entries?.serverNow??Date.now(),recharge=legionRechargeLabel(LEGION_BASE,energyAt);displayRechargeMs=legionRechargeMs(LEGION_BASE,energyAt);
     find('.legion-entry-status').textContent=state.error||recoveryNotice||(cow?'입장권 '+data.cowTickets+'장 보유 · 전투 시작 시 1장 사용':loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?recharge+'마다 행동력이 1회 충전됩니다.':'코인 수급 후 중단 시 행동력 사용 · '+recharge+'마다 1회 충전');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
-    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?'코인은 사냥 중 자동 지급 · 아이템은 종료 정산':data?.access?.mode==='TEST'||region&&expansion.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
+    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?(state.difficulty==='ruin'?'재앙 대비 재화·소모품·재료 ×2.5 · 코인 상한 750억':'코인은 사냥 중 자동 지급 · 아이템은 종료 정산'):data?.access?.mode==='TEST'||region&&expansion.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
     if(redraw){
       find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
       find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image||'/assets/ui/brand/reverse-call-20261016/icon-512.png'))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
@@ -166,7 +171,7 @@ export function openLegionHunt(button){
     catch(error){console.warn('[Legion Hunt] Previous battle resource release failed',error);}
     if(controller.state.phase!=='battle')return;
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?brand=20261110&v=20261120-cow-room&vehicleBuffs=20261125';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?tiers=20261126&brand=20261110&v=20261120-cow-room&vehicleBuffs=20261125';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearInterval(energyTimer);clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus({preventScroll:true});}});
   energyTimer=setInterval(()=>{
     const state=controller.state;if(state.phase!=='lobby'||!state.data)return;
@@ -203,13 +208,13 @@ export function openLegionHunt(button){
   dialog.addEventListener('cancel',event=>{event.preventDefault();if(event.target===find('.legion-poster-view'))find('.legion-poster-view').close();else controller.close();});
   window.addEventListener('message',onMessage);active=controller;document.body.append(dialog);dialog.showModal();void controller.refresh();
 }
-const citadelSheet='/css/legion-citadel-v1.css?v=cow-renewal-20261120-vehicle-20261125';
+const citadelSheet='/css/legion-citadel-v1.css?tiers=20261126&v=cow-renewal-20261120-vehicle-20261125';
 let openingCitadel=null,citadelModule=null;
 function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?tiers=20261126&v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

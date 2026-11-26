@@ -1,5 +1,6 @@
+import {inheritedCitadelDrops} from '../shared/challenger-pve-rewards-v1.mjs';
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs?v=20261029-legion-ascendant-v1';
+import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs?v=20261126-challenger';
 import {legionItemTypeLabel} from './legion-region-drops-v1.mjs?v=20261018-coins-paced-v2';
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const names={normal:'보통',hard:'어려움',nightmare:'악몽',inferno:'지옥'};
@@ -25,20 +26,20 @@ function mountCitadelEditor(panel){
  }
  function edited(f){
   const get=key=>f.elements[key].valueAsNumber;
-  const previous=drafts.get(tier)?.drops??policy.tierDrops?.[tier]??policy.drops;
+  const previous=drafts.get(tier)?.drops??policy.tierDrops?.[tier]??inheritedCitadelDrops(policy,tier);
   return {normalPercent:get('normalPercent'),elitePercent:get('elitePercent'),bossPercent:get('bossPercent'),bossMultiplier:get('bossMultiplier'),
    bossSetPercent:previous.bossSetPercent,equipmentCodes:previous.equipmentCodes,
    supplies:[...f.querySelectorAll('[data-supply]')].map(row=>({code:row.dataset.supply,quantity:row.querySelector('[name=quantity]').valueAsNumber,weight:row.querySelector('[name=weight]').valueAsNumber}))};
  }
  function draw(){
-  const draft=drafts.get(tier),own=policy.tierDrops?.[tier],shared=tier!=='gate'&&(draft?.shared??!own),d=shared?policy.drops:draft?.drops??own??policy.drops;
-  const rewards=catalog.partyRewards,unique=rewards?.unique[tier];
+  const inherited=inheritedCitadelDrops(policy,tier),draft=drafts.get(tier),own=policy.tierDrops?.[tier],shared=tier!=='gate'&&(draft?.shared??!own),d=shared?inherited:draft?.drops??own??inherited;
+  const rewards=catalog.partyRewards,unique=rewards?.unique[tier],resourceMultiplier=rewards?.resourceMultipliers?.[tier]??1;
   body.innerHTML='<form data-mode-form><fieldset><legend>파티 신규 입장</legend><label>입장 상태<select name="mode"><option value="OFF">OFF · 입장 중지</option><option value="ON">ON · 입장 허용</option></select></label><button type="submit">입장 상태 저장</button></fieldset></form>'+
   '<form data-drops><label>드롭 설정 난이도<select name="tier">'+tiers.map(t=>'<option value="'+esc(t.id)+'" '+(tier===t.id?'selected':'')+'>'+esc(t.stage+'단계 · '+t.name)+'</option>').join('')+'</select></label>'+
-  (tier==='gate'?'':'<label class="legion-cms-check"><input type="checkbox" name="shareDrops" '+(shared?'checked':'')+'>1단계 드롭 설정 사용</label>')+
+  (tier==='gate'?'':'<label class="legion-cms-check"><input type="checkbox" name="shareDrops" '+(shared?'checked':'')+'> '+(tier==='crucible'?'3단계 종말의 왕좌':'1단계')+' 드롭 설정 사용</label>')+
   (unique?.tiers?'<fieldset><legend>성주 유니크 장비</legend><p>이 성주의 확률은 왕좌의 '+Math.round(unique.scale*100)+'%입니다. 아래 평균은 보너스 전 1인 기준입니다.</p><ul>'+
    unique.tiers.map(row=>'<li>'+esc(row.tier+'단계 '+row.family)+' · 10단계 용병장비 확률의 1/'+row.divisor+' × '+Math.round(unique.scale*100)+'% · '+(row.expectedRuns?'평균 약 '+Math.round(row.expectedRuns).toLocaleString('ko-KR')+'회에 1개':'지역 상위 장비 드롭 중지')+'</li>').join('')+'</ul></fieldset>':'')+
-  (rewards?'<p>처치 코인은 재앙의 '+rewards.coinMultiplier+'배, 1인 최대 '+rewards.coinCap.toLocaleString('ko-KR')+'코인입니다.</p>':'')+
+  (rewards?'<p>처치 코인은 재앙의 '+(rewards.coinMultiplier*resourceMultiplier)+'배, 1인 최대 '+(rewards.coinCap*resourceMultiplier).toLocaleString('ko-KR')+'코인입니다.</p>':'')+
   '<fieldset><legend>솔로 재앙 연동</legend>'+(rewards?.calamity?'<p>운영 지역 '+rewards.calamity.regions+'곳 · 필드 아이템 '+rewards.calamity.fieldItems+'종</p>':'')+'<p>공개 지역의 필드 아이템, 연마석, 지역 세트·보스 고유 장비와 용병 장비 1~10단계를 각 참가자가 획득할 수 있습니다. 품목별 확률은 같은 처치의 솔로 재앙 기준 '+esc(rewards?.itemMultiplier??1.3)+'배이며 최대 100%입니다. 성주 처치 확정 연마석은 개인 가방에 담깁니다.</p></fieldset>'+
   '<fieldset data-tier-fields><legend>파티 전용 추가 재료</legend><fieldset><legend>몬스터별 기본 확률</legend>'+
   '<p>재앙 드롭과 겹치는 품목은 재앙 설정을 따릅니다. 아래 확률과 가중치는 추가 재료에 적용합니다.</p><div class="legion-cms-region-fields">'+
@@ -60,7 +61,7 @@ function mountCitadelEditor(panel){
  body.addEventListener('change',e=>{
   if(e.target.name==='tier'){const f=e.target.form;drafts.set(tier,{shared:!!f.elements.shareDrops?.checked,drops:edited(f)});tier=e.target.value;draw();return;}
   if(e.target.name==='shareDrops'){
-   const saved=drafts.get(tier)?.drops??policy.tierDrops?.[tier]??policy.drops;
+   const saved=drafts.get(tier)?.drops??policy.tierDrops?.[tier]??inheritedCitadelDrops(policy,tier);
    drafts.set(tier,{shared:e.target.checked,drops:e.target.checked?edited(e.target.form):saved});draw();return;
   }
  });
@@ -85,7 +86,7 @@ export async function mountLegionHuntCms(root){
   const number=(name,label,value,min,max,step=1)=>`<label>${label}<input type="number" name="${name}" aria-label="${label}" value="${value}" min="${min}" max="${max}" step="${step}" required></label>`;
   function coinTable(){
     if(!coinCaps)return '';
-    const labels={...names,calamity:'재앙'},amount=n=>n?Number(n/100000000).toLocaleString('ko-KR')+'억':'—';
+    const labels={...names,calamity:'재앙',ruin:'파멸'},amount=n=>n?Number(n/100000000).toLocaleString('ko-KR')+'억':'—';
     return `<section class="legion-cms-coin-policy"><h3>몬스터 처치 코인</h3><p>처치할 때마다 자동 습득합니다. 아래 금액은 <b>보너스를 포함한 한 판 최대치</b>입니다. 클리어 추가 지급은 없습니다.</p><table><caption>판당 코인 상한</caption><thead><tr><th>난이도</th><th>잊혀진 섬</th><th>신규 5지역</th></tr></thead><tbody>${Object.entries(labels).map(([id,name])=>`<tr><th>${name}</th><td>${amount(coinCaps.island[id])}</td><td>${amount(coinCaps.regions[id])}</td></tr>`).join('')}</tbody></table><p>일반 1배 · 정예 3배 · 보스 5배로 나누어 수급합니다. 펫·트로피 보너스가 있어도 상한을 넘지 않습니다. 모든 지역이 행동력을 공유합니다. 최대 10회, 후원 기간에는 13회까지 저장하며 3시간마다 1회 충전됩니다. OWNER의 코인 수급도 같은 행동력을 사용합니다. OFF·TEST에서는 실제 코인을 지급하지 않습니다.</p></section>`;
   }
   function collect(){

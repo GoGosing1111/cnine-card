@@ -1,3 +1,4 @@
+import {RUIN_BOSS_AT_MS} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 import {CITADEL_ENEMY_CAPACITY} from '../shared/cooperative-battleground-v1.mjs';
 
 // Timed PvE reinforcements use the capacity of their encounter.
@@ -11,7 +12,8 @@ export function sustainedEncounterPlan(config, initial, capacity) {
   if(finalAdds.length>2||finalAdds.some(c=>!c.isMonster||c.isBoss||c.side!=='B'||c.hp<=0))throw Error('INVALID_SUSTAINED_ADDS');
   // Seven-minute hunts reserve the existing boss window. Preserve the older
   // schedule values for saved/review sessions; arbitrary timings stay rejected.
-  if (![270000,285000,300000,750000,765000,780000,900000].includes(durationMs) || (capacity !== 12 && !(end && capacity === CITADEL_ENEMY_CAPACITY)) || initial.length !== capacity ||
+  const ruinSchedule=config.regionDifficulty==='ruin'&&durationMs===RUIN_BOSS_AT_MS;
+  if ((!ruinSchedule&&![270000,285000,300000,750000,765000,780000,900000].includes(durationMs)) || (capacity !== 12 && !(end && capacity === CITADEL_ENEMY_CAPACITY)) || initial.length !== capacity ||
       !Array.isArray(templates) || templates.length < 1 || templates.length > 12 || !finalBoss) {
     throw Error('INVALID_SUSTAINED_ENCOUNTER');
   }

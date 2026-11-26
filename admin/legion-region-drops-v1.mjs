@@ -1,4 +1,4 @@
-import {LEGION_REGIONS,REGION_DIFFICULTIES} from '../shared/legion-regions-v1.mjs';
+import {LEGION_REGIONS,ALL_REGION_DIFFICULTIES as REGION_DIFFICULTIES} from '../shared/legion-regions-v1.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const types={INVENTORY_ITEM:'아이템',CARD:'카드',EQUIPMENT:'캐릭터 장비',VEHICLE:'이동수단'};
 export const legionItemTypeLabel=item=>item.type==='EQUIPMENT'&&String(item.equipmentCode||item.ref||'').startsWith('HUNT_')?'용병장비':types[item.type];

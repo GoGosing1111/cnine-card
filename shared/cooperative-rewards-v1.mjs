@@ -10,7 +10,7 @@ const integer=(v,max,label)=>{if(!Number.isSafeInteger(v)||v<0||v>max)fail(`${la
 export const hasCoopReward=row=>!!row&&(row.coin>0||row.masterStars>0||row.items?.length>0);
 export function validateCoopRewards(value){
  // dailyLimit is retained only for old CMS document compatibility, not enforcement.
- if(!value||typeof value.enabled!=='boolean'||value.dailyLimit!==COOP_REWARD_DAILY_LIMIT||!Array.isArray(value.difficulties)||![3,4].includes(value.difficulties.length))fail('격전지 난이도별 보상 설정을 확인하세요.');
+ if(!value||typeof value.enabled!=='boolean'||value.dailyLimit!==COOP_REWARD_DAILY_LIMIT||!Array.isArray(value.difficulties)||(value.difficulties.length<COOP_DIFFICULTIES.length||value.difficulties.length>COOP_ALL_DIFFICULTIES.length))fail('격전지 난이도별 보상 설정을 확인하세요.');
  const difficulties=value.difficulties.map((row,i)=>{
   if(row?.id!==COOP_ALL_DIFFICULTIES[i].id||!Array.isArray(row.items)||row.items.length>20)fail('난이도별 보상 아이템은 최대 20종입니다.');
   const codes=new Set();

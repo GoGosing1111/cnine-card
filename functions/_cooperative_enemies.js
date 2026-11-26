@@ -4,9 +4,9 @@ import {validateCoopRoster,coopSpecies,coopEnemyTraits} from '../shared/cooperat
 const BASE='/assets/ui/cooperative-arke-v1/';
 function buildCoopMonster(monster,difficulty){
  const fighter=buildMonsterFighter(monster);
- // Only the new tier honors its reviewed CMS HP range above the generic 1200%.
+ // Upper-tier CMS profiles can exceed the generic 1200% HP cap.
  // Preserve the species multiplier and proportional starting shield together.
- if(difficulty==='TRANSCEND'&&monster.pve_hp_percent>1200){
+ if((difficulty==='TRANSCEND'||difficulty==='ECLIPSE')&&monster.pve_hp_percent>1200){
   const scale=monster.pve_hp_percent/1200;
   for(const key of ['hp','maxHp','shield','maxShield'])fighter[key]=Math.round(fighter[key]*scale);
   fighter.pveBuffs.difficultyHpPercent=monster.pve_hp_percent;

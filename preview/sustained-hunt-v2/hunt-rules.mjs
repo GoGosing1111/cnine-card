@@ -2,6 +2,7 @@
 // No live economy, ownership, account or CMS setting is changed here.
 export const CAPACITY = 12;
 export const HUNT_DURATION_MS = 7 * 60 * 1000;
+export const RUIN_BOSS_AT_MS = HUNT_DURATION_MS - 25_000;
 export const DAILY_ENTRIES = 10;
 export const ENGINE_BASE = '0d67ae862a1f9763605ad7323e889acf5d51ad41';
 export const DIFFICULTIES = Object.freeze([

@@ -14,7 +14,7 @@ export function citadelStation(kind, index, enemy, compact) {
  if (enemy) return {x:1215 + col * 206, y:256 + row * 214};
  return {x:281 + col * 538, y:kind === 'mercenaries' ? 689 + row * 283 : 210 + row * 224};
 }
-export const COOP_VERSION='20261102-transcend-v1';
+export const COOP_VERSION='20261126-eclipse-v1';
 export const COOP_ENCOUNTER=Object.freeze({id:'COOP_ARKE',version:2,name:'삼핵 거신 아르케',arena:'심층 제련소',sceneAssetKey:'COOP_ARKE_FORGE',
  sourceArt:'/assets/ui/cooperative-arke-v1/arke-source-art-v1.png',battleSprite:'/assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png',background:'/assets/ui/cooperative-arke-v1/forge-arena-v1.png'});
 export const COOP_STAGES=Object.freeze([
@@ -34,8 +34,11 @@ export const COOP_DIFFICULTIES=Object.freeze([
  {id:'EXTREME',name:'극한',subtitle:'최정예의 도전',recommendation:'SSS 2~3명 · 고유효과와 용병 스킬 연계',power:60000000,hpPercent:1100,attackPercent:200,defensePercent:100,attackCount:2,forcedEvery:5}
 ]);
 // Only configured tiers are advertised by the API. Old CMS/room snapshots keep
-// their original three tiers; adding this metadata does not open the new tier.
-export const COOP_ALL_DIFFICULTIES=Object.freeze([...COOP_DIFFICULTIES,Object.freeze({id:'TRANSCEND',name:'초월',subtitle:'한계를 넘는 결전',recommendation:'각 분대 용병 2명·Lv.21 기준 · 최상위 카드·장비·조합 필수',power:1800000000,hpPercent:1200,attackPercent:180,defensePercent:120,attackCount:4,forcedEvery:2})]);
+// their configured tiers until a new room snapshots the updated policy.
+export const COOP_ALL_DIFFICULTIES=Object.freeze([...COOP_DIFFICULTIES,
+ Object.freeze({id:'TRANSCEND',name:'초월',subtitle:'한계를 넘는 결전',recommendation:'각 분대 용병 2명·Lv.21 기준 · 최상위 카드·장비·조합 필수',power:1800000000,hpPercent:1200,attackPercent:180,defensePercent:120,attackCount:4,forcedEvery:2,dualOnly:true}),
+ Object.freeze({id:'ECLIPSE',name:'종언',subtitle:'최후의 결전',recommendation:'챌린저 상위 20명 기준 · 회복과 보호를 갖춘 2~3인 분대',power:5_160_000_000_000,hpPercent:7200,attackPercent:300,defensePercent:150,attackCount:4,forcedEvery:2,dualOnly:true})
+]);
 export const coopDifficulty=id=>COOP_ALL_DIFFICULTIES.find(d=>d.id===id);
 export function validateCoopSelection(value,rules=COOP_RULES){
  if(rules.mercenariesPerPlayer===2){

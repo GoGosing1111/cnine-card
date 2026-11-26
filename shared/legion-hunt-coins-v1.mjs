@@ -3,7 +3,7 @@
 export const LEGION_COIN_REVISION=2;
 export const LEGION_COIN_CAPS=Object.freeze({
   island:Object.freeze({normal:1_000_000_000,hard:2_000_000_000,nightmare:3_000_000_000,inferno:5_000_000_000}),
-  regions:Object.freeze({normal:5_000_000_000,hard:7_000_000_000,nightmare:10_000_000_000,inferno:15_000_000_000,calamity:30_000_000_000})
+  regions:Object.freeze({normal:5_000_000_000,hard:7_000_000_000,nightmare:10_000_000_000,inferno:15_000_000_000,calamity:30_000_000_000,ruin:75_000_000_000})
 });
 const REFERENCES={
   island:{normal:653,hard:653,nightmare:689,inferno:725},
@@ -14,9 +14,9 @@ const REFERENCES={
   sky:{normal:661,hard:661,nightmare:697,inferno:733,calamity:733}
 };
 export function legionCoinPolicy(regionId,difficulty){
-  const referenceUnits=REFERENCES[regionId||'island']?.[difficulty];
+  const referenceUnits=REFERENCES[regionId||'island']?.[regionId&&difficulty==='ruin'?'calamity':difficulty];
   if(!referenceUnits)throw Error('HUNT_COIN_POLICY');
-  return {revision:LEGION_COIN_REVISION,cap:LEGION_COIN_CAPS[regionId?'regions':'island'][difficulty],referenceUnits};
+  return {revision:LEGION_COIN_REVISION,cap:LEGION_COIN_CAPS[regionId?'regions':'island'][difficulty],referenceUnits,...(difficulty==='ruin'?{paceDurationMs:300000}:{})};
 }
 export function createLegionCoins(regionId,difficulty,{live=false,bonusPercent=0,martialLaw=false}={}){
   if(!Number.isFinite(bonusPercent)||bonusPercent<0)throw Error('HUNT_COIN_BONUS');
@@ -35,7 +35,7 @@ export function legionCoinTotal(coins,units=coins.units){
 export function earnedLegionCoins(coins,units,killTimeMs,huntDurationMs){
   const earned=legionCoinTotal(coins,units);
   if((coins.revision??1)<2)return earned;
-  const duration=Math.max(1,Math.floor(huntDurationMs||300000));
+  const duration=Math.max(1,Math.floor(coins.paceDurationMs||huntDurationMs||300000));
   const budget=BigInt(coins.cap)*BigInt(Math.min(duration,killTimeMs))/BigInt(duration);
   return Math.min(earned,Number(budget));
 }

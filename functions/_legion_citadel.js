@@ -19,6 +19,7 @@ import {loadPetBattleSnapshot} from './_pet_account.js';
 import {seasonBonus,seasonEnabled} from './_season_s1.js';
 import {buildCitadelBattle} from './_legion_citadel_battle.js';
 import {clanHideout,requireClanHideout,clanEntryGuards} from './_clan_hideout_access.js';
+import {inheritedCitadelDrops} from '../shared/challenger-pve-rewards-v1.mjs';
 import {DOCKYARD,FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_tiers.js';
 import {citadelAdmin,readCitadelPolicy,CITADEL_POLICY_KEY} from './_legion_citadel_policy.js';
 import {citadelLoot,citadelGrantStatements,personalFarm,farmView,collectCitadelPile} from './_legion_citadel_loot.js';
@@ -203,7 +204,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
  const who=userKey(uid),at=now();let id=b.id,prior;
  if(action==='create'){
   if(b.area!==undefined&&!['public',DOCKYARD.id,COW_AREA].includes(b.area))fail('AREA','토벌 전장을 확인하세요.',400);
-  if(b.area===COW_AREA&&b.tier!=='throne')fail('TIER','카우방은 파티 최고 난이도로 출전합니다.',400);
+  if(b.area===COW_AREA&&b.tier!=='throne')fail('TIER','카우방은 종말의 왕좌 기준으로 출전합니다.',400);
   if(b.area===DOCKYARD.id&&(b.tier??FIRST_TIER)!==FIRST_TIER)fail('TIER','클랜 원정 난이도를 확인하세요.',400);
   if(!tierById(Object.hasOwn(b,'tier')?b.tier:FIRST_TIER))fail('TIER','성채 난이도를 선택하세요.',400);
   if(typeof b.requestId!=='string'||!/^[a-zA-Z0-9_-]{12,80}$/.test(b.requestId))fail('INPUT','파티 개설 요청을 다시 보내세요.',400);
@@ -261,7 +262,7 @@ async function change({action,b,env,user,deps,policy,policyRaw,citadel}){
     requireReadyParty(r.members);
     if(status==='LOADING')return present(env,r,user,at);
     const us=await eligibleUsers(env,r,policy);
-    const tier=r.tier??FIRST_TIER,drops=citadel.policy.tierDrops[tier]??citadel.policy.drops;
+    const tier=r.tier??FIRST_TIER,drops=citadel.policy.tierDrops[tier]??inheritedCitadelDrops(citadel.policy,tier);
     const [squads,loot,tickets]=await Promise.all([Promise.all(us.map((u,i)=>(deps.citadelSquad||loadSquad)(env,u,r.members[i].selection,deps))),(deps.citadelLoot||citadelLoot)(env,us,drops,tier,area),r.paying?Promise.all(us.map(u=>cowTicketOutcome(env,u.id,'LEGION_PARTY',id))):[]]);
     const built=buildCitadelBattle(squads,crypto.getRandomValues(new Uint32Array(1))[0],tier,area);
     const replayParts=[['header',built.replay],...built.chunks.map((v,i)=>[i,v])];

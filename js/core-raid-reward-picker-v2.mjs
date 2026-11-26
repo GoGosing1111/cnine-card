@@ -1,4 +1,4 @@
-import {rewardRevealContent} from '../shared/reward-reveal-contents-v1.mjs?v=20261029-blackwing-rewards1';
+import {rewardRevealContent} from '../shared/reward-reveal-contents-v1.mjs?v=20261126-challenger';
 import {ReliquaryStage} from './core-raid-reward-stage-v2.mjs?v=20261029-blackwing-rewards1';
 
 let stylePromise;

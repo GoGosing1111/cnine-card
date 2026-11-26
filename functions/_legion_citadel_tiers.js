@@ -1,3 +1,4 @@
+import {CHALLENGER_REWARD_MULTIPLIER} from '../shared/challenger-pve-rewards-v1.mjs';
 import {UNIQUE_MERCENARY_EQUIPMENT} from '../shared/mercenary-unique-equipment-v1.mjs';
 export const FIRST_TIER='gate';
 export const DOCKYARD=Object.freeze({id:'clan-dockyard',name:'봉쇄된 물류기지',stage:3,itemMultiplier:1.5,
@@ -11,7 +12,8 @@ export const CITADEL_UNIQUE_REWARDS=Object.freeze([5,10,20].map((divisor,index)=
 export const CITADEL_TIERS=Object.freeze([
  {id:'gate',name:'재앙의 성문',stage:1,uniqueScale:0.8,guide:'고레벨 용병과 회복 담당 1명 이상 권장',power:5,boss:12,attack:1.45,defense:115,speed:110,shield:6,repeat:2,barragePercent:8},
  {id:'keep',name:'멸망의 내성',stage:2,uniqueScale:0.9,guide:'성문을 돌파한 파티 · 회복과 방벽 편성 권장',power:16,boss:50,attack:1.8,defense:135,speed:125,shield:15,repeat:3,barragePercent:9.5},
- {id:'throne',name:'종말의 왕좌',stage:3,uniqueScale:1,guide:'최종 돌파 용병 · 강화 장비와 회복 편성 권장',power:48,boss:192,attack:2.3,defense:160,speed:145,shield:26,repeat:4,barragePercent:10.25}
+ {id:'throne',name:'종말의 왕좌',stage:3,uniqueScale:1,guide:'최종 돌파 용병 · 강화 장비와 회복 편성 권장',power:48,boss:192,attack:2.3,defense:160,speed:145,shield:26,repeat:4,barragePercent:10.25},
+ {id:'crucible',name:'멸화의 심장',stage:4,resourceMultiplier:CHALLENGER_REWARD_MULTIPLIER,uniqueScale:1,guide:'챌린저 상위 20명 기준 · 성주 처치와 7분 생존 · 종말의 왕좌 대비 재화·소모품·재료 ×2.5',power:2880,boss:22272,attack:2.3,defense:160,speed:145,shield:26,repeat:4,barragePercent:10.25}
 ]);
 export const tierById=id=>CITADEL_TIERS.find(t=>t.id===id);
 export const citadelTierMenu=CITADEL_TIERS.map(({id,name,stage,guide})=>({id,name,stage,guide,

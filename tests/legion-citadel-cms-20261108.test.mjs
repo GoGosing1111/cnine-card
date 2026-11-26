@@ -22,10 +22,10 @@ for(const postgres of [false,true]){
   const f=await citadelFixture({postgres,partyMode:null});try{
    assert.equal(ok(await f.action(0,'status')).open,false);assert.equal((await f.action(0,'lobby')).status,401);
    assert.equal((await admin(f,undefined,2)).status,403);assert.equal((await admin(f,undefined,0)).status,401);
-   const {policy,catalog,tiers}=ok(await admin(f));assert.equal(tiers.length,3);assert.equal(policy.mode,'OFF');assert.equal(policy.revision,0);
+   const {policy,catalog,tiers}=ok(await admin(f));assert.equal(tiers.length,4);assert.equal(policy.mode,'OFF');assert.equal(policy.revision,0);
    assert.ok(catalog.supplies.length>=4);assert.ok(catalog.supplies.every(v=>v.code!=='OFF_ITEM'));
    const lobby=ok(await f.action(1,'lobby'));assert.deepEqual(lobby.rooms,[]);assert.equal(lobby.open,false);
-   assert.deepEqual(lobby.tiers.map(t=>t.id),['gate','keep','throne']);
+   assert.deepEqual(lobby.tiers.map(t=>t.id),['gate','keep','throne','crucible']);
    assert.deepEqual(Object.keys(lobby.tiers[0]).sort(),['guide','id','name','stage','uniqueFamilies']);
    for(const tier of lobby.tiers)assert.deepEqual(tier.uniqueFamilies,['새벽별','그믐달','태양왕좌']);
    assert.equal((await f.action(1,'options')).status,423);assert.equal((await f.action(1,'create',{requestId:'citadel-growth-cms-party'})).status,423);

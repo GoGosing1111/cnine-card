@@ -247,9 +247,10 @@
     $('hunt-result').addEventListener('cancel',event=>{event.preventDefault();void again(false);});
     window.addEventListener('message',event=>{
       if(entryReceived||event.origin!==location.origin||event.source!==window.parent||event.data?.type!=='legion-hunt-enter')return;
-      if(!['normal','hard','nightmare','inferno','calamity'].includes(event.data.difficulty))return;
+      if(!['normal','hard','nightmare','inferno','calamity','ruin'].includes(event.data.difficulty))return;
       if(event.data.regionId&&!['coast','desert','theatre','viscera','sky','cow-room'].includes(event.data.regionId))return;
-      if(event.data.difficulty==='calamity'&&!event.data.regionId)return;
+      if(!event.data.regionId&&['calamity','ruin'].includes(event.data.difficulty))return;
+      if(event.data.regionId==='cow-room'&&event.data.difficulty!=='calamity')return;
       entryReceived=true;liveDifficulty=event.data.difficulty;liveRegion=event.data.regionId||null;void enterBattle();
     });
     message('저장된 편성으로 전장을 준비합니다.');notifyParent('legion-hunt-ready');return;

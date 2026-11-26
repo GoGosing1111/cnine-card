@@ -67,7 +67,7 @@ export function createCoopRoom({id,user,clientId,area='public',clanId,roundId,di
   snapshot.stages=snapshot.stages.map((stage,i)=>({...stage,name:['정원 외벽','가시 회랑','침식의 심장'][i]}));
  }
  if(!snapshot.difficulties.some(d=>d.id===difficulty))fail('DIFFICULTY','아직 개방되지 않은 난이도입니다.',400);
- if(difficulty==='TRANSCEND'&&!review&&!COMPANION_RELEASE.dualMercenaries)fail('PREPARING','초월 난이도는 2용병 출시와 함께 개방됩니다.');
+ if(coopDifficulty(difficulty).dualOnly&&!review&&!COMPANION_RELEASE.dualMercenaries)fail('PREPARING','이 난이도는 분대당 용병 2명이 필요합니다.');
  return {...(review||COMPANION_RELEASE.dualMercenaries?{[REVIEW]:true,dualBalance:validateCoopDualBalance(dualBalance),mercenariesPerOwner:2}:{}),...(area===CLAN_GARDEN.id?{area,clanId,roundId}:{}),id,minPlayers:COOP_RULES.minPlayers,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,rewardPolicy:structuredClone(rewardPolicy),settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:area===CLAN_GARDEN.id?gardenRoster():rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
 }
 export function coopCommand(room,user,kind,input,now){

@@ -1,3 +1,5 @@
+import {additionalChallengerResources} from './_challenger_pve_resources.js';
+import {isChallengerResource,scaledStackQuantity} from '../shared/challenger-pve-rewards-v1.mjs';
 import {COW_AREA,COW_PARTY_CAP,COW_DROP_FACTOR} from '../shared/legion-cow-room.mjs';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -69,10 +71,11 @@ export function personalFarm(pool,kills,magnet=false,random=secureRolls()){
  });
  const guaranteed=[],stone=pool.calamity?.guarantee;
  const occupiedUntil=Array(6).fill(-Infinity);
+ const resourceCount=(item,count)=>pool.resourceMultiplier&&isChallengerResource(item.type,item.ref,pool.challengerResourceCodes)?scaledStackQuantity(count,pool.resourceMultiplier,random):count;
  let last=-10000;
  for(const [at,kind] of kills){
   if(!pool.calamity&&kind!==2&&at-last<2400)continue;
-  if(kind===2&&stone)guaranteed.push([at,indexOf(stone.item),stone.quantity]);
+  if(kind===2&&stone)guaranteed.push([at,indexOf(stone.item),resourceCount(stone.item,stone.quantity)]);
   const rewards=[];
   if(kind===2&&uniqueTable.length){
    const uniqueTicket=random()*100;
@@ -85,7 +88,7 @@ export function personalFarm(pool,kills,magnet=false,random=secureRolls()){
    for(const row of table){
     if(ticket>=row.end)continue;
     const count=row.min===row.max?row.min:row.min+Math.floor(random()*(row.max-row.min+1));
-    rewards.push([indexOf(row.item),count]);ticket+=100;
+    rewards.push([indexOf(row.item),resourceCount(row.item,count)]);ticket+=100;
     if(ticket>=table.at(-1).end)break;
    }
   }
@@ -162,7 +165,8 @@ export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,t
  const material=row=>({ref:row.code,type:'INVENTORY_ITEM',name:row.name,image:row.image_url});
  const supply=inventory.filter(r=>configured.has(r.code)).map(r=>({...material(r),quantity:configured.get(r.code).quantity,weight:configured.get(r.code).weight}));
  const regions=region.policy.mode==='ON'&&users.every(u=>regionAccess(region.policy,u))?region.policy.regions.filter(r=>r.enabled):[];
- const {uniqueScale}=tierById(tier),calamity=region.policy.difficulties.find(d=>d.id==='calamity').loot;
+ const {uniqueScale,resourceMultiplier}=tierById(tier),calamity=region.policy.difficulties.find(d=>d.id==='calamity').loot;
+ const challengerResourceCodes=resourceMultiplier?await additionalChallengerResources(env.DB,[...configured.keys(),...calamityMaterialCodes(regions)]):undefined;
  const regionIds=new Set(regions.map(r=>r.id));
  const ascendant=regions.length&&region.policy.ascendantDrops?.enabled?region.policy.ascendantDrops.tiers:[];
  const tier10=ascendant.find(row=>row.tier===10);
@@ -187,10 +191,10 @@ export async function citadelLoot(env,users,drops=defaultCitadelPolicy().drops,t
   const {coinPercent,dropPercent}=totals;
   const uniqueBase=tier10?ascendantBossPercent(tier10.expectedRuns,miracle,dropPercent+(hideout?.mercenaryEquipmentPercent||0))*uniqueScale:0;
   const {revision,cap,referenceUnits,multiplier}=createLegionCoins('coast','calamity',{bonusPercent:coinPercent});
-  return {...parties[i],itemMultiplier,supplyDropMultiplier:miracle===100?2:1,rates:{normalPercent,elitePercent,bossPercent,bossMultiplier},
+  return {...parties[i],...(resourceMultiplier?{resourceMultiplier,challengerResourceCodes}:{}),itemMultiplier,supplyDropMultiplier:miracle===100?2:1,rates:{normalPercent,elitePercent,bossPercent,bossMultiplier},
    calamity:regions.length?calamityPartyDrops(regions,calamity,ascendant,gear,material(stoneRow),(base,item)=>legionDropPercent(base,miracle,dropPercent+(item?.type==='EQUIPMENT'?(hideout?.mercenaryEquipmentPercent||0):0)),itemMultiplier):null,
    unique:uniquePools.map(row=>({pieces:row.seats[i],percent:Math.min(100,uniqueBase/row.divisor*(cow?COW_DROP_FACTOR:area===DOCKYARD.id?DOCKYARD.itemMultiplier:1))})),
-   coins:{revision,cap:cow?COW_PARTY_CAP:cap,referenceUnits,multiplier,huntDurationMs:regionalDifficulty('calamity').huntDurationMs,partyMultiplier:cow?1:CITADEL_COIN_MULTIPLIER}};
+   coins:{revision,cap:cow?COW_PARTY_CAP:cap,referenceUnits,multiplier,huntDurationMs:regionalDifficulty('calamity').huntDurationMs,partyMultiplier:cow?1:CITADEL_COIN_MULTIPLIER*(resourceMultiplier??1)}};
  });
 }
 export async function citadelGrantStatements(env,user,id,items,policyLive,coins=0,regional=false){

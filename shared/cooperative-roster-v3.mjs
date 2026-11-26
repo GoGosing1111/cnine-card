@@ -40,7 +40,7 @@ export function coopRosterSummary(value){
  return {...roster,mobs:roster.mobs.map(publicSpecies),elite:publicSpecies(roster.elite),boss:publicSpecies(roster.boss),automatic:true};
 }
 export function coopEnemyTraits(spec,wave,difficulty){
- const scale={NORMAL:.6,HARD:.8,EXTREME:1,TRANSCEND:1.5}[difficulty];
+ const scale={NORMAL:.6,HARD:.8,EXTREME:1,TRANSCEND:1.5,ECLIPSE:1.5}[difficulty];
  return {version:1,kind:spec.trait,wave,
   wardPercent:spec.trait==='BULWARK'?1:0,
   wardCapPercent:spec.trait==='BULWARK'?18:0,

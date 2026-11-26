@@ -1,6 +1,6 @@
 (() => {
  'use strict';
- const VERSION='coop-clan-garden-20261111-v3';
+ const VERSION='20261126-challenger';
  let visible=false,controller=null,pendingMount=null,revision=0,featureRequest,checked=0,loading=false;
  const host=()=>document.getElementById('pveCoopView');
  async function refresh(){

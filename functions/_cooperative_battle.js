@@ -5,6 +5,7 @@ import {COOP_DUAL_BALANCE,validateCoopDualBalance} from '../shared/cooperative-d
 import {applyTypeStacking,distributeEquipment,buildFighter,buildAvatarMercenaryFighter,buildMonsterFighter,publicFighter,simulateBattleV2Preview,teamSummary} from './_battle_v2_preview.js';
 import {avatarPoweredCard} from '../shared/avatar-power-v1.mjs';
 import {validatePreparedMercenaries} from '../shared/companion-loadout-v2.mjs';
+import {eclipseCombat} from '../shared/cooperative-settings-v1.mjs';
 import {cooperativeEnemies} from './_cooperative_enemies.js';
 import {COOP_RULES,COOP_ENCOUNTER,coopDifficulty} from '../shared/cooperative-battleground-v1.mjs';
 
@@ -27,7 +28,7 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
   applySeasonFighterBonus([merc],runeBonus,'PVE');mercenaries.push({...merc,id:`A:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:2+index,slot:6+squadIndex*mercenariesPerOwner+index});});
   members.push({ownerId,ownerName,squadIndex,...(squad.vehicleTransit ? {vehicleTransit:squad.vehicleTransit} : {}),...(squad.equipmentSetVisual?{equipmentSetVisual:squad.equipmentSetVisual}:{}),ownerRankLevel:squad.ownerRankLevel??null});
  });
- const saved=combat?.difficulties.find(d=>d.id===config.id),maxBattleMs=combat?combat.maxBattleSeconds*1000:COOP_RULES.maxBattleMs;
+ const saved=combat?.difficulties.find(d=>d.id===config.id)??(config.id==='ECLIPSE'?eclipseCombat():null),maxBattleMs=combat?combat.maxBattleSeconds*1000:COOP_RULES.maxBattleMs;
  const tuned={...config,forcedEvery:saved?.forcedEvery??config.forcedEvery};
  const staged=citadelEnemies||(monsterSnapshot?null:cooperativeEnemies(tuned,saved?.monsters,combat?.stages,encounter));
  const monster=monsterSnapshot?structuredClone(monsterSnapshot):staged.monster;

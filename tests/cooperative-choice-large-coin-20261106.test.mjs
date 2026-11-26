@@ -29,7 +29,7 @@ const count=async(f,table)=>Number((await f.row('SELECT COUNT(*) n FROM '+table)
 for(const dialect of ['sqlite','postgres']){
  test(`${dialect}: cooperative choice credits exact large balances and replays once`,async t=>{
   const f=await coreRewardFixture(dialect);t.after(()=>f.close());
-  const contents=['COOP_NORMAL','COOP_HARD','COOP_TRANSCEND','COOP_EXTREME','LICH','MADARA','BLACKWING'];
+  const contents=['COOP_NORMAL','COOP_HARD','COOP_TRANSCEND','COOP_EXTREME','COOP_ECLIPSE','LICH','MADARA','BLACKWING'];
   const balances=['9007199254740990','9007199254740991','9007199254740992','99999999999999999','100000000000000000','100000000000000001','9223372036854775800'];
   for(const [i,initial]of balances.entries()){
    await f.run('UPDATE users SET coin=CAST(? AS BIGINT) WHERE id=1',initial);

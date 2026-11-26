@@ -1,3 +1,5 @@
+import {additionalChallengerResources} from './_challenger_pve_resources.js';
+import {challengerChoiceReward} from '../shared/challenger-pve-rewards-v1.mjs';
 import {CORE_REWARD_DEFAULT,validateCoreRewardPolicy,drawCoreRewards,minimumCoreReward} from '../shared/core-raid-reward-policy-v1.mjs';
 import {REWARD_REVEAL_CONTENTS,rewardRevealContent} from '../shared/reward-reveal-contents-v1.mjs';
 import {CORE_REWARD_KEY,coreRewardCatalog,saveCoreRewardPolicy,prepareCoreChoiceGrant} from './_core_raid_rewards.js';
@@ -26,13 +28,19 @@ export async function prepareRewardRevealContext(env,content,snapshot,live){
  const policy=validateCoreRewardPolicy(snapshot),key=policyKey(content),current=await raw(env,key);
  if(current===null||!validateCoreRewardPolicy(JSON.parse(current)).enabled)return {enabled:false,statements:[]};
  const guard=crypto.randomUUID();
- return {enabled:true,content,policy,statements:[jointGuard(env.DB,guard,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,current]),jointGuardEnd(env.DB,guard)]};
+ const additional=content==='COOP_ECLIPSE'?await additionalChallengerResources(env.DB,policy.entries.filter(r=>r.rewardType==='INVENTORY_ITEM').map(r=>r.rewardRef)):undefined;
+ return {enabled:true,content,policy,additional,statements:[jointGuard(env.DB,guard,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[key,current]),jointGuardEnd(env.DB,guard)]};
 }
 export function prepareRewardRevealOffer(env,context,{userId,roomId,baseReward,quota,finishedAt}){
  if(!context.enabled)return {statements:[],offer:null};
  const offer={version:1,offerId:crypto.randomUUID(),userId:Number(userId),roomId,content:context.content,revision:context.policy.revision,
   choices:drawCoreRewards(context.policy,mercenaryRandomInt),minimum:minimumCoreReward(context.policy),selectedIndex:null,result:null,
   baseReward,quota,createdAt:finishedAt};
+ if(context.content==='COOP_ECLIPSE'){
+  const scale=reward=>challengerChoiceReward(reward,()=>mercenaryRandomInt(2),context.additional);
+  offer.choices=offer.choices.map(scale);
+  offer.minimum=scale(offer.minimum);
+ }
  const pending={offerId:offer.offerId,content:offer.content,roomId,createdAt:finishedAt};
  return {offer:publicOffer(offer),statements:[
   stmt(env,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',offerKey(userId,offer.offerId),JSON.stringify(offer)),

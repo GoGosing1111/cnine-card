@@ -305,7 +305,7 @@ function glyph(name) {
 }
 const dockArea='clan-dockyard',dockArt='/assets/ui/organization/hunts-20261023/';
 const unitArt='/assets/ui/legion-citadel/enemies-v1/';
-const tierArt={gate:'ash-hound',keep:'black-iron-guard',throne:'castellan-moloch'};
+const tierArt={gate:'ash-hound',keep:'black-iron-guard',throne:'castellan-moloch',crucible:'furnace-warden'};
 function illustratedIcon(src,css) {
   return '<img class="'+css+'" src="'+src+'" alt="" width="64" height="64" decoding="async">';
 }
@@ -339,7 +339,7 @@ function finder({open,cow,cowTickets,tiers,selectedTier,rooms,tierLabel,waiting,
   return (test&&open?'<p class="ct-test">테스트 모드 · 행동력과 실제 보상을 사용하지 않습니다.</p>':'')+
     '<div class="ct-finder"><section class="ct-panel ct-departure"><h2>'+tactical('legion')+(dock?'클랜 원정':'원정 난이도')+'</h2>'+
     (cards?'<fieldset class="ct-tiers" aria-label="파티 개설 난이도">'+cards+'</fieldset><p class="ct-recommend"><b>'+(dock?'참가 조건':'권장')+'</b><span data-tier-guide>'+esc((tier.guide||'').replace(/^권장\s+|\s*권장$/g,''))+'</span></p>'+
-     (tier.uniqueFamilies?.length?'<div class="ct-reliquary"><strong>성주 전리품</strong><ul>'+tier.uniqueFamilies.map((name,i)=>'<li>'+illustratedIcon('/assets/ui/mercenary-equipment/unique-regalia-20261109/'+(i+1)+'-weapon.webp','ct-armory-icon')+'<span>'+esc(name)+'</span></li>').join('')+'</ul><small>유니크 1~3단계 · 상위 성주일수록 드랍 확률 증가</small></div>':''):'')+create+'</section>'+
+     (tier.uniqueFamilies?.length?'<div class="ct-reliquary"><strong>성주 전리품</strong><ul>'+tier.uniqueFamilies.map((name,i)=>'<li>'+illustratedIcon('/assets/ui/mercenary-equipment/unique-regalia-20261109/'+(i+1)+'-weapon.webp','ct-armory-icon')+'<span>'+esc(name)+'</span></li>').join('')+'</ul><small>유니크 1~3단계 · 종말의 왕좌와 멸화의 심장은 같은 확률</small></div>':''):'')+create+'</section>'+
     '<section class="ct-panel ct-board"><div class="ct-panel-head"><h2>'+tactical('duo')+(dock?'우리 클랜 파티':'모집 중인 파티')+(open?'<span class="ct-count">'+rooms.length+'</span>':'')+'</h2>'+refresh+'</div>'+
     (open&&rooms.length?'<ul class="ct-rooms">'+roomList+'</ul>':empty)+(waiting?'<button data-act="leave">대기 파티 나가기</button>':'')+'</section></div>'+(cow?'':expeditionGuide(dock,rechargeHours,unlimited&&!test));
 }
@@ -347,7 +347,7 @@ function finder({open,cow,cowTickets,tiers,selectedTier,rooms,tierLabel,waiting,
 export function openCitadel(trigger,firstRead=null){
  if(active){firstRead?.controller.abort();return;}
 
- style('/css/legion-citadel-v1.css?v=cow-renewal-20261120-vehicle-20261125');
+ style('/css/legion-citadel-v1.css?tiers=20261126&v=cow-renewal-20261120-vehicle-20261125');
  const d=document.createElement('dialog');
  active=d;d.className='citadel';d.setAttribute('aria-labelledby','ct-title');
  d.innerHTML='<header class="ct-bar"><div class="ct-brand">'+citadelCrest()+'<b>군단토벌 파티</b></div><button type="button" class="ct-close" data-act="close" aria-label="화면 닫기">'+glyph('close')+'</button></header>'+
@@ -373,7 +373,7 @@ export function openCitadel(trigger,firstRead=null){
   const cow=cowSelected(),dock=dockSelected(),banner=cow?COW_REGION.background:dock?dockArt+'stage3-dockyard.webp':null;
   $('.ct-hero source').srcset=banner||root+'720.webp';$('.ct-hero picture img').src=banner||root+'1440.webp';
   $('.ct-castellan').src=cow?COW_REGION.boss.sprite:dock?dockArt+'stage3-boss.webp':unitArt+'castellan-moloch.webp';
-  txt($('#ct-title'),cow?'카우방':dock?'봉쇄된 물류기지':'불타는 성채');txt($('.ct-hero-copy p'),cow?'방장이 입장권 1장을 사용해 2명이 출전합니다. 1인 최대 10조 코인 · 최고 난이도 드랍률 150%.':dock?'같은 클랜원과 항만을 탈환하세요. 아이템·장비 드랍 확률 150%.':'밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.');
+  txt($('#ct-title'),cow?'카우방':dock?'봉쇄된 물류기지':'불타는 성채');txt($('.ct-hero-copy p'),cow?'방장이 입장권 1장을 사용해 2명이 출전합니다. 1인 최대 10조 코인 · 종말의 왕좌 기준 드랍률 150%.':dock?'같은 클랜원과 항만을 탈환하세요. 아이템·장비 드랍 확률 150%.':'밀려드는 군단을 사냥하고, 잿불 성주 몰록을 처치하세요.');
  }
  const tierLabel=id=>{if(cowSelected())return '카우방';if(dockSelected())return '봉쇄된 물류기지';const t=tiers.find(v=>v.id===(id??'gate'));return t?t.stage+'단계 · '+t.name:state?.tierName||'재앙의 성문';};
  const paused=()=>!entryOpen&&(!state||state.status==='LOBBY'||state.status==='LOADING');

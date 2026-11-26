@@ -44,7 +44,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const finalAdds=region&&['coast','viscera'].includes(region.id)?[0,1].map((slot)=>({...monster(monsters[slot],slot),id:`B:${slot}:BOSS_SUPPORT`,legionBossSupport:true})):[];
   const timeLimit=limitMs??policy.limitMs;
   const result=simulateBattleV2Preview({...companionReviewOptions(snapshot),teamA:simulationTeamA,teamB:fighters,
-    sustainedEncounter:{durationMs:policy.huntDurationMs,templates,finalBoss,...(region?{regionId:region.id,finalAdds}:{})},
+    sustainedEncounter:{durationMs:policy.huntDurationMs,templates,finalBoss,...(region?{regionId:region.id,regionDifficulty:policy.id,finalAdds}:{})},
     encounterCapacity:CAPACITY,maxCombatDurationMs:timeLimit,maxActions:6000,forcedMonsterEvery:policy.forced,healerPenalty:true,seed,
     pets:snapshot?.pet?{A:snapshot.pet}:null,petMode:'PVE',magicA:snapshot?.magicCards||[],singleHealerBonus:snapshot?.singleHealerBonus||{},openingPlayerUltimateDamage:snapshot?.ultimateDamage||0});
   const artMap=new Map([...monsters,...bosses].map(art=>[art.id,art]));

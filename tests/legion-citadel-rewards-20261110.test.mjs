@@ -51,9 +51,13 @@ test('each party form, respawn and boss uses a separate alpha WebP',async()=>{
 test('every boss can award all three families at its stage multiplier, including all 15 public equipment IDs',async()=>{
  const f=await citadelFixture();try{
   const region=await seedGear(f),drops={...defaultCitadelPolicy().drops,normalPercent:0,elitePercent:0,bossPercent:0};
-  for(const [i,tier] of stages.entries()){
+  for(const [i,tier] of [...stages,'crucible'].entries()){
    const pools=await citadelLoot(f.env,users,drops,tier);
-   const scale=[.8,.9,1][i],divisors=[5,10,20];
+   const scale=[.8,.9,1,1][i],divisors=[5,10,20];
+   for(const pool of pools){
+    assert.equal(pool.coins.partyMultiplier*pool.coins.cap,tier==='crucible'?750_000_000_000:300_000_000_000);
+    assert.equal(pool.resourceMultiplier??1,tier==='crucible'?2.5:1);
+   }
    const available=pools.flatMap(p=>p.unique.flatMap(row=>row.pieces.map(g=>g.name)));
    assert.deepEqual(available.sort(),equipment.map(g=>g.name).sort());
    for(const full of pools){

@@ -1,3 +1,4 @@
+import {inheritedCitadelDrops} from '../shared/challenger-pve-rewards-v1.mjs';
 import {jointError,readJointBody} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readRegionPolicy} from './_legion_regions.js';
@@ -55,6 +56,7 @@ async function adminCatalog(env){
  const fieldItems=new Set(regions.flatMap(r=>(r.fieldDrops?.items||[]).filter(v=>v.enabled&&v.weight>0).map(v=>v.code)));
  const partyRewards={itemMultiplier:CITADEL_ITEM_MULTIPLIER,coinMultiplier:CITADEL_COIN_MULTIPLIER,coinCap:LEGION_COIN_CAPS.regions.calamity*CITADEL_COIN_MULTIPLIER,
   calamity:{regions:regions.length,fieldItems:fieldItems.size,materialCodes:[...calamityMaterialCodes(regions)]},
+  resourceMultipliers:Object.fromEntries(citadelTierMenu.map(({id})=>[id,tierById(id).resourceMultiplier??1])),
   unique:Object.fromEntries(citadelTierMenu.map(({id})=>{
    const scale=tierById(id).uniqueScale;
    return [id,{scale,tiers:CITADEL_UNIQUE_REWARDS.map(row=>({...row,expectedRuns:reference?reference.expectedRuns*row.divisor/scale:null}))}];
@@ -77,7 +79,7 @@ async function save(env,user,body){
  }
  if(!modeOnly||next.mode==='ON'){
   const catalog=await adminCatalog(env),goods=new Set(catalog.supplies.map(r=>r.code)),gear=new Set(catalog.equipment.map(r=>r.code));
-  const policies=modeOnly?[next.drops,...Object.values(next.tierDrops)]:[next.tierDrops[tier]??next.drops];
+  const policies=modeOnly?[next.drops,...Object.values(next.tierDrops)]:[next.tierDrops[tier]??inheritedCitadelDrops(next,tier)];
   if(policies.some(d=>d.supplies.some(v=>!goods.has(v.code))||d.equipmentCodes?.some(code=>!gear.has(code))))invalid('활성 아이템과 공개된 지역 세트 장비만 선택하세요.');
  }
  if(JSON.stringify(next)===JSON.stringify(policy)&&before.raw!==null)return policy;

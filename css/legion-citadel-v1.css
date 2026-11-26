@@ -48,6 +48,7 @@ body:has(>.citadel.in-battle.ct-light-field)>#app{display:none}
 .citadel .ct-panel h2,.citadel .ct-head h2 {display:inline-flex;align-items:center;gap:8px;margin:0;color:#f4ede1;font-size:20px;letter-spacing:-.05em;line-height:1.4}
 .ct-panel-head {display:flex;align-items:center;justify-content:space-between;gap:8px}
 .ct-count {display:inline-grid;place-items:center;min-width:21px;height:20px;padding:0 5px;border:1px solid #5a5049;border-radius:3px;background:#39332f;color:#e5c49d;font:700 11px/1 sans-serif;letter-spacing:.02em}
+.ct-tiers:has(.ct-tier:nth-of-type(4)) {grid-template-columns:repeat(2,minmax(0,1fr))}
 .ct-tiers {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:13px 0 0;padding:0;min-width:0;border:0}
 .ct-tier {position:relative;display:block;min-width:0;cursor:pointer}
 .citadel .ct-tier:only-child {grid-column:1 / -1}

@@ -1,4 +1,4 @@
-import {LEGION_REGIONS,REGION_DIFFICULTIES,REGION_EQUIPMENT,LEGION_REGIONS_KEY,legionRegionDefaults,regionById,regionalDifficulty} from '../shared/legion-regions-v1.mjs';
+import {LEGION_REGIONS,REGION_DIFFICULTIES,ALL_REGION_DIFFICULTIES,regionPowerLimit,REGION_EQUIPMENT,LEGION_REGIONS_KEY,legionRegionDefaults,regionById,regionalDifficulty} from '../shared/legion-regions-v1.mjs';
 import {POLISH_ITEM_CODE,POLISH_ART} from '../shared/equipment-polish-v1.mjs';
 import {jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -15,9 +15,9 @@ const fail=message=>{throw jointError('HUNT_REGION_POLICY',message,400);};
 const bounded=(value,min,max)=>typeof value==='number'&&Number.isFinite(value)&&value>=min&&value<=max;
 const exact=(value,names)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).every(k=>names.includes(k));
 export function regionAccess(policy,user){return Boolean(user&&(policy.mode==='ON'||policy.mode==='TEST'&&(user.role==='OWNER'||policy.testUserIds.includes(Number(user.id)))));}
-export function validateRegionFieldDrops(raw,catalog=raw?.items){
+export function validateRegionFieldDrops(raw,catalog=raw?.items,difficultyIds=REGION_DIFFICULTIES.map(d=>d.id)){
   if(!exact(raw,['difficulties','items']))fail('지역별 필드 드랍 설정을 확인하세요.');
-  const result=validateLegionHuntPolicy({revision:0,mode:'OFF',testUserIds:[],...raw},catalog||[],{difficultyIds:REGION_DIFFICULTIES.map(d=>d.id)});
+  const result=validateLegionHuntPolicy({revision:0,mode:'OFF',testUserIds:[],...raw},catalog||[],{difficultyIds});
   return {difficulties:result.difficulties,items:result.items};
 }
 export function validateRegionPolicy(raw,catalog){
@@ -28,14 +28,15 @@ export function validateRegionPolicy(raw,catalog){
   }
   if(!Array.isArray(raw.regions)||raw.regions.length!==5||new Set(raw.regions.map(r=>r.id)).size!==5||raw.regions.some(r=>!exact(r,['id','enabled','fieldDrops'])||!regionById(r.id)||typeof r.enabled!=='boolean'))fail('지역 5개의 공개 설정을 확인하세요.');
   if(!Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||raw.testUserIds.some(id=>!Number.isSafeInteger(id)||id<=0))fail('검수 계정은 중복 없이 최대 100명입니다.');
-  if(!Array.isArray(raw.difficulties)||raw.difficulties.length!==5||new Set(raw.difficulties.map(d=>d.id)).size!==5)fail('난이도 5개가 필요합니다.');
+  const tiers=raw.difficulties?.length===ALL_REGION_DIFFICULTIES.length?ALL_REGION_DIFFICULTIES:REGION_DIFFICULTIES;
+  if(!Array.isArray(raw.difficulties)||raw.difficulties.length!==tiers.length||!tiers.every(t=>raw.difficulties.some(d=>d?.id===t.id)))fail('지역 난이도 구성을 확인하세요.');
   for(const d of raw.difficulties){
-    if(!exact(d,['id','power','bossPower','attack','shield','forced','loot'])||!regionalDifficulty(d.id)||!Number.isSafeInteger(d.power)||!bounded(d.power,1000,1e9)||!Number.isSafeInteger(d.bossPower)||!bounded(d.bossPower,d.power,1e9)||!bounded(d.attack,100,500)||!bounded(d.shield,0,100)||!Number.isInteger(d.forced)||!bounded(d.forced,2,12))fail('몬스터 능력치와 행동 간격을 확인하세요.');
+    if(!exact(d,['id','power','bossPower','attack','shield','forced','loot'])||!regionalDifficulty(d.id)||!Number.isSafeInteger(d.power)||!bounded(d.power,1000,regionPowerLimit(d.id))||!Number.isSafeInteger(d.bossPower)||!bounded(d.bossPower,d.power,regionPowerLimit(d.id))||!bounded(d.attack,100,500)||!bounded(d.shield,0,100)||!Number.isInteger(d.forced)||!bounded(d.forced,2,12))fail('몬스터 능력치와 행동 간격을 확인하세요.');
     const loot=d.loot,percentKeys=['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'];
     if(!exact(loot,[...percentKeys,'bossStones','lifetimeSeconds'])||percentKeys.some(k=>{const precision=k.includes('Stone')||k==='stonePercent'?1000:10000;return !bounded(loot[k],0,100)||Math.abs(loot[k]*precision-Math.round(loot[k]*precision))>1e-7;})||!Number.isInteger(loot.bossStones)||!bounded(loot.bossStones,1,100)||!bounded(loot.lifetimeSeconds,3,30))fail('지역 드랍 확률·수량·소멸 시간을 확인하세요.');
   }
   const next=structuredClone(raw);
-  for(const region of next.regions)if(Object.hasOwn(region,'fieldDrops'))region.fieldDrops=validateRegionFieldDrops(region.fieldDrops,catalog);
+  for(const region of next.regions)if(Object.hasOwn(region,'fieldDrops'))region.fieldDrops=validateRegionFieldDrops(region.fieldDrops,catalog,tiers.map(t=>t.id));
   return next;
 }
 export async function readRegionPolicy(env){
@@ -88,5 +89,5 @@ export function publicRegionHuntPayload(payload){
 export function regionBootstrap(policy,user,catalog=[]){
   if(!regionAccess(policy,user))return null;
   return {mode:policy.mode,revision:policy.revision,regions:LEGION_REGIONS.filter(r=>policy.regions.find(p=>p.id===r.id)?.enabled),
-    difficulties:REGION_DIFFICULTIES.map(d=>{const live={...d,...policy.difficulties.find(p=>p.id===d.id)};return {...live,loot:publicRegionLoot(live.loot)};}),ascendantAvailable:policy.ascendantDrops?.enabled===true,equipment:REGION_EQUIPMENT.map(item=>{const row=catalog.find(r=>r.equipmentCode===item.code);return row?{...item,name:row.name,image:row.image,rarity:row.rarity,totalPower:row.totalPower}:item;})};
+    difficulties:ALL_REGION_DIFFICULTIES.filter(d=>policy.difficulties.some(p=>p.id===d.id)).map(d=>{const live={...d,...policy.difficulties.find(p=>p.id===d.id)};return {...live,loot:publicRegionLoot(live.loot)};}),ascendantAvailable:policy.ascendantDrops?.enabled===true,equipment:REGION_EQUIPMENT.map(item=>{const row=catalog.find(r=>r.equipmentCode===item.code);return row?{...item,name:row.name,image:row.image,rarity:row.rarity,totalPower:row.totalPower}:item;})};
 }

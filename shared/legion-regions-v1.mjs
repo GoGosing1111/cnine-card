@@ -1,6 +1,7 @@
 // Region equipment and enemy identities are independent from deployment policy.
 // All numeric balance values below are review defaults; the server snapshots CMS policy.
-import {HUNT_DURATION_MS} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
+import {CHALLENGER_REWARD_MULTIPLIER} from './challenger-pve-rewards-v1.mjs';
+import {HUNT_DURATION_MS,RUIN_BOSS_AT_MS} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 export const LEGION_REGIONS_VERSION = 1;
 export const LEGION_REGIONS_KEY = 'legion_hunt_regions_v1';
 export const LEGION_REGION_ART = '/assets/ui/legion-regions-v1/';
@@ -46,6 +47,15 @@ export const REGION_DIFFICULTIES = Object.freeze([
   id,name,index,power,bossPower,attack,shield,forced,repeat:1,limitMs:HUNT_DURATION_MS,huntDurationMs:HUNT_DURATION_MS-bossLimitMs,bossLimitMs,recommendation,description,
   loot:Object.freeze({stonePercent,eliteStonePercent,eliteSetPercent:setPercent/5,bossSetPercent:setPercent,bossUniquePercent:uniquePercent,bossStones,lifetimeSeconds:12})
 })));
+// The original five rows are also the format of existing CMS documents.
+const calamity=REGION_DIFFICULTIES.find(d=>d.id==='calamity');
+export const RUIN_DIFFICULTY=Object.freeze({...calamity,id:'ruin',name:'파멸',index:5,
+  power:1_120_000_000_000,bossPower:680_000_000_000_000,
+  loot:Object.freeze({...calamity.loot,bossStones:calamity.loot.bossStones*CHALLENGER_REWARD_MULTIPLIER}),
+  huntDurationMs:RUIN_BOSS_AT_MS,bossLimitMs:HUNT_DURATION_MS-RUIN_BOSS_AT_MS,
+  recommendation:'챌린저 상위 20명 기준 · 6분 35초까지 생존 후 보스 격파',description:'마지막 25초 동안 지역 보스를 처치하세요.'});
+export const ALL_REGION_DIFFICULTIES=Object.freeze([...REGION_DIFFICULTIES,RUIN_DIFFICULTY]);
+export const regionPowerLimit=id=>id==='ruin'?800_000_000_000_000:1_000_000_000;
 export const REGION_EQUIPMENT = Object.freeze(LEGION_REGIONS.flatMap(region=>[
   ...REGION_EQUIPMENT_SLOTS.map((slot,index)=>Object.freeze({
     code:`${region.setId}_${slot}`,regionId:region.id,setId:region.setId,kind:'SET',name:`${region.setName} ${slotNames[slot]}`,slot,
@@ -56,7 +66,7 @@ export const REGION_EQUIPMENT = Object.freeze(LEGION_REGIONS.flatMap(region=>[
     totalPower:region.unique.slot==='WEAPON'?290000:200000,image:`/assets/ui/mercenary-equipment/legion-20261011/${region.id}-unique.webp`,effect:region.unique.effect,description:region.unique.description})
 ]));
 export const regionById=id=>LEGION_REGIONS.find(row=>row.id===id)||null;
-export const regionalDifficulty=id=>REGION_DIFFICULTIES.find(row=>row.id===id)||null;
+export const regionalDifficulty=id=>ALL_REGION_DIFFICULTIES.find(row=>row.id===id)||null;
 export const regionalEquipment=code=>REGION_EQUIPMENT.find(row=>row.code===code)||null;
 export function legionRegionDefaults(){
   return {schemaVersion:1,revision:0,mode:'TEST',difficulties:REGION_DIFFICULTIES.map(d=>({id:d.id,power:d.power,bossPower:d.bossPower,attack:d.attack,shield:d.shield,forced:d.forced,loot:{...d.loot}})),

@@ -76,7 +76,7 @@ export async function handleCooperative({path,request,env,deps}){
   const user=await deps.authenticate(request,env);if(!user)fail('LOGIN','로그인 후 입장하세요.',401);
   const config=await coopSettings(env),kind=path.replace(/^(?:admin\/)?coop\//,''),url=new URL(request.url);
   if(kind==='settings'||path.startsWith('admin/coop/'))return await cooperativeAdmin({kind,request,env,deps,user,config});
-  const difficulties=COOP_ALL_DIFFICULTIES.filter(d=>config.combat.difficulties.some(row=>row.id===d.id)&&(d.id!=='TRANSCEND'||COMPANION_RELEASE.dualMercenaries));
+  const difficulties=COOP_ALL_DIFFICULTIES.filter(d=>config.combat.difficulties.some(row=>row.id===d.id)&&(!d.dualOnly||COMPANION_RELEASE.dualMercenaries));
   if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',clanHideout:await clanHideout(env,user.id),rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,energy:await coopEnergy(env,user.id),rules:{...(COMPANION_RELEASE.dualMercenaries?COOP_DUAL_RULES:COOP_RULES),maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
   if(!coopAccess(user,config))fail('CLOSED',config.mode==='OFF'?'격전지는 현재 운영 중지 상태입니다.':'격전지 테스트 참여자로 등록된 계정만 입장할 수 있습니다.',403);
   if(kind==='favorites')return deps.json(await saveCoopFavorite({request,env,user,deps,owned:async(kind,id)=>kind==='card'?(await loadCoopOwnedCards(env,user,deps,[id])).length===1:(await mercenaryAccountState(env,user)).cards.some(m=>m.code===id&&m.canDeploy)}),200,{'cache-control':'no-store'});

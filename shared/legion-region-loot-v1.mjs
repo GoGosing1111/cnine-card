@@ -1,3 +1,5 @@
+import {CHALLENGER_REWARD_MULTIPLIER,isChallengerResource,scaledStackQuantity} from './challenger-pve-rewards-v1.mjs';
+
 // RNG is injected from the server. The client cannot select a table or outcome.
 export function regionKillLoot(policy,event,random){
   const loot=policy.regionLoot,items=policy.items||[],region=policy.sourceRegionId||policy.regionId;
@@ -23,6 +25,9 @@ export function regionKillLoot(policy,event,random){
     for(const row of rows){pick-=Math.round(row.weight*1000);if(pick<0){item=row;break;}}
     const min=item.minQuantity,max=item.maxQuantity;
     result.push({...item,quantity:min+Math.floor(random()*(max-min+1))});
+  }
+  if(policy.id==='ruin')for(const item of result){
+    if(isChallengerResource(item.type,item.ref,policy.challengerResourceCodes))item.quantity=scaledStackQuantity(item.quantity,CHALLENGER_REWARD_MULTIPLIER,random);
   }
   return result.sort((a,b)=>Number(b.kind==='UNIQUE')-Number(a.kind==='UNIQUE'));
 }

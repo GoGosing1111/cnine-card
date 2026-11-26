@@ -19,6 +19,16 @@ export function defaultCoopCombat(){
     hpPercent:[100,100,100,240,d.hpPercent*.76][i],attackPercent:[100,100,100,100,d.attackPercent][i],
     defensePercent:d.defensePercent,shieldPercent:m.key==='WARDEN'?30:0,attackCount:[1,1,2,2,d.attackCount][i]}))}))};
 }
+export function eclipseCombat(){
+ const d=COOP_ALL_DIFFICULTIES.find(row=>row.id==='ECLIPSE');
+ return {id:d.id,recommendation:d.recommendation,forcedEvery:d.forcedEvery,responseSeconds:5,overloadPercent:36,focusPercent:60,
+  monsters:COOP_MONSTERS.map((monster,i)=>({key:monster.key,
+   power:i<3?365_000_000_000:i===3?2_900_000_000_000:d.power,
+   hpPercent:i<3?4800:i===3?6000:d.hpPercent,attackPercent:d.attackPercent,defensePercent:d.defensePercent,
+   shieldPercent:monster.key==='WARDEN'?30:0,attackCount:i<3?3:d.attackCount}))};
+}
+export const coopPowerLimit=id=>id==='ECLIPSE'?6_000_000_000_000:id==='TRANSCEND'?20_000_000_000:2_000_000_000;
+export const coopHpLimit=id=>id==='ECLIPSE'?8000:id==='TRANSCEND'?12000:1200;
 export const defaultCoopEconomy=()=>({entryItemCode:'',entryQuantity:0,payer:'HOST',coin:0,masterStar:0,mysticEnergy:0});
 export const defaultCoopSettings=()=>({mode:'TEST',testUserIds:[],revision:0,rewardLocked:true,combat:defaultCoopCombat(),economyDraft:defaultCoopEconomy()});
 const invalid=message=>{throw Object.assign(Error(message),{code:'COOP_SETTINGS',status:400});};
@@ -26,7 +36,7 @@ const object=v=>v&&typeof v==='object'&&!Array.isArray(v);
 function num(v,min,max,label){if(typeof v!=='number'||!Number.isSafeInteger(v)||v<min||v>max)invalid(`${label}: ${min.toLocaleString()}~${max.toLocaleString()} 사이의 정수를 입력하세요.`);return v;}
 function str(v,max,label){if(typeof v!=='string'||!v.trim()||v.length>max||/[\u0000-\u001f]/.test(v))invalid(`${label}: 1~${max}자로 입력하세요.`);return v.trim();}
 export function validateCoopCombat(v){
- if(!object(v)||!object(v.patterns)||!Array.isArray(v.stages)||v.stages.length!==3||!Array.isArray(v.difficulties)||![3,4].includes(v.difficulties.length))invalid('전투 설정의 세 단계와 난이도를 확인하세요.');
+ if(!object(v)||!object(v.patterns)||!Array.isArray(v.stages)||v.stages.length!==3||!Array.isArray(v.difficulties)||(v.difficulties.length<COOP_DIFFICULTIES.length||v.difficulties.length>COOP_ALL_DIFFICULTIES.length))invalid('전투 설정의 세 단계와 난이도를 확인하세요.');
  const p=v.patterns,patterns={firstSeconds:num(p.firstSeconds,1,60,'첫 기믹'),intervalSeconds:num(p.intervalSeconds,5,60,'기믹 간격'),count:num(p.count,1,6,'기믹 횟수'),rupturePercent:num(p.rupturePercent,0,60,'차단 성공 피해')};
  return {lobbySeconds:num(v.lobbySeconds,60,3600,'모집 시간'),maxBattleSeconds:num(v.maxBattleSeconds,30,180,'전투 제한 시간'),patterns,
   stages:v.stages.map((s,i)=>{if(!object(s)||s.wave!==i+1)invalid('단계 순서는 1 → 2 → 3입니다.');return {wave:i+1,name:str(s.name,30,'단계 이름'),hint:str(s.hint,180,'단계 안내')};}),
@@ -37,7 +47,7 @@ export function validateCoopCombat(v){
     overloadPercent:num(d.overloadPercent,0,60,'차단 실패 피해'),focusPercent:num(d.focusPercent,0,60,'집중 포화 피해'),
     monsters:d.monsters.map((m,j)=>{
      if(!object(m)||m.key!==COOP_MONSTERS[j].key)invalid('몬스터 종류와 순서를 확인하세요.');
-     return {key:m.key,power:num(m.power,1000,d.id==='TRANSCEND'?20000000000:2000000000,'몬스터 전투력'),hpPercent:num(m.hpPercent,100,d.id==='TRANSCEND'?12000:1200,'체력 배율'),attackPercent:num(m.attackPercent,100,1200,'공격 배율'),
+     return {key:m.key,power:num(m.power,1000,coopPowerLimit(d.id),'몬스터 전투력'),hpPercent:num(m.hpPercent,100,coopHpLimit(d.id),'체력 배율'),attackPercent:num(m.attackPercent,100,1200,'공격 배율'),
       defensePercent:num(m.defensePercent,100,1200,'방어 배율'),shieldPercent:num(m.shieldPercent,0,300,'방벽 비율'),attackCount:num(m.attackCount,1,5,'연속 공격 횟수')};
     })};
   })};

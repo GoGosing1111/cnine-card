@@ -12,6 +12,7 @@ import {LEGION_ENERGY_MAXIMUM,CONTENT_ENERGY_RECHARGE_MS} from '../shared/conten
 import {legionHuntEnergyView,legionHuntEnergyBalance as contentEnergy} from '../shared/legion-hunt-energy-v1.mjs';
 import {legionRechargeLabel} from '../shared/legion-hunt-energy-v1.mjs';
 import {readMiracleDropPercent} from './_miracle_burning.js';
+import {additionalChallengerResources} from './_challenger_pve_resources.js';
 import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog,publicRegionHuntPayload,ascendantBossPercent,legionDropPercent} from './_legion_regions.js';
 import {LEGION_REGIONS_KEY,regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
 import {readSupportBenefits} from './_supporter_benefits.js';
@@ -225,6 +226,7 @@ export async function handleLegionHunt({path,request,env,deps}){
           if(!regionAccess(regionPolicy,user)||!enabled.some(r=>r.id===sourceRegionId)||cow&&(!access.liveRewards||regionPolicy.mode!=='ON'))
             throw jointError('HUNT_REGION_CLOSED','선택한 지역은 현재 이용할 수 없습니다.',403);
           regionDifficulty=regionPolicy.difficulties.find(d=>d.id===body.difficulty);
+          if(!regionDifficulty)throw jointError('HUNT_SELECTION','아직 개방되지 않은 지역 난이도입니다.',400);
         }
         const d=regionDifficulty||policy.difficulties.find(r=>r.id===body.difficulty);
         if(!d)throw jointError('HUNT_POLICY_UNAVAILABLE','난이도별 드랍 설정을 확인하세요.',503);
@@ -247,6 +249,7 @@ export async function handleLegionHunt({path,request,env,deps}){
         if(fieldDrops){
           const field=fieldDrops.difficulties.find(r=>r.id===body.difficulty);
           dropPolicy.fieldDrops={items:fieldDrops.items,dropChance:boosted(field.dropPercent)/100,bossDropChance:boosted(field.bossDropPercent)/100};
+          if(body.difficulty==='ruin')dropPolicy.challengerResourceCodes=await additionalChallengerResources(env.DB,fieldDrops.items.filter(i=>i.type==='INVENTORY_ITEM').map(i=>i.ref));
           dropPolicy.dropLifeMs=field.lifetimeSeconds*1000;
         }
         dropPolicy.coinCap=coins.cap;
