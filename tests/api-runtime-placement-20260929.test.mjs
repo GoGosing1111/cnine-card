@@ -95,18 +95,20 @@ test('same game entry runs behind private service with Singapore placement, exis
   assert.ok(deploy.indexOf('await prepareApiRuntime(') < deploy.indexOf("'pages','deploy'"));
 });
 
-test('minute cron runs auctions, territory wars and the timestamped weekly tower job', async () => {
+test('minute cron dispatches each task with the regional environment and schedule time', async () => {
   const source = read('workers/api-runtime/src/index.js').replaceAll('\r\n','\n').replace(/^import .*;\n/gm, '').replace(/^export \{.*;\n/gm, '').replace('export default', 'return');
   const environment = {DB: {}}, at = Date.parse('2026-11-09T00:00:00+09:00'), pending = [];
   const auction = Promise.resolve('auction'), territory = Promise.resolve('territory'), tower = Promise.resolve('tower');
-  const worker = new Function('runUserAuctionSchedule','runTerritoryWarSchedule','runTowerWeeklySchedule',source)(
+  const deletion = Promise.resolve('deletion');
+  const worker = new Function('runUserAuctionSchedule','runTerritoryWarSchedule','runTowerWeeklySchedule','runAccountDeletionQueue',source)(
     env => {assert.equal(env,environment);return auction;},
     env => {assert.equal(env,environment);return territory;},
-    (env,time) => {assert.equal(env,environment);assert.equal(time,at);return tower;}
+    (env,time) => {assert.equal(env,environment);assert.equal(time,at);return tower;},
+    (env,time) => {assert.equal(env,environment);assert.equal(time,at);return deletion;}
   );
   await worker.scheduled({scheduledTime:at},environment,{waitUntil(job){pending.push(job);}});
-  assert.deepEqual(pending,[auction,territory,tower]);
-  assert.deepEqual(await Promise.all(pending),['auction','territory','tower']);
+  assert.deepEqual(pending,[deletion,auction,territory,tower]);
+  assert.deepEqual(await Promise.all(pending),['deletion','auction','territory','tower']);
   assert.deepEqual(JSON.parse(read('workers/api-runtime/wrangler.jsonc')).triggers.crons, ['* * * * *']);
 });
 
