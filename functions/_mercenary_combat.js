@@ -327,7 +327,15 @@ export function mercenaryCombat({teams,citadelHealing=false,hit,damage,knockout,
   if(s.mechanic===CARDGU_AREA_MECHANIC)return isCardgu(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===KAMISHIRO_AREA_MECHANIC)return isKamishiro(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===JIN_JOKRO_AREA_MECHANIC)return isJinJokro(a)&&a.battleMode==='PVE'?en:[];
-  if(s.mechanic===SAINT_MECHANIC)return isLightningSaint(a)?(s.targetRule==='all'?en:fr.slice(0,1)):[];
+  if(s.mechanic===SAINT_MECHANIC){
+   if(!isLightningSaint(a))return [];
+   if(s.targetRule==='all')return en;
+   if(a.battleMode==='PVE'&&en[0]?.legionRegion==='CITADEL'){
+    const nextSlot=state(a).saintNextCitadelSlot??0;
+    return [en.find(t=>t.slot>=nextSlot)??en[0]];
+   }
+   return fr.slice(0,1);
+  }
   if(s.mechanic===RYUJIN_AREA_MECHANIC)return isRyujin(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===HELIOS_KING_AREA_MECHANIC)return isHeliosKing(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===HEUKMU_AREA_MECHANIC)return isHeukmu(a)&&a.battleMode==='PVE'?en:[];
@@ -490,8 +498,12 @@ export function mercenaryCombat({teams,citadelHealing=false,hit,damage,knockout,
     finish(a,s);break;
    }
    case SAINT_MECHANIC:{
-    resolveLightningSaint({actor:a,skill:s,targets:ts,hit,damage:(target,amount)=>damage(target,amount,{actor:a,direct:true}),
+    const beats=resolveLightningSaint({actor:a,skill:s,targets:ts,hit,damage:(target,amount)=>damage(target,amount,{actor:a,direct:true}),
      intercept:interceptDamage,knockout,emit,damageScale:offensiveSkillScale(a,s)});
+    if(beats.length&&s.targetRule==='single'&&a.battleMode==='PVE'&&ts[0].legionRegion==='CITADEL'){
+     // The Citadel has four monster slots per row. Advance after resolving the whole cast.
+     st.saintNextCitadelSlot=(Math.floor(ts[0].slot/4)+1)*4;
+    }
     finish(a,s);break;
    }
    case RYUJIN_AREA_MECHANIC:{

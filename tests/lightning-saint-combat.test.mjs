@@ -16,6 +16,7 @@ import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {validateCatalog} from '../mercenary-codex/model.mjs';
 import {skillList} from '../preview/project-v-v3/source/battle/lightning-saint/choreography.mjs';
+import {citadelStation} from '../shared/cooperative-battleground-v1.mjs';
 
 test('SSS limited owner, account loadout, power and the approved portrait agree with the codex',async t=>{
  const doc=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}));
@@ -74,5 +75,33 @@ test('both actual battle simulators record positive HP damage and replayable tar
    createPvpBattleV2({attackerCards:cards(),defenderCards:cards(),attackerMercenary:snapshot(SAINT_CODE,1,'PVP'),seed:77});
   const events=data.result.timeline.filter(e=>e.type===SAINT_EVENT);assert(events.length>0,mode);
   assert(events.some(e=>e.damage>0),mode);assert(events.flatMap(e=>e.hits).every(h=>h.targetHpAfter>=0&&h.targetShieldAfter>=0));
+ }
+});
+
+test('Hatsu rotates single casts across occupied Citadel rows and keeps every beat on its selected monster',()=>{
+ for(const [mode,region,hideSecond] of [['PVE','CITADEL',false],['PVE','CITADEL',true],['PVE','ordinary',false],['PVP','CITADEL',false]]){
+  const actor=fighter(SAINT_CODE,'A',mode),team=[13,5,1,9].map(slot=>({
+   ...buildFighter(cards()[0],slot,'B',null,mode),id:'enemy-'+slot,slot,row:'FRONT',legionRegion:region,
+   untargetable:slot===5&&hideSecond,hp:1e12,maxHp:1e12,shield:0,maxShield:0
+  }));
+  const alive=team.filter(t=>!t.untargetable),casts=[];
+  const combat=mercenaryCombat({teams:{A:[actor],B:team},clock:()=>actor.actions,
+   hit:()=>({damage:1}),damage:(target,n)=>{target.hp-=n;return {hpDamage:n,absorbed:0};},knockout:()=>{},
+   emit:(type,event)=>{if(type===SAINT_EVENT)casts.push(event);}});
+  for(actor.actions=1;actor.actions<=68;actor.actions++){
+   if(!combat.beforeAction(actor))combat.afterBasic(actor,alive[0],true);
+  }
+  const ordered=alive.slice().sort((a,b)=>citadelStation('cards',a.slot,true,false).y-citadelStation('cards',b.slot,true,false).y);
+  let singles=0;
+  for(const cast of casts){
+   const skill=SAINT_SKILLS.find(s=>s.id===cast.skillId);
+   const single=skill.targetRule==='single';
+   const target=ordered[mode==='PVE'&&region==='CITADEL'?singles%ordered.length:0];
+   const expected=new Set(single?[target.id]:ordered.map(t=>t.id));
+   assert.deepEqual(new Set(cast.targetIds),expected);
+   for(const beat of cast.beats)assert.deepEqual(new Set(beat.hits.map(h=>h.targetId)),expected);
+   if(single)singles++;
+  }
+  assert(singles>=2*ordered.length);
  }
 });
