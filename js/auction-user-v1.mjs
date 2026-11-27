@@ -1,29 +1,35 @@
-import {AUCTION_QUICK_BIDS,AUCTION_MAX_BID,AUCTION_ASSET_TYPES,AUCTION_DURATION_MINUTES,AUCTION_DEFAULT_MINUTES,AUCTION_ITEM_LISTING_LIMIT,auctionDurationLabel,AUCTION_TICKET_IMAGE,auctionCoinLabel,auctionProceeds} from '../shared/auction-user-policy-v1.mjs?v=20261110-auction-duration-v1';
-import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261107-exact-bgm-v1';
+import {AUCTION_QUICK_BIDS,AUCTION_MAX_BID,AUCTION_ASSET_TYPES,AUCTION_DURATION_MINUTES,AUCTION_DEFAULT_MINUTES,AUCTION_ITEM_LISTING_LIMIT,auctionDurationLabel,AUCTION_TICKET_IMAGE,auctionAmount,auctionCoinLabel,auctionProceeds} from '../shared/auction-user-policy-v1.mjs?v=20261127-auction-cap';
+import {createAuctionBgmPlayer} from './auction-user-bgm-v1.mjs?v=20261127-auction-cap';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const money=v=>Number.isSafeInteger(Number(v||0))&&Number(v||0)>=0?auctionCoinLabel(Number(v||0)):'금액 확인';
-const integer=v=>Number(v||0).toLocaleString('ko-KR');
+const money=v=>auctionCoinLabel(v??0);
+const integer=v=>BigInt(v??0).toLocaleString('ko-KR');
 export function exactBgmRange(r){
  if(!r.maxBid)return integer(r.minBid)+'코인 이상';
  return (r.minBid===r.maxBid?integer(r.minBid):integer(r.minBid)+' ~ '+integer(r.maxBid))+'코인';
 }
 export function findBgmRule(rules,amount){
- if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)return null;
- const ordered=rules.filter(r=>amount>=r.minBid&&(!r.maxBid||amount<=r.maxBid)).sort((a,b)=>(a.sortOrder??a.order)-(b.sortOrder??b.order)||b.minBid-a.minBid||a.order-b.order);
+ const value=auctionAmount(amount);
+ if(value===null)return null;
+ const n=BigInt(value);
+ const ordered=rules.filter(r=>n>=BigInt(r.minBid)&&(!r.maxBid||n<=BigInt(r.maxBid))).sort((a,b)=>(a.sortOrder??a.order)-(b.sortOrder??b.order)||Number(BigInt(b.minBid)-BigInt(a.minBid))||a.order-b.order);
  return ordered[0]?.playable!==false?ordered[0]||null:null;
 }
 const triggerLabel=(rules,amount)=>{const match=findBgmRule(rules,amount);return match?'발동 BGM: '+match.name:'발동 BGM 없음';};
 const bidBgmHint=(rules,amount)=>integer(amount)+'코인 · '+triggerLabel(rules,amount);
-const inputHint=(rules,value)=>{const n=Number(value);return !value?'퀵 버튼으로 금액을 더할 수 있습니다.':Number.isSafeInteger(n)&&n>0&&n<=AUCTION_MAX_BID?bidBgmHint(rules,n):'1~100조 사이의 정확한 코인 수량을 입력하세요.';};
+const inputHint=(rules,value)=>{const n=auctionAmount(value);return !value?'한 경매에서 1인당 최대 10경 코인까지 입찰할 수 있습니다.':n!==null?bidBgmHint(rules,n):'1~10경 사이의 정확한 코인 수량을 입력하세요.';};
 export function inspectBgmGuide(rules,text){
  const query=String(text??'').trim(),names=key=>rules.filter(r=>r.name.toLocaleLowerCase().includes(key.toLocaleLowerCase()));
  if(!query)return {rows:rules,message:'전체 '+rules.length+'개 발동 조건'};
  if(!/^[\d,]+$/.test(query)){const rows=names(query);return {rows,message:rows.length?'곡명 검색 결과 '+rows.length+'개':'일치하는 곡명이 없습니다.'};}
  if(!/^(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(query))return {rows:[],message:'쉼표 없이 숫자로 입력하거나 188,888처럼 입력하세요.'};
- const amount=Number(query.replaceAll(',',''));if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)return {rows:[],message:'1~100조 사이의 정수 코인 금액을 입력하세요.'};
+ const amount=auctionAmount(query.replaceAll(',',''));if(amount===null)return {rows:[],message:'1~10경 사이의 정수 코인 금액을 입력하세요.'};
  const match=findBgmRule(rules,amount);if(match)return {rows:[match],message:bidBgmHint(rules,amount)};
  const related=names(String(amount));if(related.length)return {rows:related,message:integer(amount)+'코인 · 발동 없음. 아래는 번호가 일치하는 곡의 등록 금액입니다.'};
- const nearest=rules.map(r=>Math.min(Math.max(amount,r.minBid,1),r.maxBid||AUCTION_MAX_BID)).sort((a,b)=>Math.abs(a-amount)-Math.abs(b-amount)||a-b).find(n=>findBgmRule(rules,n));
+ const target=BigInt(amount),distance=n=>n>target?n-target:target-n;
+ const nearest=rules.map(r=>{
+  const low=BigInt(r.minBid||1),high=BigInt(r.maxBid||AUCTION_MAX_BID);
+  return target<low?low:target>high?high:target;
+ }).sort((a,b)=>Number(distance(a)-distance(b))||Number(a-b)).find(n=>findBgmRule(rules,n));
  return {rows:nearest===undefined?[]:[findBgmRule(rules,nearest)],message:integer(amount)+'코인 · 발동 없음.'+(nearest===undefined?'':' 가장 가까운 등록 금액: '+integer(nearest)+'코인')};
 }
 function receiptText(amount,result){
@@ -107,9 +113,17 @@ export function mountUserAuction({root,api,onLobby=()=>{},onVerify=()=>{},pollMs
   content.querySelector('.auc-bid').insertAdjacentHTML('beforebegin',`<label class="auc-message-label" for="auc-bid-message">입찰 메시지 <small>BGM 발동 시 표시 · 40자</small></label><input id="auc-bid-message" class="auc-message-input" maxlength="40" placeholder="한마디를 남겨보세요" value="${esc(messageDraft)}" ${own?'disabled':''}>`);
   content.querySelector('#auc-bid-message').oninput=e=>{messageDraft=e.target.value;bidPending=null;};
   const hint=content.querySelector('#auc-amount-label');hint.textContent=inputHint(data.bgmGuide||[],draft);hint.setAttribute('aria-live','polite');
-  input.oninput=()=>{draft=input.value.replace(/[^0-9]/g,'');input.value=draft;hint.textContent=inputHint(data.bgmGuide||[],draft);bidPending=null;};
-  content.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const value=Number(draft||0)+Number(b.dataset.add);if(!Number.isSafeInteger(value)||value>AUCTION_MAX_BID)return error('1회 추가 입찰은 최대 100조 코인입니다.');input.value=String(value);input.dispatchEvent(new Event('input'));error('');});
-  content.querySelector('[data-bid-form]').onsubmit=e=>{e.preventDefault();void confirmBid(a.id,Number(draft));};content.querySelector('[data-all-queue]').onclick=()=>{tab='QUEUE';render();};tickClock();
+  input.oninput=()=>{
+   const value=input.value.trim();
+   draft=/^\d{1,3}(?:,\d{3})+$/.test(value)?value.replaceAll(',',''):value;
+   input.value=draft;hint.textContent=inputHint(data.bgmGuide||[],draft);bidPending=null;
+  };
+  content.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{
+   const current=auctionAmount(draft||0,0n);
+   if(current===null||BigInt(mine)+BigInt(current)+BigInt(b.dataset.add)>AUCTION_MAX_BID)return error('한 경매의 1인 누적 입찰액은 최대 10경 코인입니다.');
+   input.value=String(BigInt(current)+BigInt(b.dataset.add));input.dispatchEvent(new Event('input'));error('');
+  });
+  content.querySelector('[data-bid-form]').onsubmit=e=>{e.preventDefault();void confirmBid(a.id,draft,mine);};content.querySelector('[data-all-queue]').onclick=()=>{tab='QUEUE';render();};tickClock();
  }
  function makeDialog(title,body){
   closeDialog();const node=document.createElement('dialog'),previous=document.activeElement;node.className='auc-dialog auc-skin';node.setAttribute('aria-labelledby','auc-dialog-title');
@@ -126,8 +140,10 @@ export function mountUserAuction({root,api,onLobby=()=>{},onVerify=()=>{},pollMs
   const dispose=bgm?.mountVolumeControl(node.querySelector('[data-bgm-settings]'));
   if(dispose)node.addEventListener('close',dispose,{once:true});
  }
- async function confirmBid(lotId,amount){
-  if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)return error('추가 입찰액은 1~100조 코인 사이로 입력하세요.');
+ async function confirmBid(lotId,value,mine){
+  const amount=auctionAmount(value);
+  if(amount===null)return error('추가 입찰액은 1~10경 코인 사이로 입력하세요.');
+  if(BigInt(mine)+BigInt(amount)>AUCTION_MAX_BID)return error('한 경매의 1인 누적 입찰액은 최대 10경 코인입니다.');
   const node=makeDialog('입찰 금액 확인',`<div class="auc-confirm"><p>이 경매에 추가 입찰합니다.</p><strong>${integer(amount)} 코인</strong><small>${esc(triggerLabel(data?.bgmGuide||[],amount))}</small><p class="auc-muted">기존 누적 입찰액에 더해집니다. 지정곡은 앞선 곡이 끝난 뒤 재생됩니다.</p><button class="auc-button auc-primary" data-submit>입찰 확정</button></div>`);
   node.querySelector('[data-submit]').onclick=async()=>{
    if(busy)return;busy=true;node.querySelector('[data-submit]').disabled=true;bidPending??={lotId,amount,message:messageDraft,requestId:requestId()};
@@ -145,10 +161,10 @@ export function mountUserAuction({root,api,onLobby=()=>{},onVerify=()=>{},pollMs
    const {assets}=await api('catalog');if(!node.isConnected)return;
    node.querySelector('.auc-loading').outerHTML=`<div class="auc-host-tabs" role="group" aria-label="물품 종류">${Object.entries(AUCTION_ASSET_TYPES).map(([k,v])=>`<button type="button" data-kind="${k}">${v}</button>`).join('')}</div><div class="auc-host-assets"></div><form class="auc-host-form"><div class="auc-form-fields"><label>판매 수량<input name="quantity" type="number" min="1" max="10000000000" value="1" required></label><label>시작가 (코인)<input name="startPrice" type="text" inputmode="numeric" value="10000000" required></label><label class="auc-duration">진행 시간<select name="durationMinutes" required>${AUCTION_DURATION_MINUTES.map(m=>`<option value="${m}" ${m===AUCTION_DEFAULT_MINUTES?'selected':''}>${auctionDurationLabel(m)}</option>`).join('')}</select></label></div><div class="auc-host-summary"><p data-selected>판매할 물품을 선택하세요.</p><p data-net></p><p>개최 티켓 1장 사용</p></div><p class="auc-note">카드·용병·펫의 기본 개체만 이전됩니다. 강화·레벨·잠재력은 각 계정에 남습니다. 물품과 티켓은 예약 등록 시 함께 보관됩니다.</p><button class="auc-button auc-primary" data-submit disabled>${data.active||data.queue.length||data.legacyActive?'순서대로 경매 예약':'지금 경매 개최'}</button></form>`;
    let selected=null,kind='CARD';const form=node.querySelector('form'),list=node.querySelector('.auc-host-assets');
-   function summary(){const q=Number(form.quantity.value),price=Number(form.startPrice.value);node.querySelector('[data-selected]').textContent=selected?`${selected.name} · ${integer(q)}개 / 보유 ${integer(selected.quantity)}개`:'판매할 물품을 선택하세요.';node.querySelector('[data-net]').textContent=Number.isSafeInteger(price)&&price>0&&price<=AUCTION_MAX_BID?`시작가 ${money(price)} · 해당 금액 낙찰 시 수령 ${money(auctionProceeds(price).net)} 코인`:'시작가는 1~100조 코인 사이입니다.';node.querySelector('[data-submit]').disabled=!selected||!Number.isSafeInteger(q)||q<1||q>selected.quantity||!Number.isSafeInteger(price)||price<1||price>AUCTION_MAX_BID;}
+   function summary(){const q=Number(form.quantity.value),price=auctionAmount(form.startPrice.value);node.querySelector('[data-selected]').textContent=selected?`${selected.name} · ${q.toLocaleString('ko-KR')}개 / 보유 ${integer(selected.quantity)}개`:'판매할 물품을 선택하세요.';node.querySelector('[data-net]').textContent=price!==null?`시작가 ${money(price)} · 해당 금액 낙찰 시 수령 ${money(auctionProceeds(price).net)} 코인`:'시작가는 1~10경 코인 사이입니다.';node.querySelector('[data-submit]').disabled=!selected||!Number.isSafeInteger(q)||q<1||q>selected.quantity||price===null;}
    function chooseKind(){node.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===kind)));list.innerHTML=assets.filter(a=>a.kind===kind).map((a,i)=>`<button type="button" class="auc-select-asset auc-skin" data-asset="${assets.indexOf(a)}">${art(a)}<span><b>${esc(a.name)}</b><small>보유 ${integer(a.quantity)}개</small></span></button>`).join('')||'<p class="auc-empty">등록 가능한 보유 물품이 없습니다.</p>';list.querySelectorAll('[data-asset]').forEach(b=>b.onclick=()=>{selected=assets[Number(b.dataset.asset)];list.querySelectorAll('[data-asset]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));hostPending=null;summary();});}
    node.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{kind=b.dataset.kind;selected=null;chooseKind();summary();});chooseKind();summary();form.oninput=()=>{hostPending=null;summary();};
-   form.onsubmit=async e=>{e.preventDefault();if(busy||!selected)return;busy=true;node.querySelector('[data-submit]').disabled=true;hostPending??={kind:selected.kind,ref:selected.ref,quantity:Number(form.quantity.value),startPrice:Number(form.startPrice.value),durationMinutes:Number(form.durationMinutes.value),requestId:requestId()};
+   form.onsubmit=async e=>{e.preventDefault();const startPrice=auctionAmount(form.startPrice.value);if(busy||!selected||startPrice===null)return;busy=true;node.querySelector('[data-submit]').disabled=true;hostPending??={kind:selected.kind,ref:selected.ref,quantity:Number(form.quantity.value),startPrice,durationMinutes:Number(form.durationMinutes.value),requestId:requestId()};
     try{await api('host',hostPending);hostPending=null;closeDialog();tab=data.active?'QUEUE':'LIVE';await refresh();}catch(e){dialogError(node,e.message);}finally{busy=false;if(node.isConnected)summary();}
    };
   }catch(e){dialogError(node,e.message);}

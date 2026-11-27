@@ -5,7 +5,7 @@ import {AUCTION_GROWTH_TRIGGER_SQL} from '../scripts/ops/auction-user-schema-202
 import {AUCTION_ITEM_GUARD_SQL} from '../scripts/ops/auction-item-limit-20261110.mjs';
 import {auctionAssetDebit} from '../functions/_auction_user_assets.js';
 import {userAuctionFixture} from './helpers/auction-user-fixture-20261103.mjs';
-for(const initial of ['500000000000000','100000000000000001'])test(`PostgreSQL wallet ${initial}: 100조 payment, rollback, queue promotion and exactly-once settlement`,async t=>{
+for(const [initial,amount] of [['500000000000000',1e14],['100000000000000001','99999999999999999']])test(`PostgreSQL wallet ${initial}: exact bid ${amount}, rollback, queue promotion and settlement`,async t=>{
  const f=await userAuctionFixture(t),pg=new PGlite();t.after(()=>pg.close());
  f.sql.prepare("INSERT INTO auction_bgm_rules_v1554 VALUES(1,0,100000000000000,100000000000000,'/existing.mp3#av=65',40,0)").run();
  await pg.exec("CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;");
@@ -19,21 +19,24 @@ for(const initial of ['500000000000000','100000000000000001'])test(`PostgreSQL w
  __postgresCompatTest.clearPostgresCatalogCache();let fail='';
  f.env.DB=new __postgresCompatTest.PostgresD1Database({async query(input){const text=typeof input==='string'?input:input.text;if(fail&&text.includes(fail))throw Error('PostgreSQL injected failure');const result=await pg.query(text,typeof input==='string'?[]:input.values||[]),rows=result.rows.map(row=>Object.fromEntries(Object.entries(row).map(([k,v])=>[k,typeof v==='bigint'?Number(v):v])));return {...result,rows,rowCount:result.affectedRows??rows.length};}});
  await pg.query('UPDATE users SET coin=$1::bigint',[initial]);
- const s=createUserAuctionService(f.env,{catalog:f.catalog,now:f.now}),body={kind:'ITEM',ref:'POTION',quantity:3,startPrice:1,requestId:f.requestId()};
+ await pg.query('UPDATE auction_bgm_rules_v1554 SET min_bid=$1,max_bid=$1',[amount]);
+ const s=createUserAuctionService(f.env,{catalog:f.catalog,now:f.now}),body={kind:'ITEM',ref:'POTION',quantity:3,startPrice:amount,requestId:f.requestId()};
  fail='INSERT INTO auction_user_lots_v1';await assert.rejects(s.host(f.user(1),body),/PostgreSQL injected/);fail='';
  assert.equal(Number((await pg.query("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='AUCTION_HOST_TICKET'")).rows[0].quantity),10);
  const a=await s.host(f.user(1),body);assert.equal((await s.host(f.user(1),body)).replayed,true);
  const b=await s.host(f.user(3),{...body,durationMinutes:30,requestId:f.requestId()});assert.equal(b.lot.status,'QUEUED');
- const bid={lotId:a.lot.id,amount:1e14,requestId:f.requestId()};fail='INSERT INTO coin_logs';await assert.rejects(s.bid(f.user(2),bid),/PostgreSQL injected/);fail='';
+ const bid={lotId:a.lot.id,amount,requestId:f.requestId()};fail='INSERT INTO coin_logs';await assert.rejects(s.bid(f.user(2),bid),/PostgreSQL injected/);fail='';
  assert.equal((await pg.query('SELECT coin::text coin FROM users WHERE id=2')).rows[0].coin,initial);
  fail='INSERT INTO auction_user_bgm_events_v1';await assert.rejects(s.bid(f.user(2),bid),/PostgreSQL injected/);fail='';
  assert.equal((await pg.query('SELECT coin::text coin FROM users WHERE id=2')).rows[0].coin,initial);
  assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM auction_user_bid_receipts_v1')).rows[0].n),0);
  await s.bid(f.user(2),bid);assert.equal((await s.bid(f.user(2),bid)).replayed,true);
- const music=(await s.bgmEvents({lotId:a.lot.id})).events;assert.equal(music.length,1);assert.equal(music[0].amount,1e14);assert.equal(music[0].bgmUrl,'/existing.mp3#av=65');
- assert.equal((await s.state(f.user(2))).bgmGuide.length,1);
+ const music=(await s.bgmEvents({lotId:a.lot.id})).events;assert.equal(music.length,1);assert.equal(music[0].amount,amount);assert.equal(music[0].bgmUrl,'/existing.mp3#av=65');
+ const open=await s.state(f.user(2));assert.equal(open.bgmGuide[0].minBid,amount);assert.equal(open.bidders[0].total,amount);assert.equal(open.active.startPrice,amount);
  f.advance(7200001);fail='INSERT INTO auction_user_settlements_v1';await assert.rejects(s.tick(),/PostgreSQL injected/);fail='';await s.tick();await s.tick();
- const users=(await pg.query('SELECT id,coin::text coin FROM users ORDER BY id')).rows;assert.equal(users[0].coin,(BigInt(initial)+80000000000000n).toString());assert.equal(users[1].coin,(BigInt(initial)-100000000000000n).toString());
+ const gross=BigInt(amount),fee=gross/5n;
+ const users=(await pg.query('SELECT id,coin::text coin FROM users ORDER BY id')).rows;assert.equal(users[0].coin,(BigInt(initial)+gross-fee).toString());assert.equal(users[1].coin,(BigInt(initial)-gross).toString());
+ const closed=(await s.state(f.user(2))).history[0];assert.deepEqual([closed.winningBid,closed.fee,closed.net].map(BigInt),[gross,fee,gross-fee]);
  const bidLog=(await pg.query('SELECT balance_after::text coin FROM coin_logs WHERE user_id=2 ORDER BY id LIMIT 1')).rows[0];assert.equal(bidLog.coin,users[1].coin);
  assert.equal(Number((await pg.query('SELECT COUNT(*) n FROM auction_user_settlements_v1')).rows[0].n),1);
  const promoted=(await s.state(f.user(2))).active;assert.equal(promoted.id,b.lot.id);assert.equal(promoted.endsMs-promoted.startedMs,30*60_000);

@@ -1,7 +1,8 @@
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {jointInventoryChange} from './_joint_transactions.js';
 import {auctionAssetDebit,auctionAssetCredit,auctionCanReceive,auctionRowLock} from './_auction_user_assets.js';
-import {AUCTION_USER_POLICY_KEY,AUCTION_TICKET,AUCTION_DEFAULT_MINUTES,AUCTION_DURATION_MINUTES,AUCTION_ITEM_LISTING_LIMIT,AUCTION_LISTING_WINDOW_MS,AUCTION_MAX_BID,auctionProceeds} from '../shared/auction-user-policy-v1.mjs';
+import {AUCTION_USER_POLICY_KEY,AUCTION_TICKET,AUCTION_DEFAULT_MINUTES,AUCTION_DURATION_MINUTES,AUCTION_ITEM_LISTING_LIMIT,AUCTION_LISTING_WINDOW_MS,AUCTION_MAX_BID,auctionAmount,auctionMoney,auctionProceeds} from '../shared/auction-user-policy-v1.mjs';
+import {coinCreditLimit} from '../shared/coin-integer-v1.mjs';
 import {readAuctionPolicy,auctionAssetBlocked} from './_auction_user_policy.js';
 import {readAuctionBgmGuide,prepareAuctionBgmBid,readCommittedAuctionBgm,readAuctionBgmEvents} from './_auction_user_bgm.js';
 
@@ -41,10 +42,14 @@ const fail=(message,status=409,code='AUCTION_CONFLICT')=>{throw Object.assign(Er
 const validRequest=value=>{if(typeof value!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(value))fail('요청 번호를 확인하세요.',400);return value;};
 const publicAsset=({kind,ref,name,image,quantity})=>({kind,ref,name,image,quantity});
 const lotMinutes=row=>JSON.parse(row.input_json).durationMinutes??AUCTION_DEFAULT_MINUTES;
+// Both database adapters can convert a BIGINT result to a JavaScript Number.
+const lotColumns=`a.id,a.request_id,a.input_json,a.seller_id,a.seller_name,a.asset_json,
+ CAST(a.start_price AS TEXT) AS start_price,a.status,a.queue_order,a.created_ms,a.started_ms,a.ends_ms,a.winner_id,
+ CAST(a.winning_bid AS TEXT) AS winning_bid,CAST(a.fee AS TEXT) AS fee,CAST(a.net AS TEXT) AS net,a.settled_ms`;
 function publicLot(row){
  if(!row)return null;
  const asset=JSON.parse(row.asset_json);
- return {id:row.id,sellerId:Number(row.seller_id),sellerName:row.seller_name,asset:publicAsset(asset),sourceKind:asset.sourceKind||'USER',startPrice:Number(row.start_price),durationMinutes:lotMinutes(row),status:row.status,queueOrder:Number(row.queue_order),startedMs:row.started_ms==null?null:Number(row.started_ms),endsMs:row.ends_ms==null?null:Number(row.ends_ms),winnerId:row.winner_id==null?null:Number(row.winner_id),winningBid:Number(row.winning_bid),fee:Number(row.fee),net:Number(row.net)};
+ return {id:row.id,sellerId:Number(row.seller_id),sellerName:row.seller_name,asset:publicAsset(asset),sourceKind:asset.sourceKind||'USER',startPrice:auctionMoney(row.start_price),durationMinutes:lotMinutes(row),status:row.status,queueOrder:Number(row.queue_order),startedMs:row.started_ms==null?null:Number(row.started_ms),endsMs:row.ends_ms==null?null:Number(row.ends_ms),winnerId:row.winner_id==null?null:Number(row.winner_id),winningBid:auctionMoney(row.winning_bid),fee:auctionMoney(row.fee),net:auctionMoney(row.net)};
 }
 
 // catalog must resolve an authenticated user's current owned, tradeable assets.
@@ -54,7 +59,7 @@ function publicLot(row){
 export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[],now=Date.now,legacyActive=async()=>false,afterCommit=async()=>{},withUserLocks=async(ids,work)=>work(),settlementAccounting=async()=>({statements:[],reason:''}),hostGuards=async()=>[]}){
  const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
  const version=async()=>Number((await p('SELECT version FROM auction_user_clock_v1 WHERE id=1').first()).version);
- const lot=id=>p('SELECT * FROM auction_user_lots_v1 WHERE id=?',String(id)).first();
+ const lot=id=>p(`SELECT ${lotColumns} FROM auction_user_lots_v1 a WHERE a.id=?`,String(id)).first();
  const policy=async()=>(await readAuctionPolicy(env)).policy;
  const fields=auctionRegistrationFields(DB.dialect);
  async function commit(expected,statements,users=[]){
@@ -65,22 +70,29 @@ export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[
   // A notification failure must never turn a committed trade into a retry debit.
   try{await afterCommit([...new Set(users)]);}catch{/* durable account-sync triggers remain authoritative */}
  }
- const creditCoin=(uid,amount,reason)=>amount?[p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',amount,uid),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',amount,reason,uid)]:[];
+ function creditCoin(uid,amount,reason){
+  if(!amount)return [];
+  const token=crypto.randomUUID();
+  return [jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin<=CAST(? AS BIGINT))',[uid,coinCreditLimit(amount)]),
+   p('UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',amount,uid),
+   p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,CAST(? AS BIGINT),coin,? FROM users WHERE id=?',amount,reason,uid),jointGuardEnd(DB,token)];
+ }
  async function tick(){
-  const snapshot=await p("SELECT c.version AS clock_version,a.* FROM auction_user_clock_v1 c LEFT JOIN auction_user_lots_v1 a ON a.status='ACTIVE' WHERE c.id=1").first();
+  const snapshot=await p(`SELECT c.version AS clock_version,${lotColumns} FROM auction_user_clock_v1 c LEFT JOIN auction_user_lots_v1 a ON a.status='ACTIVE' WHERE c.id=1`).first();
   const expected=Number(snapshot.clock_version),active=snapshot.id?snapshot:null,at=now();
   if(active&&Number(active.ends_ms)>at)return active;
-  const next=await p("SELECT * FROM auction_user_lots_v1 WHERE status='QUEUED' ORDER BY queue_order LIMIT 1").first();
+  const next=await p(`SELECT ${lotColumns} FROM auction_user_lots_v1 a WHERE status='QUEUED' ORDER BY queue_order LIMIT 1`).first();
   const statements=[],changed=[];
   if(active){
-   const asset=JSON.parse(active.asset_json),bidders=(await p('SELECT * FROM auction_user_bidders_v1 WHERE lot_id=? ORDER BY total DESC,last_ms,user_id',active.id).all()).results;
-   let winner=null;for(const b of bidders)if(Number(b.total)>=Number(active.start_price)&&await auctionCanReceive(env,Number(b.user_id),asset)){winner=b;break;}
-   const recipient=Number(winner?.user_id||active.seller_id),system=asset.sourceKind==='SYSTEM',money=system?{gross:Number(winner?.total||0),fee:0,net:0}:auctionProceeds(Number(winner?.total||0));
+   const asset=JSON.parse(active.asset_json),bidders=(await p('SELECT user_id,CAST(b.total AS TEXT) AS total FROM auction_user_bidders_v1 b WHERE lot_id=? ORDER BY b.total DESC,last_ms,user_id',active.id).all()).results;
+   let winner=null;for(const b of bidders)if(BigInt(b.total)>=BigInt(active.start_price)&&await auctionCanReceive(env,Number(b.user_id),asset)){winner=b;break;}
+   const recipient=Number(winner?.user_id||active.seller_id),system=asset.sourceKind==='SYSTEM';
+   const gross=auctionMoney(winner?.total??0),money=system?{gross,fee:0,net:0}:auctionProceeds(gross);
    const accounting=await settlementAccounting(env,active,winner,money);statements.push(...accounting.statements);
    if(!winner&&system){}
    else if(!winner&&!await auctionCanReceive(env,recipient,asset))statements.push(p('INSERT INTO auction_user_returns_v1(lot_id,user_id,asset_json,created_ms) VALUES(?,?,?,?)',active.id,recipient,active.asset_json,at));
    else statements.push(...await auctionAssetCredit(env,recipient,asset,active.id));changed.push(recipient,Number(active.seller_id));
-   for(const b of bidders)if(!winner||Number(b.user_id)!==Number(winner.user_id)){statements.push(...creditCoin(b.user_id,Number(b.total),`경매 U${active.id} 유찰·차순위 환급`));changed.push(Number(b.user_id));}
+   for(const b of bidders)if(!winner||Number(b.user_id)!==Number(winner.user_id)){statements.push(...creditCoin(b.user_id,auctionMoney(b.total),`경매 U${active.id} 유찰·차순위 환급`));changed.push(Number(b.user_id));}
    if(winner){if(!system)statements.push(...creditCoin(active.seller_id,money.net,accounting.reason||`유저 경매 ${active.id} 판매 정산 (수수료 20%)`));
     statements.push(p('INSERT INTO auction_user_transfers_v1(lot_id,kind,ref,seller_id,buyer_id,quantity,provenance_json,created_ms) VALUES(?,?,?,?,?,?,?,?)',active.id,asset.kind,asset.ref,active.seller_id,winner.user_id,asset.quantity,JSON.stringify(asset.provenance||{}),at));}
    statements.push(p('INSERT INTO auction_user_settlements_v1(lot_id,seller_id,recipient_id,asset_json,gross,fee,net,kind,created_ms) VALUES(?,?,?,?,?,?,?,?,?)',active.id,active.seller_id,recipient,active.asset_json,money.gross,money.fee,money.net,winner?'SOLD':'UNSOLD',at),p('UPDATE auction_user_lots_v1 SET status=?,winner_id=?,winning_bid=?,fee=?,net=?,settled_ms=? WHERE id=?',winner?'SOLD':'UNSOLD',winner?.user_id??null,money.gross,money.fee,money.net,at,active.id));
@@ -99,11 +111,12 @@ export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[
   const durationMinutes=body.durationMinutes===undefined?AUCTION_DEFAULT_MINUTES:body.durationMinutes;
   if(!AUCTION_DURATION_MINUTES.includes(durationMinutes))fail('진행 시간은 30분, 1시간, 2시간 중에서 선택하세요.',400,'AUCTION_DURATION');
   // Keep the original two-hour request representation so old retry receipts still match.
-  const requestId=validRequest(body.requestId),input=JSON.stringify({kind:body.kind,ref:String(body.ref),quantity:Number(body.quantity),startPrice:Number(body.startPrice),...(durationMinutes===AUCTION_DEFAULT_MINUTES?{}:{durationMinutes}),...(system?{sourceKind:'SYSTEM'}:{})});
-  const prior=await p('SELECT * FROM auction_user_lots_v1 WHERE request_id=?',requestId).first();
+  const startPrice=auctionAmount(body.startPrice);
+  if(startPrice===null)fail('시작가는 1~10경 코인 사이의 정수로 입력하세요.',400);
+  const requestId=validRequest(body.requestId),input=JSON.stringify({kind:body.kind,ref:String(body.ref),quantity:Number(body.quantity),startPrice,...(durationMinutes===AUCTION_DEFAULT_MINUTES?{}:{durationMinutes}),...(system?{sourceKind:'SYSTEM'}:{})});
+  const prior=await p(`SELECT ${lotColumns} FROM auction_user_lots_v1 a WHERE request_id=?`,requestId).first();
   if(prior){if(Number(prior.seller_id)!==Number(user.id)||prior.input_json!==input)fail('이미 다른 내용으로 사용된 요청 번호입니다.');return {ok:true,replayed:true,lot:publicLot(prior)};}
   const saved=await readAuctionPolicy(env);if((system?saved.policy.operatorEnabled:saved.policy.enabled)!==true)fail('경매 개최가 일시 중지되어 있습니다.',423,'AUCTION_CLOSED');
-  const startPrice=Number(body.startPrice);if(!Number.isSafeInteger(startPrice)||startPrice<1||startPrice>AUCTION_MAX_BID)fail('시작가는 1~100조 코인 사이의 정수로 입력하세요.',400);
   await tick();const expected=await version(),id=crypto.randomUUID(),at=now();
   const definition=(await(system?operatorCatalog(user):catalog(user))).find(x=>x.kind===body.kind&&String(x.ref)===String(body.ref));
   if(!definition||auctionAssetBlocked(saved.policy,definition))fail('경매에 등록할 수 없는 품목입니다.');
@@ -127,18 +140,18 @@ export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[
   await commit(expected,statements,[Number(user.id)]);return {ok:true,replayed:false,lot:publicLot(await lot(id))};
  }
  async function bid(user,body){
-  const requestId=validRequest(body.requestId),amount=Number(body.amount),id=String(body.lotId);
-  if(!Number.isSafeInteger(amount)||amount<1||amount>AUCTION_MAX_BID)fail('추가 입찰액은 1~100조 사이의 정수로 입력하세요.',400);
-  const prior=await p('SELECT * FROM auction_user_bid_receipts_v1 WHERE request_id=?',requestId).first();
-  if(prior){if(prior.lot_id!==id||Number(prior.user_id)!==Number(user.id)||Number(prior.amount)!==amount)fail('이미 다른 내용으로 사용된 요청 번호입니다.');return {ok:true,replayed:true,bgm:await readCommittedAuctionBgm(env,requestId),serverNow:now()};}
+  const requestId=validRequest(body.requestId),amount=auctionAmount(body.amount),id=String(body.lotId);
+  if(amount===null)fail('추가 입찰액은 1~10경 사이의 정수로 입력하세요.',400);
+  const prior=await p('SELECT lot_id,user_id,CAST(amount AS TEXT) AS amount FROM auction_user_bid_receipts_v1 WHERE request_id=?',requestId).first();
+  if(prior){if(prior.lot_id!==id||Number(prior.user_id)!==Number(user.id)||prior.amount!==String(amount))fail('이미 다른 내용으로 사용된 요청 번호입니다.');return {ok:true,replayed:true,bgm:await readCommittedAuctionBgm(env,requestId),serverNow:now()};}
   await tick();const expected=await version(),a=await lot(id),at=now();
   if(!a||a.status!=='ACTIVE'||Number(a.ends_ms)<=at)fail('현재 입찰 가능한 경매가 아닙니다.');
   if(Number(a.seller_id)===Number(user.id))fail('본인이 판매하는 물품에는 입찰할 수 없습니다.');
   if(!await auctionCanReceive(env,user.id,JSON.parse(a.asset_json)))fail('이미 보유한 이동수단에는 입찰할 수 없습니다.');
-  const mine=await p('SELECT total FROM auction_user_bidders_v1 WHERE lot_id=? AND user_id=?',id,user.id).first();
-  if(!Number.isSafeInteger(Number(mine?.total||0)+amount))fail('정확하게 처리할 수 있는 누적 입찰 범위를 초과했습니다.');
+  const mine=await p('SELECT CAST(total AS TEXT) AS total FROM auction_user_bidders_v1 WHERE lot_id=? AND user_id=?',id,user.id).first();
+  if(BigInt(mine?.total??0)+BigInt(amount)>AUCTION_MAX_BID)fail('한 경매의 1인 누적 입찰액은 최대 10경 코인입니다.');
   const token=crypto.randomUUID(),{statements:bgm,slot}=await prepareAuctionBgmBid(env,{lotId:id,lotEndsMs:a.ends_ms,user,amount,requestId,message:body.message,at,sequence:expected+1});
-  await commit(expected,[jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[user.id,amount]),p('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=?',amount,user.id,amount),p('INSERT INTO auction_user_bidders_v1(lot_id,user_id,nickname,total,last_ms) VALUES(?,?,?,?,?) ON CONFLICT(lot_id,user_id) DO UPDATE SET total=auction_user_bidders_v1.total+excluded.total,last_ms=excluded.last_ms,nickname=excluded.nickname',id,user.id,user.nickname,amount,at),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-amount,`경매 U${id} 누적 입찰`,user.id),p('INSERT INTO auction_user_bid_receipts_v1(request_id,lot_id,user_id,amount,created_ms) VALUES(?,?,?,?,?)',requestId,id,user.id,amount,at),...bgm,jointGuardEnd(DB,token)],[Number(user.id)]);
+  await commit(expected,[jointGuard(DB,token,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=CAST(? AS BIGINT))',[user.id,amount]),p('UPDATE users SET coin=coin-CAST(? AS BIGINT) WHERE id=? AND coin>=CAST(? AS BIGINT)',amount,user.id,amount),p('INSERT INTO auction_user_bidders_v1(lot_id,user_id,nickname,total,last_ms) VALUES(?,?,?,?,?) ON CONFLICT(lot_id,user_id) DO UPDATE SET total=auction_user_bidders_v1.total+excluded.total,last_ms=excluded.last_ms,nickname=excluded.nickname',id,user.id,user.nickname,amount,at),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,CAST(? AS BIGINT),coin,? FROM users WHERE id=?',(-BigInt(amount)).toString(),`경매 U${id} 누적 입찰`,user.id),p('INSERT INTO auction_user_bid_receipts_v1(request_id,lot_id,user_id,amount,created_ms) VALUES(?,?,?,?,?)',requestId,id,user.id,amount,at),...bgm,jointGuardEnd(DB,token)],[Number(user.id)]);
   return {ok:true,replayed:false,bgm:slot,serverNow:now()};
  }
  async function cancel(user,id,{operator=false}={}){
@@ -154,15 +167,15 @@ export function createUserAuctionService(env,{catalog,operatorCatalog=async()=>[
  async function state(user){
   const active=await tick();
   const [queue,history,bidders,tickets,wallet,rules,unclaimed,bgmGuide,legacy]=await Promise.all([
-   p("SELECT * FROM auction_user_lots_v1 WHERE status='QUEUED' ORDER BY queue_order LIMIT 50").all(),
-   p("SELECT * FROM auction_user_lots_v1 WHERE status IN ('SOLD','UNSOLD','CANCELLED') ORDER BY settled_ms DESC LIMIT 20").all(),
-   active?p('SELECT user_id,nickname,total FROM auction_user_bidders_v1 WHERE lot_id=? ORDER BY total DESC,last_ms,user_id',active.id).all():{results:[]},
+   p(`SELECT ${lotColumns} FROM auction_user_lots_v1 a WHERE status='QUEUED' ORDER BY queue_order LIMIT 50`).all(),
+   p(`SELECT ${lotColumns} FROM auction_user_lots_v1 a WHERE status IN ('SOLD','UNSOLD','CANCELLED') ORDER BY settled_ms DESC LIMIT 20`).all(),
+   active?p('SELECT user_id,nickname,CAST(b.total AS TEXT) AS total FROM auction_user_bidders_v1 b WHERE lot_id=? ORDER BY b.total DESC,last_ms,user_id',active.id).all():{results:[]},
    p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,AUCTION_TICKET).first(),
    p('SELECT CAST(coin AS TEXT) coin FROM users WHERE id=?',user.id).first(),policy(),
    p('SELECT lot_id,asset_json FROM auction_user_returns_v1 WHERE user_id=? AND claimed_ms IS NULL',user.id).all(),readAuctionBgmGuide(env),legacyActive()
   ]);
   const returns=unclaimed.results.map(r=>({lotId:r.lot_id,asset:publicAsset(JSON.parse(r.asset_json))}));
-  return {enabled:rules.enabled===true,active:publicLot(active),queue:queue.results.map(publicLot),history:history.results.map(publicLot),bidders:bidders.results.map(x=>({...x,user_id:Number(x.user_id),total:Number(x.total)})),returns,tickets:Number(tickets?.quantity||0),coin:wallet?.coin||'0',bgmGuide,serverNow:now(),userId:Number(user.id),legacyActive:legacy};
+  return {enabled:rules.enabled===true,active:publicLot(active),queue:queue.results.map(publicLot),history:history.results.map(publicLot),bidders:bidders.results.map(x=>({...x,user_id:Number(x.user_id),total:auctionMoney(x.total)})),returns,tickets:Number(tickets?.quantity||0),coin:wallet?.coin||'0',bgmGuide,serverNow:now(),userId:Number(user.id),legacyActive:legacy};
  }
  async function claimNotice(user,id){
   const result=await p("INSERT OR IGNORE INTO auction_user_notices_v1(lot_id,user_id,claimed_ms) SELECT id,?,? FROM auction_user_lots_v1 WHERE id=? AND status='ACTIVE' AND started_ms<=? AND ends_ms>?",user.id,now(),id,now(),now()).run();

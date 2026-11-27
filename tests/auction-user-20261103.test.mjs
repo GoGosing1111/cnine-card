@@ -27,7 +27,7 @@ test('injected ticket/log/lot failures rollback all stock, ticket and receipts',
 });
 test('100조 debit, exact seller 80조, loser refund and settlement replay leave no duplicate',async t=>{
  const f=await userAuctionFixture(t),a=await f.host(1,'ITEM',3),rid=f.requestId();
- await f.service.bid(f.user(2),{lotId:a.lot.id,amount:AUCTION_MAX_BID,requestId:rid});assert.equal((await f.service.bid(f.user(2),{lotId:a.lot.id,amount:AUCTION_MAX_BID,requestId:rid})).replayed,true);
+ await f.service.bid(f.user(2),{lotId:a.lot.id,amount:1e14,requestId:rid});assert.equal((await f.service.bid(f.user(2),{lotId:a.lot.id,amount:1e14,requestId:rid})).replayed,true);
  await f.service.bid(f.user(3),{lotId:a.lot.id,amount:1e12,requestId:f.requestId()});f.advance(AUCTION_DURATION_MS);await f.service.tick();await f.service.tick();
  assert.equal(coin(f,1),580e12);assert.equal(coin(f,2),400e12);assert.equal(coin(f,3),500e12);assert.equal(f.row("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='POTION'").quantity,103);assert.equal(f.row('SELECT COUNT(*) n FROM auction_user_settlements_v1').n,1);assert.equal(f.row('SELECT fee FROM auction_user_settlements_v1').fee,20e12);
 });
@@ -35,7 +35,7 @@ test('self bid, queued bid, too large/fractional amount and insufficient funds f
  const f=await userAuctionFixture(t),a=await f.host(1),b=await f.host(3);
  await assert.rejects(f.service.bid(f.user(1),{lotId:a.lot.id,amount:1,requestId:f.requestId()}),/본인/);
  await assert.rejects(f.service.bid(f.user(2),{lotId:b.lot.id,amount:1,requestId:f.requestId()}),/입찰 가능/);
- for(const amount of [0,-1,1.5,1e14+1,Number.MAX_SAFE_INTEGER])await assert.rejects(f.service.bid(f.user(2),{lotId:a.lot.id,amount,requestId:f.requestId()}));
+ for(const amount of [0,-1,1.5,1e17,(AUCTION_MAX_BID+1n).toString(),'1e17','100.1'])await assert.rejects(f.service.bid(f.user(2),{lotId:a.lot.id,amount,requestId:f.requestId()}));
  f.sql.exec('UPDATE users SET coin=0 WHERE id=2');await assert.rejects(f.service.bid(f.user(2),{lotId:a.lot.id,amount:1,requestId:f.requestId()}));assert.equal(f.row('SELECT COUNT(*) n FROM auction_user_bid_receipts_v1').n,0);
 });
 test('queued cancellation returns goods and unused ticket once; active cancellation forbidden',async t=>{

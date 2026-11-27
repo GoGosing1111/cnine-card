@@ -1,6 +1,6 @@
 import {DatabaseSync} from 'node:sqlite';
 import {createUserAuctionService,prepareUserAuctionSchema} from '../../functions/_auction_user_service.js';
-import {AUCTION_USER_DRAFT,AUCTION_USER_POLICY_KEY,AUCTION_TICKET} from '../../shared/auction-user-policy-v1.mjs';
+import {AUCTION_USER_DRAFT,AUCTION_USER_POLICY_KEY,AUCTION_TICKET,auctionMoney} from '../../shared/auction-user-policy-v1.mjs';
 
 export async function userAuctionFixture(t){
  const sql=new DatabaseSync(':memory:');t?.after(()=>sql.close());const faults={sql:''};
@@ -55,7 +55,10 @@ export async function userAuctionFixture(t){
  return {...a,quantity};}).filter(a=>a.quantity>0);
  const service=createUserAuctionService(env,{catalog,now:()=>clock,legacyActive:async()=>legacy});
  let sequence=0;const requestId=()=>`AUCTION_TEST_REQUEST_${++sequence}`;
- const user=id=>sql.prepare('SELECT * FROM users WHERE id=?').get(id);
+ const user=id=>{
+  const row=sql.prepare('SELECT id,nickname,CAST(coin AS TEXT) AS coin FROM users WHERE id=?').get(id);
+  return row&&{...row,coin:auctionMoney(row.coin)};
+ };
  const host=(id,kind='ITEM',quantity=1,extra={})=>service.host(user(id),{kind,ref:assets.find(a=>a.kind===kind).ref,quantity,startPrice:1,requestId:requestId(),...extra});
  return {sql,env,faults,service,assets,catalog,user,host,requestId,now:()=>clock,advance:ms=>clock+=ms,setLegacy:value=>legacy=value,row:text=>sql.prepare(text).get(),close:()=>sql.close()};
 }

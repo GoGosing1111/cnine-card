@@ -13,10 +13,16 @@ for(const profile of [{name:'desktop',width:1440,engine:chromium},{name:'mobile'
   await page.screenshot({path:path.join(out,profile.name+'-live.png'),fullPage:true});
   const expected=[10000000,100000000000,1000000000000,10000000000000,100000000000000];assert.equal(await page.locator('[data-add]').count(),5);
   for(const amount of expected){await page.locator('#auc-amount').fill('');await page.locator(`[data-add="${amount}"]`).click();assert.equal(await page.locator('#auc-amount').inputValue(),String(amount));}
-  await page.locator('[data-add="10000000"]').click();assert.equal(await page.locator('#auc-amount').inputValue(),'100000000000000');assert.match(await page.locator('[data-error]').innerText(),/최대 100조/);
-  await page.locator('.auc-bid').click();await page.locator('.auc-dialog [data-submit]').click();await page.waitForFunction(()=>document.querySelector('.auc-current strong')?.textContent.includes('100조'));
+  server.fixture.sql.exec('UPDATE users SET coin=100000000000000005 WHERE id=2');
+  await page.locator('#auc-amount').fill('99999999999999999');
+  assert.match(await page.locator('#auc-amount-label').innerText(),/99,999,999,999,999,999/);
+  await page.locator('#auc-amount').fill('100000000000000000');
+  await page.locator('[data-add="10000000"]').click();assert.equal(await page.locator('#auc-amount').inputValue(),'100000000000000000');assert.match(await page.locator('[data-error]').innerText(),/최대 10경/);
+  await page.locator('.auc-bid').click();await page.locator('.auc-dialog [data-submit]').click();await page.waitForFunction(()=>document.querySelector('.auc-current strong')?.textContent.includes('10경'));
+  assert.equal(server.fixture.user(2).coin,5);
   await page.locator('[data-host]').click();await page.locator('[data-kind="MERCENARY"]').click();await page.locator('[data-asset]').first().click();
-  await page.locator('.auc-host-form [name="quantity"]').fill('1');await page.locator('.auc-host-form [name="startPrice"]').fill('1000000000000');assert.match(await page.locator('[data-net]').innerText(),/8,000억/);
+  await page.locator('.auc-host-form [name="quantity"]').fill('1');await page.locator('.auc-host-form [name="startPrice"]').fill('100000000000000001');assert.equal(await page.locator('.auc-host-form [data-submit]').isDisabled(),true);
+  await page.locator('.auc-host-form [name="startPrice"]').fill('100000000000000000');assert.match(await page.locator('[data-net]').innerText(),/수령 8경/);
   await page.screenshot({path:path.join(out,profile.name+'-host.png'),fullPage:true});
   const before=server.fixture.row("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='AUCTION_HOST_TICKET'").quantity;
   await page.locator('.auc-host-form [data-submit]').click();await page.locator('.auc-dialog').waitFor({state:'detached'});assert.equal(server.fixture.row("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='AUCTION_HOST_TICKET'").quantity,before-1);
@@ -26,7 +32,7 @@ for(const profile of [{name:'desktop',width:1440,engine:chromium},{name:'mobile'
   await page.locator('.auc-opening [data-close]').click();await page.locator('#review-enter').click();await page.locator('[data-lobby]').click();await page.waitForTimeout(150);assert.equal(await page.locator('.auc-opening[open]').count(),0);
   await page.reload();await page.locator('[data-lobby]').click();await page.waitForTimeout(150);assert.equal(await page.locator('.auc-opening[open]').count(),0);
   assert.equal(server.fixture.row('SELECT COUNT(*) n FROM auction_user_notices_v1 WHERE user_id=2').n,1);
-  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);report.push({profile:profile.name,width:profile.width,quickButtons:5,maximumBid:1e14,hosted:true,queueCancelled:true,noticeOnce:true,overflow:false,pageErrors:errors,failedResponses:failed});
+  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);report.push({profile:profile.name,width:profile.width,quickButtons:5,maximumBid:'100000000000000000',hosted:true,queueCancelled:true,noticeOnce:true,overflow:false,pageErrors:errors,failedResponses:failed});
  }finally{await browser.close();await server.close();}
 }
 fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));

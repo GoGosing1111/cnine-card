@@ -1,4 +1,5 @@
 import {createLootProductDraft} from './loot-shop-policy-v1.mjs?v=20261103-live-v1';
+import {coinInteger,coinValue} from './coin-integer-v1.mjs';
 
 export const AUCTION_USER_POLICY_KEY='auction_user_policy_v1';
 export const AUCTION_TICKET='AUCTION_HOST_TICKET';
@@ -9,7 +10,7 @@ export const AUCTION_DURATION_MS=AUCTION_DEFAULT_MINUTES*60_000;
 export const AUCTION_ITEM_LISTING_LIMIT=10;
 export const AUCTION_LISTING_WINDOW_MS=24*60*60*1000;
 export const auctionDurationLabel=(minutes=AUCTION_DEFAULT_MINUTES)=>minutes===30?'30분':(minutes/60)+'시간';
-export const AUCTION_MAX_BID=100_000_000_000_000;
+export const AUCTION_MAX_BID=100_000_000_000_000_000n;
 export const AUCTION_QUICK_BIDS=Object.freeze([
   {label:'1,000만',amount:10_000_000},{label:'1,000억',amount:100_000_000_000},
   {label:'1조',amount:1_000_000_000_000},{label:'10조',amount:10_000_000_000_000},
@@ -17,15 +18,26 @@ export const AUCTION_QUICK_BIDS=Object.freeze([
 ]);
 export const AUCTION_ASSET_TYPES=Object.freeze({CARD:'카드',MERCENARY:'용병',PET:'펫',EQUIPMENT:'장비',VEHICLE:'이동수단',ITEM:'아이템',MASTER_STAR:'마스터의 별'});
 export const AUCTION_USER_DRAFT=Object.freeze({version:1,enabled:false,durationMs:AUCTION_DURATION_MS,feePercent:20,maxActive:1,growth:'ACCOUNT_RETAINED',ticketCode:AUCTION_TICKET,ticketQuantity:1,rewardSources:[]});
-export function auctionMoney(value){
-  const n=Number(value);if(!Number.isSafeInteger(n)||n<0)throw Error('정확한 정수 금액이 필요합니다.');return n;
+export const auctionMoney=coinValue;
+// Keep existing numeric receipts canonical and carry larger JSON amounts as decimal strings.
+export function auctionAmount(value,minimum=1n){
+  try{
+    const amount=coinInteger(value);
+    return amount>=minimum&&amount<=AUCTION_MAX_BID?coinValue(amount):null;
+  }catch{return null;}
 }
 export function auctionProceeds(value){
-  const gross=auctionMoney(value),fee=Number(BigInt(gross)*20n/100n);
-  return {gross,fee,net:gross-fee};
+  const gross=coinInteger(value),fee=gross*20n/100n;
+  return {gross:coinValue(gross),fee:coinValue(fee),net:coinValue(gross-fee)};
 }
 export function auctionCoinLabel(value){
-  const n=auctionMoney(value);for(const [unit,divisor] of [['조',1e12],['억',1e8],['만',1e4]])if(n>=divisor)return `${(n/divisor).toLocaleString('ko-KR',{maximumFractionDigits:2})}${unit}`;
+  const n=coinInteger(value);
+  for(const [unit,divisor] of [['경',10n**16n],['조',10n**12n],['억',10n**8n],['만',10n**4n]]){
+    if(n<divisor)continue;
+    if(n>BigInt(Number.MAX_SAFE_INTEGER)&&n*100n%divisor!==0n)return n.toLocaleString('ko-KR');
+    const hundredths=(n*100n+divisor/2n)/divisor;
+    return (Number(hundredths)/100).toLocaleString('ko-KR')+unit;
+  }
   return n.toLocaleString('ko-KR');
 }
 // Pure preparation only. The caller must preserve the current policy and save it
