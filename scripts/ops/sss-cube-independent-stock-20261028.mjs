@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
-import {SSS_CUBE_LIMITED_CODES,sssCubeStockCode} from '../../shared/sss-miracle-cube-stock-v1.mjs';
+import {sssCubeStockCode} from '../../shared/sss-miracle-cube-stock-v1.mjs';
+// The October stock grant covers only these eight cards, even as the CMS catalog grows.
+const initialLimitedCodes=['V-999','V-989','V-996','V-979','V-973','V-974','V-975','V-978'];
 export const OPERATION_KEY='ops:sss-cube-independent-stock:20261028:v1';
 export const POLICY_KEY='sss_miracle_cube_policy_20261021_v1';
 export const ITEM_DESCRIPTION='SSS 일반·SSS 리미티드 용병 중 1장을 획득합니다. 리미티드는 큐브 전용 한도를 사용합니다.';
@@ -16,9 +18,9 @@ export async function applySssCubeIndependentStock(client,{expectedPolicy,releas
   if(repeated){await client.query('ROLLBACK');return {replayed:true,receipt:JSON.parse(repeated.value)};}
   const [row]=await q('SELECT value FROM app_meta WHERE key=$1 FOR UPDATE',[POLICY_KEY]);assert(row,'Cube policy missing');assert.equal(row.value,expectedPolicy,'CMS changed; refresh the operation plan');
   const before=JSON.parse(row.value);assert.equal(before.policy.mode,'OFF','Keep opening OFF during independent stock registration');
-  const codes=SSS_CUBE_LIMITED_CODES.map(sssCubeStockCode),prior=await q('SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR UPDATE',[codes]);assert.equal(prior.length,0,'Unexpected independent stock; inspect before adding capacity');
+  const codes=initialLimitedCodes.map(sssCubeStockCode),prior=await q('SELECT * FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code FOR UPDATE',[codes]);assert.equal(prior.length,0,'Unexpected independent stock; inspect before adding capacity');
   const [owner]=await q("SELECT id FROM users WHERE role='OWNER' AND status='ACTIVE' ORDER BY id LIMIT 1 FOR SHARE");assert(owner);
-  const at=new Date().toISOString(),stockLimits=Object.fromEntries(SSS_CUBE_LIMITED_CODES.map(code=>[code,5]));
+  const at=new Date().toISOString(),stockLimits=Object.fromEntries(initialLimitedCodes.map(code=>[code,5]));
   let changed=0;
   for(const code of codes){await q('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued,revision,last_token) VALUES($1,5,0,0,$2)',[code,OPERATION_KEY]);if(++changed===failAfter)throw Error('INJECTED_CUBE_STOCK_FAILURE');}
   const next={...before,revision:before.revision+1,policy:{...before.policy,stockLimits},updatedAt:at,updatedBy:Number(owner.id)};

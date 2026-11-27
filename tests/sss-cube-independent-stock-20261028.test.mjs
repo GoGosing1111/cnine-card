@@ -7,16 +7,17 @@ import {SSS_CUBE_TOTAL,validateSssCubePolicy} from '../shared/sss-miracle-cube-v
 import {SSS_CUBE_KEY,ensureSssCubeCatalog,sssCubeState,saveSssCubePolicy,openSssCube,sssCubeReceipt} from '../functions/_sss_miracle_cube.js';
 import {readJinmuPackOwners} from '../functions/_mercenary_jinmu_access.js';
 import {readJokroPackOwners} from '../functions/_mercenary_jokro_access.js';
+import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {applySssCubeIndependentStock,OPERATION_KEY} from '../scripts/ops/sss-cube-independent-stock-20261028.mjs';
-async function setup(t,postgres=false){
+async function setup(t,postgres=false,stockCodes=SSS_CUBE_LIMITED_CODES){
  const f=await mercenaryFixture(t,{postgres});await ensureLimitedPackSchema(f.env);await ensureSssCubeCatalog(f.env);
  await f.p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,'SSS_MIRACLE_CUBE',40,40)").run();
- for(const code of SSS_CUBE_LIMITED_CODES){await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,5,0)',sssCubeStockCode(code)).run();await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,3,3)',code).run();}
+ for(const code of stockCodes){await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,5,0)',sssCubeStockCode(code)).run();await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,3,3)',code).run();}
  const save=async(code,overrides={})=>{const state=await sssCubeState(f.env,f.user);return saveSssCubePolicy(f.env,f.user,{requestId:crypto.randomUUID(),revision:state.revision,policy:{...state.policy,mode:'ON',cards:{[code]:SSS_CUBE_TOTAL},...overrides}});};
  const open=async(options={})=>openSssCube(f.env,f.user,{requestId:crypto.randomUUID(),expectedRevision:(await sssCubeState(f.env,f.user)).revision,count:1,...options},{randomInt:()=>0});
  return {...f,save,open};
 }
-for(const postgres of [false,true])test('eight cube-only stocks ignore sold-out packs, retain probabilities and award actual mercenaries '+postgres,async t=>{
+for(const postgres of [false,true])test('configured cube stocks ignore sold-out packs, retain probabilities and award actual mercenaries '+postgres,async t=>{
  const f=await setup(t,postgres),before=(await f.p("SELECT * FROM mercenary_limited_stock_v1 WHERE code NOT LIKE 'SSS_MIRACLE_CUBE:%' ORDER BY code").all()).results;
  const state=await sssCubeState(f.env,f.user);assert.deepEqual(state.catalog.filter(c=>c.limited&&c.available).map(c=>c.code).sort(),[...SSS_CUBE_LIMITED_CODES].sort());
  for(const code of SSS_CUBE_LIMITED_CODES){await f.save(code);const r=await f.open();assert.equal(r.draws[0].mercenaryCode,code);assert.equal(r.draws[0].serial,1);assert.equal(r.draws[0].stockScope,'SSS_MIRACLE_CUBE');assert.equal(Number((await f.p('SELECT total_copies FROM user_mercenary_cards_v1 WHERE user_id=7 AND mercenary_code=?',code).first()).total_copies),1);}
@@ -24,6 +25,40 @@ for(const postgres of [false,true])test('eight cube-only stocks ignore sold-out 
  for(const code of ['V-976','V-987','V-988'])assert.equal(state.catalog.find(c=>c.code===code)?.available??false,false);
  assert.equal(await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='PRIME_REQUIEM_DRAINED_CARD'").first(),null);
  assert.equal((await readJinmuPackOwners(f.env,[7])).has(7),true);assert.equal((await readJokroPackOwners(f.env,[7])).has(7),true);
+});
+test('the cube lists every limited SSS in the codex and adds no odds or stock to an existing policy',async t=>{
+ const f=await setup(t,false,['V-996']);
+ await f.save('V-996');
+ const saved=await f.p('SELECT value FROM app_meta WHERE key=?',SSS_CUBE_KEY).first();
+ const state=await sssCubeState(f.env,f.user);
+ const codex=mercenaryCodexDocument({payload_json:JSON.stringify(f.document),revision:1});
+ const limited=codex.cards.filter(card=>card.rank==='SSS'&&card.edition==='LIMITED');
+ const rows=state.catalog.filter(card=>card.limited);
+ assert.deepEqual(rows.map(c=>c.code).sort(),limited.map(c=>c.code).sort());
+ const locked=new Set(['V-976','V-987','V-988']);
+ for(const card of limited){
+  const row=rows.find(c=>c.code===card.code);
+  assert.equal(row.name,card.name);
+  assert.equal(row.sourceArt,'/'+card.sourceArt);
+  assert.equal(row.cubeEligible,!locked.has(card.code));
+  if(card.code==='V-996')continue;
+  assert.equal(row.stockLimit,null);
+  assert.equal(row.units,null);
+  assert.equal(row.available,false);
+ }
+ assert.equal(state.openingEnabled,true);
+ assert.deepEqual(state.policy.cards,{'V-996':SSS_CUBE_TOTAL});
+ assert.deepEqual(state.policy.stockLimits,{'V-996':5});
+ assert.deepEqual(await f.p('SELECT value FROM app_meta WHERE key=?',SSS_CUBE_KEY).first(),saved);
+ await assert.rejects(f.save('V-957'),{code:'SSS_CUBE_NOT_READY'});
+ await f.save('V-957',{stockLimits:{'V-957':1}});
+ const opened=await f.open();
+ assert.equal(opened.draws[0].name,'하츠');
+ assert.equal(opened.draws[0].serial,1);
+ const after=await sssCubeState(f.env,f.user);
+ assert.equal(after.catalog.find(c=>c.code==='V-957').soldOut,true);
+ assert.deepEqual(after.policy.stockLimits,{'V-957':1,'V-996':5});
+ assert.equal((await f.p("SELECT count(*) AS n FROM mercenary_limited_stock_v1 WHERE code LIKE 'SSS_MIRACLE_CUBE:%'").first()).n,2);
 });
 test('CMS limits and odds save together, cannot lower below issued, and stock edits roll back on audit failure',async t=>{
  const f=await setup(t,true);await f.save('V-973');await f.open();let state=await sssCubeState(f.env,f.user);
@@ -64,5 +99,7 @@ test('one-time operation is rollback-safe, preserves CMS rates/OFF and pack rows
  await assert.rejects(applySssCubeIndependentStock(client,{...options,failAfter:3}),/INJECTED_CUBE_STOCK_FAILURE/);assert.equal((await f.pg.query("SELECT * FROM mercenary_limited_stock_v1 WHERE code LIKE 'SSS_MIRACLE_CUBE:%'")).rows.length,0);
  const dry=await applySssCubeIndependentStock(client,options);assert.equal(dry.receipt.addedCapacity,40);assert.equal((await f.pg.query('SELECT value FROM app_meta WHERE key=$1',[SSS_CUBE_KEY])).rows[0].value,raw);
  const result=await applySssCubeIndependentStock(client,{...options,dryRun:false});assert.deepEqual(result.receipt.probabilities,policy.policy.cards);assert.equal(result.receipt.mode,'OFF');assert.equal((await f.pg.query("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-973'")).rows[0].issued,2);
+ const stock=(await f.pg.query("SELECT code FROM mercenary_limited_stock_v1 WHERE code LIKE 'SSS_MIRACLE_CUBE:%' ORDER BY code")).rows;
+ assert.deepEqual(stock.map(r=>r.code),['V-973','V-974','V-975','V-978','V-979','V-989','V-996','V-999'].map(sssCubeStockCode));
  const readOnly={query:(sql,args)=>{assert.match(sql,/^SELECT /);return f.pg.query(sql,args);}};assert.equal((await applySssCubeIndependentStock(readOnly,{})).replayed,true);assert.equal((await f.pg.query('SELECT value FROM app_meta WHERE key=$1',[OPERATION_KEY])).rows.length,1);
 });

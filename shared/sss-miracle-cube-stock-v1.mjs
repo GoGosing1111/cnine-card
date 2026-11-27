@@ -1,5 +1,8 @@
 export const SSS_CUBE_STOCK_SCOPE='SSS_MIRACLE_CUBE';
-export const SSS_CUBE_LIMITED_CODES=Object.freeze(['V-999','V-989','V-996','V-979','V-973','V-974','V-975','V-978']);
+export const SSS_CUBE_LIMITED_CODES=Object.freeze([
+ 'V-999','V-989','V-996','V-979','V-973','V-974','V-975','V-978',
+ 'V-972','V-971','V-970','V-969','V-968','V-967','V-966','V-959','V-958','V-957'
+]);
 export const sssCubeStockCode=code=>`${SSS_CUBE_STOCK_SCOPE}:${code}`;
 export function sssCubeCatalogWithLimits(catalog,limits={}){
  return catalog.map(card=>{

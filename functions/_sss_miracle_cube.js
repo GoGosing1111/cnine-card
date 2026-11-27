@@ -1,15 +1,11 @@
-import {EUNSEOL_ART} from '../shared/mercenary-eunseol-v1.mjs';
-import {GENERAL_JOK_ART} from '../shared/mercenary-general-jok-v1.mjs';
 import {SSS_CUBE,emptySssCubePolicy,validateSssCubePolicy,sssCubeReadiness,pickSssCubeBatch,sssCubePercent,sssCubeSoldOut,sssCubeEffectivePercent} from '../shared/sss-miracle-cube-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
-import {HALLOWEEN_SSS_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {SSS_CUBE_LIMITED_CODES,SSS_CUBE_STOCK_SCOPE,sssCubeStockCode,sssCubeCatalogWithLimits} from '../shared/sss-miracle-cube-stock-v1.mjs';
-import {PRIME_ART} from '../shared/mercenary-prime-requiem-v1.mjs';
-import {ZERO_ART} from '../shared/mercenary-zero-v1.mjs';
-import {LEONEL_ART} from '../shared/mercenary-leonel-v1.mjs';
-import {SHIRANUI_ART} from '../shared/mercenary-shiranui-v1.mjs';
-import {KAIRON_ART} from '../shared/mercenary-kairon-v1.mjs';
+import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
+import {ZERO_CODE} from '../shared/mercenary-zero-v1.mjs';
+import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
+import {KAIRON_CODE} from '../shared/mercenary-kairon-v1.mjs';
 import {mercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
 import {mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
 import {limitedPackRandomInt} from './_mercenary_limited_pack.js';
@@ -18,8 +14,11 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError,readJointBody} from './_joint_request.js';
 
 export const SSS_CUBE_KEY='sss_miracle_cube_policy_20261021_v1',SSS_CUBE_KIND='SSS_MIRACLE_CUBE_OPEN';
-const limitedCards=[...new Map([...HALLOWEEN_SSS_CARDS,EUNSEOL_ART,GENERAL_JOK_ART,PRIME_ART,ZERO_ART,LEONEL_ART,SHIRANUI_ART,KAIRON_ART].filter(c=>c.rank==='SSS').map(c=>[c.code,c])).values()];
 const releasedLimited=new Set(SSS_CUBE_LIMITED_CODES);
+// The three locked entries stay visible alongside the configurable cube rewards.
+const limitedCards=[...releasedLimited,ZERO_CODE,SHIRANUI_CODE,KAIRON_CODE]
+ .map(limitedDeploymentSnapshot)
+ .filter(card=>card?.rank==='SSS'&&card.edition==='LIMITED');
 const fail=(code,message,status=409)=>jointError('SSS_CUBE_'+code,message,status);
 const terminal=(code,message)=>Object.assign(fail(code,message),{terminal:true});
 const stored=async env=>(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SSS_CUBE_KEY).first())?.value??null;
