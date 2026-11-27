@@ -15,16 +15,16 @@ import {mercenaryBattleTier} from '../shared/mercenary-rank-growth-v1.mjs';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 
-test('Heukmu uses 3.5m in server fighters, catalog and snapshot; only its power budget changes',async()=>{
+test('Heukmu shares the 3.5m neutral stats and retains its original art and skill identities',async()=>{
  const original=execFileSync('git',['show','125ab6d1238a2f47133a4231644eb090ce8c15b6:shared/mercenary-heukmu-v1.mjs'],{windowsHide:true}).toString();
  const old=await import('data:text/javascript;base64,'+Buffer.from(original).toString('base64'));
  assert.equal(HEUKMU_COMBAT.basePower,3500000);
- for(const k of ['statScale','basicCapScale'])assert.equal(HEUKMU_COMBAT[k],old.HEUKMU_COMBAT[k]*.875);
- for(const k of ['attackPercent','hpPercent'])assert(Math.abs(HEUKMU_COMBAT.link[k]/old.HEUKMU_COMBAT.link[k]-.875)<1e-12);
- assert(Math.abs((HEUKMU_COMBAT.link.shieldPercent+60)/(old.HEUKMU_COMBAT.link.shieldPercent+60)-.875)<1e-12);
- for(const k of ['actionCredit','speedScale','damageTakenScale','basicDamageScale','areaDamageCapScale'])assert.equal(HEUKMU_COMBAT[k],old.HEUKMU_COMBAT[k]);
- assert.deepEqual(HEUKMU_PVE_BALANCE,old.HEUKMU_PVE_BALANCE);
- for(const k of ['sourceArt','sourceArtSha256','battleSprite','battleSpriteSha256','skills','acquisitionEnabled','deploymentEnabled'])assert.deepEqual(HEUKMU_ART[k],old.HEUKMU_ART[k]);
+ for(const k of ['statScale','basicCapScale','link','actionCredit','speedScale','damageTakenScale','basicDamageScale'])assert.deepEqual(HEUKMU_COMBAT[k],HELIOS_KING_COMBAT[k]);
+ assert.equal(HEUKMU_COMBAT.areaDamageCapScale,2.75);
+ assert.deepEqual(HEUKMU_PVE_BALANCE,{version:3,damageRatio:41.58,cooldownTurns:2,cost:10});
+ for(const k of ['sourceArt','sourceArtSha256','battleSprite','battleSpriteSha256','acquisitionEnabled','deploymentEnabled'])assert.deepEqual(HEUKMU_ART[k],old.HEUKMU_ART[k]);
+ const forms=art=>art.skills.map(({id,name,visualMode})=>({id,name,visualMode}));
+ assert.deepEqual(forms(HEUKMU_ART),forms(old.HEUKMU_ART));
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])assert.equal(fighter(HEUKMU_CODE,'A',mode,1,gear).basePower,3500000+gear);
  assert.equal(limitedDeploymentSnapshot(HEUKMU_CODE).basePower,3500000);
  const catalog=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
@@ -85,16 +85,17 @@ test('the two-action King cooldown alternates both skills and stays funded by la
   const combat=mercenaryCombat({teams:{A:[actor],B:[enemy]},clock:()=>actor.actions,hit:()=>({hit:true,damage:1}),damage:()=>({hpDamage:1,absorbed:0}),knockout(){},emit:(type,row)=>{if(type===HELIOS_KING_AREA_EVENT||type===HEUKMU_AREA_EVENT)events.push({action:actor.actions,type,...row});}});
   for(actor.actions=1;actor.actions<=60;actor.actions++){
    const before=combat.state(actor).energy,cast=combat.beforeAction(actor);
-   if(cast)assert.equal(before-combat.state(actor).energy,code===HELIOS_KING_CODE?10:35);
+   if(cast)assert.equal(before-combat.state(actor).energy,10);
    else combat.afterBasic(actor,enemy,true);
    assert.equal(combat.state(actor).pending,null);assert(combat.state(actor).energy>=0);
   }return events;};
  const h=run(HELIOS_KING_CODE);assert.deepEqual(h.map(e=>e.action),Array.from({length:30},(_,i)=>1+2*i));
  h.forEach((e,i)=>assert.equal(e.skillId,HELIOS_KING_AREA_SKILLS[i%2].id));
- assert.deepEqual(run(HEUKMU_CODE).map(e=>e.action),Array.from({length:12},(_,i)=>1+5*i));
+ assert.deepEqual(run(HEUKMU_CODE).map(e=>e.action),h.map(e=>e.action));
 });
 
 const oldLoadouts=[
+ {code:HEUKMU_CODE,policy:'heukmuPolicyVersion',version:2,deployment:'20261106-heukmu-350-v2',skillCount:2},
  {code:HELIOS_KING_CODE,policy:'heliosKingPolicyVersion',version:1,deployment:'20261106-helios-king-live-v1',skillCount:2},
  {code:'V-959',policy:'jinJokroPolicyVersion',version:1,deployment:'20261106-jin-jokro-live-v1',skillCount:3},
  {code:'V-967',policy:'hakuyaPolicyVersion',version:2,deployment:'20261105-hakuya-revan-parity-v1',skillCount:1}
@@ -109,7 +110,7 @@ for(const {code,policy,version,deployment,skillCount} of oldLoadouts)test(code+'
  }
  for(const mode of ['PVE','PVP']){
   const actor=buildMercenaryFighter(saved,'A',mode,buildFighter);
-  assert.equal(actor[policy],version+1);
+  assert.equal(actor[policy],3);
   const base=buildFighter({id:code,power:HELIOS_KING_COMBAT.speedReferencePower,type:'NONE'},5,'A',null,mode);
   assert.equal(actor.speed,Math.round(base.speed*4.5));
   assert.equal(actor.skills.length,mode==='PVE'?skillCount:0);

@@ -53,7 +53,7 @@ export function castApocalypseAction(actor,targets,{damage,damageCombined=null,k
    const normal=Math.max(0,gross-pierce-Math.round(target.defense*.35));
    // S2 intercept/protection must see one logical impact, including its pierce.
    // Existing callers retain the exact split-damage path.
-   const base=damageCombined?damageCombined(target,normal,pierce):damage(target,normal),direct=damageCombined?{hpDamage:0}:damage(target,pierce,{ignoreShield:true});
+   const base=damageCombined?damageCombined(target,normal,pierce):damage(target,normal,{apocalypseSource:actor}),direct=damageCombined?{hpDamage:0}:damage(target,pierce,{ignoreShield:true,apocalypseSource:actor});
    actor.damageDealt+=base.hpDamage+base.absorbed+direct.hpDamage;
    hits.push({targetId:target.id,...(glanced?{glancing:true}:{}),damage:base.hpDamage+direct.hpDamage,absorbed:base.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
   }

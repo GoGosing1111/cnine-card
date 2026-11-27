@@ -7,7 +7,7 @@ import {applySeasonFighterBonus} from '../shared/season-s1-combat.mjs';
 import {jinJokroIncomingDamage,jinJokroActionCredit} from '../shared/mercenary-jin-jokro-v1.mjs';
 import {heliosKingIncomingDamage,heliosKingActionCredit} from '../shared/mercenary-helios-king-v1.mjs';
 import {hakuyaIncomingDamage,hakuyaActionCredit} from '../shared/mercenary-hakuya-v1.mjs';
-import {heukmuIncomingDamage,heukmuActionCredit} from '../shared/mercenary-heukmu-v1.mjs';
+import {HEUKMU_APOCALYPSE,isHeukmu,heukmuIncomingDamage,heukmuActionCredit} from '../shared/mercenary-heukmu-v1.mjs';
 import {liveExpansionIcon} from '../shared/icon-expansion-v1.mjs';
 import {ICON_EXPANSION_ART} from '../shared/icon-expansion-art-v1.mjs';
 import {validatedIconSupremacy} from '../shared/icon-supremacy-v1.mjs';
@@ -656,7 +656,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   incoming = jinJokroIncomingDamage(target,incoming);
   incoming = ryujinIncomingDamage(target,incoming);
   incoming = heliosKingIncomingDamage(target,incoming);
-  incoming = heukmuIncomingDamage(target,incoming);
+  incoming = heukmuIncomingDamage(target,incoming,options.apocalypseSource||options.actor);
   incoming = generalJokIncomingDamage(target,incoming);
   incoming = primeIncomingDamage(target,incoming);
   incoming = zeroIncomingDamage(target,incoming);
@@ -845,6 +845,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let advancement=null,mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null,techniqueRuntime=null;
   const rawDamage=(target,incoming,options={})=>{const result=applyCanonicalDamage(target,incoming,options);advancement?.afterDamage(options.advancementSource||options.actor,target,result,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result,options);season2Runtime?.afterDamage(target,result,options);techniqueRuntime?.onDamage(target,result,options);return result;};
   const applyDamage=(target,incoming,options={})=>{
+    if(target.isApocalypseHuntBoss&&isHeukmu(options.actor)&&options.actor.battleMode==='PVE'){
+      incoming=Math.round(incoming*(1+HEUKMU_APOCALYPSE.damageBonusPercent/100));
+    }
     // Scale once after the attack's hit cap, before guard redirection. A guard
     // receives an already scaled share through rawDamage, without another boost.
     if(advancement){
@@ -1288,7 +1291,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       //   실드부터 깎으므로, 15% 궁극기가 실드에 100% 흡수돼 방어형 덱은 어떤 보스
       //   궁극기도 체력이 1도 안 닳았다(측정: 방어5 덱 피해 0.0%).
       //   궁극기는 실드를 관통한다.
-      const damageState = applyDamage(target, amount, { ignoreShield: true,direct:true });
+      const damageState = applyDamage(target, amount, { ignoreShield: true,direct:true,apocalypseSource:b[0] });
       hits.push({
         targetId: target.id,
         damage: damageState.hpDamage,
@@ -2179,7 +2182,8 @@ export function buildMonsterFighter(monster = {}) {
     maxHp, hp: maxHp, attack, defense, speed, shield: startingShield, maxShield: startingShield, gauge: isBoss ? 12 : 4,
     pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent, difficultyHpPercent, difficultyAttackPercent, difficultyDefensePercent, difficultySpeedPercent, difficultyShieldPercent, attackCount, actionFrequency, forcedActionEvery },
     alive: true, emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
-    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss, attackCount, actionFrequency, statCapsUnlocked, forcedActionEvery, isApocalypse
+    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss, attackCount, actionFrequency, statCapsUnlocked, forcedActionEvery, isApocalypse,
+    ...(isBoss&&isApocalypse&&monster.apocalypseHunt===true?{isApocalypseHuntBoss:true}:{})
   };
 }
 

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {rankedSnapshot as at,rankedTeam,tierCards,roster} from './helpers/mercenary-rank-growth-20261029.mjs';
 import {SSS_LIMITED_COMBAT_CODES,mercenaryBattleTier,mercenaryRankGap,mercenaryRankMasteryScale,mercenaryRankBasicCapScale,applyMercenaryRankGrowth,MERCENARY_RANK_GROWTH_DESCRIPTION} from '../shared/mercenary-rank-growth-v1.mjs';
 import {growthProbe} from '../scripts/measure-mercenary-growth-roster-20261020.mjs';
+import {JIN_JOKRO_CODE,JIN_JOKRO_PVP} from '../shared/mercenary-jin-jokro-v1.mjs';
+import {PRIME_ZERO_PVP} from '../shared/mercenary-zero-v1.mjs';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryGrowthMitigationBypass,mercenaryGrowthBasicCapScale,mercenaryGrowthActionCredit,applyMercenaryGrowthMatchups} from '../shared/mercenary-growth-review-v2.mjs';
 import {mercenaryBaseActionCredit} from '../functions/_mercenary_combat.js';
@@ -21,10 +23,10 @@ test('large earned level gaps remove added grade bonuses without altering learne
  for(const code of SSS_LIMITED_COMBAT_CODES)for(const power of [100,250000,20000000]){
   const teams=[rankedTeam(code,1,'A',power),rankedTeam('V-058',21,'B',power)];
   applyMercenaryCombatLink(teams);const high=teams[0].at(-1),low=teams[1].at(-1);
-  const exclusivePvp=['V-958','V-959','V-966','V-975','V-976'].includes(code);
-  assert.equal(high.mercenaryLink.tierGuard,1,code);assert.equal(high.mercenaryLink.tierOffense,exclusivePvp?1.3:1,code);
+  const policy=code===JIN_JOKRO_CODE?JIN_JOKRO_PVP:['V-958','V-966','V-968','V-975','V-976'].includes(code)?PRIME_ZERO_PVP:null;
+  assert.equal(high.mercenaryLink.tierGuard,1,code);assert.equal(high.mercenaryLink.tierOffense,policy?.attackScale??1,code);
   assert.equal(high.mercenaryLink.rankGrowth,undefined);
-  assert.equal(mercenaryDamageCapHp(high),(high.maxHp+high.mercenaryLink.openingShield)/(exclusivePvp?6:1));
+  assert.equal(mercenaryDamageCapHp(high),(high.maxHp+high.mercenaryLink.openingShield)/(policy?.durabilityScale??1));
   assert.equal(low.mercenaryGrowth.total.attackPercent,1000);assert.equal(mercenaryGrowthBasicCapScale(low),Math.sqrt(11));assert.equal(mercenaryGrowthActionCredit([low]),.75);
   const once=structuredClone(teams);applyMercenaryCombatLink(teams);applyMercenaryRankGrowth(teams);assert.deepEqual(teams,once);
  }

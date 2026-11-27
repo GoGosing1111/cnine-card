@@ -32,9 +32,10 @@ export async function growthProbe(){
  const consume=source.match(/if\(!independentAction&&!\(actor===reservedMercenary&&\w+KeepsNaturalGauge\(actor\)\)\)actor\.gauge = Math\.max\(0, actor\.gauge - 100\);/g);
  assert.equal(consume?.length,1);
  source=source.replace(consume[0],`const __growthGauge=actor.gauge;\n${consume[0]}\nglobalThis.__mercenaryGrowthAudit?.clock?.(actor,reservedMercenary===actor,__growthGauge,actor.gauge);`);
- const capped='const capped = Math.min(raw * (1 - reduction), hitCap);';
- assert.equal(source.split(capped).length,2);
- source=source.replace(capped,`${capped}\nglobalThis.__mercenaryGrowthAudit?.hit?.(actor,target,raw*(1-reduction),hitCap);`);
+ const caps=[...source.matchAll(/const capped = Math\.min\(([^;\r\n]+), hitCap\);/g)];
+ assert.equal(caps.length,1);
+ const [capped,uncapped]=caps[0];
+ source=source.replace(capped,`${capped}\nglobalThis.__mercenaryGrowthAudit?.hit?.(actor,target,${uncapped},hitCap);`);
  const engine=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
  let parityChecks=0;
  for(const code of ['V-984','V-981','V-999'])for(const level of [1,11]){

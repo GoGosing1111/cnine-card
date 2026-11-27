@@ -199,7 +199,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
  // captured fight must not heal, compound stats, or upgrade an older receipt.
  for(const actor of initialized){
   const link=actor.mercenaryLink;
-  if(!(isPrime(actor)||isZero(actor)||isRyujin(actor)||isHeliosKing(actor)||isJinJokro(actor))||actor.battleMode!=='PVP'||link.primeZeroGeneralJokPriority)continue;
+  if(!(isPrime(actor)||isZero(actor)||isRyujin(actor)||isHeliosKing(actor)||isJinJokro(actor)||isHeukmu(actor))||actor.battleMode!=='PVP'||link.primeZeroGeneralJokPriority)continue;
   const policy=isJinJokro(actor)?JIN_JOKRO_PVP:isRyujin(actor)?RYUJIN_PVP:isHeliosKing(actor)?HELIOS_KING_PVP:PRIME_ZERO_PVP;
   const {attackScale,durabilityScale}=policy;
   const ratio=actor.hp/actor.maxHp;

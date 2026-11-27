@@ -35,7 +35,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   }
   const monster=(art,slot,boss=false)=>({...buildMonsterFighter({id:slot+1,name:art.name,battle_power:Math.round((boss?policy.bossPower:policy.power)*art.power),is_boss:boss?1:0,pve_difficulty:region?'LEGION_REGION':'APOCALYPSE',
     pve_attack_percent:policy.attack,pve_shield_percent:boss?policy.shield:0,pve_attack_count:boss?policy.repeat:1}),
-    id:'B:'+slot+':ENCOUNTER:'+(boss?'FINAL':'INITIAL'),slot,huntArtId:art.id,...(region?{legionRegion:region.id,legionRole:art.role,legionVulnerability:boss&&region.id==='desert'?.7:!boss&&art.role==='ARMORED'?.9:1}:{})});
+    id:'B:'+slot+':ENCOUNTER:'+(boss?'FINAL':'INITIAL'),slot,huntArtId:art.id,isLegionHuntMonster:true,...(region?{legionRegion:region.id,legionRole:art.role,legionVulnerability:boss&&region.id==='desert'?.7:!boss&&art.role==='ARMORED'?.9:1}:{})});
   const monsters=regionId===COW_AREA?region.monsters.map((m,i)=>({...m,...COW_REGION.monsters[i]})):region?.monsters||MONSTERS;
   const bosses=region?[{...region.boss,...displayRegion.boss}]:BOSSES;
   const fighters=Array.from({length:CAPACITY},(_,slot)=>monster(monsters[slot%monsters.length],slot));

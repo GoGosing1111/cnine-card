@@ -1,4 +1,4 @@
-import {isHeliosKing,HELIOS_KING_AREA_EVENT,HELIOS_KING_AREA_MECHANIC,HELIOS_KING_AREA_SKILLS} from '../shared/mercenary-helios-king-v1.mjs';
+import {isHeliosKing,HELIOS_KING_AREA_EVENT,HELIOS_KING_AREA_MECHANIC,HELIOS_KING_AREA_SKILLS,HELIOS_KING_LEGION} from '../shared/mercenary-helios-king-v1.mjs';
 const living=t=>t?.alive!==false&&t?.hp>0&&!t?.untargetable&&!t?.isBattleSuit;
 
 // A single server damage budget, regardless of the number of summoned weapons.
@@ -11,8 +11,11 @@ export function resolveHeliosKingArea({actor,skill,targets,hit,damage,knockout,e
  if(!fixed.length)return [];
  // Growth is applied to the canonical ratio by the server before resolution.
  const share=1/fixed.length,ratio=skill.balance.damageRatio*share*Math.max(0,Number.isFinite(damageScale)?damageScale:0),hits=[];
+ const legionTargets=fixed.filter(t=>t.isLegionHuntMonster).length;
+ const legionScale=legionTargets>=HELIOS_KING_LEGION.minTargets?1+HELIOS_KING_LEGION.areaBonusPercent/100:1;
  for(const target of fixed){
-  const result=ratio>0?hit(actor,target,ratio,{rangedSkill:false,castShare:share,pveCapScale:canonical.damageCapScale}):{damage:0,dodge:false};
+  const scale=target.isLegionHuntMonster?legionScale:1;
+  const result=ratio>0?hit(actor,target,ratio*scale,{rangedSkill:false,castShare:share,pveCapScale:canonical.damageCapScale*scale}):{damage:0,dodge:false};
   const outcome=result.dodge?{hpDamage:0,absorbed:0}:damage(target,Math.max(0,result.damage));
   actor.damageDealt+=outcome.hpDamage+outcome.absorbed;
   hits.push({targetId:target.id,damage:outcome.hpDamage,absorbed:outcome.absorbed,dodge:!!result.dodge,

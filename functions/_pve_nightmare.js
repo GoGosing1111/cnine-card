@@ -211,6 +211,6 @@ export function pveDifficultyRuntime(settings={},monster={}){
     profileSource:isNightmare&&profile?'BOSS':isApocalypse&&profile?'MONSTER':'GLOBAL',
     effectiveBattlePower:Math.max(1,Math.round(basePower*challengeMultiplier)),
     effectiveRewardCoin:Math.max(0,Math.floor(baseReward*(special?tuning.rewardPercent:100)/100)),
-    engineMonster:{...monster,battle_power:basePower,battlePower:basePower,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent,pve_shield_percent:shieldPercent,pve_attack_count:attackCount,pve_action_frequency:actionFrequency,pve_stat_caps_unlocked:statCapsUnlocked,pve_forced_action_every:forcedActionEvery,pve_apocalypse_skill:apocalypseSkill,...(legion?{pve_battle_suit_skill_defense_percent:battleSuitSkillDefensePercent}:{})}
+    engineMonster:{...monster,battle_power:basePower,battlePower:basePower,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent,pve_shield_percent:shieldPercent,pve_attack_count:attackCount,pve_action_frequency:actionFrequency,pve_stat_caps_unlocked:statCapsUnlocked,pve_forced_action_every:forcedActionEvery,pve_apocalypse_skill:apocalypseSkill,...(isApocalypse?{apocalypseHunt:true}:{}),...(legion?{pve_battle_suit_skill_defense_percent:battleSuitSkillDefensePercent}:{})}
   };
 }

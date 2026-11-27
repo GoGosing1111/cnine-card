@@ -9,14 +9,19 @@ import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_ba
 import {resolveJinJokroArea} from '../functions/_mercenary_jin_jokro.js';
 import {mercenaryLevelXpMultiplier} from '../shared/mercenary-level-v1.mjs';
 
-test('Jin Jokro matches Helios King stats and tempo across growth, gear and modes',()=>{
+test('Jin Jokro shares base stats and tempo, with its personal attack and guard bonus in PVP',()=>{
  for(const mode of ['PVE','PVP'])for(const s of scenarios){
   const pairs=[J,H].map(code=>team(code,'A',mode,s.level,s.gear,s.power));
   pairs.forEach(t=>applyMercenaryCombatLink([t,cards().map((c,i)=>buildFighter(c,i,'B',null,mode))]));
   const [j,h]=pairs.map(t=>t.at(-1));
-  for(const key of ['basePower','attack','defense','maxHp','shield','counterImmune','controlImmune','poisonImmune'])assert.equal(j[key],h[key],`${mode}/${s.name}/${key}`);
+  for(const key of ['basePower','defense','counterImmune','controlImmune','poisonImmune'])assert.equal(j[key],h[key],`${mode}/${s.name}/${key}`);
+  const compare=(value,base,bonus)=>assert(Math.abs(value-base*(mode==='PVP'?bonus:1))<=1,`${mode}/${s.name}: ${value} vs ${base}`);
+  compare(j.attack,h.attack,1.05);
+  compare(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(h),1.05);
+  compare(j.maxHp,h.maxHp,1.03);
+  compare(j.shield,h.shield,1.03);
   assert.equal(j.speed,h.speed);
-  assert.equal(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(h));assert.equal(mercenaryDamageCapHp(j),mercenaryDamageCapHp(h));
+  assert(Math.abs(mercenaryDamageCapHp(j)-mercenaryDamageCapHp(h))<=1);
   assert.equal(mercenaryBaseActionCredit([j]),4.5);assert.equal(jinJokroIncomingDamage(j,123456),heliosKingIncomingDamage(h,123456));
   assert.equal(mercenaryLevelXpMultiplier(j),5);assert.equal(j.skills.length,mode==='PVE'?3:0);
   assert.deepEqual(pairs[0].slice(0,-1).map(a=>[a.attack,a.maxHp,a.shield]),pairs[1].slice(0,-1).map(a=>[a.attack,a.maxHp,a.shield]));

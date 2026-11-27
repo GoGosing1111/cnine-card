@@ -9,6 +9,7 @@ import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 import {eunseolLevelFixture} from './helpers/eunseol-level-fixture-20261026.mjs';
 import {HEUKMU_CODE,HEUKMU_COMBAT,HEUKMU_ART,HEUKMU_AREA_SKILLS,HEUKMU_AREA_EVENT,heukmuIncomingDamage} from '../shared/mercenary-heukmu-v1.mjs';
 import {PRIME_CODE} from '../shared/mercenary-prime-requiem-v1.mjs';
+import {HELIOS_KING_COMBAT} from '../shared/mercenary-helios-king-v1.mjs';
 import {JOKRO_CODE,JOKRO_COMBAT} from '../shared/mercenary-jokro-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {mercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
@@ -25,31 +26,31 @@ const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat}
 const fighter=(code,side='A',mode='PVE',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
 
 test('3.5m is reflected in actual PVE/PVP stats, links and growth budget',()=>{
- assert.equal(HEUKMU_COMBAT.basePower,3500000);assert.equal(HEUKMU_COMBAT.statScale,3500000/1123200);
+ assert.equal(HEUKMU_COMBAT.basePower,3500000);assert.equal(HEUKMU_COMBAT.statScale,HELIOS_KING_COMBAT.statScale);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8]){
   const c=fighter(HEUKMU_CODE,'A',mode,gear),g=fighter(JOKRO_CODE,'B',mode,gear);
   assert.equal(c.basePower,3500000+gear);for(const k of ['attack','maxHp','defense'])assert(c[k]>g[k],k);
-  assert.equal(c.speed,g.speed);assert.equal(c.skills.length,mode==='PVE'?2:0);assert.equal(c.attackStyle,'MELEE');
+  assert(c.speed>g.speed);assert.equal(c.skills.length,mode==='PVE'?2:0);assert.equal(c.attackStyle,'MELEE');
   for(const k of ['counterImmune','controlImmune','poisonImmune'])assert.equal(c[k],true);
   applyMercenaryCombatLink(['A','B'].map((side,i)=>[...tierCards(2e7).map((card,n)=>buildFighter(card,n,side,null,mode)),[c,g][i]]));
   for(const k of ['maxHp','shield'])assert(c[k]>g[k],k);assert(mercenaryEffectiveAttack(c)>mercenaryEffectiveAttack(g));
   assert.equal(heukmuIncomingDamage(c,1000),200);
  }
 });
-test('each area has one 1512% server budget over unique enemies and blocks invalid/dead/control input',()=>{
+test('each area has one 4158% server budget over unique enemies and blocks invalid/dead/control input',()=>{
  for(const skill of HEUKMU_AREA_SKILLS)for(const n of [1,5,13]){
   const actor=fighter(HEUKMU_CODE),targets=Array.from({length:n},(_,i)=>({id:'t'+i,side:'B',hp:10000,maxHp:10000,alive:true})),ratios=[],events=[];
   const args={actor,skill,targets:[...targets,targets[0],actor,{id:'friend',side:'A',hp:10},{id:'dead',side:'B',hp:0},{id:'suit',side:'B',hp:10,isBattleSuit:true}],hit:(a,t,r)=>{ratios.push(r);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
-  assert.equal(resolveHeukmuArea(args).length,n);assert(Math.abs(ratios.reduce((a,b)=>a+b)-15.12)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,HEUKMU_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
+  assert.equal(resolveHeukmuArea(args).length,n);assert(Math.abs(ratios.reduce((a,b)=>a+b)-41.58)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,HEUKMU_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
   for(const change of [{battleMode:'PVP'},{hp:0},{stunned:true},{silenced:true},{code:PRIME_CODE}])assert.deepEqual(resolveHeukmuArea({...args,actor:{...actor,...change}}),[]);
   assert.deepEqual(resolveHeukmuArea({...args,skill:{...skill,id:'MS-000'}}),[]);
  }
 });
-test('two area forms alternate every five actions without duplicate cost; PVP has no area cast',()=>{
+test('two area forms alternate every two actions without duplicate cost; PVP has no area cast',()=>{
  const run=mode=>{const actor=fighter(HEUKMU_CODE,'A',mode),enemy={...buildFighter(tierCards(2e7)[0],0,'B',null,mode),hp:1e15,maxHp:1e15},events=[];
   const combat=mercenaryCombat({teams:{A:[actor],B:[enemy]},clock:()=>actor.actions,hit:()=>({hit:true,damage:1}),damage:()=>({hpDamage:1,absorbed:0}),knockout(){},emit:(type,row)=>{if(type===HEUKMU_AREA_EVENT)events.push({action:actor.actions,...row});}});
   for(actor.actions=1;actor.actions<=30;actor.actions++){if(!combat.beforeAction(actor))combat.afterBasic(actor,enemy,true);assert(combat.state(actor).energy>=0);}return events;};
- const events=run('PVE');assert.deepEqual(events.map(e=>e.action),[1,6,11,16,21,26]);events.forEach((e,i)=>assert.equal(e.skillId,HEUKMU_AREA_SKILLS[i%2].id));assert.deepEqual(run('PVP'),[]);
+ const events=run('PVE');assert.deepEqual(events.map(e=>e.action),Array.from({length:15},(_,i)=>2*i+1));events.forEach((e,i)=>assert.equal(e.skillId,HEUKMU_AREA_SKILLS[i%2].id));assert.deepEqual(run('PVP'),[]);
 });
 test('actual server PVE runs both forms with level growth and emits authoritative target results',()=>{
  for(const level of [1,11,21]){
