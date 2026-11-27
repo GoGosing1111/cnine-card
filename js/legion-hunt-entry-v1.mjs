@@ -1,6 +1,5 @@
 import {COW_AREA,COW_TICKET_ONE_IN_PER_KIND} from '../shared/legion-cow-room.mjs?ticketRate=20261121';
-import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261124-recovery-extension';
-import {legionRechargeLabel,legionRechargeMs} from '../shared/legion-hunt-energy-v1.mjs';
+import {legionHuntEnergyText,legionHuntEnergyView,legionRechargeLabel,legionRechargeMs} from '../shared/legion-hunt-energy-v1.mjs?v=20261129-recovery';
 import {CONTENT_ENERGY_RECHARGE_MS as LEGION_BASE} from '../shared/content-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
@@ -214,7 +213,7 @@ function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?tiers=20261126&v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126&portraits=20261126').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?tiers=20261126&v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126&portraits=20261126&recovery=20261129').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){

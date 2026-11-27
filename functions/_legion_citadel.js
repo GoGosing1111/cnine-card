@@ -24,7 +24,7 @@ import {DOCKYARD,FIRST_TIER,tierById,citadelTierMenu} from './_legion_citadel_ti
 import {citadelAdmin,readCitadelPolicy,CITADEL_POLICY_KEY} from './_legion_citadel_policy.js';
 import {citadelLoot,citadelGrantStatements,personalFarm,farmView,collectCitadelPile} from './_legion_citadel_loot.js';
 import {earnedLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
-import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeAt,legionRechargeMs,legionRecoveryNotice,LEGION_RECOVERY_EVENT} from '../shared/legion-hunt-energy-v1.mjs';
+import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeAt,legionRechargeMs,legionRecoveryEventAt} from '../shared/legion-hunt-energy-v1.mjs';
 
 const P='legion_citadel_v1:',roomKey=id=>P+'room:'+id,userKey=id=>P+'user:'+id,replayKey=id=>P+'battle:'+id;
 const entryKey=id=>P+'next-entry:'+id;
@@ -54,7 +54,7 @@ function entryDeadline(stored,scheduled=true){
  if(stored===null)return null;
  const next=Number(stored);
  if(!Number.isSafeInteger(next)||next<=0||String(next)!==stored)fail('ENTRY_DATA','파티 입장 시간을 확인할 수 없습니다.',503);
- return !scheduled||next<=LEGION_RECOVERY_EVENT.startsAt?next:legionRechargeAt(next-PARTY_ENTRY_INTERVAL_MS,PARTY_ENTRY_INTERVAL_MS);
+ return !scheduled||next<PARTY_ENTRY_INTERVAL_MS?next:legionRechargeAt(next-PARTY_ENTRY_INTERVAL_MS,PARTY_ENTRY_INTERVAL_MS);
 }
 function requireEntry(stored,at,name){
  const next=entryDeadline(stored);
@@ -385,7 +385,7 @@ export async function handleLegionCitadel({path,request,env,deps}){
     const state=here.r&&here.r.members.some(m=>m.id===Number(user.id))&&phase(here.r,at)!=='CANCELLED'?await resultState(here.r):null;
     const unlimited=user.role==='OWNER';
     const nextEntryAt=!unlimited&&policy.mode==='ON'?(here.party?(here.party.current>0?null:here.party.nextRechargeAt):entryDeadline(here.deadline)):null;
-    return reply({ok:true,partyEnergy:here.party,open,cowOpen,cowRooms,cowTickets,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:legionRechargeMs(PARTY_ENTRY_INTERVAL_MS,at)/3600000,recoveryEvent:legionRecoveryNotice(at)?LEGION_RECOVERY_EVENT:null,nextEntryAt:nextEntryAt>at?nextEntryAt:null});
+    return reply({ok:true,partyEnergy:here.party,open,cowOpen,cowRooms,cowTickets,clanOpen,clanHideout:hideout,clanRooms,tiers:citadelTierMenu,state,rooms:list,test:policy.mode!=='ON',unlimited,serverNow:at,partyRechargeHours:legionRechargeMs(PARTY_ENTRY_INTERVAL_MS,at)/3600000,recoveryEvent:legionRecoveryEventAt(at),nextEntryAt:nextEntryAt>at?nextEntryAt:null});
    }
    if(action==='options'){
      if(new URL(request.url).searchParams.get('area')===DOCKYARD.id){if(policy.mode!=='ON')fail('CLOSED','군단토벌 일시 중지',403);await requireClanHideout(env,user.id,DOCKYARD.stage);}

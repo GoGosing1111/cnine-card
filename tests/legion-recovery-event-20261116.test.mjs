@@ -6,14 +6,32 @@ import {legionHuntEnergy,restoreExtremeLegionEnergy} from '../functions/_legion_
 import {citadelFixture} from './helpers/legion-citadel-fixture.mjs';
 const H=3600000,S=EVENT.startsAt,E=EVENT.endsAt,record=(at,current=0)=>({version:1,current,maximum:10,updatedAt:at});
 
-test('November 25 is inclusive in Korea; only the two legion recovery rates change',()=>{
- assert.equal(new Date(E).toISOString(),'2026-11-25T15:00:00.000Z');
- for(const [at,rate] of [[S-1,1],[S,2],[Date.parse('2026-11-24T00:00:00+09:00'),2],[E-1,2],[E,1]]){
+test('November 29 is inclusive in Korea; only the two legion recovery rates change',()=>{
+ assert.equal(new Date(E).toISOString(),'2026-11-29T15:00:00.000Z');
+ for(const [at,rate] of [[S-1,1],[S,2],[Date.parse('2026-11-28T00:00:00+09:00'),2],[E-1,2],[E,1]]){
   assert.equal(legionRechargeMs(3*H,at),3*H/rate);assert.equal(legionRechargeMs(6*H,at),6*H/rate);
  }
  assert.equal(contentEnergyView(record(S),{at:S+1.5*H,maximum:3}).current,0,'cooperative battleground remains three hours');
- assert.match(legionHuntEnergyText(record(S),S),/1시간 30분마다 1회.*11월 25일 23:59까지/);
+ assert.match(legionHuntEnergyText(record(S),S),/1시간 30분마다 1회.*11월 29일 23:59까지/);
  assert.match(legionHuntEnergyText(record(E),E),/3시간마다 1회/);assert.doesNotMatch(legionHuntEnergyText(record(E),E),/50%/);
+});
+
+test('offline progress retains the November 25 event and earns ordinary credit until the restart',()=>{
+ const previousStart=Date.parse('2026-11-16T11:16:00+09:00');
+ const previousEnd=Date.parse('2026-11-26T00:00:00+09:00');
+ assert.equal(S,Date.parse('2026-11-27T18:20:00+09:00'));
+ assert.equal(legionRechargeMs(3*H,previousStart-1),3*H);
+ assert.equal(legionHuntEnergyView(record(previousStart),{at:previousStart,maximum:10}).recoveryEvent.endsAt,previousEnd);
+ assert.match(legionHuntEnergyText(record(previousEnd-1),previousEnd-1),/11월 25일 23:59까지/);
+ assert.equal(legionHuntEnergyView(record(previousEnd),{at:previousEnd,maximum:10}).recoveryEvent,null);
+ assert.equal(legionHuntEnergyView(record(S),{at:S,maximum:10}).recoveryEvent,EVENT);
+ assert.equal(legionRechargeWork(previousEnd,S),S-previousEnd);
+ const from=previousEnd-H,to=S+H;
+ const work=(S-previousEnd)+4*H;
+ assert.equal(legionRechargeWork(from,to),work);
+ assert.equal(legionRechargeAt(from,work),to);
+ assert.equal(legionRechargeAt(from,6*H),previousEnd+4*H);
+ assert.equal(legionRechargeAt(S-H,6*H),S+2.5*H);
 });
 
 test('solo retains pre-event progress, charges at 90 minutes, and restores three hours after expiry',()=>{
@@ -52,8 +70,14 @@ const states=async(f,uid,cmd,body)=>{const r=await f.action(uid,cmd,body);assert
 for(const postgres of [false,true]){
  test(`${postgres?'PostgreSQL':'SQLite'}: existing party cooldown, reopening, expiry and entry guards share the same scheduled deadline`,async t=>{
   const f=await citadelFixture({postgres});t.after(()=>f.close());const key='legion_citadel_v1:next-entry:1',nominal=String(S+4*H);
-  await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',key,nominal);f.clock.now=S+2*H-1;
-  assert.equal((await states(f,1,'lobby')).nextEntryAt,S+2*H);assert.equal((await states(f,1,'lobby')).partyRechargeHours,3);
+  const previousEnd=Date.parse('2026-11-26T00:00:00+09:00');
+  await f.exec('INSERT INTO app_meta(key,value) VALUES(?,?)',key,String(previousEnd+5*H));
+  f.clock.now=previousEnd;
+  const gap=await states(f,1,'lobby');
+  assert.equal(gap.nextEntryAt,previousEnd+4*H);assert.equal(gap.partyRechargeHours,6);assert.equal(gap.recoveryEvent,null);
+  await f.exec('UPDATE app_meta SET value=? WHERE key=?',nominal,key);f.clock.now=S+2*H-1;
+  const reopened=await states(f,1,'lobby');
+  assert.equal(reopened.nextEntryAt,S+2*H);assert.equal(reopened.partyRechargeHours,3);assert.deepEqual(reopened.recoveryEvent,EVENT);
   assert.equal((await f.action(1,'create',{requestId:'event-existing-party-cooldown'})).body.code,'CITADEL_COOLDOWN');
   assert.equal((await f.db.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first()).value,nominal,'read-only deadline projection preserves the saved anchor');
   f.clock.now=S+2*H;assert.equal((await states(f,1,'lobby')).nextEntryAt,null);

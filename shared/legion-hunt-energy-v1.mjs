@@ -1,28 +1,48 @@
 import {contentEnergy,CONTENT_ENERGY_RECHARGE_MS as BASE} from './content-energy-v1.mjs';
-export const LEGION_RECOVERY_EVENT=Object.freeze({
+const november25Event=Object.freeze({
   startsAt:Date.parse('2026-11-16T11:16:00+09:00'),
   endsAt:Date.parse('2026-11-26T00:00:00+09:00'),
   label:'회복시간 50% 단축 · 11월 25일 23:59까지'
 });
+export const LEGION_RECOVERY_EVENT=Object.freeze({
+  startsAt:Date.parse('2026-11-27T18:20:00+09:00'),
+  endsAt:Date.parse('2026-11-30T00:00:00+09:00'),
+  label:'회복시간 50% 단축 · 11월 29일 23:59까지'
+});
+// Chronological, non-overlapping windows. Stored progress can span the gap.
+const recoveryEvents=[november25Event,LEGION_RECOVERY_EVENT];
 export const LEGION_PARTY_BASE_RECHARGE_MS=6*60*60*1000;
-export const legionRecoveryActive=at=>at>=LEGION_RECOVERY_EVENT.startsAt&&at<LEGION_RECOVERY_EVENT.endsAt;
+export const legionRecoveryEventAt=at=>recoveryEvents.find(event=>at>=event.startsAt&&at<event.endsAt)??null;
+export const legionRecoveryActive=at=>legionRecoveryEventAt(at)!==null;
 export const legionRechargeMs=(base,at)=>base/(legionRecoveryActive(at)?2:1);
-export const legionRecoveryNotice=at=>legionRecoveryActive(at)?LEGION_RECOVERY_EVENT.label:'';
+export const legionRecoveryNotice=at=>legionRecoveryEventAt(at)?.label??'';
 export function legionRechargeLabel(base,at){
   const minutes=legionRechargeMs(base,at)/60000,hours=Math.floor(minutes/60),rest=minutes%60;
   return (hours?hours+'시간':'')+(rest?(hours?' ':'')+rest+'분':'');
 }
-// Accrue ordinary recharge work twice as fast only inside the event window.
-// Integrating across both boundaries preserves progress for offline accounts.
+// Each millisecond in an event earns one extra millisecond of recharge.
 export function legionRechargeWork(from,to){
-  const end=Math.max(from,to),{startsAt,endsAt}=LEGION_RECOVERY_EVENT;
-  return end-from+Math.max(0,Math.min(end,endsAt)-Math.max(from,startsAt));
+  const end=Math.max(from,to);
+  let work=end-from;
+  for(const {startsAt,endsAt} of recoveryEvents){
+    work+=Math.max(0,Math.min(end,endsAt)-Math.max(from,startsAt));
+  }
+  return work;
 }
 export function legionRechargeAt(from,work){
   if(!Number.isSafeInteger(from)||from<0||!Number.isSafeInteger(work)||work<0)throw Error('Invalid legion recharge progress');
-  let at=from,left=work;const {startsAt,endsAt}=LEGION_RECOVERY_EVENT;
-  if(at<startsAt){const used=Math.min(left,startsAt-at);at+=used;left-=used;}
-  if(left&&at<endsAt){const used=Math.min(left,(endsAt-at)*2);at+=Math.ceil(used/2);left-=used;}
+  let at=from,left=work;
+  for(const {startsAt,endsAt} of recoveryEvents){
+    if(at>=endsAt)continue;
+    const normal=Math.max(0,startsAt-at);
+    if(left<=normal)return at+left;
+    at+=normal;
+    left-=normal;
+    const bonusWork=(endsAt-at)*2;
+    if(left<=bonusWork)return at+Math.ceil(left/2);
+    left-=bonusWork;
+    at=endsAt;
+  }
   return at+left;
 }
 
@@ -44,7 +64,7 @@ export function legionHuntEnergyView(record,{at=Date.now(),...options}={}){
   const energy=legionHuntEnergyBalance(record,{...options,at:milliseconds});
   return {...energy,remaining:energy.current,limit:energy.maximum,rechargeMs:legionRechargeMs(BASE,milliseconds),
     nextRechargeAt:energy.current<energy.maximum?legionRechargeAt(energy.updatedAt,BASE):null,serverNow:milliseconds,
-    recoveryEvent:legionRecoveryNotice(milliseconds)?LEGION_RECOVERY_EVENT:null};
+    recoveryEvent:legionRecoveryEventAt(milliseconds)};
 }
 
 export function legionHuntEnergyText(view,at=Date.now()){
