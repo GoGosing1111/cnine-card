@@ -9,7 +9,7 @@ import {handleGoldenAxe} from '../functions/_golden_axe.js';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const forbidden=new Proxy({},{get(){throw Error('Retired request reached database/auth/runtime');}});
 const json=(body,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store'}});
-const paths=['siege','siege/state','siege/join','siege/attack','siege/claim','admin/siege/settings','admin/siege/start','admin/siege/finish','admin/siege/participation-bonus',
+const paths=['jokgak-city','jokgak-city/status','jokgak-city/join','jokgak-city/notifications','admin/jokgak-city','admin/jokgak-city/schedule-off','siege','siege/state','siege/join','siege/attack','siege/claim','admin/siege/settings','admin/siege/start','admin/siege/finish','admin/siege/participation-bonus',
  'admin/storage-cleanup','admin/storage-cleanup/summary','admin/storage-cleanup/delete','admin/storage-cleanup/safe/run','admin/storage-cleanup/captain/run','admin/storage-cleanup/receipts/delete',
  'admin/chicken-event','events/chicken/feature','events/chicken/state','events/chicken/order','events/chicken/receipt','admin/golden-axe','events/golden-axe/feature','events/golden-axe/state','events/golden-axe/draw'];
 test('retired APIs reject every verb before auth, DB, regional forwarding or settlement',async()=>{

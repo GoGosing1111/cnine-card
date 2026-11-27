@@ -4,12 +4,12 @@ import {readTrophyHonors} from '../../functions/_trophy_honors.js';
 import {parseTrophyManualGrants,trophyManualGrantsKey} from '../../functions/_trophy_manual_grants.js';
 import {TROPHY_CATALOG} from '../../js/player-card-model-v2052.js';
 
-// One explicitly authorized account and the eight trophy kinds existing today.
+// One explicitly authorized account and the surviving trophy kinds from the original grant.
 // Running this script later must never grant future additions automatically.
 export const OPERATION_KEY='ops:all-trophies:1:20261014:v1';
 export const AUTHORIZATION='핑크빛유두 모든 트로피 지급해';
 export const TARGET={id:1,nickname:'핑크빛유두'};
-export const TROPHY_CODES=Object.freeze(['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION','CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','CITY_TOP_25','LICH_KING_CLEAR_1000']);
+export const TROPHY_CODES=Object.freeze(['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION','CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','LICH_KING_CLEAR_1000']);
 
 export async function grantPinkAllTrophies(db,{dryRun=false}={}){
   assert.ok(TROPHY_CODES.every(code=>TROPHY_CATALOG.some(t=>t.code===code)),'Every historically authorized trophy must still exist');
@@ -25,7 +25,7 @@ export async function grantPinkAllTrophies(db,{dryRun=false}={}){
     if(previous){
       const receipt=JSON.parse(previous.value);
       assert.equal(receipt.operationKey,OPERATION_KEY);assert.equal(receipt.status,'COMPLETED');
-      assert.equal(receipt.userId,TARGET.id);assert.deepEqual(receipt.codes,TROPHY_CODES);
+      assert.equal(receipt.userId,TARGET.id);assert.deepEqual(receipt.codes.filter(code=>code!=='CITY_TOP_25'),TROPHY_CODES);
       assert.ok(TROPHY_CODES.every(code=>before[code].count>=1),'Recorded ownership is missing');
       const audit=(await db.query("SELECT id FROM admin_logs WHERE id=$1 AND action_type='TROPHY_MANUAL_GRANT' AND target_id=$2",[receipt.adminLogId,String(TARGET.id)])).rows;
       assert.equal(audit.length,1,'Recorded audit is missing');

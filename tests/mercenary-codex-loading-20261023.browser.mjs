@@ -6,8 +6,6 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {CODEX_MEDIA} from '../mercenary-codex/media-map.mjs';
-import {cityFixture} from './helpers/jokgak-city-fixture.mjs';
-import {handleJokgakCity} from '../functions/_jokgak_city.js';
 const root=fileURLToPath(new URL('../',import.meta.url)),out=process.env.CODEX_QA_DIR;
 assert.ok(out,'CODEX_QA_DIR required');fs.mkdirSync(out,{recursive:true});
 const playwright=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href),{chromium}=playwright.default||playwright;
@@ -46,7 +44,6 @@ try{
       await page.locator('#search').fill('은설');check(await page.locator('[data-code="V-973"]').count()===1,width+': search usable during account loading');await page.locator('#search').fill('');
       check(requests.filter(r=>r.path==='/api/mercenary-codex').length===1,width+': public catalog requested once');
       check(requests.find(r=>r.path==='/api/mercenary-codex').headers.authorization===undefined,width+': public request has no player token');
-      check(!requests.some(r=>/jokgak-city-(render|life-ui|supply-ui)|jokgak-city-v1\.css/.test(r.path)),width+': inactive city does not load UI dependencies');
       const original='/'+catalog.cards[0].sourceArt,display=CODEX_MEDIA[original].display;
       if(width===390){
         check(await page.locator('#portraitDisplay img').count()===0,'mobile: hidden details have no images');
@@ -75,34 +72,6 @@ try{
     await page.route('**/api/**',r=>r.fulfill(new URL(r.request().url()).pathname==='/api/mercenary-codex'?{json:catalog}:{status:401,json:{error:'로그인이 필요합니다.'}}));
     await page.goto(origin+'/mercenary-codex/?view=all');await page.locator('.roster-row').first().waitFor();await page.locator('#search').fill('족로');
     check(await page.locator('[data-code="V-979"]').count()===1,'private failure: public search remains usable');await page.close();
-  }
-  // Notifications remain active without preloading the city renderer.
-  {
-    const page=await browser.newPage({viewport:{width:390,height:844}}),seen=[];let notification=null;
-    page.on('pageerror',e=>errors.push('city: '+e.message));page.on('request',r=>seen.push(new URL(r.url()).pathname));
-    await page.addInitScript(()=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify({serverUserId:4242}));});
-    await page.route('**/__lazy-city/',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><meta name="viewport" content="width=device-width"><body><h1>진행 중인 콘텐츠</h1><script src="/js/jokgak-city-v1.js"></script>'}));
-    await page.route('**/api/**',r=>r.fulfill({json:{active:false,mine:null,items:notification?[notification]:[],serverNow:Date.now()}}));
-    await page.goto(origin+'/__lazy-city/');await page.waitForResponse(r=>r.url().endsWith('/notifications'));
-    check(!seen.some(p=>/jokgak-city-(render|life-ui)|jokgak-city-v1\.css/.test(p)),'city: inactive poll avoids renderer, configuration UI and stylesheet');
-    notification={id:'isolated-qa-notice',action:'attack',actorName:'검수 상대',location:'MARKET',health:75,maxHealth:100,createdAt:Date.now()};
-    await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await page.locator('[data-city-notice-id="isolated-qa-notice"]').waitFor();
-    check(seen.some(p=>p==='/css/jokgak-city-v1.css'),'city: real notice loads its styles');
-    check(!seen.some(p=>p==='/js/jokgak-city-render-v1.mjs'),'city: notification does not load full city renderer');
-    await page.locator('[data-notice-dismiss]').click();check(await page.locator('[data-city-notice-id]').count()===0,'city: loaded notice can be dismissed');await page.close();
-  }
-  // Entering the actual city still loads all renderer dependencies and mounts.
-  {
-    const cleanup=[],f=await cityFixture({after:fn=>cleanup.push(fn)}),actor=f.users.get(f.roles.CITIZEN),page=await browser.newPage();
-    await f.join(actor.id);page.on('pageerror',e=>errors.push('city mount: '+e.message));
-    await page.addInitScript(id=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify({serverUserId:id}));},actor.id);
-    await page.route('**/__mount-city/',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><meta name="viewport" content="width=device-width"><main></main><script src="/js/jokgak-city-v1.js"></script><script>document.querySelector("main").innerHTML=JokgakCity.view();JokgakCity.bind();</script>'}));
-    await page.route('**/api/**',async r=>{
-      const q=r.request(),p=new URL(q.url()).pathname.slice(5),result=await handleJokgakCity({path:p,env:f.env,deps:{...f.deps,authenticate:async()=>actor,json:(value,status=200)=>Response.json(value,{status})},request:new Request(q.url(),{method:q.method(),headers:q.headers(),...(['GET','HEAD'].includes(q.method())?{}:{body:q.postData()})})});
-      return r.fulfill(result?{status:result.status,body:await result.text(),contentType:'application/json'}:{json:{}});
-    });
-    try{await page.goto(origin+'/__mount-city/');await page.locator('.jc-map-art').waitFor();await page.locator('[data-city-rules]').first().click();await page.locator('.jc-dialog').waitFor();check(true,'city: actual entry mounts map and opens rules with deferred renderer');}
-    finally{await page.close();for(const fn of cleanup)await fn();}
   }
   assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'browser-results.json'),JSON.stringify({checks,errors},null,2));console.log(JSON.stringify({passed:checks.length,errors,out}));
 }finally{await browser.close();await new Promise(r=>server.close(r));}

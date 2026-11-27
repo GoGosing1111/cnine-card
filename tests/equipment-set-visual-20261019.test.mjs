@@ -36,7 +36,6 @@ test('duo snapshots keep each owner separate and replay identically',()=>{
   const groups=equipmentSetVisualGroups({battleV2:battle});assert.equal(groups.length,2);
   for(const group of groups)for(const side of ['A','B'])for(const ownerId of [7,8,9,10])assert.equal(equipmentSetOwnsActor(group,{ownerId},side),group.side===side&&group.ownerId===ownerId);
   assert.equal(equipmentSetOwnsActor(groups[0],{ownerId:7,isMercenary:true},'A'),false);
-  assert.deepEqual(equipmentSetVisualGroups({sceneAssetKey:'JOKGAK_CITY',battleV2:battle}),[]);
   battle.teams.A.members[0].equipmentSetVisual.ownerId=99;
   assert.equal(equipmentSetVisualGroups({battleV2:battle}).length,1,'mismatched owners fail closed');
 });

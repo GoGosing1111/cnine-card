@@ -43,7 +43,7 @@
       </span><span class="pc-trophy-arrow" aria-hidden="true">↗</span>
     </button>`;
   }
-  const milestone=t=>Boolean(t.progressUnit)||['CITY_TOP_25','LICH_KING_CLEAR_1000','WORLD_RAID_CLEAR_5000'].includes(t.code);
+  const milestone=t=>Boolean(t.progressUnit)||['LICH_KING_CLEAR_1000','WORLD_RAID_CLEAR_5000'].includes(t.code);
   function progressHtml(t, bold = false) {
     const value = bold ? `<b>${num(t.progress)}</b>` : num(t.progress);
     if (t.code === 'LIMITED_EDITION_80') {

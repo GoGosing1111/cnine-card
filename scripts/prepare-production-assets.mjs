@@ -216,7 +216,7 @@ const mercenaryAtelierAuthoringOnly=file=>file.startsWith('assets/ui/workshop/me
 const bloodmoonDeploymentNodeOnly=new Set(JSON.parse(readFileSync(new URL('./bloodmoon-deployment-node-only-20261025.json',import.meta.url),'utf8')));
 // Experience transfer loads the WebP. Keep its exact PNG/provenance and five
 // Python-only recording/packaging commands in Git, outside the Pages artifact.
-export const experienceTransferAuthoringOnly=new Set(['assets/items/mercenary-experience-transfer-20261025/original.png','assets/items/mercenary-experience-transfer-20261025/manifest.json','scripts/record-mercenary-attachment-points.py','scripts/record-mercenary-skill-audio.py','scripts/render-territory-war-round11-poster.py','scripts/build-jokgak-supply-art-20261018.py','scripts/extract-scrapyard-sd-v1.py']);
+export const experienceTransferAuthoringOnly=new Set(['assets/items/mercenary-experience-transfer-20261025/original.png','assets/items/mercenary-experience-transfer-20261025/manifest.json','scripts/record-mercenary-attachment-points.py','scripts/record-mercenary-skill-audio.py','scripts/render-territory-war-round11-poster.py','scripts/extract-scrapyard-sd-v1.py']);
 // Three offline Python asset generators stay in Git; their generated images/audio
 // remain public. This reserves the three slots used by the CNINE board runtime.
 const cnineRosterAuthoringOnly=new Set(['scripts/generate-responsive-card-images.py','scripts/generate-responsive-ui-images.py','scripts/generate-project-v-advancement-sfx-v1.py']);
@@ -442,7 +442,6 @@ const packArtManifests=new Set([
  'assets/ui/cooperative-roster-v3/prompts.json',
  'assets/ui/events/golden-axe-v1/prompts.json',
  'assets/ui/icon-fusion-20261004/prompts.json',
- 'assets/ui/jokgak-city/supply-20261018/prompts.json',
  'assets/ui/loading/reverse-call-purple-20261024/prompts.json',
  'assets/ui/master-star-mine-v1/prompts.json',
  'assets/ui/packs/halloween-auto-20261017/manifest.json',

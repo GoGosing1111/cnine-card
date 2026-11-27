@@ -10,7 +10,8 @@ function huntHarness(){
       get textContent(){return this._text;},set textContent(value){writes++;this._text=String(value);}});
     return nodes.get(key);
   };
-  const document={hidden:false,body:{dataset:{legionLive:'true'}},getElementById:node,
+  const document={hidden:false,body:{dataset:{legionLive:'true'},append(){}},getElementById:node,
+    createElement:()=>({}),querySelector:()=>null,
     addEventListener:(name,fn)=>events.set(name,fn)};
   const window={ProjectVPixiBattle:{mountForBattle(){}},addEventListener:(name,fn)=>events.set(name,fn)};window.parent=window;
   const engine={huntBackground:false,huntRun:{timeMs:1000},enemies:[],setHuntBackground(hidden){this.huntBackground=hidden;},setHuntPaused(){}};
@@ -43,11 +44,9 @@ test('freeze suspends only the HUD, and explicit pause stays paused after a visi
   h.window.testHunt.pause();assert.equal(h.timers.size,1);
 });
 
-test('all city entries and hunt pages reference the released UI cache version',()=>{
+test('hunt entry pages load the same released hunt client',()=>{
   const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
-  const version=read('js/jokgak-city-v1.js').match(/VERSION='([^']+)'/)[1];
-  for(const file of ['index.html','preview/jokgak-city-v1/index.html','pve-v3/index.html','pve/legion-hunt/index.html','raid/lich-king/index.html','js/adventure-navigation-standalone.js'])assert.ok(read(file).includes('jokgak-city-v1.js?v='+version),file);
-  for(const file of ['pve/legion-hunt/index.html','preview/sustained-hunt-v2/index.html'])assert.ok(read(file).includes('app.js?v='+version),file);
-  assert.ok(read('css/jokgak-city-v1.css').includes('jokgak-city-conflict-v1.css?v='+version));
-  assert.doesNotMatch(read('css/jokgak-city-conflict-v1.css'),/animation:jc-riot-border/);
+  const script=read('preview/sustained-hunt-v2/index.html').match(/app\.js\?v=([^"&]+)/)[1];
+  const live=read('pve/legion-hunt/index.html').match(/src="(\/preview\/sustained-hunt-v2\/app\.js[^"]*)"/)[1];
+  assert.equal(new URL(live.replaceAll('&amp;','&'),'https://game.test').searchParams.get('v'),script);
 });

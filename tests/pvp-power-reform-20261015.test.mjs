@@ -7,7 +7,6 @@ import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {createIconCombatRuntime} from '../functions/_icon_combat.js';
 import {ICON_ROLES,defaultIconRoles,iconRoleSnapshot} from '../shared/icon-roles-v1.mjs';
 import {mercenarySnapshotPower} from '../functions/_mercenary_account.js';
-import {createCityBattle} from '../functions/_jokgak_city_battle.js';
 import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
 import {PVP_POWER_BALANCE,PVP_POWER_BALANCE_RELEASED,PVP_POWER_BALANCE_REVIEW,pvpPowerBonuses,applyPvpPowerBalance,pvpPolicySnapshot,pvpReplayInput,pvpPowerEnabled,pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {__territoryLoadoutTest} from '../functions/_territory_war.js';
@@ -186,8 +185,6 @@ test('derived power rejects malformed/duplicate application and never applies to
  assert.throws(()=>applyPvpPowerBalance([rawTeam('A',Number.MAX_SAFE_INTEGER),rawTeam('B')]),/INVALID/);
  assert.equal(applyPvpPowerBalance([rawTeam('A').map(c=>({...c,battleMode:'PVE'})),rawTeam('B')]),null);
  assert.equal(applyPvpPowerBalance([rawTeam('A').map(c=>({...c,isBattleSuit:true})),rawTeam('B')]),null);
- const city=createCityBattle({attackerCards:tierCards(2e7),defenderCards:tierCards(1e7),attackerPower:120000,defenderPower:100000});
- assert.equal(city.result.pvpPowerBalance,undefined);assert.equal(city.rules.accountGrowthApplied,false);
 });
 
 const stripBonus=value=>Array.isArray(value)?value.map(stripBonus):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([k])=>k!=='pvpPowerBalance').map(([k,v])=>[k,stripBonus(v)])):value;

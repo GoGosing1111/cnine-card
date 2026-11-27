@@ -11,7 +11,7 @@ const additions=['BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'];
 const base=['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION','CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','CITY_TOP_25','LICH_KING_CLEAR_1000'];
 function legacyDocument(count){
  const allowed=new Set([...base,...(count===9?['WORLD_RAID_CLEAR_5000']:[])]);
- return {version:1,trophies:emptyTrophyBonuses().trophies.filter(t=>allowed.has(t.code)).map((t,i)=>({...t,rewardBonuses:{dropPercent:i+.25,accountXpPercent:i+.5,coinPercent:i+.75}}))};
+ return {version:1,trophies:[...emptyTrophyBonuses().trophies,{code:'CITY_TOP_25'}].filter(t=>allowed.has(t.code)).map((t,i)=>({...t,rewardBonuses:{dropPercent:i+.25,accountXpPercent:i+.5,coinPercent:i+.75}}))};
 }
 function fixture(t,state){
  const sql=new DatabaseSync(':memory:'),trace=[];
@@ -44,7 +44,7 @@ for(const count of [8,9])test(`legacy ${count}-trophy read preserves every saved
  const read=await readTrophyBonusSettings(f.env),get=await f.cms();assert.equal(get.status,200);
  const fetched=await get.json();assert.equal(fetched.revision,7);assert.equal(fetched.catalog.length,TROPHY_CATALOG.length);
  assert.deepEqual(fetched.document,read.document);assert.equal(read.document.trophies.length,TROPHY_CATALOG.length);
- for(const row of legacy.trophies)assert.deepEqual(read.document.trophies.find(t=>t.code===row.code),row);
+ for(const row of legacy.trophies.filter(t=>t.code!=='CITY_TOP_25'))assert.deepEqual(read.document.trophies.find(t=>t.code===row.code),row);
  for(const row of read.document.trophies.filter(t=>!legacy.trophies.some(old=>old.code===t.code)))assert.deepEqual(row.rewardBonuses,ZERO_REWARD_BONUSES);
  assert.deepEqual(legacy,snapshot);assert.equal(f.raw(),original);assert(f.trace.every(s=>/^SELECT\b/.test(s)));
  assert.throws(()=>validateTrophyBonuses(legacy));
@@ -55,13 +55,13 @@ for(const count of [8,9])test(`legacy ${count}-trophy read preserves every saved
  assert(f.trace.every(s=>/^SELECT\b/.test(s)),'Rejected saves cannot update persisted settings');
  const response=await f.cms({expectedRevision:7,document:read.document,requestId:crypto.randomUUID()});assert.equal(response.status,200);
  const saved=JSON.parse(f.raw());assert.equal(saved.revision,8);assert.equal(saved.document.trophies.length,TROPHY_CATALOG.length);
- for(const row of legacy.trophies)assert.deepEqual(saved.document.trophies.find(t=>t.code===row.code),row);
+ for(const row of legacy.trophies.filter(t=>t.code!=='CITY_TOP_25'))assert.deepEqual(saved.document.trophies.find(t=>t.code===row.code),row);
  for(const code of additions)assert.deepEqual(saved.document.trophies.find(t=>t.code===code).rewardBonuses,ZERO_REWARD_BONUSES);
 });
 
 test('legacy normalization still rejects missing original trophies, unknown codes, duplicates and malformed rates',()=>{
  const original=legacyDocument(9);
- for(const code of base){const bad=structuredClone(original);bad.trophies=bad.trophies.filter(t=>t.code!==code);assert.throws(()=>validateTrophyBonuses(bad,{allowLegacy:true}),code);}
+ for(const code of base.filter(code=>code!=='CITY_TOP_25')){const bad=structuredClone(original);bad.trophies=bad.trophies.filter(t=>t.code!==code);assert.throws(()=>validateTrophyBonuses(bad,{allowLegacy:true}),code);}
  const duplicate=structuredClone(original);duplicate.trophies.push(structuredClone(duplicate.trophies[0]));assert.throws(()=>validateTrophyBonuses(duplicate,{allowLegacy:true}));
  const unknown=structuredClone(original);unknown.trophies.push({code:'UNKNOWN',rewardBonuses:{...ZERO_REWARD_BONUSES}});assert.throws(()=>validateTrophyBonuses(unknown,{allowLegacy:true}));
  const badRate=structuredClone(original);badRate.trophies[0].rewardBonuses.coinPercent=-1;assert.throws(()=>validateTrophyBonuses(badRate,{allowLegacy:true}));

@@ -14,6 +14,7 @@
     } catch { return 'navigate'; }
   })();
   const requestedParams = new URLSearchParams(location.search);
+  if(requestedParams.get('screen')==='jokgakCity')requestedParams.set('screen','home');
   const requestedScreen = navigationType === 'reload' ? '' : requestedParams.get('screen');
   if (navigationType === 'reload' && requestedParams.has('screen') && global.history?.replaceState) {
     requestedParams.delete('screen');
@@ -85,7 +86,7 @@
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop', 'rankedShop']) }),
     collection: Object.freeze({ title: '카드·용병·펫', routes: Object.freeze(['dex', 'mercenaryDex', 'petDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
     pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'defense', 'coop', 'legion', 'citadel', 'raid', 'escort', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
-    pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'classicColosseum', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
+    pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'classicColosseum', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['hideout', 'season', 'attendance', 'dailyquest', 'comeback', 'messages', 'mineral']) }),
@@ -127,7 +128,6 @@
     pvp: Object.freeze({ title: '랭크전', group: 'pvp', icon: 'swords' }),
     duo: Object.freeze({ title: '랭크 듀오', group: 'pvp', icon: 'clan' }),
     classicColosseum: Object.freeze({ title: '클래식 멸망전', group: 'pvp', icon: 'swords' }),
-    jokgakCity: Object.freeze({ title: '족각도시', group: 'pvp', icon: 'swords' }),
     rank: Object.freeze({ title: '시즌 랭킹', group: 'pvp', icon: 'rank', home: Object.freeze({ title: 'PVP·경쟁', meta: '랭크전 · 시즌 랭킹', group: 'pvp' }) }),
     clan: Object.freeze({ title: '클랜', group: 'pvp', icon: 'clan' }),
     clanWar: Object.freeze({ title: '클랜전', group: 'pvp', icon: 'swords' }),

@@ -1,4 +1,4 @@
-import { TROPHY_CATALOG, WORLD_RAID_CLEAR_GOAL } from '../../js/player-card-model-v2052.js?v=20261124-dragon-1250';
+import { TROPHY_CATALOG, WORLD_RAID_CLEAR_GOAL } from '../../js/player-card-model-v2052.js?v=20261124-dragon-1250-r2';
 const trophyData = {
   NOX_CLEAR_30: { progress: 30, goal: 30 },
   CNINE_VIP: { progress: 4, goal: 4 },
@@ -10,7 +10,6 @@ const trophyData = {
   RANKED_CHAMPION: { acquiredAt: '2026-09-02T13:00:00Z' },
   CLAN_CHAMPIONS_TROPHY: { acquiredAt: '2026-09-03T13:00:00Z' },
   PREDICTION_STAKE_300T: { acquiredAt: '2026-10-08T03:00:00Z', progress: 300000000000000, goal: 300000000000000 },
-  CITY_TOP_25: { acquiredAt: '2026-10-11T03:00:00Z', progress: 25, goal: 25 },
   LICH_KING_CLEAR_1000: { acquiredAt: '2026-10-11T03:15:00Z', progress: 200, goal: 200 },
   WORLD_RAID_CLEAR_5000: { acquiredAt: '2026-10-20T05:00:00Z', progress: WORLD_RAID_CLEAR_GOAL, goal: WORLD_RAID_CLEAR_GOAL },
   BLUE_EMPIRE_20: { progress: 20, goal: 20 },

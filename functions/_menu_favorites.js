@@ -3,7 +3,7 @@
 export const FAVORITE_MENU_ROUTES = Object.freeze([
   'inventory','buy','lootShop','dex','mercenaryDex','mercenaryGrowth','petDex','upgrade','evolution','iconfusion','magic',
   'battle','deck','hunt','defense','coop','legion','citadel','raid','escort','seal','tower','scrapyard','masterStarMine',
-  'pvp','jokgakCity','duo','classicColosseum','rank','rankedShop','clanWar','clanFaction','clan','territory','character','avatar',
+  'pvp','duo','classicColosseum','rank','rankedShop','clanWar','clanFaction','clan','territory','character','avatar',
   'vehicle','fusion','alchemy','season','attendance','dailyquest','comeback','messages','mineral',
   // Accounts may still have bookmarks for these former menu entries.
   'siege','chicken','goldenAxe',

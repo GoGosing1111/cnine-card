@@ -62,7 +62,6 @@ import {deliverRankedPvpCoins} from '../_ranked_coin.js';
 import {handleLegionHunt} from '../_legion_hunt.js';
 import {handleLegionCitadel} from '../_legion_citadel.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
-import {claimCityMessageReward} from '../_jokgak_city_message_reward.js';
 import {claimOmegaMercenaryMessageReward,claimShiranuiMercenaryMessageReward,claimJokroMercenaryMessageReward} from '../_mercenary_message_reward.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
@@ -105,7 +104,6 @@ import {handlePetEquipment} from '../_pet_equipment.js';
 import {handlePetGrowth} from '../_pet_growth.js';
 import {handlePetGrants} from '../_pet_grants.js';
 import {loadPetBattleSnapshot} from '../_pet_account.js';
-import {handleJokgakCity} from '../_jokgak_city.js';
 import {handlePetPotential,ensurePetPotentialItem} from '../_pet_potential.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
 import {handleIconFusion} from '../_icon_fusion.js';
@@ -617,7 +615,6 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   MERCENARY_SSS_REROLL_TICKET:{label:'SSS 재뽑기권',icon:'🎟️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   WORM_CONTEST_GIFT_BOX:{label:'지렁이대회 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   MERCENARY_SSS_CARD_SHARD:{label:'SSS 용병 카드 조각',icon:'🧩',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
-  JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   NEW_USER_GIFT_BOX:{label:'신규유저 기프트 박스',icon:'🎁',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MADARA_RAID_ENTRY_TICKET:{label:'바르센 레이드 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
@@ -680,7 +677,6 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   const rewardType=String(reward?.reward_type||'').toUpperCase();
   if(rewardType==='NEW_USER_GIFT_BOX')return claimNewUserGiftMessage(env,user,reward,messageId);
   if(rewardType==='PIG_COIN')return claimPigCoinMessageReward(env,user,reward,messageId);
-  if(rewardType==='JOKGAK_CITY_REWARD')return claimCityMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_SHIRANUI')return claimShiranuiMercenaryMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_JOKRO')return claimJokroMercenaryMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_OMEGA_X')return claimOmegaMercenaryMessageReward(env,user,reward,messageId);
@@ -5284,7 +5280,6 @@ async function handleRequest(context){
       // 그대로인 것처럼 보인다. 운영 스키마는 배포 게이트와 health 초기화에서 보장하며
       // 이 경로들은 각 라우트의 소형 foundation/검증만 사용한다.
       ||path.startsWith('battle/')
-      ||path.startsWith('jokgak-city/')
       ||path.startsWith('pvp/')
       ||path.startsWith('territory-war/')
       ||path==='draw/status'
@@ -5357,7 +5352,6 @@ async function handleRequest(context){
     const userAuctionResponse=await handleUserAuction({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(userAuctionResponse)return userAuctionResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
     const duoResponse=await handleRankedDuo({path,request,env,deps:{authenticate,readBody,json,readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});if(duoResponse)return duoResponse;
-    const cityResponse=await handleJokgakCity({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout,withUserMutationLock:withJointUserMutationLock}});if(cityResponse)return cityResponse;
     const coupResponse=await handleCoup({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(coupResponse)return coupResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,draftFormationPowers,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
     const organizationFactionResponse=await handleOrganizationFaction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(organizationFactionResponse)return organizationFactionResponse;

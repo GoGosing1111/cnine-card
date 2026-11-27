@@ -20,7 +20,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+' party
  assert.notDeepEqual(expected[0],expected[1]);
  assert.deepEqual(await readCitadelBonuses(f.env,users),expected);
  assert.deepEqual(await readCitadelBonuses(f.env,[...users].reverse()),[...expected].reverse());
- await f.write('trophy_city_top_v1:8',{version:1,count:25,acquiredAt:'2026-11-20T00:00:00Z'});
+ await f.write('trophy_lich_clear_v1:8',{version:1,count:200,acquiredAt:'2026-11-20T00:00:00Z'});
  const changed=await Promise.all(users.map(u=>readCollectionBonuses(f.env,u.id)));
  assert.deepEqual(changed[0],expected[0]);assert.ok(changed[1].totals.dropPercent>expected[1].totals.dropPercent);
  assert.deepEqual(await readCitadelBonuses(f.env,users),changed);

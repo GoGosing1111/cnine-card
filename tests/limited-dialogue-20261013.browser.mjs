@@ -27,7 +27,7 @@ for(const code of ['V-996','V-999']){
 const huntHtml=fs.readFileSync(path.join(root,'pve/legion-hunt/index.html'),'utf8');
 const baseHtml=fs.readFileSync(path.join(root,'preview/mercenary-limited-ayoon-heeya-v3-20261008/index.html'),'utf8');
 function html(mode){
- if(mode==='pve')return huntHtml.replace(/<script defer src="\/preview\/sustained-hunt-v2\/app\.js[^\"]*"><\/script>/,'').replace(/<script defer src="\/js\/jokgak-city-v1\.js[^\"]*"><\/script>/,'').replace('</head>','<script defer src="/qa-boot.js"></script></head>');
+ if(mode==='pve')return huntHtml.replace(/<script defer src="\/preview\/sustained-hunt-v2\/app\.js[^\"]*"><\/script>/,'').replace('</head>','<script defer src="/qa-boot.js"></script></head>');
  return baseHtml.replace('<script defer src="preview.bundle.js"></script>','<script defer src="/preview/project-v-v3/project-v-pixi-battle.bundle.js"></script><script defer src="/qa-boot.js"></script>').replace(/<body>[\s\S]*<\/body>/,'<body><main id="lab-modal"></main></body>');
 }
 const boot=`document.addEventListener('DOMContentLoaded',async()=>{try{

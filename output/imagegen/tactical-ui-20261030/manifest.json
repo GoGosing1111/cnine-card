@@ -329,19 +329,6 @@
       "sha256": "1d2c739638d9e45834883c89dbab42e5924ff9793d4b2e32e4a98abb9b0ce83a"
     },
     {
-      "id": "jokgakCity",
-      "file": "/assets/ui/tactical-20261030/jokgakCity.webp",
-      "cell": {
-        "row": 3,
-        "col": 0,
-        "left": 0,
-        "top": 480,
-        "width": 167,
-        "height": 158
-      },
-      "sha256": "8309900c6de4e085c1ef0e2ed8f85331642a5a216e888d4b92f606f7990f7302"
-    },
-    {
       "id": "rank",
       "file": "/assets/ui/tactical-20261030/rank.webp",
       "cell": {

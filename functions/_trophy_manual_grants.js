@@ -6,6 +6,7 @@ export const trophyManualGrantsKey=id=>'trophy_manual_grants_v1:'+Number(id);
 export function parseTrophyManualGrants(raw,userId){
   if(raw==null)return {version:1,userId:Number(userId),grants:[]};
   const value=JSON.parse(raw),codes=new Set();
+  if(Array.isArray(value?.grants))value.grants=value.grants.filter(grant=>grant?.code!=='CITY_TOP_25');
   if(value?.version!==1||value.userId!==Number(userId)||!Array.isArray(value.grants)||value.grants.length>TROPHY_CATALOG.length)throw Error('INVALID_TROPHY_GRANTS');
   for(const grant of value.grants){
     if(!grant||!TROPHY_CATALOG.some(t=>t.code===grant.code)||codes.has(grant.code)||

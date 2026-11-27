@@ -98,27 +98,27 @@ test('explicit trophy grant appears in the card and bonuses without changing rec
   const before=await f.call('userId=1'),other=await f.call('userId=3'),users=(await f.pg.query('SELECT * FROM users ORDER BY id')).rows;
   const bonus=emptyTrophyBonuses();for(const t of bonus.trophies)t.rewardBonuses={coinPercent:1,accountXpPercent:2,dropPercent:3};
   await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[TROPHY_BONUSES_KEY,JSON.stringify({revision:1,audit:[],document:bonus})]);
-  const result=await grantPinkAllTrophies(f.opsDb);assert.equal(result.added.length,8);
+  const result=await grantPinkAllTrophies(f.opsDb);assert.equal(result.added.length,7);
   const card=await f.call('userId=1'),honors=await readTrophyHonors({DB:f.db},1),effects=await readCollectionBonuses({DB:f.db},1);
-  assert.equal(card.status,200);assert.ok(card.body.trophies.filter(t=>['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION','CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','CITY_TOP_25','LICH_KING_CLEAR_1000'].includes(t.code)).every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
+  assert.equal(card.status,200);assert.ok(card.body.trophies.filter(t=>['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION','CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','LICH_KING_CLEAR_1000'].includes(t.code)).every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
   for(const code of ['WORLD_RAID_CLEAR_5000','BLUE_EMPIRE_20','LIMITED_EDITION_80','LOYAL_SERVICE_POST_20'])assert.equal(trophy(card,code).owned,false,'Historical eight-trophy authorization never grants future additions');
   assert.deepEqual(card.body.ranked,before.body.ranked);assert.deepEqual(card.body.clanHistory,before.body.clanHistory);
-  assert.deepEqual(card.body.trophyBonuses,{coinPercent:8,accountXpPercent:16,dropPercent:24});assert.deepEqual(effects.totals,card.body.trophyBonuses);
+  assert.deepEqual(card.body.trophyBonuses,{coinPercent:7,accountXpPercent:14,dropPercent:21});assert.deepEqual(effects.totals,card.body.trophyBonuses);
   for(const t of card.body.trophies){assert.equal(t.count,honors[t.code].count);assert.equal(t.progress,before.body.trophies.find(b=>b.code===t.code).progress);}
   assert.equal((await f.call('userId=3')).body.trophies.filter(t=>t.owned).length,other.body.trophies.filter(t=>t.owned).length);
   assert.deepEqual((await f.pg.query('SELECT * FROM users ORDER BY id')).rows,users);
   const replay=await grantPinkAllTrophies(f.opsDb);assert.equal(replay.replayed,true);assert.equal(replay.adminLogId,result.adminLogId);
   assert.equal((await f.pg.query('SELECT * FROM admin_logs')).rows.length,1);
   const window={location:{origin:'https://game.test'}};vm.runInNewContext(read('js/player-card-v2052.js'),{window,URL,Intl,AbortController});
-  const html=window.PlayerCallingCard.render(card.body);assert.equal((html.match(/pc-trophy-status">운영 지급/g)||[]).length,8);assert.doesNotMatch(html,/1<\/b>회 우승/);
-  assert.doesNotMatch(window.PlayerCallingCard.detail(trophy(card,'CITY_TOP_25')),/달성 완료/);
+  const html=window.PlayerCallingCard.render(card.body);assert.equal((html.match(/pc-trophy-status">운영 지급/g)||[]).length,7);assert.doesNotMatch(html,/1<\/b>회 우승/);
+  assert.doesNotMatch(window.PlayerCallingCard.detail(trophy(card,'LICH_KING_CLEAR_1000')),/달성 완료/);
  }finally{await f.close();}
 });
 
 test('manual grant dry run, audit failure, and receipt failure roll back; identity and corrupt records fail closed',async()=>{
  const f=await grantFixture();try{
   const count=async()=>Number((await f.pg.query("SELECT COUNT(*) n FROM app_meta WHERE key=$1 OR key=$2",[OPERATION_KEY,trophyManualGrantsKey(1)])).rows[0].n);
-  const preview=await grantPinkAllTrophies(f.opsDb,{dryRun:true});assert.equal(preview.added.length,8);assert.equal(await count(),0);assert.equal((await f.pg.query('SELECT * FROM admin_logs')).rows.length,0);
+  const preview=await grantPinkAllTrophies(f.opsDb,{dryRun:true});assert.equal(preview.added.length,7);assert.equal(await count(),0);assert.equal((await f.pg.query('SELECT * FROM admin_logs')).rows.length,0);
   await f.pg.exec("ALTER TABLE admin_logs ADD CONSTRAINT fail_audit CHECK(action_type<>'TROPHY_MANUAL_GRANT')");
   await assert.rejects(grantPinkAllTrophies(f.opsDb));assert.equal(await count(),0);
   await f.pg.exec("ALTER TABLE admin_logs DROP CONSTRAINT fail_audit; ALTER TABLE app_meta ADD CONSTRAINT fail_receipt CHECK(key NOT LIKE 'ops:all-trophies:%')");
@@ -134,23 +134,24 @@ test('existing trophies and first dates are preserved; manual grants validate on
  const f=await grantFixture();try{
   await f.pg.exec('UPDATE pvp_season_settlement_ranks SET user_id=1 WHERE user_id=2');
   const before=await f.call('userId=1'),result=await grantPinkAllTrophies(f.opsDb),after=await f.call('userId=1');
-  assert.equal(result.added.length,6);assert.deepEqual(trophy(after,'RANKED_CHAMPION'),trophy(before,'RANKED_CHAMPION'));assert.deepEqual(trophy(after,'CHALLENGER_STREAK_3'),trophy(before,'CHALLENGER_STREAK_3'));
+  assert.equal(result.added.length,5);assert.deepEqual(trophy(after,'RANKED_CHAMPION'),trophy(before,'RANKED_CHAMPION'));assert.deepEqual(trophy(after,'CHALLENGER_STREAK_3'),trophy(before,'CHALLENGER_STREAK_3'));
   const grant={code:'DUO_CHALLENGER',grantedAt:'2026-10-14T00:00:00Z',operationKey:'test'};
+  assert.deepEqual(parseTrophyManualGrants(JSON.stringify({version:1,userId:1,grants:[{...grant,code:'CITY_TOP_25'},grant]}),1).grants,[grant]);
   for(const grants of [[{...grant,code:'UNKNOWN'}],[grant,grant],[{...grant,grantedAt:'bad'}],[{...grant,operationKey:''}]])assert.throws(()=>parseTrophyManualGrants(JSON.stringify({version:1,userId:1,grants}),1));
  }finally{await f.close();}
 });
 
-test('city and Lich milestones share permanent counts, earned date and collection honors; the public card remains read-only',async()=>{
+test('retired city progress is ignored and Lich honors remain read-only',async()=>{
  const f=await fixture();try{
   const at='2026-10-11T03:00:00.000Z';
   await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2),($3,$4)',['trophy_city_top_v1:2',JSON.stringify({count:25,acquiredAt:at}),'trophy_lich_clear_v1:2',JSON.stringify({count:199,acquiredAt:null})]);
-  const before=await f.call();assert.equal(trophy(before,'CITY_TOP_25').owned,true);assert.equal(trophy(before,'CITY_TOP_25').acquiredAt,at);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').owned,false);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').progress,199);
+  const before=await f.call();assert.equal(trophy(before,'CITY_TOP_25'),undefined);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').owned,false);assert.equal(trophy(before,'LICH_KING_CLEAR_1000').progress,199);
   await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:275,acquiredAt:null}),'trophy_lich_clear_v1:2']);
   const retro=trophy(await f.call(),'LICH_KING_CLEAR_1000');
   assert.deepEqual([retro.owned,retro.progress,retro.goal,retro.acquiredAt],[true,275,200,null]);
   await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',['trophy_nox_clear_v1:2',JSON.stringify({count:30,acquiredAt:at})]);
   await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:1001,acquiredAt:at}),'trophy_lich_clear_v1:2']);
-  const after=await f.call(),honors=await readTrophyHonors({DB:f.db},2);assert.equal(trophy(after,'LICH_KING_CLEAR_1000').count,1);assert.equal(honors.LICH_KING_CLEAR_1000.progress,1001);assert.equal(honors.CITY_TOP_25.count,1);assert.equal(trophy(await f.call('userId=3'),'CITY_TOP_25').owned,false);
+  const after=await f.call(),honors=await readTrophyHonors({DB:f.db},2);assert.equal(trophy(after,'LICH_KING_CLEAR_1000').count,1);assert.equal(honors.LICH_KING_CLEAR_1000.progress,1001);assert.equal(honors.CITY_TOP_25,undefined);
   assert.equal(trophy(after,'LICH_KING_CLEAR_1000').acquiredAt,at);
   assert.deepEqual(honors.NOX_CLEAR_30,{count:1,progress:30,goal:30,acquiredAt:at});
   assert.equal(trophy(after,'NOX_CLEAR_30').owned,true);assert.equal(trophy(await f.call('userId=3'),'NOX_CLEAR_30').owned,false);

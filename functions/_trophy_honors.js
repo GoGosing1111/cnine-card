@@ -3,7 +3,7 @@ import {readCnineVipHonor,emptyCnineVipHonor,CNINE_VIP_GOAL} from './_cnine_vip_
 import {readNewTrophyMilestones} from './_trophy_milestones.js';
 import { readDuoHonors } from './_ranked_duo_honors.js';
 import { readPredictionStakeHonors, PREDICTION_TROPHY_GOAL } from './_prediction_trophy.js';
-import {readPlayerMilestoneHonors,CITY_TOP_GOAL,LICH_CLEAR_GOAL,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
+import {readPlayerMilestoneHonors,LICH_CLEAR_GOAL,NOX_CLEAR_GOAL} from './_milestone_trophies.js';
 import {readTrophyManualGrants,applyTrophyManualGrants} from './_trophy_manual_grants.js';
 import {readWorldRaidClearHonors,WORLD_RAID_CLEAR_GOAL} from './_world_raid_trophy.js';
 
@@ -43,7 +43,7 @@ export const CHAMPIONS_HONORS_SQL = `SELECT COUNT(DISTINCT r.season_id) wins,MIN
         WHERE r.user_id=? AND r.reward_type='CLAN_CHAMPIONS_TROPHY' AND r.reward_amount=1 AND r.status='SENT'
           AND c.status='COMPLETED' AND c.completed_at IS NOT NULL AND c.reward_status<>'DISABLED_TEST'`;
 
-export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {}, cityTop = {}, lichClear = {}, noxClear = {}, worldRaid = {}, blueEmpire = {}, limitedEdition = {}, loyalServicePost = {}, cnineVip = {} }) {
+export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {}, lichClear = {}, noxClear = {}, worldRaid = {}, blueEmpire = {}, limitedEdition = {}, loyalServicePost = {}, cnineVip = {} }) {
   return {
       ...emptyRenewedHonors(),
       CNINE_VIP: {count:n(cnineVip.count),progress:n(cnineVip.progress),goal:CNINE_VIP_GOAL,acquiredAt:null},
@@ -53,7 +53,6 @@ export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo =
       RANKED_CHAMPION: { count: n(stats.champion_count), acquiredAt: stats.champion_at || null, progress: n(stats.champion_count), goal: 1 },
       CLAN_CHAMPIONS_TROPHY: { count: n(champions.wins), acquiredAt: champions.first_at || null, progress: n(champions.wins), goal: 1 },
       PREDICTION_STAKE_300T: { count: n(prediction.count), acquiredAt: prediction.acquiredAt || null, progress: n(prediction.progress), goal: PREDICTION_TROPHY_GOAL },
-      CITY_TOP_25: {count:n(cityTop.count),acquiredAt:cityTop.acquiredAt||null,progress:n(cityTop.progress),goal:CITY_TOP_GOAL},
       LICH_KING_CLEAR_1000: {count:n(lichClear.count),acquiredAt:lichClear.acquiredAt||null,progress:n(lichClear.progress),goal:LICH_CLEAR_GOAL},
       NOX_CLEAR_30: {count:n(noxClear.count),acquiredAt:noxClear.acquiredAt||null,progress:n(noxClear.progress),goal:NOX_CLEAR_GOAL},
       BLUE_EMPIRE_20: {count:n(blueEmpire.count),acquiredAt:blueEmpire.acquiredAt||null,progress:n(blueEmpire.progress),goal:20},

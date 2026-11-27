@@ -102,10 +102,10 @@ for(const postgres of [false,true]){
   const f=await fixture(t,postgres),legacy=emptyTrophyBonuses();
   const legacyCodes=new Set(['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION',
    'CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','CITY_TOP_25','LICH_KING_CLEAR_1000']);
-  legacy.trophies=legacy.trophies.filter(t=>legacyCodes.has(t.code));legacy.trophies[0].rewardBonuses.coinPercent=12.5;
+  legacy.trophies=legacy.trophies.filter(t=>legacyCodes.has(t.code));legacy.trophies.push({code:'CITY_TOP_25',rewardBonuses:{coinPercent:3,accountXpPercent:2,dropPercent:1}});legacy.trophies[0].rewardBonuses.coinPercent=12.5;
   const state={revision:7,document:legacy,audit:[]};await f.put(TROPHY_BONUSES_KEY,state);
   const result=await readTrophyBonusSettings(f.env);assert.equal(result.revision,7);assert.equal(result.document.trophies.length,emptyTrophyBonuses().trophies.length);
-  assert.equal(legacy.trophies.length,8);assert.deepEqual(result.document.trophies.slice(0,8),legacy.trophies);for(const row of result.document.trophies.filter(t=>!legacyCodes.has(t.code)))assert.deepEqual(row.rewardBonuses,{coinPercent:0,accountXpPercent:0,dropPercent:0});
+  assert.equal(legacy.trophies.length,8);assert.deepEqual(result.document.trophies.slice(0,7),legacy.trophies.filter(t=>t.code!=='CITY_TOP_25'));assert.ok(!result.document.trophies.some(t=>t.code==='CITY_TOP_25'));for(const row of result.document.trophies.filter(t=>!legacyCodes.has(t.code)))assert.deepEqual(row.rewardBonuses,{coinPercent:0,accountXpPercent:0,dropPercent:0});
   assert.deepEqual(JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',TROPHY_BONUSES_KEY).first()).value),state);
   assert.throws(()=>validateTrophyBonuses(legacy));assert.equal(validateTrophyBonuses(result.document).trophies.length,emptyTrophyBonuses().trophies.length);
   const broken=structuredClone(result.document);broken.trophies.splice(0,1);assert.throws(()=>validateTrophyBonuses(broken,{allowLegacy:true}));

@@ -465,7 +465,6 @@ export class BaseBattleEngine{
     this.scene={...DESKTOP};
     this.backgroundSprite=null;
     this.territoryBattlefieldV5=battleData?.sceneAssetKey==='TERRITORY_BATTLEFIELD_V5';
-    this.jokgakCityBattlefield=battleData?.sceneAssetKey==='JOKGAK_CITY';
     this.coupPalaceBattlefield=battleData?.sceneAssetKey==='COUP_PALACE';
     this.coopArkeBattlefield=battleData?.sceneAssetKey==='COOP_ARKE_FORGE';
     this.activeBattlefieldMode=battlefieldModeFromPayload(battleData);
@@ -786,7 +785,7 @@ export class BaseBattleEngine{
     this.app.ticker.add(this.parallaxTicker);
   }
 
-  battlefieldAsset(mode){if(this.battleData?.legionCowRoom&&mode==='RAID')return '/assets/ui/legion-cow-room/pasture.webp';if(this.battleData?.sceneAssetKey==='CLAN_DOCKYARD'&&mode==='RAID')return '/assets/ui/organization/hunts-20261023/stage3-dockyard.webp';if(this.battleData?.sceneAssetKey==='CLAN_GARDEN'&&mode==='RAID')return '/assets/ui/organization/hunts-20261023/stage4-garden.webp';if(this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'&&mode==='RAID')return '/assets/ui/legion-citadel/gate-'+(LOW_MEMORY_DEVICE?'720':'1440')+'.webp';if(this.battleData?.sceneAssetKey==='CLASSIC_COLOSSEUM'&&mode==='PVP')return '/assets/ui/classic-colosseum/20261027/arena-v1.png';if(this.jokgakCityBattlefield&&mode==='PVP')return '/assets/ui/jokgak-city/city-street-battle-v1.webp';if(this.territoryBattlefieldV5&&mode==='SIEGE'){
+  battlefieldAsset(mode){if(this.battleData?.legionCowRoom&&mode==='RAID')return '/assets/ui/legion-cow-room/pasture.webp';if(this.battleData?.sceneAssetKey==='CLAN_DOCKYARD'&&mode==='RAID')return '/assets/ui/organization/hunts-20261023/stage3-dockyard.webp';if(this.battleData?.sceneAssetKey==='CLAN_GARDEN'&&mode==='RAID')return '/assets/ui/organization/hunts-20261023/stage4-garden.webp';if(this.battleData?.sceneAssetKey==='LEGION_BURNING_CITADEL'&&mode==='RAID')return '/assets/ui/legion-citadel/gate-'+(LOW_MEMORY_DEVICE?'720':'1440')+'.webp';if(this.battleData?.sceneAssetKey==='CLASSIC_COLOSSEUM'&&mode==='PVP')return '/assets/ui/classic-colosseum/20261027/arena-v1.png';if(this.territoryBattlefieldV5&&mode==='SIEGE'){
       const site=this.battleData?.territorySiteKey;
       return '/assets/ui/territory-war/frontline-20261108/'+(['hq','outpost','gate','depot'].includes(site)?'site-'+site+'-scene.webp':LOW_MEMORY_DEVICE?'field-960.webp':'field-1600.webp');
     }return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
@@ -1840,7 +1839,6 @@ export class BaseBattleEngine{
       card.eventMode=this.livePayload?'none':'static';
       if(this.livePayload)card.alpha=0;
     });
-    this.jokgakCityBattlefield=payload?.sceneAssetKey==='JOKGAK_CITY';
     this.coupPalaceBattlefield=payload?.sceneAssetKey==='COUP_PALACE';
     this.coopArkeBattlefield=payload?.sceneAssetKey==='COOP_ARKE_FORGE';
     this.territoryBattlefieldV5=payload?.sceneAssetKey==='TERRITORY_BATTLEFIELD_V5';

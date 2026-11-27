@@ -39,7 +39,6 @@ const huntHtml=fs.readFileSync(path.join(root,'pve/legion-hunt/index.html'),'utf
 function html(mode){
  if(dialogueOnly&&mode==='area')return huntHtml
   .replace(/<script defer src="\/preview\/sustained-hunt-v2\/app\.js[^\"]*"><\/script>/,'')
-  .replace(/<script defer src="\/js\/jokgak-city-v1\.js[^\"]*"><\/script>/,'')
   .replace('</head>','<script defer src="/qa-boot.js"></script></head>');
  return baseHtml.replace(/<title>.*?<\/title>/,'<title>천룡검황 진무 전투 검수</title>')
  .replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${['area','raid'].includes(mode)?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`)

@@ -1,7 +1,6 @@
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
-export const CITY_TOP_GOAL=25,LICH_CLEAR_GOAL=200,NOX_CLEAR_GOAL=30;
+export const LICH_CLEAR_GOAL=200,NOX_CLEAR_GOAL=30;
 export const LICH_LEGACY_BASELINE_KEY='trophy_lich_legacy_baseline_v1';
-export const cityTopKey=id=>'trophy_city_top_v1:'+Number(id);
 export const lichClearKey=id=>'trophy_lich_clear_v1:'+Number(id);
 export const noxClearKey=id=>'trophy_nox_clear_v1:'+Number(id);
 export function milestoneValue(raw,goal){
@@ -17,10 +16,6 @@ export function lichMilestoneValue(raw){
   const value=milestoneValue(raw,Infinity);
   if(value.count===LICH_CLEAR_GOAL&&!value.acquiredAt&&value.lastAt)return {...value,acquiredAt:value.lastAt};
   return value;
-}
-export async function readCityTopHonors(env,id){
-  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(cityTopKey(id)).first();
-  return honor(milestoneValue(row?.value,CITY_TOP_GOAL),CITY_TOP_GOAL);
 }
 // Finished room snapshots are the legacy proof, including clears with no weekly
 // payout. The participant snapshot survives a later departure from the room.
@@ -44,13 +39,12 @@ async function legacyLichValue(env,id,baseline){
   return {count:Number(value?.count||0),acquiredAt:value?.first_at?new Date(Number(value.first_at)).toISOString():null};
 }
 export async function readPlayerMilestoneHonors(env,id){
-  const city=cityTopKey(id),lich=lichClearKey(id),nox=noxClearKey(id);
-  const {results}=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?,?)')
-    .bind(city,lich,nox,LICH_LEGACY_BASELINE_KEY).all();
+  const lich=lichClearKey(id),nox=noxClearKey(id);
+  const {results}=await env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?,?)')
+    .bind(lich,nox,LICH_LEGACY_BASELINE_KEY).all();
   const values=new Map(results.map(row=>[row.key,row.value]));
   const lichValue=values.has(lich)?lichMilestoneValue(values.get(lich)):await legacyLichValue(env,id,values.has(LICH_LEGACY_BASELINE_KEY));
   return {
-    cityTop:honor(milestoneValue(values.get(city),CITY_TOP_GOAL),CITY_TOP_GOAL),
     lichClear:honor(lichValue,LICH_CLEAR_GOAL),
     noxClear:honor(milestoneValue(values.get(nox),NOX_CLEAR_GOAL),NOX_CLEAR_GOAL)
   };

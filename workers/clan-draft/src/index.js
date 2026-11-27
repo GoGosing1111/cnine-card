@@ -2,7 +2,6 @@ import {DurableObject,WorkerEntrypoint} from 'cloudflare:workers';
 import {ensureDraftAlarm,handleDraftAlarm} from './schedule.js';
 import {ensureDuoAlarm,handleDuoAlarm} from './duo-schedule.js';
 import {runRankedReopenSchedule} from './ranked-reopen.js';
-import {runCityRotationSchedule} from './city-rotation.js';
 import {runOrganizationSchedule} from './organization-schedule.js';
 import {runLandDailySchedule} from './land-daily.js';
 import {runMercenaryStockSchedule,armMercenaryStockAlarm,handleMercenaryStockAlarm} from './mercenary-stock-schedule.js';
@@ -28,7 +27,7 @@ export default class ClanDraftWorker extends WorkerEntrypoint{
   }
   async scheduled(){
     const stock=()=>runMercenaryStockSchedule(this.env,{arm:at=>this.env.CLAN_DRAFT_ALARM.getByName('mercenary-limited-stock-v1').armStock(at)});
-    const results=await Promise.allSettled([this.arm(),runRankedReopenSchedule(this.env),runCityRotationSchedule(this.env),runOrganizationSchedule(this.env),runLandDailySchedule(this.env),stock()]);
+    const results=await Promise.allSettled([this.arm(),runRankedReopenSchedule(this.env),runOrganizationSchedule(this.env),runLandDailySchedule(this.env),stock()]);
     const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
   }
   async fetch(){return new Response('Not found',{status:404})}

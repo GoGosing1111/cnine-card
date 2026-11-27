@@ -24,7 +24,6 @@ export function equipmentSetVisual(value) {
 }
 
 export function equipmentSetVisualGroups(payload) {
-  if(payload?.sceneAssetKey==='JOKGAK_CITY')return [];
   const groups=[];
   for(const side of ['A','B']) {
     const team=payload?.battleV2?.teams?.[side];
