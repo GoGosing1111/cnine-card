@@ -261,7 +261,12 @@ test('five sectors settle a graded delivery; pre-renewal runs still pay their sa
 test('a stale claim resumes with its original request and grants banked currency once',async t=>{
   const f=await escortFixture(t,false);
   const run=(await f.call('start',{contract:'RELIEF'})).run;
-  await f.call('fight',{requestId:'to-first-checkpoint'});
+  const fight={requestId:'to-first-checkpoint',runId:run.runId,sectorIndex:0};
+  await f.p("INSERT INTO pve_escort_action_receipts_v1830(request_id,user_id,run_id,action_type,status) VALUES(?,7,?,'FIGHT','PENDING')",fight.requestId,run.runId).run();
+  await f.call('claim',{requestId:fight.requestId,runId:run.runId},409);
+  const receipt=await f.p('SELECT status FROM pve_escort_action_receipts_v1830 WHERE request_id=?',fight.requestId).first();
+  assert.equal(receipt.status,'PENDING');
+  await f.call('fight',fight);
   const banked=(await f.call('deliver',{runId:run.runId,sectorIndex:0})).run.reward;
   const claim={runId:run.runId,requestId:'dropped-connection'};
   const before=await f.coin();

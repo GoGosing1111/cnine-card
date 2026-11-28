@@ -238,7 +238,8 @@ async function reserveReceipt(env,{requestId,userId,runId,action,resumable=false
 
 // Guard the weekly counter and receipt with the exact post-action run. A
 // concurrent loser cannot finish somebody else's action at the same sector.
-const savedActionGuard=`EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND version=? AND state_json=?) AND EXISTS(SELECT 1 FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND status='PENDING')`;
+const pendingActionGuard=`EXISTS(SELECT 1 FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND status='PENDING')`;
+const savedActionGuard=`EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND version=? AND state_json=?) AND ${pendingActionGuard}`;
 function actionReceipt(env,requestId,userId,response,guardArgs){
   return env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND ${savedActionGuard}`)
     .bind(JSON.stringify({...response,replayed:true}),requestId,userId,...guardArgs);
@@ -252,8 +253,8 @@ async function completeReceipt(env,requestId,userId,response){
   }
 }
 
-async function failReceipt(env,requestId,userId,error){
-  try{await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(cleanText(error?.message||error,300),requestId,userId).run()}
+async function failReceipt(env,requestId,userId,action,error){
+  try{await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND action_type=? AND status='PENDING'`).bind(cleanText(error?.message||error,300),requestId,userId,action).run()}
   catch(receiptError){console.error('[escort] receipt failure mark failed',{requestId,userId,error:String(receiptError?.message||receiptError)})}
 }
 
@@ -384,7 +385,7 @@ export async function handleEscortOperation({path,request,env,deps}){
   }
 
   if(path==='escort/fight'&&request.method==='POST'){
-    const body=await readBody(request);let requestId='';
+    const body=await readBody(request);let requestId='',receiptReserved=false;
     try{
       requestId=requireRequestId(body);const prior=await env.DB.prepare(`SELECT response_json FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND action_type=? AND status='COMPLETED'`).bind(requestId,user.id,'FIGHT').first();
       if(prior?.response_json)return json(normalizeEscortResponsePresentation(jsonSafe(prior.response_json,{})));
@@ -394,6 +395,7 @@ export async function handleEscortOperation({path,request,env,deps}){
         return json({error:'전투 구간이 변경되었습니다. 작전 정보를 확인하세요.'},409);
       if(run.state.phase!=='READY')throw Object.assign(new Error('구간 전투 전에 전술 선택을 완료하세요.'),{status:409});
       const receipt=await reserveReceipt(env,{requestId,userId:user.id,runId:run.run_id,action:'FIGHT',resumable:body.runId===run.run_id});if(receipt.replay)return json(receipt.replay);if(receipt.error)return json({error:receipt.error},receipt.status);
+      receiptReserved=true;
       const manifest=run.state.contract||cfg,sector=manifest.sectors[clamp(run.sector_index,0,4)],battleCfg=await battleSettings(env),baseDeck=run.deck.map(card=>({...card,id:String(card.id),power:cardBattlePower(card,card.breakthrough_level,battleCfg)}));
       const unique=typeof cardUniqueDeckState==='function'?await cardUniqueDeckState(env,user,baseDeck,'PVE'):null;
       const poweredDeck=unique?.enabled?unique.cards:baseDeck,roles=roleCounts(poweredDeck),pending=tacticEffect(run.state.pendingTactic),cardHp=run.state.cardHp||{};
@@ -467,17 +469,17 @@ export async function handleEscortOperation({path,request,env,deps}){
       const response={ok:true,run:publicRun(next,cfg),sectorSummary,characterBonus:equipment};
       const guardArgs=[run.run_id,user.id,version,stateJson,requestId,user.id];
       const [updated]=await env.DB.batch([
-        env.DB.prepare(`UPDATE ${RUN_TABLE} SET status=?,vehicle_hp=?,state_json=?,reward_coin=reward_coin+?,reward_shards=reward_shards+?,reward_tickets=reward_tickets+?,version=version+1,updated_at=CURRENT_TIMESTAMP,completed_at=CASE WHEN ? IN ('FAILED','COMPLETED_PENDING') THEN CURRENT_TIMESTAMP ELSE completed_at END WHERE run_id=? AND user_id=? AND status='ACTIVE' AND version=?`).bind(status,vehicleHp,stateJson,gainCoin,gainShards,gainTickets,status,run.run_id,user.id,run.version),
+        env.DB.prepare(`UPDATE ${RUN_TABLE} SET status=?,vehicle_hp=?,state_json=?,reward_coin=reward_coin+?,reward_shards=reward_shards+?,reward_tickets=reward_tickets+?,version=version+1,updated_at=CURRENT_TIMESTAMP,completed_at=CASE WHEN ? IN ('FAILED','COMPLETED_PENDING') THEN CURRENT_TIMESTAMP ELSE completed_at END WHERE run_id=? AND user_id=? AND status='ACTIVE' AND version=? AND ${pendingActionGuard}`).bind(status,vehicleHp,stateJson,gainCoin,gainShards,gainTickets,status,run.run_id,user.id,run.version,requestId,user.id),
         ...(finalSector&&!failed?[env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,completed_count,best_vehicle_hp_percent,updated_at) SELECT ?,?,1,?,CURRENT_TIMESTAMP WHERE ${savedActionGuard} ON CONFLICT(user_id,week_key) DO UPDATE SET completed_count=${WEEKLY_TABLE}.completed_count+1,best_vehicle_hp_percent=CASE WHEN ${WEEKLY_TABLE}.best_vehicle_hp_percent>=excluded.best_vehicle_hp_percent THEN ${WEEKLY_TABLE}.best_vehicle_hp_percent ELSE excluded.best_vehicle_hp_percent END,updated_at=CURRENT_TIMESTAMP`).bind(user.id,run.week_key,Math.round(vehicleHp/run.vehicle_max_hp*100),...guardArgs)]:[]),
         actionReceipt(env,requestId,user.id,response,guardArgs)
       ]);
       if(Number(updated.meta?.changes)!==1)return json({error:'호송 상태가 갱신되었습니다. 현재 작전을 다시 불러오세요.'},409);
       return json({...response,battleV2,monster,objective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차',image:'/assets/ui/escort/escort-armored-carrier-v1.webp?v=1830',hp:Number(run.vehicle_hp),hpAfter:vehicleHp,maxHp:run.vehicle_max_hp,targetPriority:'ABSOLUTE'}});
-    }catch(error){if(requestId)await failReceipt(env,requestId,user.id,error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
+    }catch(error){if(receiptReserved)await failReceipt(env,requestId,user.id,'FIGHT',error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
   }
 
   if(path==='escort/tactic'&&request.method==='POST'){
-    const body=await readBody(request);let requestId='';
+    const body=await readBody(request);let requestId='',receiptReserved=false;
     try{
       requestId=requireRequestId(body);const prior=await env.DB.prepare(`SELECT response_json FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND action_type=? AND status='COMPLETED'`).bind(requestId,user.id,'TACTIC').first();
       if(prior?.response_json)return json(normalizeEscortResponsePresentation(jsonSafe(prior.response_json,{})));
@@ -487,6 +489,7 @@ export async function handleEscortOperation({path,request,env,deps}){
         return json({error:'전술을 적용할 구간이 변경되었습니다.'},409);
       const key=String(body.tactic||'').toUpperCase(),choice=(run.state.choices||[]).find(item=>item.key===key);if(run.state.phase!=='TACTIC'||!choice)throw Object.assign(new Error('제시된 전술 중 하나를 선택하세요.'),{status:400});
       const receipt=await reserveReceipt(env,{requestId,userId:user.id,runId:run.run_id,action:'TACTIC',resumable:body.runId===run.run_id});if(receipt.replay)return json(receipt.replay);if(receipt.error)return json({error:receipt.error},receipt.status);
+      receiptReserved=true;
       const manifest=run.state.contract||cfg;
       let vehicleHp=Number(run.vehicle_hp);if(key==='REPAIR')vehicleHp=Math.min(run.vehicle_max_hp,vehicleHp+Math.round(run.vehicle_max_hp*manifest.repairPercent/100));
       const state={...run.state,phase:'READY',lastActionId:requestId,pendingTactic:key==='REPAIR'?null:key,choices:[]};
@@ -494,12 +497,12 @@ export async function handleEscortOperation({path,request,env,deps}){
       const next={...row,sector_index:Number(run.sector_index)+1,vehicle_hp:vehicleHp,state_json:stateJson,version,updated_at:new Date().toISOString()};
       const response={ok:true,run:publicRun(next,cfg),selectedTactic:tacticWithSettings(TACTICS[key],manifest)};
       const [changed]=await env.DB.batch([
-        env.DB.prepare(`UPDATE ${RUN_TABLE} SET sector_index=sector_index+1,vehicle_hp=?,state_json=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='ACTIVE' AND version=?`).bind(vehicleHp,stateJson,run.run_id,user.id,run.version),
+        env.DB.prepare(`UPDATE ${RUN_TABLE} SET sector_index=sector_index+1,vehicle_hp=?,state_json=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='ACTIVE' AND version=? AND ${pendingActionGuard}`).bind(vehicleHp,stateJson,run.run_id,user.id,run.version,requestId,user.id),
         actionReceipt(env,requestId,user.id,response,[run.run_id,user.id,version,stateJson,requestId,user.id])
       ]);
       if(Number(changed.meta?.changes)!==1)return json({error:'전술 선택이 이미 처리되었습니다.'},409);
       return json(response);
-    }catch(error){if(requestId)await failReceipt(env,requestId,user.id,error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
+    }catch(error){if(receiptReserved)await failReceipt(env,requestId,user.id,'TACTIC',error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
   }
 
   if(path==='escort/deliver'&&request.method==='POST'){
@@ -563,7 +566,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       if(claimed?.status!=='CLAIMED')throw Object.assign(new Error('보상 처리 상태가 변경됐습니다. 다시 시도해 주세요.'),{status:409});
       const response=await claimResponse(env,claimed);
       await completeReceipt(env,requestId,user.id,response);return json(response);
-    }catch(error){console.error('[escort] claim failed',{userId:user.id,requestId,error:String(error?.message||error)});await releaseClaim(env,user.id,ownedRunId,ownedVersion);if(requestId)await failReceipt(env,requestId,user.id,error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
+    }catch(error){console.error('[escort] claim failed',{userId:user.id,requestId,error:String(error?.message||error)});await releaseClaim(env,user.id,ownedRunId,ownedVersion);if(ownedRunId)await failReceipt(env,requestId,user.id,'CLAIM',error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
   }
 
   if(path==='escort/abandon'&&request.method==='POST'){
