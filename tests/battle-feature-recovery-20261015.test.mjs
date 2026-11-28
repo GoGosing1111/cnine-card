@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {createHash} from 'node:crypto';
 
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const app=read('js/app.js'),wrapper=read('js/battle-v3-live.js');
@@ -39,6 +40,28 @@ test('an open pre-deploy lobby accepts a newer coherent compatible engine and wr
  assert.equal(h.context.ProjectVPixiBattle.runtimeVersion,runtime);
  assert.equal(h.context.ProjectVBattleV3Live.runtimeVersion,runtime);
  assert.equal(h.requests.filter(x=>x.includes('battleRecovery=')).length,0);
+});
+
+// Reconstruct the immutable minimum in the released ONE store 1.0.3 APK.
+// Pin its digest so future edits cannot silently turn this into a current-shell test.
+const lastPackagedLabel='-apocalypse-facing-balance-20261106-v2';
+const packagedMinimum=runtime.slice(0,runtime.indexOf(lastPackagedLabel)+lastPackagedLabel.length)
+ .replace('-zeus-icon-20261010-','-jokgak-city-v1-zeus-icon-20261010-');
+
+test('the installed ONE store battle loader accepts the current pair after retirement of a cache label',async()=>{
+ assert.equal(createHash('sha256').update(packagedMinimum).digest('hex'),'a3032d72b4f7694f4473800527bd34ea2d1a7c4aa173cfd4b2f5d25681b53d46');
+ const h=harness({expected:packagedMinimum});
+ await h.ensureFeatureResources('battleV2');await h.ensureFeatureResources('battleV2');
+ assert.equal(h.manifest.ready(),true);assert.equal(h.context.ProjectVPixiBattle.runtimeVersion,runtime);
+ assert.equal(h.requests.filter(x=>x.includes('battleRecovery=')).length,0);
+});
+
+test('an unknown or newer minimum in an installed lobby is never downgraded',async()=>{
+ for(const minimum of [packagedMinimum+'-unknown-requirement',packagedMinimum.replace('-jokgak-city-v1-','-unknown-city-')]){
+  const h=harness({expected:minimum});
+  await assert.rejects(h.ensureFeatureResources('battleV2'),{code:'BATTLE_RESOURCE_RECOVERY_FAILED'});
+  assert.equal(h.manifest.runtimeVersion,minimum);assert.equal(h.manifest.ready(),false);
+ }
 });
 
 test('a cached wrapper cannot pin a newer engine to an old version; one paired refresh repairs it',async()=>{
