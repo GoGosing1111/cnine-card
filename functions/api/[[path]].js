@@ -2,6 +2,7 @@ import {handleAccountDeletionRequest, handleAccountDeletionStatus} from '../_acc
 import {PVP_MINIMUM_GRADE,PVP_ALLOWED_GRADES,PVP_MINIMUM_GRADE_MESSAGE,pvpCardGradeAllowed,pvpDeckGradeAllowed} from '../_pvp_deck_policy.js';
 import {RETIRED_HYPER_TICKET,HYPER_TICKET_RETIRED_MESSAGE} from '../_hyper_ticket_retirement.js';
 import {handlePersonalHideout,hideoutEnabled,readHideoutBenefits} from '../_personal_hideout.js';
+import {handleHideoutPlunder} from '../_hideout_plunder.js';
 import {hideoutCardRates} from '../../shared/personal-hideout-v1.mjs';
 import {contentProgressionStatements as seasonAwardStatements} from '../_content_progression.js';
 import {handleSeasonS1,seasonBonus,seasonEnabled,seasonTowerFloors} from '../_season_s1.js';
@@ -5239,6 +5240,7 @@ async function handleRequest(context){
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
+    const plunderResponse=await handleHideoutPlunder({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock,pvpDeckSnapshot,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(plunderResponse)return plunderResponse;
     const hideoutResponse=await handlePersonalHideout({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(hideoutResponse)return hideoutResponse;
     const seasonResponse=await handleSeasonS1({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(seasonResponse)return seasonResponse;
     const citadelResponse=await handleLegionCitadel({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,userEquipmentBonuses,withUserMutationLock:withJointUserMutationLock}});if(citadelResponse)return citadelResponse;

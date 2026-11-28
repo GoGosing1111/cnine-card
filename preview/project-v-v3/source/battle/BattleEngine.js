@@ -749,6 +749,7 @@ export class BaseBattleEngine{
     this.layoutParallax(DESKTOP.width,DESKTOP.height);
     this.backgroundShade=rectangle(DESKTOP.width,DESKTOP.height,0x03060b,.17);
     this.backgroundLayer.addChild(this.backgroundShade);
+    if(this.battleData?.sceneAssetKey==='PERSONAL_HIDEOUT_RAID')void this.setHideoutFurniture(this.battleData);
     this.bottomShade=new Graphics();
     // Fade into the roster area without another hard horizontal seam.
     for(let band=0;band<48;band++)this.bottomShade.rect(0,band*250/48,DESKTOP.width,250/48).fill({color:0x02040a,alpha:.62*((band+1)/48)**1.5});
@@ -791,10 +792,46 @@ export class BaseBattleEngine{
     }return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
 
   resolveBattlefieldAsset(mode){
+    if(mode==='SIEGE' && this.battleData?.sceneAssetKey==='PERSONAL_HIDEOUT_RAID'){
+      const stage=this.battleData.hideoutStage;
+      if(['shanty','apartment','luxury','penthouse'].includes(stage))
+        return '/assets/ui/personal-hideout-20261116/residence-'+stage+'.webp';
+    }
     // Older content extensions exposed a string getter under this name.
     // Resolve both contracts before construction, payload binding or texture load.
     const selected=this.battlefieldAsset;
     return typeof selected==='function'?selected.call(this,mode):typeof selected==='string'&&selected?selected:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE]);
+  }
+
+  async setHideoutFurniture(payload){
+    const items=payload?.sceneAssetKey==='PERSONAL_HIDEOUT_RAID' && Array.isArray(payload.hideoutFurniture)?payload.hideoutFurniture:null;
+    if(this.hideoutFurnitureItems===items)return;
+    this.hideoutFurnitureItems=items;
+    this.hideoutFurnitureLayer?.destroy({children:true});
+    this.hideoutFurnitureLayer=null;
+    if(!items?.length || !this.backgroundLayer)return;
+    const layer=new Container({label:'DefenderFurniture'});
+    layer.eventMode='none';
+    this.hideoutFurnitureLayer=layer;
+    this.backgroundLayer.addChildAt(layer,this.backgroundLayer.getChildIndex(this.backgroundShade));
+    await Promise.allSettled(items.map(async (item,index)=>{
+      if(!/^[a-z0-9-]+\.webp$/.test(item.art))return;
+      const texture=await Assets.load('/assets/ui/personal-hideout-20261116/'+item.art);
+      if(layer.destroyed || this.hideoutFurnitureLayer!==layer || !texture?.width)return;
+      const sprite=new Sprite(texture);
+      sprite.anchor.set(.5,1);
+      sprite.placement=item;
+      sprite.zIndex=index;
+      layer.addChild(sprite);
+      this.layoutHideoutFurniture(sprite,this.scene.width,this.scene.height);
+    }));
+  }
+
+  layoutHideoutFurniture(sprite,width,height){
+    const item=sprite.placement;
+    const scale=item.width*width/sprite.texture.width;
+    sprite.scale.set(item.flipped?-scale:scale,scale);
+    sprite.position.set(item.x*width,item.y*height);
   }
 
   async loadBattlefieldTexture(mode){
@@ -878,6 +915,7 @@ export class BaseBattleEngine{
     const centerY=height/2-inset/(2*scale);
     const x=(width-coverWidth)/2,y=centerY-coverHeight/2;
     this.backdropBounds={x,y,width:coverWidth,height:coverHeight};
+    if(this.hideoutFurnitureLayer)for(const sprite of this.hideoutFurnitureLayer.children)this.layoutHideoutFurniture(sprite,width,height);
     if(this.backgroundShade){this.backgroundShade.position.set(x,y);this.backgroundShade.width=coverWidth;this.backgroundShade.height=coverHeight}
     this.parallaxLayers.forEach(({sprite,mask,start,end})=>{
       setCover(sprite,coverWidth,coverHeight);
@@ -1853,6 +1891,7 @@ export class BaseBattleEngine{
     this.lastCoopPlayback=null;
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
     this.activeBattlefieldAsset=this.resolveBattlefieldAsset(this.activeBattlefieldMode);
+    if(this.backgroundShade && (this.hideoutFurnitureLayer || payload?.sceneAssetKey==='PERSONAL_HIDEOUT_RAID'))void this.setHideoutFurniture(payload);
     if(this.mounted)await Promise.all([this.setBattlefield(this.activeBattlefieldMode),this.setObjective(payload)]);
     const adapter=globalThis.ProjectVMonsterBattleArt;
     const zenithAdapter=globalThis.ProjectVBattleArt;
@@ -3721,6 +3760,7 @@ export class BaseBattleEngine{
       battlefield:{
         mode:this.activeBattlefieldMode,
         asset:this.activeBattlefieldAsset,
+        ...(this.hideoutFurnitureLayer?{hideoutFurniture:this.hideoutFurnitureLayer.children.length}:{}),
         loading:'LAZY_ACTIVE_SCENE_ONLY',
         available:Object.keys(BATTLEFIELD_ASSETS)
       },

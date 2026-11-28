@@ -1,4 +1,5 @@
 import {secureRandomInt} from './pet-growth-v2.mjs';
+import {PLUNDER} from './hideout-plunder-v1.mjs';
 
 export const HIDEOUT_ART='/assets/ui/personal-hideout-20261116/';
 export const HIDEOUT_KEY=id=>'personal_hideout_v1:'+Number(id);
@@ -79,11 +80,13 @@ export const HIDEOUT_DECOR=Object.freeze([
  ...additionalDecor
 ]);
 export const HIDEOUT_TROPHY_SLOTS=6;
-export const emptyHideout=()=>({version:2,revision:0,level:0,facilities:Object.fromEntries(codes.map(c=>[c,0])),rooms:[],placements:[],unlockedSkins:[],parts:Object.fromEntries(HIDEOUT_PARTS.map(p=>[p.code,0]))});
+export const emptyHideout=()=>({version:2,revision:0,level:0,durability:PLUNDER.maxDurability,facilities:Object.fromEntries(codes.map(c=>[c,0])),rooms:[],placements:[],unlockedSkins:[],parts:Object.fromEntries(HIDEOUT_PARTS.map(p=>[p.code,0]))});
 const fail=(message,code='HIDEOUT_INPUT',status=400)=>{throw Object.assign(Error(message),{code,status});};
 export function hideoutState(raw){
  if(raw==null)return emptyHideout();
  const out=structuredClone(raw),defaults=emptyHideout();
+ out.durability??=PLUNDER.maxDurability;
+ if(!Number.isInteger(out.durability)||out.durability<0||out.durability>PLUNDER.maxDurability)fail('은신처 내구도 기록을 확인하세요.','HIDEOUT_STATE',503);
  // V1 had five house levels. Preserve every part, facility and placement when
  // reading it into the four residence tiers; facility growth still reaches 5.
  if(out.version===1&&Number.isInteger(out.level)&&out.level>=0&&out.level<=5){out.level=Math.min(out.level,HIDEOUT_MAX_LEVEL);out.version=2;}

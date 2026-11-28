@@ -1,0 +1,8 @@
+{
+  "model": "OpenAI ImageGen",
+  "prompt": "A wide landscape cinematic game illustration for the Korean ReverseCall online RPG, a night raid in a lived-in Seoul hideout workshop. Panoramic side-on interior, midnight navy concrete and teal metal, an amber warning lamp above the reinforced storage door on the right, open case of salvaged steel plates and coiled copper wire, silhouettes of two opposing stylized sci-fi mercenaries in the hall. High quality painted 2.5D Korean RPG environment art with crisp edges and soft volumetric light. Concentrate detail in the right two thirds; dark quiet left for interface overlay. Readable cropped into a wide 4:1 banner. No text, signs, logos, typography, or interface elements.",
+  "source": "raid-night.png",
+  "sourceSha256": "a5ade37134372bad3c1ece5f38c16b7fa96d848db58c90b297d2201a444ba4ac",
+  "gameImage": "../raid-night.webp",
+  "gameImageSha256": "d6f661401ea1d30712ce10f708141d173cad17d9caef773cd2074bda2200cc57"
+}

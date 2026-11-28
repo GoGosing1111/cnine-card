@@ -57,6 +57,16 @@ test('classic colosseum background is confined to the explicitly tagged PVP repl
   assert.notEqual(select({},'PVP'),select(tagged,'PVP'));
 });
 
+test('hideout siege shows the defended residence and leaves other modes on their own battlefield',()=>{
+  const select=(data,mode)=>LiveEngine.prototype.resolveBattlefieldAsset.call({battleData:data,battlefieldAsset:LiveEngine.prototype.battlefieldAsset},mode);
+  for(const stage of ['shanty','apartment','luxury','penthouse']){
+    const data={sceneAssetKey:'PERSONAL_HIDEOUT_RAID',hideoutStage:stage};
+    assert.equal(select(data,'SIEGE'),'/assets/ui/personal-hideout-20261116/residence-'+stage+'.webp');
+    assert.equal(select(data,'PVP'),select({},'PVP'));
+  }
+  assert.equal(select({sceneAssetKey:'PERSONAL_HIDEOUT_RAID',hideoutStage:'invalid'},'SIEGE'),select({},'SIEGE'));
+});
+
 test('legacy string getter cannot mask the battlefield selector during construction or loading', async t=>{
   const previous=globalThis.matchMedia;globalThis.matchMedia=()=>({matches:false});
   t.after(()=>{if(previous)globalThis.matchMedia=previous;else delete globalThis.matchMedia;});

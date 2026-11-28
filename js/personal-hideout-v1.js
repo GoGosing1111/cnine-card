@@ -15,6 +15,7 @@
  let noticeText='',noticeError=false;
  let root=null,data=null,draft=[],room='main',tab='facilities',selected=null,selectedSlot=0,editing=false,dirty=false,busy=false,controller=null,epoch=0,trophies=null,uid=0,drag=null,targeting=false;
  let camera=0,scale=1,propScale=1,stopSizing=null;
+ let raidView=null,openingRaid=false;
  const view=()=>'<section id="personalHideoutRoot" class="ph-root" aria-label="나의 은신처"><div class="ph-loading" role="status">은신처를 불러오는 중…</div></section>';
  const key=()=> 'cnine-hideout-pending:'+uid;
  const pending=()=>{try{return JSON.parse(sessionStorage.getItem(key())||'null');}catch{return null;}};
@@ -160,6 +161,7 @@
     <b>${data.state.level} <span>/ ${data.maximumLevel} 단계</span></b>
    </header>
    <div class="ph-notice" data-ph-notice role="status" aria-live="polite" data-error="${noticeError}">${esc(noticeText)}</div>
+   ${data.enabled&&data.state.level?'<button type="button" class="ph-raid-entry" data-ph-action="raid"><span><strong>은신처 약탈전</strong><small>20:30–22:00 KST · 내구도 '+n(data.state.durability??100)+'/100</small></span><b>전황 보기 ›</b></button>':''}
    ${pending()?'<div class="ph-recovery ph-panel"><p>저장 결과를 확인하지 못한 요청이 있습니다.</p>'+button('retry','같은 요청으로 결과 확인')+'</div>':''}
    <section class="ph-space" aria-label="은신처 내부">
     ${data.state.rooms.length>1?'<nav class="ph-room-tabs" aria-label="구역으로 이동">'+data.state.rooms.map(r=>button('room',data.rooms.find(v=>v.code===r).name,'data-room="'+r+'" aria-pressed="'+(r===room)+'"')).join('')+'</nav>':''}
@@ -225,6 +227,17 @@
   }
   if(event.detail===0&&event.target.closest('[data-ph-prop]')){selected=event.target.closest('[data-ph-prop]').dataset.phProp;updateSelection();return;}
   const b=event.target.closest('[data-ph-action]');if(!b||busy)return;const a=b.dataset.phAction;
+  if(a==='raid'){
+   if(dirty){say('배치를 먼저 저장하거나 취소해 주세요.',true);return;}
+   if(raidView||openingRaid)return;
+   const id=epoch;openingRaid=true;
+   try{
+    const {openPlunder}=await import('/js/hideout-plunder-v1.mjs?v=20261128-1');
+    if(id===epoch)raidView=openPlunder({request,uid,onClose:()=>{raidView=null;if(id===epoch)void refresh();}});
+   }catch(e){if(id===epoch)say('약탈전 화면을 열지 못했습니다. 다시 시도하세요.',true);}
+   finally{if(id===epoch)openingRaid=false;}
+   return;
+  }
   if(a==='refresh')return refresh();if(a==='retry')return mutate();
   if(a==='pan'){const view=viewport();if(view)setCamera(camera+Number(b.dataset.step)*view.clientWidth/scale*.75);return;}
   if(a==='room'){const z=data.space.rooms.find(z=>z.code===b.dataset.room);if(!viewport()){tab='facilities';editing=false;render();}setCamera(z.start);return;}
@@ -247,8 +260,10 @@
   if(a==='trophy')return mutate(a,{id:selected,slot:selectedSlot,trophyCode:b.dataset.trophy||null});
  }
  function destroy(){
+  const previousRaid=raidView;raidView=null;openingRaid=false;
   if(root&&uid)try{sessionStorage.setItem('cnine-hideout-camera:'+uid,String(camera));}catch{}
   epoch++;controller?.abort();stopSizing?.();stopSizing=null;controller=null;root=null;data=null;trophies=null;drag=null;targeting=false;busy=false;editing=false;dirty=false;selected=null;noticeText='';camera=0;room='main';tab='facilities';
+  previousRaid?.close();
  }
  async function bind(user){
   destroy();uid=Number(user?.serverUserId||user?.id||user?.userId||0);root=document.getElementById('personalHideoutRoot');if(!root)return;
