@@ -190,9 +190,14 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: disp
   const changed=defaultEscortSettings();changed.sectors[0].rewardStars=1;
   await f.setting('escort_operation_settings_v1840',changed);
   const fight={requestId:'fight-1',runId:run.runId,sectorIndex:0};
-  run=(await f.call('fight',fight)).run;
+  const combat=await f.call('fight',fight);
+  run=combat.run;
   assert.equal(run.phase,'TACTIC');assert.equal(run.reward.stars,manifest.sectors[0].rewardStars);
-  assert.equal((await f.call('fight',fight)).replayed,true);
+  assert.deepEqual(combat.characterBonus,{pve:0});assert.equal(combat.battleV2.mode,'ESCORT');
+  assert.equal(combat.monster.name,manifest.sectors[0].enemyName);assert.equal(combat.objective.id,'ESCORT_OBJECTIVE');
+  const replay=await f.call('fight',fight);
+  assert.equal(replay.replayed,true);assert.deepEqual(replay.sectorSummary,combat.sectorSummary);
+  for(const field of ['battleV2','monster','objective'])assert.equal(Object.hasOwn(replay,field),false);
   assert.deepEqual((await f.call('status')).run.reward,run.reward);
   const delivery={runId:run.runId,sectorIndex:0};
   await f.call('deliver',{...delivery,sectorIndex:1},409);

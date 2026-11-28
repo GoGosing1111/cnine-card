@@ -240,14 +240,22 @@ async function reserveReceipt(env,{requestId,userId,runId,action,resumable=false
 // concurrent loser cannot finish somebody else's action at the same sector.
 const pendingActionGuard=`EXISTS(SELECT 1 FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND status='PENDING')`;
 const savedActionGuard=`EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND version=? AND state_json=?) AND ${pendingActionGuard}`;
+function replayReceiptJson(response){
+  const compact={...response,replayed:true};
+  delete compact.battleV2;
+  delete compact.monster;
+  delete compact.objective;
+  return JSON.stringify(compact);
+}
+
 function actionReceipt(env,requestId,userId,response,guardArgs){
   return env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND ${savedActionGuard}`)
-    .bind(JSON.stringify({...response,replayed:true}),requestId,userId,...guardArgs);
+    .bind(replayReceiptJson(response),requestId,userId,...guardArgs);
 }
 
 async function completeReceipt(env,requestId,userId,response){
-  const compact={...response,replayed:true};delete compact.battleV2;delete compact.monster;delete compact.objective;
-  const statement=()=>env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(JSON.stringify(compact),requestId,userId).run();
+  const responseJson=replayReceiptJson(response);
+  const statement=()=>env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(responseJson,requestId,userId).run();
   try{await statement()}catch(firstError){
     try{await statement()}catch(error){console.error('[escort] receipt completion failed',{requestId,userId,error:String(error?.message||error),firstError:String(firstError?.message||firstError)})}
   }
@@ -466,7 +474,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       const stateJson=JSON.stringify(state),version=Number(run.version)+1;
       const next={...row,status,version,state_json:stateJson,vehicle_hp:vehicleHp,reward_coin:bankedCoin,reward_shards:bankedShards,reward_tickets:bankedTickets,updated_at:new Date().toISOString()};
       const sectorSummary={sectorIndex:run.sector_index,sectorName:sector.name,result:failed?'LOSE':'WIN',vehicleDamage:damage,vehicleHp,aliveCards:living,roleBonuses:roles,vehicleDestroyed,strikes:strikeCount,reward:{coin:gainCoin,shards:gainShards,tickets:gainTickets,stars:gainStars},banked:{coin:bankedCoin,shards:bankedShards,tickets:bankedTickets,stars:bankedStars}};
-      const response={ok:true,run:publicRun(next,cfg),sectorSummary,characterBonus:equipment};
+      const response={ok:true,run:publicRun(next,cfg),sectorSummary,battleV2,monster,characterBonus:equipment,objective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차',image:'/assets/ui/escort/escort-armored-carrier-v1.webp?v=1830',hp:Number(run.vehicle_hp),hpAfter:vehicleHp,maxHp:run.vehicle_max_hp,targetPriority:'ABSOLUTE'}};
       const guardArgs=[run.run_id,user.id,version,stateJson,requestId,user.id];
       const [updated]=await env.DB.batch([
         env.DB.prepare(`UPDATE ${RUN_TABLE} SET status=?,vehicle_hp=?,state_json=?,reward_coin=reward_coin+?,reward_shards=reward_shards+?,reward_tickets=reward_tickets+?,version=version+1,updated_at=CURRENT_TIMESTAMP,completed_at=CASE WHEN ? IN ('FAILED','COMPLETED_PENDING') THEN CURRENT_TIMESTAMP ELSE completed_at END WHERE run_id=? AND user_id=? AND status='ACTIVE' AND version=? AND ${pendingActionGuard}`).bind(status,vehicleHp,stateJson,gainCoin,gainShards,gainTickets,status,run.run_id,user.id,run.version,requestId,user.id),
@@ -474,7 +482,7 @@ export async function handleEscortOperation({path,request,env,deps}){
         actionReceipt(env,requestId,user.id,response,guardArgs)
       ]);
       if(Number(updated.meta?.changes)!==1)return json({error:'호송 상태가 갱신되었습니다. 현재 작전을 다시 불러오세요.'},409);
-      return json({...response,battleV2,monster,objective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차',image:'/assets/ui/escort/escort-armored-carrier-v1.webp?v=1830',hp:Number(run.vehicle_hp),hpAfter:vehicleHp,maxHp:run.vehicle_max_hp,targetPriority:'ABSOLUTE'}});
+      return json(response);
     }catch(error){if(receiptReserved)await failReceipt(env,requestId,user.id,'FIGHT',error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
   }
 
