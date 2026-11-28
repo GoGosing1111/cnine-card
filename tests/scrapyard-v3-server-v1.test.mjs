@@ -10,6 +10,7 @@ import {__scrapyardTest} from '../functions/_scrapyard.js';
 import {__dropPoolTest,invalidateUnifiedDropPoolCache,planUnifiedDropRoll} from '../functions/_drop_pool.js';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED,loadScrapyardV3Snapshot,buildScrapyardV3Battle,validateScrapyardV3Config} from '../functions/_scrapyard_v3.js';
+import {scrapyardRouteOptions,salvageResult} from '../functions/_scrapyard_salvage.js';
 import {ensureScrapyardV3Schema,runScrapyardV3,scrapyardV3RecoveryStatus} from '../functions/_scrapyard_v3_runs.js';
 import {isPvePublicPath} from '../shared/pve-public-release-v2092.mjs';
 import forgeRelease from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
@@ -335,4 +336,56 @@ test('PostgreSQL actual scrapyard completes at 10경 plus one and replays withou
  const rewarded=result.rewards.filter(r=>r.rewardType==='COIN').reduce((n,r)=>n+BigInt(r.quantity),0n);
  assert.equal(exact,(100000000000000001n+rewarded).toString());assert.equal(await f.ticket(),5);
  await f.run('qa-10g');assert.equal(await f.ticket(),5);assert.equal((await f.p('SELECT CAST(coin AS TEXT) AS coin FROM users WHERE id=7').first()).coin,exact);
+});
+
+test('salvage dispatch quotes the exact encounter and the last secured checkpoint',async()=>{
+  const d=dependencies(),snapshot=await loadScrapyardV3Snapshot({},user,d.deps);
+  for(const zone of settings().difficulties){
+    const [sort,deep]=scrapyardRouteOptions(zone);
+    assert.ok(deep.bossPower>sort.bossPower && deep.normalCount>sort.normalCount);
+    assert.ok(sort.checkpoints[1].coin>deep.checkpoints[1].coin && deep.checkpoints[2].coin>sort.checkpoints[2].coin);
+    for(const route of [sort,deep]){
+      const battle=buildScrapyardV3Battle({snapshot,difficulty:zone,routeKey:route.key,seed:17});
+      assert.deepEqual(battle.salvage.checkpoints,route.checkpoints);
+      assert.equal(battle.enemiesTotal,route.normalCount+1);
+      for(const [i,step] of route.checkpoints.entries()){
+        assert.equal(salvageResult(route,step.defeats-1,false).coin,route.checkpoints[i-1]?.coin||0);
+        assert.equal(salvageResult(route,step.defeats,i===2).coin,step.coin);
+      }
+      assert.equal(salvageResult(route,route.normalCount+1,false).completed,2);
+    }
+  }
+});
+
+test('deep salvage freezes the selected route and payout through a retry with changed input',async t=>{
+  const f=await fixture(t);
+  await assert.rejects(()=>f.run('bad-route',{route:'UNKNOWN'}),{code:'SCRAPYARD_V3_ROUTE'});
+  f.fail('INSERT INTO scrapyard_runs_v1676');
+  assert.equal((await f.run('deep-retry',{route:'DEEP'})).status,'RUNNING');
+  f.fail('');
+  const result=await f.run('deep-retry',{route:'SORT'});
+  assert.equal(result.salvage.key,'DEEP');assert.equal(result.salvage.completed,3);
+  assert.equal(await f.coin(),125010);assert.equal(await f.parts(),2);
+  assert.equal((await f.run('deep-retry')).replayed,true);
+  assert.equal(await f.count('coin_logs'),1);
+});
+
+test('a failed battle keeps its checkpoint coins without rolling completion loot',async t=>{
+  const f=await fixture(t);
+  t.mock.method(crypto,'getRandomValues',array=>array.fill(17));
+  const cfg=settings(),zone=cfg.difficulties[0];
+  for(const power of [3500,7000,11000,15000,19000,23000,28000,35000,45000,60000,80000]){
+    const candidate=deck(power);candidate.characterBonus={pve:0};
+    f.setDeck(candidate);
+    const snapshot=await loadScrapyardV3Snapshot({},user,f.deps);
+    const {success,salvage}=buildScrapyardV3Battle({snapshot,difficulty:zone,seed:17});
+    if(success||!salvage.completed)continue;
+    const result=await f.run('salvage-withdraw');
+    assert.equal(result.success,false);assert.equal(result.salvage.coin,salvage.coin);
+    assert.equal(await f.coin(),10+salvage.coin);assert.equal(await f.parts(),0);
+    assert.equal(await f.count('scrapyard_runs_v1676'),1);
+    await f.run('salvage-withdraw');assert.equal(await f.count('coin_logs'),1);
+    return;
+  }
+  assert.fail('Expected at least one deck to reach a checkpoint and lose');
 });

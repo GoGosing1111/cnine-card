@@ -5,7 +5,7 @@ export const ZONES=Object.freeze([
   {id:'CORE',name:'압축 설비 구역',requiredPowerStart:100000,requiredPowerEnd:200000,clearCoin:2000000,waves:10},
   {id:'FURNACE',name:'용광로 심부',requiredPowerStart:150000,requiredPowerEnd:300000,clearCoin:4000000,waves:10}
 ]);
-export function createReleaseEncounter({catalog,equipment,seed=7123,powerScale=1,zone='OUTER',config}={}){
+export function createReleaseEncounter({catalog,equipment,seed=7123,powerScale=1,zone='OUTER',routeKey,config}={}){
   if(![.25,1,2].includes(powerScale))throw new Error('INVALID_PREVIEW_POWER');
   const difficulty=ZONES.find(r=>r.id===zone);if(!difficulty)throw new Error('INVALID_PREVIEW_ZONE');
   const cards=buildPreviewDeck(catalog).map(c=>({...c,power:Math.round(c.power*powerScale)}));
@@ -15,6 +15,6 @@ export function createReleaseEncounter({catalog,equipment,seed=7123,powerScale=1
   const snapshot={schemaVersion:1,cards,accountNickname:'폐차장 체험 회수대',cardSupportBonus:0,
     power:{cards:cards.reduce((s,c)=>s+c.power,0),equipment:0,battleSuit:power},
     battleSuit:{...equippedBattleSuit,weapon:equippedWeapon,accountNickname:'회수대 지원'},characterBonus:{pve:power,battleSuitPve:power,equippedBattleSuit,equippedWeapon}};
-  const battle=buildScrapyardV3Battle({snapshot,difficulty,seed,config:config||SCRAPYARD_V3_DRAFT[zone]});
+  const battle=buildScrapyardV3Battle({snapshot,difficulty,seed,routeKey,config:config||SCRAPYARD_V3_DRAFT[zone]});
   return {...battle,previewOnly:true,difficulty,playerName:snapshot.accountNickname,opponentName:`${difficulty.name} 방어대`,scrapyardPreview:battle.continuousEncounter};
 }

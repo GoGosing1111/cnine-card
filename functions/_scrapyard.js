@@ -4,6 +4,7 @@ import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureUnifiedDropPoolFoundation } from './_drop_pool.js';
 import {SCRAPYARD_REFORM_DIFFICULTIES,SCRAPYARD_REWARD_COIN_LIMIT} from '../shared/pve-reform-20261008.mjs';
 import {decodeScrapyardRecord} from './_scrapyard_v3_record.js';
+import {scrapyardRouteOptions} from './_scrapyard_salvage.js';
 
 const META_KEY='scrapyard_settings_v1676';
 const RECEIPT_TABLE='scrapyard_run_receipts_v1676';
@@ -109,7 +110,8 @@ async function status(env,user,raidDeckPower){
   ]),[cfg,deck,statusRows]=await Promise.all([settings(env),raidDeckPower(env,user.id,null,'PVE'),statusReads]),[runs,parts,best]=statusRows;
   const used=Number(runs.results?.[0]?.count||0),bestMap=Object.fromEntries((best.results||[]).map(row=>[row.difficulty,Number(row.best_waves||0)]));
   const effectiveMode=cfg.mode,allowed=canAccess(effectiveMode,user);
-  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:false,canEnterWithTicket:true},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
+  const difficulties=cfg.difficulties.map(zone=>({...zone,boss:SCRAPYARD_ENEMIES[zone.id].boss[0],routes:scrapyardRouteOptions(zone,cfg.v3?.[zone.id])}));
+  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode,difficulties},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:false,canEnterWithTicket:true},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
 function buildBattle({requestId,difficulty,deck}){

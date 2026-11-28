@@ -4610,7 +4610,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   // Receipt-managed draw/shop routes already serialize their writes in atomic D1
   // batches. A second lock only adds writes and rejects safe idempotent retries.
   'attendance/claim','card/breakthrough','card/breakthrough/auto','card/unique-advancement','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
-  'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
+  'escort/start','escort/fight','escort/tactic','escort/deliver','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','messages/claim-batch','coupon/redeem',
   'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run',
   'equipment/prime-supply-box/open','vehicle-draw/prime/open','suit-core-box/open','suit-core-box/purchase','prison/release-price','prison/fund','prison/hit','prison/meal'

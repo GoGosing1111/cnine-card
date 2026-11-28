@@ -9,8 +9,19 @@ const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const catalog=['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].flatMap(p=>{const m=JSON.parse(read('assets/ui/project-v/characters/'+p));return m.characters.map(c=>({...c,grade:m.rarity}));});
 const equipment=JSON.parse(read('assets/ui/project-v/account-battle-suits/manifest-v2.json'));
 test('all three release encounters display the same server rules and the six separate SD assets',()=>{
-  const art=new Set();for(const z of ZONES){const b=createReleaseEncounter({catalog,equipment,zone:z.id});assert.equal(b.resourceReady,true);assert.equal(b.cards.length,5);assert.equal(b.continuousEncounter.total,{OUTER:10,CORE:13,FURNACE:16}[z.id]);
-    for(const r of b.continuousEncounter.instances){art.add(r.battleSprite);assert.notEqual(r.sourceArt,r.battleSprite);}assert.equal(b.difficulty.clearCoin,z.clearCoin);}
+  const art=new Set(),counts={OUTER:[8,13],CORE:[11,16],FURNACE:[14,19]};
+  for(const zone of ZONES){
+    for(const [i,routeKey] of ['SORT','DEEP'].entries()){
+      const battle=createReleaseEncounter({catalog,equipment,zone:zone.id,routeKey});
+      assert.equal(battle.resourceReady,true);
+      assert.equal(battle.cards.length,5);
+      assert.equal(battle.continuousEncounter.total,counts[zone.id][i]);
+      assert.equal(battle.salvage.key,routeKey);
+      assert.equal(battle.salvage.checkpoints[2].defeats,battle.continuousEncounter.total);
+      assert.equal(battle.difficulty.clearCoin,zone.clearCoin);
+      for(const enemy of battle.continuousEncounter.instances){art.add(enemy.battleSprite);assert.notEqual(enemy.sourceArt,enemy.battleSprite);}
+    }
+  }
   assert.equal(art.size,6);
 });
 test('four generated sprites have real alpha, clear borders and unchanged foreground RGB',async()=>{

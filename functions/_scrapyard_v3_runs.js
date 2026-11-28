@@ -89,8 +89,9 @@ async function settle(env, user, op, token) {
   if (Number(op.user_id) !== uid || plan.userId !== uid || plan.requestId !== `SCRAPYARD:${rid}` ||
       plan.sourceType !== 'SCRAPYARD' || plan.sourceId !== saved.difficulty?.id) throw error('SCRAPYARD_V3_RECORD', '저장된 원정 기록의 소유자를 확인할 수 없습니다.');
   const grants = await prepareUnifiedDropGrant(env,plan);
-  const clearCoin = saved.success ? rankCoin(Number(saved.difficulty.clearCoin),await accountRankBenefits(env,uid,'SCRAPYARD')) : 0;
-  const rewards = [...(clearCoin > 0 ? [{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}] : []), ...grants.rewards];
+  const baseCoin = saved.salvage?.coin ?? (saved.success ? Number(saved.difficulty.clearCoin) : 0);
+  const clearCoin = saved.salvage?.awardedCoin ?? (baseCoin > 0 ? rankCoin(baseCoin,await accountRankBenefits(env,uid,'SCRAPYARD')) : 0);
+  const rewards = [...(clearCoin > 0 ? [{rewardType:'COIN',rewardRef:'COIN',rewardName:saved.success?'완주 코인':'중간 회수 코인',quantity:clearCoin,guaranteed:true}] : []), ...grants.rewards];
   const inventory = saved.freeEntry ? null : await p(env,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',uid,ITEM).first();
   const response = {...saved, ok:true, status:'COMPLETED', requestId:rid, rewards, partDropped:grants.rewards.length>0,
     entryTicket:saved.freeEntry ? {code:ITEM,consumed:0} : {code:ITEM,consumed:1,remaining:Number(inventory?.quantity || 0)}, refreshAccount:true};
@@ -108,7 +109,7 @@ async function settle(env, user, op, token) {
     p(env, `UPDATE ${OPS} SET integrity=CASE WHEN ${proofs} THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,...proofValues,rid,uid,token),
     ...(clearCoin > 0 ? [
       p(env,'UPDATE users SET coin=coin+CAST(? AS BIGINT) WHERE id=?',clearCoin,uid),
-      p(env,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SCRAPYARD_CLEAR' FROM users WHERE id=?",clearCoin,uid)
+      p(env,"INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?",clearCoin,saved.success?'SCRAPYARD_CLEAR':'SCRAPYARD_SALVAGE',uid)
     ] : []),
     p(env, `UPDATE ${OPS} SET integrity=CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,uid,addCoins(grants.balances.coin,clearCoin),rid,uid,token),
     // Empty/no-binding rolls are deliberately persisted for an expedition:
@@ -138,8 +139,10 @@ export async function runScrapyardV3(env,user,body,deps) {
     if (!difficulty || !(cfg.mode === 'ON' || cfg.mode === 'TEST' && String(user.role).toUpperCase() === 'OWNER')) throw error('SCRAPYARD_V3_CLOSED','현재 폐차장 입장이 잠겨 있습니다.');
     if (!Number.isSafeInteger(cfg.dailyRuns) || cfg.dailyRuns < 1 || !Number.isSafeInteger(difficulty.clearCoin) || difficulty.clearCoin < 0) throw error('SCRAPYARD_V3_CONFIG','폐차장 보상·횟수 설정을 확인하세요.');
     const config = validateScrapyardV3Config(difficulty.id,cfg.v3?.[difficulty.id]);
-    const snapshot = await loadScrapyardV3Snapshot(env,user,deps), seed = crypto.getRandomValues(new Uint32Array(1))[0];
-    const battle = buildScrapyardV3Battle({snapshot,difficulty,config,seed});
+    const benefits = await accountRankBenefits(env,uid,'SCRAPYARD');
+    const snapshot = await loadScrapyardV3Snapshot(env,user,deps,'PVE',benefits), seed = crypto.getRandomValues(new Uint32Array(1))[0];
+    const battle = buildScrapyardV3Battle({snapshot,difficulty,config,seed,routeKey:body.route});
+    battle.salvage.awardedCoin = rankCoin(battle.salvage.coin,benefits);
     const plan = battle.success ? await planUnifiedDropRoll(env,{userId:uid,requestId:`SCRAPYARD:${rid}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role})
       : {userId:uid,requestId:`SCRAPYARD:${rid}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',pools:[],rewards:[]};
     plan.rewards.push(...await planForgeProtectionDrop(env,'SCRAPYARD',{cleared:battle.success}));

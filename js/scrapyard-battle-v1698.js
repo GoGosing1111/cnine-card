@@ -8,7 +8,7 @@
     if(!isActive())return;
     if(result.battleV2&&result.continuousEncounter){
       try{
-        const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=2096');
+        const {playContinuousBattle}=await import('./pve-continuous-battle-live.mjs?v=20261128-salvage');
         const renderer=await playContinuousBattle({modal,data:result,mode:'PVE',isActive});
         if(renderer&&isActive()){renderer.destroy();showResult?.(modal,result);}
       }catch(error){

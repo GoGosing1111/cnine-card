@@ -51,7 +51,7 @@ export async function handlePveV3Ready({path,request,env,deps}){
     const [,content,action]=match,query=new URL(request.url).searchParams;
     if(action==='run'){
       if(request.method!=='POST')return json({error:'POST 요청이 필요합니다.'},405);
-      const body=await readJointBody(request,{fields:content==='tower'?['requestId','tier']:['requestId','difficulty']});
+      const body=await readJointBody(request,{fields:content==='tower'?['requestId','tier']:['requestId','difficulty','route']});
       if(typeof withUserMutationLock!=='function')throw jointError('PVE_V3_LOCK','계정 잠금 서비스를 확인하세요.',503);
       return await withUserMutationLock(env,user.id,path,async()=>{
         if(content==='tower')return json(await runTowerV3(env,user,body,towerDependencies(env,deps)));

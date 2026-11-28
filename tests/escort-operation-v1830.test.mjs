@@ -1,8 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
-import {defaultEscortSettings,cleanEscortSettings,finalizeEscortObjectiveTimeline} from '../functions/_escort_operation.js';
+import {handleEscortOperation,defaultEscortSettings,cleanEscortSettings,finalizeEscortObjectiveTimeline} from '../functions/_escort_operation.js';
 import {buildFighter,createPveBattleV2} from '../functions/_battle_v2_preview.js';
+
+import {escortContractOptions,deliveryGrade} from '../functions/_escort_contracts.js';
+import {jointFixture} from './helpers/joint-db.mjs';
+import {ensureRankRewardFixture} from './helpers/rank-reward-schema.mjs';
 
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 
@@ -71,10 +75,10 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(app,/data-v21-route="escort"/);
   assert.match(app,/CNineEscortBridge/);
   assert.match(client,/ProjectVBattleV3Live\.createRenderer/);
-  assert.match(client,/4–6 MIN MISSION/);
+  assert.match(client,/data-escort-action="contract"/);
   assert.doesNotMatch(client,/localOwner/);
   assert.match(client,/공개 콘텐츠 탭은 일시적인 API\/DB 오류로 사라지지 않는다/);
-  assert.match(client,/TACTICAL BUFFER/);
+  assert.match(client,/다음 구간 전술 선택/);
   assert.match(client,/escort-v1833-tactic-grid/);
   assert.match(client,/tactic-field-repair-v1835\.webp/);
   assert.match(client,/objectiveHud\?\.native/);
@@ -89,19 +93,19 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(handler,/finalizeEscortObjectiveTimeline/);
   assert.match(wrapper,/철벽 호송작전/);
   assert.match(admin,/admin\/escort\/settings/);
-  assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1843-public-launch/);
+  assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=20261128-cargo/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
-  assert.match(app,/battle-v3-live\.js\?v=3\.36\.0-combat-flow/);
-  const appShellVersion=index.match(/app\.js\?v=([^"']+)/)?.[1];
+  assert.match(app,/project-v-pixi-battle\.bundle\.js\?[^'"]*\bv=[^&'"]+/);
+  assert.match(app,/battle-v3-live\.js\?[^'"]*\bv=[^&'"]+/);
+  const appShellVersion=index.match(/js\/app\.js\?v=([^&"']+)/)?.[1];
   const serviceWorkerShellVersion=sw.match(/soop-card-shell-v([^"']+)/)?.[1];
   assert.ok(appShellVersion,'index.html app.js cache version is required');
   assert.equal(serviceWorkerShellVersion,appShellVersion,'app.js and service worker shell cache versions must advance together');
-  assert.match(index,/escort-operation-v1830\.js\?v=1883-escort-claim-recovery/);
-  assert.match(index,/escort-operation-v1830\.css\?v=1844-public-mobile-fit/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=[^"']+/);
-  assert.match(index,/soopketmon-v21-runtime-router\.js\?v=[^"']+/);
+  assert.match(index,/escort-operation-v1830\.js\?v=20261128-cargo/);
+  assert.match(index,/escort-operation-v1830\.css\?v=20261128-cargo/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?[^" ']*\bv=[^"']+/);
+  assert.match(index,/soopketmon-v21-runtime-router\.js\?[^" ']*\bv=[^"']+/);
   assert.match(sw,/\['script','style','worker'\]\.includes\(request\.destination\)[\s\S]*?networkFirst\(request,SHELL_CACHE\)/);
   assert.doesNotMatch(headers,/\/(?:js|css|preview)\/\*[\s\S]{0,100}?immutable/);
   assert.equal((headers.match(/Cache-Control: public, max-age=0, must-revalidate/g)||[]).length>=3,true);
@@ -110,7 +114,7 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(style,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)!important/);
   assert.match(router,/escort:\s*\{ shell: 'battle', actions: \[\{ selector: '\[data-pve-mode="escort"\]'/);
   assert.match(adapter,/escort: Object\.freeze\(\{ title: '호송작전', group: 'pve', icon: 'swords' \}\)/);
-  assert.match(adapter,/pve: Object\.freeze\(\{ title: 'PVE 전투', routes: Object\.freeze\(\['battle', 'deck', 'hunt', 'raid', 'escort'/);
+  assert.match(adapter,/pve: Object\.freeze\(\{ title: '[^']*PVE', routes: Object\.freeze\(\[[^\]]*'escort'/);
   assert.match(integrationStyle,/padding: 14px 12px max\(24px, env\(safe-area-inset-bottom\)\)/);
 });
 
@@ -135,4 +139,147 @@ test('호송 이미지 리소스는 런타임 예산 안으로 압축됐다',asy
   assert.ok(background.size<180_000,`background ${background.size}`);
   assert.ok(vehicle.size<230_000,`vehicle ${vehicle.size}`);
   tacticIcons.forEach(icon=>assert.ok(icon.size<50_000,`tactic icon ${icon.size}`));
+});
+
+test('three freight manifests quote fixed sector risks, capped rewards and hull grades',()=>{
+  const cfg=defaultEscortSettings(),[relief,freight,priority]=escortContractOptions(cfg);
+  assert.deepEqual([relief,freight,priority].map(x=>x.key),['RELIEF','FREIGHT','PRIORITY']);
+  for(let i=0;i<5;i++){
+    const [a,b,c]=[relief,freight,priority].map(x=>x.sectors[i]);
+    assert.ok(a.enemyPower<b.enemyPower&&b.enemyPower<c.enemyPower);
+    assert.ok(a.hazardPercent<b.hazardPercent&&b.hazardPercent<c.hazardPercent);
+    assert.ok(a.rewardStars<b.rewardStars&&b.rewardStars<c.rewardStars);
+    assert.equal(c.rewardTickets,0);
+    assert.equal(b.rewardCoin,cfg.sectors[i].rewardCoin);
+  }
+  assert.deepEqual([8000,7999,5000,4999].map(hp=>deliveryGrade(hp,10000).bonusPercent),[100,80,80,60]);
+});
+
+async function escortFixture(t,postgres){
+  const f=await jointFixture(t,{postgres});await ensureRankRewardFixture(f.env);
+  const schema=[
+    'CREATE TABLE shard_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT,card_id TEXT)',
+    'CREATE TABLE user_mercenary_loadout_v1(user_id BIGINT PRIMARY KEY,mercenary_code TEXT,revision INTEGER DEFAULT 0,updated_at TEXT)'
+  ];
+  if(postgres){
+    const sql=await read('scripts/postgres-runtime-compat.sql');
+    const from=sql.indexOf('CREATE OR REPLACE FUNCTION sqlite_datetime');
+    await f.pg.exec(sql.slice(from,sql.indexOf('CREATE OR REPLACE FUNCTION sqlite_date(',from)));
+    await f.pg.exec(schema.join(';'));
+  }
+  else f.DB.sql.exec(schema.join(';'));
+  const deps={...f.deps,authenticate:async request=>{
+    const user=await f.deps.authenticate(request);
+    return user&&{...user,role:'USER'};
+  },readBody:r=>r.json(),pveDeckSnapshot:async()=> (await f.deps.raidDeckPower(f.env,7,null,'PVE')).cards,
+    battleSettings:async()=>({engine:{}}),createPveBattleV2};
+  async function call(action,body,expectedStatus=200){
+    const request=new Request('http://localhost/api/escort/'+action,{method:body?'POST':'GET',headers:{authorization:'Bearer local-account-7','content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
+    const response=await handleEscortOperation({path:'escort/'+action,request,env:f.env,deps});
+    const result=await response.json();assert.equal(response.status,expectedStatus,result.error);return result;
+  }
+  return {...f,call};
+}
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: dispatch, combat, handoff and claim survive retries and CMS edits`,async t=>{
+  const f=await escortFixture(t,postgres);
+  await f.call('start',{contract:'INVALID'},400);
+  let run=(await f.call('start',{requestId:'dep-1',contract:'PRIORITY'})).run;
+  const manifest=run.contract;
+  assert.equal(manifest.key,'PRIORITY');
+  const changed=defaultEscortSettings();changed.sectors[0].rewardStars=1;
+  await f.setting('escort_operation_settings_v1840',changed);
+  const fight={requestId:'fight-1',runId:run.runId,sectorIndex:0};
+  run=(await f.call('fight',fight)).run;
+  assert.equal(run.phase,'TACTIC');assert.equal(run.reward.stars,manifest.sectors[0].rewardStars);
+  assert.equal((await f.call('fight',fight)).replayed,true);
+  assert.deepEqual((await f.call('status')).run.reward,run.reward);
+  const delivery={runId:run.runId,sectorIndex:0};
+  await f.call('deliver',{...delivery,sectorIndex:1},409);
+  await f.call('deliver',delivery);run=(await f.call('deliver',delivery)).run;
+  assert.equal(run.phase,'DELIVERED');
+  const claim={runId:run.runId,requestId:'claim-1'},before=await f.coin();
+  f.fail('INSERT INTO shard_logs');
+  await f.call('claim',claim,500);assert.equal(await f.coin(),before);
+  f.fail('');
+  const paid=await f.call('claim',claim);assert.deepEqual(paid.reward,run.reward);
+  assert.deepEqual((await f.call('claim',claim)).reward,paid.reward);
+  assert.equal(await f.coin(),before+paid.reward.coin);
+  const item=code=>f.p('SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code=?',code).first();
+  assert.equal(Number((await item('MASTER_STAR')).quantity),paid.reward.stars);assert.equal(Number((await item('SCRAPYARD_ENTRY_TICKET')).quantity),5);
+  const after=await f.call('start',{requestId:'dep-1',contract:'RELIEF'});
+  assert.equal(after.run,null);assert.equal(after.weekly.startedCount,1);assert.equal(after.weekly.rewardCount,1);assert.equal(after.weekly.completedCount,0);
+});
+
+test('five sectors settle a graded delivery; pre-renewal runs still pay their saved tickets',async t=>{
+  const f=await escortFixture(t,false);
+  let run=(await f.call('start',{contract:'FREIGHT'})).run;
+  for(let i=0;i<5;i++){
+    const fight={runId:run.runId,sectorIndex:i,requestId:'f'+i};
+    if(i===4){
+      const prior=run.reward;
+      f.fail('INSERT INTO pve_escort_weekly_v1830');
+      await f.call('fight',fight,500);
+      f.fail('');
+      const interrupted=await f.call('status');
+      assert.equal(interrupted.run.phase,'READY');
+      assert.deepEqual(interrupted.run.reward,prior);
+      assert.equal(interrupted.weekly.completedCount,0);
+    }
+    run=(await f.call('fight',fight)).run;
+    if(i===4){assert.equal((await f.call('fight',fight)).replayed,true);break;}
+    assert.equal(run.phase,'TACTIC');
+    run=(await f.call('tactic',{requestId:'t'+i,tactic:run.choices[0].key})).run;
+  }
+  assert.equal(run.phase,'COMPLETE');assert.equal(run.clearedSectors,5);
+  assert.equal(run.reward.coin,run.contract.sectors.reduce((v,s)=>v+s.rewardCoin,0)+Math.round(run.contract.clearBonusCoin*run.deliveryGrade.bonusPercent/100));
+  await f.call('claim',{requestId:'freight-claim'});
+  const old=(await f.call('start',{})).run;
+  const row=await f.p('SELECT state_json FROM pve_escort_runs_v1830 WHERE run_id=?',old.runId).first();
+  const state=JSON.parse(row.state_json);delete state.contract;delete state.bankedStars;
+  await f.p('UPDATE pve_escort_runs_v1830 SET state_json=? WHERE run_id=?',JSON.stringify(state),old.runId).run();
+  run=(await f.call('fight',{requestId:'old-fight'})).run;
+  assert.equal(run.reward.tickets,1);assert.equal(run.reward.stars,0);
+  await f.call('deliver',{runId:run.runId,sectorIndex:0},409);
+  const banked=run.reward;
+  await f.call('tactic',{requestId:'old-tactic',tactic:run.choices[0].key});
+  await f.p('UPDATE pve_escort_runs_v1830 SET vehicle_hp=1 WHERE run_id=?',run.runId).run();
+  const stopped=await f.call('fight',{requestId:'old-loss'});
+  assert.equal(stopped.sectorSummary.vehicleDestroyed,true);
+  assert.equal(stopped.sectorSummary.result,'LOSE');
+  assert.equal(stopped.run.phase,'FAILED');
+  assert.equal(stopped.run.history.at(-1).result,'LOSE');
+  assert.deepEqual(stopped.run.reward,banked);
+  const paid=await f.call('claim',{requestId:'old-claim',runId:run.runId});
+  assert.deepEqual(paid.reward,banked);
+  const tickets=await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='SCRAPYARD_ENTRY_TICKET'").first();
+  assert.equal(Number(tickets.quantity),6);
+  const final=await f.call('status');
+  assert.equal(final.weekly.completedCount,1);assert.equal(final.weekly.rewardCount,2);
+});
+
+test('a stale claim resumes with its original request and grants banked currency once',async t=>{
+  const f=await escortFixture(t,false);
+  const run=(await f.call('start',{contract:'RELIEF'})).run;
+  await f.call('fight',{requestId:'to-first-checkpoint'});
+  const banked=(await f.call('deliver',{runId:run.runId,sectorIndex:0})).run.reward;
+  const claim={runId:run.runId,requestId:'dropped-connection'};
+  const before=await f.coin();
+  await f.p("INSERT INTO pve_escort_action_receipts_v1830(request_id,user_id,run_id,action_type,status) VALUES(?,7,?,'CLAIM','PENDING')",claim.requestId,run.runId).run();
+  await f.p("UPDATE pve_escort_runs_v1830 SET status='CLAIMING',version=version+1,updated_at='2000-01-01 00:00:00' WHERE run_id=?",run.runId).run();
+  assert.equal((await f.call('status')).run.status,'COMPLETED_PENDING');
+  assert.deepEqual((await f.call('claim',claim)).reward,banked);
+  assert.equal((await f.call('claim',claim)).replayed,true);
+  assert.equal(await f.coin(),before+banked.coin);
+  assert.equal((await f.call('status')).weekly.rewardCount,1);
+});
+
+test('paused and owner-test modes gate new escort contracts and settlement',async t=>{
+  const f=await escortFixture(t,false);
+  for(const [mode,httpStatus,code] of [['OFF',503,'ESCORT_OFF'],['TEST',403,'ESCORT_OWNER_TEST']]){
+    await f.setting('escort_operation_settings_v1840',{...defaultEscortSettings(),mode});
+    assert.equal((await f.call('status',undefined,httpStatus)).code,code);
+    assert.equal((await f.call('start',{contract:'RELIEF'},httpStatus)).code,code);
+    assert.equal((await f.call('claim',{requestId:'no-claim'},httpStatus)).code,code);
+  }
 });

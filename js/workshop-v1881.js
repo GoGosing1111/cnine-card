@@ -61,6 +61,7 @@
   let workshopBusy = false;
   let scrapyardBusy = false;
   let activeScrapRun = '';
+  let selectedZone = 'OUTER', selectedSalvageRoute = 'SORT';
   let scrapyardSyncVersion = 0;
   let routeEpoch = 0;
   let workshopLoadVersion = 0;
@@ -157,7 +158,7 @@
       try {
         const result = readResult
           ? await api(`scrapyard/v3/result?requestId=${encodeURIComponent(ticket.requestId)}`)
-          : await api('scrapyard/v3/run', { method: 'POST', body: JSON.stringify({ difficulty: ticket.target, requestId: ticket.requestId }) });
+          : await api('scrapyard/v3/run', { method: 'POST', body: JSON.stringify({ difficulty: ticket.target, route: ticket.route, requestId: ticket.requestId }) });
         if (!isActive()) return null;
         if (result.status === 'COMPLETED') return result;
         if (result.status === 'NOT_FOUND') readResult = false;
@@ -223,15 +224,9 @@
   }
 
   function scrapyardHeader() {
-    const access = scrapyardState?.access || {};
-    return `<header class="ws76-header ws81-header ws81-scrapyard-header">
-      <div class="ws81-header-code" aria-hidden="true"><span>SV</span><i>WAVE</i></div>
-      <div><small>PVE · SALVAGE OPERATION</small><h1>폐차장 원정</h1><p>저장된 PVE 덱으로 웨이브를 돌파하고 차량 부품을 회수합니다.</p></div>
-      <aside>
-        <span><small>입장 비용</small><b>무료</b></span>
-        <span><small>오늘 남은 입장</small><b>${fmt(access.remainingRuns)}</b></span>
-      </aside>
-    </header>`;
+    const {access,deckPower} = scrapyardState;
+    return `<header class="sy-header"><div><h1>폐차장 원정</h1><p>구역을 고르고 수호기에서 차량 부품을 회수하세요.</p></div>
+      <dl><div><dt>편성 전투력</dt><dd>${fmt(deckPower)}</dd></div><div><dt>오늘 남은 무료 입장</dt><dd>${fmt(access.remainingRuns)} <small>/ ${fmt(access.dailyRuns)}회</small></dd></div></dl></header>`;
   }
 
   function workshopNav() {
@@ -525,23 +520,39 @@
     </section>`;
   }
 
+  function salvageCheckpoints(points, completed) {
+    return `<ol class="sy-checkpoints">${points.map((point,i) => `<li class="${i < completed ? 'secured' : ''}">
+      <b>${esc(point.name)}</b><span>${fmt(point.defeats)}기 격파</span><strong>${completed == null ? '' : i < completed ? '확보 · ' : '미도달 · '}${fmt(point.coin)} 코인</strong>
+    </li>`).join('')}</ol>`;
+  }
+
   function scrapyardPanel() {
-    const scrap = scrapyardState;
-    if (!scrap) return '<div class="ws76-panel ws76-loading"><i></i><b>폐차장 정보를 불러오는 중</b></div>';
-    const access = scrap.access || {};
-    const difficulties = scrap.settings?.difficulties || [];
-    return `<section class="ws76-scrap ws81-scrap-panel">
-      <div class="ws76-scrap-hero"><div><small>WAVE SALVAGE OPERATION</small><h2>망각의 기계 폐차장</h2><p>저장된 PVE 덱으로 전 웨이브를 완주하면 코인은 확정 지급됩니다. 차량 부품은 완주 후 1회 랜덤 판정되어 아무 부품도 나오지 않을 수 있습니다.</p><div class="ws76-runmeta"><span><small>PVE 전투력</small><b>${fmt(scrap.deckPower)}</b></span><span><small>오늘 입장</small><b>${fmt(access.usedRuns)} / ${fmt(access.dailyRuns)}</b></span><span><small>남은 입장</small><b>${fmt(access.remainingRuns)}</b></span></div></div><div class="ws76-deck">${(scrap.deckCards || []).map((card, index) => `<figure style="--i:${index}"><img decoding="async" src="${esc(asset(card.image))}" alt=""><figcaption><em>${esc(card.rarity)}</em><b>${esc(card.title)}</b></figcaption></figure>`).join('')}</div></div>
-      <div class="ws76-difficulties">${difficulties.map((difficulty, index) => {
-        const recommended = Number(scrap.deckPower) >= Number(difficulty.requiredPowerStart);
-        const locked = !access.allowed;
-        const recovering = currentMutationRequest('scrapyard')?.target === String(difficulty.id);
-        const disabled = scrapyardBusy || (!recovering && !locked && Number(access.remainingRuns) <= 0);
-        const starting = scrapyardBusy && activeScrapRun === difficulty.id;
-        return `<article style="--accent:${esc(difficulty.accent)}" class="${recommended ? 'ready' : 'danger'} ${locked ? 'access-locked' : ''}"><header><i>0${index + 1}</i><span><small>${({OUTER:'OUTER YARD',CORE:'COMPRESSION CORE',FURNACE:'FURNACE DEPTH',FURNACE_ELITE:'FURNACE ELITE',FURNACE_ABYSS:'FURNACE ABYSS'})[difficulty.id]}</small><h3>${esc(difficulty.name)}</h3></span></header><div><span><small>WAVES</small><b>${fmt(difficulty.waves)}</b></span><span><small>요구 전투력</small><b>${fmt(difficulty.requiredPowerStart)} ~ ${fmt(difficulty.requiredPowerEnd)}</b></span><span><small>완주 확정 코인</small><b>${fmt(difficulty.clearCoin)} COIN</b></span><span><small>최고 기록</small><b>${fmt(scrap.best?.[difficulty.id])} WAVE</b></span></div><button type="button" data-scrap-run="${difficulty.id}" class="${starting ? 'is-starting' : ''}" ${locked && !recovering ? 'data-scrap-locked="1"' : ''} ${disabled ? 'disabled' : ''}><b>${starting ? '전투 연결 중' : recovering ? '이전 원정 결과 확인' : locked ? '현재 입장 불가' : recommended ? '원정 시작' : '위험 원정 시작'}</b><small>${starting ? 'PVE 덱 동기화 중' : recovering ? '동일 요청번호로 중복 소모 없이 재확인합니다' : locked ? '폐차장 점검·테스트가 진행 중입니다.' : recommended ? '무료 입장 · 완주 보상 판정' : '무료 입장 · 전멸 위험이 높습니다'}</small></button></article>`;
-      }).join('')}</div>
-      <footer class="ws76-rule"><b>입장·보상 원칙</b><span>폐차장은 일일 입장 횟수 안에서 무료로 이용할 수 있습니다. 완주 코인은 100% 지급하고 차량 부품은 통합 드랍풀에서 한 번만 판정합니다.</span></footer>
-    </section>`;
+    const {access,settings,deckCards=[],parts=[],best={}} = scrapyardState;
+    const zones = settings.difficulties || [], pending = currentMutationRequest('scrapyard');
+    const zone = zones.find(row => row.id === (pending?.target || selectedZone)) || zones[0];
+    if (!zone) return '<p class="sy-empty">현재 출전할 수 있는 구역이 없습니다.</p>';
+    const routes = zone.routes || [], route = routes.find(row => row.key === (pending?.route || selectedSalvageRoute)) || routes[0];
+    const recovering = pending?.target === zone.id, choosingLocked = scrapyardBusy || Boolean(pending);
+    const ready = recovering || access.allowed && access.remainingRuns > 0 && deckCards.length === 5;
+    const label = scrapyardBusy ? '전투 연결 중' : recovering ? '이전 원정 결과 확인' : !access.allowed ? '현재 입장 불가' :
+      access.remainingRuns <= 0 ? '오늘 입장 완료' : deckCards.length !== 5 ? 'PVE 덱 5장 필요' : '원정 출발';
+    return `<div class="sy-console"><nav class="sy-zones" aria-label="회수 구역"><h2>회수 구역</h2>
+      ${zones.map((row,i) => `<button type="button" data-sy-zone="${esc(row.id)}" aria-pressed="${row.id===zone.id}" ${choosingLocked?'disabled':''}>
+        <span>${String(i+1).padStart(2,'0')}</span><b>${esc(row.name)}</b></button>`).join('')}</nav>
+      <div class="sy-plan"><section class="sy-scene">
+        ${zone.boss ? `<img class="sy-guardian" src="${esc(asset(zone.boss.image))}" alt="">` : ''}
+        <div><small>${zone.boss ? `수호기 · ${esc(zone.boss.name)}` : '수색 목표'}</small><h2>${esc(zone.name)}</h2>
+        <p>${route ? `일반기 ${fmt(route.normalCount)}기 · 수호기 1기` : `${fmt(zone.waves)} 웨이브`}</p></div>
+      </section><section class="sy-work"><h3>작업 방식</h3>
+        <div class="sy-routes" role="group" aria-label="작업 방식">${routes.map(row => `<button type="button" data-sy-route="${esc(row.key)}" aria-pressed="${row.key===route?.key}" ${choosingLocked?'disabled':''}>
+          <b>${esc(row.name)}</b><small>${row.key==='SORT'?'중간 회수 우선':'완주 보상 우선'}</small></button>`).join('')}</div>
+        <dl class="sy-stats"><div><dt>첫 교전 전투력</dt><dd>${fmt(route?.powerStart ?? zone.requiredPowerStart)}</dd></div><div><dt>수호기 전투력</dt><dd>${fmt(route?.bossPower ?? zone.requiredPowerEnd)}</dd></div><div><dt>구역 최고 진행률</dt><dd>${Math.min(100, Math.floor(100 * (Number(best[zone.id]) || 0) / Math.max(1, zone.waves)))}%</dd></div></dl>
+        <h3>회수 지점별 누적 기본 코인</h3>${route ? salvageCheckpoints(route.checkpoints) : `<p>완주 보상 ${fmt(zone.clearCoin)} 코인</p>`}
+        <p>마지막으로 확보한 지점의 코인을 받습니다. 수호기를 해체하면 추가 전리품을 추첨합니다.</p>
+        <button type="button" class="sy-launch" data-scrap-run="${esc(zone.id)}" ${!ready||scrapyardBusy?'disabled':''}>${label}</button>
+      </section></div></div><details class="sy-inventory"><summary>출전 편성 ${deckCards.length}장 · 보유 차량 부품</summary>
+        <div class="sy-card-row">${deckCards.map(card=>`<figure><img src="${esc(asset(card.image))}" alt=""><figcaption>${esc(card.title)}</figcaption></figure>`).join('')}</div>
+        <ul>${parts.map(part=>`<li>${esc(part.name)} <b>${fmt(part.quantity)}개</b></li>`).join('')}</ul></details>`;
   }
 
   function prepareWorkshopLayout(root) {
@@ -733,6 +744,13 @@
   }
 
   function bindScrapyardControls(root) {
+    root.querySelectorAll('[data-sy-zone],[data-sy-route]').forEach(button => button.onclick = () => {
+      if (button.dataset.syZone) selectedZone = button.dataset.syZone;
+      else selectedSalvageRoute = button.dataset.syRoute;
+      const selector = button.dataset.syZone ? '[data-sy-zone][aria-pressed="true"]' : '[data-sy-route][aria-pressed="true"]';
+      renderScrapyard();
+      root.querySelector(selector)?.focus({preventScroll:true});
+    });
     root.querySelectorAll('[data-scrap-run]').forEach(button => button.onclick = () => {
       if (button.dataset.scrapLocked === '1') return alert('폐차장은 현재 점검·테스트 중으로 입장할 수 없습니다.');
       runScrapyard(button.dataset.scrapRun);
@@ -1352,7 +1370,7 @@
 
   function applyScrapyardResult(result) {
     const scrap = scrapyardState;
-    if (!scrap || !result) return;
+    if (!scrap || !result || result.replayed) return;
     const access = { ...(scrap.access || {}) };
     const best = { ...(scrap.best || {}) };
     access.usedRuns = Number(access.usedRuns || 0) + 1;
@@ -1396,6 +1414,11 @@
     if (scrapyardBusy) return;
     const ticket = prepareMutationRequest('scrapyard', difficulty, 'SCRAP');
     if (ticket.blocked) return alert('이전 폐차장 원정 결과를 먼저 확인해야 합니다. 이전에 선택한 난이도로 다시 시도해 주세요.');
+    if (!ticket.reused) {
+      const routes = scrapyardState.settings?.difficulties?.find(zone => zone.id === difficulty)?.routes;
+      ticket.route = routes?.find(route => route.key === selectedSalvageRoute)?.key || routes?.[0]?.key;
+      persistPendingRequests();
+    }
     const actionVersion = ++scrapyardActionVersion;
     const epoch = routeEpoch;
     const session = sessionIdentity();
@@ -1457,9 +1480,16 @@
   function showScrapResult(modal, result) {
     if (!modal) return;
     const rewards = result.rewards || [];
-    const partRewards = rewards.filter(reward => reward.rewardType !== 'COIN');
+    const salvage = result.salvage;
+    const title = result.success ? '폐차장 완주 성공' : salvage?.completed ? '중간 회수 완료' : '원정 종료';
     modal.className = 'modal show ws76-battle-modal';
-    modal.innerHTML = `<section class="ws76-operation-result ${result.success ? 'success' : 'failed'}"><small>${result.success ? 'OPERATION COMPLETE' : 'OPERATION FAILED'}</small><h2>${result.success ? '폐차장 완주 성공' : '원정대 전멸'}</h2><p>${fmt(result.wavesCleared)} / ${fmt(result.difficulty?.waves)} 웨이브 클리어</p><div>${result.entryTicket?.consumed ? '<article><b>폐차장 출입 허가증</b><strong>1장 사용</strong></article>' : ''}${rewards.map(reward => `<article><b>${esc(reward.rewardName || reward.rewardRef || reward.rewardType)}${reward.guaranteed ? ' · 확정' : ''}</b><strong>+${fmt(reward.quantity)}</strong></article>`).join('')}${result.success && !partRewards.length ? '<article><b>랜덤 차량 부품</b><strong>미획득</strong></article>' : ''}${!result.success ? '<article><b>완주 실패</b><strong>보상 없음</strong></article>' : ''}</div><button type="button">폐차장으로 돌아가기</button></section>`;
+    modal.innerHTML = `<section class="ws76-operation-result sy-result ${result.success ? 'success' : 'failed'}" role="dialog" aria-label="폐차장 원정 결과">
+      <small>${esc(result.difficulty?.name)}${salvage ? ' · '+esc(salvage.name) : ''}</small><h2>${title}</h2>
+      <p>${salvage ? `${fmt(result.defeated)} / ${fmt(result.enemiesTotal)}기 격파 · 회수 지점 ${fmt(salvage.completed)} / 3` : `${fmt(result.wavesCleared)} / ${fmt(result.difficulty?.waves)} 웨이브`}</p>
+      ${salvage ? salvageCheckpoints(salvage.checkpoints,salvage.completed) : ''}
+      <div>${result.entryTicket?.consumed ? '<article><b>폐차장 출입 허가증</b><strong>1장 사용</strong></article>' : ''}
+      ${rewards.map(reward => `<article><b>${esc(reward.rewardName||reward.rewardRef||reward.rewardType)}</b><strong>+${fmt(reward.quantity)}</strong></article>`).join('')}
+      ${rewards.length ? '' : '<p>이번 원정에서 회수한 보상이 없습니다.</p>'}</div><button type="button">폐차장으로 돌아가기</button></section>`;
     if(result.presentationIssue){const notice=document.createElement('p');notice.textContent=result.presentationIssue;modal.querySelector('button').before(notice);}
     modal.querySelector('button').onclick = () => { clearMutationRequest('scrapyard',result.requestId||currentMutationRequest('scrapyard')?.requestId);modal.className = 'modal'; modal.innerHTML = '';renderScrapyard(); };
   }

@@ -55,3 +55,70 @@
 @media(max-width:420px){.pve-escort-view{padding-inline:4px}.escort-hero{min-height:500px;background-position:70% center}.escort-hero-copy{padding:21px 15px 0}.escort-hero-copy h2{font-size:32px}.escort-carrier-stage{height:236px;padding-inline:4px}.escort-vehicle-hud{left:10px;right:10px;padding:11px 12px}.escort-enemy{display:block;min-height:0}.escort-enemy-art{height:210px}.escort-enemy-art img{height:205px}.escort-enemy>div:last-child{padding:16px}.escort-enemy dl{grid-template-columns:1fr 1fr;gap:7px}.escort-route-map{grid-auto-columns:132px}.escort-route-map li{min-width:132px}.escort-tactic-panel{padding:16px 10px}.escort-v1833-tactic-grid{gap:8px}#pveEscortView .escort-v1833-tactic-card{grid-template-columns:20px 70px minmax(0,1fr) 9px!important;gap:7px;min-height:122px;padding:10px 8px 10px 6px}#pveEscortView .escort-v1833-tactic-card::before{left:22px;width:112px;height:112px}#pveEscortView .escort-v1833-tactic-copy>b{font-size:16px}#pveEscortView .escort-v1833-tactic-copy>p{font-size:10px;line-height:1.42;word-break:normal!important;overflow-wrap:anywhere!important}#pveEscortView .escort-v1833-tactic-meta{gap:4px}#pveEscortView .escort-v1833-tactic-meta em{white-space:normal}.escort-action-block b{font-size:18px}.escort-action-block span{display:block;line-height:1.55;overflow-wrap:anywhere}.escort-foot button{flex:1 1 calc(50% - 4px);min-width:0}}
 @media(max-width:340px){.pve-mode-tabs{grid-template-columns:1fr!important}.escort-hero-copy h2{font-size:29px}.escort-rule-strip{grid-template-columns:1fr 1fr}.escort-vehicle-hud{grid-template-columns:minmax(0,1fr) auto;gap:3px 8px}.escort-vehicle-hud b{font-size:12px}.escort-vehicle-hud>span{font-size:16px}#pveEscortView .escort-v1833-tactic-card{grid-template-columns:18px 58px minmax(0,1fr)!important}.escort-v1833-tactic-arrow{display:none!important}.escort-foot button{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){.escort-operation-loading i{animation:none}.escort-vehicle-hud>i u{transition:none}}
+
+/* Dispatch board */
+#pveEscortView .eo-dispatch { display:grid; gap:12px; margin:0 auto; padding:clamp(10px,2vw,22px); max-width:1150px; color:#edf4fc; background:#0c1421; border:1px solid #33445b; text-align:left; }
+.eo-dispatch h3,.eo-dispatch h4,.eo-dispatch p,.eo-dispatch dl,.eo-dispatch dd { margin:0; }
+.eo-dispatch h3 { font-size:17px; letter-spacing:-.025em; }
+.eo-dispatch p { color:#c1cddd; line-height:1.5; font-size:14px; }
+.eo-mast { position:relative; isolation:isolate; display:flex; align-items:center; min-height:170px; overflow:hidden; padding:clamp(14px,3vw,32px); border:1px solid #3c5369; border-left:4px solid #7ee1db; background:linear-gradient(90deg,#0b1626 5%,#0b1626cc 47%,#0b16262a),url('/assets/ui/escort/escort-fortress-route-bg-v1.webp') center 55%/cover; }
+.eo-mast>div { z-index:1; max-width:63%; }
+.eo-mast h2 { margin:0 0 6px; color:white; font-size:clamp(28px,4vw,45px); line-height:1.1; letter-spacing:-.045em; }
+.eo-mast>img { position:absolute; z-index:-1; right:0; bottom:0; width:48%; height:100%; object-fit:contain; filter:drop-shadow(0 9px 9px #071020); }
+.eo-hull { margin-top:13px; max-width:270px; }
+.eo-hull span { display:flex; justify-content:space-between; font-size:13px; font-weight:700; }
+.eo-hull b { color:#95f1da; }
+.eo-hull progress { display:block; appearance:none; width:100%; height:7px; margin-top:5px; border:0; background:#344654; color:#79e2ba; }
+.eo-hull progress::-webkit-progress-bar { background:#344654; }
+.eo-hull progress::-webkit-progress-value { background:#79e2ba; }
+.eo-hull progress::-moz-progress-bar { background:#79e2ba; }
+.eo-cargo,.eo-itinerary,.eo-ledger,.eo-detail,.eo-receipt { min-width:0; background:#131e2e; border:1px solid #344459; padding:clamp(12px,1.8vw,20px); }
+.eo-cargo>div { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:9px; }
+.eo-cargo button,.eo-stops button { display:grid; gap:3px; width:100%; height:100%; min-width:0; padding:12px; background:#182638; border:1px solid #394d61; border-radius:3px; color:#d5e3f1; font:inherit; text-align:left; cursor:pointer; }
+.eo-cargo button[aria-pressed=true],.eo-stops button[aria-pressed=true] { background:#193238; border-color:#74d2c7; }
+.eo-cargo b { font-size:19px; }
+.eo-cargo small,.eo-contact small { color:#9be7df; font-size:12px; font-weight:800; }
+.eo-cargo span,.eo-stops small { font-size:12px; color:#c0cdda; }
+.eo-command { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:14px 18px; background:#1b2a36; border-left:3px solid #bce787; }
+.eo-command b,.eo-receipt b { display:block; font-size:17px; }
+.eo-command button { flex:none; min-height:44px; padding:8px 20px; border:0; border-radius:4px; background:#c8ee83; color:#16220f; font-size:16px; font-weight:800; cursor:pointer; }
+.eo-command button:disabled { background:#445365; color:#d2dbe4; }
+.eo-handoff { border-color:#73bfc5; }
+.eo-handoff button { background:#20383e; border:1px solid #8acecf; color:#ccf8f2; }
+.eo-stops { list-style:none; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:5px; padding:0; margin:12px 0; }
+.eo-stops button { border-top:2px solid #536b80; padding:8px; }
+.eo-stops button span { color:#adc4d3; font-variant-numeric:tabular-nums; font-size:12px; }
+.eo-stops .eo-cleared span { color:#c7ee83; }
+.eo-stops b { font-size:14px; overflow-wrap:anywhere; }
+.eo-contact { display:grid; grid-template-columns:minmax(85px,18%) minmax(0,1fr); align-items:center; gap:12px; padding:9px; background:#0d1723; }
+.eo-contact img { width:100%; height:108px; object-fit:contain; }
+.eo-contact h4 { margin:3px 0; font-size:20px; color:#f4f7fc; }
+.eo-contact dl { display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:8px; }
+.eo-contact dl div { display:flex; gap:6px; align-items:baseline; }
+.eo-contact dt { font-size:12px; color:#aabacd; }
+.eo-contact dd { font-size:14px; font-weight:750; }
+.eo-dispatch .eo-payline { margin-top:8px; }
+.eo-payline b,.eo-ledger h3 { color:#a3e7d8; }
+.eo-ledger small { display:block; margin-top:6px; color:#b7c6d7; font-size:13px; }
+.eo-receipt { border-color:#aac96b; }
+.eo-receipt span { color:#dcf4b1; }
+.eo-detail summary { cursor:pointer; font-weight:700; }
+.eo-detail[open] summary { margin-bottom:10px; }
+.eo-detail .escort-roster { grid-template-columns:repeat(5,minmax(0,1fr)); max-width:680px; padding:0; }
+.eo-dispatch .escort-tactic-panel,.eo-dispatch .escort-foot { margin:0; }
+.eo-dispatch button:focus-visible,.eo-detail summary:focus-visible { outline:3px solid #f4c66e; outline-offset:2px; }
+@media(max-width:660px) {
+  #pveEscortView .eo-dispatch { gap:8px; }
+  .eo-mast { min-height:134px; padding:12px; }
+  .eo-mast>div { max-width:68%; }
+  .eo-mast>img { width:40%; }
+  .eo-cargo>div { gap:4px; }
+  .eo-cargo button,.eo-stops button { padding:7px 5px; }
+  .eo-cargo b { font-size:16px; }
+  .eo-stops { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .eo-contact { grid-template-columns:68px minmax(0,1fr); gap:6px; }
+  .eo-contact img { height:88px; }
+  .eo-command { align-items:stretch; flex-direction:column; padding:12px; gap:8px; }
+  .eo-command button { width:100%; }
+  .eo-detail .escort-roster { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
