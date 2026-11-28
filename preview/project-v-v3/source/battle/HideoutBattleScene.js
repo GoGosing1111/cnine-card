@@ -1,6 +1,7 @@
 import {Assets,Container,Graphics,Sprite} from 'pixi.js';
 import {gsap} from 'gsap';
 import {projectRaidPlacement} from '../../../../shared/hideout-defense-v1.mjs';
+import {attachHideoutTurret,playTurretVolley} from './HideoutTurret.js';
 
 const directory='/assets/ui/personal-hideout-20261116/';
 export const isHideoutBattle=data=>data?.sceneAssetKey==='PERSONAL_HIDEOUT_RAID';
@@ -13,7 +14,10 @@ export function fitHideoutBackdrop(sprite,bounds){
 
 export function clearHideoutScene(engine){
   if(!engine.hideoutScene)return;
-  for(const prop of engine.hideoutScene.props.values())prop.root.destroy({children:true});
+  for(const prop of engine.hideoutScene.props.values()){
+    if(prop.turret)engine.settlePendingTails([prop.turret]);
+    prop.root.destroy({children:true});
+  }
   engine.hideoutScene=null;
   engine.lastHideoutShot=null;
 }
@@ -27,7 +31,8 @@ function layoutProp(engine,prop){
   const px=left+viewWidth*geometry.x,py=top+viewHeight*geometry.y;
   root.position.set(px,py);
   root.depthSortY=geometry.wall?-99990:py;
-  prop.art.scale.set((item.flipped?-1:1)*size/body.texture.width,size/body.texture.width);
+  const artWidth=prop.turret?.base.texture.width||body.texture.width;
+  prop.art.scale.set((item.flipped?-1:1)*size/artWidth,size/artWidth);
   if(!geometry.wall){
     contact.clear().ellipse(size*.035,1,size*.40,size*.066).fill({color:0x171420,alpha:.14})
       .ellipse(size*.017,0,size*.32,size*.036).fill({color:0x17131a,alpha:.20})
@@ -60,6 +65,10 @@ export async function setHideoutScene(engine,data){
     const geometry=legacy?{x:item.x,y:item.y,width:item.width,wall:false}:projectRaidPlacement(item,room.width);
     const prop={root,body,art,contact,item,geometry};
     scene.props.set(item.id||String(index),prop);layoutProp(engine,prop);
+    if(item.code==='turret'){
+      await attachHideoutTurret(prop,()=>engine.hideoutScene===scene&&!root.destroyed&&!engine.disposed);
+      if(engine.hideoutScene===scene)layoutProp(engine,prop);
+    }
     if(item.trophyCodes)await Promise.allSettled(item.trophyCodes.map(async(code,slot)=>{
       const url=layout.trophyArt?.[code];if(!url)return;
       const tex=await Assets.load(url);if(root.destroyed||!tex.width)return;
@@ -78,19 +87,35 @@ export function playHideoutDefense(engine,event){
   const prop=[...scene.props.values()].find(p=>p.item.code===event.facility);
   const color=event.facility==='autocannon'?0x66eee3:0xffb34f;
   engine.queueBanner(event.label,color,'은신처 방어시설');
-  engine.lastHideoutShot={facility:event.facility,hits:event.hits?.length||0};
-  const flash=new Graphics();engine.effectLayer.addChild(flash);
-  const start=prop?{x:prop.root.x+(prop.item.flipped?1:-1)*prop.art.width*.27,y:prop.root.y-prop.art.height*.65}:null;
-  if(start)flash.circle(start.x,start.y,12).fill({color,alpha:.88});
+  const targets=[];
   for(const hit of event.hits||[]){
     const actor=engine.combatantById(hit.targetId);if(!actor)continue;
-    const x=actor.root.x,y=actor.root.y-actor.fullBodyHeight*Math.abs(actor.root.scale.y)*.42;
-    if(start)flash.moveTo(start.x,start.y).lineTo(x,y).stroke({color,width:7,alpha:.32})
-      .moveTo(start.x,start.y).lineTo(x,y).stroke({color:0xfff7df,width:2.5,alpha:.95});
-    flash.circle(x,y,15).stroke({color,width:3,alpha:.9});
     engine.syncTargetHp(actor,engine.eventHpPercent(actor,hit.targetHpAfter,hit.targetMaxHp));
     engine.syncTargetShield(actor,hit.targetShieldAfter);
-    engine.showAccountBattleUnitDamage(actor,{damage:hit.damage+hit.absorbed,impactPoint:{x,y}});
+    targets.push({actor,hit});
   }
-  gsap.to(flash,{alpha:0,duration:.42,onComplete:()=>{if(!flash.destroyed)flash.destroy();}});
+  if(!targets.length)return;
+  const impact=({actor})=>engine.effectLayer.toLocal({x:0,y:-actor.fullBodyHeight*.42},actor.root);
+  let fired=0;
+  function shoot({hit,actor},start,{x,y},axis){
+    if(engine.hideoutScene!==scene||engine.effectLayer.destroyed||actor.root.destroyed)return;
+    const flash=new Graphics();engine.effectLayer.addChild(flash);
+    if(start){
+      flash.circle(start.x,start.y,prop?.turret?5:12).fill({color,alpha:.88});
+      // When the sprites overlap, show contact at the target without drawing
+      // a bolt backwards through the housing.
+      const forward=!axis||(start.x-axis.x)*(x-start.x)+(start.y-axis.y)*(y-start.y)>0;
+      if(forward)flash.moveTo(start.x,start.y).lineTo(x,y).stroke({color,width:7,alpha:.32})
+        .moveTo(start.x,start.y).lineTo(x,y).stroke({color:0xfff7df,width:2.5,alpha:.95});
+    }
+    flash.circle(x,y,15).stroke({color,width:3,alpha:.9});
+    engine.showAccountBattleUnitDamage(actor,{damage:hit.damage+hit.absorbed,impactPoint:{x,y}});
+    engine.lastHideoutShot={facility:event.facility,hits:targets.length,fired:++fired,targetId:hit.targetId,
+      ...(prop?.turret?{heading:prop.turret.heading,flipped:prop.item.flipped,foot:{x:prop.root.x,y:prop.root.y},
+        muzzle:{x:start.x,y:start.y},axis:{x:axis.x,y:axis.y},impact:{x,y}}:{})};
+    gsap.to(flash,{alpha:0,duration:prop?.turret ? .16 : .42,onComplete:()=>{if(!flash.destroyed)flash.destroy();}});
+  }
+  if(prop?.turret)return playTurretVolley(engine,prop,targets,impact,shoot);
+  const start=prop&&event.facility!=='turret'?{x:prop.root.x+(prop.item.flipped?1:-1)*prop.art.width*.27,y:prop.root.y-prop.art.height*.65}:null;
+  for(const target of targets)shoot(target,start,impact(target));
 }

@@ -43,7 +43,7 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
     Object.assign(home.parts,{STEEL:40,WIRE:20});
     home.placements=[{kind:'decor',id:'sofa',code:'sofa',room:'main',x:520,y:310,flipped:false}];
     if(id===8)home.placements.push({kind:'decor',id:'gun',code:'autocannon',room:'main',x:740,y:270,flipped:false},
-      {kind:'decor',id:'turret',code:'turret',room:'main',x:285,y:670,flipped:true});
+      {kind:'decor',id:'turret',code:'turret',room:'main',x:285,y:670,flipped:width>800});
     await db.setting(HIDEOUT_KEY(id),home);
   }
   const opponent=await handleHideoutPlunder({path:'hideout/raid/join',env:db.env,deps,request:new Request(origin+'/api/hideout/raid/join',
@@ -88,9 +88,28 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
   const out=process.env.HIDEOUT_PLUNDER_QA_OUTPUT;
   if(out){await mkdir(out,{recursive:true});await page.screenshot({path:path.join(out,'raid-'+width+'.png')});}
   await attack.click();await button('retry').waitFor();
-  await button('close').click();await entry.click();await button('retry').click();
+  await button('close').click();await entry.click();
+  await page.evaluate(()=>{
+    window.turretVolley=[];
+    const sample=()=>{
+      const shot=window.ProjectVPixiBattle?.diagnostics?.()?.battlefield?.hideoutLastShot;
+      if(shot?.facility==='turret'&&shot.axis&&shot.fired===window.turretVolley.length+1)window.turretVolley.push(shot);
+      if(window.turretVolley.length<3)requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
+  await button('retry').click();
   await page.waitForFunction(()=>{const d=window.ProjectVPixiBattle?.diagnostics?.();return d?.battlefield?.hideoutFurniture===3 && d.battlefield.hideoutLastShot?.facility==='turret' &&
     d.battlefield.asset.endsWith('battle-apartment.webp') && document.querySelector('.ph-raid-dialog .is-v3-ready canvas');},null,{timeout:45000});
+  await page.waitForFunction(()=>window.turretVolley.length===3,null,{timeout:25000});
+  const volley=await page.evaluate(()=>window.turretVolley);
+  const hits=attacks[0].data.battleV2.result.timeline.find(e=>e.type==='HIDEOUT_DEFENSE_FIRE'&&e.facility==='turret').hits;
+  assert.deepEqual(volley.map(s=>s.targetId),hits.map(h=>h.targetId));
+  for(const shot of volley){
+    assert.deepEqual(shot.foot,volley[0].foot);assert.equal(shot.flipped,width>800);
+    const angle=p=>Math.atan2(p.y-shot.axis.y,p.x-shot.axis.x),delta=angle(shot.muzzle)-angle(shot.impact);
+    assert(Math.abs(Math.atan2(Math.sin(delta),Math.cos(delta)))<Math.PI/30,'muzzle faces the recorded target');
+  }
   if(out)await page.screenshot({path:path.join(out,'battle-'+width+'.png')});
   if(width===1440)await dialog.getByRole('button',{name:'결과 확인',exact:true}).waitFor({timeout:105000});
   await dialog.locator('.ph-raid-battle-close').click();

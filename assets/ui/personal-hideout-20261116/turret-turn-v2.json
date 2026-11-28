@@ -1,0 +1,281 @@
+{
+  "frames": {
+    "base": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "east": {
+      "frame": {
+        "x": 352,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "northeast": {
+      "frame": {
+        "x": 704,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "north": {
+      "frame": {
+        "x": 1056,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "southeast": {
+      "frame": {
+        "x": 0,
+        "y": 312,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "south": {
+      "frame": {
+        "x": 352,
+        "y": 312,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "west": {
+      "frame": {
+        "x": 704,
+        "y": 312,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "east-northeast": {
+      "frame": {
+        "x": 1056,
+        "y": 312,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "north-northeast": {
+      "frame": {
+        "x": 0,
+        "y": 624,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "east-southeast": {
+      "frame": {
+        "x": 352,
+        "y": 624,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    },
+    "south-southeast": {
+      "frame": {
+        "x": 704,
+        "y": 624,
+        "w": 352,
+        "h": 312
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 352,
+        "h": 312
+      },
+      "sourceSize": {
+        "w": 352,
+        "h": 312
+      }
+    }
+  },
+  "meta": {
+    "image": "turret-turn-v2.webp",
+    "scale": "1",
+    "size": {
+      "w": 1408,
+      "h": 936
+    }
+  },
+  "aim": {
+    "axis": [
+      176,
+      106
+    ],
+    "projection": 0.53,
+    "muzzles": {
+      "east": [
+        326,
+        104
+      ],
+      "northeast": [
+        300,
+        39
+      ],
+      "north": [
+        175,
+        24
+      ],
+      "southeast": [
+        293,
+        160
+      ],
+      "south": [
+        176,
+        181
+      ],
+      "west": [
+        27,
+        108
+      ],
+      "east-northeast": [
+        322,
+        99
+      ],
+      "north-northeast": [
+        242,
+        21
+      ],
+      "east-southeast": [
+        319,
+        136
+      ],
+      "south-southeast": [
+        228,
+        189
+      ]
+    }
+  }
+}

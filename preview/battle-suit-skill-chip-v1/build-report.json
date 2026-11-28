@@ -21,6 +21,7 @@
     "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SealDragonPlayback.js",
     "shared/hideout-defense-v1.mjs",
+    "preview/project-v-v3/source/battle/HideoutTurret.js",
     "preview/project-v-v3/source/battle/HideoutBattleScene.js",
     "shared/mercenary-razak-v1.mjs",
     "shared/mercenary-blue-gear-v1.mjs",
@@ -446,5 +447,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3956667
+  "outputBytes": 3959502
 }

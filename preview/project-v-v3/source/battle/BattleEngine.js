@@ -3251,7 +3251,7 @@ export class BaseBattleEngine{
       const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
       if(type==='DEPLOY')await this.deployCards({force:forceDeploy,instant:Boolean(this.livePayload)});
-      else if(type==='HIDEOUT_DEFENSE_FIRE' && isHideoutBattle(this.battleData))playHideoutDefense(this,event);
+      else if(type==='HIDEOUT_DEFENSE_FIRE' && isHideoutBattle(this.battleData))await playHideoutDefense(this,event);
       else if(type==='MERCENARY_ADVANCEMENT'){
         if(target && resolvedTargetHp!==null)this.syncTargetHp(target,resolvedTargetHp);
         syncEventShields();playAdvancement(this,event);
