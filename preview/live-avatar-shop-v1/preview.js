@@ -22,7 +22,7 @@
     profile: { nickname: '핑크빛유두', role: 'OWNER' },
     coin: 4420607473,
     access: { mode: 'ON', visible: true, shopEnabled: true },
-    equipCooldown: { durationMs: 86400000, remainingMs: 0, nextEquipAt: null, locked: false },
+    equipCooldown: { durationMs: 0, remainingMs: 0, nextEquipAt: null, locked: false },
     avatars: [
       avatar('A-01', 'AZURE_FROST_STRATEGIST', '서리의 전략관', 'AZURE FROST', '빙결 전술 지휘관', 'avatar-f01-azure-frost-strategist-lobby-v1', '#8bc9ff', 'COIN', 250000000, [coinEffect(50),powerEffect(5),raidEffect(1)], true, true),
       avatar('A-02', 'CRIMSON_SIEGE_MARSHAL', '진홍 공성 지휘관', 'CRIMSON SIEGE', '공성 화력 통제관', 'avatar-f02-crimson-siege-marshal-lobby-v1', '#ff6d64', 'DROP', ['영토전 최종 보상', '영토전 종료 시 지정 순위 또는 지휘 기여 보상으로 획득하는 전용 아바타입니다.'], powerEffect(8)),
@@ -54,8 +54,6 @@
     if (path === 'avatar/equip') {
       if (!item.owned) throw new Error('보유한 아바타만 적용할 수 있습니다.');
       fixture.avatars.forEach((row) => { row.equipped = row.code === item.code; });
-      const nextEquipAt = new Date(Date.now() + 86400000).toISOString();
-      fixture.equipCooldown = { durationMs: 86400000, remainingMs: 86400000, nextEquipAt, locked: true };
       return { ok: true, equippedAvatarCode: item.code, coin: fixture.coin, equipCooldown: fixture.equipCooldown };
     }
     throw new Error(`프리뷰 계약에 없는 요청입니다: ${path}`);

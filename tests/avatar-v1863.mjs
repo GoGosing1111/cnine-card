@@ -146,7 +146,6 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(exact,/route==='avatar'&&global\.avatarFeatureVisible/);
   assert.match(runtime,/avatar:\s*\{ shell: 'avatar' \}/);
   assert.match(server,/code:'AVATAR_FEATURE_OFF'/);
-  assert.match(server,/AVATAR_EQUIP_COOLDOWN_MS=24\*60\*60\*1000/);
   assert.match(server,/DROP_RATE_PERCENT/);
   assert.match(server,/avatar_effect_options_v1/);
   assert.match(server,/effects:effectOptions/);

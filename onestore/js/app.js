@@ -1032,8 +1032,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{
-    styles:['css/avatar-shop-v1.css?v=7-iyejun-portrait'],
-    scripts:['js/avatar-shop-v1.js?v=7-santa-options','js/avatar-shop-v1-live.js?v=2-avatar-cache-sync'],
+    styles:['css/avatar-shop-v1.css?v=8-instant-equip'],
+    scripts:['js/avatar-shop-v1.js?v=8-instant-equip','js/avatar-shop-v1-live.js?v=2-avatar-cache-sync'],
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{

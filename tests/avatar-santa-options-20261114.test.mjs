@@ -25,6 +25,46 @@ async function fixture(t,postgres){
  const call=(path,body)=>api.handleAvatar({env,path,deps:{authenticate:async()=>({id:2,role:'USER'}),requirePermission:async()=>({id:1,role:'OWNER'}),writeAdminLog:async()=>{},readBody:r=>r.json(),json:(body,status=200)=>({body,status})},request:new Request('https://qa.test/api/'+path,body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{})});
  return {env,p,set,api,call};
 }
+for (const postgres of [false, true]) {
+  test((postgres ? 'PostgreSQL' : 'SQLite') + ' · owned avatars can be equipped back to back', async t => {
+    const { p, call } = await fixture(t, postgres);
+    const first = 'AZURE_FROST_STRATEGIST', second = 'CRIMSON_SIEGE_MARSHAL';
+    const unowned = 'SOLAR_VANGUARD';
+    await p('UPDATE avatar_catalog_v1 SET is_active=1,is_public=1 WHERE code IN (?,?,?)', first, second, unowned).run();
+    await p('INSERT INTO avatar_user_ownership_v1(user_id,avatar_code) VALUES(2,?),(2,?)', first, second).run();
+    const equip = avatarCode => call('avatar/equip', { avatarCode });
+    const ready = { durationMs: 0, locked: false, remainingMs: 0, nextEquipAt: null };
+
+    // A loadout saved just before this release would still have its full wait.
+    await p('INSERT INTO avatar_user_loadout_v1(user_id,avatar_code,updated_at) VALUES(2,?,CURRENT_TIMESTAMP)', first).run();
+    for (const code of [second, first, second]) {
+      const response = await equip(code);
+      assert.equal(response.status, 200);
+      assert.equal(response.body.equippedAvatarCode, code);
+      assert.deepEqual(response.body.equipCooldown, ready);
+      const catalog = (await call('avatar/catalog')).body;
+      assert.deepEqual(catalog.equipCooldown, ready);
+      assert.deepEqual(catalog.avatars.filter(item => item.equipped).map(item => item.code), [code]);
+    }
+
+    await p("UPDATE avatar_user_loadout_v1 SET updated_at='2020-01-01 00:00:00' WHERE user_id=2").run();
+    assert.equal((await equip(second)).body.unchanged, true);
+    assert.equal((await p('SELECT updated_at FROM avatar_user_loadout_v1 WHERE user_id=2').first()).updated_at, '2020-01-01 00:00:00');
+
+    await p('DELETE FROM avatar_user_loadout_v1 WHERE user_id=2').run();
+    const concurrent = await Promise.all([equip(first), equip(second)]);
+    assert.deepEqual(concurrent.map(response => response.status), [200, 200]);
+    const equipped = (await call('avatar/catalog')).body.avatars.filter(item => item.equipped);
+    assert.equal(equipped.length, 1);
+    assert.ok([first, second].includes(equipped[0].code));
+    assert.equal((await equip(second)).status, 200);
+
+    await p("UPDATE avatar_user_ownership_v1 SET expires_at='2000-01-01 00:00:00' WHERE user_id=2 AND avatar_code=?", first).run();
+    assert.equal((await equip(first)).status, 404);
+    assert.equal((await equip(unowned)).status, 404);
+    assert.equal((await p('SELECT avatar_code FROM avatar_user_loadout_v1 WHERE user_id=2').first()).avatar_code, second);
+  });
+}
 for(const pg of [false,true])test((pg?'PostgreSQL':'SQLite')+' · four private Santa catalog options, scoped equip multipliers, expiry and replay-safe rank credits',async t=>{
  const {env,p,set,api,call}=await fixture(t,pg),catalog=async()=>(await call('admin/avatars')).body.avatars;
  const rows=await catalog(),before=rows.find(x=>x.code==='IYEJUN');assert.deepEqual(before.effects,legacy);

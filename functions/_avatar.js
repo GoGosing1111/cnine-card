@@ -30,7 +30,8 @@ const ACQUISITION_TYPES=Object.freeze(['UNSET','COIN','DROP','EVENT']);
 const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY','RAID_EXTRA_ENTRY','COIN_GAIN_PERCENT','DROP_RATE_PERCENT','ACCOUNT_RANK_XP_PERCENT']);
 const MAX_AVATAR_EFFECTS=5;
 const MAX_SAFE_COIN=Number.MAX_SAFE_INTEGER;
-const AVATAR_EQUIP_COOLDOWN_MS=24*60*60*1000;
+// Older shops read this field after loading the catalog or equipping an avatar.
+const EQUIP_READY=Object.freeze({durationMs:0,locked:false,remainingMs:0,nextEquipAt:null});
 const FOUNDATION_CACHE=Symbol('avatar-foundation-iyejun-20261018');
 let ownershipExpiryPromise=null;
 let settingsCache=null;
@@ -407,28 +408,15 @@ function publicAvatarsFromRows(input){
   return[...groups.values()].map(group=>publicAvatar(group.row,group.effects));
 }
 
-function utcTimestampMs(value){
-  let text=String(value||'').trim();if(!text)return 0;
-  if(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d+)?$/.test(text))text=`${text.replace(' ','T')}Z`;
-  const parsed=Date.parse(text);return Number.isFinite(parsed)?parsed:0;
-}
-
-function equipCooldown(updatedAt,now=Date.now()){
-  const equippedAtMs=utcTimestampMs(updatedAt),nextMs=equippedAtMs?equippedAtMs+AVATAR_EQUIP_COOLDOWN_MS:0;
-  const remainingMs=Math.max(0,nextMs-now);
-  return{durationMs:AVATAR_EQUIP_COOLDOWN_MS,locked:remainingMs>0,remainingMs,nextEquipAt:nextMs?new Date(nextMs).toISOString():null};
-}
-
 async function catalogForUser(env,user){
   const result=await env.DB.prepare(`SELECT a.*,o.expires_at,CASE WHEN o.avatar_code IS NULL THEN 0 ELSE 1 END owned,CASE WHEN l.avatar_code=a.code AND o.avatar_code IS NOT NULL THEN 1 ELSE 0 END equipped,
-    l.avatar_code equipped_code,l.updated_at loadout_updated_at,e.option_order,e.effect_type option_effect_type,e.effect_value option_effect_value
+    e.option_order,e.effect_type option_effect_type,e.effect_value option_effect_value
     FROM avatar_catalog_v1 a
     LEFT JOIN avatar_user_ownership_v1 o ON o.avatar_code=a.code AND o.user_id=? AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP)
     LEFT JOIN avatar_user_loadout_v1 l ON l.user_id=?
     LEFT JOIN avatar_effect_options_v1 e ON e.avatar_code=a.code
     WHERE a.is_active=1 AND a.is_public=1 ORDER BY a.sort_order,a.code`).bind(user.id,user.id).all();
-  const first=rows(result)[0];
-  return{avatars:publicAvatarsFromRows(result),equipCooldown:equipCooldown(first?.loadout_updated_at)};
+  return publicAvatarsFromRows(result);
 }
 
 function validRequestId(value){const text=String(value||'').trim();return text.length>=8&&text.length<=120&&/^[A-Za-z0-9:_-]+$/.test(text)?text:''}
@@ -480,29 +468,20 @@ async function purchaseAvatar(env,user,body){
 async function equipAvatar(env,user,body){
   const access=await avatarFeatureAccess(env,user);if(!access.visible)return{error:'아바타 시스템은 현재 비공개 상태입니다.',code:'AVATAR_FEATURE_OFF',status:403};
   const code=cleanText(body.avatarCode,80).toUpperCase();
-  const owned=await env.DB.prepare(`SELECT a.code FROM avatar_user_ownership_v1 o JOIN avatar_catalog_v1 a ON a.code=o.avatar_code
-    WHERE o.user_id=? AND a.code=? AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP) AND a.is_active=1 AND a.is_public=1`).bind(user.id,code).first();
+  const eligibleAvatar=`FROM avatar_user_ownership_v1 o JOIN avatar_catalog_v1 a ON a.code=o.avatar_code
+    WHERE o.user_id=? AND a.code=? AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP) AND a.is_active=1 AND a.is_public=1`;
+  const result=await env.DB.prepare(`INSERT INTO avatar_user_loadout_v1(user_id,avatar_code,updated_at)
+    SELECT o.user_id,a.code,CURRENT_TIMESTAMP ${eligibleAvatar}
+    ON CONFLICT(user_id) DO UPDATE SET avatar_code=excluded.avatar_code,updated_at=excluded.updated_at
+    WHERE avatar_user_loadout_v1.avatar_code<>excluded.avatar_code`).bind(user.id,code).run();
+  const data={ok:true,equippedAvatarCode:code,equipCooldown:EQUIP_READY};
+  if(Number(result.meta.changes)>0)return{data};
+
+  const owned=await env.DB.prepare(`SELECT (SELECT l.avatar_code FROM avatar_user_loadout_v1 l WHERE l.user_id=o.user_id) AS equipped_code
+    ${eligibleAvatar}`).bind(user.id,code).first();
   if(!owned)return{error:'보유 중인 공개 아바타를 찾을 수 없습니다.',status:404};
-  const current=await env.DB.prepare('SELECT avatar_code,updated_at FROM avatar_user_loadout_v1 WHERE user_id=?').bind(user.id).first();
-  if(String(current?.avatar_code||'')===code)return{data:{ok:true,equippedAvatarCode:code,unchanged:true,equipCooldown:equipCooldown(current.updated_at)}};
-  const cooldown=equipCooldown(current?.updated_at);
-  if(current&&cooldown.locked)return{error:'아바타는 교체 후 24시간 동안 다시 변경할 수 없습니다.',code:'AVATAR_EQUIP_COOLDOWN',status:409,...cooldown};
-  let changed=0;
-  if(current){
-    const updated=await env.DB.prepare(`UPDATE avatar_user_loadout_v1 SET avatar_code=?,updated_at=CURRENT_TIMESTAMP
-      WHERE user_id=? AND avatar_code=? AND updated_at=?`).bind(code,user.id,String(current.avatar_code),String(current.updated_at)).run();
-    changed=Number(updated?.meta?.changes||0);
-  }else{
-    const inserted=await env.DB.prepare(`INSERT INTO avatar_user_loadout_v1(user_id,avatar_code,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
-      ON CONFLICT(user_id) DO NOTHING`).bind(user.id,code).run();
-    changed=Number(inserted?.meta?.changes||0);
-  }
-  const latest=await env.DB.prepare('SELECT avatar_code,updated_at FROM avatar_user_loadout_v1 WHERE user_id=?').bind(user.id).first();
-  if(changed!==1&&String(latest?.avatar_code||'')!==code){
-    const racedCooldown=equipCooldown(latest?.updated_at);
-    return{error:'다른 아바타 교체 요청이 먼저 처리되었습니다. 24시간 후 다시 시도해 주세요.',code:'AVATAR_EQUIP_COOLDOWN',status:409,...racedCooldown};
-  }
-  return{data:{ok:true,equippedAvatarCode:code,equipCooldown:equipCooldown(latest?.updated_at)}};
+  if(owned.equipped_code===code)return{data:{...data,unchanged:true}};
+  return{error:'아바타 장착 상태가 변경되었습니다. 다시 적용해 주세요.',code:'AVATAR_EQUIP_CONFLICT',status:409};
 }
 
 export async function equippedAvatarEffect(env,userId){
@@ -634,15 +613,15 @@ export async function handleAvatar({path,request,env,deps}){
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
   if(path==='avatar/catalog'&&request.method==='GET'){
     const access=await avatarFeatureAccess(env,user);if(!access.visible)return json({error:'아바타 시스템은 현재 비공개 상태입니다.',code:'AVATAR_FEATURE_OFF'},403);
-    const catalog=await catalogForUser(env,user);
-    return json({profile:{id:Number(user.id),nickname:String(user.nickname||''),role:String(user.role||'USER')},coin:Number(user.coin||0),access,avatars:catalog.avatars,equipCooldown:catalog.equipCooldown});
+    const avatars=await catalogForUser(env,user);
+    return json({profile:{id:Number(user.id),nickname:String(user.nickname||''),role:String(user.role||'USER')},coin:Number(user.coin||0),access,avatars,equipCooldown:EQUIP_READY});
   }
   if(path==='avatar/purchase'&&request.method==='POST'){
     const result=await purchaseAvatar(env,user,await readBody(request));return result.data?json(result.data):json({error:result.error,code:result.code},result.status||400);
   }
   if(path==='avatar/equip'&&request.method==='POST'){
     const result=await equipAvatar(env,user,await readBody(request));
-    return result.data?json(result.data):json({error:result.error,code:result.code,durationMs:result.durationMs,remainingMs:result.remainingMs,nextEquipAt:result.nextEquipAt},result.status||400);
+    return result.data?json(result.data):json({error:result.error,code:result.code},result.status||400);
   }
   return json({error:'지원하지 않는 아바타 요청입니다.'},405);
 }
