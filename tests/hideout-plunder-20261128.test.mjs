@@ -32,6 +32,36 @@ test('Korean date, exact opening and closing, stock conservation at capacity and
   }
 });
 
+test('deployed turret uses defender HP, takes card attacks and stops firing at zero',()=>{
+  const deck=power=>Array.from({length:5},(_,i)=>({id:i+1,name:'검수 카드 '+i,title:'카드 '+i,rarity:'FUR',
+    power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],base_power:power,power}));
+  const battle=(attack,seed,extra={})=>createPvpBattleV2({attackerCards:deck(attack),defenderCards:deck(100000),
+    hideoutDefenses:['autocannon','turret'],seed,...extra}).result;
+  const result=battle(200000,782),turret=result.hideoutTurret;
+  const expectedMax=Math.round(.75*result.final.B.reduce((total,c)=>total+c.maxHp,0)/5);
+  assert.deepEqual(turret,{maxHp:expectedMax,hp:0});
+  const hits=result.timeline.filter(e=>e.type==='HIDEOUT_TURRET_HIT');
+  assert.equal(hits.length,3);
+  let hp=expectedMax;
+  for(const e of hits){
+    hp-=e.damage;
+    assert(e.actorId.startsWith('A:'));assert.equal(e.targetId,'HIDEOUT:TURRET');
+    assert(e.damage>0&&e.damage<=Math.round(expectedMax*.45));
+    assert.equal(e.targetMaxHp,expectedMax);assert.equal(e.targetHpAfter,hp);assert.equal(e.destroyed,hp===0);
+  }
+  const after=result.timeline.slice(result.timeline.indexOf(hits.at(-1))+1);
+  assert(!after.some(e=>e.type==='HIDEOUT_DEFENSE_FIRE'&&e.facility==='turret'));
+  assert(after.some(e=>e.type==='HIDEOUT_DEFENSE_FIRE'&&e.facility==='autocannon'));
+  const survivor=battle(85000,1);
+  assert(survivor.hideoutTurret.hp>0&&survivor.hideoutTurret.hp<survivor.hideoutTurret.maxHp);
+  assert.equal(survivor.hideoutTurret.hp,survivor.timeline.filter(e=>e.type==='HIDEOUT_TURRET_HIT').at(-1).targetHpAfter);
+  for(const extra of [{hideoutDefenseVersion:1},{hideoutDefenses:['autocannon']},{hideoutDefenses:[]}]){
+    const previous=battle(200000,782,extra);assert.equal(previous.hideoutTurret,undefined);
+    assert(!previous.timeline.some(e=>e.type==='HIDEOUT_TURRET_HIT'));
+    assert.equal(previous.timeline.some(e=>e.type==='HIDEOUT_DEFENSE_FIRE'&&e.facility==='turret'),extra.hideoutDefenseVersion===1);
+  }
+});
+
 async function fixture(t, postgres) {
   const f=await jointFixture(t,{postgres});
   await prepareRaidWallet(f);
@@ -192,6 +222,11 @@ for(const postgres of [false,true]){
     assert.equal(fight.residenceLayout.revision,staged.revision);
     assert.deepEqual(fight.residenceLayout.rooms.map(r=>r.code),['main','workshop']);
     assert.equal(fight.residenceLayout.pieces.find(p=>p.code==='sofa').art,'skin-sofa-cognac-leather.webp');
+    assert.deepEqual(fight.turretHp,fight.battleV2.result.hideoutTurret);
+    assert(fight.turretHp.maxHp>0);
+    const key='hideout_plunder_receipt_v1:7:'+job.requestId;
+    const saved=JSON.parse((await h.f.p('SELECT value FROM app_meta WHERE key=?',key).first()).value);
+    assert.equal(saved.replayInput.hideoutDefenseVersion,2);
     const shots=r=>r.battleV2.result.timeline.filter(e=>e.type==='HIDEOUT_DEFENSE_FIRE');
     assert.deepEqual(shots(fight).slice(0,2).map(e=>[e.facility,e.hits.length]),[['autocannon',1],['turret',3]]);
     assert(shots(fight).every(e=>e.hits.every(t=>t.targetId.startsWith('A:')&&t.damage+t.absorbed>0&&Number.isFinite(t.targetHpAfter))));
@@ -199,10 +234,19 @@ for(const postgres of [false,true]){
     await change('arrange',{placements:moved});
     const replay=(await h.call(7,'attack',job)).data;
     assert.deepEqual(replay.residenceLayout,fight.residenceLayout);
-    assert.deepEqual(shots(replay),shots(fight));
+    assert.deepEqual(replay.battleV2.result.timeline,fight.battleV2.result.timeline);
+    assert.deepEqual(replay.turretHp,fight.turretHp);
+    const legacy=h.job({targetId:8});
+    delete saved.replayInput.hideoutDefenseVersion;
+    delete saved.response.turretHp;
+    saved.response.winner=createPvpBattleV2({...saved.replayInput,hideoutDefenseVersion:1}).result.winner;
+    await h.f.setting('hideout_plunder_receipt_v1:7:'+legacy.requestId,saved);
+    const old=(await h.call(7,'attack',legacy)).data;
+    assert.equal(old.replayed,true);assert.equal(old.battleV2.result.hideoutTurret,undefined);
+    assert(shots(old).some(e=>e.facility==='turret'));
     h.setTime(start+PLUNDER.cooldownMs);
     const later=(await h.call(7,'attack',h.job({targetId:8}))).data;
-    assert.equal(shots(later).length,0);
+    assert.equal(shots(later).length,0);assert.equal(later.turretHp,undefined);
     assert(!later.residenceLayout.pieces.some(p=>p.code==='turret'));
   });
   test(dialect+' draw has no award and the first win before shop setup grants equippable parts and wallet currency',async t=>{

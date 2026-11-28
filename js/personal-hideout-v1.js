@@ -260,7 +260,7 @@
    if(raidView||openingRaid)return;
    const id=epoch;openingRaid=true;
    try{
-    const {openPlunder}=await import('/js/hideout-plunder-v1.mjs?v=20261128-ui2');
+    const {openPlunder}=await import('/js/hideout-plunder-v1.mjs?v=20261128-turret-hp3');
     if(id===epoch)raidView=openPlunder({request,uid,onClose:()=>{raidView=null;if(id===epoch)void refresh();}});
    }catch(e){if(id===epoch)say('약탈전 화면을 열지 못했습니다. 다시 시도하세요.',true);}
    finally{if(id===epoch)openingRaid=false;}

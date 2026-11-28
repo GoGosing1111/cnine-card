@@ -1,4 +1,4 @@
-import {clockText, renderConfirmation, renderEntry, renderPrep, renderResult, renderRules, renderToolbar, roomName, sessionOpen, teamReady} from './hideout-plunder-view.mjs?v=20261128-ui2';
+import {clockText, renderConfirmation, renderEntry, renderPrep, renderResult, renderRules, renderToolbar, roomName, sessionOpen, teamReady} from './hideout-plunder-view.mjs?v=20261128-turret-hp3';
 
 export function openPlunder({request, uid, onClose}) {
   const dialog = document.createElement('dialog');

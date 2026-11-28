@@ -5,7 +5,7 @@ import './BattleTextureLifecycle.mjs';
 import {prepareEquipmentSetFX} from './EquipmentSetFX.js';
 import {battleAssetMemory,battleImageUrl} from './BattleAssetMemory.mjs';
 import {attachSealDragon,playSealDragonBreath} from './SealDragonPlayback.js';
-import {isHideoutBattle,fitHideoutBackdrop,layoutHideoutScene,setHideoutScene,clearHideoutScene,playHideoutDefense} from './HideoutBattleScene.js';
+import {isHideoutBattle,fitHideoutBackdrop,layoutHideoutScene,setHideoutScene,clearHideoutScene,playHideoutDefense,playHideoutTurretHit,hideoutTurretStatus} from './HideoutBattleScene.js';
 import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {preloadBattleHud} from './BattleHud.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
@@ -713,6 +713,7 @@ export class BaseBattleEngine{
       this.app.stop();
     }
     this.resetVisualSession();
+    if(this.hideoutScene)clearHideoutScene(this);
     if(target)this.attachTo(target);
     if(payload)await this.setBattlePayload(payload);
     // setBattlePayload installs new identities, textures and active slots.
@@ -3201,7 +3202,7 @@ export class BaseBattleEngine{
     // acceleration makes their overlapping animations unreadable.
     if(this.formationCoop){this.paceActions=0;this.paceScale=1;return}
     if(type==='DEPLOY'){this.paceActions=0;this.paceScale=1;return}
-    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK'&&type!=='ICON_SKILL'&&!(type==='ICON_STATUS'&&event?.status==='CHANNEL'&&event?.continuesBasic!==true))return;
+    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK'&&type!=='HIDEOUT_TURRET_HIT'&&type!=='ICON_SKILL'&&!(type==='ICON_STATUS'&&event?.status==='CHANNEL'&&event?.continuesBasic!==true))return;
     this.paceActions+=1;
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }
@@ -3252,6 +3253,7 @@ export class BaseBattleEngine{
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
       if(type==='DEPLOY')await this.deployCards({force:forceDeploy,instant:Boolean(this.livePayload)});
       else if(type==='HIDEOUT_DEFENSE_FIRE' && isHideoutBattle(this.battleData))await playHideoutDefense(this,event);
+      else if(type==='HIDEOUT_TURRET_HIT' && isHideoutBattle(this.battleData))await playHideoutTurretHit(this,event);
       else if(type==='MERCENARY_ADVANCEMENT'){
         if(target && resolvedTargetHp!==null)this.syncTargetHp(target,resolvedTargetHp);
         syncEventShields();playAdvancement(this,event);
@@ -3737,7 +3739,7 @@ export class BaseBattleEngine{
         mode:this.activeBattlefieldMode,
         asset:this.activeBattlefieldAsset,
         ...(this.hideoutScene?{hideoutFurniture:this.hideoutScene.props.size,hideoutRoom:this.hideoutScene.room.code,
-          hideoutRevision:this.hideoutScene.layout.revision,hideoutLastShot:this.lastHideoutShot,
+          hideoutRevision:this.hideoutScene.layout.revision,hideoutLastShot:this.lastHideoutShot,hideoutTurret:hideoutTurretStatus(this.hideoutScene),
           hideoutPlacements:[...this.hideoutScene.props.values()].map(({item,root})=>({id:item.id,code:item.code,x:item.x,y:item.y,flipped:item.flipped,worldX:root.x,worldY:root.y}))}:{}),
         loading:'LAZY_ACTIVE_SCENE_ONLY',
         available:Object.keys(BATTLEFIELD_ASSETS)

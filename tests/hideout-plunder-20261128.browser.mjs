@@ -104,15 +104,16 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
   if(out){await mkdir(out,{recursive:true});await page.screenshot({path:path.join(out,'raid-'+width+'.png')});}
   await attack.click();await button('retry').waitFor();
   await button('close').click();await entry.click();
-  await page.evaluate(()=>{
-    window.turretVolley=[];
+  await page.evaluate(finalHp=>{
+    window.turretVolley=[];window.turretHealthFrames=[];
     const sample=()=>{
-      const shot=window.ProjectVPixiBattle?.diagnostics?.()?.battlefield?.hideoutLastShot;
+      const field=window.ProjectVPixiBattle?.diagnostics?.()?.battlefield,shot=field?.hideoutLastShot,turret=field?.hideoutTurret;
+      if(turret?.axis&&turret.hp!==window.turretHealthFrames.at(-1)?.hp)window.turretHealthFrames.push(turret);
       if(shot?.facility==='turret'&&shot.axis&&shot.fired===window.turretVolley.length+1)window.turretVolley.push(shot);
-      if(window.turretVolley.length<3)requestAnimationFrame(sample);
+      if(window.turretHealthFrames.at(-1)?.hp!==finalHp||window.turretVolley.length<3)requestAnimationFrame(sample);
     };
     requestAnimationFrame(sample);
-  });
+  },attacks[0].data.turretHp.hp);
   await button('retry').click();
   await page.waitForFunction(()=>{const d=window.ProjectVPixiBattle?.diagnostics?.();return d?.battlefield?.hideoutFurniture===3 && d.battlefield.hideoutLastShot?.facility==='turret' &&
     d.battlefield.asset.endsWith('battle-apartment.webp') && document.querySelector('.ph-raid-dialog .is-v3-ready canvas');},null,{timeout:45000});
@@ -126,9 +127,22 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
     assert(Math.abs(Math.atan2(Math.sin(delta),Math.cos(delta)))<Math.PI/30,'muzzle faces the recorded target');
   }
   if(out)await page.screenshot({path:path.join(out,'battle-'+width+'.png')});
+  const state=attacks[0].data.battleV2.result,healthHits=state.timeline.filter(e=>e.type==='HIDEOUT_TURRET_HIT');
+  await page.waitForFunction(hp=>window.turretHealthFrames.at(-1)?.hp===hp,state.hideoutTurret.hp,{timeout:75000});
+  const states=await page.evaluate(()=>window.turretHealthFrames);
+  assert.deepEqual(states.map(s=>s.hp),[state.hideoutTurret.maxHp,...healthHits.map(e=>e.targetHpAfter)]);
+  assert(states.every(s=>s.roll===0&&Number.isInteger(s.pose)));
+  assert.equal(states[0].hud,'포탑 100%');
+  for(const s of states){
+    assert.equal(s.headVisible,s.hp>0);
+    assert.equal(s.hud,s.hp?'포탑 '+Math.max(1,Math.round(100*s.hp/s.maxHp))+'%':'포탑 파괴');
+  }
   if(width!==1440)await dialog.locator('.ph-raid-battle-close').click();
   await page.waitForFunction(()=>!document.querySelector('.ph-raid-battle-close'),null,{timeout:105000});
   await dialog.locator('.ph-raid-result').waitFor();await button('replay').waitFor();
+  const final=state.hideoutTurret;
+  const finalText=final.hp?final.hp.toLocaleString('ko-KR')+' / '+final.maxHp.toLocaleString('ko-KR'):'0 · 파괴';
+  await dialog.getByText(finalText,{exact:true}).waitFor();
   assert.equal(await button('attack').count(),0);
   assert(await dialog.evaluate(el=>el.scrollWidth<=el.clientWidth+1));
   assert.match(await dialog.locator('.ph-raid-victory').innerText(),/스틸 인라인 엔진[\s\S]*스틸 래더 프레임[\s\S]*피그코인/);
@@ -138,6 +152,7 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
   await button('back').click();await attack.waitFor();
   await dialog.locator('.ph-raid-history summary').click();await button('history').first().click();
   await dialog.locator('.ph-raid-result').waitFor();await button('replay').click();
+  await page.waitForFunction(()=>{const s=window.ProjectVPixiBattle?.diagnostics?.()?.battlefield?.hideoutTurret;return s?.headVisible&&s.hp===s.maxHp;},null,{timeout:25000});
   await dialog.locator('.ph-raid-battle-close').click();assert.equal(attacks.length,2);
   await button('close').click();now=opening+90*60000;await entry.click();
   await button('repair').click();

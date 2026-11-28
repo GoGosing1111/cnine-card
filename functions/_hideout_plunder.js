@@ -120,7 +120,7 @@ async function savedResult(db, deps, key, input) {
   const response = {...saved.response, replayed: true};
   if (saved.replayInput) {
     try {
-      const battle = deps.createPvpBattleV2(pvpReplayInput(saved.replayInput));
+      const battle = deps.createPvpBattleV2({...pvpReplayInput(saved.replayInput),hideoutDefenseVersion:saved.replayInput.hideoutDefenseVersion??1});
       if (battle.result.winner === response.winner) response.battleV2 = battle;
     } catch {
       // A later engine release can retire an old replay. The receipt is final.
@@ -226,7 +226,8 @@ async function applyMutation(env, deps, user, action, body, key, input) {
         victoryReward={userId:winnerId,name:won?attacker.name:defender.name,pigCoins:coins,items:RAID_VICTORY_ITEMS};
       }
       const event = {at: now, attacker: attacker.name, defender: defender.name, winner, loot,
-        before, after: d.state.durability, stage: HIDEOUT_STAGES[d.state.level - 1].code,victoryReward};
+        before, after: d.state.durability, stage: HIDEOUT_STAGES[d.state.level - 1].code,victoryReward,
+        ...(simulation.battleV2.result.hideoutTurret?{turretHp:simulation.battleV2.result.hideoutTurret}:{})};
       board.history = [event, ...board.history].slice(0, 24);
       response = {...response, ...event, residenceLayout:layout, attackerWon: won, opponent: {id: target, nickname: defender.name},
         attackerPower: simulation.attackerPower, defenderPower: simulation.defenderPower};

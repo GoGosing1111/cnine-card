@@ -1,4 +1,4 @@
-import {HIDEOUT_DEFENSES} from '../shared/hideout-defense-v1.mjs';
+import {HIDEOUT_DEFENSES,HIDEOUT_TURRET_COMBAT} from '../shared/hideout-defense-v1.mjs';
 import {saintActionCredit} from '../shared/mercenary-lightning-saint-v1.mjs';
 import { mercenaryVehicleSupport } from '../shared/mercenary-vehicle-support-v1.mjs';
 import {ryujinIncomingDamage,ryujinActionCredit} from '../shared/mercenary-ryujin-v1.mjs';
@@ -842,7 +842,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], hideoutDefenses = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null, [PVP_POWER_BALANCE_REVIEW]: powerReview = false, [ICON_TECHNIQUE_PREPARATION]: techniquePreparation = null } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], hideoutDefenses = [], hideoutDefenseVersion = HIDEOUT_TURRET_COMBAT.version, magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null, [PVP_POWER_BALANCE_REVIEW]: powerReview = false, [ICON_TECHNIQUE_PREPARATION]: techniquePreparation = null } = {}) {
   let advancement=null,mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null,techniqueRuntime=null;
   const rawDamage=(target,incoming,options={})=>{const result=applyCanonicalDamage(target,incoming,options);advancement?.afterDamage(options.advancementSource||options.actor,target,result,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result,options);season2Runtime?.afterDamage(target,result,options);techniqueRuntime?.onDamage(target,result,options);return result;};
   const applyDamage=(target,incoming,options={})=>{
@@ -1498,11 +1498,19 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], hideoutDefense
     lastCardCombatMs=Math.max(lastCardCombatMs,combatMs);
   };
   const defenses=HIDEOUT_DEFENSES.filter(rule=>hideoutDefenses.includes(rule.code));
+  let turret=null,raiderBasicAttacks=0;
+  if(hideoutDefenseVersion===HIDEOUT_TURRET_COMBAT.version&&hideoutDefenses.includes('turret')){
+    const cards=b.filter(card=>!card.isMercenary&&!card.isIconSummon&&!isBattleSuitSupport(card));
+    const averageHp=cards.reduce((sum,card)=>sum+card.maxHp,0)/Math.max(1,cards.length);
+    const maxHp=Math.max(1,Math.round(averageHp*HIDEOUT_TURRET_COMBAT.defenderHpShare));
+    turret={maxHp,hp:maxHp};
+  }
   let lastDefenseAction=-1;
   while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length || sustained&&!sustained.bossSpawned) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
     if(defenses.length&&lastDefenseAction!==actionCount){
       lastDefenseAction=actionCount;
       for(const rule of defenses){
+        if(rule.code==='turret'&&turret?.hp===0)continue;
         if(actionCount<rule.first||(actionCount-rule.first)%rule.interval!==0)continue;
         const targets=targetableAlive(a).sort((left,right)=>left.hp/left.maxHp-right.hp/right.maxHp||left.slot-right.slot).slice(0,rule.targets);
         if(!targets.length)break;
@@ -1759,6 +1767,18 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], hideoutDefense
     if(castLegionRegionAction(actor,actor.side==='A'?a:b,enemyTeam,{damage:monsterDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(castApocalypseAction(actor,enemyTeam,{random,damage:monsterDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
+    // A basic action spent on the deployed structure consumes the same card
+    // gauge as an attack on a fighter. It cannot also proc a hit on a card.
+    if(turret?.hp>0&&actor.side==='A'&&!independentAction&&!actor.isMercenary&&!actor.isIconSummon&&!actor.isMonster){
+      raiderBasicAttacks++;
+      if(raiderBasicAttacks%HIDEOUT_TURRET_COMBAT.targetEvery===0){
+        const damage=Math.min(turret.hp,Math.max(1,Math.round(Math.min(actor.attack,turret.maxHp*HIDEOUT_TURRET_COMBAT.hitCap))));
+        turret.hp-=damage;actor.damageDealt+=damage;
+        emitTimeline(timeline,clock,'HIDEOUT_TURRET_HIT',{actorId:actor.id,targetId:'HIDEOUT:TURRET',facility:'turret',
+          action:actionCount,damage,targetHpAfter:turret.hp,targetMaxHp:turret.maxHp,destroyed:turret.hp===0,label:turret.hp?'포탑 피격':'포탑 파괴'});
+        continue;
+      }
+    }
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
     const healerTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'
@@ -2034,6 +2054,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], hideoutDefense
       pendingIds: pendingMonsters.map(card => card.id)}} : {}),
     ...(openingMercenaries.A.length||openingMercenaries.B.length?{openingMercenaries}:{}),
     ...(openingTeams?{openingTeams}:{}),
+    ...(turret?{hideoutTurret:turret}:{}),
     ...(pvpPowerBalance?{pvpPowerBalance}:{}),
     winner,
     reason,
@@ -2431,7 +2452,7 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ hideoutDefenses = [], attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerVehicleTransit = null, defenderVehicleTransit = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerWornGearPower, defenderWornGearPower, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
+export function createPvpBattleV2({ hideoutDefenses = [], hideoutDefenseVersion = HIDEOUT_TURRET_COMBAT.version, attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerVehicleTransit = null, defenderVehicleTransit = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerWornGearPower, defenderWornGearPower, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)),attackerWornGearPower);
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)),defenderWornGearPower);
@@ -2445,7 +2466,7 @@ export function createPvpBattleV2({ hideoutDefenses = [], attackerSeasonEquipmen
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
-  const simulated = simulateBattleV2Preview({ teamA:simulationA, teamB:simulationB, hideoutDefenses, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus, pets:attackerPet||defenderPet?{A:attackerPet,B:defenderPet}:null,petMode:'PVP', [COMPANION_PREPARATION_REVIEW]:companionReview?{mode:'PVP'}:null, [MAGIC_SEASON2_REVIEW]:season2Review, [PVP_POWER_BALANCE_REVIEW]:powerEnabled });
+  const simulated = simulateBattleV2Preview({ teamA:simulationA, teamB:simulationB, hideoutDefenses, hideoutDefenseVersion, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus, pets:attackerPet||defenderPet?{A:attackerPet,B:defenderPet}:null,petMode:'PVP', [COMPANION_PREPARATION_REVIEW]:companionReview?{mode:'PVP'}:null, [MAGIC_SEASON2_REVIEW]:season2Review, [PVP_POWER_BALANCE_REVIEW]:powerEnabled });
   const result = resolvePvpOutcome(simulated, simulationA, simulationB);
   if(mercA||mercB){result.final={...result.final,mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:result.final.B.filter(c=>c.isMercenary)},A:result.final.A.filter(c=>!c.isMercenary),B:result.final.B.filter(c=>!c.isMercenary)};}
   return {

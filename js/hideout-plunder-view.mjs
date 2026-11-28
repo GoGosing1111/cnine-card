@@ -160,6 +160,7 @@ export function renderResult(e) {
   const win=e.winner==='A', defense=e.winner==='B', winner=win?e.attacker:defense?e.defender:'';
   const stage=HIDEOUT_STAGES.find(s=>s.code===e.stage);
   const recovered=Object.entries(e.loot || {}).filter(([,qty])=>qty>0);
+  const turret=e.turretHp||e.battleV2?.result?.hideoutTurret;
   return `<article class="ph-raid-result ${win?'is-attack-win':defense?'is-defense-win':'is-draw'}">
     <div class="ph-raid-keyart ph-raid-result-art"><div class="ph-raid-hero-copy">${pill('교전 종료 · '+time(e.at),'is-gold')}<h2 id="ph-raid-title" tabindex="-1">${outcome(e.winner)}</h2>
       <p>${winner?`<strong>${esc(winner)}</strong> 승리 <i>·</i> 진영 점수 +1`:'두 진영 모두 점수를 획득하지 못했습니다.'}</p></div></div>
@@ -167,6 +168,7 @@ export function renderResult(e) {
     <div class="ph-raid-body"><div class="ph-raid-result-grid"><section class="ph-raid-victory"><div class="ph-raid-section-title"><h3>승리 보상</h3>${e.victoryReward?`<span>${esc(e.victoryReward.name)} 획득</span>`:''}</div>
       ${e.victoryReward?goods(e.victoryReward):`<p class="ph-raid-empty">${winner?'보상 기록 없음':'무승부로 지급된 보상이 없습니다.'}</p>`}</section>
     <section class="ph-raid-spoils"><div class="ph-raid-section-title"><h3>약탈 결과</h3></div><div class="ph-raid-damage"><small>방어측 내구도</small><strong>${n(e.before)} <i>→</i> <b>${n(e.after)}</b></strong></div>
+      ${turret?`<div class="ph-raid-damage"><small>전투 종료 시 포탑 HP</small><b>${turret.hp?n(turret.hp)+' / '+n(turret.maxHp):'0 · 파괴'}</b></div>`:''}
       <ul>${recovered.map(([code,qty])=>{const part=partFor(code);return `<li>${part?image(part.image):''}<span>${esc(part?.name || code)}</span><b>+${n(qty)}</b></li>`;}).join('') || '<li class="ph-raid-empty">이동한 창고 부품 없음</li>'}</ul></section></div>
     <div class="ph-raid-result-actions">${e.battleV2?button('replay','전투 다시 보기'):''}${button('back','전황으로',{primary:true,forward:true})}</div>${savedLayout(e.residenceLayout)}</div></article>`;
 }
