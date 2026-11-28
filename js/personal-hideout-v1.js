@@ -161,7 +161,7 @@
     <b>${data.state.level} <span>/ ${data.maximumLevel} 단계</span></b>
    </header>
    <div class="ph-notice" data-ph-notice role="status" aria-live="polite" data-error="${noticeError}">${esc(noticeText)}</div>
-   ${data.enabled&&data.state.level?'<button type="button" class="ph-raid-entry" data-ph-action="raid"><span><strong>은신처 약탈전</strong><small>20:30–22:00 KST · 내구도 '+n(data.state.durability??100)+'/100</small></span><b>전황 보기 ›</b></button>':''}
+   ${data.raidEnabled===true&&data.state.level?'<button type="button" class="ph-raid-entry" data-ph-action="raid"><span><strong>은신처 약탈전</strong><small>20:30–22:00 KST · 내구도 '+n(data.state.durability??100)+'/100</small></span><b>전황 보기 ›</b></button>':''}
    ${pending()?'<div class="ph-recovery ph-panel"><p>저장 결과를 확인하지 못한 요청이 있습니다.</p>'+button('retry','같은 요청으로 결과 확인')+'</div>':''}
    <section class="ph-space" aria-label="은신처 내부">
     ${data.state.rooms.length>1?'<nav class="ph-room-tabs" aria-label="구역으로 이동">'+data.state.rooms.map(r=>button('room',data.rooms.find(v=>v.code===r).name,'data-room="'+r+'" aria-pressed="'+(r===room)+'"')).join('')+'</nav>':''}
@@ -228,6 +228,7 @@
   if(event.detail===0&&event.target.closest('[data-ph-prop]')){selected=event.target.closest('[data-ph-prop]').dataset.phProp;updateSelection();return;}
   const b=event.target.closest('[data-ph-action]');if(!b||busy)return;const a=b.dataset.phAction;
   if(a==='raid'){
+   if(data?.raidEnabled!==true)return;
    if(dirty){say('배치를 먼저 저장하거나 취소해 주세요.',true);return;}
    if(raidView||openingRaid)return;
    const id=epoch;openingRaid=true;

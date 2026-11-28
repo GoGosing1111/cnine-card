@@ -1,4 +1,4 @@
-import {hideoutEnabled, readHideout} from './_personal_hideout.js';
+import {hideoutPlunderEnabled, readHideout} from './_personal_hideout.js';
 import {HIDEOUT_KEY, HIDEOUT_STAGES, HIDEOUT_STOCK_LIMITS, HIDEOUT_FURNITURE, HIDEOUT_DECOR, HIDEOUT_SKINS, hideoutSpace} from '../shared/personal-hideout-v1.mjs';
 import {PLUNDER, plunderWindow, assignPlunderTeams, plunderTransfer} from '../shared/hideout-plunder-v1.mjs';
 import {ensureJointAtomicSchema, jointGuard, jointGuardEnd} from './_joint_atomic.js';
@@ -234,9 +234,10 @@ export async function handleHideoutPlunder({path, request, env, deps}) {
   if (path !== 'hideout/raid' && !path.startsWith('hideout/raid/')) return null;
   const reply = (data, status = 200) => deps.json(data, status, {'cache-control': 'private, no-store'});
   try {
+    if (!hideoutPlunderEnabled(env))
+      return reply({enabled:false, code:'HIDEOUT_RAID_OFF', error:'은신처 약탈전은 현재 비공개입니다.'}, 423);
     const user = await deps.authenticate(request, env);
     if (!user) return reply({error: '로그인이 필요합니다.'}, 401);
-    if (!hideoutEnabled(env)) fail('CLOSED', '은신처를 준비하고 있습니다.', 423);
     if (request.method === 'GET' && path === 'hideout/raid') return reply(await readStatus(env, deps, user));
     const action = path.slice('hideout/raid/'.length);
     if (request.method !== 'POST' || !['join', 'attack', 'repair'].includes(action))

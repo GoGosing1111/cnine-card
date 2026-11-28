@@ -33,6 +33,7 @@ async function staticFile(file){
 
 for(const width of [1440,390])test('lobby to raid, recorded battle, recovered loot and repair at '+width+'px',{timeout:145000},async t=>{
   const db=await jointFixture(t,{});db.env.PERSONAL_HIDEOUT_ENABLED='1';
+  db.env.HIDEOUT_PLUNDER_ENABLED='1';
   let now=opening,dropReply=true;const attacks=[],consoleErrors=[];
   const deps={...db.deps,now:()=>now,pvpDeckSnapshot:async(_env,id)=>cards.map(c=>({...c,base_power:id===7?2000000:100000})),battleSettings:async()=>({}),cardBattlePower:c=>c.base_power,
     loadPetBattleSnapshot:async()=>null,releasedMercenarySnapshot:async()=>null,createPvpBattleV2};
@@ -98,5 +99,9 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
   await button('repair').click();
   await page.getByText('내구도 80 / 100',{exact:true}).waitFor();
   assert.equal((await readHideout(db.env,7)).state.parts.WIRE,19+(result.loot.WIRE||0));
+  delete db.env.HIDEOUT_PLUNDER_ENABLED;
+  await button('close').click();
+  await entry.waitFor({state:'detached'});
+  await page.locator('[data-ph-action="edit"]').waitFor();
   assert.deepEqual(consoleErrors.filter(e=>/hideout|plunder|DefenderFurniture/i.test(e)),[]);
 });

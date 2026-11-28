@@ -10,6 +10,7 @@ import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261101-renewa
 const p=(env,sql,...args)=>env.DB.prepare(sql).bind(...args);
 const walletBalance=(env,uid)=>p(env,'SELECT CAST(coin AS TEXT) AS coin_balance FROM users WHERE id=?',uid);
 export const hideoutEnabled=env=>env.PERSONAL_HIDEOUT_ENABLED===true||env.PERSONAL_HIDEOUT_ENABLED==='1';
+export const hideoutPlunderEnabled=env=>hideoutEnabled(env)&&(env.HIDEOUT_PLUNDER_ENABLED===true||env.HIDEOUT_PLUNDER_ENABLED==='1');
 export async function readHideout(env,uid,{withCoin=false}={}){
  const key=HIDEOUT_KEY(uid);
  const row=await (withCoin
@@ -142,7 +143,7 @@ export async function handlePersonalHideout({path,request,env,deps}){
   const user=await deps.authenticate(request,env);if(!user)return reply({error:'로그인이 필요합니다.'},401);
   if(path==='hideout'&&request.method==='GET'){
    const {state,coinBalance}=await readHideout(env,user.id,{withCoin:true});
-   return reply({ok:true,enabled:hideoutEnabled(env),...publicHideout(state),coinBalance,trophyCatalog:TROPHY_CATALOG.map(t=>({code:t.code,name:t.name,image:t.art}))});
+   return reply({ok:true,enabled:hideoutEnabled(env),raidEnabled:hideoutPlunderEnabled(env),...publicHideout(state),coinBalance,trophyCatalog:TROPHY_CATALOG.map(t=>({code:t.code,name:t.name,image:t.art}))});
   }
   if(path==='hideout/trophies'&&request.method==='GET')return reply({ok:true,trophies:await hideoutTrophies(env,user.id)});
   const action=path.slice(8);

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {handleHideoutPlunder} from '../functions/_hideout_plunder.js';
-import {readHideout} from '../functions/_personal_hideout.js';
+import {readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {emptyHideout, HIDEOUT_KEY, HIDEOUT_STOCK_LIMITS} from '../shared/personal-hideout-v1.mjs';
 import {PLUNDER, plunderWindow, plunderTransfer, assignPlunderTeams} from '../shared/hideout-plunder-v1.mjs';
@@ -34,6 +34,7 @@ async function fixture(t, postgres) {
   const f=await jointFixture(t,{postgres});
   let now=start, winner='A', finishTime=0;
   f.env.PERSONAL_HIDEOUT_ENABLED='1';
+  f.env.HIDEOUT_PLUNDER_ENABLED='1';
   const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'검수 카드 '+i,name:'카드 '+i,
     rarity:i<2?'FUR':i<4?'ZENITH':'SUPERSTAR',power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],
     breakthrough_level:0,base_power:20000}));
@@ -69,6 +70,24 @@ async function fixture(t, postgres) {
 
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
+  test(dialect+' raid defaults OFF during event hours, protecting both homes and the ordinary hideout', async t=>{
+    const h=await fixture(t,postgres);
+    const homes=await Promise.all([h.home(7),h.home(8)]);
+    for(const flag of [undefined,'0']){
+      if(flag===undefined)delete h.f.env.HIDEOUT_PLUNDER_ENABLED;
+      else h.f.env.HIDEOUT_PLUNDER_ENABLED=flag;
+      const regular=await handlePersonalHideout({path:'hideout',env:h.f.env,deps:h.deps,
+        request:new Request('https://game.test/api/hideout',{headers:{'X-Fixture-User':'7'}})});
+      const enclosing=await regular.json();assert.equal(regular.status,200);assert.equal(enclosing.enabled,true);assert.equal(enclosing.raidEnabled,false);
+      for(const [action,body] of [['',undefined],['join',h.job()],['attack',h.job({targetId:8})],['repair',h.job()]]){
+        const r=await h.call(7,action,body);
+        assert.equal(r.status,423);assert.equal(r.data.code,'HIDEOUT_RAID_OFF');
+      }
+    }
+    assert.deepEqual(await Promise.all([h.home(7),h.home(8)]),homes);
+    const rows=await h.f.p("SELECT COUNT(*) AS n FROM app_meta WHERE key LIKE 'hideout_plunder_%'").first();
+    assert.equal(Number(rows.n),0);
+  });
   test(dialect+' actual participants, one atomic material transfer, hold, zero HP, repair and old receipts',async t=>{
     const h=await fixture(t,postgres);
     assert.equal((await h.call(0)).status,401);
