@@ -1,5 +1,6 @@
 import {secureRandomInt} from './pet-growth-v2.mjs';
 import {PLUNDER} from './hideout-plunder-v1.mjs';
+import {HIDEOUT_DEFENSES} from './hideout-defense-v1.mjs';
 
 export const HIDEOUT_ART='/assets/ui/personal-hideout-20261116/';
 export const HIDEOUT_KEY=id=>'personal_hideout_v1:'+Number(id);
@@ -29,12 +30,12 @@ export const HIDEOUT_PARTS=Object.freeze([
  {code:'CIRCUIT',name:'제어 회로',source:'악몽 토벌 · 군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
  {code:'COOLANT',name:'냉각 장치',source:'군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
  {code:'DRIVE',name:'구동 부품',source:'군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
- {code:'CORE',name:'동력 코어',source:'군단토벌·아포칼립스 승리와 무한의탑 당일 첫 승리 1회 · 레이드 클리어 3회 · 매회 '+HIDEOUT_CORE_DROP.percent+'%'},
+ {code:'CORE',name:'동력 코어',source:'군단토벌·아포칼립스 승리 또는 무한의탑 일일 첫 승리 시 1회, 레이드 승리 시 '+HIDEOUT_CORE_DROP.raidRolls+'회 추첨 (회당 '+HIDEOUT_CORE_DROP.percent+'%)'},
  {code:'HOUSING_PLAN',name:'은신처 건축 설계도',source:DAILY_SALVAGE_SOURCE},
- {code:'STRUCTURE',name:'강화 구조재',image:'/assets/ui/packs/blue-gear-live-v1/control-plate.webp',source:'군단토벌 · 아포칼립스 · 무한의탑을 합쳐 한국 시간 기준 계정당 하루 첫 승리 1개'},
+ {code:'STRUCTURE',name:'강화 구조재',source:'군단토벌·아포칼립스·무한의탑 중 그날 처음 승리한 콘텐츠에서 계정당 1개 지급 (한국 시간 기준)'},
  {code:'LEATHER_KIT',name:'가죽 마감 키트',source:'아포칼립스 첫 승리 보너스'},
  {code:'ALLOY_PANEL',name:'합금 외장 패널',source:'군단토벌(1인·파티 공통) 첫 승리 보너스'}
-].map((p,i)=>Object.freeze({...p,image:p.image||HIDEOUT_ART+'part-'+({HOUSING_PLAN:'circuit',LEATHER_KIT:'wire',ALLOY_PANEL:'steel'}[p.code]||p.code.toLowerCase())+'.webp',stockLimit:HIDEOUT_STOCK_LIMITS[p.code],index:i})));
+].map((p,i)=>Object.freeze({...p,image:HIDEOUT_ART+'part-'+p.code.toLowerCase().replaceAll('_','-')+'.webp',stockLimit:HIDEOUT_STOCK_LIMITS[p.code],index:i})));
 export const HIDEOUT_FURNITURE=Object.freeze([
  {code:'workbench',name:'작업대',description:'다른 시설과 은신처 업그레이드의 부품 소모량 감소',effect:'부품 비용',step:3,unit:'%'},
  {code:'fridge',name:'냉장고',description:'일반 군단토벌 최대 행동력 증가',effect:'군단토벌 최대 행동력',step:1,unit:''},
@@ -77,7 +78,7 @@ export const HIDEOUT_DECOR=Object.freeze([
  {code:'sofa',name:'휴식 소파',image:HIDEOUT_ART+'furniture-sofa.webp',cost:{STEEL:6,WIRE:4}},
  {code:'lamp',name:'산업용 조명',image:HIDEOUT_ART+'furniture-lamp.webp',cost:{STEEL:4,WIRE:6}},
  {code:'trophy',name:'대형 트로피 진열장',image:HIDEOUT_ART+'trophy-stand.webp',cost:{STEEL:8,WIRE:4,CIRCUIT:2}},
- ...additionalDecor
+ ...additionalDecor,...HIDEOUT_DEFENSES
 ]);
 export const HIDEOUT_TROPHY_SLOTS=6;
 export const emptyHideout=()=>({version:2,revision:0,level:0,durability:PLUNDER.maxDurability,facilities:Object.fromEntries(codes.map(c=>[c,0])),rooms:[],placements:[],unlockedSkins:[],parts:Object.fromEntries(HIDEOUT_PARTS.map(p=>[p.code,0]))});
@@ -97,6 +98,7 @@ export function hideoutState(raw){
  if(out.version!==2||!Number.isSafeInteger(out.revision)||out.revision<0||!Number.isInteger(out.level)||out.level<0||out.level>HIDEOUT_MAX_LEVEL)fail('은신처 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
  if(!out.facilities||codes.some(c=>!Number.isInteger(out.facilities[c])||out.facilities[c]<0||out.facilities[c]>hideoutFacilityLimit(out.level))||!out.parts||HIDEOUT_PARTS.some(p=>!Number.isSafeInteger(out.parts[p.code])||out.parts[p.code]<0||out.parts[p.code]>1000000000))fail('시설·부품 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
  if(!Array.isArray(out.rooms)||new Set(out.rooms).size!==out.rooms.length||out.rooms.some(c=>!HIDEOUT_ROOMS.some(r=>r.code===c))||!Array.isArray(out.placements)||out.placements.length>120||new Set(out.placements.map(p=>p.id)).size!==out.placements.length)fail('공간·가구 배치 기록을 확인할 수 없습니다.','HIDEOUT_STATE',503);
+ if(out.defenseRoom!=null&&!out.rooms.includes(out.defenseRoom))fail('방어 구역 기록을 확인하세요.','HIDEOUT_STATE',503);
  for(const p of out.placements){
   if(p.code==='trophy'&&p.kind==='decor'){
    if(!p.trophyCodes)p.trophyCodes=[p.trophyCode||null,...Array(HIDEOUT_TROPHY_SLOTS-1).fill(null)];
@@ -148,10 +150,16 @@ export function changeHideout(raw,action,body,{newId,ownedTrophies=[]}={}){
   const room=HIDEOUT_ROOMS.find(r=>r.code===body.room);
   if(!room||s.rooms.includes(room.code)||s.level<room.requiredLevel)fail('확장할 공간과 은신처 레벨을 확인하세요.');
   spend(room.cost);s.rooms.push(room.code);
- }else if(action==='decorate'){
+ }else if(action==='defenseRoom'){
+  if(!s.rooms.includes(body.room))fail('개방한 구역을 선택하세요.');
+  s.defenseRoom=body.room;
+ }else if(action==='decorate'||action==='installDefense'){
   const item=HIDEOUT_DECOR.find(d=>d.code===body.item);
   if(!s.level||!item||!s.rooms.includes(body.room)||s.placements.filter(p=>p.kind==='decor').length>=114||!newId)fail('장식과 배치할 공간을 확인하세요.');
-  spend(item.cost);s.placements.push({id:newId,kind:'decor',code:item.code,room:body.room,x:item.code==='trophy'?585:500,y:item.surface==='wall'?500:item.code==='trophy'?450:800,flipped:false,trophyCode:null,...(item.code==='trophy'?{trophyCodes:Array(HIDEOUT_TROPHY_SLOTS).fill(null)}:{})});
+  if(Boolean(item.defense)!==(action==='installDefense'))fail('시설 종류를 확인하세요.');
+  if(item.defense&&s.placements.some(p=>p.code===item.code))fail('이미 보유한 방어시설입니다. 배치 편집에서 이동할 수 있습니다.','HIDEOUT_OWNED',409);
+  const x=item.code==='autocannon'?740:item.code==='turret'?885:item.code==='trophy'?585:500;
+  spend(item.cost);s.placements.push({id:newId,kind:'decor',code:item.code,room:body.room,x,y:item.defense?270:item.surface==='wall'?500:item.code==='trophy'?450:800,flipped:false,trophyCode:null,...(item.code==='trophy'?{trophyCodes:Array(HIDEOUT_TROPHY_SLOTS).fill(null)}:{})});
  }else if(action==='trophy'){
   const item=s.placements.find(p=>p.id===body.id&&p.kind==='decor'&&p.code==='trophy');
   const slot=body.slot??0;if(!Number.isInteger(slot)||slot<0||slot>=HIDEOUT_TROPHY_SLOTS)fail('진열칸을 선택하세요.');
@@ -200,6 +208,19 @@ export function publicHideout(raw){
  });
  // Cached clients read this array's length. It is never consulted for progression.
  return {state:{...state,activityDates:[]},benefits:hideoutBenefits(state),parts:HIDEOUT_PARTS,rooms:HIDEOUT_ROOMS,decor:HIDEOUT_DECOR,skins:HIDEOUT_SKINS,facilities,roomCost:hideoutCost(state,'room'),roomCoinCost:hideoutUpgradeCoinCost('room',state.level+1),maximumLevel:HIDEOUT_MAX_LEVEL,trophySlots:HIDEOUT_TROPHY_SLOTS,stages:HIDEOUT_STAGES,stage:HIDEOUT_STAGES[Math.max(0,state.level-1)],nextStage:HIDEOUT_STAGES[state.level]||null,facilityMaximum:hideoutFacilityLimit(state.level),space:hideoutSpace(state)};
+}
+
+export function raidResidenceSnapshot(home){
+ const space=hideoutSpace(home);
+ return {revision:home.revision,stage:HIDEOUT_STAGES[home.level-1].code,defenseRoom:home.defenseRoom||'main',
+  rooms:space.rooms.map(({code,name,width})=>({code,name,width})),
+  pieces:home.placements.filter(p=>p.room!==null).map(p=>{
+   const item=(p.kind==='facility'?HIDEOUT_FURNITURE:HIDEOUT_DECOR).find(i=>i.code===p.code);
+   const skin=HIDEOUT_SKINS.find(s=>s.code===p.skin);
+   return {id:p.id,kind:p.kind,code:p.code,room:p.room,x:p.x,y:p.y,flipped:p.flipped,skin:p.skin||null,
+    width:space.furnitureWidths[p.code]||320,surface:item.surface||'floor',art:(skin?.image||item.image).split('/').pop(),
+    ...(p.code==='trophy'?{trophyCodes:[...p.trophyCodes]}:{})};
+  })};
 }
 export function hideoutCardRates(rows,bonus){
  if(!(bonus>0))return rows;

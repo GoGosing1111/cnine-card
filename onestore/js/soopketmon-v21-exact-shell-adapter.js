@@ -588,7 +588,7 @@
     if(route==='avatar'&&global.avatarFeatureVisible?.()!==true)return '';
     if(route==='alchemy'&&global.alchemyFeatureVisible?.()!==true)return '';
     const item = ROUTES[route]; if (!item) return '';
-    return `<button type="button" data-v21-route="${route}"><span>${route==='citadel' && global.SoopTacticalIcons ? global.SoopTacticalIcons.html(route) : svg(item[2])}</span><b>${esc(item[0])}</b><small>${esc(item[1])}</small></button>`;
+    return `<button type="button" data-v21-route="${route}"><span>${(route==='citadel'||ROUTE_META[route]?.group==='rewards')&&global.SoopTacticalIcons ? global.SoopTacticalIcons.html(route) : svg(item[2])}</span><b>${esc(item[0])}</b><small>${esc(item[1])}</small></button>`;
   }
 
   function openRouteOverlay(title, routes) {

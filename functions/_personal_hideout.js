@@ -83,6 +83,7 @@ function requireUpgradeCoins(balance,cost){
 }
 export async function mutateHideout(env,uid,action,body){
  if(!hideoutEnabled(env))throw Object.assign(Error('은신처를 준비하고 있습니다.'),{code:'HIDEOUT_CLOSED',status:423});
+ if((action==='installDefense'||action==='defenseRoom')&&!hideoutPlunderEnabled(env))throw Object.assign(Error('은신처 방어시설은 현재 비공개입니다.'),{code:'HIDEOUT_RAID_OFF',status:423});
  if(typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId))throw Object.assign(Error('요청 번호를 확인하세요.'),{code:'HIDEOUT_INPUT',status:400});
  const key='personal_hideout_mutation_v1:'+uid+':'+body.requestId;
  const {requestId,...payload}=body,input={action,...payload},hash=await jointHash(input);
@@ -140,6 +141,7 @@ export async function handlePersonalHideout({path,request,env,deps}){
  if(path!=='hideout'&&!path.startsWith('hideout/'))return null;
  const reply=(data,status=200)=>deps.json(data,status,{'cache-control':'private, no-store'});
  try{
+  if((path==='hideout/installDefense'||path==='hideout/defenseRoom')&&!hideoutPlunderEnabled(env))return reply({enabled:false,code:'HIDEOUT_RAID_OFF',error:'은신처 방어시설은 현재 비공개입니다.'},423);
   const user=await deps.authenticate(request,env);if(!user)return reply({error:'로그인이 필요합니다.'},401);
   if(path==='hideout'&&request.method==='GET'){
    const {state,coinBalance}=await readHideout(env,user.id,{withCoin:true});
@@ -147,7 +149,7 @@ export async function handlePersonalHideout({path,request,env,deps}){
   }
   if(path==='hideout/trophies'&&request.method==='GET')return reply({ok:true,trophies:await hideoutTrophies(env,user.id)});
   const action=path.slice(8);
-  const fields={upgrade:['target','room'],arrange:['placements'],expand:['room'],decorate:['item','room'],trophy:['id','trophyCode','slot'],unlockSkin:['skin'],equipSkin:['id','skin']};
+  const fields={upgrade:['target','room'],arrange:['placements'],expand:['room'],decorate:['item','room'],installDefense:['item','room'],defenseRoom:['room'],trophy:['id','trophyCode','slot'],unlockSkin:['skin'],equipSkin:['id','skin']};
   if(request.method!=='POST'||!Object.hasOwn(fields,action))return reply({error:'지원하지 않는 은신처 요청입니다.'},405);
   const body=await readJointBody(request,{fields:['requestId','revision',...fields[action]],maxBytes:32768});
   return reply(await deps.withUserMutationLock(env,user.id,path,()=>mutateHideout(env,user.id,action,body)));

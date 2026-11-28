@@ -1,10 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
+import {prepareRaidWallet,raidBalances} from './helpers/hideout-raid-rewards.mjs';
+import {handleGarageTuning} from '../functions/_garage_tuning.js';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {handleHideoutPlunder} from '../functions/_hideout_plunder.js';
-import {readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
+import {mutateHideout,readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
-import {emptyHideout, HIDEOUT_KEY, HIDEOUT_STOCK_LIMITS} from '../shared/personal-hideout-v1.mjs';
+import {emptyHideout, HIDEOUT_KEY, HIDEOUT_PARTS, HIDEOUT_STOCK_LIMITS} from '../shared/personal-hideout-v1.mjs';
 import {PLUNDER, plunderWindow, plunderTransfer, assignPlunderTeams} from '../shared/hideout-plunder-v1.mjs';
 
 const start = Date.parse('2026-11-28T20:30:00+09:00');
@@ -30,8 +34,49 @@ test('Korean date, exact opening and closing, stock conservation at capacity and
   }
 });
 
+test('production includes the turning atlas and a distinct item image for every residence material',()=>{
+  const paths=HIDEOUT_PARTS.map(p=>p.image.slice(1));
+  assert.equal(new Set(paths).size,paths.length);
+  for(const file of [...paths,'assets/ui/personal-hideout-20261116/turret-turn-v3.json','assets/ui/personal-hideout-20261116/turret-turn-v3.webp']){
+    assert(isProductionFile(file),file);
+    assert(readFileSync(new URL('../'+file,import.meta.url)).length>0,file);
+  }
+  assert(!isProductionFile('assets/ui/personal-hideout-20261116/source/turret-turn-v3/build.mjs'));
+});
+
+test('deployed turret uses defender HP, takes card attacks and stops firing at zero',()=>{
+  const deck=power=>Array.from({length:5},(_,i)=>({id:i+1,name:'검수 카드 '+i,title:'카드 '+i,rarity:'FUR',
+    power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],base_power:power,power}));
+  const battle=(attack,seed,extra={})=>createPvpBattleV2({attackerCards:deck(attack),defenderCards:deck(100000),
+    hideoutDefenses:['autocannon','turret'],seed,...extra}).result;
+  const result=battle(200000,782),turret=result.hideoutTurret;
+  const expectedMax=Math.round(.75*result.final.B.reduce((total,c)=>total+c.maxHp,0)/5);
+  assert.deepEqual(turret,{maxHp:expectedMax,hp:0});
+  const hits=result.timeline.filter(e=>e.type==='HIDEOUT_TURRET_HIT');
+  assert.equal(hits.length,3);
+  let hp=expectedMax;
+  for(const e of hits){
+    hp-=e.damage;
+    assert(e.actorId.startsWith('A:'));assert.equal(e.targetId,'HIDEOUT:TURRET');
+    assert(e.damage>0&&e.damage<=Math.round(expectedMax*.45));
+    assert.equal(e.targetMaxHp,expectedMax);assert.equal(e.targetHpAfter,hp);assert.equal(e.destroyed,hp===0);
+  }
+  const after=result.timeline.slice(result.timeline.indexOf(hits.at(-1))+1);
+  assert(!after.some(e=>e.type==='HIDEOUT_DEFENSE_FIRE'&&e.facility==='turret'));
+  assert(after.some(e=>e.type==='HIDEOUT_DEFENSE_FIRE'&&e.facility==='autocannon'));
+  const survivor=battle(85000,1);
+  assert(survivor.hideoutTurret.hp>0&&survivor.hideoutTurret.hp<survivor.hideoutTurret.maxHp);
+  assert.equal(survivor.hideoutTurret.hp,survivor.timeline.filter(e=>e.type==='HIDEOUT_TURRET_HIT').at(-1).targetHpAfter);
+  for(const extra of [{hideoutDefenseVersion:1},{hideoutDefenses:['autocannon']},{hideoutDefenses:[]}]){
+    const previous=battle(200000,782,extra);assert.equal(previous.hideoutTurret,undefined);
+    assert(!previous.timeline.some(e=>e.type==='HIDEOUT_TURRET_HIT'));
+    assert.equal(previous.timeline.some(e=>e.type==='HIDEOUT_DEFENSE_FIRE'&&e.facility==='turret'),extra.hideoutDefenseVersion===1);
+  }
+});
+
 async function fixture(t, postgres) {
   const f=await jointFixture(t,{postgres});
+  await prepareRaidWallet(f);
   let now=start, winner='A', finishTime=0;
   f.env.PERSONAL_HIDEOUT_ENABLED='1';
   f.env.HIDEOUT_PLUNDER_ENABLED='1';
@@ -54,9 +99,9 @@ async function fixture(t, postgres) {
       {id:'stored',kind:'decor',code:'lamp',room:null,x:500,y:500,flipped:false});
     await f.setting(HIDEOUT_KEY(uid),home);
   }
-  async function call(uid,action='',body){
+  async function call(uid,action='',body,targetId){
     const path='hideout/raid'+(action?'/'+action:'');
-    const request=new Request('https://game.test/api/'+path,{method:body?'POST':'GET',
+    const request=new Request('https://game.test/api/'+path+(targetId?'?target='+targetId:''),{method:body?'POST':'GET',
       headers:{Origin:'https://game.test','Content-Type':'application/json','X-Fixture-User':String(uid)},
       ...(body?{body:JSON.stringify(body)}:{})});
     const response=await handleHideoutPlunder({path,request,env:f.env,deps});
@@ -79,6 +124,11 @@ for(const postgres of [false,true]){
       const regular=await handlePersonalHideout({path:'hideout',env:h.f.env,deps:h.deps,
         request:new Request('https://game.test/api/hideout',{headers:{'X-Fixture-User':'7'}})});
       const enclosing=await regular.json();assert.equal(regular.status,200);assert.equal(enclosing.enabled,true);assert.equal(enclosing.raidEnabled,false);
+      for(const route of ['installDefense','defenseRoom']){
+        const gated=await handlePersonalHideout({path:'hideout/'+route,env:h.f.env,deps:{json:h.deps.json},
+          request:new Request('https://game.test/api/hideout/'+route,{method:'POST',body:'{}'})});
+        assert.equal(gated.status,423);assert.equal((await gated.json()).code,'HIDEOUT_RAID_OFF');
+      }
       for(const [action,body] of [['',undefined],['join',h.job()],['attack',h.job({targetId:8})],['repair',h.job()]]){
         const r=await h.call(7,action,body);
         assert.equal(r.status,423);assert.equal(r.data.code,'HIDEOUT_RAID_OFF');
@@ -93,12 +143,16 @@ for(const postgres of [false,true]){
     assert.equal((await h.call(0)).status,401);
     h.setTime(start-1);assert.equal((await h.join(7)).status,409);
     h.setTime(start);assert.equal((await h.join(7)).status,200);
-    assert.equal((await h.call(7)).data.mine.team,null);
+    const waiting=(await h.call(7,'',undefined,8)).data;
+    assert.equal(waiting.mine.team,null);assert.equal(waiting.scout,null);
     assert.equal((await h.call(7,'attack',h.job({targetId:8}))).status,403);
     assert.equal((await h.join(8)).status,200);
     const enemy=(await h.call(7)).data.enemies[0];
     assert.equal(enemy.id,8);assert.equal(enemy.durability,100);
-    assert.deepEqual((await h.call(9)).data.enemies,[]);
+    const outsider=(await h.call(9,'',undefined,8)).data;
+    assert.deepEqual(outsider.enemies,[]);assert.equal(outsider.scout,null);
+    const ownTarget=(await h.call(7,'',undefined,7)).data.scout;
+    assert.equal(ownTarget.targetId,8);
     assert.equal((await h.call(7,'attack',h.job({targetId:7}))).status,400);
     assert.equal((await h.call(7,'attack',h.job({targetId:9}))).status,409);
     assert.equal((await h.call(7,'attack',h.job({targetId:8,winner:'A'}))).status,400);
@@ -109,11 +163,16 @@ for(const postgres of [false,true]){
     const hit=await h.call(7,'attack',job);
     assert.equal(hit.status,200,JSON.stringify(hit.data));assert.equal(hit.data.after,80);
     assert.deepEqual(hit.data.loot,{STEEL:4,WIRE:2,CIRCUIT:1,DRIVE:1});
-    assert.equal(hit.data.hideoutFurniture.length,1);
-    assert.deepEqual(hit.data.hideoutFurniture[0],{art:'furniture-sofa.webp',width:420/960,flipped:true,x:.25,y:563.2/640});
+    assert.equal(hit.data.residenceLayout.pieces.length,1);
+    assert.deepEqual(hit.data.residenceLayout.pieces[0],{id:'sofa-1',kind:'decor',code:'sofa',room:'main',x:500,y:500,flipped:true,
+      skin:null,art:'furniture-sofa.webp',width:420,surface:'floor'});
+    assert.equal(hit.data.victoryReward.userId,7);
+    assert.deepEqual(await raidBalances(h.f,7),[1,1,1]);
+    assert.deepEqual(await raidBalances(h.f,8),[0,0,0]);
     assert.equal((await h.home(7)).parts.STEEL,44);assert.equal((await h.home(8)).parts.STEEL,36);
     assert.equal((await h.home(8)).parts.CORE,9);
     assert.equal((await h.call(7,'attack',job)).data.replayed,true);
+    assert.deepEqual(await raidBalances(h.f,7),[1,1,1]);
     assert.equal((await h.call(7,'attack',{...job,targetId:10})).status,409);
     assert.equal((await h.call(7,'attack',h.job({targetId:8}))).status,429);
     assert.equal((await h.call(8,'repair',h.job())).status,409);
@@ -131,8 +190,106 @@ for(const postgres of [false,true]){
     const repair=h.job();assert.equal((await h.call(8,'repair',repair)).data.durability,20);
     assert.equal((await h.call(8,'repair',repair)).data.replayed,true);
     assert.equal((await h.home(8)).parts.STEEL,home.parts.STEEL-2);
-    const board=(await h.call(7)).data;assert.equal(board.score.A+board.score.B,5);
+    const board=(await h.call(7,'',undefined,8)).data;assert.equal(board.score.A+board.score.B,5);assert.equal(board.scout,null);
     h.setTime(start+86400000);assert.equal((await h.call(8)).data.mine,null);assert.equal((await h.home(8)).durability,20);
+  });
+  test(dialect+' installs once, fights in the chosen room and keeps the recorded layout after editing',async t=>{
+    const h=await fixture(t,postgres),env=h.f.env,home=await h.home(8);
+    home.level=2;home.rooms.push('workshop');
+    Object.assign(home.parts,{STEEL:260,WIRE:148,CIRCUIT:68,DRIVE:18,STRUCTURE:21,CORE:2});
+    const otherHome=await h.home(7);
+    home.unlockedSkins=['sofa-cognac-leather'];home.placements[0].skin='sofa-cognac-leather';
+    await h.f.setting(HIDEOUT_KEY(8),home);
+    const change=async(action,fields)=>mutateHideout(env,8,action,{requestId:crypto.randomUUID(),revision:(await h.home(8)).revision,...fields});
+    delete env.HIDEOUT_PLUNDER_ENABLED;
+    await assert.rejects(change('installDefense',{item:'turret',room:'main'}),{code:'HIDEOUT_RAID_OFF'});
+    await assert.rejects(change('defenseRoom',{room:'workshop'}),{code:'HIDEOUT_RAID_OFF'});
+    env.HIDEOUT_PLUNDER_ENABLED='1';
+    h.setTime(start-3600000);
+    assert.equal((await h.call(8)).data.window.open,false);
+    await assert.rejects(change('decorate',{item:'turret',room:'main'}));
+    const body={requestId:crypto.randomUUID(),revision:home.revision,item:'autocannon',room:'workshop'};
+    const cannon=await mutateHideout(env,8,'installDefense',body);
+    assert.equal((await mutateHideout(env,8,'installDefense',body)).replayed,true);
+    const turretCost={STEEL:180,WIRE:100,CIRCUIT:48,DRIVE:18,STRUCTURE:14,CORE:2};
+    assert.deepEqual(cannon.state.parts,{...home.parts,...turretCost});
+    await assert.rejects(change('installDefense',{item:'autocannon',room:'main'}),{code:'HIDEOUT_OWNED'});
+    for(const code of ['STRUCTURE','CORE']){
+      const short=await h.home(8);short.parts={...cannon.state.parts,[code]:turretCost[code]-1};
+      await h.f.setting(HIDEOUT_KEY(8),short);
+      await assert.rejects(change('installDefense',{item:'turret',room:'workshop'}),{code:'HIDEOUT_PARTS'});
+      assert.deepEqual(await h.home(8),short);
+    }
+    await h.f.setting(HIDEOUT_KEY(8),cannon.state);
+    const built=await change('installDefense',{item:'turret',room:'workshop'});
+    assert.deepEqual(built.state.parts,emptyHideout().parts);
+    assert.equal(built.state.placements.filter(p=>p.code==='turret').length,1);
+    await assert.rejects(change('installDefense',{item:'turret',room:'main'}),{code:'HIDEOUT_OWNED'});
+    assert.deepEqual(await h.home(7),otherHome);
+    await change('defenseRoom',{room:'workshop'});
+    h.setTime(start);
+    await h.join(7);await h.join(8);h.setWinner('ENGINE');
+    const staged=await h.home(8),job=h.job({targetId:8});
+    const scout=(await h.call(7,'',undefined,8)).data.scout;
+    assert.equal(scout.targetId,8);assert.equal(scout.layout.revision,staged.revision);
+    assert.deepEqual(scout.layout.rooms.map(r=>r.code),['workshop']);
+    assert.deepEqual(scout.layout.pieces.map(p=>p.code).sort(),['autocannon','turret']);
+    const fight=(await h.call(7,'attack',job)).data;
+    assert.equal(fight.residenceLayout.defenseRoom,'workshop');
+    assert.equal(fight.residenceLayout.revision,staged.revision);
+    assert.deepEqual(fight.residenceLayout.rooms.map(r=>r.code),['main','workshop']);
+    assert.equal(fight.residenceLayout.pieces.find(p=>p.code==='sofa').art,'skin-sofa-cognac-leather.webp');
+    assert.deepEqual(fight.turretHp,fight.battleV2.result.hideoutTurret);
+    assert(fight.turretHp.maxHp>0);
+    const key='hideout_plunder_receipt_v1:7:'+job.requestId;
+    const saved=JSON.parse((await h.f.p('SELECT value FROM app_meta WHERE key=?',key).first()).value);
+    assert.equal(saved.replayInput.hideoutDefenseVersion,2);
+    const shots=r=>r.battleV2.result.timeline.filter(e=>e.type==='HIDEOUT_DEFENSE_FIRE');
+    assert.deepEqual(shots(fight).slice(0,2).map(e=>[e.facility,e.hits.length]),[['autocannon',1],['turret',3]]);
+    assert(shots(fight).every(e=>e.hits.every(t=>t.targetId.startsWith('A:')&&t.damage+t.absorbed>0&&Number.isFinite(t.targetHpAfter))));
+    const moved=(await h.home(8)).placements.map(p=>p.code==='turret'?{...p,room:null}:p.code==='autocannon'?{...p,room:'main',x:930,flipped:true}:p);
+    await change('arrange',{placements:moved});
+    const replay=(await h.call(7,'attack',job)).data;
+    assert.deepEqual(replay.residenceLayout,fight.residenceLayout);
+    assert.deepEqual(replay.battleV2.result.timeline,fight.battleV2.result.timeline);
+    assert.deepEqual(replay.turretHp,fight.turretHp);
+    const legacy=h.job({targetId:8});
+    delete saved.replayInput.hideoutDefenseVersion;
+    delete saved.response.turretHp;
+    saved.response.winner=createPvpBattleV2({...saved.replayInput,hideoutDefenseVersion:1}).result.winner;
+    await h.f.setting('hideout_plunder_receipt_v1:7:'+legacy.requestId,saved);
+    const old=(await h.call(7,'attack',legacy)).data;
+    assert.equal(old.replayed,true);assert.equal(old.battleV2.result.hideoutTurret,undefined);
+    assert(shots(old).some(e=>e.facility==='turret'));
+    h.setTime(start+PLUNDER.cooldownMs);
+    const later=(await h.call(7,'attack',h.job({targetId:8}))).data;
+    assert.equal(shots(later).length,0);assert.equal(later.turretHp,undefined);
+    assert(!later.residenceLayout.pieces.some(p=>p.code==='turret'));
+  });
+  test(dialect+' draw has no award and the first win before shop setup grants equippable parts and wallet currency',async t=>{
+    const h=await fixture(t,postgres),f=h.f;
+    await f.p("DELETE FROM app_meta WHERE key='loot_shop_policy_v1'").run();
+    for(const sql of ['DROP TABLE pig_coin_ledger_v1','DROP TABLE pig_coin_wallets_v1',
+      'CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,is_active INTEGER)',
+      'CREATE TABLE user_garage_vehicles(user_id INTEGER,garage_id INTEGER,PRIMARY KEY(user_id,garage_id))',
+      'CREATE TABLE user_garage_loadout(user_id INTEGER PRIMARY KEY,garage_id INTEGER)']){
+      if(f.DB.execSchema)await f.DB.execSchema([sql]);else await f.p(sql).run();
+    }
+    for(const sql of ['INSERT INTO character_garage_items VALUES(37,1)','INSERT INTO user_garage_vehicles VALUES(8,37)','INSERT INTO user_garage_loadout VALUES(8,37)'])await f.p(sql).run();
+    await h.join(7);await h.join(8);h.setWinner('DRAW');
+    const tie=await h.call(7,'attack',h.job({targetId:8}));
+    assert.equal(tie.status,200);assert.equal(tie.data.victoryReward,null);
+    for(const uid of [7,8])assert.deepEqual(await raidBalances(f,uid),[0,0,0]);
+    h.setTime(start+PLUNDER.cooldownMs);h.setWinner('B');
+    const job=h.job({targetId:8}),result=await h.call(7,'attack',job);assert.equal(result.status,200,JSON.stringify(result.data));
+    await h.call(7,'attack',job);assert.deepEqual(await raidBalances(f,8),[1,1,1]);
+    for(const slot of ['engine','frame']){
+      const path='character/garage/tuning',request=new Request('https://game.test/api/'+path,{method:'POST',
+        headers:{'X-Fixture-User':'8'},body:JSON.stringify({vehicleId:37,action:'equip',slot,stage:1})});
+      const res=await handleGarageTuning({env:f.env,path,request,deps:{...h.deps,readBody:r=>r.json()}});
+      assert.equal(res.status,200);const {tuning}=await res.json();assert.equal(tuning.equipped[slot],1);
+    }
+    assert.deepEqual(await raidBalances(f,7),[0,0,0]);
   });
   test(dialect+' enforces the operating window using the database clock',async t=>{
     const h=await fixture(t,postgres);
@@ -159,6 +316,9 @@ for(const postgres of [false,true]){
     assert.equal((await h.home(8)).durability,100);
     h.finishAt(0);h.setTime(start+1000);h.setWinner('B');
     const loss=await h.call(7,'attack',h.job({targetId:8}));
+    assert.equal(loss.data.victoryReward.userId,8);
+    assert.deepEqual(await raidBalances(h.f,8),[1,1,1]);
+    assert.deepEqual(await raidBalances(h.f,7),[0,0,0]);
     assert.equal(loss.data.before,loss.data.after);assert.deepEqual(loss.data.loot,{});
     h.setTime(start+PLUNDER.cooldownMs+1000);h.setWinner('ENGINE');
     const job=h.job({targetId:8}), battle=await h.call(7,'attack',job);
@@ -169,6 +329,35 @@ for(const postgres of [false,true]){
     assert.deepEqual(replay.data.battleV2.result,battle.data.battleV2.result);
   });
 }
+
+test('a concurrent defender edit changes the simulated room before settlement, and a wallet failure rolls back the loot and both tuning parts',async t=>{
+  const h=await fixture(t,false),f=h.f,home=await h.home(8);
+  home.placements.push({id:'active-gun',kind:'decor',code:'autocannon',room:'main',x:840,y:190,flipped:true});
+  await f.setting(HIDEOUT_KEY(8),home);
+  await h.join(7);await h.join(8);
+  const job=h.job({targetId:8}),batch=f.DB.batch.bind(f.DB);
+  let moved=false;
+  f.DB.batch=async statements=>{
+    if(!moved&&statements.some(s=>s.values?.[0]==='hideout_plunder_receipt_v1:7:'+job.requestId)){
+      moved=true;home.placements.at(-1).room=null;home.placements[0].x=874;home.revision++;
+      await f.setting(HIDEOUT_KEY(8),home);
+    }
+    return batch(statements);
+  };
+  const original=h.deps.createPvpBattleV2,inputs=[];
+  h.deps.createPvpBattleV2=opts=>{inputs.push(opts.hideoutDefenses||[]);return original(opts);};
+  f.fail('INSERT INTO pig_coin_ledger_v1');
+  assert.equal((await h.call(7,'attack',job)).status,503);
+  assert.equal((await h.home(8)).durability,100);assert.deepEqual(await raidBalances(f,7),[0,0,0]);
+  f.fail('');
+  const recovered=await h.call(7,'attack',job);
+  assert.equal(recovered.status,200);
+  assert.equal(recovered.data.residenceLayout.revision,home.revision);
+  assert.equal(recovered.data.residenceLayout.pieces[0].x,874);
+  assert.deepEqual(inputs[0],['autocannon']);assert.deepEqual(inputs[1],[]);
+  assert.equal(recovered.data.residenceLayout.pieces.length,1);
+  assert.equal((await h.home(8)).durability,80);assert.deepEqual(await raidBalances(f,7),[1,1,1]);
+});
 
 test('overlapping different attackers, same-team block and lost response recovery',async t=>{
   const h=await fixture(t,false);

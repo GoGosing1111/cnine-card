@@ -61,7 +61,7 @@ test('hideout siege shows the defended residence and leaves other modes on their
   const select=(data,mode)=>LiveEngine.prototype.resolveBattlefieldAsset.call({battleData:data,battlefieldAsset:LiveEngine.prototype.battlefieldAsset},mode);
   for(const stage of ['shanty','apartment','luxury','penthouse']){
     const data={sceneAssetKey:'PERSONAL_HIDEOUT_RAID',hideoutStage:stage};
-    assert.equal(select(data,'SIEGE'),'/assets/ui/personal-hideout-20261116/residence-'+stage+'.webp');
+    assert.equal(select(data,'SIEGE'),'/assets/ui/personal-hideout-20261116/battle-'+stage+'.webp');
     assert.equal(select(data,'PVP'),select({},'PVP'));
   }
   assert.equal(select({sceneAssetKey:'PERSONAL_HIDEOUT_RAID',hideoutStage:'invalid'},'SIEGE'),select({},'SIEGE'));

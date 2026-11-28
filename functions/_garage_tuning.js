@@ -74,7 +74,7 @@ const activeVehicle = `SELECT l.user_id,l.garage_id FROM user_garage_loadout l
   JOIN character_garage_items g ON g.id=l.garage_id AND g.is_active=1
   WHERE l.user_id=? AND l.garage_id=?`;
 
-function ensureGarageTuning(env) {
+export function ensureGarageTuning(env) {
   return ensureRuntimeFoundation(env, MIGRATION, [MIGRATION], async () => {
     if (env.DB.dialect === 'postgres') await ensurePostgresTuningStorage(env);
     await env.DB.batch([

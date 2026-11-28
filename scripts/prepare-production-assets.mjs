@@ -26,6 +26,7 @@ const martialAuthoringOnly=new Set(['assets/ui/martial-law-20261018/illustration
 // sources for regression tests without spending the last Pages asset slots.
 export const isolatedQaFixtures=new Set(['admin-forge-ticket-fixture','auction-fixture-20260926','funding-gift-fixture','worm-contest-gift-fixture','supporter-pass-fixture','supporter-application-fixture','server-support-fixture','seal-star-fixture','recruitment-gift-fixture','pingdu-thanks-gift-fixture'].map(name=>'tests/helpers/'+name+'.mjs'));
 isolatedQaFixtures.add('tests/fixtures/tower-expansion-20261102.json');
+isolatedQaFixtures.add('tests/helpers/hideout-raid-rewards.mjs');
 isolatedQaFixtures.add('tests/fixtures/pingdu-bread-v1.mjs');
 // Keep local mercenary QA inputs in Git; reserve their Pages slots for polish UI assets.
 isolatedQaFixtures.add('tests/fixtures/mercenary-operating-roster-20260922.json');
@@ -268,7 +269,7 @@ const legionEquipmentAuditOnly=new Set(JSON.parse(readFileSync(new URL('./legion
 export const heukmuAuditOnly=new Set(JSON.parse(readFileSync(new URL('./heukmu-audit-only-20261029.json',import.meta.url),'utf8')));
 const heukmuBundledOnly=file=>file==='tests/heukmu-live-20261029.qa-server.mjs'||file==='preview/project-v-v3/source/battle/HeukmuCombatPlayback.js'||file.startsWith('preview/project-v-v3/source/battle/heukmu/');
 // Exact icon images and authoring sources remain in Git; the game receives their byte-identical embedded bundle.
-const tacticalUiAuthoringOnly=file=>file.startsWith('output/imagegen/tactical-ui-20261030/')||(file.startsWith('assets/ui/tactical-20261030/')&&!['assets/ui/tactical-20261030/panel-flat.webp','assets/ui/tactical-20261030/auction.webp'].includes(file))||['js/tactical-icons-20261030.js','ui/adventure-lobby/tactical.css','ui/adventure-lobby/component.js','ui/adventure-lobby/operations.js','ui/adventure-lobby/operations.css','scripts/prepare-tactical-ui-20261030.mjs'].includes(file);
+const tacticalUiAuthoringOnly=file=>file.startsWith('output/imagegen/tactical-ui-20261030/')||(file.startsWith('assets/ui/tactical-20261030/')&&!['assets/ui/tactical-20261030/panel-flat.webp','assets/ui/tactical-20261030/auction.webp','assets/ui/tactical-20261030/hideoutPlunder.webp'].includes(file))||['js/tactical-icons-20261030.js','ui/adventure-lobby/tactical.css','ui/adventure-lobby/component.js','ui/adventure-lobby/operations.js','ui/adventure-lobby/operations.css','scripts/prepare-tactical-ui-20261030.mjs'].includes(file);
 // Internal agent instructions stay in Git; this public delivery slot holds the escort boss sprite.
 const rankedShopNativeTools=new Set(["scripts/android-direct/build-apk.ps1","scripts/play-store/build-android.ps1","scripts/build-battle-suit-imagegen-atlases-v6.ps1","scripts/build-battle-suit-imagegen-atlases-v7.ps1","scripts/d1-copy-export.py","scripts/d1-to-postgres.py","scripts/neon-bootstrap.py","scripts/generate-v3-event-sfx-preview-v2.py"]);
 // Draft announcements remain in Git until separately published.
@@ -351,8 +352,8 @@ const iphoneBattleAuditOnly=new Set(JSON.parse(readFileSync(new URL('./iphone-ba
 // Keep pet authoring originals, prompt sidecars and local QA in Git. Only runtime assets ship.
 const petGrowthNodeOnly=new Set(JSON.parse(readFileSync(new URL('./pet-growth-node-only-20261114.json',import.meta.url),'utf8')));
 const petGrowthAuthoring=file=>file.startsWith('.impeccable/')||file.startsWith('preview/pet-rework-20261114/')&&file!=='preview/pet-rework-20261114/fx-preview.bundle.mjs'||file.startsWith('assets/ui/pets/rework-20261114/')&&(/-source\.png$|\.webp\.json$/.test(file)||file.endsWith('/manifest.json'));
-// Hideout runtime art is compressed WebP. Keep source art and prompt/hash manifests in Git.
-const personalHideoutAuthoringOnly=file=>/^assets\/ui\/personal-hideout-20261116\/room-(?:1440|960)\.webp$/.test(file)||file.startsWith('assets/ui/personal-hideout-20261116/')&&!/^assets\/ui\/personal-hideout-20261116\/[^/]+\.webp$/.test(file);
+// The turret spritesheet also loads its frame manifest at runtime.
+const personalHideoutAuthoringOnly=file=>file!=='assets/ui/personal-hideout-20261116/turret-turn-v3.json'&&(/^assets\/ui\/personal-hideout-20261116\/room-(?:1440|960)\.webp$/.test(file)||file.startsWith('assets/ui/personal-hideout-20261116/')&&!/^assets\/ui\/personal-hideout-20261116\/[^/]+\.webp$/.test(file));
 // These offline Node combat analysis commands have no browser consumers. Keep them
 // available for reproducibility without sending executable QA to Pages clients.
 const hideoutOfflineCommands=new Set('ablate advancement-v1937 autopsy aw2 bfinal bfix bfix2 break break3 build comp counter diag dmgcurve final harness league meta parity s0 s0verify s1FINAL tune verify why'.split(' ').map(name=>'tools/balance-harness-v1903/'+name+'.mjs'));
