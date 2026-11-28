@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='20261128-field-v3';
+  const VERSION='20261128-field-v3-daily5';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -81,20 +81,21 @@
     return `<section class="escort-tactic-panel"><header><div><h3>다음 구간 전술 선택</h3></div><p>다음 교전을 준비할 전술을 하나 선택하세요.</p></header><div class="escort-v1833-tactic-grid">${choices.map((tactic,index)=>`<button type="button" class="escort-v1833-tactic-card is-${esc(String(tactic.key||'').toLowerCase())}" data-escort-action="tactic" data-tactic="${esc(tactic.key)}" data-escort-primary="${index===0?'1':'0'}" aria-label="${esc(`${tactic.name} 선택`)}"><span class="escort-v1833-tactic-number">0${index+1}</span><div class="escort-v1833-tactic-icon"><img src="${esc(imageUrl(TACTIC_ICONS[String(tactic.key||'').toUpperCase()]||tactic.icon))}?v=1835" alt="" width="256" height="256" decoding="async"></div><div class="escort-v1833-tactic-copy"><div class="escort-v1833-tactic-meta"><small>${esc(tactic.type)}</small><em>${esc(tactic.duration||'다음 1구간')}</em></div><b>${esc(tactic.name)}</b><p>${esc(tactic.description)}</p><u>전술 적용</u></div><i class="escort-v1833-tactic-arrow" aria-hidden="true"></i></button>`).join('')}</div></section>`;
   }
 
-  function actionMarkup(run,weekly,settings){
+  function actionMarkup(run,daily,settings){
     if(!run){
-      const left=Math.max(0,settings.weeklyRunLimit-number(weekly.startedCount)),claims=Math.max(0,settings.weeklyRewardLimit-number(weekly.rewardCount));
-      return `<section class="eo-command"><div><b>출발 준비</b><p>이번 주 출전 ${left}회 · 보상 수령 ${claims}회 남음</p></div><button type="button" data-escort-action="start" data-escort-primary="1" data-unavailable="${left&&claims?'0':'1'}">${left&&claims?'화물 싣고 출발':'이번 주 작전 종료'}</button></section>`;
+      const left=Math.max(0,daily.runLimit-number(daily.startedCount)),claims=Math.max(0,daily.rewardLimit-number(daily.rewardCount));
+      return `<section class="eo-command"><div><b>출발 준비</b><p>오늘 도전 ${left}회 · 보상 수령 ${claims}회 남음</p></div><button type="button" data-escort-action="start" data-escort-primary="1" data-unavailable="${left&&claims?'0':'1'}">${left&&claims?'화물 싣고 출발':'오늘 작전 종료'}</button></section>`;
     }
     if(run.status==='CLAIMING')return '<section class="eo-command"><div><b>보상 지급 확인 중</b><p>지급 상태를 자동으로 확인합니다.</p></div><button type="button" data-escort-action="reload" data-escort-primary="1">지급 상태 확인</button></section>';
     if(run.status==='COMPLETED_PENDING'){
+      if(daily.rewardCount>=daily.rewardLimit)return '<section class="eo-command"><div><b>오늘의 보상을 모두 수령했습니다</b><p>한국 시간 내일 오전 0시부터 이 작전의 보상을 받을 수 있습니다.</p></div></section>';
       const title=run.phase==='DELIVERED'?'중간 인계 완료':run.phase==='FAILED'?'호송 중단':`목적지 도착${run.deliveryGrade?' · '+run.deliveryGrade.name+' 인계':''}`;
       return `<section class="eo-command"><div><b>${esc(title)}</b><p>${number(run.clearedSectors)}구간 확보 · ${esc(rewardText(run.reward))}</p></div><button type="button" data-escort-action="claim" data-escort-primary="1">확보 보상 수령</button></section>`;
     }
     if(run.phase==='FAILED')return '<section class="eo-command"><div><b>호송 종료</b><p>첫 구간에서 화물을 잃었습니다.</p></div><button type="button" data-escort-action="reload">배차판으로 돌아가기</button></section>';
     if(run.phase==='TACTIC'){
       if(!run.contract)return '';
-      return `<section class="eo-command eo-handoff"><div><b>검문소에서 인계</b><p>${esc(rewardText(run.reward))} 확보 · 지금 인계하면 이번 주 보상 1회를 사용합니다.</p></div><button type="button" data-escort-action="deliver">중간 인계</button></section>`;
+      return `<section class="eo-command eo-handoff"><div><b>검문소에서 인계</b><p>${esc(rewardText(run.reward))} 확보 · 지금 인계하면 오늘 보상 수령 1회를 사용합니다.</p></div><button type="button" data-escort-action="deliver">중간 인계</button></section>`;
     }
     const tactic=settings.tactics?.find(row=>row.key===run.pendingTactic);
     return `<section class="eo-command"><div><b>${esc(run.sector.name)} 출발</b><p>${tactic?esc(tactic.name)+' 적용 · ':''}통과 보상 ${esc(rewardText(sectorReward(run.sector)))}</p></div><button type="button" data-escort-action="fight" data-escort-primary="1">구간 전투 시작</button></section>`;
@@ -106,12 +107,12 @@
     if(!data){root.innerHTML='<div class="escort-operation-loading"><i></i><b>호송 경로를 불러오는 중입니다.</b></div>';return}
     if(data.fieldOperations&&!data.run){
       const state=data;
-      void import('/pve/field-operations/entry.mjs').then(({renderOperationEntry})=>{
+      void import('/pve/field-operations/entry.mjs?v=20261128-daily5').then(({renderOperationEntry})=>{
         if(!root.hidden&&state===data)renderOperationEntry(root,{mode:'escort',state,api,refresh:load});
       }).catch(error=>{root.textContent=error.message;});
       return;
     }
-    const settings=data.settings,run=data.run,weekly=data.weekly||{},manifest=baseManifest(settings,run);
+    const settings=data.settings,run=data.run,daily=data.daily||{},manifest=baseManifest(settings,run);
     const current=number(run?.sectorIndex),next=run?.phase==='TACTIC'?current+1:current;
     const selected=Math.min(manifest.sectors.length-1,inspectSector??next),sector=manifest.sectors[selected];
     const hp=run?percent(run.vehiclePercent):100;
@@ -126,7 +127,7 @@
       ${received?`<section class="eo-receipt" role="status"><b>보상 수령 완료</b><span>${esc(rewardText(received.reward))}</span></section>`:''}
       ${run?'':contractPicker(settings,manifest)}
       ${run?.phase==='TACTIC'?tacticMarkup(run,settings):''}
-      ${actionMarkup(run,weekly,settings)}
+      ${actionMarkup(run,daily,settings)}
       <section class="eo-itinerary"><h3>운행 경로</h3><ol class="eo-stops">${routeMarkup(manifest,run,selected)}</ol>
         <div class="eo-contact"><img src="${esc(imageUrl(sector.enemyImage))}" alt=""><div><small>${esc(sector.name)}</small><h4>${esc(sector.enemyName)}</h4><p>${esc(sector.brief)}</p>
         <dl><div><dt>적 전투력</dt><dd>${number(sector.enemyPower).toLocaleString()}</dd></div><div><dt>차량 위험도</dt><dd>${number(sector.hazardPercent)}%</dd></div></dl></div></div>

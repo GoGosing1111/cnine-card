@@ -4,7 +4,7 @@ const content={
   yard:{name:'폐차장',mission:'아틀라스 부품 회수',description:'극성 회수기를 돌파하고 유압거신 아틀라스를 격파하세요. 오른팔을 분리하면 유압 프레임을 전량 회수합니다.'},
   escort:{name:'호송작전',mission:'장갑 수송차 호위',description:'차체와 화물을 지키면서 습격 지휘관을 격파하세요. 방어형은 차량 피해를, 속도형은 화물 손실을 줄입니다.'}
 };
-const active=new WeakMap(),rootName='/pve/field-operations/';
+const active=new WeakMap(),resetTimers=new Map(),rootName='/pve/field-operations/';
 const el=(tag,text,className)=>{const node=document.createElement(tag);if(text!=null)node.textContent=text;if(className)node.className=className;return node};
 const transient=error=>!error.status||error.status>=500||error.status===429||error.retryable||error.code==='JOINT_LOCK_BUSY';
 const keyFor=(account,mode)=>'rc:field-operation:v3:'+account+':'+mode;
@@ -20,17 +20,22 @@ export function renderOperationEntry(root,{mode,state,api,refresh}) {
   const ctx={mode,account:state.accountId,busy:false};active.set(root,ctx);
   const yard=mode==='yard',c=content[mode],key=keyFor(state.accountId,mode);
   const path=(yard?'scrapyard':'escort')+'/v3/operation';
-  const limit=yard?state.access.dailyRuns:state.settings.weeklyRunLimit;
-  const entries=yard?state.access.remainingRuns:Math.max(0,limit-state.weekly.startedCount);
-  const claims=yard?null:Math.max(0,state.settings.weeklyRewardLimit-state.weekly.rewardCount);
-  const allowed=yard?state.access.allowed&&Boolean(entries||state.ownerUnlimited):Boolean(entries&&claims);
+  const daily=state.daily;
+  const entries=Math.max(0,daily.runLimit-daily.startedCount),claims=Math.max(0,daily.rewardLimit-daily.rewardCount);
+  const allowed=(!yard||state.access.allowed)&&entries>0&&claims>0;
+  clearTimeout(resetTimers.get(mode));
+  const untilReset=Date.parse(daily.resetsAt)-Date.parse(state.serverNow);
+  if(Number.isFinite(untilReset))resetTimers.set(mode,setTimeout(()=>{
+    resetTimers.delete(mode);
+    if(root.isConnected&&!root.closest('[hidden]')&&!ctx.busy&&active.get(root)===ctx)void refresh().catch(()=>{});
+  },Math.max(0,untilReset)+200));
   const pending=()=>{try{return JSON.parse(localStorage.getItem(key))}catch{return null}};
   const forget=id=>{if(pending()?.requestId===id)localStorage.removeItem(key)};
   const page=el('section',null,'field-operation-entry '+mode),header=el('header'),title=el('div'),entriesBox=el('div',null,'field-operation-tiers');
   title.append(el('small',c.mission),el('h2',c.name),el('p',c.description));header.append(title);
-  header.append(el('strong',yard?(state.ownerUnlimited?'입장 횟수 제한 없음':'오늘 입장 '+entries+' / '+limit+'회'):'이번 주 출전 '+entries+'회 · 보상 '+claims+'회 남음'));
+  header.append(el('strong','오늘 도전 '+entries+' / '+daily.runLimit+'회 · 보상 수령 '+claims+' / '+daily.rewardLimit+'회 남음'));
   const msg=el('p',null,'field-operation-status');msg.setAttribute('role','status');msg.hidden=true;
-  const note=el('p','편성 참고치는 같은 난이도를 8번 플레이해 6승 이상 기록한 덱 중 가장 낮은 전투력입니다.','field-operation-note');
+  const note=el('p','도전·보상 횟수는 매일 오전 0시(한국 시간)에 갱신됩니다. 편성 참고치는 같은 난이도를 8번 플레이해 6승 이상 기록한 덱 중 가장 낮은 전투력입니다.','field-operation-note');
   page.append(header,entriesBox,note,msg);root.replaceChildren(page);
   const notify=text=>{msg.textContent=text;msg.hidden=false};
   async function open(tier,record) {

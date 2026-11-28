@@ -2,11 +2,12 @@ import {operationTiers} from '../shared/field-operation-tiers.mjs';
 import {coinCreditLimit,coinValue} from '../shared/coin-integer-v1.mjs';
 import {buildFieldOperation} from './_field_operation_battle.js';
 import {accountRankAward,accountRankBenefits} from './_account_rank.js';
-import {readScrapyardSettings,ensureScrapyardFoundation,scrapyardDayRange} from './_scrapyard.js';
+import {readScrapyardSettings,ensureScrapyardFoundation} from './_scrapyard.js';
 import {ensureEscortSchema,readEscortSettings,escortWeekKey} from './_escort_operation.js';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {SCRAPYARD_V3_OPERATION_TABLE} from './_scrapyard_v3_runs.js';
 import {encodeScrapyardRecord,decodeScrapyardRecord} from './_scrapyard_v3_record.js';
+import {fieldDailyQuota} from './_field_operation_quota.js';
 import {jointError,readJointBody} from './_joint_request.js';
 
 const yardRuns='scrapyard_runs_v1676', yardReceipts='scrapyard_run_receipts_v1676';
@@ -39,19 +40,11 @@ function replay(result,tier) {
 function admission(mode,user,cfg,at) {
   const uid=user.id, owner=String(user.role).toUpperCase()==='OWNER';
   if(cfg.mode!=='ON'&&!(cfg.mode==='TEST'&&owner))throw err('CLOSED','현재 작전에 입장할 수 없습니다.',403);
-  if(mode==='yard'){
-    const {start,end}=scrapyardDayRange(at);
-    const limits=owner?[]:[{sql:`(SELECT COUNT(*) FROM ${yardRuns} WHERE user_id=? AND created_at>=? AND created_at<?)<?`,
-      args:[uid,start,end,cfg.dailyRuns],message:'오늘의 폐차장 입장 횟수를 모두 사용했습니다.'}];
-    return [...limits,{sql:`NOT EXISTS(SELECT 1 FROM ${SCRAPYARD_V3_OPERATION_TABLE} WHERE user_id=? AND state<>'COMPLETED')`,
-      args:[uid],message:'진행 중인 폐차장 원정을 먼저 마무리하세요.'}];
-  }
-  const week=escortWeekKey(at);
-  return [
-    {sql:`NOT EXISTS(SELECT 1 FROM ${escortRuns} WHERE user_id=? AND status IN ${activeEscort})`,args:[uid],message:'진행 중인 호송작전을 먼저 마무리하세요.'},
-    {sql:`NOT EXISTS(SELECT 1 FROM ${weekly} WHERE user_id=? AND week_key=? AND (started_count>=? OR reward_count>=?))`,
-      args:[uid,week,cfg.weeklyRunLimit,cfg.weeklyRewardLimit],message:'이번 주 호송 출전 또는 보상 횟수를 모두 사용했습니다.'}
-  ];
+  const {runs,rewards}=fieldDailyQuota(mode,uid,cfg,at);
+  const active=mode==='yard'
+    ? {sql:`NOT EXISTS(SELECT 1 FROM ${SCRAPYARD_V3_OPERATION_TABLE} WHERE user_id=? AND state<>'COMPLETED')`,args:[uid],message:'진행 중인 폐차장 원정을 먼저 마무리하세요.'}
+    : {sql:`NOT EXISTS(SELECT 1 FROM ${escortRuns} WHERE user_id=? AND status IN ${activeEscort})`,args:[uid],message:'진행 중인 호송작전을 먼저 마무리하세요.'};
+  return [runs,rewards,active];
 }
 
 async function checkAdmission(db,checks) {
@@ -87,15 +80,19 @@ function rewardStatements(db,userId,rid,mode,s) {
 
 // The receipt, admission, ledger, inventory and rank updates share one DB transaction.
 // An admission race trips the NOT NULL user_id constraint before any payout is made.
-export async function settleFieldOperation(env,user,result,requestId,cfg,at=Date.now(),rankAward=accountRankAward) {
-  const db=env.DB,uid=user.id,mode=result.mode,rid=receiptKey(user,mode,requestId),s=result.settlement;
+export async function settleFieldOperation(env,user,result,requestId,cfg,at,rankAward=accountRankAward) {
+  const db=env.DB,uid=user.id,mode=result.mode,rid=receiptKey(user,mode,requestId),s=result.settlement,tier=result.tier.id;
+  const response={...result,ok:true,requestId,engineVersion:'FIELD_OPERATIONS_V3',difficulty:tier};
+  const stored=await encodeScrapyardRecord(response);
+  const rankStatements=mode==='yard'||s.won?await rankAward(env,uid,mode==='yard'?'SCRAPYARD':'ESCORT',rid):[];
+  // Use one admission and payout timestamp after all preparatory I/O.
+  at??=Date.now();
   const checks=admission(mode,user,cfg,at);
   if(s.won)checks.push({sql:'EXISTS(SELECT 1 FROM users WHERE id=? AND coin<=CAST(? AS BIGINT))',
     args:[uid,coinCreditLimit(s.coin)],message:'코인 보유 한도를 초과해 입장 횟수와 보상을 정산할 수 없습니다.'});
   const guard=`CASE WHEN ${checks.map(c=>'('+c.sql+')').join(' AND ')} THEN CAST(? AS BIGINT) ELSE NULL END`;
-  const args=[...checks.flatMap(c=>c.args),uid], now=stamp(at), won=s.won?1:0, tier=result.tier.id;
-  const response={...result,ok:true,requestId,engineVersion:'FIELD_OPERATIONS_V3',difficulty:tier};
-  const stored=await encodeScrapyardRecord(response), statements=[];
+  const args=[...checks.flatMap(c=>c.args),uid], now=stamp(at), won=s.won?1:0;
+  const statements=[];
   if(db.dialect==='postgres')statements.push(p(db,'SELECT id FROM users WHERE id=? FOR UPDATE',uid));
   if(mode==='yard'){
     statements.push(
@@ -120,7 +117,7 @@ export async function settleFieldOperation(env,user,result,requestId,cfg,at=Date
     );
   }
   statements.push(...rewardStatements(db,uid,rid,mode,s));
-  if(mode==='yard'||s.won)statements.push(...await rankAward(env,uid,mode==='yard'?'SCRAPYARD':'ESCORT',rid));
+  statements.push(...rankStatements);
   try{await db.batch(statements);}catch(error){
     const previous=await readReceipt(db,mode,uid,rid);
     if(previous)return replay(previous,tier);
@@ -155,6 +152,6 @@ export async function handleFieldOperation({path,request,env,deps,user}) {
     const snapshot=await loadScrapyardV3Snapshot(env,user,deps,'PVE',benefits);
     const seed=crypto.getRandomValues(new Uint32Array(1))[0];
     const result=buildFieldOperation(snapshot,mode,tier,seed);
-    return response(await settleFieldOperation(env,user,result,body.requestId,cfg,at));
+    return response(await settleFieldOperation(env,user,result,body.requestId,cfg));
   });
 }

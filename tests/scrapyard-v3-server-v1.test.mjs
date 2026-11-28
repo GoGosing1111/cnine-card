@@ -10,6 +10,7 @@ import {__scrapyardTest} from '../functions/_scrapyard.js';
 import {__dropPoolTest,invalidateUnifiedDropPoolCache,planUnifiedDropRoll} from '../functions/_drop_pool.js';
 import {settleFieldOperation} from '../functions/_field_operations.js';
 import {ensureEscortSchema} from '../functions/_escort_operation.js';
+import {fieldDailyQuota,readFieldDay} from '../functions/_field_operation_quota.js';
 import {operationTiers} from '../shared/field-operation-tiers.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED,loadScrapyardV3Snapshot,buildScrapyardV3Battle,validateScrapyardV3Config} from '../functions/_scrapyard_v3.js';
@@ -394,7 +395,7 @@ test('a failed battle keeps its checkpoint coins without rolling completion loot
 });
 
 for(const postgres of [false,true])test('independent V3 payouts, admission and rollback on '+(postgres?'PostgreSQL':'SQLite'),async t=>{
-  const f=await fixture(t,postgres),cfg={mode:'ON',dailyRuns:2,weeklyRunLimit:3,weeklyRewardLimit:2};
+  const f=await fixture(t,postgres),cfg={mode:'ON',dailyRuns:2,dailyRunLimit:3,dailyRewardLimit:2};
   const ddl=['ALTER TABLE inventory_items ADD COLUMN description TEXT','ALTER TABLE inventory_items ADD COLUMN category TEXT','ALTER TABLE inventory_items ADD COLUMN sort_order INTEGER'];
   if(postgres)await f.pg.exec(ddl.join(';'));else f.DB.sql.exec(ddl.join(';'));
   await ensureEscortSchema(f.env);
@@ -418,7 +419,7 @@ for(const postgres of [false,true])test('independent V3 payouts, admission and r
   // Same client key is independent between contents.
   await run('escort','rollback-001');
   await run('escort','escort-loss-02',false);
-  await f.p("INSERT INTO pve_escort_runs_v1830(run_id,user_id,week_key,vehicle_hp,vehicle_max_hp,deck_snapshot) VALUES('legacy',7,'2026-11-23',100,100,'[]')").run();
+  await f.p("INSERT INTO pve_escort_runs_v1830(run_id,user_id,week_key,vehicle_hp,vehicle_max_hp,deck_snapshot,started_at) VALUES('legacy',7,'2026-11-23',100,100,'[]','2026-11-27 00:00:00')").run();
   await assert.rejects(run('escort','escort-win-03'),e=>e.code==='PVE_V3_ENTRY');
   await f.p("UPDATE pve_escort_runs_v1830 SET status='FAILED' WHERE run_id='legacy'").run();
   await run('escort','escort-win-03');
@@ -432,4 +433,46 @@ test('field operation tiers use the approved fixed settlements in both modes',()
   assert.deepEqual(operationTiers.map(t=>[t.coin,t.masterStars]),[[3e8,3e3],[3e9,3e4],[3e10,3e5],[3e11,3e6],[3e12,3e7],[12e12,12e7],[30e12,3e8]]);
   assert.equal(isPvePublicPath('escort/v3/operation'),true);
   assert.equal(isPvePublicPath('escort/v3/admin'),false);
+});
+
+for(const postgres of [false,true])test('field daily quotas are independent, roll over at KST midnight, count prior runs and replay once on '+(postgres?'PostgreSQL':'SQLite'),async t=>{
+  const f=await fixture(t,postgres),cfg={mode:'ON'},owner={...user,role:'OWNER'};
+  const playerId=Number(user.id);
+  const sql='ALTER TABLE inventory_items ADD COLUMN description TEXT; ALTER TABLE inventory_items ADD COLUMN category TEXT; ALTER TABLE inventory_items ADD COLUMN sort_order INTEGER';
+  if(postgres)await f.pg.exec(sql);else f.DB.sql.exec(sql);
+  await ensureEscortSchema(f.env);
+  const midnight=Date.UTC(2026,10,25,15),before=midnight-1;
+  const day=(mode,at)=>readFieldDay(f.DB,fieldDailyQuota(mode,user.id,cfg,at));
+  const result=(mode,won,tier)=>({mode,tier,deckPower:150000,settlement:{won,hull:won?94:0,cargo:won?90:0,grade:won?'A':'—',defeated:won?2:0,
+    frames:won?1:0,scrap:won?4:0,coin:won?tier.coin:0,masterStars:won?tier.masterStars:0}});
+  const run=(mode,i,at,won=true)=>settleFieldOperation(f.env,owner,result(mode,won,operationTiers[i%2]),'daily-qa-'+i,cfg,at,async()=>[]);
+  await f.p("INSERT INTO pve_escort_weekly_v1830(user_id,week_key,started_count,reward_count) VALUES(?,'2026-11-23',35,20)",playerId).run();
+  for(const mode of ['yard','escort']){
+    for(let i=0;i<5;i++)await run(mode,i,before);
+    const full=await day(mode,before);
+    assert.deepEqual([full.startedCount,full.runLimit,full.rewardCount,full.rewardLimit,full.resetsAt],[5,5,5,5,'2026-11-25T15:00:00Z']);
+    await assert.rejects(run(mode,5,before),e=>e.code==='PVE_V3_ENTRY');
+    assert.equal((await run(mode,4,before)).replayed,true);
+    const fresh=await day(mode,midnight);
+    assert.deepEqual([fresh.startedCount,fresh.rewardCount],[0,0]);
+    assert.equal((await run(mode,4,midnight)).replayed,true);
+    assert.equal((await day(mode,midnight)).startedCount,0);
+    for(let i=10;i<14;i++)await run(mode,i,midnight,i===10);
+    if(postgres)await run(mode,14,midnight,false);
+    else {
+      const race=await Promise.allSettled([run(mode,14,midnight,false),run(mode,15,midnight,false)]);
+      assert.equal(race.filter(x=>x.status==='fulfilled').length,1);
+      assert.equal(race.find(x=>x.status==='rejected').reason.code,'PVE_V3_ENTRY');
+    }
+    await assert.rejects(run(mode,16,midnight,false),e=>e.code==='PVE_V3_ENTRY');
+    const used=await day(mode,midnight);assert.deepEqual([used.startedCount,used.rewardCount],[5,1]);
+  }
+  const next=midnight+86400000;
+  for(let i=0;i<5;i++)await f.p("INSERT INTO pve_escort_runs_v1830(run_id,user_id,week_key,status,vehicle_hp,vehicle_max_hp,deck_snapshot,started_at,claimed_at) VALUES(?,?,'2026-11-23','CLAIMED',90,100,'[]','2026-11-23 00:00:00','2026-11-26 15:00:00')",'old-escort-'+i,playerId).run();
+  const carried=await day('escort',next);
+  assert.deepEqual([carried.startedCount,carried.rewardCount],[0,5]);
+  await assert.rejects(run('escort',99,next),e=>e.code==='PVE_V3_ENTRY'&&e.message.includes('보상 수령'));
+  await run('yard',99,next);
+  await f.p("INSERT INTO scrapyard_runs_v1676(request_id,user_id,difficulty,success,rewards_json,created_at) VALUES('partial-legacy',?,'CORE',0,'[1]','2026-11-26 15:00:00')",playerId).run();
+  const partial=await day('yard',next);assert.deepEqual([partial.startedCount,partial.rewardCount],[2,2]);
 });

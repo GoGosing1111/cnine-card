@@ -13,6 +13,7 @@ const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 const TICKET_RESERVATION_TABLE='scrapyard_ticket_reservations_v1680';
 const DROP_RECEIPT_TABLE='unified_drop_receipts_v1667';
 const MODE_SET=new Set(['OFF','TEST','ON']);
+import {DEFAULT_FIELD_DAILY_LIMIT,fieldDailyQuota,readFieldDay,kstDayRange} from './_field_operation_quota.js';
 import {fieldOperationEntry} from '../shared/field-operation-tiers.mjs';
 
 export const SCRAPYARD_ENEMIES={
@@ -35,7 +36,7 @@ let foundationPromise=null,settingsCache=null;
 const staleRecoveryAt=new Map();
 
 const DEFAULT_SETTINGS={
-  mode:'OFF',dailyRuns:10,
+  mode:'OFF',dailyRuns:DEFAULT_FIELD_DAILY_LIMIT,
   difficulties:[
     {id:'OUTER',name:'외곽 폐차장',waves:5,requiredPowerStart:70000,requiredPowerEnd:180000,clearCoin:100000,accent:'#58ddff'},
     {id:'CORE',name:'압축 설비 구역',waves:6,requiredPowerStart:170000,requiredPowerEnd:390000,clearCoin:200000,accent:'#ffb85c'},
@@ -51,14 +52,6 @@ const parse=(value,fallback)=>{try{return JSON.parse(value)}catch{return fallbac
 const isOwner=user=>String(user?.role||'').toUpperCase()==='OWNER';
 const canAccess=(mode,user)=>mode==='ON'||mode==='TEST'&&isOwner(user);
 const isAdmin=user=>String(user?.role||'').toUpperCase()==='OWNER';
-function kstDayRange(now=Date.now()){
-  const shifted=new Date(now+9*60*60*1000);
-  const startMs=Date.UTC(shifted.getUTCFullYear(),shifted.getUTCMonth(),shifted.getUTCDate())-9*60*60*1000;
-  // created_at is stored as UTC TEXT (`YYYY-MM-DD HH:mm:ss`). Keep the range
-  // in the same sortable format so both D1 and PostgreSQL use the day index.
-  const sqlTime=value=>new Date(value).toISOString().replace('T',' ').slice(0,19);
-  return {start:sqlTime(startMs),end:sqlTime(startMs+24*60*60*1000)};
-}
 function hashUnit(seed){let h=2166136261;for(const ch of String(seed||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)>>>0}return h/4294967296}
 function cleanSettings(raw={}){
   const base=DEFAULT_SETTINGS,mode=MODE_SET.has(String(raw.mode||'').toUpperCase())?String(raw.mode).toUpperCase():base.mode;
@@ -105,15 +98,16 @@ async function settings(env,{fresh=false}={}){const release=await readJointRelea
 function publicDeck(deck){return (deck?.cards||[]).slice(0,5).map(card=>({id:String(card.id),title:card.title,rarity:card.rarity||card.grade||'C',grade:card.rarity||card.grade||'C',image:card.image||card.image_url||'',power:Number(card.power||0),powerType:card.powerType||card.power_type||'',breakthroughLevel:Number(card.breakthroughLevel??card.breakthrough_level??0),focusX:Number(card.focusX??card.focus_x??50),focusY:Number(card.focusY??card.focus_y??50),uniqueAbility:card.uniqueAbility||null}))}
 
 async function status(env,user,raidDeckPower){
-  const day=kstDayRange(),statusReads=env.DB.batch([
-    env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
+  const at=Date.now(),quota=fieldDailyQuota('yard',user.id,{},at),statusReads=env.DB.batch([
+    env.DB.prepare(`SELECT ${quota.runs.count} AS count,${quota.rewards.count} AS claims`).bind(...quota.range,...quota.range),
     env.DB.prepare("SELECT i.code,i.name,i.image_url,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') ORDER BY i.sort_order,i.code").bind(user.id),
     env.DB.prepare(`SELECT difficulty,MAX(waves_cleared) best_waves FROM ${RUN_TABLE} WHERE user_id=? GROUP BY difficulty`).bind(user.id)
   ]),[cfg,deck,statusRows]=await Promise.all([settings(env),raidDeckPower(env,user.id,null,'PVE'),statusReads]),[runs,parts,best]=statusRows;
   const used=Number(runs.results?.[0]?.count||0),bestMap=Object.fromEntries((best.results||[]).map(row=>[row.difficulty,Number(row.best_waves||0)]));
   const effectiveMode=cfg.mode,allowed=canAccess(effectiveMode,user);
   const difficulties=cfg.difficulties.map(zone=>({...zone,boss:SCRAPYARD_ENEMIES[zone.id].boss[0],routes:scrapyardRouteOptions(zone,cfg.v3?.[zone.id])}));
-  return {accountId:Number(user.id),ownerUnlimited:isOwner(user),fieldOperations:fieldOperationEntry('yard'),serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode,difficulties},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:false,canEnterWithTicket:true},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
+  const daily={runLimit:cfg.dailyRuns,rewardLimit:cfg.dailyRuns,startedCount:used,rewardCount:Number(runs.results?.[0]?.claims||0),resetsAt:quota.resetsAt};
+  return {accountId:Number(user.id),daily,fieldOperations:fieldOperationEntry('yard'),serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode,difficulties},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:false,canEnterWithTicket:true},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
 function buildBattle({requestId,difficulty,deck}){
@@ -159,8 +153,9 @@ async function run(env,user,body,deps){
   if(prior?.status==='PENDING')throw new Error('같은 폐차장 원정을 처리 중입니다.');
   const difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
   if(!canAccess(cfg.mode,user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
-  const day=kstDayRange(),used=await env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end).first();
-  if(Number(used?.count||0)>=cfg.dailyRuns&&!isOwner(user))throw new Error(`오늘 폐차장 입장 ${cfg.dailyRuns}회를 모두 사용했습니다.`);
+  const quota=fieldDailyQuota('yard',user.id,cfg),daily=await readFieldDay(env.DB,quota);
+  if(daily.startedCount>=daily.runLimit)throw new Error(quota.runs.message);
+  if(daily.rewardCount>=daily.rewardLimit)throw new Error(quota.rewards.message);
   const reserved=prior?.status==='FAILED'
     ?await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET difficulty=?,status='PENDING',ticket_consumed=0,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='FAILED'`).bind(difficulty.id,requestId,user.id).run()
     :await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,difficulty,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,difficulty.id).run();if(!reserved.meta?.changes)throw new Error('같은 폐차장 원정을 처리 중입니다.');

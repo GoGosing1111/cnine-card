@@ -293,3 +293,22 @@ test('paused and owner-test modes gate new escort contracts and settlement',asyn
     assert.equal((await f.call('claim',{requestId:'no-claim'},httpStatus)).code,code);
   }
 });
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: legacy escort rewards use the claim day and can be recovered after the daily limit`,async t=>{
+  const f=await escortFixture(t,postgres),db=f.env.DB;
+  await f.call('status');
+  const p=(sql,...values)=>db.prepare(sql).bind(...values);
+  const ranks=await f.call('status');assert.equal(ranks.daily.runLimit,5);assert.equal(ranks.daily.rewardLimit,5);
+  for(let i=0;i<5;i++)await p("INSERT INTO pve_escort_runs_v1830(run_id,user_id,week_key,status,vehicle_hp,vehicle_max_hp,deck_snapshot,started_at,claimed_at) VALUES(?,7,'2000-01-03','CLAIMED',100,100,'[]','2000-01-03 00:00:00',CURRENT_TIMESTAMP)",'old-claimed-'+i).run();
+  const pendingId='old-awaiting-claim';
+  await p("INSERT INTO pve_escort_runs_v1830(run_id,user_id,week_key,status,vehicle_hp,vehicle_max_hp,deck_snapshot,state_json,reward_coin,started_at) VALUES(?,7,'2000-01-03','COMPLETED_PENDING',100,100,'[]','{}',500,'2000-01-03 00:00:00')",pendingId).run();
+  const claim={requestId:'old-payout-request',runId:pendingId};
+  const rejected=await f.call('claim',claim,409);assert.match(rejected.error,/오늘.*보상 수령 5회/);
+  assert.equal((await f.call('status')).run.status,'COMPLETED_PENDING');
+  assert.equal(Number((await p('SELECT COUNT(*) n FROM coin_logs WHERE user_id=7').first()).n),0);
+  await p("UPDATE pve_escort_runs_v1830 SET claimed_at='2000-01-04 00:00:00' WHERE run_id LIKE 'old-claimed-%'").run();
+  assert.equal((await f.call('claim',claim)).reward.coin,500);
+  assert.equal((await f.call('claim',claim)).reward.coin,500);
+  const fresh=await f.call('status');assert.deepEqual([fresh.daily.startedCount,fresh.daily.rewardCount],[0,1]);
+  assert.equal(Number((await p('SELECT COUNT(*) n FROM coin_logs WHERE user_id=7').first()).n),1);
+});

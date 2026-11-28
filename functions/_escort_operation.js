@@ -18,6 +18,7 @@ const CLAIM_RECOVERY_SECONDS=30;
 // V1840: 구간 보상으로 지급하는 폐차장 출입 허가증 (functions/_scrapyard.js 와 동일 코드)
 const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 
+import {DEFAULT_FIELD_DAILY_LIMIT,fieldDailyQuota,readFieldDay} from './_field_operation_quota.js';
 import {fieldOperationEntry} from '../shared/field-operation-tiers.mjs';
 export {ensure as ensureEscortSchema,settings as readEscortSettings,weekKey as escortWeekKey};
 
@@ -96,7 +97,7 @@ export function defaultEscortSettings(){
   //   구간별 보상 + 완주 보너스로 나눴다. 완주 시 총액은 종전과 같다
   //   (구간합 2,250,000 + 보너스 250,000 = 2,500,000 / 165 + 85 = 250).
   //   vehicleStrikeScale 은 난이도 다이얼 하나다. 올리면 차량이 빨리 터진다.
-  return {mode:'ON',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,weeklyRunLimit:10,weeklyRewardLimit:3,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:36,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
+  return {mode:'ON',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,dailyRunLimit:DEFAULT_FIELD_DAILY_LIMIT,dailyRewardLimit:DEFAULT_FIELD_DAILY_LIMIT,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:36,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
 }
 
 export function cleanEscortSettings(raw={}){
@@ -104,8 +105,8 @@ export function cleanEscortSettings(raw={}){
   const incoming=Array.isArray(raw.sectors)?raw.sectors:base.sectors;
   return {
     mode,title:cleanText(raw.title||base.title,60),description:cleanText(raw.description||base.description,220),
-    vehicleMaxHp:integer(raw.vehicleMaxHp,base.vehicleMaxHp,1000,10000000),weeklyRunLimit:integer(raw.weeklyRunLimit,base.weeklyRunLimit,1,100),
-    weeklyRewardLimit:integer(raw.weeklyRewardLimit,base.weeklyRewardLimit,1,30),clearBonusCoin:integer(raw.clearBonusCoin,base.clearBonusCoin,0,2000000000),
+    vehicleMaxHp:integer(raw.vehicleMaxHp,base.vehicleMaxHp,1000,10000000),dailyRunLimit:integer(raw.dailyRunLimit,base.dailyRunLimit,1,100),
+    dailyRewardLimit:integer(raw.dailyRewardLimit,base.dailyRewardLimit,1,30),clearBonusCoin:integer(raw.clearBonusCoin,base.clearBonusCoin,0,2000000000),
     clearBonusShards:integer(raw.clearBonusShards,base.clearBonusShards,0,1000000),repairPercent:integer(raw.repairPercent,base.repairPercent,1,100),
     // 회당 차량 피해 = 차량최대HP x hazardPercent x vehicleStrikeScale / 10000
     vehicleStrikeScale:integer(raw.vehicleStrikeScale,base.vehicleStrikeScale,1,200),
@@ -222,8 +223,11 @@ async function claimResponse(env,row){
 
 async function statusPayload(env,user,cfg){
   await recoverStaleClaim(env,user.id);
-  const key=weekKey(),[run,weekly]=await Promise.all([currentRun(env,user.id),weeklyState(env,user.id,key)]);
-  return {ok:true,accountId:Number(user.id),fieldOperations:fieldOperationEntry('escort'),ownerTest:cfg.mode==='TEST',settings:visibleSettings(cfg),run:publicRun(run,cfg),weekly,serverNow:new Date().toISOString()};
+  const at=Date.now(),[run,weekly,daily]=await Promise.all([currentRun(env,user.id),weeklyState(env,user.id,weekKey(at)),readFieldDay(env.DB,fieldDailyQuota('escort',user.id,cfg,at))]);
+  // Earlier clients subtract the historical weekly counts from these two fields.
+  const compatible={...visibleSettings(cfg),weeklyRunLimit:weekly.startedCount+Math.max(0,daily.runLimit-daily.startedCount),
+    weeklyRewardLimit:weekly.rewardCount+Math.max(0,daily.rewardLimit-daily.rewardCount)};
+  return {ok:true,accountId:Number(user.id),fieldOperations:fieldOperationEntry('escort'),ownerTest:cfg.mode==='TEST',settings:compatible,run:publicRun(run,cfg),weekly,daily,serverNow:new Date(at).toISOString()};
 }
 
 async function reserveReceipt(env,{requestId,userId,runId,action,resumable=false}){
@@ -380,16 +384,17 @@ export async function handleEscortOperation({path,request,env,deps}){
         ? json(await statusPayload(env,user,cfg)) : json({error:'이미 사용된 요청 ID입니다.'},409);
     }
     if(deps.retireLegacyStarts)return json({error:'호송작전이 개편되었습니다. 게임을 새로고침하고 다시 입장하세요.'},409);
-    const key=weekKey(),weekly=await weeklyState(env,user.id,key);
-    if(weekly.startedCount>=cfg.weeklyRunLimit)return json({error:`이번 주 출전 가능 횟수 ${cfg.weeklyRunLimit}회를 모두 사용했습니다.`},409);
-    if(weekly.rewardCount>=cfg.weeklyRewardLimit)return json({error:`이번 주 보상 횟수 ${cfg.weeklyRewardLimit}회를 모두 달성했습니다.`},409);
+    const at=Date.now(),key=weekKey(at),quota=fieldDailyQuota('escort',user.id,cfg,at),daily=await readFieldDay(env.DB,quota);
+    if(daily.startedCount>=daily.runLimit)return json({error:quota.runs.message},409);
+    if(daily.rewardCount>=daily.rewardLimit)return json({error:quota.rewards.message},409);
     let contract;
     try { contract=escortContract(cfg,body?.contract); }
     catch(error) { return json({error:error.message},400); }
     const deck=rankCards(await pveDeckSnapshot(env,user.id),await accountRankBenefits(env,user.id,'ESCORT'));if(deck.length!==5)return json({error:'PVE 출전 덱 5장을 먼저 저장하세요.'},400);
     const runId=crypto.randomUUID(),state={phase:'READY',contract,bankedStars:0,pet:await loadPetBattleSnapshot(env,user,'PVE'),...await releasedMercenaryFormation(env,user,'PVE'),mercenaryHpPercent:100,cardHp:Object.fromEntries(deck.map(card=>[String(card.id),100])),pendingTactic:null,choices:[],history:[]};
     await env.DB.batch([
-      env.DB.prepare(`INSERT INTO ${RUN_TABLE}(run_id,user_id,week_key,status,sector_index,vehicle_hp,vehicle_max_hp,deck_snapshot,state_json) VALUES(?,? ,?,'ACTIVE',0,?,?,?,?)`).bind(runId,user.id,key,cfg.vehicleMaxHp,cfg.vehicleMaxHp,JSON.stringify(deck),JSON.stringify(state)),
+      ...(env.DB.dialect==='postgres'?[env.DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id)]:[]),
+      env.DB.prepare(`INSERT INTO ${RUN_TABLE}(run_id,user_id,week_key,status,sector_index,vehicle_hp,vehicle_max_hp,deck_snapshot,state_json,started_at) VALUES(?,CASE WHEN ${quota.runs.sql} AND ${quota.rewards.sql} THEN CAST(? AS BIGINT) ELSE NULL END,?,'ACTIVE',0,?,?,?,?,?)`).bind(runId,...quota.runs.args,...quota.rewards.args,user.id,key,cfg.vehicleMaxHp,cfg.vehicleMaxHp,JSON.stringify(deck),JSON.stringify(state),new Date(at).toISOString().replace('T',' ').slice(0,19)),
       ...(startId ? [env.DB.prepare(`INSERT INTO ${RECEIPT_TABLE}(request_id,user_id,run_id,action_type,status) VALUES(?,?,?,'START','COMPLETED')`).bind(startId,user.id,runId)] : []),
       env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,started_count,updated_at) VALUES(?,?,1,CURRENT_TIMESTAMP) ON CONFLICT(user_id,week_key) DO UPDATE SET started_count=${WEEKLY_TABLE}.started_count+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,key)
     ]);
@@ -552,27 +557,29 @@ export async function handleEscortOperation({path,request,env,deps}){
       await recoverStaleClaim(env,user.id);
       const row=await currentRun(env,user.id);if(!row||row.status!=='COMPLETED_PENDING')throw Object.assign(new Error('수령할 호송작전 보상이 없습니다.'),{status:409});
       if(body.runId && row.run_id!==body.runId)return json({error:'수령할 작전이 변경되었습니다.'},409);
+      const claimAt=Date.now(),quota=fieldDailyQuota('escort',user.id,cfg,claimAt),daily=await readFieldDay(env.DB,quota);
+      if(daily.rewardCount>=daily.rewardLimit)throw Object.assign(new Error(quota.rewards.message),{status:409});
       const receipt=await reserveReceipt(env,{requestId,userId:user.id,runId:row.run_id,action:'CLAIM'});if(receipt.replay)return json(receipt.replay);if(receipt.error)return json({error:receipt.error},receipt.status);
-      const weekly=await weeklyState(env,user.id,row.week_key);if(weekly.rewardCount>=cfg.weeklyRewardLimit)throw Object.assign(new Error('이번 주 호송작전 보상 횟수를 모두 사용했습니다.'),{status:409});
       const reserved=await env.DB.prepare(`UPDATE ${RUN_TABLE} SET status='CLAIMING',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='COMPLETED_PENDING'`).bind(row.run_id,user.id).run();if(Number(reserved?.meta?.changes||0)!==1)throw Object.assign(new Error('보상을 다른 요청에서 처리 중입니다.'),{status:409});
       ownedRunId=row.run_id;ownedVersion=Number(row.version)+1;
       const state=jsonSafe(row.state_json,{});
       const coin=rankCoin(Number(row.reward_coin||0),await accountRankBenefits(env,user.id,'ESCORT')),shards=Number(row.reward_shards||0),tickets=Number(row.reward_tickets||0),stars=Number(state.bankedStars||0);
       const claimedReward={coin,shards,tickets,stars},vehiclePercent=Math.round(Number(row.vehicle_hp||0)/Math.max(1,Number(row.vehicle_max_hp||1))*100);
-      const claimGuard=`EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND version=? AND status='CLAIMING')`;
-      const guardArgs=[row.run_id,user.id,ownedVersion];
+      const claimGuard=`EXISTS(SELECT 1 FROM ${RUN_TABLE} WHERE run_id=? AND user_id=? AND version=? AND status='CLAIMING') AND ${quota.rewards.sql}`;
+      const guardArgs=[row.run_id,user.id,ownedVersion,...quota.rewards.args];
       const itemStatements=[[ENTRY_TICKET_CODE,tickets],['MASTER_STAR',stars]].filter(([,quantity])=>quantity>0).flatMap(([code,quantity])=>[
         env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${claimGuard} ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,code,quantity,quantity,...guardArgs),
         env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'PVE 호송작전 구간 보상','ESCORT_OPERATION',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${claimGuard}`).bind(quantity,row.run_id,user.id,code,...guardArgs)
       ]);
       await env.DB.batch([
+        ...(env.DB.dialect==='postgres'?[env.DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id)]:[]),
         env.DB.prepare(`UPDATE users SET coin=coin+CAST(? AS BIGINT),card_shards=card_shards+? WHERE id=? AND ${claimGuard}`).bind(coin,shards,user.id,...guardArgs),
         ...itemStatements,
         ...await accountRankAward(env,user.id,'ESCORT',row.run_id,{guard:claimGuard,values:guardArgs}),
         env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,reward_count,best_vehicle_hp_percent,updated_at) SELECT ?,?,1,?,CURRENT_TIMESTAMP WHERE ${claimGuard} ON CONFLICT(user_id,week_key) DO UPDATE SET reward_count=${WEEKLY_TABLE}.reward_count+1,best_vehicle_hp_percent=CASE WHEN ${WEEKLY_TABLE}.best_vehicle_hp_percent>=excluded.best_vehicle_hp_percent THEN ${WEEKLY_TABLE}.best_vehicle_hp_percent ELSE excluded.best_vehicle_hp_percent END,updated_at=CURRENT_TIMESTAMP`).bind(user.id,row.week_key,vehiclePercent,...guardArgs),
         env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PVE 호송작전 구간 보상' FROM users WHERE id=? AND ${claimGuard}`).bind(coin,user.id,...guardArgs),
         env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT id,?,card_shards,'PVE 호송작전 구간 보상',NULL FROM users WHERE id=? AND ${claimGuard}`).bind(shards,user.id,...guardArgs),
-        env.DB.prepare(`UPDATE ${RUN_TABLE} SET status='CLAIMED',state_json=?,claimed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND version=? AND status='CLAIMING'`).bind(JSON.stringify({...state,claimedReward}),...guardArgs)
+        env.DB.prepare(`UPDATE ${RUN_TABLE} SET status='CLAIMED',state_json=?,claimed_at=?,updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND version=? AND status='CLAIMING' AND ${quota.rewards.sql}`).bind(JSON.stringify({...state,claimedReward}),new Date(claimAt).toISOString().replace('T',' ').slice(0,19),...guardArgs)
       ]);
       const claimed=await env.DB.prepare(`SELECT * FROM ${RUN_TABLE} WHERE run_id=? AND user_id=?`).bind(row.run_id,user.id).first();
       if(claimed?.status!=='CLAIMED')throw Object.assign(new Error('보상 처리 상태가 변경됐습니다. 다시 시도해 주세요.'),{status:409});

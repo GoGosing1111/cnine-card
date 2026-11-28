@@ -1,3 +1,4 @@
+import {fieldDailyQuota} from './_field_operation_quota.js';
 import {addCoins} from '../shared/coin-integer-v1.mjs';
 import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js';
 import {planForgeProtectionDrop} from './_forge_protection_drop.js';
@@ -47,11 +48,6 @@ async function operation(env, uid, rid) {
 function pending(rid, code = 'SCRAPYARD_V3_RUNNING', difficulty) {
   return {ok:true, status:'RUNNING', code, requestId:rid, ...(difficulty ? {difficulty} : {}), retryAfterMs:1500, resultPending:true};
 }
-function kstRange(at) {
-  const day = new Date(at + 9 * 3600000), start = Date.UTC(day.getUTCFullYear(),day.getUTCMonth(),day.getUTCDate()) - 9 * 3600000;
-  const sqlTime = ms => new Date(ms).toISOString().replace('T',' ').slice(0,19);
-  return {start:sqlTime(start), end:sqlTime(start + 86400000)};
-}
 function encoded(value) {
   const json = JSON.stringify(value);
   if (new TextEncoder().encode(json).byteLength > MAX_CHECKPOINT_BYTES) throw error('SCRAPYARD_V3_PAYLOAD', '원정 기록이 허용 크기를 초과했습니다.');
@@ -65,7 +61,7 @@ async function claim(env, uid, rid, token, at) {
 }
 
 async function reserve(env, user, rid, difficulty, cfg, snapshot, battle, plan, seed, token, at) {
-  const uid = Number(user.id), day = kstRange(at), owner = String(user.role).toUpperCase() === 'OWNER';
+  const uid = Number(user.id), quota = fieldDailyQuota('yard',uid,cfg,at);
   const snapshotJson = encoded(snapshot), battleJson = await encodeScrapyardRecord({...battle, difficulty, freeEntry:true}), planJson = encoded(plan);
   // Keep headroom for presented rewards and per-row limits across backends.
   if (new TextEncoder().encode(snapshotJson+battleJson+planJson).byteLength > 700000) throw error('SCRAPYARD_V3_PAYLOAD','원정 기록이 너무 큽니다.');
@@ -73,8 +69,8 @@ async function reserve(env, user, rid, difficulty, cfg, snapshot, battle, plan, 
   // Every economic write shares this transaction with its frozen result.
   const stmts = [
     p(env, `INSERT INTO ${OPS}(request_id,user_id,seed,snapshot_json,battle_json,drop_plan_json,lease_token,lease_until)
-      SELECT ?,?,?,?,?,?,?,? WHERE (?=1 OR (SELECT COUNT(*) FROM ${RUNS} WHERE user_id=? AND created_at>=? AND created_at<?)<?)`,
-    rid,uid,seed,snapshotJson,battleJson,planJson,token,at+LEASE_MS,owner?1:0,uid,day.start,day.end,cfg.dailyRuns),
+      SELECT ?,?,?,?,?,?,?,? WHERE ${quota.runs.sql} AND ${quota.rewards.sql}`,
+    rid,uid,seed,snapshotJson,battleJson,planJson,token,at+LEASE_MS,...quota.runs.args,...quota.rewards.args),
     p(env, `INSERT INTO ${RECEIPTS}(request_id,user_id,difficulty,status,ticket_consumed,response_json)
       SELECT ?,?,?,'PENDING',0,? WHERE ${ownedSql}`,rid,uid,difficulty.id,battleJson,rid,uid,token)
   ];
@@ -84,7 +80,7 @@ async function reserve(env, user, rid, difficulty, cfg, snapshot, battle, plan, 
   return op;
 }
 
-async function settle(env, user, op, token) {
+async function settle(env, user, op, token, cfg) {
   const uid = Number(user.id), rid = op.request_id, saved = await decodeScrapyardRecord(op.battle_json), plan = parse(op.drop_plan_json);
   if (Number(op.user_id) !== uid || plan.userId !== uid || plan.requestId !== `SCRAPYARD:${rid}` ||
       plan.sourceType !== 'SCRAPYARD' || plan.sourceId !== saved.difficulty?.id) throw error('SCRAPYARD_V3_RECORD', '저장된 원정 기록의 소유자를 확인할 수 없습니다.');
@@ -96,14 +92,16 @@ async function settle(env, user, op, token) {
   const response = {...saved, ok:true, status:'COMPLETED', requestId:rid, rewards, partDropped:grants.rewards.length>0,
     entryTicket:saved.freeEntry ? {code:ITEM,consumed:0} : {code:ITEM,consumed:1,remaining:Number(inventory?.quantity || 0)}, refreshAccount:true};
   const responseJson = await encodeScrapyardRecord(response);
+  const settleAt=Date.now(),quota=fieldDailyQuota('yard',uid,cfg,settleAt);
   const proofs = grants.proofs.length ? grants.proofs.map(proof => `(${proof.sql})`).join(' AND ') : '1=1';
   const proofValues = grants.proofs.flatMap(proof => proof.values);
   await env.DB.batch([
+    ...(env.DB.dialect==='postgres'?[p(env,'SELECT id FROM users WHERE id=? FOR UPDATE',uid)]:[]),
     // Fail before any shared grant if ownership expired OR the row disappeared.
     // An UPDATE-only check could affect zero rows and let the batch continue.
     p(env, `INSERT INTO ${OPS}(request_id,user_id,seed,snapshot_json,battle_json,drop_plan_json,integrity)
       SELECT ?,?,0,'','','',NULL WHERE NOT EXISTS(SELECT 1 FROM ${OPS}
-        WHERE request_id=? AND user_id=? AND lease_token=? AND lease_until>? AND state='PREPARED')`,rid,uid,rid,uid,token,Date.now()),
+        WHERE request_id=? AND user_id=? AND lease_token=? AND lease_until>? AND state='PREPARED' AND ${quota.runs.sql} AND ${quota.rewards.sql})`,rid,uid,rid,uid,token,settleAt,...quota.runs.args,...quota.rewards.args),
     ...grants.statements,
     ...await accountRankAward(env,uid,'SCRAPYARD',rid),
     p(env, `UPDATE ${OPS} SET integrity=CASE WHEN ${proofs} THEN 1 ELSE NULL END WHERE request_id=? AND user_id=? AND lease_token=?`,...proofValues,rid,uid,token),
@@ -116,7 +114,7 @@ async function settle(env, user, op, token) {
     // a CMS edit must not turn a retried empty result into a new prize roll.
     p(env, `INSERT INTO ${DROPS}(request_id,user_id,source_type,source_id,trigger_type,status,result_json)
       VALUES(?,?,'SCRAPYARD',?,'CLEAR','COMPLETED',?)`,plan.requestId,uid,plan.sourceId,encoded({ok:true,rewards:grants.rewards,pools:plan.pools})),
-    p(env, `INSERT INTO ${RUNS}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json) VALUES(?,?,?,?,?,?,?,?)`,rid,uid,saved.difficulty.id,saved.deckPower,saved.wavesTotal,saved.wavesCleared,saved.success?1:0,JSON.stringify(rewards)),
+    p(env, `INSERT INTO ${RUNS}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json,created_at) VALUES(?,?,?,?,?,?,?,?,?)`,rid,uid,saved.difficulty.id,saved.deckPower,saved.wavesTotal,saved.wavesCleared,saved.success?1:0,JSON.stringify(rewards),new Date(settleAt).toISOString().replace('T',' ').slice(0,19)),
     ...(saved.freeEntry ? [] : [p(env, `UPDATE ${TICKETS} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`,rid,uid)]),
     p(env, `UPDATE ${RECEIPTS} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`,responseJson,rid,uid),
     p(env, `UPDATE ${OPS} SET state='COMPLETED',lease_token=NULL,lease_until=0,last_error=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND lease_token=?`,rid,uid,token)
@@ -130,12 +128,14 @@ export async function runScrapyardV3(env,user,body,deps) {
   let op = await operation(env,uid,rid);
   if (prior && !op) throw error('SCRAPYARD_V3_LEGACY_REQUEST','이 요청은 이전 폐차장 기록입니다. 기존 결과를 먼저 확인하세요.');
   const token = crypto.randomUUID(), at = Date.now();
+  let cfg;
   if (op) {
     if (!(await claim(env,uid,rid,token,at))) return pending(rid, 'SCRAPYARD_V3_RUNNING', parse(op.battle_json).difficulty.id);
   } else {
     const active = await p(env,`SELECT request_id,battle_json FROM ${OPS} WHERE user_id=? AND state<>'COMPLETED'`,uid).first();
     if (active) return pending(active.request_id,'SCRAPYARD_V3_RECOVER_ACTIVE',parse(active.battle_json).difficulty.id);
-    const cfg = await deps.readSettings(env), difficulty = cfg.difficulties.find(row => row.id === body.difficulty);
+    cfg = await deps.readSettings(env);
+    const difficulty = cfg.difficulties.find(row => row.id === body.difficulty);
     if (!difficulty || !(cfg.mode === 'ON' || cfg.mode === 'TEST' && String(user.role).toUpperCase() === 'OWNER')) throw error('SCRAPYARD_V3_CLOSED','현재 폐차장 입장이 잠겨 있습니다.');
     if (!Number.isSafeInteger(cfg.dailyRuns) || cfg.dailyRuns < 1 || !Number.isSafeInteger(difficulty.clearCoin) || difficulty.clearCoin < 0) throw error('SCRAPYARD_V3_CONFIG','폐차장 보상·횟수 설정을 확인하세요.');
     const config = validateScrapyardV3Config(difficulty.id,cfg.v3?.[difficulty.id]);
@@ -160,7 +160,7 @@ export async function runScrapyardV3(env,user,body,deps) {
       else throw cause;
     }
   }
-  try { return await settle(env,user,op,token); }
+  try { return await settle(env,user,op,token,cfg??await deps.readSettings(env)); }
   catch (cause) {
     // Never refund a frozen successful battle and leave its reward behind.
     // Failed finalization rolls back all grants; the same saved plan is resumed.

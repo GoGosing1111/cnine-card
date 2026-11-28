@@ -663,7 +663,7 @@
     if (!root || !scrapyardState) return;
     if(scrapyardState.fieldOperations && !currentMutationRequest('scrapyard')){
       const state=scrapyardState;
-      void import('/pve/field-operations/entry.mjs').then(({renderOperationEntry})=>{
+      void import('/pve/field-operations/entry.mjs?v=20261128-daily5').then(({renderOperationEntry})=>{
         if(root.isConnected&&state===scrapyardState&&!currentMutationRequest('scrapyard'))renderOperationEntry(root,{mode:'yard',state,api,refresh:bindScrapyardView});
       }).catch(error=>{root.textContent=error.message;});
       return;
