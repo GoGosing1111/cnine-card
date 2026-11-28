@@ -124,6 +124,16 @@ for(const postgres of [false,true]){
     assert.equal(r.status,200,JSON.stringify(r.data));
     if(!window.open)assert.equal((await h.home(7)).durability,80);
   });
+  test(dialect+' enrolls a 24-player opening rush with one request per participant',async t=>{
+    const h=await fixture(t,postgres);
+    const ids=Array.from({length:24},(_,i)=>100+i), residence=await h.home(7);
+    for(const id of ids)await h.f.setting(HIDEOUT_KEY(id),residence);
+    const results=await Promise.all(ids.map(h.join));
+    assert.deepEqual(results.map(r=>r.status),ids.map(()=>200));
+    const board=(await h.call(ids[0])).data;
+    assert.deepEqual(board.counts,{A:12,B:12,waiting:0});
+    assert.equal(new Set(board.enemies.map(p=>p.id)).size,12);
+  });
   test(dialect+' closing during battle, loss and actual PvP engine replay',async t=>{
     const h=await fixture(t,postgres);await h.join(7);await h.join(8);
     h.finishAt(end);assert.equal((await h.call(7,'attack',h.job({targetId:8}))).status,409);

@@ -15,6 +15,7 @@ const fail = (code, message, status = 409) => { throw jointError('HIDEOUT_' + co
 const record = async (db, key) => (await stmt(db, 'SELECT value FROM app_meta WHERE key=?', key).first())?.value ?? null;
 const insert = (db, key, value) => stmt(db, 'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)', key, JSON.stringify(value));
 const clock = deps => deps.now ? deps.now() : Date.now();
+const boardAttempts = 10;
 const parseBoard = raw => raw ? JSON.parse(raw) : {members: [], score: {A: 0, B: 0}, history: []};
 
 // Verify our own token after every conditional write, even on an empty day.
@@ -153,7 +154,7 @@ async function applyMutation(env, deps, user, action, body, key, input) {
   const uid = Number(user.id), target = body.targetId, db = env.DB;
   await ensureJointAtomicSchema(env);
   let formation, simulation;
-  for (let attempt = 0; attempt < 4; attempt++) {
+  for (let attempt = 0; attempt < boardAttempts; attempt++) {
     const window = checkWindow(deps, body.day, action !== 'repair');
     const raw = action === 'repair' ? null : await record(db, dayKey(body.day));
     const board = parseBoard(raw), writes = [];
@@ -218,9 +219,15 @@ async function applyMutation(env, deps, user, action, body, key, input) {
       const saved = await savedResult(db, deps, key, input);
       if (saved) return saved;
       if (!/joint_atomic_guards|CHECK constraint failed: verified\s*=\s*1|unique|duplicate|serialization|deadlock/i.test(error.message)) throw error;
+      if (attempt + 1 < boardAttempts) {
+        // Spread bursts of simultaneous enlistments across different retries.
+        // No account or reward is visible until the guarded batch succeeds.
+        const backoff = Math.min(450, 16 * 2 ** attempt);
+        await new Promise(resolve => setTimeout(resolve, backoff/2 + Math.random()*backoff));
+      }
     }
   }
-  fail('RAID_BUSY', '다른 교전이 먼저 정산되었습니다. 전황을 갱신하고 다시 시도하세요.');
+  fail('RAID_BUSY', '다른 참가자의 신청을 처리 중입니다. 같은 요청으로 다시 확인하세요.', 503);
 }
 
 export async function handleHideoutPlunder({path, request, env, deps}) {
@@ -238,7 +245,8 @@ export async function handleHideoutPlunder({path, request, env, deps}) {
     const body = await readJointBody(request, {fields});
     return reply(await deps.withUserMutationLock(env, user.id, path, () => mutate(env, deps, user, action, body)));
   } catch (error) {
-    if (/^(HIDEOUT|JOINT)_/.test(error.code || '')) return reply({error: error.message, code: error.code}, error.status || 400);
+    if (/^(HIDEOUT|JOINT)_/.test(error.code || '')) return reply({error: error.message, code: error.code},
+      error.code === 'JOINT_LOCK_BUSY' ? 503 : error.status || 400);
     console.error('[hideout plunder]', error.name);
     return reply({error: '약탈전 연결을 확인하고 같은 요청으로 다시 시도하세요.'}, 503);
   }
