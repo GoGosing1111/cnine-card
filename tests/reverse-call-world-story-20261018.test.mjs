@@ -40,7 +40,13 @@ test('transparent brand assets retain alpha in web, desktop and every ICO frame'
   for(const file of ['packaging/windows-client/renderer/assets/icon.png','packaging/windows-client/renderer/assets/reverse-call-logo.png'])assert.deepEqual(await read(file),await read(dir+'icon-512.png'));
   assert.deepEqual(await read('favicon.ico'),await read(dir+'favicon.ico'));
   const pwa=JSON.parse(await read('manifest.webmanifest'));
-  assert(pwa.icons.every(i=>i.purpose==='any'&&i.src.includes('?v=20261018-transparent')));
+  const regular=pwa.icons.filter(icon=>icon.purpose==='any');
+  assert.deepEqual(regular.map(icon=>icon.sizes).sort(),['192x192','512x512']);
+  for(const icon of regular) {
+    const url=new URL(icon.src,'https://cnine-card.pages.dev');
+    assert(url.searchParams.has('v'));
+    await transparent(await read(url.pathname.slice(1)));
+  }
 });
 async function transparent(bytes) {
   const metadata=await sharp(bytes).metadata();assert(metadata.hasAlpha);

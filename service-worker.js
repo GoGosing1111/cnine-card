@@ -71,16 +71,29 @@ for(const path of ['/js/new-user-gift-v2075.js','/admin/new-user-gift-v2075.js']
 for(const path of ['/js/project-v-monster-battle-art-adapter-v1.js','/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json','/js/madara-raid-entry-v1.js','/js/lich-king-raid-entry-v1.js','/js/core-protocol-raid-v1924.js','/raid/madara/inline.mjs','/raid/madara/runtime.mjs','/raid/lich-king/inline.mjs','/raid/lich-king/live.mjs','/raid/lich-king/request-retry.mjs'])FRESH_BATTLE_SCRIPTS.add(path);
 for(const path of ['/js/content-reward-reveal-v1.mjs','/js/core-raid-reward-stage-v2.mjs','/js/core-raid-reward-picker-v2.mjs','/shared/core-raid-reward-policy-v1.mjs','/shared/reward-reveal-contents-v1.mjs','/admin/reward-reveal-admin-v1.mjs','/admin/core-raid-rewards-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/cooperative-battleground-entry.js', '/raid/cooperative/live.mjs', '/raid/cooperative/battle.mjs', '/raid/cooperative/style.css', '/shared/cooperative-battleground-v1.mjs', '/shared/cooperative-settings-v1.mjs', '/shared/cooperative-rewards-v1.mjs', '/shared/cooperative-roster-v3.mjs', '/admin/cooperative-admin.mjs', '/admin/cooperative-rewards.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
+const PWA_BRAND='/assets/ui/brand/reverse-call-20261016/';
+const PWA_ICONS={
+  'icon-192.png': PWA_BRAND+'icon-192.png?v=20261128-pwa',
+  'icon-512.png': PWA_BRAND+'icon-512.png?v=20261128-pwa',
+  'maskable-512.png': PWA_BRAND+'pwa-20261128/maskable-512.png',
+  'apple-touch-icon-180.png': PWA_BRAND+'apple-touch-icon-180.png?v=20261018-transparent',
+  'favicon-32.png': PWA_BRAND+'favicon-32.png?v=20261018-transparent',
+  'favicon-48.png': PWA_BRAND+'favicon-48.png?v=20261018-transparent'
+};
+const PWA_ICON_BY_PATH=new Map([
+  ['/assets/ui/pwa-icon.svg', PWA_ICONS['icon-512.png']],
+  ['/assets/ui/pwa-icon-maskable.svg', PWA_ICONS['maskable-512.png']],
+  [PWA_BRAND+'maskable-512.png', PWA_ICONS['maskable-512.png']]
+]);
+for(const [filename,source] of Object.entries(PWA_ICONS)){
+  PWA_ICON_BY_PATH.set(source.split('?')[0],source);
+  PWA_ICON_BY_PATH.set('/assets/ui/pwa/soop-20261010/'+filename,source);
+}
 const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,
   '/manifest.webmanifest',
-  '/assets/ui/brand/reverse-call-20261016/icon-192.png?v=20261018-transparent',
-  '/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent',
-  '/assets/ui/brand/reverse-call-20261016/maskable-512.png?v=20261018-transparent',
-  '/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent',
-  '/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent',
-  '/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent'
+  ...Object.values(PWA_ICONS)
 ];
 const CONTENT_CACHE_LIMIT=320;
 let contentWritesUntilTrim=24;
@@ -99,15 +112,18 @@ self.addEventListener('activate',event=>{
       (name.startsWith('soop-card-content-')&&name!==CONTENT_CACHE)
     ).map(name=>caches.delete(name)));
     const shell=await caches.open(SHELL_CACHE);
-    // A transparent replacement keeps the public URLs; discard only old brand pixels.
     const media=await caches.open(CONTENT_CACHE);
-    await Promise.all((await media.keys()).filter(request=>new URL(request.url).pathname.startsWith('/assets/ui/brand/reverse-call-20261016/')).map(request=>media.delete(request)));
-    await Promise.all((await shell.keys()).filter(request=>{
+    await Promise.all((await media.keys()).filter(request=>{
       const path=new URL(request.url).pathname;
+      return path.startsWith(PWA_BRAND)||PWA_ICON_BY_PATH.has(path);
+    }).map(request=>media.delete(request)));
+    await Promise.all((await shell.keys()).filter(request=>{
+      const url=new URL(request.url),path=url.pathname;
+      if(path==='/manifest.webmanifest'&&url.search)return true;
+      if(PWA_ICON_BY_PATH.has(path)&&path+url.search!==PWA_ICON_BY_PATH.get(path))return true;
       return FRESH_BATTLE_SCRIPTS.has(path)||FRESH_ACCOUNT_SCRIPTS.has(path)||UPDATED_SPINE_BUNDLES.has(path);
     }).map(request=>shell.delete(request)));
-    const brandCache=await caches.open(CONTENT_CACHE);
-    await Promise.all([...RETIRED_LOGO_PATHS].map(path=>brandCache.delete(path,{ignoreSearch:true})));
+    await Promise.all([...RETIRED_LOGO_PATHS].map(path=>media.delete(path,{ignoreSearch:true})));
     await self.clients.claim();
   })());
 });
@@ -204,6 +220,16 @@ async function optimizedImage(event,request,target){
 self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url);
   if(!sameOriginGet(request,url))return;
+  if(url.pathname==='/manifest.webmanifest'){
+    event.respondWith(networkFirst(request,SHELL_CACHE,'/manifest.webmanifest'));
+    return;
+  }
+  const pwaIcon=PWA_ICON_BY_PATH.get(url.pathname);
+  if(pwaIcon){
+    // Resolve old installs before the media cache or the old image optimization map.
+    event.respondWith(cacheFirst(new Request(new URL(pwaIcon,url.origin)),SHELL_CACHE));
+    return;
+  }
   if(RETIRED_LOGO_PATHS.has(url.pathname)){
     event.respondWith(Response.redirect(new URL(APPROVED_CNINE_CREST,url.origin),301));
     return;
