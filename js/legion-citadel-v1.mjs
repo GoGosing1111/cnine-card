@@ -2,9 +2,7 @@ import {mountLightVehicleSupport} from './legion-citadel-vehicle-fx.mjs';
 import {portraitSheets} from './legion-party-portrait-sheets-v1.mjs?v=20261126';
 import {SAINT_CODE,SAINT_EVENT,SAINT_FIELD_RATE,SAINT_IMPACT_EVENT} from '../shared/mercenary-lightning-saint-v1.mjs?v=hatsu-field-20261126';
 import {COW_AREA,COW_REGION} from '../shared/legion-cow-room.mjs';
-import {hideoutPartyEnergy} from '../shared/personal-hideout-energy-v1.mjs';
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {LEGION_PARTY_BASE_RECHARGE_MS,legionRechargeMs,legionRecoveryNotice} from '../shared/legion-hunt-energy-v1.mjs?v=20261129-recovery';
 import {DAMAGE_FONT_FAMILY,ensureDamageFont} from '../shared/battle-damage-font.mjs';
 import {createServerClock} from '../shared/server-clock-v1.mjs';
 import {CITADEL_BOARDS, citadelStation} from '../shared/cooperative-battleground-v1.mjs?citadel=3';
@@ -367,7 +365,7 @@ export function openCitadel(trigger,firstRead=null){
    '<ul class="ct-facts"><li>'+tactical('duo')+'<span>원정 인원 <b>2인 협동</b></span></li><li>'+glyph('clock')+'<span>사냥 시간 <b>7분</b></span></li><li>'+tactical('inventory')+'<span>전리품 <b>개인 획득</b></span></li></ul></div>'+
    '<div class="ct-content"><p class="ct-message" data-party-recovery-notice hidden></p><section data-region></section><p class="ct-message" role="status" aria-live="polite"></p></div></div><div data-arena hidden></div>';
  document.body.append(d);d.showModal();const $=q=>d.querySelector(q),main=$('[data-region]'),box=$('[data-arena]'),msg=$('.ct-message[role="status"]'),scope=new AbortController(),sig=scope.signal,clock=createServerClock();
- let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false,rechargeHours=6,partyEnergy=null;
+ let readingEpoch=null,entryOpen=true,resolved=false,tiers=[],selectedTier='gate',nextEntryAt=null,unlimited=false,rechargeHours=6,partyEnergy=null,recoveryEvent=null;
  let area='public',publicOpen=false,clanOpen=false,publicRooms=[],ownRooms=[],hideout=null,heroArea='public';
  let cowOpen=false,cowRooms=[],cowTickets=0;
  const cowSelected=()=>area===COW_AREA;
@@ -394,30 +392,33 @@ export function openCitadel(trigger,firstRead=null){
  const request=(name,o={})=>jointAccountRequest('legion-party/'+name,{...o,signal:sig});
  const say=m=>{if(!closed&&msg.textContent!==m)msg.textContent=m;};
  const txt=(el,v)=>{if(el&&el.textContent!==v)el.textContent=v;};
+ // Expanded capacity has a recharge deadline even when another entry is available.
+ const chargeDeadline=()=>partyEnergy?partyEnergy.nextRechargeAt:nextEntryAt;
+ function nextEnergySyncAt(){
+  if(cowSelected())return Infinity;
+  const deadline=displayTest||unlimited?null:chargeDeadline();
+  return Math.min(deadline??Infinity,recoveryEvent?.endsAt??Infinity);
+ }
  function drawEnergy(){
   clearTimeout(energyTimer);
   if(closed||document.hidden||!resolved)return;
-  rechargeHours=legionRechargeMs(LEGION_PARTY_BASE_RECHARGE_MS,clock.now())/3600000;
+  const now=clock.now();
   const cow=cowSelected();txt(energyHud.querySelector('div>b'),cow?'파티 카우방 입장권':'파티 행동력');
   if(cow){txt(energyValue,cowTickets+'장');txt(chargeLabel,'출전 비용');txt(chargeTime,'방장 1장');$('[data-party-recovery-notice]').hidden=true;return;}
-  const recovery=legionRecoveryNotice(clock.now()),notice=$('[data-party-recovery-notice]');if(notice.hidden!==!recovery)notice.hidden=!recovery;txt(notice,recovery);
+  const recovery=recoveryEvent&&now<recoveryEvent.endsAt?recoveryEvent.label:'',notice=$('[data-party-recovery-notice]');if(notice.hidden!==!recovery)notice.hidden=!recovery;txt(notice,recovery);
   const hours=$('[data-party-recharge-hours]');if(hours)txt(hours,String(rechargeHours));
-  const personal=partyEnergy?hideoutPartyEnergy(partyEnergy,{at:Math.floor(clock.now()),maximum:partyEnergy.maximum}):null;
-  if(personal)nextEntryAt=personal.current>0?null:personal.nextRechargeAt;
-  const chargeAt=personal?.nextRechargeAt??nextEntryAt;
-  const remaining=chargeAt?Math.max(0,chargeAt-clock.now()):0;
+  const chargeAt=chargeDeadline();
+  const remaining=chargeAt==null?0:Math.max(0,chargeAt-now);
   const seconds=Math.ceil(remaining/1000);
-  const charge=displayTest?'test':unlimited?'unlimited':seconds?'charging':'ready';
+  const charge=displayTest?'test':unlimited?'unlimited':chargeAt!=null?'charging':'ready';
   if(energyHud.dataset.charge!==charge)energyHud.dataset.charge=charge;
-  txt(energyValue,displayTest?'테스트':unlimited?'무제한':personal?personal.current+' / '+personal.maximum:seconds?'0 / 1':'1 / 1');
-  txt(chargeLabel,displayTest?'테스트 입장':unlimited?'출전 조건':seconds?'다음 충전':'일반 · 클랜 공용');
+  txt(energyValue,displayTest?'테스트':unlimited?'무제한':partyEnergy?partyEnergy.current+' / '+partyEnergy.maximum:chargeAt!=null?'0 / 1':'1 / 1');
+  txt(chargeLabel,displayTest?'테스트 입장':unlimited?'출전 조건':chargeAt!=null?'다음 충전':'일반 · 클랜 공용');
   txt(chargeTime,displayTest?'소모 없음':unlimited?'2명 모두 준비':seconds?[
    Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60
-  ].map(n=>String(n).padStart(2,'0')).join(':'):'충전 완료');
+  ].map(n=>String(n).padStart(2,'0')).join(':'):chargeAt!=null?'충전 확인 중':'충전 완료');
   if(!displayTest&&!unlimited&&seconds){
    energyTimer=setTimeout(drawEnergy,Math.max(16,remaining-(seconds-1)*1000+5));
-  }else if(nextEntryAt&&!remaining){
-   nextEntryAt=null;queueMicrotask(()=>{if(!closed)draw();});
   }
  }
  function release(){battleEpoch++;lootBag?.destroy();lootBag=null;hitReceipts=null;clearTimeout(impactTimer);cancelAnimationFrame(impactRaf);clearInterval(uiTimer);uiTimer=null;battle?.destroy();battle=null;preparation?.close?.();preparation=null;prewarm=null;prKey='';replay=null;mounting=null;frameIndex=-1;loadedPart=-1;pendingPart=null;groundKey='';lastPartAttempt=0;loadingError=false;if(box.contains(energyHud))energyHome.before(energyHud);box.hidden=true;box.replaceChildren();d.classList.remove('in-battle','ct-light-field');void window.ProjectVPixiBattle?.releaseBattle?.({onlyIfIdle:true})?.catch?.(()=>{});}
@@ -425,22 +426,30 @@ export function openCitadel(trigger,firstRead=null){
  d.addEventListener('cancel',e=>{e.preventDefault();close();});
  window.addEventListener('pagehide',close,{signal:sig});
  const pauseNet=()=>{clearTimeout(timer);};
- function schedule(){pauseNet();if(closed||document.hidden||busy||!resolved||paused())return;
-  const status=state?.status;if(terminal(status))return;
-  let ms=!state?8000:status==='ACTIVE'?Math.max(120,Math.min(9000,state.startsAt+(state.next??state.duration)-clock.now()+100,state.startsAt+state.duration-clock.now()+80)):status==='LOADING'?1000:2000;
-  if(!state&&!unlimited&&!displayTest&&nextEntryAt){
-   const remaining=nextEntryAt-clock.now();if(remaining>0)ms=remaining+50;
+ function schedule(){pauseNet();if(closed||document.hidden||busy||!resolved)return;
+  const now=clock.now(),status=state?.status;
+  const untilSync=nextEnergySyncAt()-now;
+  let ms=untilSync>0?untilSync+50:8000;
+  if(!paused()&&!terminal(status)){
+   if(state){
+    const roomDelay=status==='ACTIVE'?Math.max(120,Math.min(9000,state.startsAt+(state.next??state.duration)-now+100,state.startsAt+state.duration-now+80)):status==='LOADING'?1000:2000;
+    ms=Math.min(ms,roomDelay);
+   }else if(cowSelected()||unlimited||displayTest||!nextEntryAt){
+    ms=Math.min(ms,8000);
+   }
   }
-  timer=setTimeout(refresh,ms);
+  if(Number.isFinite(ms))timer=setTimeout(refresh,Math.min(ms,2147483647));
  }
  document.addEventListener('visibilitychange',()=>{if(document.hidden){pauseNet();clearTimeout(energyTimer);clearTimeout(impactTimer);cancelAnimationFrame(impactRaf);}else if(!busy){drawEnergy();impactTick();void refresh();}},{signal:sig});
  async function refresh(initial=null){
   if(closed||busy||document.hidden||readingEpoch===epoch)return;const e=++epoch,at=initial?.sentAt??performance.now();readingEpoch=e;pauseNet();
-  try{const v=await (initial?.lobby||request(state?'state?id='+state.id:'lobby'));if(closed||e!==epoch)return;if(v.rooms){publicRooms=v.rooms;cowRooms=v.cowRooms||[];cowOpen=v.cowOpen===true;cowTickets=v.cowTickets||0;ownRooms=v.clanRooms||[];clanOpen=v.clanOpen===true;hideout=v.clanHideout||null;publicOpen=v.open===true;}
+  try{const readLobby=!state||clock.now()>=nextEnergySyncAt();
+   const v=await (initial?.lobby||request(readLobby?'lobby':'state?id='+state.id));if(closed||e!==epoch)return;if(v.rooms){publicRooms=v.rooms;cowRooms=v.cowRooms||[];cowOpen=v.cowOpen===true;cowTickets=v.cowTickets||0;ownRooms=v.clanRooms||[];clanOpen=v.clanOpen===true;hideout=v.clanHideout||null;publicOpen=v.open===true;}
    else if('open'in v){if(v.state?.area===dockArea)clanOpen=v.open;else if(v.state?.area===COW_AREA)cowOpen=v.open;else publicOpen=v.open;}
    if(v.tiers)tiers=v.tiers;if('test'in v)displayTest=v.test;
    if(Number.isInteger(v.partyRechargeHours)&&v.partyRechargeHours>0)rechargeHours=v.partyRechargeHours;
-   if('partyEnergy'in v)partyEnergy=v.partyEnergy;if(v.state?.partyEnergy)partyEnergy=v.state.partyEnergy;
+   if('partyEnergy'in v)partyEnergy=v.partyEnergy;
+   if('recoveryEvent'in v)recoveryEvent=v.recoveryEvent;
    if('nextEntryAt'in v){nextEntryAt=v.nextEntryAt;unlimited=v.unlimited===true;if(!v.state)clock.sample(v.serverNow,{reset:true});}
    resolved=true;apply(v.state,at,'nextEntryAt' in v);if(!loadingError)say('');}
   catch(err){if(closed||e!==epoch)return;if(err.status===404&&state){apply(null);rooms=[];}say(err.message);if(!resolved){txt($('[data-ct-status]'),'연결 확인 필요');txt(main.querySelector('[role="status"]'),'모집 정보를 불러오지 못했습니다.');}if(!main.firstChild)main.innerHTML='<button data-act="refresh">다시 불러오기</button>';}
@@ -476,7 +485,14 @@ export function openCitadel(trigger,firstRead=null){
  function apply(next,sent,lobbyDeadline=false){
   if(closed)return;if(next?.status==='CANCELLED')next=null;
   const old=state;if(next?.serverNow)clock.sample(next.serverNow,{sentAt:sent});
-  if(!lobbyDeadline&&next?.nextEntryAt>clock.now())nextEntryAt=next.nextEntryAt;
+  if(next?.partyEnergy){
+   partyEnergy=next.partyEnergy;
+   nextEntryAt=partyEnergy.current>0?null:partyEnergy.nextRechargeAt;
+  }else if(!lobbyDeadline&&next?.startsAt&&'nextEntryAt'in next){
+   // A started room also reports legacy single-entry refills and resets.
+   partyEnergy=null;
+   nextEntryAt=next.nextEntryAt>clock.now()?next.nextEntryAt:null;
+  }else if(!lobbyDeadline&&next?.nextEntryAt>clock.now())nextEntryAt=next.nextEntryAt;
   if(next?.id!==pinnedId){if(pinnedId)release();pinnedId=next?.id||null;selected=next?.selection?structuredClone(next.selection):{cardIds:[],mercenaryCodes:[]};picker='mercenaries';}
   if(!next&&old){createId=crypto.randomUUID();options=null;fetchOptions=null;rooms=[];}
   if(next&&area!==(next.area||'public')){options=null;fetchOptions=null;}

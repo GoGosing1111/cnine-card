@@ -213,7 +213,7 @@ function loadCitadelShell(priority){
   if(!document.querySelector('link[href="'+citadelSheet+'"]')){
     const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href=citadelSheet;sheet.fetchPriority=priority;document.head.append(sheet);
   }
-  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?tiers=20261126&v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126&portraits=20261126&recovery=20261129').catch(error=>{citadelModule=null;throw error;});
+  if(!citadelModule)citadelModule=import('./legion-citadel-v1.mjs?tiers=20261126&v=cow-hideout-growth-20261120-vehicle-20261125-hatsu-field&pveFormation=20261126&portraits=20261126&recovery=20261128-server-deadline').catch(error=>{citadelModule=null;throw error;});
   return citadelModule;
 }
 function prepareCitadelFinder(){
