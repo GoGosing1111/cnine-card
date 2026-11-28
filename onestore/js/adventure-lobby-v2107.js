@@ -170,11 +170,12 @@ delete window.__TACTICAL_OPERATIONS_CSS__;
   entries.push({id:'equipmentForge',title:'장비 강화',category:'equipment',description:descriptions.equipmentForge});
   entries.push({id:'world',title:'세계관',category:'world',description:'돌아올 사람의 자리 · 본편 2부와 용병 이야기 7편'});
 
+  entries.push({id:'pingduBread',title:'핑두의 붕어빵 트럭',category:'rewards',description:'게시판 작성 · 씨나인 시청시간 정산 · 붕어빵 개봉'});
   const byId=new Map(entries.map(e=>[e.id,e]));
   categories.favorites={title:'즐겨찾기',icon:'favorites',description:'자주 쓰는 메뉴를 모아 바로 열어 보세요. 메뉴 옆 별표로 추가하거나 해제할 수 있어요.'};
   let favoriteStorage=null;try{favoriteStorage=global.localStorage;}catch{}
   const favorites=global.SoopMenuFavorites.create({getAccountId:options.getAccountId||(()=>options.accountId),routeIds:[...byId.keys()],request:options.favoriteRequest,storage:favoriteStorage,onChange:renderDirectory});
-  const hrefs={world:'/world/',defense:'/defense/',mercenaryGrowth:'/mercenary-codex/leveling/',mercenaryEquipment:'/mercenary-codex/equipment/',chicken:'/events/chicken/',masterStarMine:'/master-star-mine/',rankedShop:'/ranked-shop/',lootShop:'/loot-shop/',mercenaryDex:'/mercenary-codex/',petDex:'/pet-codex/',equipmentForge:'/equipment-forge/'};
+  const hrefs={world:'/world/',defense:'/defense/',mercenaryGrowth:'/mercenary-codex/leveling/',mercenaryEquipment:'/mercenary-codex/equipment/',chicken:'/events/chicken/',pingduBread:'/events/pingdu-bread/',masterStarMine:'/master-star-mine/',rankedShop:'/ranked-shop/',lootShop:'/loot-shop/',mercenaryDex:'/mercenary-codex/',petDex:'/pet-codex/',equipmentForge:'/equipment-forge/'};
   const keywords={hideout:'은신처 꾸미기 가구 트로피 진열 작업대 냉장고 차고 무기고 부품 확장',citadel:'군단토벌 파티 불타는 성채 2인 협동 사냥 파밍 모집 성문 내성 왕좌',comeback:'복귀 휴면 휴면유저 컴백 카미시로',world:'세계관 스토리 이야기 리버스콜 서막 최초의 호출 지도에 없는 역 용병 보스 레이드 베스페라 베르칸 아잔트 크라이베른 이스겐 세드릭',defense:'몬스터 디펜스 수호석 방어 보스 입문 보통 어려움 악몽 재앙 테스트',coop:'협동전 협동 3인 파티 일반 격전 극한 보상',mercenaryEquipment:'용병 무장고 무기 방어구 장신구 군단토벌 장착 장비 전투력',masterStarMine:'마별 채굴 전동드릴 태양광드릴 황금드릴 방치 광산',lootShop:'피그 코인 고급 전리품 확정 상점',attendance:'출석 출첵 출석체크',inventory:'인벤 가방 아이템 사용 개봉',buy:'뽑기 하이퍼팩 구매',dex:'보유카드 내카드 도감',mercenaryDex:'내용병 용병 선택 편성 지휘소',petDex:'펫 동료 도감 수집 보유 장착 시작 버프 봉순 조은 희야 디임 구수댕 시바 고양이',deck:'팀 파티 덱 편성 저장',equipmentForge:'무기 방어구 강화 복구 보호권',messages:'우편 선물 소식',dailyquest:'일퀘 주간퀘스트 주퀘 임무 미션',vehicle:'자동차 이동수단 제작',character:'착용 무기 방어구 장착'};
   let category='pve',activeRoute='home',query='',destinationOpener,lastResults='',guideOpener,menuOpener,fromAll=false;
   const routeCategory=id=>byId.get(id)?.category||categoryOf(id,contract?.routes[id]?.group);
@@ -293,7 +294,7 @@ delete window.__TACTICAL_OPERATIONS_CSS__;
       this.seasonPassVisible=false;
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
-      const isRouteVisible=id=>['world','equipmentForge','mercenaryEquipment','mercenaryGrowth'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false;
+      const isRouteVisible=id=>['world','equipmentForge','mercenaryEquipment','mercenaryGrowth','pingduBread'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false;
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
         getAccountId:()=>{const current=getUser();return current.serverUserId||current.id;},
         favoriteRequest:async body=>{

@@ -24,7 +24,7 @@
       this.seasonPassVisible=false;
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
-      const isRouteVisible=id=>['world','equipmentForge','mercenaryEquipment','mercenaryGrowth'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false;
+      const isRouteVisible=id=>['world','equipmentForge','mercenaryEquipment','mercenaryGrowth','pingduBread'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false;
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
         getAccountId:()=>{const current=getUser();return current.serverUserId||current.id;},
         favoriteRequest:async body=>{

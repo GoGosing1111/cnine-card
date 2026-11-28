@@ -217,6 +217,7 @@ import { WEEKLY_RAID_BOSSES_V1,weeklyRaidBossForKst,weeklyRaidBossByName,weeklyR
 import { readWeeklyRaidCms,saveWeeklyRaidCms } from '../_raid_weekly_cms_v2141.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
 import {rememberSoopWatchIdentity,handleSoopWatch} from '../_soop_watch.js';
+import {handlePingduBread} from '../_pingdu_bread.js';
 import { handleNewUserGift,NEW_USER_GIFT_CODE,completePlaydkVerificationWithGift,claimNewUserGiftMessage } from '../_new_user_gift.js';
 import { handleHyperPack,arrangeHyperPackCatalog } from '../_hyper_pack.js';
 import { handleWishLamp } from '../_wish_lamp.js';
@@ -5239,6 +5240,9 @@ async function handleRequest(context){
         alchemyFeatureAccess(env,user)
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
+    }
+    if(path.startsWith('events/pingdu-bread/') || path.startsWith('admin/pingdu-bread/')){
+      return await handlePingduBread({path,request,env,deps:{authenticate,requirePermission,readBody,json,playdkIdentityClient,playdkDailyQuestSettings,withUserMutationLock:withJointUserMutationLock}});
     }
     const plunderResponse=await handleHideoutPlunder({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock,pvpDeckSnapshot,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(plunderResponse)return plunderResponse;
     const hideoutResponse=await handlePersonalHideout({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(hideoutResponse)return hideoutResponse;

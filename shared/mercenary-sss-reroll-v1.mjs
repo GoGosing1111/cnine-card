@@ -1,4 +1,5 @@
 import {KANGYUN_CODE} from './mercenary-kangyun-v1.mjs';
+import {apportionUnits as apportionSss} from './reward-apportionment-v1.mjs';
 export const SSS_REROLL=Object.freeze({
  code:'MERCENARY_SSS_REROLL_TICKET',name:'SSS 재뽑기권',rank:'SSS',
  image:'/assets/ui/sss-reroll-v1/ticket-256.webp',
@@ -18,14 +19,6 @@ export function validateSssRerollPolicy(value,catalog){
  }
  if(typeof value.notes!=='string'||value.notes.length>1000||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value.notes))throw Error('운영 메모는 1,000자 이내로 입력하세요.');
  return{format:value.format,mode:value.mode,cards,notes:value.notes};
-}
-// Integer largest-remainder allocation: UI odds and server draws share exact units.
-function apportionSss(rows,total){
- const sum=rows.reduce((n,r)=>n+r.units,0);if(!sum)return rows.map(r=>({...r,units:0}));
- const ranked=rows.map((r,index)=>{const exact=BigInt(r.units)*BigInt(total);return {...r,index,units:Number(exact/BigInt(sum)),remainder:exact%BigInt(sum)};});
- let remaining=total-ranked.reduce((n,r)=>n+r.units,0);
- for(const r of [...ranked].sort((a,b)=>a.remainder===b.remainder?a.index-b.index:a.remainder>b.remainder?-1:1)){if(!remaining--)break;r.units++;}
- return ranked.map(({index,remainder,...r})=>r);
 }
 // Read-time registration only. Preserve saved modes/notes and explicit later edits.
 export function withKangyunRerollDefault(policy,catalog){

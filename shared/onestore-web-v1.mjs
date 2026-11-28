@@ -8,7 +8,7 @@ export const DOCUMENTS=Object.freeze([
   '/mercenary-codex/leveling/transfer.html', '/mercenary-codex/sss-reroll/',
   '/pet-codex/', '/pets/', '/pets/opening/', '/defense/', '/pve/legion-hunt/',
   '/pve-v3/', '/pve-v3/battle.html', '/raid/lich-king/', '/raid/madara/fragment.html',
-  '/events/wish-lamp/', '/events/golden-axe/', '/events/chicken/', '/ui/growth-guide/'
+  '/events/wish-lamp/', '/events/golden-axe/', '/events/chicken/', '/events/pingdu-bread/', '/ui/growth-guide/'
 ]);
 export function canonicalDocument(path){
   if(path===PREFIX||path.startsWith(PREFIX+'/'))path=path.slice(PREFIX.length)||'/';
