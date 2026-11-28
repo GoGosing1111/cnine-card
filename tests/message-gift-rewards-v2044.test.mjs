@@ -11,6 +11,10 @@ const api=read('functions/api/[[path]].js'),app=read('js/app.js');
 const specs=api.slice(api.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),api.indexOf('const COUPON_REWARD_MAX='));
 const claim=api.slice(api.indexOf('async function claimMessageRewardDirectV1222('),api.indexOf('async function canSafelyRecoverFailedMessageRewardV1222('));
 const gifts=[['UNIQUE_ADVANCEMENT_PASS',1,'전직 패스권'],['STARLIGHT_ARMOR_CORE',30,'미스틱 에너지']];
+const supernovaItems=[
+  ['ARDEN_ENERGY',10,'아르덴 에너지'],
+  ['RANK_EXP_POTION_3X_60M',1,'계급 경험치 3배 물약 (60분)'],
+];
 
 function fixture(t){
   const sqlite=new DatabaseSync(':memory:');t.after(()=>sqlite.close());
@@ -90,7 +94,24 @@ test('대회 성황리 기념: two-message bulk claim recovers failed stars with
   assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM inventory_logs').get().n,1);
 });
 
-for(const [code,amount,label] of [...gifts,['WEAPON_ENHANCEMENT_SCROLL',10,'무기 강화주문서'],['ARMOR_ENHANCEMENT_SCROLL',10,'방어구 강화주문서'],['WORM_CONTEST_GIFT_BOX',1,'지렁이대회 사은품'],['MERCENARY_SSS_CARD_SHARD',1,'SSS 용병 카드 조각'],['EMPEROR_ENERGY',5,'엠퍼러 에너지'],['TOURNAMENT_GIFT_BOX',1,'대회 사은품'],['FUNDING_GIFT_BOX',1,'펀딩 사은품'],['RECRUITMENT_GIFT_BOX',1,'영입전 사은품'],['PINGDU_THANKS_GIFT_BOX',1,'핑두의 감사 선물']]){
+test('초신성 플디 기념 보상 세 통을 일괄 수령하고 재시도해도 한 번씩만 지급한다',async t=>{
+  const f=fixture(t);
+  f.reward('COIN',1_000_000_000_000_000,1);
+  supernovaItems.forEach(([code,amount],index)=>f.reward(code,amount,index+2));
+  const deps={specFor:f.context.spec,canRecover:async()=>false,claim:f.context.claim};
+  const claimAll=()=>claimMessageRewardBatch({DB:f.DB},{id:1},[1,2,3],deps);
+  const first=await claimAll();
+  assert.equal(first.filter(r=>r.ok).length,3);
+  const retry=await claimAll();
+  assert.equal(retry.filter(r=>r.alreadyClaimed).length,3);
+  assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=1').get().coin,1_000_010_000_000_000);
+  for(const [code,amount] of supernovaItems){
+    const item=f.sqlite.prepare('SELECT quantity,unseen_quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code=?').get(code);
+    assert.deepEqual({...item},{quantity:amount,unseen_quantity:amount});
+  }
+});
+
+for(const [code,amount,label] of [...gifts,...supernovaItems,['WEAPON_ENHANCEMENT_SCROLL',10,'무기 강화주문서'],['ARMOR_ENHANCEMENT_SCROLL',10,'방어구 강화주문서'],['WORM_CONTEST_GIFT_BOX',1,'지렁이대회 사은품'],['MERCENARY_SSS_CARD_SHARD',1,'SSS 용병 카드 조각'],['EMPEROR_ENERGY',5,'엠퍼러 에너지'],['TOURNAMENT_GIFT_BOX',1,'대회 사은품'],['FUNDING_GIFT_BOX',1,'펀딩 사은품'],['RECRUITMENT_GIFT_BOX',1,'영입전 사은품'],['PINGDU_THANKS_GIFT_BOX',1,'핑두의 감사 선물']]){
   test(`${code}: supported inventory reward credits exactly once and never spends it`,async t=>{
     const f=fixture(t),r=f.reward(code,amount);
     assert.equal(f.context.spec(code).label,label);assert.equal(f.context.spec(code).inventory,true);

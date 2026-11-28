@@ -629,6 +629,8 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   SHARDS:{label:'카드 조각',icon:'🧩',inventory:false,max:100000000,messageType:'SHARD_REWARD'},
   MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   EMPEROR_ENERGY:{label:'엠퍼러 에너지',icon:'💠',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
+  ARDEN_ENERGY:{label:'아르덴 에너지',icon:'💠',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
+  RANK_EXP_POTION_3X_60M:{label:'계급 경험치 3배 물약 (60분)',icon:'🧪',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
