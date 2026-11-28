@@ -26,6 +26,8 @@ function renderActivity() {
   const facts = [['활동 날짜',day],['정산 대상 공개 글',postLabel(activity)],['씨나인 방송 합계',watchLabel(activity.seconds,activity.watchStatus)],['조회 시각', new Date(activity.checkedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})]];
   if (activity.posts!=null) facts.push(['이번 집계 신규 글',count(activity.newPosts)+'건'],['앞서 집계한 미지급 글',count(activity.posts-activity.newPosts)+'건']);
   if (activity.settledAt) facts.push(['누적 지급',count(activity.granted)+'마리']);
+  if (activity.legacyReview?.posts!=null) facts.push(['이전 방식 집계 기록',
+    new Date(activity.legacyReview.checkedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})+' · '+count(activity.legacyReview.posts)+'건']);
   for (const [name,value] of facts) $('facts').append(element('dt',name),element('dd',value));
 }
 function clearSelection() {

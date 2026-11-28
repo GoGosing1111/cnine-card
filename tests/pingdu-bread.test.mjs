@@ -356,6 +356,8 @@ test('legacy paid balances keep their old reward table, and only posts created a
   boardFixture(f,all);
   const review=await f.review();
   assert.equal(review.granted,4);assert.equal(review.posts,1);assert.equal(review.newPosts,1);
+  assert.equal(review.legacyReview.posts,17);assert.equal(Date.parse(review.legacyReview.checkedAt),Date.parse(day+'T12:00:00+09:00'));
+  assert.equal((await f.row("SELECT (legacy_review->>'posts')::int AS n FROM pingdu_bread_days_v1 WHERE user_id=2")).n,90);
   await ok(send(1,review.revision));assert.equal((await f.state()).balance,3);
   const receipts=[];
   for (let i=0;i<3;i++) receipts.push((await ok(f.call('open',{requestId:crypto.randomUUID()}))).reward.code);

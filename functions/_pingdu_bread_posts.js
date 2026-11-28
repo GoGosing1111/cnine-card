@@ -5,7 +5,8 @@ export const GRANTS = 'pingdu_bread_grants_v1';
 
 export async function preparePostLedger(q) {
   await q(`ALTER TABLE ${DAYS} ADD COLUMN IF NOT EXISTS post_ids TEXT[],
-    ADD COLUMN IF NOT EXISTS new_posts INTEGER, ADD COLUMN IF NOT EXISTS legacy_post_cutoff TIMESTAMPTZ`);
+    ADD COLUMN IF NOT EXISTS new_posts INTEGER, ADD COLUMN IF NOT EXISTS legacy_post_cutoff TIMESTAMPTZ,
+    ADD COLUMN IF NOT EXISTS legacy_review JSONB`);
   await q(`CREATE TABLE IF NOT EXISTS ${POSTS} (
     post_id TEXT PRIMARY KEY, user_id BIGINT NOT NULL, day DATE NOT NULL, first_review TEXT NOT NULL,
     paid_at TIMESTAMPTZ)`);
@@ -15,6 +16,9 @@ export async function preparePostLedger(q) {
     granted_at TIMESTAMPTZ NOT NULL, PRIMARY KEY(user_id,day,evidence))`);
   await q(`CREATE INDEX IF NOT EXISTS pingdu_bread_fifo ON ${GRANTS}(user_id,day,granted_at) WHERE remaining>0`);
   // Old paid days only have a numeric count. Only later-created posts can be proven additional.
+  await q(`UPDATE ${DAYS} SET legacy_review=jsonb_build_object('revision',revision,'checkedAt',checked_at,'posts',posts,
+    'seconds',seconds,'boardStatus',board_status,'watchStatus',watch_status,'identityHash',identity_hash,
+    'settledAt',settled_at,'settledBy',settled_by) WHERE post_ids IS NULL AND legacy_review IS NULL`);
   await q(`INSERT INTO ${GRANTS}(user_id,day,evidence,quantity,remaining,pool,granted_at)
     SELECT user_id,day,revision,granted,remaining,pool,settled_at FROM ${DAYS}
     WHERE settled_at IS NOT NULL AND post_ids IS NULL AND legacy_post_cutoff IS NULL ON CONFLICT DO NOTHING`);

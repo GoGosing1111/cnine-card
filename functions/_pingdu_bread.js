@@ -71,6 +71,7 @@ function visibleDay(row) {
   return { day: row.day_key, revision: row.revision, checkedAt: iso(row.checked_at),
     posts: row.posts == null ? null : Number(row.posts), newPosts:row.new_posts == null ? null : Number(row.new_posts),
     seconds: row.seconds == null ? null : Number(row.seconds),
+    legacyReview:row.legacy_review ? {posts:row.legacy_review.posts,checkedAt:row.legacy_review.checkedAt} : null,
     boardStatus: row.board_status, watchStatus: row.watch_status, granted: Number(row.granted),
     settledAt: iso(row.settled_at) };
 }
