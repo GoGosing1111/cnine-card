@@ -1,4 +1,6 @@
-import {HIDEOUT_PARTS, HIDEOUT_STAGES} from '../shared/personal-hideout-v1.mjs';
+import {PIG_COIN_IMAGE} from '../shared/loot-shop-policy-v1.mjs';
+import {RAID_VICTORY_ITEMS,RAID_VICTORY_PIG_COINS} from '../shared/hideout-defense-v1.mjs';
+import {HIDEOUT_PARTS, HIDEOUT_STAGES, HIDEOUT_FURNITURE, HIDEOUT_DECOR} from '../shared/personal-hideout-v1.mjs';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
 const team = side => side === 'A' ? '청팀' : '홍팀';
@@ -7,6 +9,21 @@ const partName = code => HIDEOUT_PARTS.find(p => p.code === code)?.name || code;
 const spoils = loot => Object.entries(loot || {}).map(([code, qty]) => partName(code) + ' ' + qty + '개').join(' · ') || '획득 부품 없음';
 const time = ms => new Date(ms).toLocaleTimeString('ko-KR', {timeZone:'Asia/Seoul', hour:'2-digit', minute:'2-digit', hour12:false});
 const gauge = (hp, max) => '<meter aria-label="은신처 내구도" min="0" max="'+max+'" value="'+hp+'"></meter>';
+
+function victoryItems(reward){
+  if(!reward)return '';
+  const goods=[...reward.items,{name:'피그코인',image:PIG_COIN_IMAGE,quantity:reward.pigCoins}];
+  return '<div class="ph-raid-victory"><h4>승리 보상 <span>'+esc(reward.name)+' 획득</span></h4><ul>'+
+    goods.map(g=>'<li><img src="'+esc(g.image)+'" alt=""><span>'+esc(g.name)+'</span><b>'+number(g.quantity)+'개</b></li>').join('')+'</ul></div>';
+}
+function roomName(layout){return layout?.rooms?.find(r=>r.code===layout.defenseRoom)?.name||'';}
+function savedLayout(layout,expanded){
+  if(!layout?.rooms)return '';
+  const label=code=>[...HIDEOUT_FURNITURE,...HIDEOUT_DECOR].find(f=>f.code===code)?.name||code;
+  return '<details class="ph-raid-layout" '+(expanded?'open':'')+'><summary>전투 당시 저장 배치</summary>'+
+    layout.rooms.map(r=>'<div><b>'+esc(r.name)+(r.code===layout.defenseRoom?' · 방어 구역':'')+'</b><span>'+
+      (layout.pieces.filter(p=>p.room===r.code).map(p=>esc(label(p.code))).join(' · ')||'배치한 가구 없음')+'</span></div>').join('')+'</details>';
+}
 
 export function openPlunder({request, uid, onClose}) {
   const dialog = document.createElement('dialog');
@@ -18,7 +35,14 @@ export function openPlunder({request, uid, onClose}) {
   const content = dialog.querySelector('.ph-raid-content'), notice = dialog.querySelector('.ph-raid-notice');
   const storageKey = 'cnine-hideout-raid-pending:'+uid;
   let state, job, last, timer, battleModal, closed = false, busy = false, refreshSeq = 0, offset = 0;
-  const listeners = new AbortController();
+  const listeners = new AbortController(), seenRewards=new Set();
+  function syncWinnings(events){
+    const fresh=events.filter(e=>Number(e.victoryReward?.userId)===Number(uid)).map(e=>JSON.stringify([e.at,e.attacker,e.defender]));
+    if(!fresh.some(k=>!seenRewards.has(k)))return;
+    fresh.forEach(k=>seenRewards.add(k));
+    globalThis.dispatchEvent(new CustomEvent('cnine:account-sync',{detail:{domains:['inventory','wallet']}}));
+    globalThis.dispatchEvent(new CustomEvent('cnine:player-updated',{detail:{source:'hideout-plunder'}}));
+  }
   try { job = JSON.parse(sessionStorage.getItem(storageKey) || 'null'); } catch {}
   function saveJob(next) {
     job = next;
@@ -59,16 +83,17 @@ export function openPlunder({request, uid, onClose}) {
     }).join('');
     const lost = rules.materials.map(partName).join('·');
     const history = state.history.slice(0,8).map(e => '<li><time>'+time(e.at)+'</time> '+esc(e.attacker)+' → '+esc(e.defender)+' · '+(e.winner==='A'?'약탈 성공':e.winner==='B'?'방어 성공':'무승부')+
-      '<small>내구도 '+e.before+' → '+e.after+' · '+esc(spoils(e.loot))+'</small></li>').join('');
+      '<small>내구도 '+e.before+' → '+e.after+' · '+esc(spoils(e.loot))+'</small>'+(e.victoryReward?'<small>'+esc(e.victoryReward.name)+' 승리 보상 · '+esc(e.victoryReward.items.map(i=>i.name+' '+i.quantity+'개').join(' · '))+' · 피그코인 '+number(e.victoryReward.pigCoins)+'개</small>':'')+'</li>').join('');
+    const expanded=content.querySelector('.ph-raid-layout')?.open;
     content.innerHTML =
       '<div class="ph-raid-summary"><strong>'+(open?'교전 중':finished?'오늘 교전 종료':'교전 준비')+'</strong><span>청팀 '+counts.A+'명 · 홍팀 '+counts.B+'명 · 대기 '+counts.waiting+'명</span><b>청 '+score.A+' 점 / 홍 '+score.B+' 점 '+esc(standings)+'</b></div>'+
       '<section><h3>내 은신처</h3><div class="ph-raid-durability">'+gauge(durability,rules.maxDurability)+'<strong>내구도 '+durability+' / '+rules.maxDurability+'</strong></div>'+
       (open ? (mine ? '<p>'+(mine.team?team(mine.team)+' 소속 · '+(!durability?'은신처 함락':now<mine.readyAt?'재출격까지 '+Math.ceil((mine.readyAt-now)/1000)+'초':'출격 가능'):'상대 참가자를 기다리고 있습니다. 두 명이 모이면 양 진영에 배정됩니다.')+'</p>' :
         '<p>참가하면 오늘 22시까지 내 은신처도 공격 대상이 됩니다. 방어에 실패하면 내구도와 보관 중인 부품을 잃습니다.</p>'+btn('join','오늘 약탈전 참가',!state.level || !durability || !!job)) :
         '<p>회수 철판 '+rules.repairSteel+'개와 구리 배선 '+rules.repairWire+'개로 내구도를 '+rules.repairPoints+' 회복합니다.</p>'+btn('repair','은신처 수리',!state.level || durability>=rules.maxDurability || !state.repairAvailable || !!job))+'</section>'+
-      '<p class="ph-raid-rule">공격·방어 승리마다 팀 점수 +1. 공격에 성공하면 상대 내구도가 '+rules.damage+' 감소합니다. '+esc(lost)+' 보유량의 '+rules.lootPercent+'%를 올림해 종류당 최대 '+rules.lootLimit+'개까지 가져옵니다. 재출격 '+rules.cooldownMs/60000+'분 · 약탈당한 은신처 보호 '+rules.protectionMs/60000+'분.</p>'+
+      '<p class="ph-raid-rule">승리한 공격자 또는 방어자는 '+esc(RAID_VICTORY_ITEMS.map(i=>i.name+' '+i.quantity+'개').join(', '))+', 피그코인 '+RAID_VICTORY_PIG_COINS+'개를 받고 팀 점수 1점을 얻습니다. 공격에 성공하면 상대 내구도가 '+rules.damage+' 감소합니다. '+esc(lost)+' 보유량의 '+rules.lootPercent+'%를 올림해 종류당 최대 '+rules.lootLimit+'개까지 가져옵니다. 재출격 '+rules.cooldownMs/60000+'분 · 약탈당한 은신처 보호 '+rules.protectionMs/60000+'분.</p>'+
       (job?'<div class="ph-recovery"><p>처리 결과를 확인할 요청이 있습니다.</p>'+btn('retry','같은 요청 결과 확인')+'</div>':'')+
-      (last?'<article class="ph-raid-result"><h3>'+resultTitle+'</h3><p>'+esc(last.defender)+'의 '+esc(HIDEOUT_STAGES.find(s=>s.code===last.stage)?.name)+' · 내구도 '+last.before+' → '+last.after+'</p><strong>'+esc(spoils(last.loot))+'</strong> '+(last.battleV2?btn('replay','전투 다시 보기'):'')+'</article>':'')+
+      (last?'<article class="ph-raid-result"><h3>'+resultTitle+'</h3><p>'+esc(last.defender)+'의 '+esc(HIDEOUT_STAGES.find(s=>s.code===last.stage)?.name)+(roomName(last.residenceLayout)?' / '+esc(roomName(last.residenceLayout)):'')+' · 내구도 '+last.before+' → '+last.after+'</p><p class="ph-raid-spoils"><b>약탈품</b> '+esc(spoils(last.loot))+'</p>'+victoryItems(last.victoryReward)+savedLayout(last.residenceLayout,expanded)+(last.battleV2?btn('replay','전투 다시 보기'):'')+'</article>':'')+
       (open && mine?.team?'<section><h3>상대 은신처</h3><ul class="ph-raid-targets">'+(targets || '<li>상대 진영 배정 대기 중</li>')+'</ul></section>':'')+
       (history?'<section><h3>최근 교전</h3><ul class="ph-raid-log">'+history+'</ul></section>':'');
   }
@@ -86,7 +111,7 @@ export function openPlunder({request, uid, onClose}) {
     try {
       const next = await request('hideout/raid');
       if (closed || seq !== refreshSeq) return;
-      state = next; offset = next.now-Date.now(); render();
+      state = next; offset = next.now-Date.now(); render(); syncWinnings(next.history);
     } catch (e) {
       if (!closed && seq === refreshSeq) {
         notice.textContent = e.message;
@@ -102,7 +127,7 @@ export function openPlunder({request, uid, onClose}) {
     const done = document.createElement('button');
     done.type = 'button'; done.className = 'ph-button ph-raid-battle-close'; done.textContent = '전황으로';
     const loading = globalThis.prepareBattleV2LiveLoading({modal,mode:'SIEGE',playerName:result.attacker,opponentName:result.defender,autoText:'상대 은신처에서 교전합니다.'});
-    loading.stage.querySelector('.battle-v3-header strong')?.replaceChildren(document.createTextNode(result.defender+'의 은신처'));
+    loading.stage.querySelector('.battle-v3-header strong')?.replaceChildren(document.createTextNode(result.defender+'의 은신처'+(roomName(result.residenceLayout)?' · '+roomName(result.residenceLayout):'')));
     dialog.append(done);
     done.onclick = () => { done.remove(); closeBattle(); schedule(); };
     try {
@@ -134,7 +159,7 @@ export function openPlunder({request, uid, onClose}) {
       saveJob(null);
       if (closed) return;
       notice.textContent = task.action==='repair'?'은신처를 수리했습니다.':task.action==='join'?'오늘 참가 등록을 마쳤습니다.':'교전 결과를 정산했습니다.';
-      if (task.action==='attack') { last=result; render(); if (result.battleV2) await play(result); }
+      if (task.action==='attack') { last=result; syncWinnings([result]); render(); if (result.battleV2) await play(result); }
     } catch (e) {
       if (e.status>=400 && e.status<500) saveJob(null);
       if (!closed) notice.textContent=e.message;

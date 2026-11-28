@@ -1,3 +1,4 @@
+import {HIDEOUT_DEFENSES} from '../shared/hideout-defense-v1.mjs';
 import {saintActionCredit} from '../shared/mercenary-lightning-saint-v1.mjs';
 import { mercenaryVehicleSupport } from '../shared/mercenary-vehicle-support-v1.mjs';
 import {ryujinIncomingDamage,ryujinActionCredit} from '../shared/mercenary-ryujin-v1.mjs';
@@ -841,7 +842,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null, [PVP_POWER_BALANCE_REVIEW]: powerReview = false, [ICON_TECHNIQUE_PREPARATION]: techniquePreparation = null } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], hideoutDefenses = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null, [PVP_POWER_BALANCE_REVIEW]: powerReview = false, [ICON_TECHNIQUE_PREPARATION]: techniquePreparation = null } = {}) {
   let advancement=null,mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null,techniqueRuntime=null;
   const rawDamage=(target,incoming,options={})=>{const result=applyCanonicalDamage(target,incoming,options);advancement?.afterDamage(options.advancementSource||options.actor,target,result,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result,options);season2Runtime?.afterDamage(target,result,options);techniqueRuntime?.onDamage(target,result,options);return result;};
   const applyDamage=(target,incoming,options={})=>{
@@ -1496,7 +1497,24 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     nextCombatMs=Math.max(nextCombatMs,combatMs);
     lastCardCombatMs=Math.max(lastCardCombatMs,combatMs);
   };
+  const defenses=HIDEOUT_DEFENSES.filter(rule=>hideoutDefenses.includes(rule.code));
+  let lastDefenseAction=-1;
   while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length || sustained&&!sustained.bossSpawned) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+    if(defenses.length&&lastDefenseAction!==actionCount){
+      lastDefenseAction=actionCount;
+      for(const rule of defenses){
+        if(actionCount<rule.first||(actionCount-rule.first)%rule.interval!==0)continue;
+        const targets=targetableAlive(a).sort((left,right)=>left.hp/left.maxHp-right.hp/right.maxHp||left.slot-right.slot).slice(0,rule.targets);
+        if(!targets.length)break;
+        const hits=targets.map(target=>{
+          const hit=applyDamage(target,Math.max(1,Math.round(target.maxHp*rule.hpPercent/100)));
+          return {targetId:target.id,damage:hit.hpDamage,absorbed:hit.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield};
+        });
+        emitTimeline(timeline,clock,'HIDEOUT_DEFENSE_FIRE',{side:'B',facility:rule.code,label:rule.name,action:actionCount,hits});
+        for(const target of targets)settleKnockout(target,timeline,clock,reviveFromMagic);
+      }
+      if(!targetableAlive(a).length)break;
+    }
     // Replaying the same seed preserves the entire prefix before a departure.
     // Withdrawal cannot trigger survival/revival; that owner's actors stay gone.
     while((withdrawals[0]?.atMs??Infinity)<=nextCombatMs||(coopEffects[0]?.atMs??Infinity)<=nextCombatMs){
@@ -2413,7 +2431,7 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerVehicleTransit = null, defenderVehicleTransit = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerWornGearPower, defenderWornGearPower, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
+export function createPvpBattleV2({ hideoutDefenses = [], attackerSeasonEquipment = null, defenderSeasonEquipment = null, attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerVehicleTransit = null, defenderVehicleTransit = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerMercenaries, defenderMercenaries, [COMPANION_PREPARATION_REVIEW]: companionReview = false, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerWornGearPower, defenderWornGearPower, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)),attackerWornGearPower);
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)),defenderWornGearPower);
@@ -2427,7 +2445,7 @@ export function createPvpBattleV2({ attackerSeasonEquipment = null, defenderSeas
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
-  const simulated = simulateBattleV2Preview({ teamA:simulationA, teamB:simulationB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus, pets:attackerPet||defenderPet?{A:attackerPet,B:defenderPet}:null,petMode:'PVP', [COMPANION_PREPARATION_REVIEW]:companionReview?{mode:'PVP'}:null, [MAGIC_SEASON2_REVIEW]:season2Review, [PVP_POWER_BALANCE_REVIEW]:powerEnabled });
+  const simulated = simulateBattleV2Preview({ teamA:simulationA, teamB:simulationB, hideoutDefenses, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus, pets:attackerPet||defenderPet?{A:attackerPet,B:defenderPet}:null,petMode:'PVP', [COMPANION_PREPARATION_REVIEW]:companionReview?{mode:'PVP'}:null, [MAGIC_SEASON2_REVIEW]:season2Review, [PVP_POWER_BALANCE_REVIEW]:powerEnabled });
   const result = resolvePvpOutcome(simulated, simulationA, simulationB);
   if(mercA||mercB){result.final={...result.final,mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:result.final.B.filter(c=>c.isMercenary)},A:result.final.A.filter(c=>!c.isMercenary),B:result.final.B.filter(c=>!c.isMercenary)};}
   return {

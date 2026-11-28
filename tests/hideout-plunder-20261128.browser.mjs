@@ -5,6 +5,7 @@ import {readFile, mkdir} from 'node:fs/promises';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {pathToFileURL} from 'node:url';
+import {prepareRaidWallet} from './helpers/hideout-raid-rewards.mjs';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {emptyHideout, HIDEOUT_KEY} from '../shared/personal-hideout-v1.mjs';
 import {handlePersonalHideout, readHideout} from '../functions/_personal_hideout.js';
@@ -33,7 +34,7 @@ async function staticFile(file){
 
 for(const width of [1440,390])test('lobby to raid, recorded battle, recovered loot and repair at '+width+'px',{timeout:145000},async t=>{
   const db=await jointFixture(t,{});db.env.PERSONAL_HIDEOUT_ENABLED='1';
-  db.env.HIDEOUT_PLUNDER_ENABLED='1';
+  db.env.HIDEOUT_PLUNDER_ENABLED='1';await prepareRaidWallet(db);
   let now=opening,dropReply=true;const attacks=[],consoleErrors=[];
   const deps={...db.deps,now:()=>now,pvpDeckSnapshot:async(_env,id)=>cards.map(c=>({...c,base_power:id===7?2000000:100000})),battleSettings:async()=>({}),cardBattlePower:c=>c.base_power,
     loadPetBattleSnapshot:async()=>null,releasedMercenarySnapshot:async()=>null,createPvpBattleV2};
@@ -41,6 +42,8 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
     const home=emptyHideout();home.level=id===7?1:2;home.rooms=['main'];home.durability=id===7?60:100;
     Object.assign(home.parts,{STEEL:40,WIRE:20});
     home.placements=[{kind:'decor',id:'sofa',code:'sofa',room:'main',x:520,y:310,flipped:false}];
+    if(id===8)home.placements.push({kind:'decor',id:'gun',code:'autocannon',room:'main',x:740,y:270,flipped:false},
+      {kind:'decor',id:'turret',code:'turret',room:'main',x:285,y:670,flipped:true});
     await db.setting(HIDEOUT_KEY(id),home);
   }
   const opponent=await handleHideoutPlunder({path:'hideout/raid/join',env:db.env,deps,request:new Request(origin+'/api/hideout/raid/join',
@@ -86,12 +89,13 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
   if(out){await mkdir(out,{recursive:true});await page.screenshot({path:path.join(out,'raid-'+width+'.png')});}
   await attack.click();await button('retry').waitFor();
   await button('close').click();await entry.click();await button('retry').click();
-  await page.waitForFunction(()=>{const d=window.ProjectVPixiBattle?.diagnostics?.();return d?.battlefield?.hideoutFurniture===1 &&
-    d.battlefield.asset.endsWith('residence-apartment.webp') && document.querySelector('.ph-raid-dialog .is-v3-ready canvas');},null,{timeout:45000});
+  await page.waitForFunction(()=>{const d=window.ProjectVPixiBattle?.diagnostics?.();return d?.battlefield?.hideoutFurniture===3 && d.battlefield.hideoutLastShot?.facility==='turret' &&
+    d.battlefield.asset.endsWith('battle-apartment.webp') && document.querySelector('.ph-raid-dialog .is-v3-ready canvas');},null,{timeout:45000});
   if(out)await page.screenshot({path:path.join(out,'battle-'+width+'.png')});
   if(width===1440)await dialog.getByRole('button',{name:'결과 확인',exact:true}).waitFor({timeout:105000});
   await dialog.locator('.ph-raid-battle-close').click();
   await dialog.locator('.ph-raid-result').waitFor();await button('replay').waitFor();
+  assert.match(await dialog.locator('.ph-raid-victory').innerText(),/스틸 인라인 엔진[\s\S]*스틸 래더 프레임[\s\S]*피그코인/);
   assert.equal(attacks.length,2);assert.equal(attacks[0].id,attacks[1].id);assert.equal(attacks[1].data.replayed,true);
   const result=attacks[0].data,def=(await readHideout(db.env,8)).state;
   assert.equal(result.after,def.durability);assert.equal(def.parts.STEEL,40-(result.loot.STEEL||0));

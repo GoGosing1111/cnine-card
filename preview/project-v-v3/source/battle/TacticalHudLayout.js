@@ -1,3 +1,4 @@
+import {fitHideoutBackdrop,isHideoutBattle,layoutHideoutScene} from './HideoutBattleScene.js';
 import {fitCompactViewport, usesCompactViewport} from './ViewportLayout.mjs';
 import {DUO_BOARDS, DUO_DUAL_BOARDS} from './FormationLayout.mjs';
 
@@ -50,8 +51,10 @@ export function layoutTacticalHud(engine) {
   engine.backdropBounds={x,y,width:coverWidth,height:coverHeight};
   for(const {sprite,mask,start,end} of engine.parallaxLayers||[]){
     sprite.scale.set(Math.max(coverWidth/sprite.texture.width,coverHeight/sprite.texture.height));sprite.position.set(cx,cy);
+    if(isHideoutBattle(engine.battleData))fitHideoutBackdrop(sprite,engine.backdropBounds);
     mask.clear().rect(x-48,y+coverHeight*start-4,coverWidth+96,coverHeight*(end-start)+8).fill(0xffffff);
   }
+  layoutHideoutScene(engine);
   if(engine.backgroundShade){engine.backgroundShade.position.set(x,y);engine.backgroundShade.width=coverWidth;engine.backgroundShade.height=coverHeight;}
   if(engine.bottomShade){engine.bottomShade.position.set(x,cy+coverHeight/2-200);engine.bottomShade.width=coverWidth;engine.bottomShade.height=200;}
   const extraTop=String(engine.viewportFit?.objectiveHud?.height||0);

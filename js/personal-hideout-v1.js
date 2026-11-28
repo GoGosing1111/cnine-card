@@ -15,7 +15,7 @@
  let noticeText='',noticeError=false;
  let root=null,data=null,draft=[],room='main',tab='facilities',selected=null,selectedSlot=0,editing=false,dirty=false,busy=false,controller=null,epoch=0,trophies=null,uid=0,drag=null,targeting=false;
  let camera=0,scale=1,propScale=1,stopSizing=null;
- let raidView=null,openingRaid=false;
+ let raidView=null,openingRaid=false,projectRaidPlacement=null;
  const view=()=>'<section id="personalHideoutRoot" class="ph-root" aria-label="나의 은신처"><div class="ph-loading" role="status">은신처를 불러오는 중…</div></section>';
  const key=()=> 'cnine-hideout-pending:'+uid;
  const pending=()=>{try{return JSON.parse(sessionStorage.getItem(key())||'null');}catch{return null;}};
@@ -143,9 +143,31 @@
    ${data.coinBalance==null?'':'<p>보유 코인 <b data-ph-coin-balance title="'+BigInt(data.coinBalance).toLocaleString('ko-KR')+'">'+coinLabel(data.coinBalance)+'</b></p>'}
   </div>${costHtml(data.roomCost,data.roomCoinCost)}${button('upgrade',title,'data-target="room"',disabled)}</article>`;
  }
+ function defenseOverview(zone){
+  const space=data.space.rooms.find(r=>r.code===zone);
+  if(!space||!projectRaidPlacement)return '';
+  const props=data.state.placements.filter(p=>p.room===zone).map(p=>{
+   const item=definition(p),skin=data.skins.find(s=>s.code===p.skin);
+   const pos=projectRaidPlacement({...p,width:pieceWidth(p),surface:item.surface},space.width);
+   const art=p.code==='trophy'?cabinetArt(p):'<img src="'+esc(skin?.image||item.image)+'" alt="'+esc(item.name)+'">';
+   return '<div class="ph-defense-prop '+(pos.wall?'is-wall':'')+'" style="left:'+pos.x*100+'%;top:'+pos.y*100+'%;width:'+pos.width*100+'%;z-index:'+(pos.wall?0:1+p.y)+'"><span style="transform:scaleX('+(p.flipped?-1:1)+')">'+art+'</span></div>';
+  }).join('');
+  return '<details class="ph-defense-overview"><summary>저장된 방어 배치 보기</summary><figure aria-label="'+esc(space.name)+' 전체 방어 배치"><img class="ph-defense-backdrop" src="'+ART+'battle-'+esc(data.stage.code)+'.webp" alt="">'+props+'</figure></details>';
+ }
  function panelHtml(){
+  if(tab==='defense'&&data.raidEnabled) {
+   const zone=data.state.defenseRoom||'main';
+   const name=code=>data.rooms.find(r=>r.code===code)?.name||'보관함';
+   return '<div class="ph-defense-zone"><h3>방어 구역</h3><p>침입 시 이 방에 저장한 배치로 전투합니다. 각 시설은 한 대씩 설치할 수 있습니다.</p><div class="ph-actions">'+data.state.rooms.map(r=>button('defenseRoom',name(r),'data-room="'+r+'" aria-pressed="'+(r===zone)+'"',dirty||r===zone)).join('')+'</div></div>'+
+    data.decor.filter(v=>v.defense).map(f=>{
+     const p=draft.find(v=>v.code===f.code);
+     return '<article class="ph-panel ph-facility ph-defense-card"><img class="ph-defense-art" src="'+esc(f.image)+'" alt=""><div><h3>'+esc(f.name)+'</h3><p>'+esc(f.effect)+'</p>'+
+      (p?'<strong>'+esc(name(p.room))+' · '+(p.room===zone?'방어 중':'대기')+'</strong>'+button('select','배치 보기','data-id="'+esc(p.id)+'"'):
+       costHtml(f.cost)+button('installDefense','설치','data-item="'+f.code+'"',!data.state.level||!allowed(f.cost)||dirty))+'</div></article>';
+    }).join('')+defenseOverview(zone);
+  }
   if(tab==='facilities')return residenceUpgradeHtml()+data.facilities.map(facilityHtml).join('');
-  if(tab==='decor')return '<p class="ph-help">가구를 추가 제작해 자유롭게 꾸미세요. 장식 복제와 위치 변경은 시설 혜택을 중복시키지 않습니다.</p>'+data.decor.map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" loading="lazy" decoding="async" alt=""><h3>'+esc(f.name)+'</h3></div>'+costHtml(f.cost)+button('decorate','추가 제작','data-item="'+f.code+'"',!data.state.level||!allowed(f.cost)||dirty||draft.filter(p=>p.kind==='decor').length>=114)+'</article>').join('')+'<h3>보관한 가구</h3><div class="ph-storage">'+draft.filter(p=>p.room===null).map(p=>button('select',definition(p)?.name||p.code,'data-id="'+esc(p.id)+'"')).join('')+'</div>';
+  if(tab==='decor')return '<p class="ph-help">가구를 추가 제작해 자유롭게 꾸미세요. 장식 복제와 위치 변경은 시설 혜택을 중복시키지 않습니다.</p>'+data.decor.filter(f=>!f.defense).map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" loading="lazy" decoding="async" alt=""><h3>'+esc(f.name)+'</h3></div>'+costHtml(f.cost)+button('decorate','추가 제작','data-item="'+f.code+'"',!data.state.level||!allowed(f.cost)||dirty||draft.filter(p=>p.kind==='decor').length>=114)+'</article>').join('')+'<h3>보관한 가구</h3><div class="ph-storage">'+draft.filter(p=>p.room===null).map(p=>button('select',definition(p)?.name||p.code,'data-id="'+esc(p.id)+'"')).join('')+'</div>';
   if(tab==='rooms')return '<p class="ph-help">새 구역이 집 옆으로 이어집니다. 이동하면서 구역마다 꾸밀 수 있습니다. 시설 6개와 장식 114개를 보관·배치할 수 있습니다.</p>'+data.rooms.map(r=>'<article class="ph-panel"><h3>'+esc(r.name)+'</h3><p>은신처 Lv.'+r.requiredLevel+'부터 확장 가능</p>'+costHtml(r.cost)+button('expand',data.state.rooms.includes(r.code)?'개방 완료':'공간 확장','data-room="'+r.code+'"',data.state.rooms.includes(r.code)||data.state.level<r.requiredLevel||!allowed(r.cost)||dirty)+'</article>').join('');
   const stand=draft.find(p=>p.id===selected&&p.code==='trophy');
   return '<p class="ph-help">'+(stand?'선택한 칸: '+slotNames[selectedSlot]+'. 보유 트로피를 놓으세요.':'방의 대형 트로피 진열장을 먼저 선택하세요. 가구·장식에서 제작할 수 있습니다.')+' 트로피 소유권과 기존 효과는 그대로 유지됩니다.</p>'+(trophies===null?button('load-trophies','보유 트로피 불러오기'):trophies.length?'<div class="ph-trophy-list">'+trophies.map(t=>'<article class="ph-panel"><img src="'+esc(t.image)+'" width="120" height="120" alt="" loading="lazy"><h3>'+esc(t.name)+'</h3><p>'+n(t.count)+'개 보유</p>'+button('trophy','진열하기','data-trophy="'+esc(t.code)+'"',!stand||dirty||trophyAvailable(t,stand)<1)+'</article>').join('')+'</div>':'<p>아직 진열할 트로피가 없습니다. 업적과 시즌 보상으로 획득할 수 있습니다.</p>')+(stand?button('trophy','선택한 칸 비우기','data-trophy=""',dirty):'');
@@ -155,6 +177,7 @@
   stopSizing?.();
   const cabinet=cabinetFocus();
   const sections=[['facilities','시설 성장'],['decor','가구·장식'],['trophies','트로피'],['rooms','공간 확장']];
+  if(data.raidEnabled===true&&data.state.level)sections.splice(1,0,['defense','방어시설']);
   root.innerHTML=`
    <header class="ph-toolbar">
     <div><small>현재 거주지</small><strong>${esc(data.stage.name)}</strong></div>
@@ -233,7 +256,7 @@
    if(raidView||openingRaid)return;
    const id=epoch;openingRaid=true;
    try{
-    const {openPlunder}=await import('/js/hideout-plunder-v1.mjs?v=20261128-1');
+    const {openPlunder}=await import('/js/hideout-plunder-v1.mjs?v=20261128-defense');
     if(id===epoch)raidView=openPlunder({request,uid,onClose:()=>{raidView=null;if(id===epoch)void refresh();}});
    }catch(e){if(id===epoch)say('약탈전 화면을 열지 못했습니다. 다시 시도하세요.',true);}
    finally{if(id===epoch)openingRaid=false;}
@@ -242,7 +265,9 @@
   if(a==='refresh')return refresh();if(a==='retry')return mutate();
   if(a==='pan'){const view=viewport();if(view)setCamera(camera+Number(b.dataset.step)*view.clientWidth/scale*.75);return;}
   if(a==='room'){const z=data.space.rooms.find(z=>z.code===b.dataset.room);if(!viewport()){tab='facilities';editing=false;render();}setCamera(z.start);return;}
-  if(a==='tab'){tab=b.dataset.tab;if(tab==='trophies'&&!dirty){editing=false;if(!draft.find(p=>p.id===selected&&p.code==='trophy'))selected=(draft.find(p=>p.code==='trophy'&&p.room===room)||draft.find(p=>p.code==='trophy'))?.id||null;}render();return;}
+  if(a==='tab'){
+   if(b.dataset.tab==='defense'&&data.raidEnabled&&!projectRaidPlacement){const id=epoch;({projectRaidPlacement}=await import('/shared/hideout-defense-v1.mjs'));if(id!==epoch)return;}
+   tab=b.dataset.tab;if(tab==='trophies'&&!dirty){editing=false;if(!draft.find(p=>p.id===selected&&p.code==='trophy'))selected=(draft.find(p=>p.code==='trophy'&&p.room===room)||draft.find(p=>p.code==='trophy'))?.id||null;}render();return;}
   if(a==='select'){selected=b.dataset.id;render();focusPlacement();return;}
   if(a==='target'){targeting=!targeting;updateSelection();return;}
   if(a==='edit'){targeting=false;editing=!editing;render();focusPlacement();return;}
@@ -254,6 +279,8 @@
   if(a==='load-trophies'){const id=epoch;busy=true;b.disabled=true;try{const v=await request('hideout/trophies');if(id===epoch){trophies=v.trophies;render();}}catch(e){if(id===epoch)say(e.message,true);}finally{if(id===epoch){busy=false;render();}}return;}
   if(dirty){say('배치를 먼저 저장하거나 취소해 주세요.',true);return;}
   if(a==='upgrade')return mutate(a,{target:b.dataset.target,room});
+  if(a==='installDefense'&&data.raidEnabled)return mutate(a,{item:b.dataset.item,room:data.state.defenseRoom||'main'});
+  if(a==='defenseRoom'&&data.raidEnabled)return mutate(a,{room:b.dataset.room});
   if(a==='decorate')return mutate(a,{item:b.dataset.item,room});
   if(a==='expand')return mutate(a,{room:b.dataset.room});
   if(a==='unlockSkin'){if(confirm('표시된 코인, 마스터의 별, 은신처 재료를 사용해 스킨을 해금할까요?'))return mutate(a,{skin:b.dataset.skin});return;}

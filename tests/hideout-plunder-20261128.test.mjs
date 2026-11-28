@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {prepareRaidWallet,raidBalances} from './helpers/hideout-raid-rewards.mjs';
+import {handleGarageTuning} from '../functions/_garage_tuning.js';
 import {jointFixture} from './helpers/joint-db.mjs';
 import {handleHideoutPlunder} from '../functions/_hideout_plunder.js';
-import {readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
+import {mutateHideout,readHideout,handlePersonalHideout} from '../functions/_personal_hideout.js';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {emptyHideout, HIDEOUT_KEY, HIDEOUT_STOCK_LIMITS} from '../shared/personal-hideout-v1.mjs';
 import {PLUNDER, plunderWindow, plunderTransfer, assignPlunderTeams} from '../shared/hideout-plunder-v1.mjs';
@@ -32,6 +34,7 @@ test('Korean date, exact opening and closing, stock conservation at capacity and
 
 async function fixture(t, postgres) {
   const f=await jointFixture(t,{postgres});
+  await prepareRaidWallet(f);
   let now=start, winner='A', finishTime=0;
   f.env.PERSONAL_HIDEOUT_ENABLED='1';
   f.env.HIDEOUT_PLUNDER_ENABLED='1';
@@ -109,11 +112,16 @@ for(const postgres of [false,true]){
     const hit=await h.call(7,'attack',job);
     assert.equal(hit.status,200,JSON.stringify(hit.data));assert.equal(hit.data.after,80);
     assert.deepEqual(hit.data.loot,{STEEL:4,WIRE:2,CIRCUIT:1,DRIVE:1});
-    assert.equal(hit.data.hideoutFurniture.length,1);
-    assert.deepEqual(hit.data.hideoutFurniture[0],{art:'furniture-sofa.webp',width:420/960,flipped:true,x:.25,y:563.2/640});
+    assert.equal(hit.data.residenceLayout.pieces.length,1);
+    assert.deepEqual(hit.data.residenceLayout.pieces[0],{id:'sofa-1',kind:'decor',code:'sofa',room:'main',x:500,y:500,flipped:true,
+      skin:null,art:'furniture-sofa.webp',width:420,surface:'floor'});
+    assert.equal(hit.data.victoryReward.userId,7);
+    assert.deepEqual(await raidBalances(h.f,7),[1,1,1]);
+    assert.deepEqual(await raidBalances(h.f,8),[0,0,0]);
     assert.equal((await h.home(7)).parts.STEEL,44);assert.equal((await h.home(8)).parts.STEEL,36);
     assert.equal((await h.home(8)).parts.CORE,9);
     assert.equal((await h.call(7,'attack',job)).data.replayed,true);
+    assert.deepEqual(await raidBalances(h.f,7),[1,1,1]);
     assert.equal((await h.call(7,'attack',{...job,targetId:10})).status,409);
     assert.equal((await h.call(7,'attack',h.job({targetId:8}))).status,429);
     assert.equal((await h.call(8,'repair',h.job())).status,409);
@@ -133,6 +141,68 @@ for(const postgres of [false,true]){
     assert.equal((await h.home(8)).parts.STEEL,home.parts.STEEL-2);
     const board=(await h.call(7)).data;assert.equal(board.score.A+board.score.B,5);
     h.setTime(start+86400000);assert.equal((await h.call(8)).data.mine,null);assert.equal((await h.home(8)).durability,20);
+  });
+  test(dialect+' installs once, fights in the chosen room and keeps the recorded layout after editing',async t=>{
+    const h=await fixture(t,postgres),env=h.f.env,home=await h.home(8);
+    home.level=2;home.rooms.push('workshop');home.parts.CIRCUIT=8;
+    home.unlockedSkins=['sofa-cognac-leather'];home.placements[0].skin='sofa-cognac-leather';
+    await h.f.setting(HIDEOUT_KEY(8),home);
+    const change=async(action,fields)=>mutateHideout(env,8,action,{requestId:crypto.randomUUID(),revision:(await h.home(8)).revision,...fields});
+    delete env.HIDEOUT_PLUNDER_ENABLED;
+    await assert.rejects(change('installDefense',{item:'turret',room:'main'}),{code:'HIDEOUT_RAID_OFF'});
+    await assert.rejects(change('defenseRoom',{room:'workshop'}),{code:'HIDEOUT_RAID_OFF'});
+    env.HIDEOUT_PLUNDER_ENABLED='1';
+    await assert.rejects(change('decorate',{item:'turret',room:'main'}));
+    const body={requestId:crypto.randomUUID(),revision:home.revision,item:'autocannon',room:'workshop'};
+    await mutateHideout(env,8,'installDefense',body);await mutateHideout(env,8,'installDefense',body);
+    await assert.rejects(change('installDefense',{item:'autocannon',room:'main'}),{code:'HIDEOUT_OWNED'});
+    const built=await change('installDefense',{item:'turret',room:'workshop'});
+    assert.equal(built.state.parts.STEEL,home.parts.STEEL-26);
+    await change('defenseRoom',{room:'workshop'});
+    await h.join(7);await h.join(8);h.setWinner('ENGINE');
+    const staged=await h.home(8),job=h.job({targetId:8});
+    const fight=(await h.call(7,'attack',job)).data;
+    assert.equal(fight.residenceLayout.defenseRoom,'workshop');
+    assert.equal(fight.residenceLayout.revision,staged.revision);
+    assert.deepEqual(fight.residenceLayout.rooms.map(r=>r.code),['main','workshop']);
+    assert.equal(fight.residenceLayout.pieces.find(p=>p.code==='sofa').art,'skin-sofa-cognac-leather.webp');
+    const shots=r=>r.battleV2.result.timeline.filter(e=>e.type==='HIDEOUT_DEFENSE_FIRE');
+    assert.deepEqual(shots(fight).slice(0,2).map(e=>[e.facility,e.hits.length]),[['autocannon',1],['turret',3]]);
+    assert(shots(fight).every(e=>e.hits.every(t=>t.targetId.startsWith('A:')&&t.damage+t.absorbed>0&&Number.isFinite(t.targetHpAfter))));
+    const moved=(await h.home(8)).placements.map(p=>p.code==='turret'?{...p,room:null}:p.code==='autocannon'?{...p,room:'main',x:930,flipped:true}:p);
+    await change('arrange',{placements:moved});
+    const replay=(await h.call(7,'attack',job)).data;
+    assert.deepEqual(replay.residenceLayout,fight.residenceLayout);
+    assert.deepEqual(shots(replay),shots(fight));
+    h.setTime(start+PLUNDER.cooldownMs);
+    const later=(await h.call(7,'attack',h.job({targetId:8}))).data;
+    assert.equal(shots(later).length,0);
+    assert(!later.residenceLayout.pieces.some(p=>p.code==='turret'));
+  });
+  test(dialect+' draw has no award and the first win before shop setup grants equippable parts and wallet currency',async t=>{
+    const h=await fixture(t,postgres),f=h.f;
+    await f.p("DELETE FROM app_meta WHERE key='loot_shop_policy_v1'").run();
+    for(const sql of ['DROP TABLE pig_coin_ledger_v1','DROP TABLE pig_coin_wallets_v1',
+      'CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,is_active INTEGER)',
+      'CREATE TABLE user_garage_vehicles(user_id INTEGER,garage_id INTEGER,PRIMARY KEY(user_id,garage_id))',
+      'CREATE TABLE user_garage_loadout(user_id INTEGER PRIMARY KEY,garage_id INTEGER)']){
+      if(f.DB.execSchema)await f.DB.execSchema([sql]);else await f.p(sql).run();
+    }
+    for(const sql of ['INSERT INTO character_garage_items VALUES(37,1)','INSERT INTO user_garage_vehicles VALUES(8,37)','INSERT INTO user_garage_loadout VALUES(8,37)'])await f.p(sql).run();
+    await h.join(7);await h.join(8);h.setWinner('DRAW');
+    const tie=await h.call(7,'attack',h.job({targetId:8}));
+    assert.equal(tie.status,200);assert.equal(tie.data.victoryReward,null);
+    for(const uid of [7,8])assert.deepEqual(await raidBalances(f,uid),[0,0,0]);
+    h.setTime(start+PLUNDER.cooldownMs);h.setWinner('B');
+    const job=h.job({targetId:8}),result=await h.call(7,'attack',job);assert.equal(result.status,200,JSON.stringify(result.data));
+    await h.call(7,'attack',job);assert.deepEqual(await raidBalances(f,8),[1,1,1]);
+    for(const slot of ['engine','frame']){
+      const path='character/garage/tuning',request=new Request('https://game.test/api/'+path,{method:'POST',
+        headers:{'X-Fixture-User':'8'},body:JSON.stringify({vehicleId:37,action:'equip',slot,stage:1})});
+      const res=await handleGarageTuning({env:f.env,path,request,deps:{...h.deps,readBody:r=>r.json()}});
+      assert.equal(res.status,200);const {tuning}=await res.json();assert.equal(tuning.equipped[slot],1);
+    }
+    assert.deepEqual(await raidBalances(f,7),[0,0,0]);
   });
   test(dialect+' enforces the operating window using the database clock',async t=>{
     const h=await fixture(t,postgres);
@@ -159,6 +229,9 @@ for(const postgres of [false,true]){
     assert.equal((await h.home(8)).durability,100);
     h.finishAt(0);h.setTime(start+1000);h.setWinner('B');
     const loss=await h.call(7,'attack',h.job({targetId:8}));
+    assert.equal(loss.data.victoryReward.userId,8);
+    assert.deepEqual(await raidBalances(h.f,8),[1,1,1]);
+    assert.deepEqual(await raidBalances(h.f,7),[0,0,0]);
     assert.equal(loss.data.before,loss.data.after);assert.deepEqual(loss.data.loot,{});
     h.setTime(start+PLUNDER.cooldownMs+1000);h.setWinner('ENGINE');
     const job=h.job({targetId:8}), battle=await h.call(7,'attack',job);
@@ -169,6 +242,35 @@ for(const postgres of [false,true]){
     assert.deepEqual(replay.data.battleV2.result,battle.data.battleV2.result);
   });
 }
+
+test('a concurrent defender edit changes the simulated room before settlement, and a wallet failure rolls back the loot and both tuning parts',async t=>{
+  const h=await fixture(t,false),f=h.f,home=await h.home(8);
+  home.placements.push({id:'active-gun',kind:'decor',code:'autocannon',room:'main',x:840,y:190,flipped:true});
+  await f.setting(HIDEOUT_KEY(8),home);
+  await h.join(7);await h.join(8);
+  const job=h.job({targetId:8}),batch=f.DB.batch.bind(f.DB);
+  let moved=false;
+  f.DB.batch=async statements=>{
+    if(!moved&&statements.some(s=>s.values?.[0]==='hideout_plunder_receipt_v1:7:'+job.requestId)){
+      moved=true;home.placements.at(-1).room=null;home.placements[0].x=874;home.revision++;
+      await f.setting(HIDEOUT_KEY(8),home);
+    }
+    return batch(statements);
+  };
+  const original=h.deps.createPvpBattleV2,inputs=[];
+  h.deps.createPvpBattleV2=opts=>{inputs.push(opts.hideoutDefenses||[]);return original(opts);};
+  f.fail('INSERT INTO pig_coin_ledger_v1');
+  assert.equal((await h.call(7,'attack',job)).status,503);
+  assert.equal((await h.home(8)).durability,100);assert.deepEqual(await raidBalances(f,7),[0,0,0]);
+  f.fail('');
+  const recovered=await h.call(7,'attack',job);
+  assert.equal(recovered.status,200);
+  assert.equal(recovered.data.residenceLayout.revision,home.revision);
+  assert.equal(recovered.data.residenceLayout.pieces[0].x,874);
+  assert.deepEqual(inputs[0],['autocannon']);assert.deepEqual(inputs[1],[]);
+  assert.equal(recovered.data.residenceLayout.pieces.length,1);
+  assert.equal((await h.home(8)).durability,80);assert.deepEqual(await raidBalances(f,7),[1,1,1]);
+});
 
 test('overlapping different attackers, same-team block and lost response recovery',async t=>{
   const h=await fixture(t,false);

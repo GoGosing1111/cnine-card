@@ -1,5 +1,11 @@
 import {hideoutPlunderEnabled, readHideout} from './_personal_hideout.js';
-import {HIDEOUT_KEY, HIDEOUT_STAGES, HIDEOUT_STOCK_LIMITS, HIDEOUT_FURNITURE, HIDEOUT_DECOR, HIDEOUT_SKINS, hideoutSpace} from '../shared/personal-hideout-v1.mjs';
+import {HIDEOUT_KEY, HIDEOUT_STAGES, HIDEOUT_STOCK_LIMITS, raidResidenceSnapshot} from '../shared/personal-hideout-v1.mjs';
+import {HIDEOUT_DEFENSES, RAID_VICTORY_ITEMS, RAID_VICTORY_PIG_COINS} from '../shared/hideout-defense-v1.mjs';
+import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js?v=20261101-renewal1';
+import {ensurePigCoinWallet} from './_loot_shop.js';
+import {ensureGarageTuning} from './_garage_tuning.js';
+import {jointInventoryChange} from './_joint_transactions.js';
+import {raidPigCoinRewardStatements} from './_raid_pig_rewards.js';
 import {PLUNDER, plunderWindow, assignPlunderTeams, plunderTransfer} from '../shared/hideout-plunder-v1.mjs';
 import {ensureJointAtomicSchema, jointGuard, jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody, jointError} from './_joint_request.js';
@@ -83,33 +89,12 @@ function checkAttack(board, uid, target, now) {
   return {attacker, defender};
 }
 
-async function simulate(env, deps, user, day, target) {
+async function simulate(env, deps, user, day, target, seed, layout) {
   const decks = await Promise.all([user.id, target].map(id => record(env.DB, deckKey(day, id))));
   if (decks.some(raw => !raw)) fail('RAID_DECK', '참가 편성을 불러오지 못했습니다.', 503);
   const [a, b] = decks.map(raw => JSON.parse(raw));
-  return simulateTerritoryDuel(env, deps, user, a, b, day, crypto.getRandomValues(new Uint32Array(1))[0]);
-}
-
-// Capture the defender's installed main-room furniture with the combat receipt.
-// Coordinates follow the residence editor's floor, wall and placement bounds.
-function defendedRoom(home) {
-  const space = hideoutSpace(home), room = space.rooms.find(r => r.code === 'main');
-  if (!room) return [];
-  const items = home.placements.filter(p => p.room === 'main').map(p => {
-    const item = (p.kind === 'facility' ? HIDEOUT_FURNITURE : HIDEOUT_DECOR).find(f => f.code === p.code);
-    const art = HIDEOUT_SKINS.find(s => s.code === p.skin)?.image || item.image;
-    const width = space.furnitureWidths[p.code] || 320;
-    return {art: art.split('/').pop(), width, flipped: !!p.flipped,
-      x: 20 + width/2 + p.x/1000 * (room.width - width - 40),
-      y: (item.surface === 'wall' ? 262 + p.y * .20 : 512 + p.y * .1024) / space.height};
-  });
-  // The residence repeats its background every bay. Frame the most furnished
-  // bay at its original scale, including objects that cross either edge.
-  const counts = Array(Math.ceil(room.width / space.bayWidth)).fill(0);
-  for (const item of items) counts[Math.floor(item.x / space.bayWidth)]++;
-  const left = Math.min(room.width-space.bayWidth, counts.indexOf(Math.max(...counts))*space.bayWidth);
-  return items.filter(p => p.x + p.width/2 > left && p.x - p.width/2 < left + space.bayWidth)
-    .sort((a, b) => a.y - b.y).map(p => ({...p, x:(p.x-left)/space.bayWidth, width:p.width/space.bayWidth}));
+  const defenses=HIDEOUT_DEFENSES.filter(f=>layout.pieces.some(p=>p.room===layout.defenseRoom&&p.code===f.code)).map(f=>f.code);
+  return simulateTerritoryDuel(env, deps, user, a, b, day, seed, defenses);
 }
 
 async function savedResult(db, deps, key, input) {
@@ -153,7 +138,8 @@ async function mutate(env, deps, user, action, body) {
 async function applyMutation(env, deps, user, action, body, key, input) {
   const uid = Number(user.id), target = body.targetId, db = env.DB;
   await ensureJointAtomicSchema(env);
-  let formation, simulation;
+  let formation, simulation, simulatedHome, layout;
+  const seed=action==='attack'?crypto.getRandomValues(new Uint32Array(1))[0]:null;
   for (let attempt = 0; attempt < boardAttempts; attempt++) {
     const window = checkWindow(deps, body.day, action !== 'repair');
     const raw = action === 'repair' ? null : await record(db, dayKey(body.day));
@@ -181,10 +167,16 @@ async function applyMutation(env, deps, user, action, body, key, input) {
       response.durability = state.durability;
     } else {
       const {attacker, defender} = checkAttack(board, uid, target, clock(deps));
-      simulation ??= await simulate(env, deps, user, body.day, target);
       const [a, d] = await Promise.all([readHideout(env, uid), readHideout(env, target)]);
       if (!a.state.level || !d.state.level || !a.state.durability || !d.state.durability)
         fail('RAID_BREACHED', '은신처 상태가 변경되었습니다. 전황을 갱신하세요.');
+      if(simulatedHome!==d.raw){
+        layout=raidResidenceSnapshot(d.state);
+        const displayed=new Set(layout.pieces.flatMap(p=>p.trophyCodes||[]).filter(Boolean));
+        if(displayed.size)layout.trophyArt=Object.fromEntries(TROPHY_CATALOG.filter(t=>displayed.has(t.code)).map(t=>[t.code,t.art]));
+        simulation=await simulate(env,deps,user,body.day,target,seed,layout);
+        simulatedHome=d.raw;
+      }
       const now = clock(deps), winner = simulation.battleV2.result.winner;
       const before = d.state.durability, won = winner === 'A';
       attacker.readyAt = now + PLUNDER.cooldownMs;
@@ -200,12 +192,30 @@ async function applyMutation(env, deps, user, action, body, key, input) {
           a.state.revision++;
           writes.push(...compareAndSet(db, HIDEOUT_KEY(uid), a.raw, a.state));
         }
+      } else {
+        const token=crypto.randomUUID();
+        writes.push(jointGuard(db,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[HIDEOUT_KEY(target),d.raw]),jointGuardEnd(db,token));
       }
       if (winner === 'A' || winner === 'B') board.score[won ? attacker.team : defender.team]++;
+      let victoryReward=null;
+      if(winner==='A'||winner==='B'){
+        await ensureGarageTuning(env);
+        await ensurePigCoinWallet(env);
+        const winnerId=won?uid:target;
+        const ref=body.day+':'+uid+':'+body.requestId;
+        const balance=Number((await stmt(db,'SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=?',winnerId).first())?.balance||0);
+        const coins=Math.min(RAID_VICTORY_PIG_COINS,Math.max(0,1000000000000-balance));
+        const token=crypto.randomUUID();
+        writes.push(jointGuard(db,token,'COALESCE((SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=?),0)=?',[winnerId,balance]),jointGuardEnd(db,token));
+        for(const item of RAID_VICTORY_ITEMS)writes.push(...jointInventoryChange(db,winnerId,item.code,item.quantity,'은신처 약탈전 승리',ref));
+        writes.push(...raidPigCoinRewardStatements(env,{userId:winnerId,source:'HIDEOUT_PLUNDER',roomId:ref,amount:coins,
+          guardSql:'EXISTS(SELECT 1 FROM app_meta WHERE key=?)',guardBindings:[deckKey(body.day,winnerId)],at:now}));
+        victoryReward={userId:winnerId,name:won?attacker.name:defender.name,pigCoins:coins,items:RAID_VICTORY_ITEMS};
+      }
       const event = {at: now, attacker: attacker.name, defender: defender.name, winner, loot,
-        before, after: d.state.durability, stage: HIDEOUT_STAGES[d.state.level - 1].code};
+        before, after: d.state.durability, stage: HIDEOUT_STAGES[d.state.level - 1].code,victoryReward};
       board.history = [event, ...board.history].slice(0, 24);
-      response = {...response, ...event, hideoutFurniture: defendedRoom(d.state), attackerWon: won, opponent: {id: target, nickname: defender.name},
+      response = {...response, ...event, residenceLayout:layout, attackerWon: won, opponent: {id: target, nickname: defender.name},
         attackerPower: simulation.attackerPower, defenderPower: simulation.defenderPower};
       replayInput = simulation.replayInput;
     }

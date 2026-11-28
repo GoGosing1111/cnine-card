@@ -21,6 +21,8 @@
     "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
     "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SealDragonPlayback.js",
+    "shared/hideout-defense-v1.mjs",
+    "preview/project-v-v3/source/battle/HideoutBattleScene.js",
     "shared/mercenary-razak-v1.mjs",
     "shared/mercenary-blue-gear-v1.mjs",
     "shared/mercenary-blue-gear-resources-v1.mjs",

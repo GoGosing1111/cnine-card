@@ -49,11 +49,20 @@ export function drawBattleGroundStations(engine, stations) {
     for(const tile of layer.children)if(!tile.destroyed&&tile.station)reusable.set(tile.station.id,tile);
   }else layer.removeChildren().forEach(tile=>tile.destroy({children:true}));
   engine.isoTiles=[];engine.accountBattleUnitTile=null;
+  const hideout=engine.battleData?.sceneAssetKey==='PERSONAL_HIDEOUT_RAID';
   for (const station of stations) {
+    const actor=station.actor;
+    if(actor?.shadow&&Boolean(actor.hideoutContact)!==hideout){
+      actor.hideoutContact=hideout;
+      const shadow=actor.shadow.clear();
+      if(hideout)shadow.ellipse(8,-1,78,14).fill({color:0x1c1820,alpha:.17})
+        .ellipse(2,-2,55,8).fill({color:0x120f17,alpha:.30}).ellipse(0,-1,28,4).fill({color:0x0a0910,alpha:.33});
+      else shadow.ellipse(0,-5,96,20).fill({color:0x000000,alpha:.56});
+    }
     let tile=reusable.get(station.id);
     if(tile&&tile.groundStyle===battleGroundStyle(station.actor,station.kind,station.team)&&tile.groundWidth===tileWidth&&tile.groundHeight===tileHeight)reusable.delete(station.id);
     else{
-      tile=createBattleGroundSigil({...station,width:tileWidth,height:tileHeight});
+      tile=hideout?new Container():createBattleGroundSigil({...station,width:tileWidth,height:tileHeight});
       tile.groundWidth=tileWidth;tile.groundHeight=tileHeight;layer.addChild(tile);
     }
     tile.label='OccupiedTile:'+station.id;
