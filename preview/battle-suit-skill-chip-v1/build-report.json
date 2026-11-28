@@ -20,6 +20,10 @@
     "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
     "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SealDragonPlayback.js",
+    "shared/hideout-defense-v1.mjs",
+    "preview/project-v-v3/source/battle/HideoutTurret.js",
+    "preview/project-v-v3/source/battle/BattleHud.js",
+    "preview/project-v-v3/source/battle/BattleAnimation.js",
     "shared/mercenary-razak-v1.mjs",
     "shared/mercenary-blue-gear-v1.mjs",
     "shared/mercenary-blue-gear-resources-v1.mjs",
@@ -38,7 +42,9 @@
     "shared/mercenary-limited-catalog-v1.mjs",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
-    "preview/project-v-v3/source/battle/BattleHud.js",
+    "preview/project-v-v3/source/battle/HumanoidRig.js",
+    "preview/project-v-v3/source/battle/BattleCharacter.js",
+    "preview/project-v-v3/source/battle/HideoutBattleScene.js",
     "shared/apocalypse-shanks-shisui-v1.mjs",
     "shared/apocalypse-sahyeon-v1.mjs",
     "shared/apocalypse-trio-v1.mjs",
@@ -53,9 +59,6 @@
     "preview/project-v-v3/source/battle/KnightSkillFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
     "preview/project-v-v3/source/battle/CameraController.js",
-    "preview/project-v-v3/source/battle/BattleAnimation.js",
-    "preview/project-v-v3/source/battle/HumanoidRig.js",
-    "preview/project-v-v3/source/battle/BattleCharacter.js",
     "preview/project-v-v3/source/battle/SkillEffectFX.js",
     "preview/project-v-v3/source/battle/SkillTimeline.js",
     "preview/project-v-v3/source/battle/RoleAudioSpriteManifest.js",
@@ -444,5 +447,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 3952311
+  "outputBytes": 3962070
 }

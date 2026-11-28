@@ -1,4 +1,5 @@
 import {unlimitedAuctionTicket,LOOT_SHOP_DEFAULTS,validateLootShopPolicy,upgradeLootShopPolicy,PIG_COIN_IMAGE,pigCoinRewardWeek,LOOT_MYSTIC_RARITY,LOOT_MYSTIC_NAME_PREFIX,LOOT_MYSTIC_NAMES,LOOT_MYSTIC_CHANCE_PERCENT,lootMysticPoolComplete,lootEquipmentMatchesProduct,lootMercenaryRanks,lootIsDirect,lootPurchaseWindow,lootSaleState} from '../shared/loot-shop-policy-v1.mjs';
+import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {runJointOperation,saveJointPolicyDraft,jointInventoryChange} from './_joint_transactions.js';
 import {jointError,readJointBody,jointResponseError} from './_joint_request.js';
@@ -10,9 +11,12 @@ import {mercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-relea
 import {LOOT_PURCHASE_MAX_QUANTITY} from '../shared/loot-shop-policy-v1.mjs';
 
 export const LOOT_SHOP_KEY='loot_shop_policy_v1';
-export const LOOT_SHOP_SCHEMA=[
+const walletMarker='pig_coin_award_wallet_v1';
+const walletSchema=[
  `CREATE TABLE IF NOT EXISTS pig_coin_wallets_v1(user_id BIGINT PRIMARY KEY,balance BIGINT NOT NULL DEFAULT 0 CHECK(balance>=0 AND balance<=1000000000000))`,
  `CREATE TABLE IF NOT EXISTS pig_coin_ledger_v1(id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,amount BIGINT NOT NULL,balance_after BIGINT NOT NULL,source TEXT NOT NULL,reference_id TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(user_id,source,reference_id))`,
+];
+export const LOOT_SHOP_SCHEMA=[...walletSchema,
  `CREATE TABLE IF NOT EXISTS loot_shop_purchases_v1(request_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,product_id TEXT NOT NULL,price BIGINT NOT NULL,product_json TEXT NOT NULL,created_at TEXT NOT NULL)`,
  `CREATE INDEX IF NOT EXISTS loot_shop_purchase_user_v1 ON loot_shop_purchases_v1(user_id,product_id)`,
  `CREATE TABLE IF NOT EXISTS loot_shop_packs_v1(id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,product_json TEXT NOT NULL,opened_request_id TEXT UNIQUE,created_at TEXT NOT NULL,opened_at TEXT)`,
@@ -21,9 +25,20 @@ export const LOOT_SHOP_SCHEMA=[
 // Explicit CMS configuration prepares storage before publishing any settings.
 // Unconfigured HTTP reads never create tables or enable sales/rewards.
 export async function ensureLootShopSchema(env){if(env.DB.execSchema)await env.DB.execSchema(LOOT_SHOP_SCHEMA);else for(const sql of LOOT_SHOP_SCHEMA)await env.DB.prepare(sql).run();await ensureJointAtomicSchema(env);}
+// Event winnings can reach a player's wallet before the shop opens.
+export function ensurePigCoinWallet(env){
+  return ensureRuntimeFoundation(env,walletMarker,[walletMarker],async()=>{
+    const shop=await env.DB.prepare('SELECT 1 AS configured FROM app_meta WHERE key=?').bind(LOOT_SHOP_KEY).first();
+    if(!shop){
+      if(env.DB.execSchema)await env.DB.execSchema(walletSchema);
+      else await env.DB.batch(walletSchema.map(sql=>env.DB.prepare(sql)));
+    }
+    await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING").bind(walletMarker).run();
+  });
+}
 const fail=(message,status=409)=>jointError('JOINT_LOOT_UNAVAILABLE',message,status);
 export async function readLootShopPolicy(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LOOT_SHOP_KEY).first();return {policy:row?validateLootShopPolicy(upgradeLootShopPolicy(JSON.parse(row.value))):structuredClone(LOOT_SHOP_DEFAULTS),raw:row?.value??null};}
-export async function pigCoinBalance(env,userId){if((await readLootShopPolicy(env)).raw===null)return 0;return Number((await env.DB.prepare('SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=?').bind(userId).first())?.balance||0);}
+export async function pigCoinBalance(env,userId){if((await readLootShopPolicy(env)).raw===null&&!await env.DB.prepare('SELECT 1 AS ready FROM app_meta WHERE key=?').bind(walletMarker).first())return 0;return Number((await env.DB.prepare('SELECT balance FROM pig_coin_wallets_v1 WHERE user_id=?').bind(userId).first())?.balance||0);}
 const pFor=DB=>(sql,...v)=>DB.prepare(sql).bind(...v);
 function guarded(DB,predicate,bindings,body){const token=crypto.randomUUID();return [jointGuard(DB,token,predicate,bindings),...body,jointGuardEnd(DB,token)];}
 function policyGuard(DB,raw){return [...(DB.dialect==='postgres'?[DB.prepare('SELECT key FROM app_meta WHERE key=? FOR SHARE').bind(LOOT_SHOP_KEY)]:[]),...guarded(DB,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[LOOT_SHOP_KEY,raw],[])];}

@@ -1,0 +1,58 @@
+[
+  {
+    "asset": "assets/ui/personal-hideout-20261116/battle-shanty.webp",
+    "source": "battle-shanty.png",
+    "sha256": "d4ca4d263c7e7f4e228ed9e82bbb6d1c04a58f4749b877fd5ce5f7f7a1a5a00b",
+    "reference": "residence-shanty.webp",
+    "prompt": "Edit the referenced RPG hideout environment into a new gameplay battle background. Retain the distinctive architecture/materials, window design and time of day of this rough Korean hillside shack with dark salvaged timber, warm caged work light, a small hillside window, worn plank floor. Rebuild the viewpoint radically: a high oblique overhead battle camera looking DOWN at a large EMPTY walkable floor, from the open front, back wall runs straight horizontally across only the UPPER QUARTER. The wall–floor junction should cross at 22–26% from the TOP, including in the center. The low wall at the back is visible in a short band and almost NO ceiling. The lower 74% must be broad uninterrupted real FLOOR in receding perspective. Clear, physically plausible parquet or tile perspective, near edges larger than far edges, gentle window light from upper left sweeping across floor, subtle ambient occlusion at the skirting line. Large central fighting area legible beneath later game sprites; apartment-size plank/stone divisions, warm material contrast, graceful surface patina. Premium detailed 2.5D Korean game background art. Landscape wide 16:9 composition; open readable center for 10 separately rendered characters and placeable furniture. Architecture only. No furniture, carpet, machines, people, game UI, words, grid overlay, decals or logos. The attached image is the original room reference; the camera and floor coverage must change."
+  },
+  {
+    "asset": "assets/ui/personal-hideout-20261116/battle-apartment.webp",
+    "source": "battle-apartment.png",
+    "sha256": "2a0e1785d8b1dc7a6fb87a7ec5f1c7e31104156246210135ea82f28c29437359",
+    "reference": "residence-apartment.webp",
+    "prompt": "Edit the referenced RPG hideout environment into a new gameplay battle background. Retain the distinctive architecture/materials, window design and time of day of this modest urban Korean apartment, simple warm neutral plaster, horizontal city window with neighbors' lit windows at blue hour, pale oak parquet flooring. Rebuild the viewpoint radically: a high oblique overhead battle camera looking DOWN at a large EMPTY walkable floor, from the open front, back wall runs straight horizontally across only the UPPER QUARTER. The wall–floor junction should cross at 22–26% from the TOP, including in the center. The low wall at the back is visible in a short band and almost NO ceiling. The lower 74% must be broad uninterrupted real FLOOR in receding perspective. Clear, physically plausible parquet or tile perspective, near edges larger than far edges, gentle window light from upper left sweeping across floor, subtle ambient occlusion at the skirting line. Large central fighting area legible beneath later game sprites; apartment-size plank/stone divisions, warm material contrast, graceful surface patina. Premium detailed 2.5D Korean game background art. Landscape wide 16:9 composition; open readable center for 10 separately rendered characters and placeable furniture. Architecture only. No furniture, carpet, machines, people, game UI, words, grid overlay, decals or logos. The attached image is the original room reference; the camera and floor coverage must change."
+  },
+  {
+    "asset": "assets/ui/personal-hideout-20261116/battle-luxury.webp",
+    "source": "battle-luxury.png",
+    "sha256": "025a76ccd86fe376521ee7ae7b38355ed7ae029a6b18d1432a6fd70ed0415f9b",
+    "reference": "residence-luxury.webp",
+    "prompt": "Edit the referenced RPG hideout environment into a new gameplay battle background. Retain the distinctive architecture/materials, window design and time of day of this luxury Seoul apartment, walnut slat and warm stone wall, elegant cove lighting and dusk skyline, walnut herringbone floor. Rebuild the viewpoint radically: a high oblique overhead battle camera looking DOWN at a large EMPTY walkable floor, from the open front, back wall runs straight horizontally across only the UPPER QUARTER. The wall–floor junction should cross at 22–26% from the TOP, including in the center. The low wall at the back is visible in a short band and almost NO ceiling. The lower 74% must be broad uninterrupted real FLOOR in receding perspective. Clear, physically plausible parquet or tile perspective, near edges larger than far edges, gentle window light from upper left sweeping across floor, subtle ambient occlusion at the skirting line. Large central fighting area legible beneath later game sprites; apartment-size plank/stone divisions, warm material contrast, graceful surface patina. Premium detailed 2.5D Korean game background art. Landscape wide 16:9 composition; open readable center for 10 separately rendered characters and placeable furniture. Architecture only. No furniture, carpet, machines, people, game UI, words, grid overlay, decals or logos. The attached image is the original room reference; the camera and floor coverage must change."
+  },
+  {
+    "asset": "assets/ui/personal-hideout-20261116/battle-penthouse.webp",
+    "source": "battle-penthouse.png",
+    "sha256": "800d87fb20dffe780660a5125228e6e0e2b1e0f448c5087d4d2ea97528f00892",
+    "reference": "residence-penthouse.webp",
+    "prompt": "Edit the referenced RPG hideout environment into a new gameplay battle background. Retain the distinctive architecture/materials, window design and time of day of this penthouse, panoramic sunset Seoul windows separated by bronze and marble mullions and subdued amber lighting, wide satin honed stone flooring. Rebuild the viewpoint radically: a high oblique overhead battle camera looking DOWN at a large EMPTY walkable floor, from the open front, back wall runs straight horizontally across only the UPPER QUARTER. The wall–floor junction should cross at 22–26% from the TOP, including in the center. The low wall at the back is visible in a short band and almost NO ceiling. The lower 74% must be broad uninterrupted real FLOOR in receding perspective. Clear, physically plausible parquet or tile perspective, near edges larger than far edges, gentle window light from upper left sweeping across floor, subtle ambient occlusion at the skirting line. Large central fighting area legible beneath later game sprites; apartment-size plank/stone divisions, warm material contrast, graceful surface patina. Premium detailed 2.5D Korean game background art. Landscape wide 16:9 composition; open readable center for 10 separately rendered characters and placeable furniture. Architecture only. No furniture, carpet, machines, people, game UI, words, grid overlay, decals or logos. The attached image is the original room reference; the camera and floor coverage must change."
+  },
+  {
+    "asset": "assets/ui/personal-hideout-20261116/defense-autocannon.webp",
+    "source": "defense-autocannon.png",
+    "sha256": "b7e703015904eb9215eda666df13e4ea86b59c7ee634e2c3c7a4384b43817807",
+    "reference": null,
+    "prompt": "Illustrate a single small fictional defense installation sprite for a Korean near-future squad RPG, the complete object isolated on genuinely transparent background. Chunky, appealing manufactured silhouette, graphite housings with scraped metal edges, strong readable rim and restrained wear. Three-quarter view from above, looking down around 30 degrees, facing screen LEFT. Object sits solidly on broad low floor-contact base with visible front edge. Soft key light from upper left and short carefully painted contact shading under its base, negligible outside shadow. Sprite art, no instructions, schematics, text, letters, emblems, GUI frame or other objects, no characters. Whole base included with a thin transparent margin. Low-profile autonomous arcade pulse autocannon. Two short rounded cyan glowing emitters, small teal lens and graphite three-foot base, low and wide; visually a compact friendly sentry appliance, cast-metal game prop."
+  },
+  {
+    "asset": "assets/ui/personal-hideout-20261116/defense-turret.webp",
+    "source": "defense-turret.png",
+    "sha256": "4afbeea40afd70179b504da41774d963b3302438822a4be35cad2fab504e0e52",
+    "reference": null,
+    "prompt": "Illustrate a single small fictional defense installation sprite for a Korean near-future squad RPG, the complete object isolated on genuinely transparent background. Chunky, appealing manufactured silhouette, graphite housings with scraped metal edges, strong readable rim and restrained wear. Three-quarter view from above, looking down around 30 degrees, facing screen LEFT. Object sits solidly on broad low floor-contact base with visible front edge. Soft key light from upper left and short carefully painted contact shading under its base, negligible outside shadow. Sprite art, no instructions, schematics, text, letters, emblems, GUI frame or other objects, no characters. Whole base included with a thin transparent margin. Heavy defense tower of the same design family but clearly different: squat octagonal floor plinth, large upright ochre armored turret head, single broad luminous amber energy aperture pointed screen LEFT, vertical stepped silhouette, warm copper accents. Distinct and immediately identifiable beside a smaller teal sentry."
+  },
+  {
+    "asset": "assets/ui/garage/tuning-v2/engine-1.webp",
+    "source": "reward-engine-1.png",
+    "sha256": "7e985ae04c3cc674fd54dd41e33f9bb8256053e0247a8ccebafd262ac17d5f82",
+    "reference": null,
+    "prompt": "A single high-quality inventory icon for a Korean vehicle tuning RPG. Fully isolated genuine transparent background, no rim/frame, no words, no numbers, no HUD. One real-looking but stylized first-tier STEEL garage component, silver machined edges, charcoal recesses, cool studio key from upper left, small warm reflections. Readable, tactile, strong silhouette at 64 px, top three-quarter view, object fills a square canvas with a fine safe margin, compact contact shadow. A complete compact steel inline automotive engine as a game loot item with one continuous ribbed cylinder cover, oil cap and clearly readable side pulleys, slightly rotated diagonally. Basic factory steel, unpainted."
+  },
+  {
+    "asset": "assets/ui/garage/tuning-v2/frame-1.webp",
+    "source": "reward-frame-1.png",
+    "sha256": "492808b726521743d346dbd713ce53086ac0b3692d9a7d17ea992b1ef1462ccc",
+    "reference": null,
+    "prompt": "A single high-quality inventory icon for a Korean vehicle tuning RPG. Fully isolated genuine transparent background, no rim/frame, no words, no numbers, no HUD. One real-looking but stylized first-tier STEEL garage component, silver machined edges, charcoal recesses, cool studio key from upper left, small warm reflections. Readable, tactile, strong silhouette at 64 px, top three-quarter view, object fills a square canvas with a fine safe margin, compact contact shadow. A bare rectangular steel LADDER CHASSIS FRAME assembly as a single game loot item: two long steel side rails linked by three steel crossmembers, open negative spaces, no engine, body or wheels. Diagonal upper three-quarter view; robust symmetrical silhouette. Basic factory steel."
+  }
+]

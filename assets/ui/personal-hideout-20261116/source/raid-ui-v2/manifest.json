@@ -1,0 +1,25 @@
+{
+  "tool": "image_gen",
+  "images": [
+    {
+      "source": "entry.png",
+      "asset": "assets/ui/personal-hideout-20261116/raid-entry-v2.webp",
+      "prompt": "Create premium narrative key art for the evening Hideout Raid mode in the existing Korean game Reverse Call. Visual style reference: the supplied illustrated navy-and-amber hideout painting. New composition for a wide 16:9 in-game operation selection banner, not a poster with text. A cinematic near-future Seoul residential rooftop at blue hour after rain, a luminous warm apartment stairwell doorway and wet concrete, a close three-quarter back view of one distinctive short silver-haired adult urban scout with a small burnt-orange outside lining on a cropped dark navy jacket and utility bag, looking into the hideout. One teammate in silhouette further inside. The scout, architectural details and the amber opening cluster on the RIGHT HALF of the frame, a striking readable silhouette close to camera at roughly 72% of width. Window rows and antenna silhouettes recede into indigo city haze. Left third has visible but quieter shadowed rooftop architecture with a clean dark navy value for live Korean game text. Deep ink-blue tones, restrained acid-lime equipment indicator, cinematic tungsten highlights, sophisticated painted semi-real Korean game illustration, strong graphic value separation, tangible worn materials, light rain glints. Dramatic but readable at 320 pixels tall. No words, letters, logo, watermarks, HUD, interface panels, borders, captions, maps or typography. Landscape wide.",
+      "references": [
+        "assets/ui/personal-hideout-20261116/raid-night.webp"
+      ],
+      "sha256": "a60c91747b5bf3cb6235a8662342a08f7bdc45a1123d3ae910be9714ee7e0bef"
+    },
+    {
+      "source": "recovery.png",
+      "asset": "assets/ui/personal-hideout-20261116/raid-recovery-v2.webp",
+      "prompt": "Paint a wide 16:9 reward-stage background for a premium Korean urban RPG hideout raid. First two references define the ACTUAL automotive loot: steel inline engine and steel ladder chassis part. Last reference defines the moody hand-painted industrial hideout environment. At the RIGHT of a battered navy garage workbench a rugged open dark steel transit case with amber corner protectors, thick latches and raised lid, warm amber interior light illuminating the steel engine and compact ladder chassis part resting in fitted foam; a few brass coin highlights, no piles of exaggerated treasure. Create a distinctive tangible hero object with sharp hand-painted bevels, foreshortened 3/4 view from above, authentic steel finish. Case occupies the right 55%, surrounding workshop falls to midnight navy at LEFT for later live outcome text. Cool ambient blue, pale amber rim light, fine warm dust catching the light around the open case. Quiet satisfying after-action recovery of gear, not a fantasy treasure chest. Stylish cinematic semi-real game illustration with crisp readable silhouette, deep shadows, no hard fake panel borders. Landscape 16:9, no words, numbers, characters, logo, UI, labels, watermarks, or game typography.",
+      "references": [
+        "assets/ui/garage/tuning-v2/engine-1.webp",
+        "assets/ui/garage/tuning-v2/frame-1.webp",
+        "assets/ui/personal-hideout-20261116/raid-night.webp"
+      ],
+      "sha256": "a21e7b194a5f64664fd9cff00e0b8bb8dabea0b83a3629ff029ee6ae18f89b15"
+    }
+  ]
+}
