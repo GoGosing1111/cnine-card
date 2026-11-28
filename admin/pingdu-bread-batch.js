@@ -27,6 +27,7 @@ export function bindBatch(api, onPaid) {
       ? '지급 완료 '+count(c.paid)+'명 · '+count(batch.paidAmount)+'마리'
       : '지급 예정 '+count(c.ready)+'명 · '+count(batch.amount)+'마리'));
     $('batchBreakdown').textContent='집계 '+count(finished)+' / '+count(batch.total)+'명 · 이미 지급 '+count(c.previous)+'명 · 기준 미달 '+count(c.zero)+'명 · 보류 '+count(c.held)+'명';
+    $('batchPostCounts').textContent='이번 집계 신규 글 '+count(batch.newPosts)+'건 · 앞서 집계한 미지급 글 '+count(batch.carryPosts)+'건';
     $('batchHeld').hidden=!c.held;
     const held=batch.held.map(row=>element('li',(row.nickname || '계정')+' (#'+row.userId+') · '+row.reason));
     if (c.held>held.length) held.push(element('li','외 '+count(c.held-held.length)+'명'));
@@ -35,7 +36,7 @@ export function bindBatch(api, onPaid) {
     start.textContent='전체 다시 집계';
     if (busy) return;
     if (dirty) note.textContent='변경한 기준으로 다시 집계하세요.';
-    else if (batch.paidAt) note.textContent=batch.day+' 일괄 정산을 완료했습니다. 다시 집계하면 미지급 계정을 확인할 수 있습니다.';
+    else if (batch.paidAt) note.textContent=batch.day+' 지급을 완료했습니다. 같은 날 다시 집계하면 추가로 지급할 공개 글을 확인할 수 있습니다.';
     else if (c.held) note.textContent='보류 계정은 지급 대상에서 제외했습니다. 다시 집계하면 활동을 재조회합니다.';
     else if (finished===batch.total) note.textContent=c.ready?'집계가 끝났습니다. 지급 내역을 확인하세요.':'이 날짜에 새로 지급할 계정이 없습니다.';
   }
@@ -92,6 +93,7 @@ export function bindBatch(api, onPaid) {
     if (!batch || busy || paying) return;
     const body={day:batch.day,id:batch.id,accounts:batch.counts.ready,amount:batch.amount};
     busy=paying=true; $('batchConfirm').disabled=true; render();
+    $('batchConfirmText').textContent='글 공개 상태를 다시 확인하고 있습니다. 확인이 끝나면 지급 결과를 표시합니다.';
     try {
       batch=await api('batch-pay',{body});
       busy=paying=false; render(); await onPaid();

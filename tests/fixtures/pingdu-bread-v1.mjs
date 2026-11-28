@@ -18,7 +18,17 @@ export async function breadFixture() {
   }
   await game.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[SOOP_WATCH_PREFIX+'1',JSON.stringify({version:1,userId:1,providerUuid:'bread-1',soopUserId:'viewer-1'})]);
   const calls = [];
+  const postIds=new Map();
   const provider = {
+    async getVisibleDailyPosts(input) {
+      const result=await this.getDailyPostCount(input);
+      return Array.from({length:result.count},(_,i)=>{
+        const key=[input.userUuid,input.questDate,i].join(':');
+        if (!postIds.has(key)) postIds.set(key,postIds.size+1);
+        return {id:input.boardSlugs[0]+'/'+postIds.get(key),createdAt:input.questDate+'T12:00:00+09:00'};
+      });
+    },
+    async verifyBreadPosts(_day,targets) {return new Set(targets.map(target=>target.id));},
     async getDailyPostCount(input) { calls.push(['posts',input]); return {...input,timezone:'Asia/Seoul',count:3}; },
     async getWatchRanking(input) { calls.push(['watch',input]); return {ranking:{data:[{watchSeconds:input.streamerIds.length===1?120:7261}]}}; }
   };

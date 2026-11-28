@@ -6,9 +6,10 @@ import { CNINE_WINTER_BOX, WINTER_BOX_CONTENTS } from '../shared/cnine-winter-bo
 import { breadOdds, breadRewardLimit, RATE_TOTAL, STARTER_REWARDS } from '../shared/pingdu-bread-odds.mjs';
 import { coinCreditLimit } from '../shared/coin-integer-v1.mjs';
 import { prepareBreadBatches, breadBatch } from './_pingdu_bread_batch.js';
+import {GRANTS, preparePostLedger, outstandingPosts, applyBreadGrants, verifyPendingPosts} from './_pingdu_bread_posts.js';
 
 const OPENS = 'pingdu_bread_opens_v1';
-const SCHEMA = 'pingdu_bread_coin_batch_schema_v3';
+const SCHEMA = 'pingdu_bread_post_ledger_schema_v4';
 const PLAYER = 'events/pingdu-bread/';
 const ADMIN = 'admin/pingdu-bread/';
 const itemArt = new Map([...WINTER_BOX_CONTENTS,CNINE_WINTER_BOX].map(item => [item.code, item.image]));
@@ -30,6 +31,7 @@ function requestKey(value) {
 export async function prepareBread(env) {
   await ensureRuntimeFoundation(env, SCHEMA, [SCHEMA], () => transaction(env, async q => {
     await q('SELECT pg_advisory_xact_lock(hashtext($1))', [SCHEMA]);
+    if ((await q('SELECT value FROM app_meta WHERE key=$1',[SCHEMA]))[0]?.value==='1') return;
     await q(`CREATE TABLE IF NOT EXISTS ${DAYS} (
       user_id BIGINT NOT NULL, day DATE NOT NULL, identity_hash TEXT NOT NULL, revision TEXT NOT NULL,
       checked_at TIMESTAMPTZ NOT NULL, posts BIGINT, seconds BIGINT, board_status TEXT NOT NULL, watch_status TEXT NOT NULL,
@@ -42,8 +44,10 @@ export async function prepareBread(env) {
       opened_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(user_id,request_id))`);
     await q(`CREATE INDEX IF NOT EXISTS pingdu_bread_opens_by_user ON ${OPENS}(user_id,opened_at DESC)`);
     await prepareBreadBatches(q);
+    await preparePostLedger(q);
     await q("INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP),($3,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",
       [POLICY, JSON.stringify({ revision: null, items: [] }), SCHEMA]);
+    if ((await q("SELECT value FROM app_meta WHERE key='pingdu_bread_coin_batch_schema_v3'"))[0]?.value==='1') return;
     const current = await pool(q, true);
     const legacy = STARTER_REWARDS.filter(item => item.code !== 'COIN' && (item.code !== 'MASTER_STAR' || item.quantity === 1_000_000));
     const original = current.items.length === legacy.length && legacy.every(expected => current.items.some(item =>
@@ -65,7 +69,8 @@ export async function prepareBread(env) {
 function visibleDay(row) {
   if (!row) return null;
   return { day: row.day_key, revision: row.revision, checkedAt: iso(row.checked_at),
-    posts: row.posts == null ? null : Number(row.posts), seconds: row.seconds == null ? null : Number(row.seconds),
+    posts: row.posts == null ? null : Number(row.posts), newPosts:row.new_posts == null ? null : Number(row.new_posts),
+    seconds: row.seconds == null ? null : Number(row.seconds),
     boardStatus: row.board_status, watchStatus: row.watch_status, granted: Number(row.granted),
     settledAt: iso(row.settled_at) };
 }
@@ -119,41 +124,44 @@ async function watchSeconds(client, soopId, streamers, day) {
   const result = await client.getWatchRanking({ userSoopIds: [soopId], streamerIds: streamers, dateGte: day, dateLt: next, pagination: { page: 1, size: 1 } });
   return result.ranking.data[0].watchSeconds;
 }
-async function postCount(client, uuid, boards, day) {
-  const value = await client.getDailyPostCount({ userUuid: uuid, boardSlugs: boards, questDate: day });
-  if (value.userUuid !== uuid || value.questDate !== day || value.timezone !== 'Asia/Seoul' ||
-      JSON.stringify([...value.boardSlugs].sort()) !== JSON.stringify([...boards].sort())) throw Error('Invalid PLAY DK scope');
-  return value.count;
-}
 async function observe(available, read) {
   if (!available) return { status: 'UNLINKED', value: null };
   try { return { status: 'OK', value: await read() }; }
   catch { return { status: 'UNAVAILABLE', value: null }; }
 }
-async function reviewDay(env, userId, day, services, boardSlugs, fresh = false) {
+async function reviewDay(env, userId, day, services, boardSlugs, review=null) {
   boardSlugs ??= (await services.playdkDailyQuestSettings(env)).boardSlugs;
   const start = Date.now();
   const { who, previous } = await transaction(env, async q => ({
     who: await identity(q, userId), previous: await dayRow(q, userId, day)
   }));
   const fingerprint = await signature(who, boardSlugs);
-  if (previous?.settled_at || (!fresh && previous?.identity_hash === fingerprint && start - Date.parse(previous.checked_at) < 20000)) return visibleDay(previous);
+  if (!review && previous?.post_ids && previous.identity_hash === fingerprint && start - Date.parse(previous.checked_at) < 20000) return visibleDay(previous);
   const [board, watch] = await Promise.all([
-    observe(who.uuid, () => postCount(services.playdkIdentityClient(env), who.uuid, boardSlugs, day)),
-    observe(who.soopId, () => watchSeconds(services.playdkIdentityClient(env), who.soopId, CNINE_WATCH_STREAMERS.map(member => member.id), day))
+    observe(who.uuid, () => services.playdkIdentityClient(env).getVisibleDailyPosts({userUuid:who.uuid,boardSlugs,questDate:day})),
+    previous?.settled_at ? {status:previous.watch_status,value:previous.seconds} :
+      observe(who.soopId, () => watchSeconds(services.playdkIdentityClient(env), who.soopId, CNINE_WATCH_STREAMERS.map(member => member.id), day))
   ]);
   return transaction(env, async q => {
     await q('SELECT id FROM users WHERE id=$1 FOR UPDATE', [userId]);
     if (await signature(await identity(q, userId), boardSlugs) !== fingerprint) fail('조회 중 계정 연결이 바뀌었습니다. 다시 조회하세요.');
-    await q(`INSERT INTO ${DAYS}(user_id,day,identity_hash,revision,checked_at,posts,seconds,board_status,watch_status)
-      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT(user_id,day) DO UPDATE SET
+    const latest=await dayRow(q,userId,day,true);
+    if (latest && start<Date.parse(latest.checked_at)) {
+      if (review) fail('더 최근 활동 조회가 있습니다. 다시 집계하세요.');
+      return visibleDay(latest);
+    }
+    const open=board.status==='OK' ? await outstandingPosts(q,userId,day,board.value,review,latest?.legacy_post_cutoff) : null;
+    await q(`INSERT INTO ${DAYS}(user_id,day,identity_hash,revision,checked_at,posts,seconds,board_status,watch_status,post_ids,new_posts)
+      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT(user_id,day) DO UPDATE SET
       identity_hash=excluded.identity_hash,revision=CASE WHEN
-      (${DAYS}.identity_hash,${DAYS}.posts,${DAYS}.seconds,${DAYS}.board_status,${DAYS}.watch_status)
-      IS DISTINCT FROM (excluded.identity_hash,excluded.posts,excluded.seconds,excluded.board_status,excluded.watch_status)
+      (${DAYS}.identity_hash,${DAYS}.post_ids,${DAYS}.seconds,${DAYS}.board_status,${DAYS}.watch_status)
+      IS DISTINCT FROM (excluded.identity_hash,excluded.post_ids,excluded.seconds,excluded.board_status,excluded.watch_status)
       THEN excluded.revision ELSE ${DAYS}.revision END,checked_at=excluded.checked_at,posts=excluded.posts,
-      seconds=excluded.seconds,board_status=excluded.board_status,watch_status=excluded.watch_status
-      WHERE ${DAYS}.settled_at IS NULL AND ${DAYS}.checked_at <= excluded.checked_at`,
-      [userId,day,fingerprint,crypto.randomUUID(),new Date(start).toISOString(),board.value,watch.value,board.status,watch.status]);
+      post_ids=excluded.post_ids,new_posts=excluded.new_posts,seconds=excluded.seconds,
+      board_status=excluded.board_status,watch_status=excluded.watch_status`,
+      [userId,day,fingerprint,crypto.randomUUID(),new Date(start).toISOString(),open?.ids.length??null,
+        latest?.settled_at ? latest.seconds : watch.value,board.status,latest?.settled_at ? latest.watch_status : watch.status,
+        open?.ids??null,open?.fresh??null]);
     return visibleDay(await dayRow(q, userId, day));
   });
 }
@@ -167,24 +175,26 @@ async function memberTime(env, id, day, memberId, services) {
 async function settle(env, actorId, userId, day, body, services) {
   const quantity = whole(body.quantity, 10000, '붕어빵 지급 수량');
   const { boardSlugs } = await services.playdkDailyQuestSettings(env);
+  const targets=await transaction(env,q=>q(`SELECT d.post_ids AS ids,v.provider_user_id FROM ${DAYS} d
+    LEFT JOIN user_second_verifications v ON v.user_id=d.user_id AND v.provider='PLAYDK'
+    WHERE d.user_id=$1 AND d.day=$2 AND d.revision=$3`,[userId,day,body.revision]));
+  const live=await verifyPendingPosts(services,env,day,targets);
   return transaction(env, async q => {
     const config = await pool(q, true);
     await q('SELECT id FROM users WHERE id=$1 FOR UPDATE', [userId]);
     const row = await dayRow(q, userId, day, true);
-    if (!row || row.revision !== body.revision) fail('최신 활동 기록을 조회한 다음 정산하세요.');
-    if (row.settled_at) {
-      if (Number(row.granted) !== quantity) fail('이 날짜는 이미 다른 수량으로 지급했습니다.');
+    const [receipt] = await q(`SELECT quantity FROM ${GRANTS} WHERE user_id=$1 AND day=$2 AND evidence=$3`,[userId,day,body.revision]);
+    if (receipt) {
+      if (Number(receipt.quantity) !== quantity) fail('이 집계는 이미 다른 수량으로 지급했습니다.');
       return visibleDay(row);
     }
+    if (!row || row.revision !== body.revision) fail('최신 활동 기록을 조회한 다음 정산하세요.');
     if (row.identity_hash !== await signature(await identity(q, userId), boardSlugs)) fail('계정 연결 정보가 바뀌었습니다. 활동을 다시 조회하세요.');
-    if (!(Number(row.posts) > 0 || Number(row.seconds) > 0)) fail('확인된 게시글이나 시청 기록이 있어야 지급할 수 있습니다.');
+    if (!(Number(row.posts)>0 || (!row.settled_at && Number(row.seconds)>0))) fail('새로 지급할 공개 게시글이나 시청 기록이 없습니다.');
+    if (row.post_ids?.some(id=>!live.has(id))) fail('블라인드 또는 삭제된 글이 있습니다. 공개 글을 다시 집계하세요.');
     await snapshotPool(q, config, body.poolRevision);
-    await q(`UPDATE ${DAYS} SET granted=$3,remaining=$3,settled_by=$4,settled_at=CURRENT_TIMESTAMP,pool=$5 WHERE user_id=$1 AND day=$2`,
-      [userId, day, quantity, actorId, config.revision]);
-    const result = visibleDay(await dayRow(q, userId, day));
-    await q("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'PINGDU_BREAD_SETTLE','USER',$2,NULL,$3)",
-      [actorId, String(userId), JSON.stringify(result)]);
-    return result;
+    await applyBreadGrants(q,day,actorId,config.revision,[{id:userId,quantity,revision:row.revision,take:row.post_ids?.length??0}]);
+    return visibleDay(await dayRow(q,userId,day));
   });
 }
 async function balance(q, userId) {
@@ -218,7 +228,7 @@ async function openBread(env, userId, id) {
     await q('SELECT id FROM users WHERE id=$1 FOR UPDATE', [userId]);
     const [prior] = await q(`SELECT * FROM ${OPENS} WHERE user_id=$1 AND request_id=$2`, [userId, id]);
     if (prior) return { ...receipt(prior), balance: await balance(q, userId) };
-    const [batch] = await q(`SELECT day::text AS day,pool FROM ${DAYS} WHERE user_id=$1 AND remaining>0 ORDER BY day LIMIT 1 FOR UPDATE`, [userId]);
+    const [batch] = await q(`SELECT day::text AS day,evidence,pool FROM ${GRANTS} WHERE user_id=$1 AND remaining>0 ORDER BY day,granted_at,evidence LIMIT 1 FOR UPDATE`, [userId]);
     if (!batch) fail('봉투에 남은 붕어빵이 없습니다.');
     const items = await batchItems(q, batch.pool);
     await availableItems(q, items);
@@ -226,6 +236,7 @@ async function openBread(env, userId, id) {
     const reward = items.find(item => (sample -= item.units) < 0);
     if (!reward) fail('지급 당시의 확률 합계를 확인하세요.',503);
     await creditReward(q, userId, reward, id);
+    await q(`UPDATE ${GRANTS} SET remaining=remaining-1 WHERE user_id=$1 AND day=$2 AND evidence=$3`,[userId,batch.day,batch.evidence]);
     await q(`UPDATE ${DAYS} SET remaining=remaining-1 WHERE user_id=$1 AND day=$2`, [userId, batch.day]);
     const [row] = await q(`INSERT INTO ${OPENS}(user_id,request_id,day,reward) VALUES($1,$2,$3,$4) RETURNING *`, [userId,id,batch.day,JSON.stringify(reward)]);
     return { ...receipt(row), balance: await balance(q, userId) };
@@ -234,7 +245,7 @@ async function openBread(env, userId, id) {
 async function playerState(env, actor, day, services) {
   const { boardSlugs } = await services.playdkDailyQuestSettings(env);
   return transaction(env, async q => {
-    const [next] = await q(`SELECT pool FROM ${DAYS} WHERE user_id=$1 AND remaining>0 ORDER BY day LIMIT 1`, [actor.id]);
+    const [next] = await q(`SELECT pool FROM ${GRANTS} WHERE user_id=$1 AND remaining>0 ORDER BY day,granted_at,evidence LIMIT 1`, [actor.id]);
     const history = await q(`SELECT * FROM ${OPENS} WHERE user_id=$1 ORDER BY opened_at DESC LIMIT 20`, [actor.id]);
     const grants = await q(`SELECT day::text AS day,granted FROM ${DAYS} WHERE user_id=$1 AND settled_at IS NOT NULL ORDER BY day DESC LIMIT 20`, [actor.id]);
     return { userId: Number(actor.id), nickname: actor.nickname, owner: actor.role === 'OWNER', today: kstDay(), boardSlugs,
@@ -287,7 +298,7 @@ export async function handlePingduBread({ path, request, env, deps }) {
           members:CNINE_WATCH_STREAMERS.map(({id,name}) => ({id,name}))}));
         break;
       case 'state': result = await playerState(env, actor, day, deps); break;
-      case 'review': result = await reviewDay(env, userId, day, deps); break;
+      case 'review': result = await reviewDay(env, userId, day, deps,undefined,admin ? crypto.randomUUID() : null); break;
       case 'member': result = await memberTime(env, userId, day, body.memberId, deps); break;
       case 'pool': result = await savePool(env, actor.id, body); break;
       case 'settle': result = await settle(env, actor.id, userId, day, body, deps); break;

@@ -17,13 +17,15 @@ $('poolJump').onclick = () => { $('poolDetails').open = true; };
 function renderActivity() {
   $('target').textContent = selected ? selected.nickname + ' · #' + selected.userId : '활동 기록 확인';
   $('facts').hidden = !activity; $('memberDetails').hidden = !selected;
-  $('refresh').hidden = !selected || Boolean(activity?.settledAt);
-  $('grant').hidden = !selected || !activity || Boolean(activity.settledAt) || !(activity.posts > 0 || activity.seconds > 0) || !config?.items.length;
+  $('refresh').hidden = !selected;
+  $('grant').hidden = !selected || !activity || activity.granted>=10000 || !(activity.posts>0 || (!activity.settledAt && activity.seconds>0)) || !config?.items.length;
+  $('quantity').max=String(Math.max(1,10000-(activity?.granted || 0)));
   $('grantNote').textContent = selected && activity && !activity.settledAt && !config?.items.length ? '아래에서 개봉 아이템과 확률을 먼저 저장하세요.' : '';
   if (!activity) return;
   $('facts').replaceChildren();
-  const facts = [['활동 날짜',day],['게시판 글 작성',postLabel(activity)],['씨나인 방송 합계',watchLabel(activity.seconds,activity.watchStatus)],['조회 시각', new Date(activity.checkedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})]];
-  if (activity.settledAt) facts.push(['지급 완료',count(activity.granted)+'마리']);
+  const facts = [['활동 날짜',day],['정산 대상 공개 글',postLabel(activity)],['씨나인 방송 합계',watchLabel(activity.seconds,activity.watchStatus)],['조회 시각', new Date(activity.checkedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})]];
+  if (activity.posts!=null) facts.push(['이번 집계 신규 글',count(activity.newPosts)+'건'],['앞서 집계한 미지급 글',count(activity.posts-activity.newPosts)+'건']);
+  if (activity.settledAt) facts.push(['누적 지급',count(activity.granted)+'마리']);
   for (const [name,value] of facts) $('facts').append(element('dt',name),element('dd',value));
 }
 function clearSelection() {
@@ -41,7 +43,7 @@ async function inspect(row) {
     const result = await api('review',{body:{userId:row.userId,day}});
     if (version !== reviewVersion) return;
     activity = result; row.activity = result; renderActivity();
-    $('reviewNote').textContent = result.settledAt ? '이 날짜의 정산을 완료했습니다.' : '게시글과 시청시간을 확인한 후 수량을 입력하세요.';
+    $('reviewNote').textContent = result.settledAt ? '추가 지급은 아직 보상에 반영되지 않은 공개 글로 정산합니다.' : '공개 글과 시청시간을 확인한 후 수량을 입력하세요.';
   } catch (error) {
     if (version === reviewVersion) { activity = null; renderActivity(); $('reviewNote').textContent = error.message; }
   } finally { if (version === reviewVersion) $('refresh').disabled = false; }
@@ -56,7 +58,7 @@ async function load(resetConfig = false) {
     if (!config.items.length) $('poolDetails').open = true;
     const rows = result.rows.map(row => {
       const li = element('li'), description = element('div');
-      const status = row.activity?.settledAt ? '지급 완료 '+count(row.activity.granted)+'마리' : row.activity ? '조회됨 · 정산 전' : '조회 전';
+      const status = row.activity?.settledAt ? '누적 지급 '+count(row.activity.granted)+'마리' : row.activity ? '조회됨 · 정산 전' : '조회 전';
       description.append(element('b',row.nickname),element('small','#'+row.userId+' · '+status));
       const button = element('button','기록 확인'); button.type = 'button'; button.setAttribute('aria-label',row.nickname+' 기록 확인');
       button.onclick = () => inspect(row); li.append(description,button); return li;
@@ -90,9 +92,9 @@ $('memberCheck').onclick = async () => {
 };
 let payment;
 $('grant').onsubmit = event => {
-  event.preventDefault(); if (!selected || !activity || activity.settledAt || paying) return;
+  event.preventDefault(); if (!selected || !activity || $('grant').hidden || paying) return;
   payment = { day, userId:selected.userId, revision:activity.revision, poolRevision:config.revision, quantity:Number($('quantity').value) };
-  $('summary').textContent = day+' · '+selected.nickname+' (#'+selected.userId+')에게 붕어빵 '+count(payment.quantity)+'마리를 지급합니다. 이 날짜의 정산이 확정됩니다.';
+  $('summary').textContent = day+' · '+selected.nickname+' (#'+selected.userId+')에게 붕어빵 '+count(payment.quantity)+'마리를 지급합니다. 이번 정산에 공개 글 '+count(activity.posts??0)+'건을 반영합니다.';
   dialog.showModal(); $('cancel').focus();
 };
 $('cancel').onclick = () => { if (!paying) dialog.close(); };
@@ -104,7 +106,7 @@ $('confirm').onclick = async () => {
     const result = await api('settle',{body:payment});
     activity = result; selected.activity = result; renderActivity();
     $('reviewNote').textContent = '지급을 완료했습니다.'; dialog.close();
-    await load(); $('grantNote').textContent = count(result.granted)+'마리를 지급했습니다.';
+    await load(); $('grantNote').textContent = count(payment.quantity)+'마리를 지급했습니다.';
   } catch (error) { dialog.close(); $('grantNote').textContent = error.message+' 목록을 다시 조회하면 지급 여부를 확인할 수 있습니다.'; }
   finally { paying=false; payment=null; $('confirm').disabled=false; }
 };

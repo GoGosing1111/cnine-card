@@ -18,15 +18,15 @@ function setOpenControls() {
   $('openBread').textContent = canRecover ? '이전 개봉 결과 확인' : '붕어빵 뜯기';
 }
 function paintActivity() {
-  $('dayStatus').textContent = activity?.settledAt ? '지급 완료' : activity ? '정산 전' : state ? '조회 전' : '로그인 전';
+  $('dayStatus').textContent = activity?.settledAt ? (activity.posts>0?'추가 정산 대기':'지급 완료') : activity ? '정산 전' : state ? '조회 전' : '로그인 전';
   $('dayStatus').classList.toggle('paid', Boolean(activity?.settledAt));
   $('posts').textContent = activity ? postLabel(activity) : '—';
   $('seconds').textContent = activity ? watchLabel(activity.seconds, activity.watchStatus) : '—';
-  $('review').hidden = !state || Boolean(activity?.settledAt);
+  $('review').hidden = !state;
   $('memberDetails').hidden = !state;
   $('consentLink').hidden = !state || activity?.watchStatus !== 'UNLINKED';
   if (!state) return;
-  if (activity?.settledAt) $('recordNote').textContent = '이 날짜의 정산을 마치고 붕어빵 ' + count(activity.granted) + '마리를 지급했어요.';
+  if (activity?.settledAt) $('recordNote').textContent = '이 날짜에 붕어빵 총 ' + count(activity.granted) + '마리를 받았어요. 기록을 조회하면 추가 정산할 공개 글을 확인할 수 있어요.';
   else if (!activity) $('recordNote').textContent = '기록 조회를 눌러 선택한 날짜의 활동을 확인하세요.';
   else if (activity.boardStatus === 'UNAVAILABLE' || activity.watchStatus === 'UNAVAILABLE') $('recordNote').textContent = '일부 기록을 불러오지 못했어요. 잠시 후 다시 조회하세요.';
   else if (activity.boardStatus === 'UNLINKED' || activity.watchStatus === 'UNLINKED') $('recordNote').textContent = 'PLAY DK 2차 인증과 SOOP 시청정보 제공 동의를 확인하세요.';

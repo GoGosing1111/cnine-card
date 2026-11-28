@@ -6,6 +6,7 @@
  */
 
 import {normalizeWatchRequest,validateWatchResponse} from './_soop_watch_contract.js';
+import {breadBoardClient} from './_pingdu_bread_board.js';
 
 export class PlaydkApiError extends Error {
   constructor(message, detail = {}) {
@@ -58,6 +59,7 @@ export function createPlaydkIdentityClient(options = {}) {
   const game = String(options.game || 'skm').trim();
   const timeoutMs = Math.max(1_000, Math.min(15_000, Number(options.timeoutMs || 8_000)));
   if (!baseUrl || !accessKey || !secretKey) throw new PlaydkApiError('PLAY DK 서버 인증 설정이 없습니다.');
+  const breadBoard=breadBoardClient(baseUrl,options.fetch || fetch,timeoutMs);
 
   async function request(method, path, { query, body, failureMessage, responseLimit = 32_768 } = {}) {
     const url = new URL(`${baseUrl}${path}`);
@@ -101,6 +103,8 @@ export function createPlaydkIdentityClient(options = {}) {
   }
 
   return {
+    getVisibleDailyPosts(params) {return breadBoard.getVisibleDailyPosts(params,input=>this.getDailyPostCount(input));},
+    verifyBreadPosts:breadBoard.verifyBreadPosts,
     gameStartUrl() {
       return `${baseUrl}/api/v2/g/${encodeURIComponent(game)}`;
     },
@@ -137,7 +141,7 @@ export function createPlaydkIdentityClient(options = {}) {
         throw new PlaydkApiError('PLAY DK 게시판 설정이 올바르지 않습니다.', { status: 400 });
       }
       const body = await request('POST', '/api/v2/ext/board/daily-post-count', {
-        body: { userUuid, questDate, boardSlugs },
+        body: { userUuid, questDate, boardSlugs }, responseLimit:262_144,
         failureMessage: 'PLAY DK 일일 게시글 수를 확인하지 못했습니다.',
       });
       const count = Number(body?.count);

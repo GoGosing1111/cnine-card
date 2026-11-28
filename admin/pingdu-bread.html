@@ -15,7 +15,7 @@
     <div id="controls" hidden>
       <section class="admin-card batch-card" aria-labelledby="batchTitle">
         <h2 id="batchTitle">일괄 정산</h2>
-        <p>선택한 날짜의 전체 계정을 집계합니다. 게시글과 시청시간으로 얻은 붕어빵을 더해 계정별로 지급합니다.</p>
+        <p>선택한 날짜의 공개 글과 시청시간을 집계합니다. 블라인드·삭제 글은 제외하고, 각 글은 보상에 한 번만 반영합니다.</p>
         <form class="admin-form batch-settings" id="batchForm">
           <label>정산 날짜<input id="batchDay" type="date" required></label>
           <label>한 마리당 게시글 (건)<input id="batchPosts" type="number" min="1" max="10000" step="1" required></label>
@@ -23,12 +23,13 @@
           <label>계정별 하루 한도 (마리)<input id="batchCap" type="number" min="1" max="10000" step="1" required></label>
           <button type="submit" id="batchStart">전체 활동 집계</button>
         </form>
-        <p id="batchToday" class="note" hidden>오늘을 정산하면 확정 시점까지 집계한 활동으로 그날의 지급이 마감됩니다.</p>
+        <p id="batchToday" class="note" hidden>오늘 지급을 확정한 뒤에도 새 공개 글은 추가 정산할 수 있습니다. 시청시간은 첫 정산에 반영합니다.</p>
         <p role="status" id="batchStatus" class="admin-note"></p>
         <div id="batchResult" hidden>
           <progress id="batchProgress" aria-label="활동 집계 진행률"></progress>
           <div class="batch-totals" id="batchTotals"></div>
           <p class="note" id="batchBreakdown"></p>
+          <p class="note" id="batchPostCounts"></p>
           <details id="batchHeld" hidden><summary>보류 계정 확인</summary><ul id="batchHeldList"></ul></details>
           <button class="button solid" type="button" id="batchPay" hidden>일괄 지급 내역 확인</button>
         </div>

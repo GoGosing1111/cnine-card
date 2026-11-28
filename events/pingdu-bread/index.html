@@ -35,7 +35,7 @@
           <header class="card-head"><div><span class="kicker">참여 기록</span><h3 id="recordTitle">나의 일일 활동</h3></div><span id="dayStatus" class="pill">로그인 전</span></header>
           <div class="date-row"><label for="day">활동 날짜</label><input id="day" type="date"><button class="small-button" id="review" type="button" hidden>기록 조회</button></div>
           <ul class="metric-list">
-            <li><span class="metric-icon peach" aria-hidden="true">✎</span><div><strong>게시판 글 작성</strong><a id="boardLink" href="https://www.playdk.kr/board/skm" target="_blank" rel="noopener noreferrer">PLAY DK 게시판</a></div><output id="posts">—</output></li>
+            <li><span class="metric-icon peach" aria-hidden="true">✎</span><div><strong>정산 대기 공개 글</strong><a id="boardLink" href="https://www.playdk.kr/board/skm" target="_blank" rel="noopener noreferrer">PLAY DK 게시판</a></div><output id="posts">—</output></li>
             <li><span class="metric-icon mint" aria-hidden="true">▷</span><div><strong>씨나인 멤버 시청시간</strong><span>대상 방송의 하루 합계</span></div><output id="seconds">—</output></li>
           </ul>
           <details id="memberDetails" hidden><summary>멤버별 시청시간</summary><div class="member-form"><label for="member">멤버</label><select id="member"></select><button id="memberCheck" class="small-button" type="button">조회</button><a id="station" class="text-link" target="_blank" rel="noopener noreferrer">방송국 열기</a></div><p id="memberResult" role="status"></p></details>
@@ -52,7 +52,7 @@
       </div>
       <section class="rules"><h2>참여 방법</h2><ol>
         <li><b>게시글 작성 · 방송 시청</b><span>PLAY DK에 글을 쓰거나 씨나인 멤버의 방송을 시청하세요. 활동 날짜는 한국시간 기준이에요.</span></li>
-        <li><b>운영자 정산</b><span>운영자가 그날의 게시글과 시청시간을 집계해 지급을 확정하면 내 봉투에 붕어빵이 들어와요.</span></li>
+        <li><b>운영자 정산</b><span>블라인드·삭제 글은 집계에서 제외해요. 공개 글은 한 번씩만 반영하고, 지급 후에 쓴 새 글도 같은 날짜에 추가 정산할 수 있어요.</span></li>
         <li><b>붕어빵 개봉</b><span>한 마리씩 뜯어 보세요. 일반 코인은 지갑에, 마스터의 별과 아이템은 인벤토리에 바로 들어가요.</span></li>
       </ol></section>
       <div class="extra-grid"><details class="fold" id="rewardDetails"><summary>개봉 아이템과 확률</summary><div id="rewards" aria-live="polite">현재 보상표를 불러오는 중이에요.</div></details>

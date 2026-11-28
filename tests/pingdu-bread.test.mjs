@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {breadFixture} from './fixtures/pingdu-bread-v1.mjs';
+import {breadBoardClient} from '../functions/_pingdu_bread_board.js';
 import {CNINE_WATCH_STREAMERS,SOOP_WATCH_PREFIX} from '../functions/_soop_watch.js';
 import {breadOdds,percentUnits,RATE_TOTAL,scaleFixedRates,STARTER_REWARDS,BREAD_COIN_MAX,BREAD_STAR_MAX} from '../shared/pingdu-bread-odds.mjs';
 
@@ -207,7 +208,7 @@ test('one owner confirmation settles the full population atomically, excludes pa
   assert.equal((await f.call('admin:batch-start',start,f.player)).status,403);
   assert.equal((await f.call('admin:batch-start',{...start,rules:{...rules,minutesPerBread:0}},f.owner)).status,400);
   const run=await ok(f.call('admin:batch-start',start,f.owner));
-  assert.equal(run.total,27); assert.equal(run.counts.previous,1);
+  assert.equal(run.total,27); assert.equal(run.counts.pending,27);
   assert.equal((await f.call('admin:batch-pay',confirmation(run),f.owner)).status,409);
   const step={day,id:run.id};
   await Promise.all([ok(f.call('admin:batch-step',step,f.owner)),ok(f.call('admin:batch-step',step,f.owner))]);
@@ -247,4 +248,116 @@ test('batch rules, stale reward configurations and expired review leases are enf
   assert.equal((await f.call('admin:batch-pay',confirmation(done),f.owner)).status,409);
   assert.equal((await f.state()).balance,0);
   assert.deepEqual((await ok(f.call('admin:batch',null,f.owner,{day:'2026-02-01'}))).defaults,{...rules,dailyCap:1});
+});
+
+test('published post IDs require exact Korean day and ownership and omit blind, deleted and duplicate rows across pages',async()=>{
+  const input={userUuid:'writer',boardSlugs:['skm'],questDate:day}, scope={...input,timezone:'Asia/Seoul'};
+  const row=(id,who='writer',extra={})=>({id,board:{slug:'skm'},author:who?{uuid:who}:null,createdAt:day+'T12:34:56',blind:false,...extra});
+  const rows=[row(1),row(1),row(2,'writer',{blind:true}),row(3,'writer',{deletedAt:day}),row(4,'other'),row(5,null),
+    ...Array.from({length:94},(_,i)=>row(i+100,'other')),row(6)];
+  let unexpected=false;
+  const queries=[], details=[];
+  const fetcher=async url=>{
+    if (url.pathname!=='/api/v2/p/post') {
+      const id=Number(url.pathname.split('/').at(-1));details.push(id);
+      return id===7?Response.json(row(7,null)):new Response(null,{status:404});
+    }
+    const params=Object.fromEntries(url.searchParams);queries.push(params);
+    const n=Number(params.page);
+    const data=rows.slice(100*(n-1),100*n);
+    if (unexpected) data[0]=row(1,'writer',{blind:undefined});
+    return Response.json({data,page:n,size:100,total:rows.length,more:n===1});
+  };
+  const api=breadBoardClient('https://board.example',fetcher,5000);
+  const signed=async()=>({...scope,count:150,postsTruncated:true,posts:[5,7,8].map(postId=>({boardSlug:'skm',postId:String(postId)}))});
+  assert.deepEqual((await api.getVisibleDailyPosts(input,signed)).map(p=>p.id),['skm/1','skm/5','skm/6','skm/7']);
+  assert.deepEqual(queries.map(p=>p.page),['1','2']);assert.deepEqual(details,[7,8]);
+  assert(queries.every(p=>p.authorUuid==='writer' && p.createdAtGte===day+'T00:00:00' && p.createdAtLt==='2026-02-01T00:00:00'));
+  const verify=await api.verifyBreadPosts(day,[1,2,3,4,6].map(id=>({id:'skm/'+id,author:id===3?'other':'writer'})));
+  assert.deepEqual([...verify],['skm/1','skm/6']);
+  assert.equal(queries.at(-1).authorUuid,undefined);
+  unexpected=true;
+  await assert.rejects(api.getVisibleDailyPosts(input,signed));
+  await assert.rejects(api.getVisibleDailyPosts(input,async()=>({...scope,questDate:'2026-02-01',count:1})));
+});
+function boardFixture(f,all) {
+  f.provider.getVisibleDailyPosts=async ({userUuid})=>userUuid==='bread-1'?all.filter(post=>post.visible):[];
+  f.provider.verifyBreadPosts=async (_day,targets)=>new Set(targets.filter(target=>all.some(post=>post.visible && post.id===target.id)).map(target=>target.id));
+  f.provider.getWatchRanking=async()=>({ranking:{data:[{watchSeconds:0}]}});
+}
+const article=(n,extra={})=>({id:'skm/'+n,createdAt:day+'T14:00:00+09:00',visible:true,...extra});
+test('reruns distinguish new and pending IDs, carry threshold remainders, and grant just new posts after a confirmed day',async t=>{
+  const f=await setup(t), all=[article(1),article(2),article(3),article(9,{visible:false})];
+  boardFixture(f,all);
+  await f.policy([item('MASTER_STAR',3)]);
+  await ok(f.call('review',{day})); // A player lookup cannot consume the first operator collection.
+  const initial=await preview(f);
+  assert.equal(initial.newPosts,3);assert.equal(initial.carryPosts,0);assert.equal(initial.amount,1);
+  const repeat=await preview(f,initial.id);
+  assert.equal(repeat.newPosts,0);assert.equal(repeat.carryPosts,3);assert.equal(repeat.amount,1);
+  await ok(f.call('admin:batch-pay',confirmation(repeat),f.owner));
+  assert.equal((await f.state()).balance,1);
+  const remainder=await preview(f,repeat.id);
+  assert.equal(remainder.amount,0);assert.equal(remainder.newPosts,0);assert.equal(remainder.carryPosts,1);
+  await f.policy([item('SUIT_CORE_8',7)]);
+  all.push(article(4));
+  const more=await preview(f,remainder.id);
+  assert.equal(more.newPosts,1);assert.equal(more.carryPosts,1);assert.equal(more.amount,1);
+  const body=confirmation(more);
+  const [a,b]=await Promise.all([ok(f.call('admin:batch-pay',body,f.owner)),ok(f.call('admin:batch-pay',body,f.owner))]);
+  assert.deepEqual(a,b);assert.equal((await f.state()).balance,2);
+  assert.equal((await ok(f.call('open',{requestId:crypto.randomUUID()}))).reward.code,'MASTER_STAR');
+  assert.equal((await ok(f.call('open',{requestId:crypto.randomUUID()}))).reward.code,'SUIT_CORE_8');
+  all[0].id='another/1'; // Same PLAY DK post moved between eligible boards.
+  const last=await preview(f,more.id);
+  assert.equal(last.newPosts,0);assert.equal(last.carryPosts,0);assert.equal(last.amount,0);
+  assert.equal((await f.row('SELECT COUNT(*)::int AS n FROM pingdu_bread_posts_v1 WHERE paid_at IS NOT NULL')).n,4);
+});
+test('visibility is rechecked before individual and bulk credit; later activity receives only its incremental amount',async t=>{
+  const f=await setup(t), all=[article(10),article(11)];
+  boardFixture(f,all);
+  const config=(await f.catalog()).config;
+  const single=(review,quantity)=>f.call('admin:settle',{day,userId:1,quantity,revision:review.revision,poolRevision:config.revision},f.owner);
+  const viewed=await f.review();
+  all[1].visible=false;
+  assert.equal((await single(viewed,2)).status,409);assert.equal((await f.state()).balance,0);
+  const revised=await f.review();
+  assert.equal(revised.posts,1);assert.equal(revised.newPosts,0);assert.notEqual(revised.revision,viewed.revision);
+  await ok(single(revised,1));
+  all.push(article(12));
+  const run=await preview(f,null,{rules:{...rules,postsPerBread:1}});
+  assert.equal(run.newPosts,1);assert.equal(run.amount,1);
+  all.at(-1).visible=false;
+  const held=await ok(f.call('admin:batch-pay',confirmation(run),f.owner));
+  assert.equal(held.counts.held,1);assert.equal(held.paidAmount,0);assert.equal((await f.state()).balance,1);
+  all.at(-1).visible=true;
+  const again=await f.review();assert.equal(again.newPosts,0);assert.equal(again.posts,1);
+  await ok(single(again,1));await ok(single(again,1));
+  assert.equal((await f.state()).balance,2);assert.equal((await f.review()).posts,0);
+});
+test('legacy paid balances keep their old reward table, and only posts created after the legacy evidence can be added',async t=>{
+  const f=await setup(t);
+  await f.pg.exec(`CREATE TABLE pingdu_bread_days_v1 (
+    user_id BIGINT,day DATE,identity_hash TEXT,revision TEXT,checked_at TIMESTAMPTZ,posts BIGINT,seconds BIGINT,
+    board_status TEXT,watch_status TEXT,granted INTEGER DEFAULT 0,remaining INTEGER DEFAULT 0,settled_at TIMESTAMPTZ,
+    settled_by BIGINT,pool TEXT,PRIMARY KEY(user_id,day));
+    INSERT INTO pingdu_bread_days_v1 VALUES (1,'2026-01-31','old-hash','old-review','2026-01-31T12:00:00+09:00',
+      17,7800,'OK','OK',4,2,'2026-01-31T12:10:00+09:00',99,'old-table');
+    INSERT INTO pingdu_bread_days_v1(user_id,day,identity_hash,revision,checked_at,posts,seconds,board_status,watch_status)
+      VALUES(2,'2026-01-31','old-hash','old-unpaid','2026-01-31T12:00:00+09:00',90,0,'OK','OK');`);
+  const old=[{code:'MASTER_STAR',quantity:9,name:'마스터의 별',image:'/star.webp',units:RATE_TOTAL}];
+  await f.pg.query(`INSERT INTO app_meta(key,value) VALUES('pingdu_bread_coin_batch_schema_v3','1'),
+    ('pingdu_bread_pool_v1',$1),('pingdu_bread_pool_snapshot:old-table',$2)`,[JSON.stringify({revision:'old-table',items:old}),JSON.stringify(old)]);
+  assert.equal((await f.state()).balance,2);
+  const p=await f.policy([item('SUIT_CORE_8')]);
+  const send=(id,revision)=>f.call('admin:settle',{day,userId:id,quantity:1,revision,poolRevision:p.revision},f.owner);
+  assert.equal((await send(2,'old-unpaid')).status,409);
+  const all=[article(31,{createdAt:day+'T11:59:59+09:00'}),article(32)];
+  boardFixture(f,all);
+  const review=await f.review();
+  assert.equal(review.granted,4);assert.equal(review.posts,1);assert.equal(review.newPosts,1);
+  await ok(send(1,review.revision));assert.equal((await f.state()).balance,3);
+  const receipts=[];
+  for (let i=0;i<3;i++) receipts.push((await ok(f.call('open',{requestId:crypto.randomUUID()}))).reward.code);
+  assert.deepEqual(receipts,['MASTER_STAR','MASTER_STAR','SUIT_CORE_8']);
 });

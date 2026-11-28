@@ -27,7 +27,7 @@ export async function request(action, { admin = false, body, query } = {}) {
   for (const [key, value] of Object.entries(query || {})) url.searchParams.set(key, value);
   const token = sessionToken(admin);
   const response = await fetch(url, {
-    method: body ? 'POST' : 'GET', cache: 'no-store', signal: AbortSignal.timeout(30000),
+    method: body ? 'POST' : 'GET', cache: 'no-store', signal: AbortSignal.timeout(admin && action==='batch-pay' ? 120000 : 30000),
     headers: { ...(token ? { authorization: 'Bearer ' + token } : {}), ...(body ? { 'content-type': 'application/json' } : {}) },
     ...(body ? { body: JSON.stringify(body) } : {})
   });
