@@ -1,5 +1,5 @@
 import {byId as $, count, element, initDate, memberOptions, postLabel, request, sessionToken, today, watchLabel} from './client.js';
-import {percent} from '/shared/pingdu-bread-odds.mjs';
+import {percent, rewardAmount} from '/shared/pingdu-bread-odds.mjs';
 
 const demoItem = {name:'마스터의 별', quantity:1, image:'/assets/ui/icon-fusion-20261004/master-star.webp'};
 let state, activity, generation = 0, lookupBusy = false;
@@ -45,7 +45,7 @@ function list(parent, values, rowText, empty) {
 function paintRewards(items) {
   const rewards = $('rewards');
   rewards.replaceChildren();
-  list(rewards, items.filter(item => (item.units ?? item.chance) > 0), item => [item.name, count(item.quantity) + '개 · ' + percent(item.units ?? item.chance * 10000) + '%'], '운영자가 개봉 아이템을 준비하고 있어요.');
+  list(rewards, items.filter(item => (item.units ?? item.chance) > 0), item => [item.name, rewardAmount(item.quantity) + (item.code==='COIN' ? ' 코인' : '개') + ' · ' + percent(item.units ?? item.chance * 10000) + '%'], '운영자가 개봉 아이템을 준비하고 있어요.');
 }
 $('rewardDetails').addEventListener('toggle', async () => {
   if (!$('rewardDetails').open || state) return;
@@ -60,7 +60,7 @@ function paintDetails() {
   history.append(element('strong','붕어빵 지급'));
   list(history, state.grants, row => [row.day, count(row.quantity) + '마리'], '아직 지급 내역이 없어요.');
   history.append(element('strong','최근 개봉'));
-  list(history, state.history, row => [row.reward.name + ' × ' + count(row.reward.quantity), new Date(row.openedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})], '아직 개봉 내역이 없어요.');
+  list(history, state.history, row => [row.reward.name + ' × ' + rewardAmount(row.reward.quantity), new Date(row.openedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})], '아직 개봉 내역이 없어요.');
 }
 function setState(next) {
   state = next; activity = state.day;
@@ -160,8 +160,8 @@ async function tear() {
     $('tearStage').classList.add('cracked');
     await new Promise(resolve => setTimeout(resolve, matchMedia('(prefers-reduced-motion:reduce)').matches ? 0 : 710));
     revealed = true;
-    $('openTitle').textContent = item.name + ' × ' + count(item.quantity);
-    $('openText').textContent = demo ? '체험용 개봉 결과예요.' : '아이템을 인벤토리에 담았어요.';
+    $('openTitle').textContent = item.name + ' × ' + rewardAmount(item.quantity);
+    $('openText').textContent = demo ? '체험용 개봉 결과예요.' : item.code === 'COIN' ? '일반 코인을 지갑에 적립했어요.' : '아이템을 인벤토리에 담았어요.';
     $('tearButton').textContent = '확인';
   } catch (error) {
     $('openText').textContent = error.message || '같은 개봉 결과를 다시 확인하세요.';

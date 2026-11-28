@@ -1,7 +1,9 @@
 import {byId as $, count, element, initDate, memberOptions, postLabel, request, sessionToken, watchLabel} from '/events/pingdu-bread/client.js';
 import {bindRewardEditor} from './pingdu-bread-pool.js';
+import {bindBatch} from './pingdu-bread-batch.js';
 
 const api = (path, options) => request(path, { ...options, admin: true });
+const loadBatch = bindBatch(api,() => { clearSelection(); return load(); });
 let page = 1, search = '', day, selected, activity, config, generation = 0, reviewVersion = 0, paying = false;
 const controls = $('controls'), dialog = $('confirmation');
 initDate($('day')); day = $('day').value;
@@ -106,7 +108,7 @@ $('confirm').onclick = async () => {
   } catch (error) { dialog.close(); $('grantNote').textContent = error.message+' 목록을 다시 조회하면 지급 여부를 확인할 수 있습니다.'; }
   finally { paying=false; payment=null; $('confirm').disabled=false; }
 };
-if (sessionToken(true)) void load(true);
+if (sessionToken(true)) { void load(true); void loadBatch(); }
 else {
   const login = element('a','운영 대시보드에 로그인하세요.'); login.href='/admin/'; $('status').append(login);
 }

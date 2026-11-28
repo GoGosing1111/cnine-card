@@ -1,7 +1,7 @@
 import {byId as $, element, request} from '/events/pingdu-bread/client.js';
-import {breadOdds, percent, percentUnits, scaleFixedRates} from '/shared/pingdu-bread-odds.mjs';
+import {breadOdds, breadRewardLimit, percent, percentUnits, rewardAmount, scaleFixedRates} from '/shared/pingdu-bread-odds.mjs';
 
-const categoryNames = {MATERIAL:'재료',GIFT_BOX:'선물상자',PACK:'팩',CUBE:'큐브',EVENT:'이벤트',ENTRY_TICKET:'입장권',REROLL:'재뽑기권',SKILL_CHIP:'스킬칩',OTHER:'기타'};
+const categoryNames = {CURRENCY:'재화',MATERIAL:'재료',GIFT_BOX:'선물상자',PACK:'팩',CUBE:'큐브',EVENT:'이벤트',ENTRY_TICKET:'입장권',REROLL:'재뽑기권',SKILL_CHIP:'스킬칩',OTHER:'기타'};
 const labelOf = category => categoryNames[category] || category;
 export function bindRewardEditor(onSaved, reload) {
   let catalog = [], matches = [], revision, saving = false;
@@ -40,8 +40,17 @@ export function bindRewardEditor(onSaved, reload) {
       label.append(text,input); row.append(label); return text;
     }
     const quantity = element('input'); quantity.type='number'; quantity.min='1'; quantity.step='1';
-    quantity.max=String(Number.MAX_SAFE_INTEGER); quantity.required=true; quantity.value=entry.quantity ?? 1;
-    field('수량',quantity,'quantity');
+    const limit=breadRewardLimit(item.code);
+    quantity.max=String(limit); quantity.required=true; quantity.value=entry.quantity ?? 1;
+    const caption=field('수량',quantity,'quantity');
+    if (limit < Number.MAX_SAFE_INTEGER) {
+      const max=element('button','최대 '+rewardAmount(limit)+' 입력','max-quantity'); max.type='button';
+      max.setAttribute('aria-label',item.name+' '+max.textContent);
+      max.onclick=()=>{ quantity.value=String(limit); quantity.dispatchEvent(new Event('input',{bubbles:true})); };
+      const labelAmount=()=>{caption.textContent=Number(quantity.value)>0?'수량 · '+rewardAmount(Number(quantity.value)):'수량';};
+      quantity.oninput=labelAmount; labelAmount();
+      const group=element('div',null,'quantity-group'); quantity.parentElement.before(group); group.append(quantity.parentElement,max);
+    }
     const mode = element('select'); mode.append(new Option('자동 배분','auto'),new Option('고정 확률','fixed'));
     mode.value=entry.mode || (entry.chance != null ? 'fixed' : 'auto'); field('배분 방식',mode,'mode');
     const rate=element('input'); rate.type='number'; rate.required=true;

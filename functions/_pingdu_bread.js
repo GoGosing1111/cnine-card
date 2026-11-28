@@ -1,23 +1,18 @@
-import { CNINE_WATCH_STREAMERS, SOOP_WATCH_PREFIX } from './_soop_watch.js';
-import { validSoopId } from './_soop_watch_contract.js';
+import { CNINE_WATCH_STREAMERS } from './_soop_watch.js';
+import { DAYS, POLICY, SNAPSHOT, fail, whole, transaction, identity, signature, pool, availableItems, snapshotPool } from './_pingdu_bread_store.js';
 import { ensureRuntimeFoundation } from './_runtime_foundation.js';
-import { jointHash } from './_joint_transactions.js';
 import { mercenaryRandomInt } from './_mercenary_draw_accounting.js';
 import { CNINE_WINTER_BOX, WINTER_BOX_CONTENTS } from '../shared/cnine-winter-box-v1.mjs';
-import { breadOdds, RATE_TOTAL, STARTER_REWARDS } from '../shared/pingdu-bread-odds.mjs';
+import { breadOdds, breadRewardLimit, RATE_TOTAL, STARTER_REWARDS } from '../shared/pingdu-bread-odds.mjs';
+import { coinCreditLimit } from '../shared/coin-integer-v1.mjs';
+import { prepareBreadBatches, breadBatch } from './_pingdu_bread_batch.js';
 
-const DAYS = 'pingdu_bread_days_v1';
 const OPENS = 'pingdu_bread_opens_v1';
-const POLICY = 'pingdu_bread_pool_v1';
-const SCHEMA = 'pingdu_bread_catalog_schema_v2';
-const SNAPSHOT = 'pingdu_bread_pool_snapshot:';
+const SCHEMA = 'pingdu_bread_coin_batch_schema_v3';
 const PLAYER = 'events/pingdu-bread/';
 const ADMIN = 'admin/pingdu-bread/';
 const itemArt = new Map([...WINTER_BOX_CONTENTS,CNINE_WINTER_BOX].map(item => [item.code, item.image]));
 
-function fail(message, status = 409) {
-  throw Object.assign(new Error(message), { breadError: true, status });
-}
 const iso = value => value ? new Date(value).toISOString() : null;
 const kstDay = () => new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
 function activityDay(value) {
@@ -28,30 +23,9 @@ function activityDay(value) {
   if (!Number.isFinite(time) || new Date(time).toISOString().slice(0, 10) !== value) fail('날짜를 확인하세요.', 400);
   return value;
 }
-function whole(value, max, title) {
-  if (!Number.isSafeInteger(value) || value < 1 || value > max) fail(title + ' 입력값을 확인하세요.', 400);
-  return value;
-}
 function requestKey(value) {
   if (typeof value !== 'string' || !/^[\w-]{16,80}$/.test(value)) fail('요청 번호를 확인하세요.', 400);
   return value;
-}
-async function transaction(env, operation) {
-  const db = env.DB;
-  if (db?.dialect !== 'postgres' || !db.client || !db.enqueue) fail('이벤트 저장소에 연결할 수 없습니다.', 503);
-  return db.enqueue(async () => {
-    const q = async (text, values = []) => (await db.client.query({ text, values })).rows;
-    await q('BEGIN');
-    try {
-      await q("SET LOCAL lock_timeout = '5s'");
-      const result = await operation(q);
-      await q('COMMIT');
-      return result;
-    } catch (error) {
-      await q('ROLLBACK').catch(() => {});
-      throw error;
-    }
-  });
 }
 export async function prepareBread(env) {
   await ensureRuntimeFoundation(env, SCHEMA, [SCHEMA], () => transaction(env, async q => {
@@ -67,16 +41,24 @@ export async function prepareBread(env) {
       user_id BIGINT NOT NULL, request_id TEXT NOT NULL, day DATE NOT NULL, reward TEXT NOT NULL,
       opened_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(user_id,request_id))`);
     await q(`CREATE INDEX IF NOT EXISTS pingdu_bread_opens_by_user ON ${OPENS}(user_id,opened_at DESC)`);
+    await prepareBreadBatches(q);
     await q("INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP),($3,'1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",
       [POLICY, JSON.stringify({ revision: null, items: [] }), SCHEMA]);
     const current = await pool(q, true);
-    if (!current.revision && !current.items.length) {
+    const legacy = STARTER_REWARDS.filter(item => item.code !== 'COIN' && (item.code !== 'MASTER_STAR' || item.quantity === 1_000_000));
+    const original = current.items.length === legacy.length && legacy.every(expected => current.items.some(item =>
+      item.code === expected.code && item.mode === 'auto' && item.quantity === expected.quantity &&
+      item.weight === (expected.code === 'MASTER_STAR' ? 35 : expected.weight / 2)));
+    let next;
+    if (original || (!current.revision && !current.items.length)) {
       const available = await catalog(q, STARTER_REWARDS.map(item => item.code));
-      const starter = STARTER_REWARDS.filter(item => available.some(row => row.code === item.code && row.active));
-      if (starter.length) {
-        const config = {revision:crypto.randomUUID(), items:resolveItems(starter,available)};
-        await q('UPDATE app_meta SET value=$2,updated_at=CURRENT_TIMESTAMP WHERE key=$1', [POLICY,JSON.stringify(config)]);
-      }
+      next = resolveItems(STARTER_REWARDS.filter(item => available.some(row => row.code === item.code && row.active)),available);
+    } else if (current.items.some(item => item.quantity > breadRewardLimit(item.code))) {
+      next = current.items.map(item => ({...item, quantity:Math.min(item.quantity,breadRewardLimit(item.code))}));
+    }
+    if (next) {
+      await q('UPDATE app_meta SET value=$2,updated_at=CURRENT_TIMESTAMP WHERE key=$1',
+        [POLICY,JSON.stringify({revision:crypto.randomUUID(),items:next})]);
     }
   }));
 }
@@ -91,29 +73,16 @@ async function dayRow(q, userId, day, lock = false) {
   const [row] = await q(`SELECT *,day::text AS day_key FROM ${DAYS} WHERE user_id=$1 AND day=$2${lock ? ' FOR UPDATE' : ''}`, [userId, day]);
   return row;
 }
-async function identity(q, userId) {
-  const [row] = await q(`SELECT u.id,u.nickname,v.provider_user_id,m.value
-    FROM users u LEFT JOIN user_second_verifications v ON v.user_id=u.id AND v.provider='PLAYDK'
-    LEFT JOIN app_meta m ON m.key=$2||u.id::text WHERE u.id=$1 AND u.status='ACTIVE'`, [userId, SOOP_WATCH_PREFIX]);
-  if (!row) fail('활동 중인 계정을 찾을 수 없습니다.', 404);
-  let consent;
-  try { consent = JSON.parse(row.value || 'null'); } catch { /* No usable record. */ }
-  const linked = consent?.version === 1 && consent.userId === Number(row.id) && consent.providerUuid === row.provider_user_id && validSoopId(consent.soopUserId);
-  return { uuid: row.provider_user_id || null, soopId: linked ? consent.soopUserId : null, nickname: row.nickname };
-}
-const signature = (who, boards) => jointHash([who.uuid, who.soopId, [...boards].sort(), CNINE_WATCH_STREAMERS.map(member => member.id)]);
-async function pool(q, lock = false) {
-  const [row] = await q('SELECT value FROM app_meta WHERE key=$1' + (lock ? ' FOR UPDATE' : ''), [POLICY]);
-  return JSON.parse(row.value);
-}
 async function catalog(q, codes = null, lock = false) {
   const rows = await q(`SELECT code,name,image_url,category,rarity,is_active FROM inventory_items
     ${codes ? 'WHERE code=ANY($1::text[])' : ''} ORDER BY sort_order NULLS LAST,name,code${lock ? ' FOR SHARE' : ''}`, codes ? [codes] : []);
-  return rows.map(row => {
+  const items = rows.filter(row => row.code !== 'COIN').map(row => {
     const path = String(row.image_url || itemArt.get(row.code) || 'assets/ui/tactical-20261030/inventory.webp');
     return {code:row.code, name:row.name || row.code, image:/^https?:\/\//i.test(path) ? path : '/' + path.replace(/^\/+/, ''),
       category:row.category || 'OTHER', rarity:row.rarity || '', active:Number(row.is_active) === 1};
   });
+  if (!codes || codes.includes('COIN')) items.unshift({code:'COIN',name:'일반 코인',image:'/'+itemArt.get('COIN'),category:'CURRENCY',rarity:'',active:true});
+  return items;
 }
 function resolveItems(input, options) {
   let rates;
@@ -124,11 +93,6 @@ function resolveItems(input, options) {
     if (!item || (!item.active && row.units > 0)) fail((item?.name || row.code) + ' 아이템의 지급 가능 상태를 확인하세요.', 400);
     return {...row, name:item.name, image:item.image};
   });
-}
-async function availableItems(q, items) {
-  const codes = [...new Set(items.filter(item => (item.units ?? item.chance) > 0).map(item => item.code))];
-  const rows = await q('SELECT code FROM inventory_items WHERE code=ANY($1::text[]) AND is_active=1 FOR SHARE', [codes]);
-  if (rows.length !== codes.length) fail('선택한 아이템 중 현재 지급할 수 없는 항목이 있습니다.');
 }
 async function batchItems(q, saved) {
   // Early receipts contained the entire pool. New grants point to an immutable shared copy.
@@ -166,14 +130,14 @@ async function observe(available, read) {
   try { return { status: 'OK', value: await read() }; }
   catch { return { status: 'UNAVAILABLE', value: null }; }
 }
-async function reviewDay(env, userId, day, services) {
-  const { boardSlugs } = await services.playdkDailyQuestSettings(env);
+async function reviewDay(env, userId, day, services, boardSlugs, fresh = false) {
+  boardSlugs ??= (await services.playdkDailyQuestSettings(env)).boardSlugs;
   const start = Date.now();
   const { who, previous } = await transaction(env, async q => ({
     who: await identity(q, userId), previous: await dayRow(q, userId, day)
   }));
   const fingerprint = await signature(who, boardSlugs);
-  if (previous?.settled_at || (previous?.identity_hash === fingerprint && start - Date.parse(previous.checked_at) < 20000)) return visibleDay(previous);
+  if (previous?.settled_at || (!fresh && previous?.identity_hash === fingerprint && start - Date.parse(previous.checked_at) < 20000)) return visibleDay(previous);
   const [board, watch] = await Promise.all([
     observe(who.uuid, () => postCount(services.playdkIdentityClient(env), who.uuid, boardSlugs, day)),
     observe(who.soopId, () => watchSeconds(services.playdkIdentityClient(env), who.soopId, CNINE_WATCH_STREAMERS.map(member => member.id), day))
@@ -183,7 +147,10 @@ async function reviewDay(env, userId, day, services) {
     if (await signature(await identity(q, userId), boardSlugs) !== fingerprint) fail('조회 중 계정 연결이 바뀌었습니다. 다시 조회하세요.');
     await q(`INSERT INTO ${DAYS}(user_id,day,identity_hash,revision,checked_at,posts,seconds,board_status,watch_status)
       VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT(user_id,day) DO UPDATE SET
-      identity_hash=excluded.identity_hash,revision=excluded.revision,checked_at=excluded.checked_at,posts=excluded.posts,
+      identity_hash=excluded.identity_hash,revision=CASE WHEN
+      (${DAYS}.identity_hash,${DAYS}.posts,${DAYS}.seconds,${DAYS}.board_status,${DAYS}.watch_status)
+      IS DISTINCT FROM (excluded.identity_hash,excluded.posts,excluded.seconds,excluded.board_status,excluded.watch_status)
+      THEN excluded.revision ELSE ${DAYS}.revision END,checked_at=excluded.checked_at,posts=excluded.posts,
       seconds=excluded.seconds,board_status=excluded.board_status,watch_status=excluded.watch_status
       WHERE ${DAYS}.settled_at IS NULL AND ${DAYS}.checked_at <= excluded.checked_at`,
       [userId,day,fingerprint,crypto.randomUUID(),new Date(start).toISOString(),board.value,watch.value,board.status,watch.status]);
@@ -211,11 +178,7 @@ async function settle(env, actorId, userId, day, body, services) {
     }
     if (row.identity_hash !== await signature(await identity(q, userId), boardSlugs)) fail('계정 연결 정보가 바뀌었습니다. 활동을 다시 조회하세요.');
     if (!(Number(row.posts) > 0 || Number(row.seconds) > 0)) fail('확인된 게시글이나 시청 기록이 있어야 지급할 수 있습니다.');
-    if (!config.items.length) fail('개봉 아이템과 확률을 먼저 저장하세요.');
-    if (config.revision !== body.poolRevision) fail('개봉 아이템 설정이 바뀌었습니다. 최신 설정을 확인하세요.');
-    await availableItems(q, config.items);
-    await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',
-      [SNAPSHOT + config.revision, JSON.stringify(config.items)]);
+    await snapshotPool(q, config, body.poolRevision);
     await q(`UPDATE ${DAYS} SET granted=$3,remaining=$3,settled_by=$4,settled_at=CURRENT_TIMESTAMP,pool=$5 WHERE user_id=$1 AND day=$2`,
       [userId, day, quantity, actorId, config.revision]);
     const result = visibleDay(await dayRow(q, userId, day));
@@ -231,6 +194,25 @@ async function balance(q, userId) {
 function receipt(row) {
   return { requestId: row.request_id, reward: JSON.parse(row.reward), openedAt: iso(row.opened_at) };
 }
+async function creditReward(q, userId, reward, id) {
+  if (reward.code === 'COIN') {
+    const [wallet] = await q(`UPDATE users SET coin=coin+$2::bigint
+      WHERE id=$1 AND coin>=0 AND coin<=$3::bigint RETURNING coin::text AS balance`,
+      [userId,reward.quantity,coinCreditLimit(reward.quantity)]);
+    if (!wallet) fail('일반 코인 지갑의 보유 한도를 확인하세요.');
+    await q('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES($1,$2,$3,$4)',
+      [userId,reward.quantity,wallet.balance,'PINGDU_BREAD:'+id]);
+    return;
+  }
+  const [stock] = await q(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+    VALUES($1,$2,$3,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET
+    quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,
+    updated_at=CURRENT_TIMESTAMP WHERE cnine_user_inventory.quantity<=9007199254740991-excluded.quantity
+    AND cnine_user_inventory.unseen_quantity<=9007199254740991-excluded.unseen_quantity RETURNING quantity`, [userId,reward.code,reward.quantity]);
+  if (!stock) fail('아이템 보유 한도를 확인하세요.');
+  await q("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES($1,$2,$3,$4,'핑두의 붕어빵 트럭','PINGDU_BREAD',$5)",
+    [userId, reward.code, reward.quantity, stock.quantity, id]);
+}
 async function openBread(env, userId, id) {
   return transaction(env, async q => {
     await q('SELECT id FROM users WHERE id=$1 FOR UPDATE', [userId]);
@@ -243,14 +225,7 @@ async function openBread(env, userId, id) {
     let sample = mercenaryRandomInt(RATE_TOTAL);
     const reward = items.find(item => (sample -= item.units) < 0);
     if (!reward) fail('지급 당시의 확률 합계를 확인하세요.',503);
-    const [stock] = await q(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
-      VALUES($1,$2,$3,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET
-      quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,
-      updated_at=CURRENT_TIMESTAMP WHERE cnine_user_inventory.quantity<=9007199254740991-excluded.quantity
-      AND cnine_user_inventory.unseen_quantity<=9007199254740991-excluded.unseen_quantity RETURNING quantity`, [userId,reward.code,reward.quantity]);
-    if (!stock) fail('아이템 보유 한도를 확인하세요.');
-    await q("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES($1,$2,$3,$4,'핑두의 붕어빵 트럭','PINGDU_BREAD',$5)",
-      [userId, reward.code, reward.quantity, stock.quantity, id]);
+    await creditReward(q, userId, reward, id);
     await q(`UPDATE ${DAYS} SET remaining=remaining-1 WHERE user_id=$1 AND day=$2`, [userId, batch.day]);
     const [row] = await q(`INSERT INTO ${OPENS}(user_id,request_id,day,reward) VALUES($1,$2,$3,$4) RETURNING *`, [userId,id,batch.day,JSON.stringify(reward)]);
     return { ...receipt(row), balance: await balance(q, userId) };
@@ -289,14 +264,14 @@ export async function handlePingduBread({ path, request, env, deps }) {
       await prepareBread(env);
       const config = await transaction(env, q => pool(q));
       return deps.json({items:config.items.filter(item => (item.units ?? item.chance) > 0)
-        .map(({name,image,quantity,units,chance}) => ({name,image,quantity,units:units ?? chance * 10000}))});
+        .map(({code,name,image,quantity,units,chance}) => ({code,name,image,quantity,units:units ?? chance * 10000}))});
     }
     const actor = admin ? await deps.requirePermission(request, env, 'USER_MANAGE') : await deps.authenticate(request, env);
     if (!actor || admin && actor.role !== 'OWNER') fail(admin ? '이벤트 운영자 권한이 필요합니다.' : '게임 로그인 후 이용할 수 있습니다.', admin ? 403 : 401);
     const url = new URL(request.url), action = path.slice((admin ? ADMIN : PLAYER).length);
     const writing = request.method === 'POST';
     if (writing && (request.headers.get('sec-fetch-site') === 'cross-site' || (request.headers.get('origin') && request.headers.get('origin') !== url.origin))) fail('같은 사이트에서 다시 요청하세요.', 403);
-    const routes = admin ? (writing ? ['review','member','settle','pool'] : ['accounts','catalog']) : (writing ? ['review','member','open'] : ['state']);
+    const routes = admin ? (writing ? ['review','member','settle','pool','batch-start','batch-step','batch-pay'] : ['accounts','catalog','batch']) : (writing ? ['review','member','open'] : ['state']);
     if ((!writing && request.method !== 'GET') || !routes.includes(action)) fail('지원하지 않는 요청입니다.', 405);
     const body = writing ? await deps.readBody(request) : {};
     const day = activityDay(body.day ?? url.searchParams.get('day') ?? kstDay());
@@ -304,6 +279,8 @@ export async function handlePingduBread({ path, request, env, deps }) {
     await prepareBread(env);
     let result;
     switch (action) {
+      case 'batch': case 'batch-start': case 'batch-step': case 'batch-pay':
+        result = await breadBatch(action,env,actor.id,day,body,deps,reviewDay); break;
       case 'accounts': result = await accountList(env, day, url); break;
       case 'catalog':
         result = await transaction(env, async q => ({catalog:await catalog(q), config:await pool(q),

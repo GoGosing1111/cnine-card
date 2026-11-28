@@ -10,11 +10,32 @@
   <header class="topbar"><div class="wrap nav-inner"><a class="brand" href="/admin/"><img src="/assets/ui/brand/reverse-call-20261016/icon-128.png" alt="">리버스콜 운영</a>
     <nav aria-label="운영 메뉴"><a href="#poolDetails" id="poolJump">개봉 보상 설정</a><a href="/admin/">운영 대시보드</a><a href="/events/pingdu-bread/">이벤트 페이지</a></nav></div></header>
   <main class="wrap content"><header class="admin-welcome"><div class="kicker">핑두의 붕어빵 트럭</div><h2>일일 활동 정산</h2>
-    <p>계정의 게시글과 시청 기록을 조회한 뒤 지급할 붕어빵 수량을 확정하세요. 날짜는 한국시간 기준입니다.</p></header>
+    <p>한국시간 기준으로 활동을 집계하고 붕어빵 지급을 확정하세요.</p></header>
     <p role="status" id="status" class="admin-note"></p>
     <div id="controls" hidden>
+      <section class="admin-card batch-card" aria-labelledby="batchTitle">
+        <h2 id="batchTitle">일괄 정산</h2>
+        <p>선택한 날짜의 전체 계정을 집계합니다. 게시글과 시청시간으로 얻은 붕어빵을 더해 계정별로 지급합니다.</p>
+        <form class="admin-form batch-settings" id="batchForm">
+          <label>정산 날짜<input id="batchDay" type="date" required></label>
+          <label>한 마리당 게시글 (건)<input id="batchPosts" type="number" min="1" max="10000" step="1" required></label>
+          <label>한 마리당 시청시간 (분)<input id="batchMinutes" type="number" min="1" max="10080" step="1" required></label>
+          <label>계정별 하루 한도 (마리)<input id="batchCap" type="number" min="1" max="10000" step="1" required></label>
+          <button type="submit" id="batchStart">전체 활동 집계</button>
+        </form>
+        <p id="batchToday" class="note" hidden>오늘을 정산하면 확정 시점까지 집계한 활동으로 그날의 지급이 마감됩니다.</p>
+        <p role="status" id="batchStatus" class="admin-note"></p>
+        <div id="batchResult" hidden>
+          <progress id="batchProgress" aria-label="활동 집계 진행률"></progress>
+          <div class="batch-totals" id="batchTotals"></div>
+          <p class="note" id="batchBreakdown"></p>
+          <details id="batchHeld" hidden><summary>보류 계정 확인</summary><ul id="batchHeldList"></ul></details>
+          <button class="button solid" type="button" id="batchPay" hidden>일괄 지급 내역 확인</button>
+        </div>
+        <button type="button" id="batchResume" hidden>저장된 집계 다시 확인</button>
+      </section>
       <div class="admin-layout">
-        <section class="admin-card"><h2>정산 대상</h2><form class="admin-form" id="filters">
+        <section class="admin-card"><h2>개별 정산</h2><form class="admin-form" id="filters">
           <label>활동 날짜<input required type="date" id="day"></label>
           <label>계정 검색<input type="search" id="search" maxlength="80" placeholder="닉네임 또는 계정 번호"></label>
           <button type="submit">목록 조회</button></form>
@@ -31,7 +52,7 @@
         </section>
       </div>
       <section class="admin-card"><details id="poolDetails"><summary>개봉 아이템 · 확률 설정</summary>
-        <p>전체 인벤토리에서 아이템을 추가하세요. 고정한 확률을 먼저 배정하고, 남은 확률은 자동 항목의 가중치에 비례해 나눕니다.</p>
+        <p>일반 코인과 전체 인벤토리 아이템을 추가할 수 있습니다. 붕어빵 한 마리당 일반 코인은 최대 500조, 마스터의 별은 최대 10억 개입니다. 고정 확률을 먼저 배정하고 남은 확률을 가중치에 따라 나눕니다.</p>
         <div class="catalog-picker"><label>아이템 검색<input id="itemSearch" type="search" placeholder="아이템 이름 또는 코드"></label>
           <label>분류<select id="category"></select></label>
           <label>검색 결과<select id="itemOption"></select></label>
@@ -49,5 +70,10 @@
     <p class="kicker">운영자 정산</p><h2 id="confirmTitle">붕어빵을 지급할까요?</h2><p id="summary" class="dialog-note"></p>
     <button class="button solid" type="button" id="confirm">정산 확정 · 지급</button>
     <button class="small-button" id="cancel" type="button">돌아가기</button>
+  </div></dialog>
+  <dialog id="batchConfirmation" aria-labelledby="batchConfirmTitle"><div class="dialog-box">
+    <h2 id="batchConfirmTitle">일괄 지급을 확정할까요?</h2><p id="batchConfirmText" class="dialog-note"></p>
+    <button class="button solid" type="button" id="batchConfirm">전체 정산 확정 · 지급</button>
+    <button class="small-button" type="button" id="batchCancel">돌아가기</button>
   </div></dialog>
 </body></html>
