@@ -4,13 +4,21 @@
   'use strict';
   const route=document.currentScript?.dataset.route;
   if(!route)return;
-  function start(){
+  async function start(){
     if(!global.SoopAdventureLobby||document.querySelector('soop-adventure-lobby'))return;
+    // A standalone document has a new window. The installed ONE store menu
+    // reads the packaged policy synchronously when its element connects.
+    if(/\bReverseCallStore\/onestore\//.test(navigator.userAgent)&&typeof global.CNineStorePolicy?.allowsRoute!=='function'){
+      try{await import('/js/store-distribution-v1.js');}
+      catch(error){console.warn('원스토어 메뉴 정책을 불러오지 못했습니다.',error);}
+      if(typeof global.CNineStorePolicy?.allowsRoute!=='function')return;
+    }
     const visibility={avatar:false,alchemy:false};
     const getUser=()=>{try{return JSON.parse(localStorage.getItem('cnine_card_user_v10')||'{}')||{};}catch{return {};}};
     const navigate=(id,href)=>location.assign(href||'/?screen='+encodeURIComponent(id));
     const element=global.SoopAdventureLobby.create({getUser,navigate,isRouteVisible:id=>visibility[id]!==false});
-    element.setAttribute('data-shared-navigation','');element.dataset.standalone=route;element.dataset.route=route;
+    element.setAttribute('data-shared-navigation','');element.dataset.standalone=route;
+    element.setRoute(route);
     document.body.dataset.adventureStandalone=route;
     document.body.append(element);
     async function refreshVisibility(){
