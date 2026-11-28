@@ -151,7 +151,8 @@ async function reviewDay(env, userId, day, services, boardSlugs, review=null) {
       if (review) fail('더 최근 활동 조회가 있습니다. 다시 집계하세요.');
       return visibleDay(latest);
     }
-    const open=board.status==='OK' ? await outstandingPosts(q,userId,day,board.value,review,latest?.legacy_post_cutoff) : null;
+    const legacy=latest?.legacy_review?.identityHash===fingerprint ? latest.legacy_review : null;
+    const open=board.status==='OK' ? await outstandingPosts(q,userId,day,board.value,review,latest?.legacy_post_cutoff,legacy) : null;
     await q(`INSERT INTO ${DAYS}(user_id,day,identity_hash,revision,checked_at,posts,seconds,board_status,watch_status,post_ids,new_posts)
       VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT(user_id,day) DO UPDATE SET
       identity_hash=excluded.identity_hash,revision=CASE WHEN

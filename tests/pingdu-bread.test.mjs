@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {breadFixture} from './fixtures/pingdu-bread-v1.mjs';
 import {breadBoardClient} from '../functions/_pingdu_bread_board.js';
+import {signature as breadIdentityHash} from '../functions/_pingdu_bread_store.js';
 import {CNINE_WATCH_STREAMERS,SOOP_WATCH_PREFIX} from '../functions/_soop_watch.js';
 import {breadOdds,percentUnits,RATE_TOTAL,scaleFixedRates,STARTER_REWARDS,BREAD_COIN_MAX,BREAD_STAR_MAX} from '../shared/pingdu-bread-odds.mjs';
 
@@ -346,6 +347,7 @@ test('legacy paid balances keep their old reward table, and only posts created a
     INSERT INTO pingdu_bread_days_v1(user_id,day,identity_hash,revision,checked_at,posts,seconds,board_status,watch_status)
       VALUES(2,'2026-01-31','old-hash','old-unpaid','2026-01-31T12:00:00+09:00',90,0,'OK','OK');`);
   const old=[{code:'MASTER_STAR',quantity:9,name:'마스터의 별',image:'/star.webp',units:RATE_TOTAL}];
+  await f.pg.query('UPDATE pingdu_bread_days_v1 SET identity_hash=$1 WHERE user_id=2',[await breadIdentityHash({uuid:'bread-2',soopId:null},['skm'])]);
   await f.pg.query(`INSERT INTO app_meta(key,value) VALUES('pingdu_bread_coin_batch_schema_v3','1'),
     ('pingdu_bread_pool_v1',$1),('pingdu_bread_pool_snapshot:old-table',$2)`,[JSON.stringify({revision:'old-table',items:old}),JSON.stringify(old)]);
   assert.equal((await f.state()).balance,2);
@@ -362,4 +364,10 @@ test('legacy paid balances keep their old reward table, and only posts created a
   const receipts=[];
   for (let i=0;i<3;i++) receipts.push((await ok(f.call('open',{requestId:crypto.randomUUID()}))).reward.code);
   assert.deepEqual(receipts,['MASTER_STAR','MASTER_STAR','SUIT_CORE_8']);
+  const previous=article(41,{createdAt:day+'T11:30:00+09:00'}),later=article(42);
+  f.provider.getVisibleDailyPosts=async()=>[previous,later];
+  const carry=await ok(f.call('admin:review',{day,userId:2},f.owner));
+  assert.equal(carry.posts,2);assert.equal(carry.newPosts,1);
+  const carryAgain=await ok(f.call('admin:review',{day,userId:2},f.owner));
+  assert.equal(carryAgain.posts,2);assert.equal(carryAgain.newPosts,0);
 });

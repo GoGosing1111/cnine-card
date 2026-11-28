@@ -29,15 +29,19 @@ export async function preparePostLedger(q) {
 }
 
 // Only an operator collection registers IDs. Player lookups can display evidence without using it.
-export async function outstandingPosts(q,userId,day,posts,review,cutoff) {
+export async function outstandingPosts(q,userId,day,posts,review,cutoff,legacy) {
   const eligible=posts.filter(post=>!cutoff || Date.parse(post.createdAt)>Date.parse(cutoff));
   const ids=eligible.map(post=>post.id);
   if (!ids.length) return {ids:[],fresh:0};
+  // An unpaid numeric preview did not retain IDs. Revalidate its dated posts and carry them as unpaid.
+  const prior=legacy?.boardStatus==='OK' && legacy.posts>0 && !cutoff
+    ? eligible.filter(post=>Date.parse(post.createdAt)<=Date.parse(legacy.checkedAt)).map(post=>post.id) : [];
   if (review) await q(`INSERT INTO ${POSTS}(post_id,user_id,day,first_review)
-    SELECT split_part(id,'/',2),$2,$3,$4 FROM unnest($1::text[]) id ORDER BY 1 ON CONFLICT(post_id) DO NOTHING`,[ids,userId,day,review]);
-  const rows=await q(`SELECT list.id, (p.post_id IS NULL OR p.first_review=$4) AS fresh
+    SELECT split_part(id,'/',2),$2,$3,CASE WHEN id=ANY($5::text[]) THEN 'legacy' ELSE $4 END
+    FROM unnest($1::text[]) id ORDER BY 1 ON CONFLICT(post_id) DO NOTHING`,[ids,userId,day,review,prior]);
+  const rows=await q(`SELECT list.id, ((p.post_id IS NULL AND NOT(list.id=ANY($5::text[]))) OR p.first_review=$4) AS fresh
     FROM unnest($1::text[]) WITH ORDINALITY AS list(id,position) LEFT JOIN ${POSTS} p ON p.post_id=split_part(list.id,'/',2)
-    WHERE p.post_id IS NULL OR (p.user_id=$2 AND p.day=$3 AND p.paid_at IS NULL) ORDER BY list.position`,[ids,userId,day,review]);
+    WHERE p.post_id IS NULL OR (p.user_id=$2 AND p.day=$3 AND p.paid_at IS NULL) ORDER BY list.position`,[ids,userId,day,review,prior]);
   return {ids:rows.map(row=>row.id),fresh:rows.filter(row=>row.fresh).length};
 }
 
