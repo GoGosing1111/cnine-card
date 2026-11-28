@@ -184,7 +184,7 @@
     <b>${data.state.level} <span>/ ${data.maximumLevel} 단계</span></b>
    </header>
    <div class="ph-notice" data-ph-notice role="status" aria-live="polite" data-error="${noticeError}">${esc(noticeText)}</div>
-   ${data.raidEnabled===true&&data.state.level?'<button type="button" class="ph-raid-entry" data-ph-action="raid"><span><strong>은신처 약탈전</strong><small>20:30–22:00 KST · 내구도 '+n(data.state.durability??100)+'/100</small></span><b>전황 보기 ›</b></button>':''}
+   ${data.raidEnabled===true&&data.state.level?'<button type="button" class="ph-raid-entry" data-ph-action="raid"><span><small>20:30–22:00 KST</small><strong>은신처 약탈전</strong><em>내구도 '+n(data.state.durability??100)+' / 100</em></span><b>작전실 입장 <i class="ph-raid-arrow" aria-hidden="true"></i></b></button>':''}
    ${pending()?'<div class="ph-recovery ph-panel"><p>저장 결과를 확인하지 못한 요청이 있습니다.</p>'+button('retry','같은 요청으로 결과 확인')+'</div>':''}
    <section class="ph-space" aria-label="은신처 내부">
     ${data.state.rooms.length>1?'<nav class="ph-room-tabs" aria-label="구역으로 이동">'+data.state.rooms.map(r=>button('room',data.rooms.find(v=>v.code===r).name,'data-room="'+r+'" aria-pressed="'+(r===room)+'"')).join('')+'</nav>':''}
@@ -256,7 +256,7 @@
    if(raidView||openingRaid)return;
    const id=epoch;openingRaid=true;
    try{
-    const {openPlunder}=await import('/js/hideout-plunder-v1.mjs?v=20261128-defense');
+    const {openPlunder}=await import('/js/hideout-plunder-v1.mjs?v=20261128-ui2');
     if(id===epoch)raidView=openPlunder({request,uid,onClose:()=>{raidView=null;if(id===epoch)void refresh();}});
    }catch(e){if(id===epoch)say('약탈전 화면을 열지 못했습니다. 다시 시도하세요.',true);}
    finally{if(id===epoch)openingRaid=false;}

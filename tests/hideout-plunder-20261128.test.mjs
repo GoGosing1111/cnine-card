@@ -57,9 +57,9 @@ async function fixture(t, postgres) {
       {id:'stored',kind:'decor',code:'lamp',room:null,x:500,y:500,flipped:false});
     await f.setting(HIDEOUT_KEY(uid),home);
   }
-  async function call(uid,action='',body){
+  async function call(uid,action='',body,targetId){
     const path='hideout/raid'+(action?'/'+action:'');
-    const request=new Request('https://game.test/api/'+path,{method:body?'POST':'GET',
+    const request=new Request('https://game.test/api/'+path+(targetId?'?target='+targetId:''),{method:body?'POST':'GET',
       headers:{Origin:'https://game.test','Content-Type':'application/json','X-Fixture-User':String(uid)},
       ...(body?{body:JSON.stringify(body)}:{})});
     const response=await handleHideoutPlunder({path,request,env:f.env,deps});
@@ -96,12 +96,16 @@ for(const postgres of [false,true]){
     assert.equal((await h.call(0)).status,401);
     h.setTime(start-1);assert.equal((await h.join(7)).status,409);
     h.setTime(start);assert.equal((await h.join(7)).status,200);
-    assert.equal((await h.call(7)).data.mine.team,null);
+    const waiting=(await h.call(7,'',undefined,8)).data;
+    assert.equal(waiting.mine.team,null);assert.equal(waiting.scout,null);
     assert.equal((await h.call(7,'attack',h.job({targetId:8}))).status,403);
     assert.equal((await h.join(8)).status,200);
     const enemy=(await h.call(7)).data.enemies[0];
     assert.equal(enemy.id,8);assert.equal(enemy.durability,100);
-    assert.deepEqual((await h.call(9)).data.enemies,[]);
+    const outsider=(await h.call(9,'',undefined,8)).data;
+    assert.deepEqual(outsider.enemies,[]);assert.equal(outsider.scout,null);
+    const ownTarget=(await h.call(7,'',undefined,7)).data.scout;
+    assert.equal(ownTarget.targetId,8);
     assert.equal((await h.call(7,'attack',h.job({targetId:7}))).status,400);
     assert.equal((await h.call(7,'attack',h.job({targetId:9}))).status,409);
     assert.equal((await h.call(7,'attack',h.job({targetId:8,winner:'A'}))).status,400);
@@ -139,7 +143,7 @@ for(const postgres of [false,true]){
     const repair=h.job();assert.equal((await h.call(8,'repair',repair)).data.durability,20);
     assert.equal((await h.call(8,'repair',repair)).data.replayed,true);
     assert.equal((await h.home(8)).parts.STEEL,home.parts.STEEL-2);
-    const board=(await h.call(7)).data;assert.equal(board.score.A+board.score.B,5);
+    const board=(await h.call(7,'',undefined,8)).data;assert.equal(board.score.A+board.score.B,5);assert.equal(board.scout,null);
     h.setTime(start+86400000);assert.equal((await h.call(8)).data.mine,null);assert.equal((await h.home(8)).durability,20);
   });
   test(dialect+' installs once, fights in the chosen room and keeps the recorded layout after editing',async t=>{
@@ -161,6 +165,10 @@ for(const postgres of [false,true]){
     await change('defenseRoom',{room:'workshop'});
     await h.join(7);await h.join(8);h.setWinner('ENGINE');
     const staged=await h.home(8),job=h.job({targetId:8});
+    const scout=(await h.call(7,'',undefined,8)).data.scout;
+    assert.equal(scout.targetId,8);assert.equal(scout.layout.revision,staged.revision);
+    assert.deepEqual(scout.layout.rooms.map(r=>r.code),['workshop']);
+    assert.deepEqual(scout.layout.pieces.map(p=>p.code).sort(),['autocannon','turret']);
     const fight=(await h.call(7,'attack',job)).data;
     assert.equal(fight.residenceLayout.defenseRoom,'workshop');
     assert.equal(fight.residenceLayout.revision,staged.revision);

@@ -67,16 +67,31 @@ async function enlistment(env, deps, user) {
   };
 }
 
-async function readStatus(env, deps, user) {
+function defenseSnapshot(home, onlyDefenseRoom = false) {
+  const layout = raidResidenceSnapshot(home);
+  if (onlyDefenseRoom) {
+    layout.rooms = layout.rooms.filter(r => r.code === layout.defenseRoom);
+    layout.pieces = layout.pieces.filter(p => p.room === layout.defenseRoom);
+  }
+  const displayed = new Set(layout.pieces.flatMap(p => p.trophyCodes || []).filter(Boolean));
+  if (displayed.size) layout.trophyArt = Object.fromEntries(TROPHY_CATALOG.filter(t => displayed.has(t.code)).map(t => [t.code, t.art]));
+  return layout;
+}
+
+async function readStatus(env, deps, user, selectedId) {
   const now = clock(deps), window = plunderWindow(now);
   const [raw, home] = await Promise.all([record(env.DB, dayKey(window.day)), readHideout(env, user.id)]);
   const board = parseBoard(raw), mine = board.members.find(p => p.id === Number(user.id));
   const counts = {A: 0, B: 0, waiting: 0};
   for (const p of board.members) counts[p.team || 'waiting']++;
+  const enemies = mine?.team && window.open ? board.members.filter(p => p.team && p.team !== mine.team) : [];
+  const target = enemies.find(p => p.id === selectedId) || enemies.find(p => p.durability > 0 && p.protectedUntil <= now) || enemies[0];
+  const targetHome = target ? (await readHideout(env, target.id)).state : null;
+  const scout = targetHome?.level ? {targetId: target.id, layout: defenseSnapshot(targetHome, true)} : null;
   return {ok: true, now, window, rules: PLUNDER, counts, score: board.score, mine: mine ?? null,
     durability: home.state.durability, level: home.state.level,
     repairAvailable: home.state.parts.STEEL >= PLUNDER.repairSteel && home.state.parts.WIRE >= PLUNDER.repairWire,
-    enemies: mine?.team && window.open ? board.members.filter(p => p.team && p.team !== mine.team) : [],
+    enemies, scout,
     history: mine ? board.history : []};
 }
 
@@ -171,9 +186,7 @@ async function applyMutation(env, deps, user, action, body, key, input) {
       if (!a.state.level || !d.state.level || !a.state.durability || !d.state.durability)
         fail('RAID_BREACHED', '은신처 상태가 변경되었습니다. 전황을 갱신하세요.');
       if(simulatedHome!==d.raw){
-        layout=raidResidenceSnapshot(d.state);
-        const displayed=new Set(layout.pieces.flatMap(p=>p.trophyCodes||[]).filter(Boolean));
-        if(displayed.size)layout.trophyArt=Object.fromEntries(TROPHY_CATALOG.filter(t=>displayed.has(t.code)).map(t=>[t.code,t.art]));
+        layout=defenseSnapshot(d.state);
         simulation=await simulate(env,deps,user,body.day,target,seed,layout);
         simulatedHome=d.raw;
       }
@@ -248,7 +261,7 @@ export async function handleHideoutPlunder({path, request, env, deps}) {
       return reply({enabled:false, code:'HIDEOUT_RAID_OFF', error:'은신처 약탈전은 현재 비공개입니다.'}, 423);
     const user = await deps.authenticate(request, env);
     if (!user) return reply({error: '로그인이 필요합니다.'}, 401);
-    if (request.method === 'GET' && path === 'hideout/raid') return reply(await readStatus(env, deps, user));
+    if (request.method === 'GET' && path === 'hideout/raid') return reply(await readStatus(env, deps, user, Number(new URL(request.url).searchParams.get('target'))));
     const action = path.slice('hideout/raid/'.length);
     if (request.method !== 'POST' || !['join', 'attack', 'repair'].includes(action))
       return reply({error: '지원하지 않는 은신처 약탈전 요청입니다.'}, 405);

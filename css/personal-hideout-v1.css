@@ -30,15 +30,6 @@
 @media(max-width:800px){.ph-scene-tools .ph-picker{flex-basis:100%}.ph-room-upgrade .ph-cost{grid-template-columns:repeat(2,minmax(0,1fr))}.ph-materials>div{grid-template-columns:repeat(3,minmax(0,1fr))}.ph-walk-controls>.ph-button{height:44px}.ph-management{margin:16px 0}.ph-tabs .ph-button{min-height:44px}}
 @media(max-height:540px) and (orientation:landscape){.ph-scene:not(:has(.ph-cabinet-focus)){height:clamp(235px,70dvh,350px);min-height:0}}
 
-.ph-raid-entry,.ph-raid-hero{background:#0d1925 url('/assets/ui/personal-hideout-20261116/raid-night.webp') center/cover;color:#f4f7fa}
-.ph-raid-entry{width:100%;min-height:92px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 14px;padding:12px 18px;text-align:left;border:1px solid #667786;border-radius:8px;cursor:pointer}
-.ph-raid-entry strong,.ph-raid-entry small{display:block;text-shadow:0 1px 4px #060e19}.ph-raid-entry strong{font-size:1.25rem}.ph-raid-entry small{margin-top:4px}.ph-raid-entry>b{padding:6px 10px;background:#102130e8;color:#dbf78a;border-radius:4px}
-.ph-raid-dialog{width:min(740px,94vw);max-width:94vw;max-height:90dvh;padding:0;border:1px solid #607184;border-radius:10px;background:#101a27;color:#eef3f9;overflow:auto;overscroll-behavior:contain;font:inherit}
-.ph-raid-dialog::backdrop{background:#050a12bf}.ph-raid-hero{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;min-height:92px}.ph-raid-hero small{color:#d7ecb7}.ph-raid-hero h2{margin:2px 0;font-size:1.55rem}
-.ph-raid-content{padding:16px 20px;display:grid;gap:14px}.ph-raid-content section,.ph-raid-result{border-top:1px solid #34475b;padding-top:12px}.ph-raid-content h3{font-size:1.02rem;margin:0 0 8px}.ph-raid-content p{margin:8px 0;line-height:1.5}
-.ph-raid-summary,.ph-raid-durability{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap}.ph-raid-summary b,.ph-raid-result strong{color:#d8f78a}.ph-raid-durability meter{width:120px;height:18px}.ph-raid-rule,.ph-raid-log small{color:#c2cfda;font-size:.88rem}
-.ph-raid-targets,.ph-raid-log{list-style:none;padding:0;margin:0;display:grid;gap:7px}.ph-raid-target{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px;background:#1b2b3e;border-radius:5px}.ph-raid-target img{width:100%;height:48px;object-fit:cover;border-radius:3px}.ph-raid-target span,.ph-raid-log small{display:block}.ph-raid-target strong{overflow-wrap:anywhere}.ph-raid-target span{font-size:.85rem;color:#ccd8e3}.ph-raid-dialog .ph-button{min-height:42px}.ph-raid-notice{margin:0;padding:0 20px 12px;line-height:1.45}.ph-raid-battle-close{position:fixed;z-index:2147483647;bottom:max(16px,env(safe-area-inset-bottom));right:16px}
-@media(max-width:520px){.ph-raid-content{padding:12px}.ph-raid-hero{padding:12px}.ph-raid-target{grid-template-columns:44px minmax(0,1fr) auto;gap:6px}.ph-raid-entry{padding:10px}.ph-raid-dialog .ph-button{min-height:44px}}
 .ph-tabs:has([data-tab="defense"]){grid-template-columns:repeat(5,minmax(0,1fr))}
 .ph-panel-list:has(.ph-defense-zone){grid-template-columns:repeat(2,minmax(0,1fr))}
 .ph-defense-zone{grid-column:1/-1;padding:12px 16px;border-left:3px solid #89c7ba;background:#22313c;border-radius:4px}
@@ -48,23 +39,9 @@
 .ph-defense-card{display:grid;grid-template-columns:minmax(70px,30%) 1fr;align-items:center;gap:12px}
 .ph-defense-art{width:100%;height:115px;object-fit:contain}
 .ph-defense-card strong{display:block;margin:4px 0 10px;color:#9bd7c9}
-.ph-raid-spoils b{margin-right:8px;color:#e6c98e}
-.ph-raid-victory{padding:12px 0 6px;border-top:1px solid #526560}
-.ph-raid-victory h4{margin:0 0 9px;color:#a5e5cb;font-size:15px}
-.ph-raid-victory h4 span{margin-left:8px;color:#d8e4e0;font-weight:500;font-size:13px}
-.ph-raid-victory ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0;padding:0;list-style:none}
-.ph-raid-victory li{display:grid;grid-template-columns:44px 1fr;align-items:center;column-gap:7px;padding:7px 9px;background:#1e3037;border:1px solid #41575b;border-radius:7px;color:#edf2ef;font-size:12px}
-.ph-raid-victory img{width:44px;height:44px;object-fit:contain;grid-row:span 2}
-.ph-raid-victory li b{font-size:13px;color:#bfead9}
-.ph-raid-layout{margin:10px 0;color:#c9d2dc;font-size:12px}
-.ph-raid-layout summary{cursor:pointer;width:fit-content}
-.ph-raid-layout div{display:grid;grid-template-columns:auto 1fr;gap:12px;margin-top:7px}
 @media(max-width:600px){
  .ph-panel-list:has(.ph-defense-zone){grid-template-columns:1fr}
  .ph-defense-card{grid-template-columns:96px 1fr}
- .ph-raid-victory ul{grid-template-columns:1fr}
- .ph-raid-victory li{grid-template-columns:34px 1fr auto;padding:3px 9px}
- .ph-raid-victory img{width:34px;height:34px;grid-row:auto}
  .ph-tabs:has([data-tab="defense"]) .ph-button{font-size:11px}
 }
 .ph-defense-overview{grid-column:1/-1;color:#e3eaf0}
