@@ -13,6 +13,8 @@ const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 const TICKET_RESERVATION_TABLE='scrapyard_ticket_reservations_v1680';
 const DROP_RECEIPT_TABLE='unified_drop_receipts_v1667';
 const MODE_SET=new Set(['OFF','TEST','ON']);
+import {fieldOperationEntry} from '../shared/field-operation-tiers.mjs';
+
 export const SCRAPYARD_ENEMIES={
   OUTER:{
     normal:[{id:'SCRAP_OUTER_GEARJAW',name:'기어죠 스캐빈저',image:'assets/ui/scrapyard/monsters/gearjaw-scavenger-v1698.webp'}],
@@ -111,7 +113,7 @@ async function status(env,user,raidDeckPower){
   const used=Number(runs.results?.[0]?.count||0),bestMap=Object.fromEntries((best.results||[]).map(row=>[row.difficulty,Number(row.best_waves||0)]));
   const effectiveMode=cfg.mode,allowed=canAccess(effectiveMode,user);
   const difficulties=cfg.difficulties.map(zone=>({...zone,boss:SCRAPYARD_ENEMIES[zone.id].boss[0],routes:scrapyardRouteOptions(zone,cfg.v3?.[zone.id])}));
-  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode,difficulties},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:false,canEnterWithTicket:true},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
+  return {accountId:Number(user.id),ownerUnlimited:isOwner(user),fieldOperations:fieldOperationEntry('yard'),serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode,difficulties},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:false,canEnterWithTicket:true},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
 function buildBattle({requestId,difficulty,deck}){
@@ -153,6 +155,7 @@ async function run(env,user,body,deps){
     recoverStaleEntryTickets(env,user.id)
   ]);
   if(prior?.status==='COMPLETED')return {...await decodeScrapyardRecord(prior.response_json||'{"ok":true}'),replayed:true};
+  if(deps.retireLegacyStarts&&!prior)throw new Error('폐차장이 개편되었습니다. 게임을 새로고침하고 다시 입장하세요.');
   if(prior?.status==='PENDING')throw new Error('같은 폐차장 원정을 처리 중입니다.');
   const difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
   if(!canAccess(cfg.mode,user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
@@ -202,4 +205,4 @@ export async function handleScrapyard({path,request,env,deps}){
 }
 
 export const __scrapyardTest={kstDayRange,FOUNDATION_SQL,DEFAULT_SETTINGS,cleanSettings};
-export {settings as readScrapyardSettings,status as readScrapyardStatus};
+export {settings as readScrapyardSettings,status as readScrapyardStatus,ensureFoundation as ensureScrapyardFoundation,kstDayRange as scrapyardDayRange};

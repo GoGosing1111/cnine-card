@@ -8,6 +8,9 @@ import {createHash} from 'node:crypto';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {__scrapyardTest} from '../functions/_scrapyard.js';
 import {__dropPoolTest,invalidateUnifiedDropPoolCache,planUnifiedDropRoll} from '../functions/_drop_pool.js';
+import {settleFieldOperation} from '../functions/_field_operations.js';
+import {ensureEscortSchema} from '../functions/_escort_operation.js';
+import {operationTiers} from '../shared/field-operation-tiers.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED,loadScrapyardV3Snapshot,buildScrapyardV3Battle,validateScrapyardV3Config} from '../functions/_scrapyard_v3.js';
 import {scrapyardRouteOptions,salvageResult} from '../functions/_scrapyard_salvage.js';
@@ -388,4 +391,45 @@ test('a failed battle keeps its checkpoint coins without rolling completion loot
     return;
   }
   assert.fail('Expected at least one deck to reach a checkpoint and lose');
+});
+
+for(const postgres of [false,true])test('independent V3 payouts, admission and rollback on '+(postgres?'PostgreSQL':'SQLite'),async t=>{
+  const f=await fixture(t,postgres),cfg={mode:'ON',dailyRuns:2,weeklyRunLimit:3,weeklyRewardLimit:2};
+  const ddl=['ALTER TABLE inventory_items ADD COLUMN description TEXT','ALTER TABLE inventory_items ADD COLUMN category TEXT','ALTER TABLE inventory_items ADD COLUMN sort_order INTEGER'];
+  if(postgres)await f.pg.exec(ddl.join(';'));else f.DB.sql.exec(ddl.join(';'));
+  await ensureEscortSchema(f.env);
+  const at=Date.UTC(2026,10,28,9),tier=operationTiers.at(-1),userQA={...user,role:'USER'};
+  const result=(mode,won=true)=>({mode,tier,deckPower:100000,settlement:{won,defeated:won?2:0,hull:won?97:0,cargo:won?95:0,grade:won?'S':'—',
+    frames:won?6:0,scrap:won?60:0,coin:won?tier.coin:0,masterStars:won?tier.masterStars:0}});
+  const run=(mode,key,won=true)=>settleFieldOperation(f.env,userQA,result(mode,won),key,cfg,at);
+  const scalar=async(sql,...args)=>Number(Object.values(await f.p(sql,...args).first())[0]);
+  const stars=()=>scalar("SELECT quantity FROM cnine_user_inventory WHERE item_code='MASTER_STAR' AND user_id=7");
+  // A failure between currency and inventory must roll back the quota and the receipt.
+  f.fail('INSERT INTO inventory_logs');
+  await assert.rejects(run('yard','rollback-001'),/INJECTED_FAILURE/);f.fail('');
+  assert.equal(await f.coin(),10);assert.equal(await f.count('scrapyard_runs_v1676'),0);
+  const receipt=await run('yard','rollback-001');assert.equal(receipt.settlement.coin,30000000000000);
+  assert.equal(await f.coin(),30000000000010);assert.equal(await stars(),300000000);
+  assert.equal(await scalar("SELECT quantity FROM cnine_user_inventory WHERE item_code='SCRAPYARD_HYDRAULIC_FRAME'"),6);
+  assert.equal((await run('yard','rollback-001')).replayed,true);
+  await run('yard','yard-loss-02',false);
+  await assert.rejects(run('yard','yard-cap-003'),e=>e.code==='PVE_V3_ENTRY');
+  assert.equal(await f.count('scrapyard_runs_v1676'),2);assert.equal(await stars(),300000000);
+  // Same client key is independent between contents.
+  await run('escort','rollback-001');
+  await run('escort','escort-loss-02',false);
+  await f.p("INSERT INTO pve_escort_runs_v1830(run_id,user_id,week_key,vehicle_hp,vehicle_max_hp,deck_snapshot) VALUES('legacy',7,'2026-11-23',100,100,'[]')").run();
+  await assert.rejects(run('escort','escort-win-03'),e=>e.code==='PVE_V3_ENTRY');
+  await f.p("UPDATE pve_escort_runs_v1830 SET status='FAILED' WHERE run_id='legacy'").run();
+  await run('escort','escort-win-03');
+  await assert.rejects(run('escort','escort-cap-04'),e=>e.code==='PVE_V3_ENTRY');
+  assert.equal((await run('escort','escort-win-03')).replayed,true);
+  assert.equal(await scalar('SELECT started_count FROM pve_escort_weekly_v1830'),3);
+  assert.equal(await scalar('SELECT reward_count FROM pve_escort_weekly_v1830'),2);
+  assert.equal(await f.coin(),90000000000010);assert.equal(await stars(),900000000);assert.equal(await f.count('coin_logs'),3);
+});
+test('field operation tiers use the approved fixed settlements in both modes',()=>{
+  assert.deepEqual(operationTiers.map(t=>[t.coin,t.masterStars]),[[3e8,3e3],[3e9,3e4],[3e10,3e5],[3e11,3e6],[3e12,3e7],[12e12,12e7],[30e12,3e8]]);
+  assert.equal(isPvePublicPath('escort/v3/operation'),true);
+  assert.equal(isPvePublicPath('escort/v3/admin'),false);
 });

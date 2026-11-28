@@ -99,6 +99,8 @@
   Cache-Control: public, max-age=300, stale-while-revalidate=60
 /pve-v3/*
   Cache-Control: public, max-age=0, must-revalidate
+/pve/field-operations/*
+  Cache-Control: no-cache, must-revalidate, max-age=0
 /pve/legion-hunt/*
   Cache-Control: no-cache, must-revalidate, max-age=0
 

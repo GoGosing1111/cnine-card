@@ -661,6 +661,13 @@
   function renderScrapyard() {
     const root = document.getElementById('scrapyardRootV1881');
     if (!root || !scrapyardState) return;
+    if(scrapyardState.fieldOperations && !currentMutationRequest('scrapyard')){
+      const state=scrapyardState;
+      void import('/pve/field-operations/entry.mjs').then(({renderOperationEntry})=>{
+        if(root.isConnected&&state===scrapyardState&&!currentMutationRequest('scrapyard'))renderOperationEntry(root,{mode:'yard',state,api,refresh:bindScrapyardView});
+      }).catch(error=>{root.textContent=error.message;});
+      return;
+    }
     root.innerHTML = scrapyardHeader() + scrapyardPanel();
     normalizeImages(root);
     bindScrapyardControls(root);

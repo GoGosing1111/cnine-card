@@ -18,6 +18,9 @@ const CLAIM_RECOVERY_SECONDS=30;
 // V1840: 구간 보상으로 지급하는 폐차장 출입 허가증 (functions/_scrapyard.js 와 동일 코드)
 const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 
+import {fieldOperationEntry} from '../shared/field-operation-tiers.mjs';
+export {ensure as ensureEscortSchema,settings as readEscortSettings,weekKey as escortWeekKey};
+
 export const ESCORT_ORIGINAL_BOSS=Object.freeze({
   name:'철쇄 공성관 벨카르',
   image:'/assets/ui/escort/bosses/velkar-siege-commander-v1.webp'
@@ -220,7 +223,7 @@ async function claimResponse(env,row){
 async function statusPayload(env,user,cfg){
   await recoverStaleClaim(env,user.id);
   const key=weekKey(),[run,weekly]=await Promise.all([currentRun(env,user.id),weeklyState(env,user.id,key)]);
-  return {ok:true,ownerTest:cfg.mode==='TEST',settings:visibleSettings(cfg),run:publicRun(run,cfg),weekly,serverNow:new Date().toISOString()};
+  return {ok:true,accountId:Number(user.id),fieldOperations:fieldOperationEntry('escort'),ownerTest:cfg.mode==='TEST',settings:visibleSettings(cfg),run:publicRun(run,cfg),weekly,serverNow:new Date().toISOString()};
 }
 
 async function reserveReceipt(env,{requestId,userId,runId,action,resumable=false}){
@@ -376,6 +379,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       if(prior) return Number(prior.user_id)===Number(user.id)&&prior.action_type==='START'
         ? json(await statusPayload(env,user,cfg)) : json({error:'이미 사용된 요청 ID입니다.'},409);
     }
+    if(deps.retireLegacyStarts)return json({error:'호송작전이 개편되었습니다. 게임을 새로고침하고 다시 입장하세요.'},409);
     const key=weekKey(),weekly=await weeklyState(env,user.id,key);
     if(weekly.startedCount>=cfg.weeklyRunLimit)return json({error:`이번 주 출전 가능 횟수 ${cfg.weeklyRunLimit}회를 모두 사용했습니다.`},409);
     if(weekly.rewardCount>=cfg.weeklyRewardLimit)return json({error:`이번 주 보상 횟수 ${cfg.weeklyRewardLimit}회를 모두 달성했습니다.`},409);

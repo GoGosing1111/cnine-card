@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='20261128-cargo';
+  const VERSION='20261128-field-v3';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -104,6 +104,13 @@
     clearTimeout(claimPollTimer);claimPollTimer=null;
     const root=document.getElementById('pveEscortView');if(!root||root.hidden)return;
     if(!data){root.innerHTML='<div class="escort-operation-loading"><i></i><b>호송 경로를 불러오는 중입니다.</b></div>';return}
+    if(data.fieldOperations&&!data.run){
+      const state=data;
+      void import('/pve/field-operations/entry.mjs').then(({renderOperationEntry})=>{
+        if(!root.hidden&&state===data)renderOperationEntry(root,{mode:'escort',state,api,refresh:load});
+      }).catch(error=>{root.textContent=error.message;});
+      return;
+    }
     const settings=data.settings,run=data.run,weekly=data.weekly||{},manifest=baseManifest(settings,run);
     const current=number(run?.sectorIndex),next=run?.phase==='TACTIC'?current+1:current;
     const selected=Math.min(manifest.sectors.length-1,inspectSector??next),sector=manifest.sectors[selected];

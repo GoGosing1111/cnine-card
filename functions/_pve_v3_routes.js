@@ -7,10 +7,12 @@ import {runTowerV3,towerV3Status,towerV3Result} from './_tower_v3_runs.js';
 import {loadTowerV3Legacy} from './_tower_v3_legacy.js';
 import {readTowerV3Settings,saveTowerV3Draft} from './_tower_v3_settings.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
+import {handleFieldOperation} from './_field_operations.js';
 import {retiredContentResponse} from './_retired_content.js';
 
 export const PVE_V3_PREFIXES=Object.freeze(['tower/v3/','scrapyard/v3/']);
-export const isPveV3Path=path=>PVE_V3_PREFIXES.some(prefix=>path.startsWith(prefix));
+const fieldOperationPaths=new Set(['scrapyard/v3/operation','escort/v3/operation']);
+export const isPveV3Path=path=>fieldOperationPaths.has(path)||PVE_V3_PREFIXES.some(prefix=>path.startsWith(prefix));
 const failHeld=json=>json({ok:false,code:'PVE_V3_RELEASE_HELD',error:'공동 업데이트를 준비 중입니다.',enabled:false},423);
 
 function towerDependencies(env,deps){
@@ -37,6 +39,7 @@ export async function handlePveV3Ready({path,request,env,deps}){
   const {json,authenticate,withUserMutationLock}=deps;
   try{
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.',code:'PVE_V3_AUTH'},401);
+    if(fieldOperationPaths.has(path))return await handleFieldOperation({path,request,env,deps,user});
     if(path==='admin/pve-v3'){
       if(user.role!=='OWNER')return json({error:'OWNER만 개편 설정을 관리할 수 있습니다.'},403);
       if(request.method==='GET')return json({release:v3JointReleaseState(),tower:await readTowerV3Settings(env,{draft:true})});
@@ -55,6 +58,10 @@ export async function handlePveV3Ready({path,request,env,deps}){
       if(typeof withUserMutationLock!=='function')throw jointError('PVE_V3_LOCK','계정 잠금 서비스를 확인하세요.',503);
       return await withUserMutationLock(env,user.id,path,async()=>{
         if(content==='tower')return json(await runTowerV3(env,user,body,towerDependencies(env,deps)));
+        if(deps.retireLegacyStarts){
+          const old=await env.DB.prepare('SELECT 1 AS found FROM scrapyard_run_receipts_v1676 WHERE user_id=? AND request_id=?').bind(user.id,String(body.requestId||'')).first();
+          if(!old)return json({error:'폐차장이 개편되었습니다. 게임을 새로고침하고 난이도에서 입장하세요.'},409);
+        }
         return json(await runScrapyardV3(env,user,body,{...deps,readSettings:env=>readScrapyardSettings(env,{fresh:true})}));
       });
     }

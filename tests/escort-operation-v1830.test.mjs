@@ -102,7 +102,7 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   const serviceWorkerShellVersion=sw.match(/soop-card-shell-v([^"']+)/)?.[1];
   assert.ok(appShellVersion,'index.html app.js cache version is required');
   assert.equal(serviceWorkerShellVersion,appShellVersion,'app.js and service worker shell cache versions must advance together');
-  assert.match(index,/escort-operation-v1830\.js\?v=20261128-cargo/);
+  assert.match(index,/escort-operation-v1830\.js\?v=20261128-field-v3/);
   assert.match(index,/escort-operation-v1830\.css\?v=20261128-cargo/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?[^" ']*\bv=[^"']+/);
   assert.match(index,/soopketmon-v21-runtime-router\.js\?[^" ']*\bv=[^"']+/);
