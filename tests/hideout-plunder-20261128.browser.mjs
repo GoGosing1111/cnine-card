@@ -79,7 +79,15 @@ for(const width of [1440,390])test('lobby to raid, recorded battle, recovered lo
   await page.goto(origin,{waitUntil:'domcontentloaded'});
   await page.addLocatorHandler(page.locator('.soop-consent-dialog[open]'),()=>page.locator('[data-soop-close]').first().click());
   const lobby=page.locator('soop-adventure-lobby'),entry=page.locator('[data-ph-action="raid"]');
-  await lobby.locator('.hideout-shortcut').click();await entry.click();
+  await lobby.locator('.hideout-shortcut').click();
+  await page.locator('[data-tab="defense"]').click();
+  const turretCard=page.locator('.ph-defense-card').filter({has:page.getByRole('heading',{name:'포탑',exact:true})});
+  await turretCard.getByText('강화 구조재',{exact:true}).waitFor();
+  assert.match(await turretCard.locator('li').filter({hasText:'동력 코어'}).innerText(),/0 \/ 2/);
+  assert(await turretCard.getByRole('button',{name:'포탑 설치 · 재료 부족'}).isDisabled());
+  await page.locator('.ph-defense-sources summary').click();
+  assert.match(await page.locator('.ph-defense-sources dl').innerText(),/1\.75%/);
+  await entry.click();
   const dialog=page.locator('.ph-raid-dialog[open]'),button=name=>dialog.locator('[data-raid="'+name+'"]');
   await button('rules').click();await dialog.getByText('진영 배정',{exact:true}).waitFor();
   await button('rules').click();

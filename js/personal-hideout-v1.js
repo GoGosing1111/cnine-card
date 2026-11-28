@@ -158,13 +158,17 @@
   if(tab==='defense'&&data.raidEnabled) {
    const zone=data.state.defenseRoom||'main';
    const name=code=>data.rooms.find(r=>r.code===code)?.name||'보관함';
-   return '<div class="ph-defense-zone"><h3>방어 구역</h3><p>침입 시 이 방에 저장한 배치로 전투합니다. 각 시설은 한 대씩 설치할 수 있습니다.</p><div class="ph-actions">'+data.state.rooms.map(r=>button('defenseRoom',name(r),'data-room="'+r+'" aria-pressed="'+(r===zone)+'"',dirty||r===zone)).join('')+'</div></div>'+
+   const rareParts=['STRUCTURE','CORE'].map(code=>data.parts.find(p=>p.code===code)).filter(Boolean);
+   return '<div class="ph-defense-zone"><h3>방어 구역</h3><p>내 은신처에 무인기관포와 포탑을 한 대씩 설치할 수 있습니다. 약탈전이 열리면 선택한 방의 시설이 저장된 위치에서 침입자를 막습니다.</p><div class="ph-actions">'+data.state.rooms.map(r=>button('defenseRoom',name(r),'data-room="'+r+'" aria-pressed="'+(r===zone)+'"',dirty||r===zone)).join('')+'</div></div>'+
     data.decor.filter(v=>v.defense).map(f=>{
      const p=draft.find(v=>v.code===f.code);
-     return '<article class="ph-panel ph-facility ph-defense-card"><img class="ph-defense-art" src="'+esc(f.image)+'" alt=""><div><h3>'+esc(f.name)+'</h3><p>'+esc(f.effect)+'</p>'+
-      (p?'<strong>'+esc(name(p.room))+' · '+(p.room===zone?'방어 중':'대기')+'</strong>'+button('select','배치 보기','data-id="'+esc(p.id)+'"'):
-       costHtml(f.cost)+button('installDefense','설치','data-item="'+f.code+'"',!data.state.level||!allowed(f.cost)||dirty))+'</div></article>';
-    }).join('')+defenseOverview(zone);
+     const enough=allowed(f.cost);
+     const header='<div class="ph-defense-head"><img class="ph-defense-art" src="'+esc(f.image)+'" alt=""><div><h3>'+esc(f.name)+'</h3><p>'+esc(f.effect)+'</p></div></div>';
+     const install='<div class="ph-defense-recipe"><div><b>설치 재료</b><small>보유 / 필요</small></div>'+costHtml(f.cost)+'</div>'+
+      button('installDefense',f.name+' 설치'+(enough?'':' · 재료 부족'),'data-item="'+f.code+'"',!data.state.level||!enough||dirty);
+     return '<article class="ph-panel ph-facility ph-defense-card">'+header+
+      (p?'<strong>'+esc(name(p.room))+' · '+(p.room===zone?'방어 중':'대기')+'</strong>'+button('select','배치 보기','data-id="'+esc(p.id)+'"'):install)+'</article>';
+    }).join('')+'<details class="ph-defense-sources"><summary>희귀 재료 획득처</summary><dl>'+rareParts.map(p=>'<div><dt>'+esc(p.name)+'</dt><dd>'+esc(p.source)+'</dd></div>').join('')+'</dl></details>'+defenseOverview(zone);
   }
   if(tab==='facilities')return residenceUpgradeHtml()+data.facilities.map(facilityHtml).join('');
   if(tab==='decor')return '<p class="ph-help">가구를 추가 제작해 자유롭게 꾸미세요. 장식 복제와 위치 변경은 시설 혜택을 중복시키지 않습니다.</p>'+data.decor.filter(f=>!f.defense).map(f=>'<article class="ph-panel ph-facility"><div class="ph-facility-head"><img src="'+esc(f.image)+'" width="84" height="84" loading="lazy" decoding="async" alt=""><h3>'+esc(f.name)+'</h3></div>'+costHtml(f.cost)+button('decorate','추가 제작','data-item="'+f.code+'"',!data.state.level||!allowed(f.cost)||dirty||draft.filter(p=>p.kind==='decor').length>=114)+'</article>').join('')+'<h3>보관한 가구</h3><div class="ph-storage">'+draft.filter(p=>p.room===null).map(p=>button('select',definition(p)?.name||p.code,'data-id="'+esc(p.id)+'"')).join('')+'</div>';
@@ -235,7 +239,7 @@
   finally{if(id===epoch){busy=false;root?.querySelectorAll('button').forEach(b=>{if(b.dataset.phBusy)b.disabled=false;});render();}}
  }
  function updateSelection(){if(!root)return;for(const el of root.querySelectorAll('[data-ph-prop]')){const active=el.dataset.phProp===selected;el.classList.toggle('selected',active);el.setAttribute('aria-pressed',String(active));}const picker=root.querySelector('[data-ph-piece-select]');if(picker)picker.value=selected||'';const panel=root.querySelector('[data-ph-selection]');if(panel)panel.innerHTML=selectedHtml();}
- function move(x,y){const p=draft.find(p=>p.id===selected);if(!p)return;p.x=Math.max(0,Math.min(1000,Math.round(x)));p.y=Math.max(0,Math.min(1000,Math.round(y)));if(!dirty)root.querySelectorAll('[data-ph-action="upgrade"],[data-ph-action="expand"],[data-ph-action="decorate"],[data-ph-action="trophy"],[data-ph-action="unlockSkin"],[data-ph-action="equipSkin"]').forEach(b=>b.disabled=true);dirty=true;const el=root.querySelector('[data-ph-prop="'+CSS.escape(p.id)+'"]');if(el)el.setAttribute('style',placementStyle(p));root.querySelectorAll('[data-ph-action="save"],[data-ph-action="reset"]').forEach(b=>b.disabled=busy);const edit=root.querySelector('[data-ph-action="edit"]');if(edit)edit.disabled=true;const hint=root.querySelector('.ph-editbar > span');if(hint)hint.textContent='아직 저장하지 않은 배치입니다.';}
+ function move(x,y){const p=draft.find(p=>p.id===selected);if(!p)return;p.x=Math.max(0,Math.min(1000,Math.round(x)));p.y=Math.max(0,Math.min(1000,Math.round(y)));if(!dirty)root.querySelectorAll('[data-ph-action="upgrade"],[data-ph-action="expand"],[data-ph-action="decorate"],[data-ph-action="installDefense"],[data-ph-action="defenseRoom"],[data-ph-action="trophy"],[data-ph-action="unlockSkin"],[data-ph-action="equipSkin"]').forEach(b=>b.disabled=true);dirty=true;const el=root.querySelector('[data-ph-prop="'+CSS.escape(p.id)+'"]');if(el)el.setAttribute('style',placementStyle(p));root.querySelectorAll('[data-ph-action="save"],[data-ph-action="reset"]').forEach(b=>b.disabled=busy);const edit=root.querySelector('[data-ph-action="edit"]');if(edit)edit.disabled=true;const hint=root.querySelector('.ph-editbar > span');if(hint)hint.textContent='아직 저장하지 않은 배치입니다.';}
  function worldPoint(event){const view=viewport(),rect=view.getBoundingClientRect();return {x:(event.clientX-rect.left+view.scrollLeft)/scale,y:(event.clientY-rect.top)/scale};}
  function moveWorld(x,y){
   const p=draft.find(p=>p.id===selected);if(!p)return;

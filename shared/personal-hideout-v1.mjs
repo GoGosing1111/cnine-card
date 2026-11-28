@@ -30,9 +30,9 @@ export const HIDEOUT_PARTS=Object.freeze([
  {code:'CIRCUIT',name:'제어 회로',source:'악몽 토벌 · 군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
  {code:'COOLANT',name:'냉각 장치',source:'군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
  {code:'DRIVE',name:'구동 부품',source:'군단토벌 · 아포칼립스 · 무한의탑 · 레이드'},
- {code:'CORE',name:'동력 코어',source:'군단토벌·아포칼립스 승리와 무한의탑 당일 첫 승리 1회 · 레이드 클리어 3회 · 매회 '+HIDEOUT_CORE_DROP.percent+'%'},
+ {code:'CORE',name:'동력 코어',source:'군단토벌·아포칼립스 승리 또는 무한의탑 일일 첫 승리 시 1회, 레이드 승리 시 '+HIDEOUT_CORE_DROP.raidRolls+'회 추첨 (회당 '+HIDEOUT_CORE_DROP.percent+'%)'},
  {code:'HOUSING_PLAN',name:'은신처 건축 설계도',source:DAILY_SALVAGE_SOURCE},
- {code:'STRUCTURE',name:'강화 구조재',image:'/assets/ui/packs/blue-gear-live-v1/control-plate.webp',source:'군단토벌 · 아포칼립스 · 무한의탑을 합쳐 한국 시간 기준 계정당 하루 첫 승리 1개'},
+ {code:'STRUCTURE',name:'강화 구조재',image:'/assets/ui/packs/blue-gear-live-v1/control-plate.webp',source:'군단토벌·아포칼립스·무한의탑 중 그날 처음 승리한 콘텐츠에서 계정당 1개 지급 (한국 시간 기준)'},
  {code:'LEATHER_KIT',name:'가죽 마감 키트',source:'아포칼립스 첫 승리 보너스'},
  {code:'ALLOY_PANEL',name:'합금 외장 패널',source:'군단토벌(1인·파티 공통) 첫 승리 보너스'}
 ].map((p,i)=>Object.freeze({...p,image:p.image||HIDEOUT_ART+'part-'+({HOUSING_PLAN:'circuit',LEATHER_KIT:'wire',ALLOY_PANEL:'steel'}[p.code]||p.code.toLowerCase())+'.webp',stockLimit:HIDEOUT_STOCK_LIMITS[p.code],index:i})));

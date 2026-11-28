@@ -148,7 +148,9 @@ for(const postgres of [false,true]){
   });
   test(dialect+' installs once, fights in the chosen room and keeps the recorded layout after editing',async t=>{
     const h=await fixture(t,postgres),env=h.f.env,home=await h.home(8);
-    home.level=2;home.rooms.push('workshop');home.parts.CIRCUIT=8;
+    home.level=2;home.rooms.push('workshop');
+    Object.assign(home.parts,{STEEL:260,WIRE:148,CIRCUIT:68,DRIVE:18,STRUCTURE:21,CORE:2});
+    const otherHome=await h.home(7);
     home.unlockedSkins=['sofa-cognac-leather'];home.placements[0].skin='sofa-cognac-leather';
     await h.f.setting(HIDEOUT_KEY(8),home);
     const change=async(action,fields)=>mutateHideout(env,8,action,{requestId:crypto.randomUUID(),revision:(await h.home(8)).revision,...fields});
@@ -156,13 +158,29 @@ for(const postgres of [false,true]){
     await assert.rejects(change('installDefense',{item:'turret',room:'main'}),{code:'HIDEOUT_RAID_OFF'});
     await assert.rejects(change('defenseRoom',{room:'workshop'}),{code:'HIDEOUT_RAID_OFF'});
     env.HIDEOUT_PLUNDER_ENABLED='1';
+    h.setTime(start-3600000);
+    assert.equal((await h.call(8)).data.window.open,false);
     await assert.rejects(change('decorate',{item:'turret',room:'main'}));
     const body={requestId:crypto.randomUUID(),revision:home.revision,item:'autocannon',room:'workshop'};
-    await mutateHideout(env,8,'installDefense',body);await mutateHideout(env,8,'installDefense',body);
+    const cannon=await mutateHideout(env,8,'installDefense',body);
+    assert.equal((await mutateHideout(env,8,'installDefense',body)).replayed,true);
+    const turretCost={STEEL:180,WIRE:100,CIRCUIT:48,DRIVE:18,STRUCTURE:14,CORE:2};
+    assert.deepEqual(cannon.state.parts,{...home.parts,...turretCost});
     await assert.rejects(change('installDefense',{item:'autocannon',room:'main'}),{code:'HIDEOUT_OWNED'});
+    for(const code of ['STRUCTURE','CORE']){
+      const short=await h.home(8);short.parts={...cannon.state.parts,[code]:turretCost[code]-1};
+      await h.f.setting(HIDEOUT_KEY(8),short);
+      await assert.rejects(change('installDefense',{item:'turret',room:'workshop'}),{code:'HIDEOUT_PARTS'});
+      assert.deepEqual(await h.home(8),short);
+    }
+    await h.f.setting(HIDEOUT_KEY(8),cannon.state);
     const built=await change('installDefense',{item:'turret',room:'workshop'});
-    assert.equal(built.state.parts.STEEL,home.parts.STEEL-26);
+    assert.deepEqual(built.state.parts,emptyHideout().parts);
+    assert.equal(built.state.placements.filter(p=>p.code==='turret').length,1);
+    await assert.rejects(change('installDefense',{item:'turret',room:'main'}),{code:'HIDEOUT_OWNED'});
+    assert.deepEqual(await h.home(7),otherHome);
     await change('defenseRoom',{room:'workshop'});
+    h.setTime(start);
     await h.join(7);await h.join(8);h.setWinner('ENGINE');
     const staged=await h.home(8),job=h.job({targetId:8});
     const scout=(await h.call(7,'',undefined,8)).data.scout;
